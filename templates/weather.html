@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather</title>
+  </head>
+  <body>
+    <section class="Current-weather" id="Weather_check">
+      <h1>Current Weather</h1>
+      <p>It checks your local weather conditions, temperature, and even gives you a heads up on any potential health concerns linked to the forecast.</p>
+      <div class="weather_container">
+        <span class="school">Bacolor, DHVSU</span>
+        <span class="campus">Main Campus</span>
+        <img src="{% static 'assets/svgs/weather.svg' %}" />
+        <span class="temp">{{ temp }}°C</span>
+        <span class="heat">Heat Wave</span>
+        <span class="actual_temp">{{ feels }}°C</span>
+      </div>
+      <div class="sick-container">
+        <span>Possible Sickness</span>
+        <div class="sick-real-container">
+          <div class="sick1">Sick 1</div>
+        </div>
+      </div>
+    </section>
+    {% for data in weatherData %}
+      <p>{{ data }}</p>
+    {% endfor %}
+    {{ weatherData }}
+    {{ predict }}
+  </body>
+</html>

@@ -1,0 +1,71 @@
+,Season,Weather,Sickness,le_season,le_weather,le_sickness
+0,dry,thunderstorm,asthma,0.0,4.0,1.0
+1,dry,clouds,asthma,0.0,1.0,1.0
+2,dry,clear,allergies,0.0,0.0,0.0
+3,dry,clouds,allergies,0.0,1.0,0.0
+4,dry,clear,migraine,0.0,0.0,23.0
+5,dry,clear,contact rashes,0.0,0.0,10.0
+6,dry,clouds,red eyes,0.0,1.0,27.0
+7,dry,clear,red eyes,0.0,0.0,27.0
+8,dry,clear,sun burn,0.0,0.0,31.0
+9,dry,clouds,sneezing,0.0,1.0,30.0
+10,dry,clouds,congestion,0.0,1.0,8.0
+11,dry,clear,hyperthermia,0.0,0.0,16.0
+12,dry,clouds,sinus infection,0.0,1.0,29.0
+13,dry,clouds,pneumonia,0.0,1.0,26.0
+14,dry,clouds,bronchitis,0.0,1.0,2.0
+15,rainy,rain,dengue,1.0,3.0,11.0
+16,rainy,drizzle,petrichor,1.0,2.0,25.0
+17,rainy,rain,influenza,1.0,3.0,17.0
+18,rainy,thunderstorm,influenza,1.0,4.0,17.0
+19,rainy,rain,leptospirosis,1.0,3.0,18.0
+20,rainy,rain,hepatitis a,1.0,3.0,15.0
+21,rainy,thunderstorm,cold and coughs,1.0,4.0,6.0
+22,rainy,rain,cold and coughs,1.0,3.0,6.0
+23,rainy,rain,scabies,1.0,3.0,28.0
+24,rainy,rain,cholera,1.0,3.0,5.0
+25,rainy,rain,malaria,1.0,3.0,20.0
+26,rainy,rain,viral hemorrhagic fever,1.0,3.0,33.0
+27,rainy,drizzle,headache,1.0,2.0,14.0
+28,rainy,thunderstorm,headache,1.0,4.0,14.0
+29,rainy,thunderstorm,typhoid,1.0,4.0,32.0
+30,rainy,rain,typhoid,1.0,3.0,32.0
+31,rainy,thunderstorm,chikungunya,1.0,4.0,4.0
+32,rainy,rain,chikungunya,1.0,3.0,4.0
+33,rainy,rain,diarrhea,1.0,3.0,12.0
+34,rainy,rain,conjunctivitis,1.0,3.0,9.0
+35,rainy,thunderstorm,conjunctivitis,1.0,4.0,9.0
+36,rainy,thunderstorm,common cold,1.0,4.0,7.0
+37,rainy,rain,common cold,1.0,3.0,7.0
+38,rainy,thunderstorm,gastroenteritis,1.0,4.0,13.0
+39,rainy,rain,gastroenteritis,1.0,3.0,13.0
+40,dry,thunderstorm,diarrhea,0.0,4.0,12.0
+41,dry,clouds,diarrhea,0.0,1.0,12.0
+42,dry,clear,diarrhea,0.0,0.0,12.0
+43,dry,rain,diarrhea,0.0,3.0,12.0
+44,dry,drizzle,diarrhea,0.0,2.0,12.0
+45,dry,thunderstorm,meningitis,0.0,4.0,22.0
+46,dry,clouds,meningitis,0.0,1.0,22.0
+47,dry,clear,meningitis,0.0,0.0,22.0
+48,dry,rain,meningitis,0.0,3.0,22.0
+49,dry,drizzle,meningitis,0.0,2.0,22.0
+50,dry,thunderstorm,low energy,0.0,4.0,19.0
+51,dry,clouds,low energy,0.0,1.0,19.0
+52,dry,clear,low energy,0.0,0.0,19.0
+53,dry,rain,low energy,0.0,3.0,19.0
+54,dry,drizzle,low energy,0.0,2.0,19.0
+55,dry,thunderstorm,muscle aches,0.0,4.0,24.0
+56,dry,clouds,muscle aches,0.0,1.0,24.0
+57,dry,clear,muscle aches,0.0,0.0,24.0
+58,dry,rain,muscle aches,0.0,3.0,24.0
+59,dry,drizzle,muscle aches,0.0,2.0,24.0
+60,dry,thunderstorm,chicken pox,0.0,4.0,3.0
+61,dry,clouds,chicken pox,0.0,1.0,3.0
+62,dry,clear,chicken pox,0.0,0.0,3.0
+63,dry,rain,chicken pox,0.0,3.0,3.0
+64,dry,drizzle,chicken pox,0.0,2.0,3.0
+65,dry,thunderstorm,measles,0.0,4.0,21.0
+66,dry,clouds,measles,0.0,1.0,21.0
+67,dry,clear,measles,0.0,0.0,21.0
+68,dry,rain,measles,0.0,3.0,21.0
+69,dry,drizzle,measles,0.0,2.0,21.0
