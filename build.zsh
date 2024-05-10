@@ -1,5 +1,3 @@
-source .venv/bin/activate
-
 function run(){
   python manage.py runserver
 }
