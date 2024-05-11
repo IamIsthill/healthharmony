@@ -64,7 +64,6 @@ html, body{
   outline: none;
   font-size: 13px;
 }
-
 .input-container input[type="text"]:focus {
   border-color: rgb(201, 217, 23);
   box-shadow: 0 0 5px rgb(201, 217, 23);
@@ -110,6 +109,6 @@ html, body{
   color: #000000;
 }
 .illus{
- top: 80px; 
+ top: 80px;
  right: 200px;
 }
