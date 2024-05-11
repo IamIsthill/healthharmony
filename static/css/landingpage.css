@@ -351,34 +351,33 @@ li a {
     left: 20px;
 }
 .school{
-    font-size: 22px;
-    top: 22px;
-    top: 20px;
+    font-size: 24px;
+    top: 30px;
     font-weight: 600;
 }
 .campus{
-    font-size: 14px;
-    top: 65px;
+    font-size: 15px;
+    top: 60px;
     font-weight: 300;
 }
 .weather_container img{
-    width: 55px;
-    height: 55px;
-    top: 100px;
-    left: 30px;
+    width: 100px;
+    height: 100px;
+    top: 80px;
+    left: 10px;
 }
 .temp{  
-    font-size: 36px;
-    top:100px;
-    right: 30px;
+    font-size: 40px;
+    top:103px;
+    right: 20px;
 }
 .heat,.actual_temp{
-    bottom: 45px;
+    bottom: 50px;
     font-weight: 300;
-    font-size: 14px;
+    font-size: 15px;
 }
 .actual_temp{
-    left: 101px;
+    left: 109px;
 }
 .sick-container{
     background-color: #2C2C2C;
@@ -410,7 +409,7 @@ li a {
     border-radius: 5px;
     padding-top: 10px;
     text-align: center;
-    margin-top: 6px;
+    margin-top: 7px;
     margin-left: 5px;
     width: 170px;
     height: 30px;
@@ -472,7 +471,7 @@ li a {
     font-size: 32px;
     font-weight: 500;
     left:45.80%;
-    top: 0px;
+    top: 30px;
 }
 .map{
     position: absolute;
