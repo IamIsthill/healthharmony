@@ -17,13 +17,15 @@ def home(request):
     season = get_season()
     weather_info = weatherData['weather'][0]
     weather = weather_info['main']
+    icon = weather_info['icon']
     predict = pred(season, weather, df, model, le_season, le_sickness, le_weather)
     
     context = {
         # 'f_df': f_df.to_dict('records'),
         'temp': temp,
         'feels':feels,
-        'predict': predict[0]
+        'predict': predict[0],
+        'icon': icon
         } 
     
     return render(request, 'landingpage.html', context)
@@ -37,6 +39,7 @@ def weather(request):
     season = get_season()
     weather_info = weatherData['weather'][0]
     weather = weather_info['main']
+    icon = weather_info['icon']
     predict = pred(season, weather, df, model, le_season, le_sickness, le_weather)
     
     context = {
@@ -46,6 +49,7 @@ def weather(request):
         'temp': temp,
         'feels':feels,
         'weather':weather,
-        'predict': predict[0]
+        'predict': predict[0],
+        'icon': icon
         } 
     return render(request, 'weather.html', context)
