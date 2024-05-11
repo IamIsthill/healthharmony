@@ -339,10 +339,10 @@ li a {
     background-image: linear-gradient(to bottom, #2B4BCE, #162668); /* Gradient color */
     background-clip:border-box;
     border-radius: 10px;
-    height: 250px;
-    width: 250px;
-    bottom: 100px;
-    left: 30%;
+    height: 270px;
+    width: 270px;
+    bottom: 90px;
+    left: 33%;
     color: var(--primary-color);
     font-family: var(--poppins);
     box-shadow: 0px 0px 60px rgba(35, 78, 197, 0.815);
@@ -352,7 +352,7 @@ li a {
 }
 .school{
     font-size: 22px;
-    top: 40px;
+    top: 20px;
     font-weight: 600;
 }
 .campus{
@@ -382,8 +382,8 @@ li a {
 .sick-container{
     background-color: #2C2C2C;
     width: 200px;
-    height: 250px;
-    bottom: 100px;
+    height: 270px;
+    bottom: 90px;
     right: 33%;
     border-radius: 10px;
     color: var(--primary-color);
@@ -398,7 +398,7 @@ li a {
     background-color: #2C2C2C;
     width: 180px;
     height: 215px;
-    top: 20px;
+    top: 25px;
     left: 10px;
     border-radius: 10px;
     color: var(--primary-color);
@@ -409,7 +409,7 @@ li a {
     border-radius: 5px;
     padding-top: 10px;
     text-align: center;
-    margin-top: 5px;
+    margin-top: 6px;
     margin-left: 5px;
     width: 170px;
     height: 30px;
