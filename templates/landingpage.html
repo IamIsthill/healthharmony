@@ -117,14 +117,17 @@
         <span class="school">Bacolor, DHVSU</span>
         <span class="campus">Main Campus</span>
         <img src="{% static 'assets/svgs/weather.svg' %}" />
-        <span class="temp">37°C</span>
+        <span class="temp">{{ temp }}°C</span>
         <span class="heat">Heat Wave</span>
-        <span class="actual_temp">40°C</span>
+        <span class="actual_temp">{{ feels }}°C</span>
       </div>
       <div class="sick-container">
         <span>Possible Sickness</span>
+
         <div class="sick-real-container">
-          <div class="sick1">Sick 1</div>
+          {% for sick in predict %}
+            <div class="sick1">{{ sick.title }}</div>
+          {% endfor %}
         </div>
       </div>
     </section>

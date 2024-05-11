@@ -1,0 +1,71 @@
+,Season,Weather,Sickness
+0,dry,thunderstorm,asthma
+1,dry,clouds,asthma
+2,dry,clear,allergies
+3,dry,clouds,allergies
+4,dry,clear,migraine
+5,dry,clear,contact rashes
+6,dry,clouds,red eyes
+7,dry,clear,red eyes
+8,dry,clear,sun burn
+9,dry,clouds,sneezing
+10,dry,clouds,congestion
+11,dry,clear,hyperthermia
+12,dry,clouds,sinus infection
+13,dry,clouds,pneumonia
+14,dry,clouds,bronchitis
+15,rainy,rain,dengue
+16,rainy,drizzle,petrichor
+17,rainy,rain,influenza
+18,rainy,thunderstorm,influenza
+19,rainy,rain,leptospirosis
+20,rainy,rain,hepatitis a
+21,rainy,thunderstorm,cold and coughs
+22,rainy,rain,cold and coughs
+23,rainy,rain,scabies
+24,rainy,rain,cholera
+25,rainy,rain,malaria
+26,rainy,rain,viral hemorrhagic fever
+27,rainy,drizzle,headache
+28,rainy,thunderstorm,headache
+29,rainy,thunderstorm,typhoid
+30,rainy,rain,typhoid
+31,rainy,thunderstorm,chikungunya
+32,rainy,rain,chikungunya
+33,rainy,rain,diarrhea
+34,rainy,rain,conjunctivitis
+35,rainy,thunderstorm,conjunctivitis
+36,rainy,thunderstorm,common cold
+37,rainy,rain,common cold
+38,rainy,thunderstorm,gastroenteritis
+39,rainy,rain,gastroenteritis
+40,dry,thunderstorm,diarrhea
+41,dry,clouds,diarrhea
+42,dry,clear,diarrhea
+43,dry,rain,diarrhea
+44,dry,drizzle,diarrhea
+45,dry,thunderstorm,meningitis
+46,dry,clouds,meningitis
+47,dry,clear,meningitis
+48,dry,rain,meningitis
+49,dry,drizzle,meningitis
+50,dry,thunderstorm,low energy
+51,dry,clouds,low energy
+52,dry,clear,low energy
+53,dry,rain,low energy
+54,dry,drizzle,low energy
+55,dry,thunderstorm,muscle aches
+56,dry,clouds,muscle aches
+57,dry,clear,muscle aches
+58,dry,rain,muscle aches
+59,dry,drizzle,muscle aches
+60,dry,thunderstorm,chicken pox
+61,dry,clouds,chicken pox
+62,dry,clear,chicken pox
+63,dry,rain,chicken pox
+64,dry,drizzle,chicken pox
+65,dry,thunderstorm,measles
+66,dry,clouds,measles
+67,dry,clear,measles
+68,dry,rain,measles
+69,dry,drizzle,measles
