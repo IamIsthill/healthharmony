@@ -1,7 +1,5 @@
-source .venv/bin/activate
-
 function run(){
-  python manage.py runserver
+  `python manage.py runserver`
 }
 
 function save(){
