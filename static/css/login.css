@@ -64,7 +64,6 @@ html, body{
   outline: none;
   font-size: 13px;
 }
-
 .input-container input[type="text"]:focus {
   border-color: rgb(201, 217, 23);
   box-shadow: 0 0 5px rgb(201, 217, 23);
@@ -91,7 +90,7 @@ html, body{
   border-color: rgb(201, 217, 23);
   box-shadow: 0 0 5px rgb(201, 217, 23);
 }
-
+  
 .login{
   left:50px;
   bottom: 270px;
