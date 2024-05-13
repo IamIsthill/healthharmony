@@ -35,7 +35,8 @@
 
       <div class="right-part">
         <h6>Are you a clinic staff?</h6>
-        <button class="log-in">Log in</button>
+        {% comment %} <button class="log-in">Log in</button> {% endcomment %}
+        <a href="{% url "login" %}" class="log-in">Log in</a>
       </div>
     </header>
     <!-- Top section -->

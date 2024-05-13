@@ -3,38 +3,27 @@
   <!-- Left side of bed section -->
   <div class="beds-section">
     <img src="{% static 'assets/svgs/divider.svg' %}" />
-    <div class="bed-1">
-      <span class="avail">Available</span>
-      <svg class="_green" width="19" height="17" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="9.5" cy="8.5" rx="9.5" ry="8.5" fill="none" />
-      </svg>
-      <img src="{% static 'assets/svgs/bed.svg' %}" />
-      <span class="bed-name">Bed 1</span>
-    </div>
-    <div class="bed-2">
-      <span class="occup">Occupied</span>
-      <svg class="_red" width="19" height="17" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="9.5" cy="8.5" rx="9.5" ry="8.5" fill="none" />
-      </svg>
-      <img src="{% static 'assets/svgs/bed.svg' %}" />
-      <span class="bed-name">Bed 2</span>
-    </div>
-    <div class="bed-3">
-      <span class="avail">Available</span>
-      <svg class="_green" width="19" height="17" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="9.5" cy="8.5" rx="9.5" ry="8.5" fill="none" />
-      </svg>
-      <img src="{% static 'assets/svgs/bed.svg' %}" />
-      <span class="bed-name">Bed 3</span>
-    </div>
-    <div class="bed-4">
-      <span class="occup">Occupied</span>
-      <svg class="_red" width="19" height="17" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="9.5" cy="8.5" rx="9.5" ry="8.5" fill="none" />
-      </svg>
-      <img src="{% static 'assets/svgs/bed.svg' %}" />
-      <span class="bed-name">Bed 4</span>
-    </div>
+    {% for bed in beds %}
+      {% if bed.status == False %}
+        <div class="bed-{{ bed.id }}">
+          <span class="avail">Available</span>
+          <svg class="_green" width="19" height="17" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="9.5" cy="8.5" rx="9.5" ry="8.5" fill="none" />
+          </svg>
+          <img src="{% static 'assets/svgs/bed.svg' %}" />
+          <span class="bed-name">Bed {{ bed.id }}</span>
+        </div>
+      {% elif bed.status == True %}
+        <div class="bed-{{ bed.id }}">
+          <span class="occup">Occupied</span>
+          <svg class="_red" width="19" height="17" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="9.5" cy="8.5" rx="9.5" ry="8.5" fill="none" />
+          </svg>
+          <img src="{% static 'assets/svgs/bed.svg' %}" />
+          <span class="bed-name">Bed {{ bed.id }}</span>
+        </div>
+      {% endif %}
+    {% endfor %}
   </div>
   <!-- Left side of bed section -->
   <!-- Middle part of bed section -->
