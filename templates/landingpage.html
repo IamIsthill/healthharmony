@@ -36,26 +36,13 @@
       <div class="right-part">
         <h6>Are you a clinic staff?</h6>
         {% comment %} <button class="log-in">Log in</button> {% endcomment %}
-        <a href="{% url "login" %}" class="log-in">Log in</a>
+        <a href="{% url 'login' %}" class="log-in">Log in</a>
       </div>
     </header>
     <!-- Top section -->
 
     <!-- Hero Section -->
-    <section class="hero-section" id="Health_card">
-      <h1>
-        Streamline <span class="span-care">Care</span> Achieve
-        <span class="span-wellbeing">Wellbeing </span>with
-        <span class="span-health">Health</span>
-        <span class="span-harmony">Harmony</span>
-      </h1>
-      <p>Imagine a world where your patients can schedule appointments online, and access their medical records with ease. Health Harmony helps a seamless patient experience, increasing satisfaction and loyalty while reducing administrative burdens.</p>
-      <button class="View-med-rec">View your Medical Record</button>
-      <button class="req-med-rec">Request your Child's Record</button>
-      <div class="hero-illustration">
-        <img src="{% static 'assets/svgs/hero-illus.svg' %}" />
-      </div>
-    </section>
+    {% include 'hero.html' %}
     <!-- Hero Section -->
 
     <!-- Bed Section -->
@@ -97,19 +84,19 @@
     <section class="page_contact" id="Contact">
       <h1>Contact</h1>
       <a href="#googlemaps.com"><img src="{% static 'assets/svgs/location.svg' %}" class="map" /></a>
-      <div class=contact-content>
-      <span class="email-container">Email</span>
-      <span class="email">dhvsumainclinic@gmail.com</span>
-      <span class="tele">Telephone No.</span>
-      <span class="number">000-0000-00</span>
-      <span class="social">Social</span>
-      <a href="#facebook.com"><img src="{% static 'assets/svgs/fb.svg' %}" class="fb" /></a>
-    
-  </div>
+      <div class="contact-content">
+        <span class="email-container">Email</span>
+        <span class="email">dhvsumainclinic@gmail.com</span>
+        <span class="tele">Telephone No.</span>
+        <span class="number">000-0000-00</span>
+        <span class="social">Social</span>
+        <a href="#facebook.com"><img src="{% static 'assets/svgs/fb.svg' %}" class="fb" /></a>
+      </div>
     </section>
 
     <!-- Contact -->
 
-    <script src="{% static 'js/scroll.js' %}"></script>
+    <script src="{% static 'js/scroll.js' %}" type="module"></script>
+    <script src="{% static 'js/base/record.js' %}" type="module"></script>
   </body>
 </html>

@@ -1,12 +1,60 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Instascan</title>
+    <script type="text/javascript" src="{% static 'js/instascan.min.js' %}"></script>
   </head>
   <body>
-    <script src="{% static 'js/bed.js' %}" type="module"></script>
+    <video id="preview"></video>
+    <script type="text/javascript">
+      navigator.mediaDevices
+        .getUserMedia({
+          video: {
+            width: { ideal: 1280 },
+            height: { ideal: 720 },
+            facingMode: 'environment' // or 'user' for front-facing camera
+          },
+          audio: false // If you don't need audio
+        })
+        .then((stream) => {
+          // Handle the camera stream
+        })
+        .catch((error) => {
+          console.error('Error accessing camera:', error)
+        })
+      
+      navigator.mediaDevices
+        .getUserMedia({
+          video: true,
+          audio: false
+        })
+        .then((stream) => {
+          // Handle the camera stream
+        })
+        .catch((error) => {
+          if (error.name === 'OverconstrainedError') {
+            console.error('OverconstrainedError details:', error.constraint)
+          } else {
+            console.error('Error accessing camera:', error)
+          }
+        })
+      
+      let scanner = new Instascan.Scanner({ video: document.getElementById('preview') })
+      scanner.addListener('scan', function (content) {
+        console.log(content)
+      })
+      Instascan.Camera.getCameras()
+        .then(function (cameras) {
+          if (cameras.length > 0) {
+            scanner.start(cameras[0])
+          } else {
+            console.error('No cameras found.')
+          }
+        })
+        .catch(function (e) {
+          console.error(e)
+        })
+    </script>
   </body>
 </html>
