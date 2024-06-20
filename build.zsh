@@ -25,3 +25,11 @@ function template(){
   mkdir "$1"
   cd ..
 }
+
+function dockerbuild(){
+  docker build --tag healthharmony .
+}
+
+function dockerrun(){
+  docker run --publish 8000:8000 healthharmony
+}
