@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     "base.apps.BaseConfig",
     "bed.apps.BedConfig",
     "api.apps.ApiConfig",
+    "administrator.apps.AdministratorConfig",
+    "inventory.apps.InventoryConfig",
 ]
 
 MIDDLEWARE = [

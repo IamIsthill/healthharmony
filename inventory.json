@@ -1,0 +1,16 @@
+[
+    {
+        "unit": "bxs.",
+        "item_name": "Paracetamol",
+        "description": "500mg per tab, 100's",
+        "expiration_date": "2026",
+        "quantity": 100
+    }, 
+    {
+        "unit": "bxs.",
+        "item_name": "Paracetamol",
+        "description": "500mg per tab, 100's",
+        "expiration_date": "2026",
+        "quantity": 100
+    }
+]

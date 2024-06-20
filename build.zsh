@@ -18,3 +18,10 @@ function migrate(){
 function build(){
   pip install -r requirements.txt
 }
+
+function template(){
+  cd "$1"
+  mkdir templates
+  mkdir "$1"
+  cd ..
+}
