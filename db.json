@@ -1,0 +1,30 @@
+[
+{
+    "model": "bed.bedstat",
+    "pk": 1,
+    "fields": {
+        "status": false
+    }
+},
+{
+    "model": "bed.bedstat",
+    "pk": 2,
+    "fields": {
+        "status": false
+    }
+},
+{
+    "model": "bed.bedstat",
+    "pk": 3,
+    "fields": {
+        "status": true
+    }
+},
+{
+    "model": "bed.bedstat",
+    "pk": 4,
+    "fields": {
+        "status": true
+    }
+}
+]
