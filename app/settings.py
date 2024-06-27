@@ -60,6 +60,11 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
+ACCOUNT_FORMS = {
+    'signup': 'users.forms.GoogleSignUpForm',
+    'login': 'users.forms.GoogleLoginForm',
+}
+
 
 # Application definition
 
