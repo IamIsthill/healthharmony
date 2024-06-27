@@ -24,6 +24,10 @@ def register_view(request):
 def login_view(request):
     return render(request, 'users/login.html')
 
+def logout_view(request):
+    logout(request)
+    return redirect('home')
+
 
 from django.contrib.auth.forms import SetPasswordForm
 from django.urls import reverse_lazy

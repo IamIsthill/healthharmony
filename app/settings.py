@@ -31,6 +31,35 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SITE_ID=1
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "SCOPE": [
+            "profile",
+            "email"
+        ],
+        "AUTH_PARAMS": { "access_type": "online"},
+        "APP": {
+            'client_id': env('CLIENT_ID'),
+            'secret': env('CLIENT_SECRET'),
+            'key': ''
+        }
+    }
+}
+
+AUTHENTICATION_BACKENDS = {
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend"
+}
+
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
 
 # Application definition
 
@@ -47,6 +76,14 @@ INSTALLED_APPS = [
     "administrator.apps.AdministratorConfig",
     "inventory.apps.InventoryConfig",
     "users.apps.UsersConfig",
+    "blood.apps.BloodConfig",
+    "treatment.apps.TreatmentConfig",
+    "django.contrib.sites",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
+
 ]
 
 MIDDLEWARE = [
@@ -57,6 +94,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "app.urls"
@@ -117,7 +155,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Manila"
 
 USE_I18N = True
 
@@ -147,3 +185,5 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True 
 EMAIL_HOST_USER = env('EMAIL_ADD') 
 EMAIL_HOST_PASSWORD = env('EMAIL_PASS') 
+
+

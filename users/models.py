@@ -8,15 +8,15 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=200, null=True)
     email = models.EmailField(null=True, unique=True)
     access = models.CharField(max_length=100,default='patient')
-    DOB = models.DateField(null=True)
-    sex = models.CharField(max_length=20, null=True)
-    blood_type = models.CharField(max_length=20, null=True)
-    height = models.SmallIntegerField(null=True)
-    weight = models.SmallIntegerField(null=True)
+    DOB = models.DateField(null=True, blank=True)
+    sex = models.CharField(max_length=20, null=True, blank=True)
+    blood_type = models.CharField(max_length=20, null=True, blank=True)
+    height = models.SmallIntegerField(null=True, blank=True)
+    weight = models.SmallIntegerField(null=True, blank=True)
     username = None
 
     USERNAME_FIELD='email'
-    REQUIRED_FIELDS=['first_name', 'last_name']
+    REQUIRED_FIELDS=[]
     
 
     objects = UserManager()

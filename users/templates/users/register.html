@@ -8,6 +8,7 @@
     {% include 'header.html' %}
   </head>
   <body>
+    {% load socialaccount %}
     {% if messages %}
       {% for message in messages %}
         {{ message }}
@@ -37,6 +38,9 @@
       </div>
       <div>
         <button type="submit">Submit</button>
+      </div>
+      <div>
+        <a href="{% provider_login_url 'google' %}?next=/">Login via Google</a>
       </div>
     </form>
   </body>

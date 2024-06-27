@@ -7,4 +7,5 @@ urlpatterns = [
     path("weather/", views.weather, name="weather"),
     path("api/",include('api.urls')),
     path("administrator/", include('administrator.urls')),
+    path("accounts/", include("allauth.urls")),
 ]
