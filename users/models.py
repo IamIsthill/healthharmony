@@ -7,7 +7,7 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=200, null=True)
     last_name = models.CharField(max_length=200, null=True)
     email = models.EmailField(null=True, unique=True)
-    access = models.CharField(max_length=100,default='patient')
+    access = models.IntegerField(max_length=5, default=1)
     DOB = models.DateField(null=True, blank=True)
     sex = models.CharField(max_length=20, null=True, blank=True)
     blood_type = models.CharField(max_length=20, null=True, blank=True)

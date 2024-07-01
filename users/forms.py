@@ -9,7 +9,7 @@ from .validators import validate_dhvsu_email
 class UserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model=User
-        fields = ['first_name', 'last_name', 'email', 'password1', 'password2']
+        fields = ['email', 'password1', 'password2']
 
     
     def save(self, commit=True):

@@ -88,6 +88,9 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
+    "patient.apps.PatientConfig",
+    "staff.apps.StaffConfig",
+    "doctor.apps.DoctorConfig"
 
 ]
 
