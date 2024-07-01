@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import environ
+
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,6 +31,40 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SITE_ID=1
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "SCOPE": [
+            "profile",
+            "email"
+        ],
+        "AUTH_PARAMS": { "access_type": "online"},
+        "APP": {
+            'client_id': env('CLIENT_ID'),
+            'secret': env('CLIENT_SECRET'),
+            'key': ''
+        }
+    }
+}
+
+AUTHENTICATION_BACKENDS = {
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend"
+}
+
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+ACCOUNT_FORMS = {
+    'signup': 'users.forms.GoogleSignUpForm',
+    'login': 'users.forms.GoogleLoginForm',
+}
+
 
 # Application definition
 
@@ -42,6 +80,18 @@ INSTALLED_APPS = [
     "api.apps.ApiConfig",
     "administrator.apps.AdministratorConfig",
     "inventory.apps.InventoryConfig",
+    "users.apps.UsersConfig",
+    "blood.apps.BloodConfig",
+    "treatment.apps.TreatmentConfig",
+    "django.contrib.sites",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
+    "patient.apps.PatientConfig",
+    "staff.apps.StaffConfig",
+    "doctor.apps.DoctorConfig"
+
 ]
 
 MIDDLEWARE = [
@@ -52,6 +102,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "app.urls"
@@ -112,7 +163,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Manila"
 
 USE_I18N = True
 
@@ -128,7 +179,19 @@ STATICFILES_DIRS = [
   BASE_DIR / 'static'
 ]
 
+AUTH_USER_MODEL="users.User"
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# For sending email to user
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  
+EMAIL_PORT = 587  
+EMAIL_USE_TLS = True 
+EMAIL_HOST_USER = env('EMAIL_ADD') 
+EMAIL_HOST_PASSWORD = env('EMAIL_PASS') 
+
+

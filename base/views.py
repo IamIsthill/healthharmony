@@ -42,6 +42,3 @@ def weather(request):
     context = {}
     return render(request, 'weather.html', context)
 
-def login(request):
-    context = {}
-    return render(request, 'login.html', context)

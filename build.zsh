@@ -26,6 +26,16 @@ function template(){
   cd ..
 }
 
+function imports(){
+  python manage.py loaddata db.json
+}
+function exports(){
+  python manage.py dumpdata > db.json
+}
+function user(){
+  python manage.py createsuperuser --email bercasiocharles14@gmail.com
+}
+
 function dockerbuild(){
   docker build --tag healthharmony .
 }
