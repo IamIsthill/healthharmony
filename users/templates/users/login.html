@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% load socialaccount %}
 <html lang="en">
   <head>
     <link rel="stylesheet" href="{% static 'css/login.css' %}" />
@@ -23,6 +24,7 @@
       </div>
       <a href="{% url 'password_reset' %}">Forgot Password?</a>
       <button class="login">Log in</button>
+      <button onclick="window.location.href='{% provider_login_url 'google' %}'">Login Via Google</button>
     </section>
     <img src="{% static 'assets/svgs/loginillus.svg' %}" class="illus" />
   </body>

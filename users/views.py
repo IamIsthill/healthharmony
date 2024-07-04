@@ -4,11 +4,16 @@ from django.contrib import messages
 from .forms import UserCreationForm
 
 # Create your views here.
+
+
+
+
 def register_view(request):
     if request.method == "POST":
         form =UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            user.backend = 'django.contrib.auth.backends.ModelBackend'
             login(request, user)
             messages.success(request, 'Sucessful registration')
             return render(request, 'users/register.html')
@@ -17,8 +22,6 @@ def register_view(request):
                 for error in errors:
                     messages.error(request, error)
                     return render(request, 'users/register.html')
-
-
     return render(request, 'users/register.html')
 
 def login_view(request):
@@ -27,6 +30,9 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('home')
+
+def google_login_view(request):
+    return render(request, 'users/google-login.html')
 
 
 from django.contrib.auth.forms import SetPasswordForm

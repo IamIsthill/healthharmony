@@ -19,6 +19,10 @@ function build(){
   pip install -r requirements.txt
 }
 
+function delete(){
+  find . -path "*/migrations/*.py" -not -name "__init__.py" -not -path "*/.venv/*" -delete
+}
+
 function template(){
   cd "$1"
   mkdir templates

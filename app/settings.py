@@ -59,6 +59,9 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_ADAPTER = 'users.adapters.MySocialAccountAdapter'
+
 
 ACCOUNT_FORMS = {
     'signup': 'users.forms.GoogleSignUpForm',
@@ -178,6 +181,10 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = [
   BASE_DIR / 'static'
 ]
+
+MEDIA_URL = "/media/"
+
+MEDIA_ROOT = BASE_DIR / 'media'
 
 AUTH_USER_MODEL="users.User"
 

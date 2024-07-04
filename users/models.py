@@ -7,13 +7,18 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=200, null=True)
     last_name = models.CharField(max_length=200, null=True)
     email = models.EmailField(null=True, unique=True)
-    access = models.IntegerField(max_length=5, default=1)
+    profile = models.ImageField(default="fallback.png", blank=True)
+    year = models.SmallIntegerField(null=True, blank=True)
+    section = models.CharField(max_length=10, null=True, blank=True)
+    program = models.CharField(max_length=255, null=True, blank=True)
+    access = models.IntegerField(default=1, null=True, blank=True)
     DOB = models.DateField(null=True, blank=True)
     sex = models.CharField(max_length=20, null=True, blank=True)
     blood_type = models.CharField(max_length=20, null=True, blank=True)
     height = models.SmallIntegerField(null=True, blank=True)
     weight = models.SmallIntegerField(null=True, blank=True)
     username = None
+    date_joined = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     USERNAME_FIELD='email'
     REQUIRED_FIELDS=[]
