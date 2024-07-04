@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import User
 from allauth.account.forms import SignupForm, LoginForm
 from django.core.exceptions import ValidationError
-from .validators import validate_dhvsu_email
+from django import forms
 
 
 class UserCreationForm(UserCreationForm):
@@ -19,17 +19,22 @@ class UserCreationForm(UserCreationForm):
             user.save()
         return user
     
-class GoogleSignUpForm(SignupForm):
-    def clean_email(self):
-        email = self.cleaned_data.get('email')
-        validate_dhvsu_email(email)
-        return email
 
+class GoogleSignUpForm(SignupForm):
+    first_name = forms.CharField(max_length=30, label='First Name')
+    last_name = forms.CharField(max_length=30, label='Last Name')
+
+    def save(self, request):
+        user = super(GoogleSignUpForm, self).save(request)
+        user.email = self.cleaned_data['email']
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.save()
+        return user
+
+    
 class GoogleLoginForm(LoginForm):
     def clean(self):
         super().clean()
         email = self.cleaned_data.get('login')
-        try:
-            validate_dhvsu_email(email)
-        except ValidationError as e:
-            self.add_error('login', e)
+        return email

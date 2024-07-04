@@ -7,7 +7,7 @@
     <span class="span-harmony">Harmony</span>
   </h1>
   <p>Imagine a world where your patients can schedule appointments online, and access their medical records with ease. Health Harmony helps a seamless patient experience, increasing satisfaction and loyalty while reducing administrative burdens.</p>
-  <button class="View-med-rec btn-med-rec"><a href="{% url 'register' %}" class="no-underline">View your Medical Record</a></button>
+  <button class="View-med-rec btn-med-rec" onclick="window.location.href='{% url 'register' %}'">View your Medical Record</button>
   <button class="req-med-rec">Request your Child's Record</button>
   <div class="hero-illustration">
     <img src="{% static 'assets/svgs/hero-illus.svg' %}" />
