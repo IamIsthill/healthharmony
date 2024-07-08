@@ -7,7 +7,7 @@ class DoctorDetail(models.Model):
     avail = models.BooleanField()
 
 class Category(models.Model):
-    category = models.CharField(max_length=255, null=True, blank=True)
+    category = models.CharField(max_length=20, null=True, blank=True)
     added = models.DateTimeField(auto_now=True)
     updated = models.DateTimeField(auto_now_add=True)
 
@@ -18,11 +18,11 @@ class Category(models.Model):
 class Illness(models.Model):
     patient = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="patient_illness")
     issue = models.TextField()
-    illness_category = models.ManyToManyField(Category, related_name="illness_category", blank=True)
-    staff = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="staff_illness")
-    doctor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="doctor_illness")
-    added = models.DateTimeField(auto_now=True)
-    updated = models.DateTimeField(auto_now_add=True)
+    illness_category = models.ForeignKey(Category, related_name="illness_category", on_delete=models.SET_NULL, blank=True, null=True)
+    staff = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="staff_illness", blank=True)
+    doctor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="doctor_illness", blank=True)
+    added = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    updated = models.DateTimeField(auto_now=True, null=True, blank=True)
 
     def __str__(self):
         return f'{self.patient} - {self.issue[0:30]}'
