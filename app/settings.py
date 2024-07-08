@@ -93,7 +93,8 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.google",
     "patient.apps.PatientConfig",
     "staff.apps.StaffConfig",
-    "doctor.apps.DoctorConfig"
+    "doctor.apps.DoctorConfig",
+    "django_seed",
 
 ]
 
