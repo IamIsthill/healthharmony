@@ -1,60 +1,36 @@
-<!DOCTYPE html>
 {% load static %}
-<html>
-  <head>
-    <title>Instascan</title>
-    <script type="text/javascript" src="{% static 'js/instascan.min.js' %}"></script>
-  </head>
-  <body>
-    <video id="preview"></video>
-    <script type="text/javascript">
-      navigator.mediaDevices
-        .getUserMedia({
-          video: {
-            width: { ideal: 1280 },
-            height: { ideal: 720 },
-            facingMode: 'environment' // or 'user' for front-facing camera
-          },
-          audio: false // If you don't need audio
-        })
-        .then((stream) => {
-          // Handle the camera stream
-        })
-        .catch((error) => {
-          console.error('Error accessing camera:', error)
-        })
-      
-      navigator.mediaDevices
-        .getUserMedia({
-          video: true,
-          audio: false
-        })
-        .then((stream) => {
-          // Handle the camera stream
-        })
-        .catch((error) => {
-          if (error.name === 'OverconstrainedError') {
-            console.error('OverconstrainedError details:', error.constraint)
-          } else {
-            console.error('Error accessing camera:', error)
-          }
-        })
-      
-      let scanner = new Instascan.Scanner({ video: document.getElementById('preview') })
-      scanner.addListener('scan', function (content) {
-        console.log(content)
-      })
-      Instascan.Camera.getCameras()
-        .then(function (cameras) {
-          if (cameras.length > 0) {
-            scanner.start(cameras[0])
-          } else {
-            console.error('No cameras found.')
-          }
-        })
-        .catch(function (e) {
-          console.error(e)
-        })
-    </script>
-  </body>
-</html>
+<header class="weather-check">
+  <div class="weather-header">
+    <h1>Current Weather</h1>
+    <p>It checks your local weather conditions, temperature, and even gives you a heads up on any potential health concerns linked to the forecast.</p>
+  </div>
+  <div class="weather-container">
+    <div class="temp-part">
+      <img src="https://openweathermap.org/img/wn/{{ icon }}@2x.png" />
+      <div class="temp-heatwave">
+        <h1 class="span-normal">{{ temp }}°C</h1>
+        <div class="heatwave">
+          <span class="span-lightgray">Heat Wave</span>
+          <span class="span-lightgray">{{ feels }}°C</span>
+        </div>
+      </div>
+    </div>
+    <div class="location-part">
+      <img src="{% static 'assets/images/landing-page/loc.svg' %}" />
+      <div class="location">
+        <h3>Bacolor, Dhvsu</h3>
+        <span class="span-lightgray">Main Campus</span>
+      </div>
+    </div>
+    <div class="sickness-part">
+      <img src="{% static 'assets/images/landing-page/sick.svg' %}" />
+      <div class="sickness">
+        <ul>
+          {% for sick in predict %}
+            <li>{{ sick.title }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
