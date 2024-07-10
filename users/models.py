@@ -19,7 +19,7 @@ class User(AbstractUser):
     year = models.SmallIntegerField(null=True, blank=True)
     section = models.CharField(max_length=10, null=True, blank=True)
     program = models.CharField(max_length=255, null=True, blank=True)
-    department = models.ManyToManyField(Department, related_name='user_department', blank=True)
+    department = models.ForeignKey(Department, related_name='user_department', blank=True, null=True, on_delete=models.SET_NULL)
     access = models.IntegerField(default=1, null=True, blank=True)
     DOB = models.DateField(null=True, blank=True)
     sex = models.CharField(max_length=20, null=True, blank=True)
