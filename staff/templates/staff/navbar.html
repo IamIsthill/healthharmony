@@ -1,14 +1,38 @@
-<style>
-  nav {
-    display: flex;
-    columns: 1;
-  }
-</style>
-
-<nav>
-  <a href="#">Overview</a>
-  <a href="#">Inventory</a>
-  <a href="#">Log and Record</a>
-  <a href="#">Beds and Weather</a>
-  <a href="#">Signout</a>
-</nav>
+{% load static %}
+<aside>
+  <div class="logo">
+    <img src="{% static 'assets/images/landing-page/logo/adminlogo.svg' %}" />
+  </div>
+  <div class="sidebar">
+    <a href="{% url 'staff-overview' %}" class="{% if page == 'overview' %}active{% endif %}">
+      <img src="{% static 'assets/images/nav/dashboard.svg' %}" />
+      <span class="{% if page == 'overview' %}
+          span-yellow
+        {% else %}
+          span-lightgray
+        {% endif %}">
+        Overview
+      </span>
+    </a>
+    <a href="#" class="">
+      <img src="{% static 'assets/images/nav/inventory.svg' %}" />
+      <span class="span-lightgray">Inventory</span>
+    </a>
+    <a href="#">
+      <img src="{% static 'assets/images/nav/record.svg' %}" />
+      <span class="span-lightgray">Record</span>
+    </a>
+    <a href="#">
+      <img src="{% static 'assets/images/nav/features.svg' %}" />
+      <span class="span-lightgray">Features</span>
+    </a>
+    <a href="#">
+      <img src="{% static 'assets/images/nav/account.svg' %}" />
+      <span class="span-lightgray">Account</span>
+    </a>
+    <a href="#">
+      <img src="{% static 'assets/images/nav/logout.svg' %}" />
+      <span class="span-lightgray">Logout</span>
+    </a>
+  </div>
+</aside>

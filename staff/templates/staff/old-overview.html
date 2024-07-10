@@ -1,28 +1,97 @@
 {% extends 'base.html' %}
-{% load static %}
 {% block title %}
-  HeathHarmony | Clinic Overview
+  Overview
 {% endblock %}
-{% block header %}
-  <link rel="stylesheet" href="{% static 'css/clinic/overview.css' %}" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet" />
-{% endblock %}
-
 {% block main %}
-  <div class="container">
-    {% include 'staff/navbar.html' %}
-    <!-- MAIN CONTENT -->
-    <main>
-        {% include 'staff/top.html' %}
-        {% include 'staff/graphs.html' %}
-    </main>
-    
+  {% if messages %}
+    {% for message in messages %}
+      <div>{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+  <style>
+    #morbidityBars {
+      width: 50%;
+    }
+    .bars {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
 
-    
+  <div>
+    <a href="{% url 'add-patient' %}">Add Patient</a>
   </div>
-{% endblock %}
-{% block script %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <div>
+    <h2>Today's Patient</h2>
+    <p>{{ today_patient }}</p>
+  </div>
+  <div>
+    <h2>Total Patient</h2>
+    <p>{{ total_patient }}</p>
+  </div>
+  <div>
+    <h2>Monthly Medicals</h2>
+    <p>{{ monthly_medcert }}</p>
+  </div>
+  <div>
+    <div>
+      <button class="categoryDateFilter" data-category-data="past-12">Past 12 Months</button>
+      <button class="categoryDateFilter" data-category-data="past-30">Past 30 days</button>
+      <button class="categoryDateFilter" data-category-data="past-7">Past 7 days</button>
+    </div>
+    <div>
+      <label for="categories">Choose an Option</label>
+
+      <select name="categories" id="categories">
+        {% for category in categories %}
+          <option value="{{ category.id }}">{{ category }}</option>
+        {% endfor %}
+      </select>
+      <div>
+        <canvas id="morbidityChart"></canvas>
+      </div>
+    </div>
+    <hr />
+    <div>
+      <h4>Morbidity Cases</h4>
+      <div>
+        <button class="categoryBarFilter" data-category-data="yearly">Past 12 Months</button>
+        <button class="categoryBarFilter" data-category-data="monthly">Past 30 days</button>
+        <button class="categoryBarFilter" data-category-data="weekly">Past 7 days</button>
+      </div>
+      <div id="morbidityBars"></div>
+    </div>
+    <hr />
+    <div>
+      <div>
+        <button class="patientDateFilter" data-patient-data="yearly" data-department-id="1">Past 12 Months</button>
+        <button class="patientDateFilter" data-patient-data="monthly" data-department-id="1">Past 30 days</button>
+        <button class="patientDateFilter" data-patient-data="weekly" data-department-id="1">Past 7 days</button>
+      </div>
+
+      <div>
+        <canvas id="patientChart"></canvas>
+      </div>
+      <div>
+        {% for department in departments %}
+          <button class="departmentNames" data-department-id="{{ department.id }}" data-fetch="0">{{ department.department }}</button>
+        {% endfor %}
+      </div>
+    </div>
+    <hr />
+    <div>
+      <h4>Colleges</h4>
+      <div>
+        <button class="departmentBarFilter" data-category-data="yearly">Past 12 Months</button>
+        <button class="departmentBarFilter" data-category-data="monthly">Past 30 days</button>
+        <button class="departmentBarFilter" data-category-data="weekly">Past 7 days</button>
+      </div>
+      <div id="departmentBars"></div>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
   {{ category_data|json_script:'category-cases' }}
@@ -429,5 +498,4 @@
       })
     })
   </script>
-
 {% endblock %}
