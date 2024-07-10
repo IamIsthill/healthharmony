@@ -1,103 +1,15 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 {% load static %}
-<html lang="en">
-  <head>
-    <link rel="stylesheet" href="{% static 'css/landingpage.css' %}" />
-    {% comment %} <link rel="stylesheet" href="{% static 'tailwind/tailwind-output.css' %}" /> {% endcomment %}
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="{% static 'assets/svgs/logotitle.svg' %}" />
-    <title>Health Harmony</title>
-  </head>
-  <body>
-    <!-- Top section -->
-    <header class="navbar">
-      <div class="Logo">
-        <a href="#"><img src="{% static 'assets/svgs/logo.svg' %} " /></a>
-      </div>
-
-      <ul>
-        <li>
-          <a href="#Health_card" class="p-10 text-red-500 font-bold mt-16">Health Card</a>
-        </li>
-        <li>
-          <a href="#Bed_space">Bed Space</a>
-        </li>
-        <li>
-          <a href="#Weather_check">Current Weather</a>
-        </li>
-        <li>
-          <a href="#About_us">About us</a>
-        </li>
-        <li>
-          <a href="#Contact">Contact</a>
-        </li>
-      </ul>
-
-      <div class="right-part">
-        <h6>Are you a clinic staff?</h6>
-        {% comment %} <button class="log-in">Log in</button> {% endcomment %}
-        <a href="{% url 'login' %}" class="log-in">Log in</a>
-      </div>
-    </header>
-    <!-- Top section -->
-
-    <!-- Hero Section -->
-    {% include 'hero.html' %}
-    <!-- Hero Section -->
-
-    <!-- Bed Section -->
-    {% include 'bed.html' %}
-    <!-- Bed Section -->
-
-    <!-- Current Weather -->
-    <section class="Current-weather" id="Weather_check">
-      <h1>Current Weather</h1>
-      <p>It checks your local weather conditions, temperature, and even gives you a heads up on any potential health concerns linked to the forecast.</p>
-      <div class="weather_container">
-        <span class="school">Bacolor, DHVSU</span>
-        <span class="campus">Main Campus</span>
-        <img src="https://openweathermap.org/img/wn/{{ icon }}@2x.png" />
-        <span class="temp">{{ temp }}°C</span>
-        <span class="heat">Heat Wave</span>
-        <span class="actual_temp">{{ feels }}°C</span>
-      </div>
-      <div class="sick-container">
-        <span>Possible Sickness</span>
-
-        <div class="sick-real-container">
-          {% for sick in predict %}
-            <div class="sick1">{{ sick.title }}</div>
-          {% endfor %}
-        </div>
-      </div>
-    </section>
-    <!-- Current Weather -->
-    <!-- About Us -->
-    <section class="About-us" id="About_us">
-      <h1>About us</h1>
-      <p class="p1">Here at Health Harmony, we believe in empowering students to take an active role in their health and wellness journey. We understand the importance of efficient communication between students, parents, and healthcare professionals at school.</p>
-      <h2>Mission</h2>
-      <p class="p2">Our goal is to create a healthier school community by providing students with the tools and resources they need to take charge of their well-being. We believe that accessible medical records combined with clear communication are key to fostering a positive and proactive approach to student health.</p>
-    </section>
-    <!-- About Us -->
-    <!-- Contact -->
-    <section class="page_contact" id="Contact">
-      <h1>Contact</h1>
-      <a href="#googlemaps.com"><img src="{% static 'assets/svgs/location.svg' %}" class="map" /></a>
-      <div class="contact-content">
-        <span class="email-container">Email</span>
-        <span class="email">dhvsumainclinic@gmail.com</span>
-        <span class="tele">Telephone No.</span>
-        <span class="number">000-0000-00</span>
-        <span class="social">Social</span>
-        <a href="#facebook.com"><img src="{% static 'assets/svgs/fb.svg' %}" class="fb" /></a>
-      </div>
-    </section>
-
-    <!-- Contact -->
-
-    <script src="{% static 'js/scroll.js' %}" type="module"></script>
-    <script src="{% static 'js/base/record.js' %}" type="module"></script>
-  </body>
-</html>
+{% block title %}
+  HealthHarmony
+{% endblock %}
+{% block header %}
+  <link rel="stylesheet" href="{% static 'css/landing/index.css' %}" />
+  <link rel="icon" type="image/png" href="{% static 'assets/svgs/logotitle.svg' %}" />
+{% endblock %}
+{% block main %}
+  {% include 'navbar.html' %}
+  {% include 'hero.html' %}
+  {% include 'bed.html' %}
+  {% include 'weather.html' %}
+{% endblock %}
