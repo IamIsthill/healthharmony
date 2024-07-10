@@ -40,14 +40,13 @@
     box-sizing: border-box;
   }
 body{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     margin: 0;
     padding: 0;
     font-family: var(--mainfont);
     min-height: 230vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 nav{    
@@ -176,11 +175,12 @@ nav ul li a{
     max-width: 1200px;
     margin: auto;
     padding: 4rem 2rem;
-    display: flex;
-    gap: 10rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     align-items: center;
 }
 .beds{  /* 4 BEDS AT WHOLE */
+    margin-left: 30px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
@@ -226,11 +226,13 @@ nav ul li a{
     max-width: 1200px;
     margin: auto;
     padding: 4rem 2rem;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     align-items: center;
-    gap: 5rem;
+    gap: 3rem;
 }
 .weather-header{
+    margin-left: 60px;
     max-width: 520px;
 }
 .weather-header h1{
@@ -241,7 +243,6 @@ nav ul li a{
 }
 .weather-header p{
     line-height: 1.4;
-    width: 450px;
 }
 .weather-container{ /* WHOLE CONTAINER */
     display: flex;
@@ -256,14 +257,12 @@ nav ul li a{
 .temp-part{     /* TOP PART */
     display: flex;
     gap: 0.5rem;
-    align-items: center;
 }
 .temp-heatwave{ 
     display: flex;
     flex-direction: column;
 }
 .temp-heatwave h1{  
-    margin-top: 10px;
     font-size:xxx-large;
     font-weight: 400;
     line-height: 0.7;
@@ -298,27 +297,20 @@ nav ul li a{
 .sickness-part img{
     margin-top: 5px;
 }
-
 section{
     position: relative;  
-    height: 550px;
-    width: 1100px;
+    height: 500px;
+    width: 1075px;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-
-section h1{
-    font-weight: bold;
-    color: var(--normal-fontcolor);
-}
   
   .swiper{
     width: 950px;
-    padding: 0rem 1rem;
+    padding: 0rem 0.5rem;
   }
-
-   
+  
   .card{
     position: relative;
     background: #fff;
@@ -326,7 +318,6 @@ section h1{
     height: 400px;
     margin: 20px 0;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
   }
   
   .card::before{
@@ -439,25 +430,12 @@ section h1{
     background: var(--Yellow);
   }
   
-  .swiper-pagination{
-    position: absolute;
-    top: 450px;
-    margin-bottom: 40px;
-  }
-  
-  .swiper-pagination-bullet{
-    height: 7px;
-    width: 26px;
-    border-radius: 25px;
-    background: rgb(20, 6, 6);
-  }
-  
   .swiper-button-next, .swiper-button-prev{
     opacity: 0.7;
-    color: rgb(37, 30, 30);
+    color: rgb(104, 99, 99);
     transition: all 0.3s ease;
   }
   .swiper-button-next:hover, .swiper-button-prev:hover{
     opacity: 1;
-    color: rgb(37, 36, 36);
+    color: rgb(42, 38, 38);
   }
