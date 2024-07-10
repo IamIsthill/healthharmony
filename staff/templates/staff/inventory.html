@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+  HealthHarmony | Inventory
+{% endblock %}
+{% block header %}
+
+{% endblock %}
+
+{% block main %}
+  <div class="container">
+    {% include 'staff/navbar.html' %}
+    <div>
+      <h1>Inventory</h1>
+    </div>
+    <div class="graphs">
+      <div class="upper">
+        <div class="left">
+          <div class="header">
+            <h3>Inventory Overview</h3>
+            <div>
+              <button>All</button>
+              <button>Medication</button>
+              <button>Supply</button>
+            </div>
+            <div>
+              <h4>Sort By</h4>
+              <div>
+                <button>Date</button>
+                <button>Name</button>
+              </div>
+            </div>
+          </div>
+          <div class="data">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>Stock</th>
+                  <th>Expiration Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for data in inventory %}
+                  <tr>
+                    <td>{{ data.item_name }}</td>
+                    <td>{{ data.description }}</td>
+                    <td>{{ data.orig_quantity }}</td>
+                    <td>{{ data.expiration_date }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="lower"></div>
+    </div>
+  </div>
+{% endblock %}
+{% block script %}
+  {{ inventory|json_script:'inventory-data' }}
+{% endblock %}

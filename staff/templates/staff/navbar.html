@@ -5,18 +5,61 @@
   </div>
   <div class="sidebar">
     <a href="{% url 'staff-overview' %}" class="{% if page == 'overview' %}active{% endif %}">
-      <img src="{% static 'assets/images/nav/dashboard.svg' %}" />
-      <span class="{% if page == 'overview' %}
-          span-yellow
+      <img src="{% static 'assets/images/nav/dashboard.svg' %}"
+        class="{% if page == 'overview' %}
+          active
         {% else %}
           span-lightgray
+        {% endif %}" />
+      <span class="{% if page == 'overview' %}
+          
+          
+          
+          
+          span-yellow
+
+
+
+
+        {% else %}
+          
+          
+          
+          
+          span-lightgray
+
+
+
+
         {% endif %}">
         Overview
       </span>
     </a>
-    <a href="#" class="">
+    <a href="{% url 'staff-inventory' %}" class="{% if page == 'inventory' %}active{% endif %}">
       <img src="{% static 'assets/images/nav/inventory.svg' %}" />
-      <span class="span-lightgray">Inventory</span>
+      <span class="{% if page == 'inventory' %}
+          
+          
+          
+          
+      span-yellow
+
+
+
+
+        {% else %}
+          
+          
+      
+      
+      span-lightgray
+
+
+
+
+        {% endif %}">
+        Inventory
+      </span>
     </a>
     <a href="#">
       <img src="{% static 'assets/images/nav/record.svg' %}" />
