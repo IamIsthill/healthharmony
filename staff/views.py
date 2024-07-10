@@ -4,6 +4,7 @@ from .forms import PatientForm
 import secrets
 import string
 from treatment.models import Illness, Certificate, Category
+from inventory.models import InventoryDetail, QuantityHistory
 from datetime import datetime
 from django.utils import timezone
 from datetime import timedelta
@@ -177,3 +178,9 @@ def add_issue(request):
             messages.error(request, 'Unable to add issue')
     context = {'patients':patients}
     return render(request,'staff/add-issue.html', context)
+
+def inventory(request):
+    inventory = (list(InventoryDetail.objects.all().values('id', 'item_name', 'description','expiration_date', 'orig_quantity')))
+    
+    context = {'page': 'inventory', 'inventory': inventory}
+    return render(request, 'staff/inventory.html', context)
