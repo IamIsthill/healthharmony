@@ -1,0 +1,136 @@
+{% extends 'staff/base.html' %}
+{% block title %}
+  Overview
+{% endblock %}
+{% block main %}
+  {% if messages %}
+    {% for message in messages %}
+      <div>{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+  <div>
+    <a href="{% url 'add-patient' %}">Add Patient</a>
+  </div>
+  <div>
+    <h2>Today's Patient</h2>
+    <p>{{ today_patient }}</p>
+  </div>
+  <div>
+    <h2>Total Patient</h2>
+    <p>{{ total_patient }}</p>
+  </div>
+  <div>
+    <h2>Monthly Medicals</h2>
+    <p>{{ monthly_medcert }}</p>
+  </div>
+  <div>
+    <div>
+      <button class="categoryDateFilter" data-category-data="past-12">Past 12 Months</button>
+      <button class="categoryDateFilter" data-category-data="past-30">Past 30 days</button>
+      <button class="categoryDateFilter" data-category-data="past-7">Past 7 days</button>
+    </div>
+    <div>
+      <label for="categories">Choose an Option</label>
+
+      <select name="categories" id="categories">
+        {% for category in categories %}
+          <option value="{{ category.id }}">{{ category }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div>
+      <canvas id="morbidityChart"></canvas>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  {{ category_counts|json_script:'category-counts' }}
+  {{ category_names|json_script:'category-names' }}
+  {{ month_cases_count|json_script:'monthly-cases' }}
+  {{ weekly_cases_count|json_script:'week-cases' }}
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      let yearData = true
+      let monthData = false
+      let weekData = false
+      let categoryCases = JSON.parse(document.getElementById('category-counts').textContent)
+      let categoryNames = JSON.parse(document.getElementById('category-names').textContent)
+      let categoryOpt = document.getElementById('categories')
+      const ctx = document.getElementById('morbidityChart').getContext('2d')
+    
+      let categoryDateFilterBtn = document.querySelectorAll('.categoryDateFilter')
+      categoryDateFilterBtn.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          let dateFilter = btn.getAttribute('data-category-data')
+          if (dateFilter == 'past-12') {
+            categoryCases = JSON.parse(document.getElementById('category-counts').textContent)
+          } else if (dateFilter == 'past-30') {
+            categoryCases = JSON.parse(document.getElementById('monthly-cases').textContent)
+          } else if (dateFilter == 'past-7') {
+            categoryCases = JSON.parse(document.getElementById('week-cases').textContent)
+          }
+          updateChart(parseInt(categoryOpt.value))
+        })
+      })
+    
+      // Function to update chart based on selected category
+      function updateChart(selectedOpt) {
+        let title
+        categoryNames.forEach(function (name) {
+          if (name.id == selectedOpt) {
+            title = name.category
+          }
+        })
+    
+        const perCategoryData = JSON.parse(categoryCases[selectedOpt])
+        const categories = []
+        const counts = []
+        perCategoryData.forEach((data) => {
+          categories.push(data[0])
+          counts.push(data[1])
+        })
+        let existingChart = Chart.getChart(ctx)
+        if (existingChart) {
+          existingChart.destroy() // Destroy if it exists
+        }
+    
+        // Create new chart instance
+        window.myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: categories,
+            datasets: [
+              {
+                label: title,
+                data: counts,
+                borderWidth: 1,
+                indexAxis: 'x',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Simplified background color for line chart
+                borderColor: 'rgba(75, 192, 192, 1)', // Adding border color for better visualization
+                fill: false,
+                tension: 30
+              }
+            ]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true // Ensure y-axis starts from 0
+              }
+            }
+          }
+        })
+      }
+    
+      // Initial setup on page load
+      updateChart(parseInt(categoryOpt.value))
+    
+      // Event listener for category selection change
+      categoryOpt.addEventListener('change', function () {
+        updateChart(parseInt(categoryOpt.value))
+      })
+    })
+  </script>
+{% endblock %}

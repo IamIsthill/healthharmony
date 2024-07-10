@@ -18,3 +18,32 @@ function migrate(){
 function build(){
   pip install -r requirements.txt
 }
+
+function delete(){
+  find . -path "*/migrations/*.py" -not -name "__init__.py" -not -path "*/.venv/*" -delete
+}
+
+function template(){
+  cd "$1"
+  mkdir templates
+  mkdir "$1"
+  cd ..
+}
+
+function imports(){
+  python manage.py loaddata db.json
+}
+function exports(){
+  python manage.py dumpdata > db.json
+}
+function user(){
+  python manage.py createsuperuser --email bercasiocharles14@gmail.com
+}
+
+function dockerbuild(){
+  docker build --tag healthharmony .
+}
+
+function dockerrun(){
+  docker run --publish 8000:8000 healthharmony
+}

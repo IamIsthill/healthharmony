@@ -1,0 +1,572 @@
+[
+    
+    {
+        "item_number":"1",
+        "unit": "bxs.",
+        "item_name": "Paracetamol 500mg per tab",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 100
+    }, 
+
+    {
+        "item_number":"2",
+        "unit": "bxs.",
+        "item_name": "Carbocisteine 500mg cap tab",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 100
+    },
+    {
+        "item_number":"3",
+        "unit": "bxs.",
+        "item_name": "Azithromycin 500mg per tab",
+        "description": "3's",
+        "expiration_date": "2026",
+        "quantity": 70
+    },
+    {
+        "item_number":"4",
+        "unit": "bxs.",
+        "item_name": "Amoxicillin 500mg per cap",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 70
+    },
+    {
+        "item_number":"5",
+        "unit": "bxs.",
+        "item_name": "Cefalexin 500mg per cap",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 100
+    },
+    {
+        "item_number":"6",
+        "unit": "bxs.",
+        "item_name": "Cloxacillin 500mg per cap",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 70
+    },
+    {
+        "item_number":"7",
+        "unit": "bxs.",
+        "item_name": "Ciprofloxacin 500mg per tab",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 15
+    },
+    {
+        "item_number":"8",
+        "unit": "bxs.",
+        "item_name": "Cotrimoxazole 800mg/160mg per tab",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 50
+    },
+    {
+        "item_number":"9",
+        "unit": "bxs.",
+        "item_name": "Co-Amoxiclav 625mg per tab",
+        "description": "14's",
+        "expiration_date": "2026",
+        "quantity": 50
+    },
+    {
+        "item_number":"10",
+        "unit": "bxs.",
+        "item_name": "Clindamycin 300mg cap",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 20
+    },
+    {
+        "item_number":"11",
+        "unit": "bxs.",
+        "item_name": "Levofloxacin 500mg per tab",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 100
+    },
+    {
+        "item_number":"12",
+        "unit": "bxs.",
+        "item_name": "Diphenhydramine HCI 50mg per cap",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 30
+    },
+    {
+        "item_number":"13",
+        "unit": "bxs.",
+        "item_name": "Loratadine 10mg tab",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 20
+    },
+    {
+        "item_number":"14",
+        "unit": "bxs.",
+        "item_name": "Cetirizine 10mg tab",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 20
+    },
+    {
+        "item_number":"15",
+        "unit": "bxs.",
+        "item_name": "Bilastine 20mg tab",
+        "description": "30's",
+        "expiration_date": "2026",
+        "quantity": 10
+    },
+    {
+        "item_number":"16",
+        "unit": "bxs.",
+        "item_name": "Chlorpheniramine 4mg",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 100
+    },
+    {
+        "item_number":"17",
+        "unit": "bxs.",
+        "item_name": "Chloramphenicol 500mg per cap",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 10
+    },
+    {
+        "item_number":"18",
+        "unit": "bxs.",
+        "item_name": "Mefenamic acid 500mg per cap",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 50
+    },
+    {
+        "item_number":"19",
+        "unit": "bxs.",
+        "item_name": "Salbutamol Nebule",
+        "description": "30's",
+        "expiration_date": "2026",
+        "quantity": 50
+    },
+    {
+        "item_number":"20",
+        "unit": "bxs.",
+        "item_name": "Salbutamol Tablet 4mg per tab",
+        "description": ", 100's",
+        "expiration_date": "2026",
+        "quantity": 10
+    },
+    {
+        "item_number":"21",
+        "unit": "bxs.",
+        "item_name": "Metoprolol 50mg per tab",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 20
+    },
+    {
+        "item_number":"22",
+        "unit": "bxs.",
+        "item_name": "Captopril 25mg per tab",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 20
+    },
+    {
+        "item_number":"23",
+        "unit": "bxs.",
+        "item_name": "Simvastatin 25mg per tab",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 30
+    },
+    {
+        "item_number":"24",
+        "unit": "bxs.",
+        "item_name": "Simvastatin 25mg per tab",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 30
+    },
+    {
+        "item_number":"25",
+        "unit": "bxs.",
+        "item_name": "Rosuvastatin 10mg per tab",
+        "description": "30's",
+        "expiration_date": "2026",
+        "quantity": 30
+    },
+    {
+        "item_number":"26",
+        "unit": "bxs.",
+        "item_name": "Rosuvastatin 20mg per tab",
+        "description": "30's",
+        "expiration_date": "2026",
+        "quantity": 30
+    },
+    {
+        "item_number":"27",
+        "unit": "bxs.",
+        "item_name": "Rosuvastatin 40mg per tab",
+        "description": "30's",
+        "expiration_date": "2026",
+        "quantity": 20
+    },
+    {
+        "item_number":"28",
+        "unit": "bxs.",
+        "item_name": "Metformin 500mg per tab",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 10
+    },
+    {
+        "item_number":"29",
+        "unit": "bxs.",
+        "item_name": "Dimezine 40/20mg Tab",
+        "description": "30's",
+        "expiration_date": "2026",
+        "quantity": 10
+    },
+    {
+        "item_number":"30",
+        "unit": "bxs.",
+        "item_name": "Meclizine HC3 25mg per tab",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 50
+    },
+    {
+        "item_number":"31",
+        "unit": "bxs.",
+        "item_name": "Losartan 50mg per tab",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 65
+    },
+    {
+        "item_number":"32",
+        "unit": "bxs.",
+        "item_name": "Losartan 100mg per tab",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 60
+    },
+    {
+        "item_number":"33",
+        "unit": "bxs.",
+        "item_name": "Clonidine HC 75mg per tab",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 10
+    },
+    {
+        "item_number":"34",
+        "unit": "bxs.",
+        "item_name": "PNPA Paracetamol non-drowsy per tab",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 40
+    },
+    {
+        "item_number":"35",
+        "unit": "bxs.",
+        "item_name": "Phenylpropanolamine Hydrochloride 25mg, Chlorphenamine Maleate 2mg Paracetamol 500mg, Forte, per tab",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 70
+    },
+    {
+        "item_number":"36",
+        "unit": "bxs.",
+        "item_name": "Metoclopramide 10mg per tab",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 20
+    },
+    {
+        "item_number":"37",
+        "unit": "bxs.",
+        "item_name": "Lagundi 600mg per tab",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 20
+    },
+    {
+        "item_number":"38",
+        "unit": "bxs.",
+        "item_name": "Aspirin 10mg tab",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 20
+    },
+    {
+        "item_number":"39",
+        "unit": "bxs.",
+        "item_name": "Clopidogrel 75mg per tab",
+        "description": "50's",
+        "expiration_date": "2026",
+        "quantity": 20
+    },
+    {
+        "item_number":"40",
+        "unit": "bxs.",
+        "item_name": "Amlodipine 5mg per tab",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 70
+    },
+    {
+        "item_number":"41",
+        "unit": "bxs.",
+        "item_name": "Amlodipine 10mg per tab",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 70
+    },
+    {
+        "item_number":"42",
+        "unit": "bxs.",
+        "item_name": "Febuxostat 80mg per tab",
+        "description": "30's",
+        "expiration_date": "2026",
+        "quantity": 20
+    },
+    {
+        "item_number":"43",
+        "unit": "bxs.",
+        "item_name": "Atorvastatin 80mg",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 50
+    },
+    {
+        "item_number":"44",
+        "unit": "bxs.",
+        "item_name": "Atorvastatin 40mg",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 50
+    },
+    {
+        "item_number":"45",
+        "unit": "bxs.",
+        "item_name": "Sambong tablet 500mg",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 30
+    },
+    {
+        "item_number":"46",
+        "unit": "bxs.",
+        "item_name": "Dicycloverine 10mg per tab",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 30
+    },
+    {
+        "item_number":"47",
+        "unit": "bxs.",
+        "item_name": "ALOH, MgOH, per tab",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 50
+    },
+    {
+        "item_number":"48",
+        "unit": "bxs.",
+        "item_name": "Ricoverin Plus per cap",
+        "description": "50's",
+        "expiration_date": "2026",
+        "quantity": 5
+    },
+    {
+        "item_number":"49",
+        "unit": "bxs.",
+        "item_name": "Trilaxant 10mg per tab",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 5
+    },
+    {
+        "item_number":"50",
+        "unit": "bxs.",
+        "item_name": "Omeprazole 20mg per cap",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 10
+    },
+    {
+        "item_number":"51",
+        "unit": "bxs.",
+        "item_name": "Sodium Ascorbate 500mg with Zinc 10mg",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 100
+    },
+    {
+        "item_number":"52",
+        "unit": "bxs.",
+        "item_name": "Vitamin B1, B6, B12 table",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 30
+    },
+    {
+        "item_number":"53",
+        "unit": "bxs.",
+        "item_name": "Vitamin E 400ku per capsule",
+        "description": "30's",
+        "expiration_date": "2026",
+        "quantity": 5
+    },
+    {
+        "item_number":"54",
+        "unit": "btls.",
+        "item_name": "Dexamethasone, Polymyxin B 504, Neomycin 504, Ophthalmic Suspension",
+        "description": "",
+        "expiration_date": "2026",
+        "quantity": 10
+    },
+    {
+        "item_number":"55",
+        "unit": "btls.",
+        "item_name": "Ethyl Alcohol (500ml)",
+        "description": "Spray 70%",
+        "expiration_date": "2026",
+        "quantity": 10
+    },
+    {
+        "item_number":"56",
+        "unit": "btls.",
+        "item_name": "Methyl Salicylate, Camphor+Menthol Pain killer liniment, 120ml",
+        "description": "",
+        "expiration_date": "2026",
+        "quantity": 30
+    },
+    {
+        "item_number":"57",
+        "unit": "btls.",
+        "item_name": "Methyl Salicylate, Camphor Menthol, Extra Strength 100ml",
+        "description": "",
+        "expiration_date": "2026",
+        "quantity": 10
+    },
+    {
+        "item_number":"58",
+        "unit": "btls.",
+        "item_name": "Povidone iodine 120ml",
+        "description": "",
+        "expiration_date": "2026",
+        "quantity": 50
+    },
+    {
+        "item_number":"59",
+        "unit": "btls.",
+        "item_name": "Plain Normal Saline Solution (PNSS) 1L",
+        "description": "",
+        "expiration_date": "2026",
+        "quantity": 30
+    },
+    {
+        "item_number":"60",
+        "unit": "bxs.",
+        "item_name": "Micropore Tape 1in x 10yd, 2,5cm x 9,1m",
+        "description": "12's",
+        "expiration_date": "2026",
+        "quantity": 10
+    },
+    {
+        "item_number":"61",
+        "unit": "bxs.",
+        "item_name": "Plaster strips Antiseptic (flexible fabric), standard size",
+        "description": "100's",
+        "expiration_date": "2026",
+        "quantity": 10
+    },
+    {
+        "item_number":"62",
+        "unit": "pcs.",
+        "item_name": "Surgical Elastic Bandage with Velcro strip on both ends 4 inches wide, 5 yards",
+        "description": "",
+        "expiration_date": "",
+        "quantity": 70
+    },
+    {
+        "item_number":"63",
+        "unit": "pcs.",
+        "item_name": "Cutting Needle",
+        "description": "1/2c",
+        "expiration_date": "",
+        "quantity": 10
+    },
+    {
+        "item_number":"64",
+        "unit": "pcs.",
+        "item_name": "Round Needle",
+        "description": "1/2c",
+        "expiration_date": "",
+        "quantity": 10
+    },
+    {
+        "item_number":"65",
+        "unit": "pcs.",
+        "item_name": "4-0 silk suture",
+        "description": "",
+        "expiration_date": "",
+        "quantity": 20
+    },
+    {
+        "item_number":"66",
+        "unit": "pcs.",
+        "item_name": "Lidocaine HC 2% Local Anesthesia 50ml",
+        "description": "",
+        "expiration_date": "",
+        "quantity": 10
+    },
+    {
+        "item_number":"67",
+        "unit": "pcks.",
+        "item_name": "Cotton balls",
+        "description": "100's",
+        "expiration_date": "",
+        "quantity": 20
+    },
+    {
+        "item_number":"68",
+        "unit": "pcks.",
+        "item_name": "Disposable Plastic cups 8 oz ",
+        "description": "50's",
+        "expiration_date": "",
+        "quantity": 130
+    },
+    {
+        "item_number":"69",
+        "unit": "bxs.",
+        "item_name": "Disinfectant Liquid Concentrate (Pine scent), 1ltr",
+        "description": "",
+        "expiration_date": "",
+        "quantity": 50
+    },
+    {
+        "item_number":"70",
+        "unit": "btls.",
+        "item_name": "Disinfectant Spray crisp linen scent 510g",
+        "description": "",
+        "expiration_date": "",
+        "quantity": 36
+    },
+    {
+        "item_number":"71",
+        "unit": "bxs.",
+        "item_name": "Disposable Sterile wooden toungue Depressor",
+        "description": "100's",
+        "expiration_date": "",
+        "quantity": 7
+    }
+]

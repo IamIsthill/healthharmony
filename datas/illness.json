@@ -1,0 +1,288 @@
+[
+    {
+        "model": "treatment.category",
+        "pk": 1,
+        "fields": {
+            "category": "Respiratory",
+            "added": "2024-07-01T12:00:00Z",
+            "updated": "2024-07-01T12:00:00Z"
+        }
+    },
+    {
+        "model": "treatment.category",
+        "pk": 2,
+        "fields": {
+            "category": "Cardiovascular",
+            "added": "2024-07-02T12:00:00Z",
+            "updated": "2024-07-02T12:00:00Z"
+        }
+    },
+    {
+        "model": "treatment.category",
+        "pk": 3,
+        "fields": {
+            "category": "Neurological",
+            "added": "2024-07-03T12:00:00Z",
+            "updated": "2024-07-03T12:00:00Z"
+        }
+    },
+    {
+        "model": "treatment.category",
+        "pk": 4,
+        "fields": {
+            "category": "Gastrointestinal",
+            "added": "2024-07-04T12:00:00Z",
+            "updated": "2024-07-04T12:00:00Z"
+        }
+    },
+    {
+        "model": "treatment.category",
+        "pk": 5,
+        "fields": {
+            "category": "Dermatological",
+            "added": "2024-07-05T12:00:00Z",
+            "updated": "2024-07-05T12:00:00Z"
+        }
+    },
+    {
+        "model": "treatment.illness",
+        "pk": 1,
+        "fields": {
+            "patient": 1,
+            "issue": "Chronic cough and difficulty breathing.",
+            "staff": 2,
+            "doctor": 3,
+            "added": "2024-07-01T12:00:00Z",
+            "updated": "2024-07-01T12:00:00Z",
+            "illness_category": [1]
+        }
+    },
+    {
+        "model": "treatment.illness",
+        "pk": 2,
+        "fields": {
+            "patient": 2,
+            "issue": "Severe chest pain and shortness of breath.",
+            "staff": 3,
+            "doctor": 1,
+            "added": "2024-07-02T12:00:00Z",
+            "updated": "2024-07-02T12:00:00Z",
+            "illness_category": [2]
+        }
+    },
+    {
+        "model": "treatment.illness",
+        "pk": 3,
+        "fields": {
+            "patient": 3,
+            "issue": "Frequent headaches and dizziness.",
+            "staff": 1,
+            "doctor": 2,
+            "added": "2024-07-03T12:00:00Z",
+            "updated": "2024-07-03T12:00:00Z",
+            "illness_category": [3]
+        }
+    },
+    {
+        "model": "treatment.illness",
+        "pk": 4,
+        "fields": {
+            "patient": 1,
+            "issue": "Abdominal pain and nausea.",
+            "staff": 2,
+            "doctor": 3,
+            "added": "2024-07-04T12:00:00Z",
+            "updated": "2024-07-04T12:00:00Z",
+            "illness_category": [4]
+        }
+    },
+    {
+        "model": "treatment.illness",
+        "pk": 5,
+        "fields": {
+            "patient": 2,
+            "issue": "Severe skin rash and itching.",
+            "staff": 3,
+            "doctor": 1,
+            "added": "2024-07-05T12:00:00Z",
+            "updated": "2024-07-05T12:00:00Z",
+            "illness_category": [5]
+        }
+    },
+        {
+            "model": "treatment.category",
+            "pk": 6,
+            "fields": {
+                "category": "Orthopedic",
+                "added": "2024-07-06T12:00:00Z",
+                "updated": "2024-07-06T12:00:00Z"
+            }
+        },
+        {
+            "model": "treatment.category",
+            "pk": 7,
+            "fields": {
+                "category": "Endocrine",
+                "added": "2024-07-07T12:00:00Z",
+                "updated": "2024-07-07T12:00:00Z"
+            }
+        },
+        {
+            "model": "treatment.category",
+            "pk": 8,
+            "fields": {
+                "category": "Infectious",
+                "added": "2024-07-08T12:00:00Z",
+                "updated": "2024-07-08T12:00:00Z"
+            }
+        },
+        {
+            "model": "treatment.category",
+            "pk": 9,
+            "fields": {
+                "category": "Ophthalmological",
+                "added": "2024-07-09T12:00:00Z",
+                "updated": "2024-07-09T12:00:00Z"
+            }
+        },
+        {
+            "model": "treatment.category",
+            "pk": 10,
+            "fields": {
+                "category": "Psychiatric",
+                "added": "2024-07-10T12:00:00Z",
+                "updated": "2024-07-10T12:00:00Z"
+            }
+        },
+        {
+            "model": "treatment.illness",
+            "pk": 6,
+            "fields": {
+                "patient": 3,
+                "issue": "Broken leg from an accident.",
+                "staff": 1,
+                "doctor": 2,
+                "added": "2024-07-06T12:00:00Z",
+                "updated": "2024-07-06T12:00:00Z",
+                "illness_category": [6]
+            }
+        },
+        {
+            "model": "treatment.illness",
+            "pk": 7,
+            "fields": {
+                "patient": 1,
+                "issue": "Thyroid imbalance causing weight issues.",
+                "staff": 2,
+                "doctor": 3,
+                "added": "2024-07-07T12:00:00Z",
+                "updated": "2024-07-07T12:00:00Z",
+                "illness_category": [7]
+            }
+        },
+        {
+            "model": "treatment.illness",
+            "pk": 8,
+            "fields": {
+                "patient": 2,
+                "issue": "High fever and persistent infection.",
+                "staff": 3,
+                "doctor": 1,
+                "added": "2024-07-08T12:00:00Z",
+                "updated": "2024-07-08T12:00:00Z",
+                "illness_category": [8]
+            }
+        },
+        {
+            "model": "treatment.illness",
+            "pk": 9,
+            "fields": {
+                "patient": 3,
+                "issue": "Blurry vision and eye pain.",
+                "staff": 1,
+                "doctor": 2,
+                "added": "2024-07-09T12:00:00Z",
+                "updated": "2024-07-09T12:00:00Z",
+                "illness_category": [9]
+            }
+        },
+        {
+            "model": "treatment.illness",
+            "pk": 10,
+            "fields": {
+                "patient": 1,
+                "issue": "Severe anxiety and panic attacks.",
+                "staff": 2,
+                "doctor": 3,
+                "added": "2024-07-10T12:00:00Z",
+                "updated": "2024-07-10T12:00:00Z",
+                "illness_category": [10]
+            }
+        },
+        {
+            "model": "treatment.illness",
+            "pk": 11,
+            "fields": {
+                "patient": 2,
+                "issue": "Chronic back pain.",
+                "staff": 3,
+                "doctor": 1,
+                "added": "2024-07-11T12:00:00Z",
+                "updated": "2024-07-11T12:00:00Z",
+                "illness_category": [6]
+            }
+        },
+        {
+            "model": "treatment.illness",
+            "pk": 12,
+            "fields": {
+                "patient": 3,
+                "issue": "Diabetes management.",
+                "staff": 1,
+                "doctor": 2,
+                "added": "2024-07-12T12:00:00Z",
+                "updated": "2024-07-12T12:00:00Z",
+                "illness_category": [7]
+            }
+        },
+        {
+            "model": "treatment.illness",
+            "pk": 13,
+            "fields": {
+                "patient": 1,
+                "issue": "Recurring infections.",
+                "staff": 2,
+                "doctor": 3,
+                "added": "2024-07-13T12:00:00Z",
+                "updated": "2024-07-13T12:00:00Z",
+                "illness_category": [8]
+            }
+        },
+        {
+            "model": "treatment.illness",
+            "pk": 14,
+            "fields": {
+                "patient": 2,
+                "issue": "Cataracts causing vision impairment.",
+                "staff": 3,
+                "doctor": 1,
+                "added": "2024-07-14T12:00:00Z",
+                "updated": "2024-07-14T12:00:00Z",
+                "illness_category": [9]
+            }
+        },
+        {
+            "model": "treatment.illness",
+            "pk": 15,
+            "fields": {
+                "patient": 3,
+                "issue": "Depression and mood swings.",
+                "staff": 1,
+                "doctor": 2,
+                "added": "2024-07-15T12:00:00Z",
+                "updated": "2024-07-15T12:00:00Z",
+                "illness_category": [10]
+            }
+        }
+    ]
+    
