@@ -1,4 +1,4 @@
-{% extends 'staff/base.html' %}
+{% extends 'base.html' %}
 {% block title %}
   Overview
 {% endblock %}
@@ -8,6 +8,15 @@
       <div>{{ message }}</div>
     {% endfor %}
   {% endif %}
+  <style>
+    #morbidityBars {
+      width: 50%;
+    }
+    .bars {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
 
   <div>
     <a href="{% url 'add-patient' %}">Add Patient</a>
@@ -51,9 +60,6 @@
         <button class="categoryBarFilter" data-category-data="weekly">Past 7 days</button>
       </div>
       <div id="morbidityBars"></div>
-      <div>
-        <canvas id="morbidityBarChart"></canvas>
-      </div>
     </div>
     <hr />
     <div>
@@ -72,6 +78,17 @@
         {% endfor %}
       </div>
     </div>
+    <hr />
+    <div>
+      <h4>Colleges</h4>
+      <div>
+        <button class="departmentBarFilter" data-category-data="yearly">Past 12 Months</button>
+        <button class="departmentBarFilter" data-category-data="monthly">Past 30 days</button>
+        <button class="departmentBarFilter" data-category-data="weekly">Past 7 days</button>
+      </div>
+      <div id="departmentBars"></div>
+
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -89,6 +106,9 @@
       let yearBarData = true
       let monthBarData = false
       let weekBarData = false
+      let departmentYearBarData = true
+      let departmentMonthBarData = false
+      let departmentWeekBarData = false
       let patientYearData = true
       let patientMonthData = false
       let patientWeekData = false
@@ -99,6 +119,8 @@
       let departmentNames = JSON.parse(document.getElementById('department-names').textContent)
       let patientData = JSON.parse(document.getElementById('patient-cases').textContent)
       let categoryOpt = document.getElementById('categories')
+
+      //Filters for each graphs
     
       let categoryDateFilterBtn = document.querySelectorAll('.categoryDateFilter')
       categoryDateFilterBtn.forEach((btn) => {
@@ -144,7 +166,7 @@
       let categoryBarDateFilterBtn = document.querySelectorAll('.categoryBarFilter')
       categoryBarDateFilterBtn.forEach((btn) => {
         btn.addEventListener('click', () => {
-          let dateFilter = btn.getAttribute('data-category-data-data')
+          let dateFilter = btn.getAttribute('data-category-data')
           if (dateFilter == 'yearly') {
             yearBarData = true
             monthBarData = false
@@ -158,7 +180,29 @@
             monthBarData = false
             weekBarData = true
           }
-          updateMorbidityBar()
+          updateEachMorbidityBar()
+        })
+      })
+
+      let departmentBarDateFilterBtn = document.querySelectorAll('.departmentBarFilter')
+      departmentBarDateFilterBtn.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          let dateFilter = btn.getAttribute('data-category-data')
+          if (dateFilter == 'yearly') {
+            yearBarData = true
+            monthBarData = false
+            weekBarData = false
+          } else if (dateFilter == 'monthly') {
+            yearBarData = false
+            monthBarData = true
+            weekBarData = false
+          } else if (dateFilter == 'weekly') {
+            yearBarData = false
+            monthBarData = false
+            weekBarData = true
+          }
+          console.log(dateFilter)
+
         })
       })
     
@@ -278,25 +322,69 @@
         })
       }
     
-      function updateMorbidityBar() {
+    
+      // Initial setup on page load
+      updateMorbidityChart(parseInt(categoryOpt.value))
+      updatePatientChart()
+      let departmentNamesBtn = document.querySelectorAll('.departmentNames')
+      departmentNamesBtn.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          let data = parseInt(btn.getAttribute('data-department-id'))
+          departmentId = data
+          updatePatientChart()
+        })
+      })
+
+      //Dynamically create the canvas per category
+      let morbidityBars = document.getElementById('morbidityBars')
+      let htmlMorbidityBars = ''
+      categoryNames.forEach(function(name){
+        let html = `
+          <div>
+            <h2>${name.category}</h2>
+            <h2><span id="category-value-${name.id}"></></h2>
+            <div class="bars">
+              <canvas id="category-${name.id}"></canvas>
+            </div>
+          </div>
+        `
+        htmlMorbidityBars += html
+      })
+      morbidityBars.innerHTML = htmlMorbidityBars
+      //==================================================================
+
+
+      //Dynamically create the canvas per department
+      let departmentBars = document.getElementById('departmentBars')
+      let htmlDepartmentBars = ''
+      departmentNames.forEach(function(name){
+        let html = `
+          <div>
+            <h4>${name.department}</h4>
+            <h4><span id="department-value-${name.id}"></></h4>
+            <div class="bars">
+              <canvas id="department-${name.id}"></canvas>
+            </div>
+          </div>
+        `
+        htmlDepartmentBars += html
+      })
+      departmentBars.innerHTML = htmlDepartmentBars
+      //==================================================================
+
+      // function for preparing the data for the department morbidityBars
+      function updateEachDepartmentBar(){
         let dateFilter
-        if (yearBarData == true) {
+        if (departmentYearBarData == true) {
           dateFilter = 'yearly_count'
-        } else if (monthBarData == true) {
+        } else if (departmentMonthBarData == true) {
           dateFilter = 'monthly_count'
-        } else if (weekBarData == true) {
+        } else if (departmentWeekBarData == true) {
           dateFilter = 'weekly_count'
         }
-    
-        const ctx = document.getElementById('morbidityBarChart').getContext('2d')
-        let title
-        categoryNames.forEach(function (name) {
-          if (name.id == departmentId) {
-            title = name.department
-          }
-        })
-    
-        const perCategoryData = categoryCases[dateFilter]
+
+        const perCategoryData = patientData[dateFilter]
+
         const categories = []
         const counts = []
         Object.entries(perCategoryData).forEach(([key, value]) => {
@@ -308,84 +396,44 @@
         counts.forEach((count) => {
           maxCount += count
         })
-    
-        let updatedCategories = categories.map((categoryId) => {
-          let categoryName = categoryNames.find((name) => name.id == categoryId)
-          return categoryName ? categoryName.category : categoryId
-        })
-    
-        let existingChart = Chart.getChart(ctx)
-        if (existingChart) {
-          existingChart.destroy() // Destroy if it exists
-        }
-    
-        // Create new chart instance
-        window.myChart = new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: updatedCategories,
-            datasets: [
-              {
-                data: counts,
-                borderWidth: 1,
-                indexAxis: 'y',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Simplified background color for line chart
-                borderColor: 'rgba(75, 192, 192, 1)', // Adding border color for better visualization
-                fill: false,
-                tension: 0.5
-              }
-            ]
-          },
-          options: {
-            indexAxis: 'y',
-            scales: {
-              y: {
-                beginAtZero: true,
-                title: {
-                  display: true,
-                  text: 'Categories'
-                }
-              },
-              x: {
-                max: maxCount,
-                title: {
-                  display: true,
-                  text: 'Number of Cases'
-                }
-              }
+
+        Object.entries(perCategoryData).forEach(([key, value])=>{
+          let eachBar = document.getElementById(`department-${key}`)
+          let title
+          categoryNames.forEach(function (name) {
+            if (name.id == parseInt(key)) {
+              title = name.category
             }
-          }
+            createDepartmentBars(eachBar,maxCount, value)
+          })
+          document.getElementById(`department-value-${key}`).innerText = value;
+
         })
       }
-    
-      // Initial setup on page load
-      updateMorbidityChart(parseInt(categoryOpt.value))
-      updatePatientChart()
-      updateMorbidityBar()
-      let departmentNamesBtn = document.querySelectorAll('.departmentNames')
-      departmentNamesBtn.forEach((btn) => {
-        btn.addEventListener('click', () => {
-          let data = parseInt(btn.getAttribute('data-department-id'))
-          departmentId = data
-          updatePatientChart()
-        })
-      })
+      updateEachDepartmentBar()
+      //==================================================================
 
-      let morbidityBars = document.getElementById('morbidityBars')
-      let htmlMorbidityBars = ''
-      categoryNames.forEach((name) => {
-        let html = `
-        <div>
-          <h2>${name.category}</h2>
-          <h2><span id="category-value-${name.id}"></></h2>
-          <div class="bars">
-            <canvas id="category-${name.id}"></canvas>
-          </div>
-        </div>
-        `
-        htmlMorbidityBars += html
-      })
-      morbidityBars.innerHTML = htmlMorbidityBars
+      //Function for creating the actual department bars
+      function createDepartmentBars(eachBar,maxCount, value){
+        let canvas = eachBar;
+        let ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        canvas.width = 0
+        canvas.height = 0
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = canvas.parentElement.clientHeight;
+      
+        //background bar
+        ctx.fillStyle = '#E4E7EC'
+        ctx.fillRect(0,0,parseInt(canvas.width),parseInt(canvas.height))
+
+        //foreground bar
+        ctx.fillStyle = '#FFDA80'
+        let width = (parseInt(canvas.width))/maxCount*(parseInt(value))
+        ctx.fillRect(0,0,width,parseInt(canvas.height))
+      }
+      //==================================================================
+
 
       function updateEachMorbidityBar(){
         let dateFilter
@@ -426,18 +474,20 @@
       function createMorbidityBars(eachBar,maxCount, value){
         let canvas = eachBar;
         let ctx = canvas.getContext('2d');
-        canvas.height = canvas.parentElement.clientHeight;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        canvas.width = 0
+        canvas.height = 0
         canvas.width = canvas.parentElement.clientWidth;
-        
+        canvas.height = canvas.parentElement.clientHeight;
+      
         //background bar
         ctx.fillStyle = '#E4E7EC'
         ctx.fillRect(0,0,parseInt(canvas.width),parseInt(canvas.height))
+
+        //foreground bar
         ctx.fillStyle = '#FF8A80'
         let width = (parseInt(canvas.width))/maxCount*(parseInt(value))
         ctx.fillRect(0,0,width,parseInt(canvas.height))
-
-
-
       }
 
       updateEachMorbidityBar()
