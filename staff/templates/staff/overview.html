@@ -8,6 +8,7 @@
       <div>{{ message }}</div>
     {% endfor %}
   {% endif %}
+
   <div>
     <a href="{% url 'add-patient' %}">Add Patient</a>
   </div>
@@ -37,46 +38,141 @@
           <option value="{{ category.id }}">{{ category }}</option>
         {% endfor %}
       </select>
+      <div>
+        <canvas id="morbidityChart"></canvas>
+      </div>
     </div>
-
+    <hr />
     <div>
-      <canvas id="morbidityChart"></canvas>
+      <h4>Morbidity Cases</h4>
+      <div>
+        <button class="categoryBarFilter" data-category-data="yearly">Past 12 Months</button>
+        <button class="categoryBarFilter" data-category-data="monthly">Past 30 days</button>
+        <button class="categoryBarFilter" data-category-data="weekly">Past 7 days</button>
+      </div>
+      <div id="morbidityBars"></div>
+      <div>
+        <canvas id="morbidityBarChart"></canvas>
+      </div>
+    </div>
+    <hr />
+    <div>
+      <div>
+        <button class="patientDateFilter" data-patient-data="yearly" data-department-id="1">Past 12 Months</button>
+        <button class="patientDateFilter" data-patient-data="monthly" data-department-id="1">Past 30 days</button>
+        <button class="patientDateFilter" data-patient-data="weekly" data-department-id="1">Past 7 days</button>
+      </div>
+
+      <div>
+        <canvas id="patientChart"></canvas>
+      </div>
+      <div>
+        {% for department in departments %}
+          <button class="departmentNames" data-department-id="{{ department.id }}" data-fetch="0">{{ department.department }}</button>
+        {% endfor %}
+      </div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  {{ category_counts|json_script:'category-counts' }}
-  {{ category_names|json_script:'category-names' }}
-  {{ month_cases_count|json_script:'monthly-cases' }}
-  {{ weekly_cases_count|json_script:'week-cases' }}
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+  {{ category_data|json_script:'category-cases' }}
+  {{ department_data|json_script:'patient-cases' }}
+  {{ departments|json_script:'department-names' }}
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       let yearData = true
       let monthData = false
       let weekData = false
-      let categoryCases = JSON.parse(document.getElementById('category-counts').textContent)
-      let categoryNames = JSON.parse(document.getElementById('category-names').textContent)
+      let yearBarData = true
+      let monthBarData = false
+      let weekBarData = false
+      let patientYearData = true
+      let patientMonthData = false
+      let patientWeekData = false
+      let departmentId = 1
+      let categoryCases = JSON.parse(document.getElementById('category-cases').textContent)
+      let categoryNames = JSON.parse(document.getElementById('category-cases').textContent)
+      categoryNames = JSON.parse(categoryNames.categories)
+      let departmentNames = JSON.parse(document.getElementById('department-names').textContent)
+      let patientData = JSON.parse(document.getElementById('patient-cases').textContent)
       let categoryOpt = document.getElementById('categories')
-      const ctx = document.getElementById('morbidityChart').getContext('2d')
     
       let categoryDateFilterBtn = document.querySelectorAll('.categoryDateFilter')
       categoryDateFilterBtn.forEach((btn) => {
         btn.addEventListener('click', () => {
           let dateFilter = btn.getAttribute('data-category-data')
           if (dateFilter == 'past-12') {
-            categoryCases = JSON.parse(document.getElementById('category-counts').textContent)
+            yearData = true
+            monthData = false
+            weekData = false
           } else if (dateFilter == 'past-30') {
-            categoryCases = JSON.parse(document.getElementById('monthly-cases').textContent)
+            yearData = false
+            monthData = true
+            weekData = false
           } else if (dateFilter == 'past-7') {
-            categoryCases = JSON.parse(document.getElementById('week-cases').textContent)
+            yearData = false
+            monthData = false
+            weekData = true
           }
-          updateChart(parseInt(categoryOpt.value))
+          updateMorbidityChart(parseInt(categoryOpt.value))
+        })
+      })
+      let patientDateFilterBtn = document.querySelectorAll('.patientDateFilter')
+      patientDateFilterBtn.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          let dateFilter = btn.getAttribute('data-patient-data')
+          if (dateFilter == 'yearly') {
+            patientYearData = true
+            patientMonthData = false
+            patientWeekData = false
+          } else if (dateFilter == 'monthly') {
+            patientYearData = false
+            patientMonthData = true
+            patientWeekData = false
+          } else if (dateFilter == 'weekly') {
+            patientYearData = false
+            patientMonthData = false
+            patientWeekData = true
+          }
+          updatePatientChart()
+        })
+      })
+    
+      let categoryBarDateFilterBtn = document.querySelectorAll('.categoryBarFilter')
+      categoryBarDateFilterBtn.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          let dateFilter = btn.getAttribute('data-category-data-data')
+          if (dateFilter == 'yearly') {
+            yearBarData = true
+            monthBarData = false
+            weekBarData = false
+          } else if (dateFilter == 'monthly') {
+            yearBarData = false
+            monthBarData = true
+            weekBarData = false
+          } else if (dateFilter == 'weekly') {
+            yearBarData = false
+            monthBarData = false
+            weekBarData = true
+          }
+          updateMorbidityBar()
         })
       })
     
       // Function to update chart based on selected category
-      function updateChart(selectedOpt) {
+      function updateMorbidityChart(selectedOpt) {
+        let dateFilter
+        if (yearData == true) {
+          dateFilter = 'yearly'
+        } else if (monthData == true) {
+          dateFilter = 'monthly'
+        } else if (weekData == true) {
+          dateFilter = 'weekly'
+        }
+        const ctx = document.getElementById('morbidityChart').getContext('2d')
         let title
         categoryNames.forEach(function (name) {
           if (name.id == selectedOpt) {
@@ -84,7 +180,7 @@
           }
         })
     
-        const perCategoryData = JSON.parse(categoryCases[selectedOpt])
+        const perCategoryData = JSON.parse(categoryCases[dateFilter][selectedOpt])
         const categories = []
         const counts = []
         perCategoryData.forEach((data) => {
@@ -110,7 +206,7 @@
                 backgroundColor: 'rgba(75, 192, 192, 0.2)', // Simplified background color for line chart
                 borderColor: 'rgba(75, 192, 192, 1)', // Adding border color for better visualization
                 fill: false,
-                tension: 30
+                tension: 0.5
               }
             ]
           },
@@ -124,12 +220,231 @@
         })
       }
     
+      function updatePatientChart() {
+        let dateFilter
+        if (patientYearData == true) {
+          dateFilter = 'yearly'
+        } else if (patientMonthData == true) {
+          dateFilter = 'monthly'
+        } else if (patientWeekData == true) {
+          dateFilter = 'weekly'
+        }
+    
+        const ctx = document.getElementById('patientChart').getContext('2d')
+        let title
+        departmentNames.forEach(function (name) {
+          if (name.id == departmentId) {
+            title = name.department
+          }
+        })
+    
+        const perCategoryData = JSON.parse(patientData[dateFilter][departmentId])
+        const categories = []
+        const counts = []
+        perCategoryData.forEach((data) => {
+          categories.push(data[0])
+          counts.push(data[1])
+        })
+        let existingChart = Chart.getChart(ctx)
+        if (existingChart) {
+          existingChart.destroy() // Destroy if it exists
+        }
+    
+        // Create new chart instance
+        window.myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: categories,
+            datasets: [
+              {
+                label: title,
+                data: counts,
+                borderWidth: 1,
+                indexAxis: 'x',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Simplified background color for line chart
+                borderColor: 'rgba(75, 192, 192, 1)', // Adding border color for better visualization
+                fill: false,
+                tension: 0.5
+              }
+            ]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true // Ensure y-axis starts from 0
+              }
+            }
+          }
+        })
+      }
+    
+      function updateMorbidityBar() {
+        let dateFilter
+        if (yearBarData == true) {
+          dateFilter = 'yearly_count'
+        } else if (monthBarData == true) {
+          dateFilter = 'monthly_count'
+        } else if (weekBarData == true) {
+          dateFilter = 'weekly_count'
+        }
+    
+        const ctx = document.getElementById('morbidityBarChart').getContext('2d')
+        let title
+        categoryNames.forEach(function (name) {
+          if (name.id == departmentId) {
+            title = name.department
+          }
+        })
+    
+        const perCategoryData = categoryCases[dateFilter]
+        const categories = []
+        const counts = []
+        Object.entries(perCategoryData).forEach(([key, value]) => {
+          categories.push(key)
+          counts.push(value)
+        })
+    
+        let maxCount = 0
+        counts.forEach((count) => {
+          maxCount += count
+        })
+    
+        let updatedCategories = categories.map((categoryId) => {
+          let categoryName = categoryNames.find((name) => name.id == categoryId)
+          return categoryName ? categoryName.category : categoryId
+        })
+    
+        let existingChart = Chart.getChart(ctx)
+        if (existingChart) {
+          existingChart.destroy() // Destroy if it exists
+        }
+    
+        // Create new chart instance
+        window.myChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: updatedCategories,
+            datasets: [
+              {
+                data: counts,
+                borderWidth: 1,
+                indexAxis: 'y',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Simplified background color for line chart
+                borderColor: 'rgba(75, 192, 192, 1)', // Adding border color for better visualization
+                fill: false,
+                tension: 0.5
+              }
+            ]
+          },
+          options: {
+            indexAxis: 'y',
+            scales: {
+              y: {
+                beginAtZero: true,
+                title: {
+                  display: true,
+                  text: 'Categories'
+                }
+              },
+              x: {
+                max: maxCount,
+                title: {
+                  display: true,
+                  text: 'Number of Cases'
+                }
+              }
+            }
+          }
+        })
+      }
+    
       // Initial setup on page load
-      updateChart(parseInt(categoryOpt.value))
+      updateMorbidityChart(parseInt(categoryOpt.value))
+      updatePatientChart()
+      updateMorbidityBar()
+      let departmentNamesBtn = document.querySelectorAll('.departmentNames')
+      departmentNamesBtn.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          let data = parseInt(btn.getAttribute('data-department-id'))
+          departmentId = data
+          updatePatientChart()
+        })
+      })
+
+      let morbidityBars = document.getElementById('morbidityBars')
+      let htmlMorbidityBars = ''
+      categoryNames.forEach((name) => {
+        let html = `
+        <div>
+          <h2>${name.category}</h2>
+          <h2><span id="category-value-${name.id}"></></h2>
+          <div class="bars">
+            <canvas id="category-${name.id}"></canvas>
+          </div>
+        </div>
+        `
+        htmlMorbidityBars += html
+      })
+      morbidityBars.innerHTML = htmlMorbidityBars
+
+      function updateEachMorbidityBar(){
+        let dateFilter
+        if (yearBarData == true) {
+          dateFilter = 'yearly_count'
+        } else if (monthBarData == true) {
+          dateFilter = 'monthly_count'
+        } else if (weekBarData == true) {
+          dateFilter = 'weekly_count'
+        }
+
+        const perCategoryData = categoryCases[dateFilter]
+
+        const categories = []
+        const counts = []
+        Object.entries(perCategoryData).forEach(([key, value]) => {
+          categories.push(key)
+          counts.push(value)
+        })
+    
+        let maxCount = 0
+        counts.forEach((count) => {
+          maxCount += count
+        })
+
+        Object.entries(perCategoryData).forEach(([key, value])=>{
+          let eachBar = document.getElementById(`category-${key}`)
+          let title
+          categoryNames.forEach(function (name) {
+            if (name.id == parseInt(key)) {
+              title = name.category
+            }
+          })
+          document.getElementById(`category-value-${key}`).innerText = value;
+          createMorbidityBars(eachBar, maxCount, value)
+        })
+      }
+      function createMorbidityBars(eachBar,maxCount, value){
+        let canvas = eachBar;
+        let ctx = canvas.getContext('2d');
+        canvas.height = canvas.parentElement.clientHeight;
+        canvas.width = canvas.parentElement.clientWidth;
+        
+        //background bar
+        ctx.fillStyle = '#E4E7EC'
+        ctx.fillRect(0,0,parseInt(canvas.width),parseInt(canvas.height))
+        ctx.fillStyle = '#FF8A80'
+        let width = (parseInt(canvas.width))/maxCount*(parseInt(value))
+        ctx.fillRect(0,0,width,parseInt(canvas.height))
+
+
+
+      }
+
+      updateEachMorbidityBar()
     
       // Event listener for category selection change
       categoryOpt.addEventListener('change', function () {
-        updateChart(parseInt(categoryOpt.value))
+        updateMorbidityChart(parseInt(categoryOpt.value))
       })
     })
   </script>
