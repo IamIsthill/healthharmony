@@ -161,7 +161,7 @@ def overview(request):
 
     
 
-    context = {'today_patient' : today_patient, 'monthly_medcert':monthly_medcert, 'categories':categories, 'category_data':category_data, 'total_patient':total_patient, 'department_data':department_data, 'departments':list(departments_names)}
+    context = {'page': 'overview', 'today_patient' : today_patient, 'monthly_medcert':monthly_medcert, 'categories':categories, 'category_data':category_data, 'total_patient':total_patient, 'department_data':department_data, 'departments':list(departments_names)}
     return render(request, 'staff/overview.html', context)
 
 def add_issue(request):
