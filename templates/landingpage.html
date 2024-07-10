@@ -4,6 +4,11 @@
   HealthHarmony
 {% endblock %}
 {% block header %}
+  <!-- link for swiper -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+  <!-- Fontawesome CDN Link -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <link rel="stylesheet" href="{% static 'css/landing/index.css' %}" />
   <link rel="icon" type="image/png" href="{% static 'assets/svgs/logotitle.svg' %}" />
 {% endblock %}
@@ -12,4 +17,10 @@
   {% include 'hero.html' %}
   {% include 'bed.html' %}
   {% include 'weather.html' %}
+  {% include 'doctors.html' %}
+{% endblock %}
+{% block script %}
+  <!-- Swiper JS -->
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script src="{% static 'js/landingpage/swiper.js' %}"></script>
 {% endblock %}
