@@ -189,6 +189,39 @@ nav ul li a{
     padding: 2rem 2rem;
     margin-right: 30px;
 }
+.bed-space2{  /* THE WHOLE SECTION */
+    position: relative;
+    max-width: 1200px;
+    height: 500px;
+    margin: auto;
+    padding: 0rem 1rem;
+    display: grid;
+    gap: 5rem;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+}
+.beds2{  /* 4 BEDS AT WHOLE */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   justify-content: center;
+    width: 400px;
+    height: 400px;
+    background:rgb(240, 240, 240);
+    box-shadow: var(--box-shadow);
+    border-radius: 20px;
+    margin-right: 40px;
+}
+.beds2 img{
+    margin-left: 25px;
+    width: 300px;
+    height: auto;
+    margin-bottom: 10px;
+}
+.beds2 h1{
+    font-size: x-large;
+    margin-bottom: 4px;
+}
 .bed-container{     /* SINGLE BEDS */
     display: flex;
     align-items: center;
