@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}
-  HealthHarmony | Inventory
+  Inventory | HealthHarmony
 {% endblock %}
 {% block header %}
 
@@ -46,7 +46,7 @@
                   <tr>
                     <td>{{ data.item_name }}</td>
                     <td>{{ data.description }}</td>
-                    <td>{{ data.orig_quantity }}</td>
+                    <td>{{ data.total_quantity }}</td>
                     <td>{{ data.expiration_date }}</td>
                   </tr>
                 {% endfor %}
@@ -54,6 +54,7 @@
             </table>
           </div>
         </div>
+        <div class="right"></div>
       </div>
       <div class="lower"></div>
     </div>
