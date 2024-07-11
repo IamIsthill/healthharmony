@@ -11,6 +11,10 @@
     --navbuttons: #7D7D7D;
     --mainfont: 'Poppins', 'sans-serif';
     --secondfont: 'Inter', 'san-serif';
+    --color-light: rgba(132, 139, 200, 0.12);
+    --color-shadow: rgba(132, 139, 200, 0.1);
+    --box-shadow: 0 0rem 4rem var(--color-shadow);
+    --box-shadow2: 0 0rem 1.5rem var(--color-shadow);
   }
 /* UTILITY CLASS */
 .span-normal{
@@ -173,38 +177,38 @@ nav ul li a{
 .bed-space{  /* THE WHOLE SECTION */
     position: relative;
     max-width: 1200px;
+    height: 500px;
     margin: auto;
-    padding: 4rem 2rem;
+    padding: 0rem 1rem;
     display: grid;
+    gap: 5rem;
     grid-template-columns: repeat(2, 1fr);
     align-items: center;
 }
 .beds{  /* 4 BEDS AT WHOLE */
-    margin-left: 30px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-    max-width: 350px;
-    padding: 2rem 2rem;
-}
-.bed-container{     /* SINGLE BEDS */
     display: flex;
-    align-items: center;
     flex-direction: column;
-    gap: 0.3rem;
-    max-width: 125px;
-    background: white;
-    padding: 1rem 1rem;
-    border-radius: 5px;
-    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+    align-items: center;
+   justify-content: center;
+    width: 400px;
+    height: 400px;
+    background:rgb(240, 240, 240);
+    box-shadow: var(--box-shadow);
+    border-radius: 20px;
+    margin-right: 40px;
 }
-.bed-container img{
-    max-width: 90px;
+.beds img{
+    margin-left: 25px;
+    width: 300px;
     height: auto;
+    margin-bottom: 10px;
 }
-.bed-container span{
-    font-size: small;
+.beds h1{
+    font-size: x-large;
+    margin-bottom: 4px;
 }
+   
+
 .bed-header{
     display: flex;
     flex-direction: column;
@@ -223,16 +227,16 @@ nav ul li a{
 }
 .weather-check{
     position: relative;
+    height: 500px;
     max-width: 1200px;
     margin: auto;
     padding: 4rem 2rem;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     align-items: center;
-    gap: 3rem;
+    gap: 5rem;
 }
 .weather-header{
-    margin-left: 60px;
     max-width: 520px;
 }
 .weather-header h1{
@@ -242,9 +246,11 @@ nav ul li a{
     -webkit-text-fill-color: transparent;
 }
 .weather-header p{
+    width: 450px;
     line-height: 1.4;
 }
 .weather-container{ /* WHOLE CONTAINER */
+    margin-left: 20px;
     display: flex;
     flex-direction: column;
     padding: 2rem 3rem;
@@ -310,6 +316,7 @@ section{
     width: 950px;
     padding: 0rem 0.5rem;
   }
+  
   
   .card{
     position: relative;

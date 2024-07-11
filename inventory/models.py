@@ -3,8 +3,8 @@ from django.db import models
 # Create your models here.
 class InventoryDetail(models.Model):
     CATEGORY_CHOICES = [
-        ('medicine', 'Medicine'),
-        ('supply', 'Supply'),
+        ('Medicine', 'Medicine'),
+        ('Supply', 'Supply'),
     ]
     item_no = models.SmallIntegerField(default=None)
     unit = models.CharField(max_length=50, null=True)

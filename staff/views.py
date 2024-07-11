@@ -187,7 +187,7 @@ def inventory(request):
     #     for quan in quantity:
     #         if quan.inventory == inv:
     #             inv['quantity'] += quan.updated_quantity 
-    inventory = InventoryDetail.objects.all().annotate(total_quantity=Sum('quantityhistory__updated_quantity')).values('id', 'item_name', 'description', 'expiration_date', 'total_quantity')
+    inventory = InventoryDetail.objects.all().annotate(total_quantity=Sum('quantityhistory__updated_quantity')).values('id', 'item_name', 'category', 'expiration_date', 'total_quantity')
     inventory_list = list(inventory)
 
     

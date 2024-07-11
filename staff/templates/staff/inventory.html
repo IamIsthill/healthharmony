@@ -19,9 +19,9 @@
           <div class="header">
             <h3>Inventory Overview</h3>
             <div>
-              <button>All</button>
-              <button>Medication</button>
-              <button>Supply</button>
+              <button class="inventory-category">All</button>
+              <button class="inventory-category">Medicine</button>
+              <button class="inventory-category">Supply</button>
             </div>
             <div>
               <h4>Sort By</h4>
@@ -41,11 +41,11 @@
                   <th>Expiration Date</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody class="inventory-body">
                 {% for data in inventory %}
                   <tr>
                     <td>{{ data.item_name }}</td>
-                    <td>{{ data.description }}</td>
+                    <td>{{ data.category }}</td>
                     <td>{{ data.total_quantity }}</td>
                     <td>{{ data.expiration_date }}</td>
                   </tr>
@@ -62,4 +62,31 @@
 {% endblock %}
 {% block script %}
   {{ inventory|json_script:'inventory-data' }}
+  <script>
+    // Inventory category
+    let inventoryFilter = 'all'
+    let inventoryData = JSON.parse(document.getElementById('inventory-data').textContent)
+    let filteredData = []
+    const inventoryCategoryBtns = document.querySelectorAll('.inventory-category')
+    inventoryCategoryBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        let text = btn.innerText.toLowerCase()
+        inventoryFilter = text
+        filterInventoryData()
+      })
+    })
+    //==========================================
+    
+    //Function for Filtering inventory data based on the inventoryFilter
+    function filterInventoryData() {
+      if (inventoryFilter === 'all') {
+        filteredData = [...inventoryData]
+      } else {
+        filteredData = inventoryData.filter((data) => {
+          return data.category.toLowerCase() === inventoryFilter
+        })
+      }
+    }
+    //==========================================
+  </script>
 {% endblock %}
