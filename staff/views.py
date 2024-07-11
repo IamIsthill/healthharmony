@@ -181,15 +181,27 @@ def add_issue(request):
     return render(request,'staff/add-issue.html', context)
 
 def inventory(request):
-    # inventory = (list(InventoryDetail.objects.all().values('id', 'item_name', 'description','expiration_date')))
-    # quantity = QuantityHistory.objects.all()
-    # for inv in inventory:
-    #     for quan in quantity:
-    #         if quan.inventory == inv:
-    #             inv['quantity'] += quan.updated_quantity 
+    now = timezone.now()
+    counts = {'medicine_avail': 0, 'medicine_expired': 0, 'supply_avail': 0, 'supply_expired': 0}  
     inventory = InventoryDetail.objects.all().annotate(total_quantity=Sum('quantityhistory__updated_quantity')).values('id', 'item_name', 'category', 'expiration_date', 'total_quantity')
+    for inv in inventory:
+        if inv['total_quantity'] is None:
+            inv['total_quantity'] = 0
+        if inv['category'] == 'Medicine' and inv['expiration_date'] > now.date():
+            counts['medicine_avail'] += inv['total_quantity']
+        if inv['category'] == 'Medicine' and inv['expiration_date'] <= now.date():
+            counts['medicine_expired'] += inv['total_quantity']
+        if inv['category'] == 'Supply' and inv['expiration_date'] > now.date() or inv['expiration_date'] is None:
+            counts['supply_avail'] += inv['total_quantity']
+        if inv['category'] == 'Supply' and inv['expiration_date'] <= now.date():
+            counts['supply_expired'] += inv['total_quantity']
+
+    
+    
+
+
     inventory_list = list(inventory)
 
     
-    context = {'page': 'inventory', 'inventory': inventory_list}
+    context = {'page': 'inventory', 'inventory': inventory_list,'counts': counts }
     return render(request, 'staff/inventory.html', context)

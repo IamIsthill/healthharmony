@@ -13,6 +13,7 @@
     --secondfont: 'Inter', 'san-serif';
   }
 /* UTILITY CLASS */
+
 .span-normal{
     color: var(--normal-fontcolor);
 }
@@ -32,6 +33,66 @@
     color: var(--light_gray);
 }
 /* UTILITY CLASS */
+
+/* POP UP ERROR */
+.containerPage{
+    background: rgba(13, 13, 13, 0.545);
+    position: fixed;
+    top:50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    visibility: hidden;
+    transition: transform 0.4s;
+    z-index: 102;
+    transform: translate(-50%,-50%) scale(0.1);
+}
+.popUp{
+    background: white;
+    width: 430px;
+    padding: 3rem 0rem;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 0.5rem;
+    transform: translate(-50%,-50%);
+}
+.open-popup{
+    transform: translate(-50%,-50%) scale(1);
+    visibility: visible;
+}
+.popUp span{
+    margin-top: 2rem;
+    font-weight: bold;
+    font-size: larger;
+}
+.popUp p{
+    margin-top: 8px;
+}
+.popUp img{
+    width: 300px;
+}
+.popUp button{
+    margin-top: 1.5rem;
+    width: 200px;
+    padding: 10px 0rem;
+    border-radius: 1rem;
+    background: white;
+    border: 1px solid black;
+    cursor: pointer;
+    font-size: large;
+    transition: all 0.3s ease;
+}
+.popUp button:hover{
+    background: black;
+    color: white;
+}
+/* POP UP ERROR */
+
   *{
     padding: 0;
     margin: 0;
