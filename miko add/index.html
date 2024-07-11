@@ -14,6 +14,16 @@
     <title>Health Harmony</title>
 </head>
 <body>
+  <!-- POPUP ERROR-->
+  <div class="containerPage" id="popup">
+    <div class="popUp">
+        <img src="../static/assets/images/landing-page/pop-up.svg">
+        <span>OOPS, SOMETHING WENT WRONG</span>
+        <p>Sorry, there's an error in fetching data</p>
+        <button class="btn" onclick="closePopup()">OK</button>
+    </div>
+</div>
+  <!-- POPUP ERROR -->
     <nav> <!-- TOP PART NAVIGATION BAR -->
         <a href="#"><img src="../static/assets/images/landing-page/logo/logo.svg" class="nav-logo"></a>
         <ul>
@@ -39,7 +49,7 @@
         <div class="hero-content">
             <h1> Streamline <span class="span-yellow">Care</span> Achieve <span class="span-red">Wellbeing</span> with <span class="span-yellow">Health</span> <span class="span-red">Harmony</span></h1>
             <p>Imagine a world where your patients can schedule appointments online, and access their medical records with ease. Health Harmony helps a seamless patient experience, increasing satisfaction and loyalty while reducing administrative burdens. </p>
-            <a><button>View your Medical Record</button></a>
+            <a><button onclick="openPopup()">View your Medical Record</button></a>
         </div>
         <img src="../static/assets/images/landing-page/mainillus.svg" class="main-illus">
     </header>
@@ -356,7 +366,16 @@
 
       <!-- Swiper JS -->
       <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    
       <script src="../miko add/script.js"></script>
+      <script>
+        let popup=document.getElementById("popup");
+        
+        function openPopup(){
+            popup.classList.add("open-popup");
+        }
+        function closePopup(){
+            popup.classList.remove("open-popup");
+        }
+    </script>
 </body>
 </html>
