@@ -9,3 +9,15 @@ var swiper = new Swiper(".mySwiper", {
       prevEl: ".swiper-button-prev",
     },
   });
+
+  let popup=document.getElementById("popup");
+        
+  function openPopup(){
+      popup.classList.add("open-popup");
+  }
+  function closePopup(){
+      popup.classList.remove("open-popup");
+  }
+  document.addEventListener('DOMContentLoaded', ()=>{
+    openPopup()
+  })

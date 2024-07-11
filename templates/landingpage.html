@@ -12,7 +12,11 @@
   <link rel="icon" type="image/png" href="{% static 'assets/svgs/logotitle.svg' %}" />
   <link rel="stylesheet" href="{% static 'css/landing/index.css' %}" />
 {% endblock %}
+
 {% block main %}
+  {% if error %}
+    {% include 'error.html' %}
+  {% endif %}
   {% include 'navbar.html' %}
   {% include 'hero.html' %}
   {% include 'bed.html' %}

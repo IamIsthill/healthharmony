@@ -23,18 +23,19 @@ def home(request):
     icon = weather_info['icon']
     predict = pred(season, weather, df, model, le_season, le_sickness, le_weather)
     beds = None
+    context = {}
     try:
         beds = BedStat.objects.all()
     except Exception as e:
-        messages.error(request, f'Error: {e}')
-    
-    context = {
+        context = {'error': 'Error fetching bed data'}
+
+    context.update({
         'temp': temp,
-        'feels':feels,
+        'feels': feels,
         'predict': predict[0],
         'icon': icon,
-        'beds': beds
-        } 
+        'beds': beds,
+    })
     
     return render(request, 'landingpage.html', context)
 
