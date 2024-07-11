@@ -292,7 +292,13 @@ nav ul li a{
 }
 .temp-part{     /* TOP PART */
     display: flex;
+    align-items: center;
     gap: 0.5rem;
+
+}
+.temp-part img{
+    width: 70px;
+    height: auto;
 }
 .temp-heatwave{ 
     display: flex;
@@ -301,6 +307,7 @@ nav ul li a{
 .temp-heatwave h1{  
     font-size:xxx-large;
     font-weight: 400;
+    margin-top: 10px;
     line-height: 0.7;
 }
 .heatwave span{
