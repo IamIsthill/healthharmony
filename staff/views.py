@@ -5,6 +5,7 @@ import secrets
 import string
 from treatment.models import Illness, Certificate, Category
 from inventory.models import InventoryDetail, QuantityHistory
+from django.db.models import Sum
 from datetime import datetime
 from django.utils import timezone
 from datetime import timedelta
@@ -180,7 +181,15 @@ def add_issue(request):
     return render(request,'staff/add-issue.html', context)
 
 def inventory(request):
-    inventory = (list(InventoryDetail.objects.all().values('id', 'item_name', 'description','expiration_date', 'orig_quantity')))
+    # inventory = (list(InventoryDetail.objects.all().values('id', 'item_name', 'description','expiration_date')))
+    # quantity = QuantityHistory.objects.all()
+    # for inv in inventory:
+    #     for quan in quantity:
+    #         if quan.inventory == inv:
+    #             inv['quantity'] += quan.updated_quantity 
+    inventory = InventoryDetail.objects.all().annotate(total_quantity=Sum('quantityhistory__updated_quantity')).values('id', 'item_name', 'category', 'expiration_date', 'total_quantity')
+    inventory_list = list(inventory)
+
     
-    context = {'page': 'inventory', 'inventory': inventory}
+    context = {'page': 'inventory', 'inventory': inventory_list}
     return render(request, 'staff/inventory.html', context)

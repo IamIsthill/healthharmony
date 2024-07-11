@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}
-  HealthHarmony | Inventory
+  Inventory | HealthHarmony
 {% endblock %}
 {% block header %}
 
@@ -19,15 +19,20 @@
           <div class="header">
             <h3>Inventory Overview</h3>
             <div>
-              <button>All</button>
-              <button>Medication</button>
-              <button>Supply</button>
+              <button class="search-btn">Search</button>
+              <input type="text" id="search-field" />
+            </div>
+            <div>
+              <button class="inventory-category">All</button>
+              <button class="inventory-category">Medicine</button>
+              <button class="inventory-category">Supply</button>
             </div>
             <div>
               <h4>Sort By</h4>
               <div>
-                <button>Date</button>
-                <button>Name</button>
+                <button class="inventory-sorter">Date</button>
+                <button class="inventory-sorter">Name</button>
+                <button class="inventory-sorter">Stock</button>
               </div>
             </div>
           </div>
@@ -41,17 +46,28 @@
                   <th>Expiration Date</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="inventory-body">
                 {% for data in inventory %}
                   <tr>
                     <td>{{ data.item_name }}</td>
-                    <td>{{ data.description }}</td>
-                    <td>{{ data.orig_quantity }}</td>
+                    <td>{{ data.category }}</td>
+                    <td>{{ data.total_quantity }}</td>
                     <td>{{ data.expiration_date }}</td>
                   </tr>
                 {% endfor %}
               </tbody>
             </table>
+          </div>
+        </div>
+        <div class="right">
+          <div>
+            <h2>Inventory Chart</h2>
+          </div>
+          <div>
+            <h4>Medicines</h4>
+          </div>
+          <div>
+            <h4>Supply</h4>
           </div>
         </div>
       </div>
@@ -61,4 +77,173 @@
 {% endblock %}
 {% block script %}
   {{ inventory|json_script:'inventory-data' }}
+  <script>
+    // Inventory category
+    let inventoryFilter = 'all'
+    let inventoryData = JSON.parse(document.getElementById('inventory-data').textContent)
+    let filteredData = [...inventoryData]
+    const inventoryCategoryBtns = document.querySelectorAll('.inventory-category')
+    inventoryCategoryBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        let text = btn.innerText.toLowerCase()
+        inventoryFilter = text
+        filterInventoryData()
+        renderFilteredInventory()
+      })
+    })
+    //==========================================
+    
+    //Function for Filtering inventory data based on the inventoryFilter
+    function filterInventoryData() {
+      if (inventoryFilter === 'all') {
+        filteredData = [...inventoryData]
+      } else {
+        filteredData = inventoryData.filter((data) => {
+          return data.category.toLowerCase() === inventoryFilter
+        })
+      }
+    }
+    //==========================================
+    
+    //Function for rendering the updated table based on the inventoryFilter
+    function renderFilteredInventory() {
+      const inventoryBody = document.getElementById('inventory-body')
+      let mainHTML = ''
+      if (filteredData.length > 0) {
+        filteredData.forEach((data) => {
+          let html = `
+          <tr>
+            <td>${data.item_name}</td>
+            <td>${data.category}</td>
+            <td>${data.total_quantity}</td>
+            <td>${formatDate(data.expiration_date)}</td>
+          </tr>
+          `
+          mainHTML += html
+        })
+      } else {
+        mainHTML = `
+                            <tr>
+                            No Data
+                            </tr>
+                            `
+      }
+    
+      inventoryBody.innerHTML = mainHTML
+    }
+    //==========================================
+    
+    //Function to format the date
+    function formatDate(dateString) {
+      const date = new Date(dateString)
+    
+      // Define options for date formatting
+      const options = {
+        year: 'numeric',
+        month: 'short', // Short month name (e.g., "Feb.")
+        day: 'numeric'
+      }
+    
+      // Format the date using Intl.DateTimeFormat
+      const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date)
+      return formattedDate
+    }
+    //==========================================
+    
+    // Inventory Sort
+    let sortDirection = {
+      name: 'asc',
+      stock: 'asc',
+      date: 'asc'
+    }
+    const inventorySortBtns = document.querySelectorAll('.inventory-sorter')
+    inventorySortBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        let text = btn.innerText.toLowerCase()
+    
+        if (sortDirection[text] === 'asc') {
+          sortDirection[text] = 'desc'
+        } else {
+          sortDirection[text] = 'asc'
+        }
+        if (text === 'name') {
+          filteredData = [...filteredData.sort((a, b) => compareItemNames(a, b, sortDirection.name))]
+        } else if (text === 'stock') {
+          filteredData = [...filteredData.sort((a, b) => compareStock(a, b, sortDirection.stock))]
+        } else if (text === 'date') {
+          filteredData = [...filteredData.sort((a, b) => compareDates(a, b, sortDirection.date))]
+        }
+    
+        renderFilteredInventory()
+      })
+    })
+    //==========================================
+    
+    // Function to compare item names for sorting
+    function compareItemNames(a, b, direction) {
+      const itemA = a.item_name.toLowerCase()
+      const itemB = b.item_name.toLowerCase()
+    
+      if (direction === 'asc') {
+        if (itemA < itemB) {
+          return -1
+        }
+        if (itemA > itemB) {
+          return 1
+        }
+      } else {
+        if (itemA < itemB) {
+          return 1
+        }
+        if (itemA > itemB) {
+          return -1
+        }
+      }
+      return 0
+    }
+    //==========================================
+    
+    // Function to compare stock for sorting
+    function compareStock(a, b, direction) {
+      const stockA = a.total_quantity || 0
+      const stockB = b.total_quantity || 0
+    
+      if (direction === 'asc') {
+        return stockA - stockB
+      } else {
+        return stockB - stockA
+      }
+    }
+    
+    //==========================================
+    
+    // Function to compare stock for sorting
+    function compareDates(a, b, direction) {
+      const dateA = new Date(a.expiration_date)
+      const dateB = new Date(b.expiration_date)
+    
+      if (direction === 'asc') {
+        return dateA - dateB
+      } else {
+        return dateB - dateA
+      }
+    }
+    //==========================================
+    
+    //
+    const searchField = document.getElementById('search-field')
+    const searchBtn = document.querySelector('.search-btn')
+    searchBtn.addEventListener('click', () => {
+      let text = searchField.value.toLowerCase()
+      filteredData = [
+        ...inventoryData.filter((data) => {
+          return data.item_name.toLowerCase().includes(text)
+        })
+      ]
+      searchField.value = ''
+      renderFilteredInventory()
+    })
+    
+    //==========================================
+  </script>
 {% endblock %}

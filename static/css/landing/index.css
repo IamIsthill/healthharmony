@@ -38,6 +38,7 @@
     outline: none;
     border: none;
     box-sizing: border-box;
+    text-decoration: none;
   }
 body{
     margin: 0;
@@ -54,7 +55,7 @@ nav{
     position:sticky;
     top: 0;
     background: white;
-    z-index: 1;
+    z-index: 101;
     width: 100%;
     pad: 0 1rem;
     padding-left: 1rem;
@@ -173,29 +174,64 @@ nav ul li a{
 .bed-space{  /* THE WHOLE SECTION */
     position: relative;
     max-width: 1200px;
+    height: 500px;
     margin: auto;
     padding: 4rem 2rem;
     display: grid;
+    gap: 10rem;
     grid-template-columns: repeat(2, 1fr);
     align-items: center;
 }
 .beds{  /* 4 BEDS AT WHOLE */
-    margin-left: 30px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
+    gap: 1.4rem;
     max-width: 350px;
     padding: 2rem 2rem;
+    margin-right: 30px;
+}
+.bed-space2{  /* THE WHOLE SECTION */
+    position: relative;
+    max-width: 1200px;
+    height: 500px;
+    margin: auto;
+    padding: 0rem 1rem;
+    display: grid;
+    gap: 5rem;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+}
+.beds2{  /* 4 BEDS AT WHOLE */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   justify-content: center;
+    width: 400px;
+    height: 400px;
+    background:rgb(240, 240, 240);
+    box-shadow: var(--box-shadow);
+    border-radius: 20px;
+    margin-right: 40px;
+}
+.beds2 img{
+    margin-left: 25px;
+    width: 300px;
+    height: auto;
+    margin-bottom: 10px;
+}
+.beds2 h1{
+    font-size: x-large;
+    margin-bottom: 4px;
 }
 .bed-container{     /* SINGLE BEDS */
     display: flex;
     align-items: center;
     flex-direction: column;
-    gap: 0.3rem;
-    max-width: 125px;
+    gap: 1rem;
+    width: 170px;
     background: white;
-    padding: 1rem 1rem;
-    border-radius: 5px;
+    padding: 1.2rem 2.5rem;
+    border-radius: 10px;
     box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
 }
 .bed-container img{
@@ -203,7 +239,7 @@ nav ul li a{
     height: auto;
 }
 .bed-container span{
-    font-size: small;
+    font-size: medium;
 }
 .bed-header{
     display: flex;
@@ -224,12 +260,13 @@ nav ul li a{
 .weather-check{
     position: relative;
     max-width: 1200px;
+    height: 500px;
     margin: auto;
     padding: 4rem 2rem;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     align-items: center;
-    gap: 3rem;
+    gap: 10rem;
 }
 .weather-header{
     margin-left: 60px;
@@ -256,7 +293,13 @@ nav ul li a{
 }
 .temp-part{     /* TOP PART */
     display: flex;
+    align-items: center;
     gap: 0.5rem;
+
+}
+.temp-part img{
+    width: 70px;
+    height: auto;
 }
 .temp-heatwave{ 
     display: flex;
@@ -265,6 +308,7 @@ nav ul li a{
 .temp-heatwave h1{  
     font-size:xxx-large;
     font-weight: 400;
+    margin-top: 10px;
     line-height: 0.7;
 }
 .heatwave span{
@@ -298,8 +342,9 @@ nav ul li a{
     margin-top: 5px;
 }
 section{
+    padding: 2rem 0rem;
     position: relative;  
-    height: 500px;
+    height: 550px;
     width: 1075px;
     display: flex;
     flex-direction: column;
@@ -439,3 +484,70 @@ section{
     opacity: 1;
     color: rgb(42, 38, 38);
   }
+  .aboutUs{
+    padding: 3rem 0rem;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .container-aboutUs, .mission-container{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+    text-align: center;
+  }
+.container-aboutUs h1{
+
+}
+.container-aboutUs p{
+    width: 900px;
+}
+.mission-container h3{
+    font-size: 1.4rem;
+}
+.mission-container p{
+    width: 800px;
+    font-size: 1rem;
+}
+footer{
+    color: white;
+    background: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 380px;
+    padding: 1rem 0rem;
+}
+footer h1{
+    padding: 0.3rem 0rem;
+}
+.contact-info{
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin-right: 5rem;
+}
+.right-info{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.email-info a{
+    color: white;
+}
+.right-info h3{
+    font-size: x-large;
+    font-weight: 500;
+}
+.right-info span{
+    font-size: 14px;
+}
+footer p{
+    padding-top: 2rem;
+    font-size: small;
+}
