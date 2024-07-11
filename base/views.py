@@ -29,7 +29,6 @@ def home(request):
         messages.error(request, f'Error: {e}')
     
     context = {
-        # 'f_df': f_df.to_dict('records'),
         'temp': temp,
         'feels':feels,
         'predict': predict[0],
@@ -38,7 +37,4 @@ def home(request):
         } 
     
     return render(request, 'landingpage.html', context)
-def weather(request):
-    context = {}
-    return render(request, 'weather.html', context)
 

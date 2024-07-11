@@ -12,6 +12,7 @@
     {% include 'staff/navbar.html' %}
     <div>
       <h1>Inventory</h1>
+      {{ counts }}
     </div>
     <div class="graphs">
       <div class="upper">
@@ -20,7 +21,7 @@
             <h3>Inventory Overview</h3>
             <div>
               <button class="search-btn">Search</button>
-              <input type="text" id="search-field" />
+              <input type="text" id="search-field" placeholder="Search inventory..." />
             </div>
             <div>
               <button class="inventory-category">All</button>
@@ -60,14 +61,21 @@
           </div>
         </div>
         <div class="right">
-          <div>
-            <h2>Inventory Chart</h2>
+          <div class="top">
+            <div>
+              <h2>Inventory Chart</h2>
+            </div>
+            <div>
+              <h4>Medicines</h4>
+            </div>
+            <div>
+              <h4>Supply</h4>
+            </div>
           </div>
           <div>
-            <h4>Medicines</h4>
-          </div>
-          <div>
-            <h4>Supply</h4>
+            <div>
+              <canvas id="inventory-chart"></canvas>
+            </div>
           </div>
         </div>
       </div>
@@ -77,6 +85,7 @@
 {% endblock %}
 {% block script %}
   {{ inventory|json_script:'inventory-data' }}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
     // Inventory category
     let inventoryFilter = 'all'
@@ -112,21 +121,21 @@
       if (filteredData.length > 0) {
         filteredData.forEach((data) => {
           let html = `
-          <tr>
-            <td>${data.item_name}</td>
-            <td>${data.category}</td>
-            <td>${data.total_quantity}</td>
-            <td>${formatDate(data.expiration_date)}</td>
-          </tr>
-          `
+                                                                                                                                                                      <tr>
+                                                                                                                                                                        <td>${data.item_name}</td>
+                                                                                                                                                                        <td>${data.category}</td>
+                                                                                                                                                                        <td>${data.total_quantity}</td>
+                                                                                                                                                                        <td>${formatDate(data.expiration_date)}</td>
+                                                                                                                                                                      </tr>
+                                                                                                                                                                      `
           mainHTML += html
         })
       } else {
         mainHTML = `
-                            <tr>
-                            No Data
-                            </tr>
-                            `
+                                                                                                                                                                                        <tr>
+                                                                                                                                                                                        No Data
+                                                                                                                                                                                        </tr>
+                                                                                                                                                                                        `
       }
     
       inventoryBody.innerHTML = mainHTML
@@ -230,10 +239,21 @@
     }
     //==========================================
     
-    //
+    // Searching function for the inventory
     const searchField = document.getElementById('search-field')
     const searchBtn = document.querySelector('.search-btn')
-    searchBtn.addEventListener('click', () => {
+    
+    //User presses button
+    searchBtn.addEventListener('click', searchInventory)
+    
+    //User presses enter
+    searchField.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        searchInventory()
+      }
+    })
+    
+    function searchInventory() {
       let text = searchField.value.toLowerCase()
       filteredData = [
         ...inventoryData.filter((data) => {
@@ -242,8 +262,46 @@
       ]
       searchField.value = ''
       renderFilteredInventory()
-    })
+    }
+    //==========================================
     
+    //Inventory chart
+    const inventoryChartCanvas = document.getElementById('inventory-chart')
+    
+    new Chart(inventoryChartCanvas, {
+      type: 'bar',
+      data: {
+        labels: ['Current Stocks', 'Expired Items'],
+        datasets: [
+          {
+            label: 'Medicines',
+            data: [{{counts.medicine_avail}}, {{counts.supply_avail}}],
+            backgroundColor: 'rgba(204, 144, 0, 1)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+          },
+          {
+            label: 'Supply',
+            data: [{{counts.medicine_expired}}, {{counts.supply_expired}}],
+            backgroundColor: 'rgba(153, 13, 0, 1)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        scales: {
+          x: {
+            stacked: true
+          },
+          y: {
+            beginAtZero: false,
+            stacked: true,
+            min: 0
+          }
+        }
+      }
+    })
     //==========================================
   </script>
 {% endblock %}
