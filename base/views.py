@@ -27,7 +27,7 @@ def home(request):
     try:
         beds = BedStat.objects.all()
     except Exception as e:
-        context = {'error': 'Error fetching bed data'}
+        messages.error(request, f'Error: {e}')
 
     context.update({
         'temp': temp,
