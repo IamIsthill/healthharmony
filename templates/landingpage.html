@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load tags %}
 {% block title %}
   HealthHarmony
 {% endblock %}
@@ -12,11 +13,13 @@
   <link rel="icon" type="image/png" href="{% static 'assets/svgs/logotitle.svg' %}" />
   <link rel="stylesheet" href="{% static 'css/landing/index.css' %}" />
 {% endblock %}
-
-{% block main %}
-  {% if error %}
+{% block message %}
+  {% if messages|has_error_message %}
     {% include 'error.html' %}
   {% endif %}
+{% endblock %}
+
+{% block main %}
   {% include 'navbar.html' %}
   {% include 'hero.html' %}
   {% include 'bed.html' %}
