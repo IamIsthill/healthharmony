@@ -17,9 +17,9 @@ class InventoryDetail(models.Model):
         return self.item_name
     
 class QuantityHistory(models.Model):
-    inventory = models.ForeignKey(InventoryDetail, on_delete=models.SET_NULL, null=True)
+    inventory = models.ForeignKey(InventoryDetail, on_delete=models.SET_NULL, null=True, related_name='quantities')
     updated_quantity = models.IntegerField(null=False, blank=False)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    timestamp = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         view = f'{self.inventory.item_name} - {self.updated_quantity}'

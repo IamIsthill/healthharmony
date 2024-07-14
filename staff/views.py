@@ -183,7 +183,7 @@ def add_issue(request):
 def inventory(request):
     now = timezone.now()
     counts = {'medicine_avail': 0, 'medicine_expired': 0, 'supply_avail': 0, 'supply_expired': 0}  
-    inventory = InventoryDetail.objects.all().annotate(total_quantity=Sum('quantityhistory__updated_quantity')).values('id', 'item_name', 'category', 'expiration_date', 'total_quantity')
+    inventory = InventoryDetail.objects.all().annotate(total_quantity=Sum('quantities__updated_quantity')).values('id', 'item_name', 'category', 'expiration_date', 'total_quantity')
     inventory_data = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
     for inv in inventory:
         if inv['total_quantity'] is None:
@@ -201,30 +201,43 @@ def inventory(request):
     for month_offset in range(13):
         current_month = start_date + relativedelta(months=month_offset)
         next_month = current_month + relativedelta(months=1)
-
         inventory_data['medicine']['year'][current_month.strftime('%B')] = 0
         inventory_data['supply']['year'][current_month.strftime('%B')] = 0
+        inventory_data['medicine']['detail-year'][inv['item_name']] = 0
+        inventory_data['supply']['detail-year'][inv['item_name']] = 0
 
         for inv in inventory:
+            item_data = InventoryDetail.objects.get(pk = inv['id'])
+            item_data_quantity = item_data.quantities.filter(timestamp__gte = current_month, timestamp__lt = next_month).aggregate(total_quantity=Sum('updated_quantity'))
             if inv['category'] == 'Medicine' and inv['expiration_date'] >= current_month.date() and inv['expiration_date'] < next_month.date():
                 inventory_data['medicine']['year'][current_month.strftime('%B')] += inv['total_quantity']
             elif inv['category'] == 'Supply' and inv['expiration_date'] >= current_month.date() and inv['expiration_date'] < next_month.date():
                 inventory_data['supply']['year'][current_month.strftime('%B')] += inv['total_quantity']
+            if inv['category'] == 'Medicine':
+                inventory_data['medicine']['detail-year'][inv['item_name']] = item_data_quantity['total_quantity'] or 0
+            if inv['category'] == 'Supply':
+                inventory_data['supply']['detail-year'][inv['item_name']] = item_data_quantity['total_quantity'] or 0
 
 
     last30days = (now - timedelta(days=30))
     for five_offset in range(6):
         current_day = last30days + timedelta(days=five_offset*5)
         next_five = current_day + timedelta(days=5)
-
         inventory_data['medicine']['month'][current_day.strftime('%B %d')] = 0
         inventory_data['supply']['month'][current_day.strftime('%B %d')] = 0
 
+
         for inv in inventory:
+            item_data = InventoryDetail.objects.get(pk = inv['id'])
+            item_data_quantity = item_data.quantities.filter(timestamp__gte = current_day, timestamp__lt = next_five).aggregate(total_quantity=Sum('updated_quantity'))
             if inv['category'] == 'Medicine' and inv['expiration_date'] >= current_day.date() and inv['expiration_date'] < next_five.date():
                 inventory_data['medicine']['month'][current_day.strftime('%B %d')] += inv['total_quantity']
             elif inv['category'] == 'Supply' and inv['expiration_date'] >= current_day.date() and inv['expiration_date'] < next_five.date():
                 inventory_data['supply']['month'][current_day.strftime('%B %d')] += inv['total_quantity']
+            if inv['category'] == 'Medicine':
+                inventory_data['medicine']['detail-month'][inv['item_name']] = item_data_quantity['total_quantity'] or 0
+            if inv['category'] == 'Supply':
+                inventory_data['supply']['detail-month'][inv['item_name']] = item_data_quantity['total_quantity'] or 0
                 
     week = now - timedelta(days=6)
     for day_offset in range(7):
@@ -236,10 +249,16 @@ def inventory(request):
         inventory_data['supply']['week'][start_of_day.strftime('%B %d')] = 0
 
         for inv in inventory:
+            item_data = InventoryDetail.objects.get(pk = inv['id'])
+            item_data_quantity = item_data.quantities.filter(timestamp__gte = start_of_day, timestamp__lt = end_of_day).aggregate(total_quantity=Sum('updated_quantity'))
             if inv['category'] == 'Medicine' and inv['expiration_date'] >= start_of_day.date() and inv['expiration_date'] < end_of_day.date():
                 inventory_data['medicine']['week'][start_of_day.strftime('%B %d')] += inv['total_quantity']
             elif inv['category'] == 'Supply' and inv['expiration_date'] >= start_of_day.date() and inv['expiration_date'] < end_of_day.date():
                 inventory_data['supply']['week'][current_day.strftime('%B %d')] += inv['total_quantity']
+            if inv['category'] == 'Medicine':
+                inventory_data['medicine']['detail-week'][inv['item_name']] = item_data_quantity['total_quantity'] or 0
+            if inv['category'] == 'Supply':
+                inventory_data['supply']['detail-week'][inv['item_name']] = item_data_quantity['total_quantity'] or 0
         
     inventory_list = list(inventory)
 
