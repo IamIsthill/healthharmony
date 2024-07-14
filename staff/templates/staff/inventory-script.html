@@ -279,7 +279,6 @@ function updateSeasonalCanvas(seasonalCanvas){
     filteredInventoryCounts = filterInventoryCounts(trendData, filterTrendData)
     let xLabels=[]
     let dataPoints = []
-    console.log(filteredInventoryCounts)
     Object.entries(filteredInventoryCounts).forEach(([key, value]) => {
     xLabels.push(key)
     dataPoints.push(value)
@@ -321,4 +320,93 @@ function updateSeasonalCanvas(seasonalCanvas){
 }
 //========================================== 
 
+// Prepare data for populating the seasonal bars
+let seasonalBarFilter = 'week'
+let seasonalBarData = 'medicine'
+let filteredSeasonalBarData = filterSeasonalBarData()
+
+
+//========================================== 
+
+
+// Filter seasonal bar data
+function filterSeasonalBarData(){
+    return inventoryCounts[seasonalBarData][`detail-${seasonalBarFilter}`]
+}
+
+//========================================== 
+
+
+
+//Date Filter for the seasonal bars
+const seasonalBarFilterBtns = document.querySelectorAll('.seasonal-bar-filter')
+seasonalBarFilterBtns.forEach((btn)=>{
+    btn.addEventListener('click', ()=>{
+        let text = btn.getAttribute('data-filter').toLowerCase()
+        seasonalBarFilter = text
+        filteredSeasonalBarData = filterSeasonalBarData()
+        createSeasonalBarCanvas()
+    })
+
+})
+
+//========================================== 
+
+// Category Filter for seasonal bars
+const seasonalCategoryBars = document.querySelectorAll('.seasonal-bar-category')
+seasonalCategoryBars.forEach((btn)=>{
+    btn.addEventListener('click', ()=>{
+        let text = btn.getAttribute('data-filter').toLowerCase()
+        seasonalBarData = text
+        filteredSeasonalBarData = filterSeasonalBarData()
+        createSeasonalBarCanvas()
+    })
+})
+//========================================== 
+
+//Function for Creating canvas for each inventory data
+function createSeasonalBarCanvas(){
+    const seasonalBarSpace = document.getElementById('bar-space')
+    let html = ''
+    filteredSeasonalBarData = filterSeasonalBarData()
+    let maxCount = 0
+    Object.entries(filteredSeasonalBarData).forEach(([key, value], index)=>{
+        let text = `
+            <h5>${key}</h5>
+            <div class="seasonal-bars">
+                <canvas id="${index}-${key}"></canvas>
+            </div>
+        `
+        html += text
+        maxCount += value
+    })
+    seasonalBarSpace.innerHTML = html
+    Object.entries(filteredSeasonalBarData).forEach(([key, value], index)=>{
+        let canvas = document.getElementById(`${index}-${key}`)
+        let ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        canvas.width = 0
+        canvas.height = 0
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = canvas.parentElement.clientHeight;
+
+        //background bar
+        ctx.fillStyle = '#E4E7EC'
+        ctx.fillRect(0,0,parseInt(canvas.width),parseInt(canvas.height))
+
+        //foreground bar
+        ctx.fillStyle = '#141C24'
+        let width = (parseInt(canvas.width))/maxCount*(parseInt(value))
+        ctx.fillRect(0,0,width,parseInt(canvas.height))
+    })
+
+
+}
+createSeasonalBarCanvas()
+//========================================== 
+
+// Function for creating the bars
+//========================================== 
 </script>
+
+
