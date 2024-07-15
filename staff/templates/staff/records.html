@@ -1,0 +1,258 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  Records | HealthHarmony
+{% endblock %}
+{% block header %}
+  <style>
+    /* The Modal (background) */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0, 0, 0); /* Fallback color */
+      background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    }
+    
+    /* Modal Content/Box */
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto; /* 15% from the top and centered */
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%; /* Could be more or less, depending on screen size */
+    }
+    
+    /* The Close Button */
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
+{% endblock %}
+
+{% block message %}
+
+{% endblock %}
+{% block main %}
+  <div class="container">
+    {% include 'staff/navbar.html' %}
+  </div>
+  <div>
+    <h3>Visit and Request History</h3>
+    <div class="upper">
+      <h4>Visit History</h4>
+      <div>
+        <button id="myBtn">Add Record</button>
+
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+          <!-- Modal content -->
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Some text in the Modal..</p>
+          </div>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Date and Time of Visit</th>
+            <th>Patient</th>
+            <th>Concern</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if history %}
+            {% for data in history %}
+              <tr>
+                <td>{{ data.added }}</td>
+                <td>{{ data.first_name }} {{ data.last_name }}</td>
+                <td>{{ data.issue }}</td>
+                <td>
+                  {% if data.diagnosis %}
+                    Finished
+                  {% else %}
+                    Ongoing
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td>No available data</td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+    <div class="lower">
+      <div class="left">
+        <h4>Request Summary</h4>
+        <div>
+          <button class="request-date-filter" data-filter="week">Last 7 days</button>
+          <button class="request-date-filter" data-filter="month">Last 30 days</button>
+          <button class="request-date-filter" data-filter="year">Last 12 months</button>
+        </div>
+        <div class="main-content">
+          <table>
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Requester</th>
+                <th>Purpose</th>
+                <th>Date Requested</th>
+              </tr>
+            </thead>
+            <tbody class="request-body">
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <button class="request-status-filter" data-filter="all">All</button>
+          <button class="request-status-filter" data-filter="pending">Pending</button>
+          <button class="request-status-filter" data-filter="released">Released</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block script %}
+  <script>
+    // Get the modal
+    var modal = document.getElementById('myModal')
+    
+    // Get the button that opens the modal
+    var btn = document.getElementById('myBtn')
+    
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName('close')[0]
+    
+    // When the user clicks on the button, open the modal
+    btn.onclick = function () {
+      modal.style.display = 'block'
+    }
+    
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+      modal.style.display = 'none'
+    }
+    
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = 'none'
+      }
+    }
+    
+    //==========================================
+    
+    // When document fully renders, call certicate_sorter in api to get the data for populate request history
+    let requestDateFilter = 'week'
+    let requestStatusFilter = 'all'
+    async function fetchData() {
+      try {
+        const baseUrl = window.location.origin
+        let url = new URL(baseUrl + '/api/staff/records/request-data/')
+        const params = {
+          status_filter: requestStatusFilter,
+          date_filter: requestDateFilter
+        }
+    
+        // Append parameters to URL
+        Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]))
+    
+        const response = await fetch(url)
+        if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText)
+        }
+        const data = await response.json()
+        console.log(data)
+        createRequests(data)
+      } catch (error) {
+        console.error('There has been a problem with your fetch operation:', error)
+      }
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchData()
+    })
+    //Function to populate the table
+    
+    const requestSpace = document.querySelector('.request-body')
+    
+    function createRequests(data) {
+      let html = ''
+      data.forEach((line) => {
+        let text = `
+            <tr>
+              <td>${line.email}</td>
+              <td>${line.first_name} ${line.last_name}</td>
+              <td>${line.purpose}</td>
+              <td>${formatDate(line.requested)}</td>
+            </tr>
+                  
+                    `
+        html += text
+      })
+      requestSpace.innerHTML = html
+    }
+    //==========================================
+    
+    // Date Filters
+    const requestDateFilters = document.querySelectorAll('.request-date-filter')
+    requestDateFilters.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        let text = btn.getAttribute('data-filter').toLowerCase()
+        requestDateFilter = text
+        fetchData()
+      })
+    })
+    
+    //==========================================
+    
+    // Status Filters
+    const requestStatusFilters = document.querySelectorAll('.request-status-filter')
+    requestStatusFilters.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        let text = btn.getAttribute('data-filter').toLowerCase()
+        requestStatusFilter = text
+        fetchData()
+      })
+    })
+    
+    //==========================================
+    //Date Formatter
+    function formatDate(datestring) {
+      const date = new Date(datestring)
+    
+      const options = { year: 'numeric', month: 'long', day: 'numeric' }
+    
+      // Format the date using toLocaleDateString()
+      const formattedDate = date.toLocaleDateString('en-US', options)
+      return formattedDate
+    }
+    //==========================================
+  </script>
+{% endblock %}

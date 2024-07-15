@@ -47,3 +47,7 @@ function dockerbuild(){
 function dockerrun(){
   docker run --publish 8000:8000 healthharmony
 }
+
+function seed(){
+  python manage.py seed "$1"
+}

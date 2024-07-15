@@ -7,11 +7,27 @@
     <a href="{% url 'staff-overview' %}" class="{% if page == 'overview' %}active{% endif %}">
       <img src="{% static 'assets/images/nav/dashboard.svg' %}"
         class="{% if page == 'overview' %}
+          
+          
+          
           active
+
+
         {% else %}
+          
+          
           span-lightgray
+
+
         {% endif %}" />
       <span class="{% if page == 'overview' %}
+          
+          
+          
+          
+          
+          
+          
           
           
           
@@ -21,12 +37,33 @@
 
 
 
+
+
+
+
+
+
+
         {% else %}
           
           
           
           
+          
+          
+          
+          
+          
+          
+          
           span-lightgray
+
+
+
+
+
+
+
 
 
 
@@ -42,12 +79,33 @@
           
           
           
+          
+          
+          
+          
+          
+          
+          
       span-yellow
 
 
 
 
+
+
+
+
+
+
+
         {% else %}
+          
+          
+          
+          
+          
+          
+          
           
           
       
@@ -57,17 +115,124 @@
 
 
 
+
+
+
+
+
+
+
         {% endif %}">
         Inventory
       </span>
     </a>
-    <a href="#">
+    <a href="{% url 'staff-records' %}" class="{% if page == 'records' %}active{% endif %}">
       <img src="{% static 'assets/images/nav/record.svg' %}" />
-      <span class="span-lightgray">Record</span>
+      <span class="{% if page == 'records' %}
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+      span-yellow
+
+
+
+
+
+
+
+
+
+
+
+        {% else %}
+          
+          
+          
+          
+          
+          
+          
+          
+          
+      
+      
+      span-lightgray
+
+
+
+
+
+
+
+
+
+
+
+        {% endif %}">
+        Record
+      </span>
     </a>
-    <a href="#">
+    <a href="{% url 'staff-bed' %}" class="{% if page == 'bed' %}active{% endif %}">
       <img src="{% static 'assets/images/nav/features.svg' %}" />
-      <span class="span-lightgray">Features</span>
+      <span class="{% if page == 'bed' %}
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+      span-yellow
+
+
+
+
+
+
+
+
+
+
+
+        {% else %}
+          
+          
+          
+          
+          
+          
+          
+          
+          
+      
+      
+      span-lightgray
+
+
+
+
+
+
+
+
+
+
+
+        {% endif %}">
+        Features
+      </span>
     </a>
     <a href="#">
       <img src="{% static 'assets/images/nav/account.svg' %}" />

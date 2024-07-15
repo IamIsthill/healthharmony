@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tags %}
+{% block title %}
+  Bed Monitor | HealthHarmony
+{% endblock %}
+
+{% block header %}
+
+{% endblock %}
+
+{% block message %}
+  {% if messages|has_error_message %}
+    <div class="error">
+      <h2>Sorry, data was unavailable. Please reload the page.</h2>
+    </div>
+  {% endif %}
+{% endblock %}
+{% block main %}
+  <div class="container">
+    {% include 'staff/navbar.html' %}
+    <div>
+      <h3>Bed Monitor</h3>
+      {% if beds %}
+        {% for bed in beds %}
+          <form action="{% url 'staff-bed-handler' bed.id %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="status" value="{{ bed.status }}" />
+            <h4>Bed {{ forloop.counter }}</h4>
+            <button type="submit">
+              {% if bed.status == True %}
+                Occupied
+              {% else %}
+                Available
+              {% endif %}
+            </button>
+          </form>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
+{% block script %}
+
+{% endblock %}
