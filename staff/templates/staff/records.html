@@ -65,7 +65,15 @@
           <!-- Modal content -->
           <div class="modal-content">
             <span class="close">&times;</span>
-            <p>Some text in the Modal..</p>
+            <form action="{% url 'create-patient-add-issue' %}" method="POST">
+              {% csrf_token %}
+              <label for="">Patient Email</label>
+              <input type="text" name="patient" list="patients" />
+              <datalist id="patients"></datalist>
+              <label for="">Issue</label>
+              <input type="text" name="issue" />
+              <button type="submit">Add Complaint</button>
+            </form>
           </div>
         </div>
       </div>
@@ -136,10 +144,16 @@
           <button class="request-status-filter" data-filter="released">Released</button>
         </div>
       </div>
+      <div class="right">
+        <div class="bar-space">
+          <canvas id="request-bar"></canvas>
+        </div>
+      </div>
     </div>
   </div>
 {% endblock %}
 {% block script %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
     // Get the modal
     var modal = document.getElementById('myModal')
@@ -172,6 +186,28 @@
     // When document fully renders, call certicate_sorter in api to get the data for populate request history
     let requestDateFilter = 'week'
     let requestStatusFilter = 'all'
+    async function fetchCertificateData() {
+      try {
+        const baseUrl = window.location.origin
+        let url = new URL(baseUrl + '/api/staff/records/certificate-data/')
+        const params = {
+          status_filter: requestStatusFilter,
+          date_filter: requestDateFilter
+        }
+    
+        // Append parameters to URL
+        Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]))
+    
+        const response = await fetch(url)
+        if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText)
+        }
+        const data = await response.json()
+        createRequestBar(requestBarCanvas, data)
+      } catch (error) {
+        console.error('There has been a problem with your fetch operation:', error)
+      }
+    }
     async function fetchData() {
       try {
         const baseUrl = window.location.origin
@@ -189,7 +225,6 @@
           throw new Error('Network response was not ok ' + response.statusText)
         }
         const data = await response.json()
-        console.log(data)
         createRequests(data)
       } catch (error) {
         console.error('There has been a problem with your fetch operation:', error)
@@ -197,6 +232,7 @@
     }
     document.addEventListener('DOMContentLoaded', () => {
       fetchData()
+      fetchCertificateData()
     })
     //Function to populate the table
     
@@ -206,14 +242,14 @@
       let html = ''
       data.forEach((line) => {
         let text = `
-            <tr>
-              <td>${line.email}</td>
-              <td>${line.first_name} ${line.last_name}</td>
-              <td>${line.purpose}</td>
-              <td>${formatDate(line.requested)}</td>
-            </tr>
-                  
-                    `
+                                                                                                                                                                                          <tr>
+                                                                                                                                                                                            <td>${line.email}</td>
+                                                                                                                                                                                            <td>${line.first_name} ${line.last_name}</td>
+                                                                                                                                                                                            <td>${line.purpose}</td>
+                                                                                                                                                                                            <td>${formatDate(line.requested)}</td>
+                                                                                                                                                                                          </tr>
+                                                                                                                                                                                                                                  
+                                                                                                                                                                                        `
         html += text
       })
       requestSpace.innerHTML = html
@@ -227,6 +263,7 @@
         let text = btn.getAttribute('data-filter').toLowerCase()
         requestDateFilter = text
         fetchData()
+        fetchCertificateData()
       })
     })
     
@@ -239,6 +276,7 @@
         let text = btn.getAttribute('data-filter').toLowerCase()
         requestStatusFilter = text
         fetchData()
+        fetchCertificateData()
       })
     })
     
@@ -252,6 +290,82 @@
       // Format the date using toLocaleDateString()
       const formattedDate = date.toLocaleDateString('en-US', options)
       return formattedDate
+    }
+    //==========================================
+    
+    //Request chart
+    const requestBarCanvas = document.getElementById('request-bar')
+    
+    function createRequestBar(requestBarCanvas, data) {
+      const datas = data[requestStatusFilter][requestDateFilter]
+    
+      let labels = []
+      let datasets = []
+    
+      Object.entries(datas).forEach(([key, value]) => {
+        labels.push(key)
+        datasets.push(value)
+      })
+    
+      let ctx = requestBarCanvas.getContext('2d')
+      let existingChart = Chart.getChart(ctx)
+      if (existingChart) {
+        existingChart.destroy() // Destroy if it exists
+      }
+      window.myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              data: datasets,
+              backgroundColor: 'rgba(204, 144, 0, 1)',
+              borderColor: 'rgba(255, 99, 132, 1)',
+              borderWidth: 1
+            }
+          ]
+        },
+        options: {
+          scales: {
+            x: {
+              stacked: true
+            },
+            y: {
+              beginAtZero: false,
+              stacked: true,
+              min: 0
+            }
+          },
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false // This will hide the legend
+            },
+            backgroundGradient: {
+              // Custom plugin to apply gradient
+              beforeRender: function (chart, args, options) {
+                const chartArea = chart.chartArea
+                if (chartArea) {
+                  const gradient = getGradient(chart.ctx, chartArea)
+                  chart.data.datasets.forEach((dataset) => {
+                    dataset.backgroundColor = gradient
+                  })
+                }
+              }
+            }
+          }
+        }
+      })
+    }
+    
+    //==========================================
+    
+    // Function to create the gradient
+    function getGradient(ctx, chartArea) {
+      const gradient = ctx.createLinearGradient(0, 0, 0, chartArea.bottom)
+      gradient.addColorStop(0, '#996B00')
+      gradient.addColorStop(1, '#FDCE62')
+      return gradient
     }
     //==========================================
   </script>

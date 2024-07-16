@@ -7,7 +7,8 @@ from treatment.models import Illness, Certificate, Category
 from inventory.models import InventoryDetail, QuantityHistory
 from administrator.models import Log
 from bed.models import BedStat
-from django.db.models import Sum, F
+from django.db.models import Sum, F, Value
+from django.db.models.functions import Coalesce
 from datetime import datetime
 from django.utils import timezone
 from datetime import timedelta
@@ -293,15 +294,32 @@ def bed_handler(request, pk):
 
 def records(request):
     now = timezone.now()
-    request_data = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
     context = {'page':'records'}
     try:
         requests = Certificate.objects.all()
-        history = Illness.objects.all().annotate(first_name=F('patient__first_name')).annotate(last_name=F('patient__last_name'))
+        history = Illness.objects.all().annotate(first_name=Coalesce(F('patient__first_name'), Value('')),
+        last_name=Coalesce(F('patient__last_name'), Value('')))
         context.update({
             'history':history
         })
     except Exception as e:
         messages.error(request, 'Error fetching data')
     return render(request, 'staff/records.html', context)
+
+def create_patient_add_issue(request):
+    if request.method == 'POST':
+        try:
+            patient, created = User.objects.get_or_create(email = request.POST.get('email'))
+            if created:
+                patient.set_password(generate_password())
+                patient.save()
+            visit = Illness.objects.create(
+                patient = patient,
+                issue = request.POST.get('issue')
+            )
+        except:
+            messages.error(request, 'System faced some error')
+        return redirect('staff-records')
+
+
 
