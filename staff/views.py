@@ -5,7 +5,10 @@ import secrets
 import string
 from treatment.models import Illness, Certificate, Category
 from inventory.models import InventoryDetail, QuantityHistory
-from django.db.models import Sum
+from administrator.models import Log
+from bed.models import BedStat
+from django.db.models import Sum, F, Value
+from django.db.models.functions import Coalesce
 from datetime import datetime
 from django.utils import timezone
 from datetime import timedelta
@@ -265,3 +268,58 @@ def inventory(request):
     
     context = {'page': 'inventory', 'inventory': inventory_list,'counts': counts, 'inventory_data': dict(inventory_data)}
     return render(request, 'staff/inventory.html', context)
+
+def bed(request):
+    try:
+        beds = BedStat.objects.all()
+    except Exception as e:
+        messages.error(request, 'Error fetching bed data')
+    context = {'beds':beds, 'page': 'bed'}
+    return render(request, 'staff/bed.html', context)
+
+def bed_handler(request, pk):
+    if request.method == 'POST':
+        try:
+            bed = BedStat.objects.get(id=pk)
+            bed.status = not bed.status
+            bed.save()
+            Log.objects.create(
+                user = request.user,
+                action=f'Updated BedStat({bed.id}) from {not bed.status} to {bed.status}'
+            )
+            messages.success(request, 'Bed was successfully updated')
+        except Exception as e:
+            messages.error(request, 'Error fetching bed data')
+    return redirect('staff-bed')
+
+def records(request):
+    now = timezone.now()
+    context = {'page':'records'}
+    try:
+        requests = Certificate.objects.all()
+        history = Illness.objects.all().annotate(first_name=Coalesce(F('patient__first_name'), Value('')),
+        last_name=Coalesce(F('patient__last_name'), Value('')))
+        context.update({
+            'history':history
+        })
+    except Exception as e:
+        messages.error(request, 'Error fetching data')
+    return render(request, 'staff/records.html', context)
+
+def create_patient_add_issue(request):
+    if request.method == 'POST':
+        try:
+            patient, created = User.objects.get_or_create(email = request.POST.get('email'))
+            if created:
+                patient.set_password(generate_password())
+                patient.save()
+            visit = Illness.objects.create(
+                patient = patient,
+                issue = request.POST.get('issue')
+            )
+        except:
+            messages.error(request, 'System faced some error')
+        return redirect('staff-records')
+
+
+

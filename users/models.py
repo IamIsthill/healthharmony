@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from .manager import UserManager
+from users.manager import UserManager
 
 # Create your models here.
 
@@ -12,8 +12,8 @@ class Department(models.Model):
         return self.department
     
 class User(AbstractUser):
-    first_name = models.CharField(max_length=200, null=True)
-    last_name = models.CharField(max_length=200, null=True)
+    first_name = models.CharField(max_length=200, null=True, blank=True)
+    last_name = models.CharField(max_length=200, null=True, blank=True)
     email = models.EmailField(null=True, unique=True)
     profile = models.ImageField(default="fallback.png", blank=True)
     year = models.SmallIntegerField(null=True, blank=True)
