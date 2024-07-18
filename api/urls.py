@@ -5,4 +5,7 @@ urlpatterns = [
     path("data/", views.api_data, name="api-data"),
     path("staff/records/request-data/", views.certificate_sorter, name="staff-certificate-sorter"),
     path("staff/records/certificate-data/", views.certificate_data, name="staff-certificate-data"),
+    path('administrator/user-data/', views.user_data, name="admin-user-data"),
+    path('administrator/account-role-data/', views.account_roles, name="admin-account-role-data"),
+    path('administrator/user-demographics-data/', views.user_demographics, name="admin-user-demographics-data"),
 ]

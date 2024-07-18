@@ -68,7 +68,7 @@
             <form action="{% url 'create-patient-add-issue' %}" method="POST">
               {% csrf_token %}
               <label for="">Patient Email</label>
-              <input type="text" name="patient" list="patients" />
+              <input type="text" name="email" list="patients" />
               <datalist id="patients"></datalist>
               <label for="">Issue</label>
               <input type="text" name="issue" />
@@ -242,14 +242,14 @@
       let html = ''
       data.forEach((line) => {
         let text = `
-                                                                                                                                                                                          <tr>
-                                                                                                                                                                                            <td>${line.email}</td>
-                                                                                                                                                                                            <td>${line.first_name} ${line.last_name}</td>
-                                                                                                                                                                                            <td>${line.purpose}</td>
-                                                                                                                                                                                            <td>${formatDate(line.requested)}</td>
-                                                                                                                                                                                          </tr>
-                                                                                                                                                                                                                                  
-                                                                                                                                                                                        `
+                                                                                                                                                                                              <tr>
+                                                                                                                                                                                                <td>${line.email}</td>
+                                                                                                                                                                                                <td>${line.first_name} ${line.last_name}</td>
+                                                                                                                                                                                                <td>${line.purpose}</td>
+                                                                                                                                                                                                <td>${formatDate(line.requested)}</td>
+                                                                                                                                                                                              </tr>
+                                                                                                                                                                                                                                      
+                                                                                                                                                                                            `
         html += text
       })
       requestSpace.innerHTML = html

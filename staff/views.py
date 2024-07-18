@@ -42,6 +42,7 @@ def add_patient(request):
     return render(request, 'staff/add-patient.html', {'form': form})
 
 def overview(request):
+    access_checker(request)
     now = timezone.now()
     start_date = (now - timedelta(days=365)).replace(day=1)
     today_patient = Illness.objects.filter(updated__date = now.date()).count()
@@ -184,6 +185,7 @@ def add_issue(request):
     return render(request,'staff/add-issue.html', context)
 
 def inventory(request):
+    access_checker(request)
     now = timezone.now()
     counts = {'medicine_avail': 0, 'medicine_expired': 0, 'supply_avail': 0, 'supply_expired': 0}  
     inventory = InventoryDetail.objects.all().annotate(total_quantity=Sum('quantities__updated_quantity')).values('id', 'item_name', 'category', 'expiration_date', 'total_quantity')
@@ -270,6 +272,7 @@ def inventory(request):
     return render(request, 'staff/inventory.html', context)
 
 def bed(request):
+    access_checker(request)
     try:
         beds = BedStat.objects.all()
     except Exception as e:
@@ -278,6 +281,7 @@ def bed(request):
     return render(request, 'staff/bed.html', context)
 
 def bed_handler(request, pk):
+    access_checker(request)
     if request.method == 'POST':
         try:
             bed = BedStat.objects.get(id=pk)
@@ -293,6 +297,7 @@ def bed_handler(request, pk):
     return redirect('staff-bed')
 
 def records(request):
+    access_checker(request)
     now = timezone.now()
     context = {'page':'records'}
     try:
@@ -307,10 +312,12 @@ def records(request):
     return render(request, 'staff/records.html', context)
 
 def create_patient_add_issue(request):
+    access_checker(request)
     if request.method == 'POST':
         try:
             patient, created = User.objects.get_or_create(email = request.POST.get('email'))
             if created:
+                patient.access = 1
                 patient.set_password(generate_password())
                 patient.save()
             visit = Illness.objects.create(
@@ -320,6 +327,10 @@ def create_patient_add_issue(request):
         except:
             messages.error(request, 'System faced some error')
         return redirect('staff-records')
+
+def access_checker(request):
+    if request.user.access < 2:
+        return redirect('home')
 
 
 

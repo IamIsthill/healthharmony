@@ -1,10 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 # models
-from django.contrib.auth.models import User
+from users.models import User
 
 # Create your views here.
 def admin_dashboard(request):
-    users = User.objects.all()
-    count_users = users.count()
+    account_checker(request)
+    users = User.objects.filter(is_active = True)
+    count_users = users.count() or 0
     context={'count_users':count_users}
     return render(request, 'administrator/dashboard.html', context)
+
+def account_checker(request):
+    if request.user.access < 4:
+        return redirect('home')
