@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -180,6 +179,38 @@ def user_demographics(request):
         for department in departments
     ]
     return JsonResponse(department_list, safe=False)
+
+@api_view(['GET'])
+def filtered_account_list(request):
+    access = request.GET.get('access', 'all')
+
+    access_map = {
+        'patient': 1,
+        'staff': 2,
+        'doctor': 3
+    }
+
+    reverse_access_map = {v: k for k, v in access_map.items()}
+
+    if access == 'all':
+        users = User.objects.values('first_name', 'last_name', 'email', 'date_joined', 'access')
+    else:
+        access_value = access_map.get(access)
+        if access_value is not None:
+            users = User.objects.filter(access=access_value).values('first_name', 'last_name', 'email', 'date_joined', 'access')
+        else:
+            return JsonResponse({'error': 'Invalid access type'}, status=400)
+
+    users_list = list(users)  # Convert ValuesQuerySet to a list
+    for user in users_list:
+        if user['first_name'] is None:
+            user['first_name'] = ' '
+        if user['last_name'] is None:
+            user['last_name'] = ' '
+        user['access'] = reverse_access_map.get(user['access'], 'unknown')
+            
+    return JsonResponse(users_list, safe=False)
+
 
 
     

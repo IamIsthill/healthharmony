@@ -38,3 +38,6 @@ class User(AbstractUser):
     def __str__(self):
         return self.email or 'Unnamed User'
     
+    class Meta:
+        ordering = ['-date_joined']
+    

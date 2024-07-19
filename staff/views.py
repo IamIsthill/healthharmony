@@ -5,11 +5,10 @@ import secrets
 import string
 from treatment.models import Illness, Certificate, Category
 from inventory.models import InventoryDetail, QuantityHistory
-from administrator.models import Log
+from administrator.models import Log, DataChangeLog
 from bed.models import BedStat
 from django.db.models import Sum, F, Value
 from django.db.models.functions import Coalesce
-from datetime import datetime
 from django.utils import timezone
 from datetime import timedelta
 from django.contrib import messages
@@ -366,9 +365,12 @@ def create_patient_add_issue(request):
                 patient = patient,
                 issue = request.POST.get('issue')
             )
-            Log.objects.create(
-                user = request.user,
-                action = f'Created new illness history with id [{visit.id}]'
+            DataChangeLog.objects.create(
+                table='Illness',
+                record_id = visit.id,
+                action = 'create',
+                new_value = visit.__str__(),
+                changed_by = request.user,
             )
 
         except:

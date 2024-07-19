@@ -8,4 +8,5 @@ urlpatterns = [
     path('administrator/user-data/', views.user_data, name="admin-user-data"),
     path('administrator/account-role-data/', views.account_roles, name="admin-account-role-data"),
     path('administrator/user-demographics-data/', views.user_demographics, name="admin-user-demographics-data"),
+    path('administrator/accounts/account-list-data/', views.filtered_account_list, name="admin-account-list-data"),
 ]
