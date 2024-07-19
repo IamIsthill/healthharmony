@@ -1,0 +1,57 @@
+{% block title %}
+  Log and Records | HealthHarmony
+{% endblock %}
+{% block header %}
+
+{% endblock %}
+
+{% block message %}
+
+{% endblock %}
+{% block main %}
+  <div class="container">
+    {% include 'administrator/nav.html' %}
+    <div class="upper">
+      <h3>Audit Trail</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Timestamp</th>
+            <th>Action</th>
+            <th>Access</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if logs %}
+            {% for log in logs %}
+              <tr>
+                <td>{{ log.user }}</td>
+                <td>{{ log.timestamp }}</td>
+                <td>{{ log.action }}</td>
+                <td>
+                  {% if log.user.access == 1 %}
+                    Patient
+                  {% elif log.user.access == 2 %}
+                    Clinic Staff
+                  {% elif log.user.access == 3 %}
+                    Doctor
+                  {% else %}
+                    Admin
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td cols="4">No Data Available</td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}
+{% block script %}
+
+{% endblock %}

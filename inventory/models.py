@@ -6,7 +6,7 @@ class InventoryDetail(models.Model):
         ('Medicine', 'Medicine'),
         ('Supply', 'Supply'),
     ]
-    item_no = models.SmallIntegerField(default=None)
+    item_no = models.SmallIntegerField(default=None, blank=True, null=True)
     unit = models.CharField(max_length=50, null=True)
     item_name = models.CharField(max_length=100, null=False)
     category = models.CharField(max_length=10, choices=CATEGORY_CHOICES, default='Medicine')

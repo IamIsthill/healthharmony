@@ -3,4 +3,5 @@ from . import views
 
 urlpatterns = [
     path('', views.admin_dashboard, name="admin-dashboard"),
+    path('log-and-records/', views.log_and_records, name="admin-logs"),
 ]

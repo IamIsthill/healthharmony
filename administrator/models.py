@@ -9,3 +9,6 @@ class Log(models.Model):
 
     def __str__(self):
         return f'{self.user} - {self.action}'
+    
+    class Meta:
+        ordering = ['-timestamp']

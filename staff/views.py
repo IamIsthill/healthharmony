@@ -16,6 +16,10 @@ from django.contrib import messages
 import json
 from collections import defaultdict
 from dateutil.relativedelta import relativedelta
+from django.core.mail import EmailMessage
+import environ
+env = environ.Env()
+environ.Env.read_env()
 
 def generate_password(length=12):
     characters = string.ascii_letters + string.digits + string.punctuation
@@ -179,6 +183,10 @@ def add_issue(request):
                 patient = patient,
                 issue = request.POST.get('issue'),
             )
+            logs = Log.objects.create(
+                user = request.user,
+                action = "Added a new illness"
+            )
         except:
             messages.error(request, 'Unable to add issue')
     context = {'patients':patients}
@@ -271,6 +279,25 @@ def inventory(request):
     context = {'page': 'inventory', 'inventory': inventory_list,'counts': counts, 'inventory_data': dict(inventory_data)}
     return render(request, 'staff/inventory.html', context)
 
+def add_inventory(request):
+    if request.method == 'POST':
+        try:
+            item = InventoryDetail.objects.create(
+                item_no = request.POST.get('item_no'),
+                unit = request.POST.get('unit'),
+                item_name = request.POST.get('item_name'),
+                category = request.POST.get('category'),
+                description = request.POST.get('description'),
+                expiration_date = request.POST.get('expiration_date')
+            )
+            Log.objects.create(
+                user = request.user,
+                action = f'Created inventory item with id [{item.id}]'
+            )
+            return redirect('staff-inventory')
+        except:
+            messages.error(request, 'Failed to add the inventory item')
+
 def bed(request):
     access_checker(request)
     try:
@@ -298,8 +325,9 @@ def bed_handler(request, pk):
 
 def records(request):
     access_checker(request)
+    email = env('EMAIL_ADD')
     now = timezone.now()
-    context = {'page':'records'}
+    context = {'page':'records', 'email':email}
     try:
         requests = Certificate.objects.all()
         history = Illness.objects.all().annotate(first_name=Coalesce(F('patient__first_name'), Value('')),
@@ -311,6 +339,8 @@ def records(request):
         messages.error(request, 'Error fetching data')
     return render(request, 'staff/records.html', context)
 
+
+
 def create_patient_add_issue(request):
     access_checker(request)
     if request.method == 'POST':
@@ -318,12 +348,29 @@ def create_patient_add_issue(request):
             patient, created = User.objects.get_or_create(email = request.POST.get('email'))
             if created:
                 patient.access = 1
-                patient.set_password(generate_password())
+                password = generate_password()
+                patient.set_password(password)
                 patient.save()
+                logs = Log.objects.create(
+                    user = request.user,
+                    action = f'Created new user {patient.email} with id [{patient.id}]'
+                )
+                subject = 'Welcome New User'
+                body = f'<h1>This is your password {password}</h1><p>With HTML content</p>'
+                from_email = env('EMAIL_ADD')
+                recipient_list = [patient.email]
+                email = EmailMessage(subject, body, from_email, recipient_list)
+                email.content_subtype = 'html' 
+                email.send()
             visit = Illness.objects.create(
                 patient = patient,
                 issue = request.POST.get('issue')
             )
+            Log.objects.create(
+                user = request.user,
+                action = f'Created new illness history with id [{visit.id}]'
+            )
+
         except:
             messages.error(request, 'System faced some error')
         return redirect('staff-records')

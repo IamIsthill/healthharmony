@@ -52,101 +52,102 @@
 {% block main %}
   <div class="container">
     {% include 'staff/navbar.html' %}
-  </div>
-  <div>
-    <h3>Visit and Request History</h3>
-    <div class="upper">
-      <h4>Visit History</h4>
-      <div>
-        <button id="myBtn">Add Record</button>
 
-        <!-- The Modal -->
-        <div id="myModal" class="modal">
-          <!-- Modal content -->
-          <div class="modal-content">
-            <span class="close">&times;</span>
-            <form action="{% url 'create-patient-add-issue' %}" method="POST">
-              {% csrf_token %}
-              <label for="">Patient Email</label>
-              <input type="text" name="email" list="patients" />
-              <datalist id="patients"></datalist>
-              <label for="">Issue</label>
-              <input type="text" name="issue" />
-              <button type="submit">Add Complaint</button>
-            </form>
+    <div>
+      <h3>Visit and Request History</h3>
+      <div class="upper">
+        <h4>Visit History</h4>
+        <div>
+          <button id="myBtn">Add Record</button>
+
+          <!-- The Modal -->
+          <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <form action="{% url 'create-patient-add-issue' %}" method="POST">
+                {% csrf_token %}
+                <label for="">Patient Email</label>
+                <input type="text" name="email" list="patients" />
+                <datalist id="patients"></datalist>
+                <label for="">Issue</label>
+                <input type="text" name="issue" />
+                <button type="submit">Add Complaint</button>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Date and Time of Visit</th>
-            <th>Patient</th>
-            <th>Concern</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% if history %}
-            {% for data in history %}
-              <tr>
-                <td>{{ data.added }}</td>
-                <td>{{ data.first_name }} {{ data.last_name }}</td>
-                <td>{{ data.issue }}</td>
-                <td>
-                  {% if data.diagnosis %}
-                    Finished
-                  {% else %}
-                    Ongoing
-                  {% endif %}
-                </td>
-              </tr>
-            {% endfor %}
-          {% else %}
+        <table>
+          <thead>
             <tr>
-              <td>No available data</td>
+              <th>Date and Time of Visit</th>
+              <th>Patient</th>
+              <th>Concern</th>
+              <th>Status</th>
             </tr>
-          {% endif %}
-        </tbody>
-      </table>
-    </div>
-    <div class="lower">
-      <div class="left">
-        <h4>Request Summary</h4>
-        <div>
-          <button class="request-date-filter" data-filter="week">Last 7 days</button>
-          <button class="request-date-filter" data-filter="month">Last 30 days</button>
-          <button class="request-date-filter" data-filter="year">Last 12 months</button>
-        </div>
-        <div class="main-content">
-          <table>
-            <thead>
+          </thead>
+          <tbody>
+            {% if history %}
+              {% for data in history %}
+                <tr>
+                  <td>{{ data.added }}</td>
+                  <td>{{ data.first_name }} {{ data.last_name }}</td>
+                  <td>{{ data.issue }}</td>
+                  <td>
+                    {% if data.diagnosis %}
+                      Finished
+                    {% else %}
+                      Ongoing
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            {% else %}
               <tr>
-                <th>Email</th>
-                <th>Requester</th>
-                <th>Purpose</th>
-                <th>Date Requested</th>
+                <td>No available data</td>
               </tr>
-            </thead>
-            <tbody class="request-body">
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div>
-          <button class="request-status-filter" data-filter="all">All</button>
-          <button class="request-status-filter" data-filter="pending">Pending</button>
-          <button class="request-status-filter" data-filter="released">Released</button>
-        </div>
+            {% endif %}
+          </tbody>
+        </table>
       </div>
-      <div class="right">
-        <div class="bar-space">
-          <canvas id="request-bar"></canvas>
+      <div class="lower">
+        <div class="left">
+          <h4>Request Summary</h4>
+          <div>
+            <button class="request-date-filter" data-filter="week">Last 7 days</button>
+            <button class="request-date-filter" data-filter="month">Last 30 days</button>
+            <button class="request-date-filter" data-filter="year">Last 12 months</button>
+          </div>
+          <div class="main-content">
+            <table>
+              <thead>
+                <tr>
+                  <th>Email</th>
+                  <th>Requester</th>
+                  <th>Purpose</th>
+                  <th>Date Requested</th>
+                </tr>
+              </thead>
+              <tbody class="request-body">
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <button class="request-status-filter" data-filter="all">All</button>
+            <button class="request-status-filter" data-filter="pending">Pending</button>
+            <button class="request-status-filter" data-filter="released">Released</button>
+          </div>
+        </div>
+        <div class="right">
+          <div class="bar-space">
+            <canvas id="request-bar"></canvas>
+          </div>
         </div>
       </div>
     </div>
@@ -242,14 +243,14 @@
       let html = ''
       data.forEach((line) => {
         let text = `
-                                                                                                                                                                                              <tr>
-                                                                                                                                                                                                <td>${line.email}</td>
-                                                                                                                                                                                                <td>${line.first_name} ${line.last_name}</td>
-                                                                                                                                                                                                <td>${line.purpose}</td>
-                                                                                                                                                                                                <td>${formatDate(line.requested)}</td>
-                                                                                                                                                                                              </tr>
-                                                                                                                                                                                                                                      
-                                                                                                                                                                                            `
+                                                                                                                                                                                                          <tr>
+                                                                                                                                                                                                            <td>${line.email}</td>
+                                                                                                                                                                                                            <td>${line.first_name} ${line.last_name}</td>
+                                                                                                                                                                                                            <td>${line.purpose}</td>
+                                                                                                                                                                                                            <td>${formatDate(line.requested)}</td>
+                                                                                                                                                                                                          </tr>
+                                                                                                                                                                                                                                                  
+                                                                                                                                                                                                        `
         html += text
       })
       requestSpace.innerHTML = html
