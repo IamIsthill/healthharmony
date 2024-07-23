@@ -1,0 +1,255 @@
+{% extends 'base.html' %}
+{% load tags %}
+{% block title %}
+  Accounts | HealthHarmony
+{% endblock %}
+{% block header %}
+  <style>
+    /* The Modal (background) */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0, 0, 0); /* Fallback color */
+      background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    }
+    
+    /* Modal Content/Box */
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto; /* 15% from the top and centered */
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%; /* Could be more or less, depending on screen size */
+    }
+    
+    /* The Close Button */
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
+{% endblock %}
+
+{% block message %}
+  {% if messages %}
+    <div>
+      {% for message in messages %}
+        <div>
+          <p>{{ message }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}
+{% block main %}
+  <div class="container">
+    {% include 'administrator/nav.html' %}
+    <div>
+      <h1>Account Management</h1>
+      <div class="account-list-container">
+        <div class="account-header">
+          <h1>Account List</h1>
+          <button id="add-account-btn">Add Account</button>
+          <div>
+            <button class="account-filter" data-filter="all">All</button>
+            <button class="account-filter" data-filter="patient">Patients</button>
+            <button class="account-filter" data-filter="staff">Staff</button>
+            <button class="account-filter" data-filter="doctor">Doctors</button>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Account Name</th>
+              <th>Email</th>
+              <th>Date Joined</th>
+              <th>Access</th>
+            </tr>
+          </thead>
+          <tbody class="account-body">
+            {% if users %}
+              {% for user in users %}
+                <tr>
+                  <td>{{ user.first_name }} {{ user.last_name }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>{{ user.date_joined|date:'F j, Y' }} at {{ user.date_joined|date:'g:i A' }}</td>
+                  <td>
+                    {% if user.access == 1 %}
+                      Patient
+                    {% elif user.access == 2 %}
+                      Staff
+                    {% elif user.access == 3 %}
+                      Doctor
+                    {% else %}
+                      Admin
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            {% else %}
+              <tr>
+                <td>No data available</td>
+              </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div id="add-account-modal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <form action="" method="POST">
+        {% csrf_token %}
+        <label for="">First Name:</label>
+        <input type="text" name="first_name" required />
+        <label for="">Last Name:</label>
+        <input type="text" name="last_name" required />
+        <label for="">Email:</label>
+        <input type="email" name="email" required />
+        <label for="">Access Type:</label>
+        <select name="access" id="">
+          <option value="1">Patient</option>
+          <option value="2">Staff</option>
+          <option value="3">Doctor</option>
+          <option value="4">Admin</option>
+        </select>
+        <label for="">Department:</label>
+        <input type="text" name="department" list="department-list" required />
+        <datalist id="department-list">
+          {% if departments %}
+            {% for department in departments %}
+              <option value="{{ department }}"></option>
+            {% endfor %}
+          {% endif %}
+        </datalist>
+        <input type="hidden" id="department-id" />
+        <button type="submit">Add Account</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}
+{% block script %}
+  <script>
+    // INITIALIZE
+    let accountDataFilter = 'all'
+    //=============================================
+    
+    // Filter account list based on the access
+    const accountFilterBtn = document.querySelectorAll('.account-filter')
+    accountFilterBtn.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        let text = btn.getAttribute('data-filter').toLowerCase()
+        accountDataFilter = text
+        fetchAccountData()
+      })
+    })
+    //=============================================
+    
+    // Async function for getting account data from db
+    async function fetchAccountData() {
+      try {
+        const baseUrl = window.location.origin
+        let url = new URL(baseUrl + '/api/administrator/accounts/account-list-data/')
+        const params = {
+          access: accountDataFilter
+        }
+    
+        // Append parameters to URL
+        Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]))
+    
+        const response = await fetch(url)
+        if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText)
+        }
+        const data = await response.json()
+        createAccountData(data)
+      } catch (error) {
+        console.error('There has been a problem with your fetch operation:', error)
+      }
+    }
+    
+    //=============================================
+    
+    // Function to populate account body
+    function createAccountData(data) {
+      const accountBody = document.querySelector('.account-body')
+      let mainHTML = ''
+      data.forEach((d) => {
+        let access = d.access
+        access = access.charAt(0).toUpperCase() + access.slice(1).toLowerCase()
+        let html = `
+                                                                                                                                                                                                <tr>
+                                                                                                                                                                                                    <td>${d.first_name} ${d.last_name}</td>
+                                                                                                                                                                                                    <td>${d.email}</td>
+                                                                                                                                                                                                    <td>${formatDate(d.date_joined)}</td>
+                                                                                                                                                                                                    <td>${access}</td>
+                                                                                                                                                                                                </tr>
+                                                                                                                                                                                             `
+        mainHTML += html
+      })
+      accountBody.innerHTML = mainHTML
+    }
+    //=============================================
+    
+    // Format date
+    function formatDate(dateString) {
+      const date = new Date(dateString)
+    
+      const options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true
+      }
+    
+      return new Intl.DateTimeFormat('en-US', options).format(date)
+    }
+    //=============================================
+    
+    //add account modal
+    const addAccountModal = document.getElementById('add-account-modal')
+    
+    const addAccountBtn = document.getElementById('add-account-btn')
+    
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName('close')[0]
+    
+    // When the user clicks on the button, open the modal
+    addAccountBtn.onclick = function () {
+      addAccountModal.style.display = 'block'
+    }
+    
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+      addAccountModal.style.display = 'none'
+    }
+    
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+      if (event.target == addAccountModal) {
+        addAccountModal.style.display = 'none'
+      }
+    }
+    
+    //=============================================
+  </script>
+{% endblock %}

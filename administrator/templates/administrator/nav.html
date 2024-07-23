@@ -1,5 +1,7 @@
+{% load static %}
 <nav>
-  <a href="#">Dashboard</a>
-  <a href="#">Accounts</a>
-  <a href="#">Log and Records</a>
+  <a href="{% url 'admin-dashboard' %}">Dashboard</a>
+  <a href="{% url 'admin-accounts' %}">Accounts</a>
+  <a href="{% url 'admin-logs' %}">Log and Records</a>
+  <a href="#">Logout</a>
 </nav>

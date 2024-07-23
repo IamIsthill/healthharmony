@@ -1,15 +1,15 @@
-from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 from django.http import JsonResponse
 from bed.models import BedStat
 from treatment.models import Certificate
+from users.models import User, Department
 from api.serializers import BedStatSerializer, CertificateSerializer
 from django.utils import timezone
 from dateutil.relativedelta import relativedelta
 from datetime import timedelta
-from django.db.models import F
+from django.db.models import F, Count
 from collections import defaultdict
 
 # Create your views here.
@@ -115,6 +115,102 @@ def certificate_data(request):
 
     return JsonResponse(cert_data)
     
+@api_view(['GET'])
+def user_data(request):
+    now = timezone.now()
+    date_filter = request.query_params.get('date_filter', 'year')
+    users = defaultdict(lambda: defaultdict(int))
+
+    if date_filter == 'week':
+        start = now - timedelta(days = 6)
+        max_range = 7
+        date_string = '%A, %d'
+        date_loop = 1
+    elif date_filter == 'month':
+        start = now - timedelta(days=30)
+        max_range = 6
+        date_string = '%B, %d'
+        date_loop = 5
+        
+    elif date_filter == 'year':
+        start = now - timedelta(days=365)
+        max_range = 12
+        date_string = '%B'
+        date_loop = 1
+    else:
+        start = None
+    
+    for offset in range(max_range):
+        if date_filter == 'month':
+            main_start = start + timedelta(days = offset * date_loop)
+            main_end = main_start + timedelta(days = date_loop)
+
+        if date_filter == 'week':
+            new_start = start + timedelta(days = offset*1)
+            main_start = new_start.replace(hour=0, minute=0, second=0, microsecond=0)
+            main_end = new_start.replace(hour=23, minute=59, second=59, microsecond=999999)
+
+        if date_filter == 'year':
+            main_start = start + relativedelta(months = offset)
+            main_end = main_start + relativedelta(months=1)
+
+        count = User.objects.filter(date_joined__gte = main_start, date_joined__lt = main_end).count()
+        users[date_filter][main_start.strftime(date_string)] = count or 0
+    
+    return JsonResponse(users)
+
+@api_view(['GET'])
+def account_roles(request):
+    patients = User.objects.filter(access = 1).count() or 0
+    staffs =  User.objects.filter(access = 2).count() or 0
+    doctors =  User.objects.filter(access = 3).count() or 0
+    data = {'patient' : patients, 'staff' :staffs, 'doctor': doctors}
+    return JsonResponse(data)
+
+@api_view(['GET'])
+def user_demographics(request):
+    departments = Department.objects.annotate(user_count=Count('user_department'))
+    # Create a list of dictionaries to serialize to JSON
+    department_list = [
+        {
+            'department': department.department,
+            'user_count': department.user_count or 0
+        }
+        for department in departments
+    ]
+    return JsonResponse(department_list, safe=False)
+
+@api_view(['GET'])
+def filtered_account_list(request):
+    access = request.GET.get('access', 'all')
+
+    access_map = {
+        'patient': 1,
+        'staff': 2,
+        'doctor': 3
+    }
+
+    reverse_access_map = {v: k for k, v in access_map.items()}
+
+    if access == 'all':
+        users = User.objects.values('first_name', 'last_name', 'email', 'date_joined', 'access')
+    else:
+        access_value = access_map.get(access)
+        if access_value is not None:
+            users = User.objects.filter(access=access_value).values('first_name', 'last_name', 'email', 'date_joined', 'access')
+        else:
+            return JsonResponse({'error': 'Invalid access type'}, status=400)
+
+    users_list = list(users)  # Convert ValuesQuerySet to a list
+    for user in users_list:
+        if user['first_name'] is None:
+            user['first_name'] = ' '
+        if user['last_name'] is None:
+            user['last_name'] = ' '
+        user['access'] = reverse_access_map.get(user['access'], 'unknown')
+            
+    return JsonResponse(users_list, safe=False)
+
 
 
     

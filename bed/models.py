@@ -5,5 +5,4 @@ class BedStat(models.Model):
     status = models.BooleanField(default=False, blank=True)
 
     def __str__(self):
-        bed = f'Bed {self.id}'
-        return bed
+        return f'Bed {self.id} - Status: {"Occupied" if self.status else "Available"}'

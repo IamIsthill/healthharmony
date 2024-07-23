@@ -6,6 +6,7 @@ urlpatterns = [
     path('issue/add/', views.create_patient_add_issue, name='create-patient-add-issue'),
     path('', views.overview, name='staff-overview'),
     path('inventory/', views.inventory, name='staff-inventory'),
+    path('inventory/add', views.add_inventory, name='staff-inventory-add'),
     path('bed/', views.bed, name="staff-bed" ),
     path('bed/update/<int:pk>/', views.bed_handler, name="staff-bed-handler" ),
     path('records/', views.records, name="staff-records" ),
