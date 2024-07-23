@@ -407,6 +407,34 @@ createSeasonalBarCanvas()
 
 // Function for creating the bars
 //========================================== 
+
+// Add new inventory item
+const addInventoryBtn = document.getElementById('add-inventory')
+const addInventoryModal = document.getElementById('inventory-modal')
+
+const closeBtn = document.querySelectorAll('.close')
+
+closeBtn.forEach((btn)=>{
+    btn.addEventListener('click', (event)=>{
+        event.preventDefault()
+     addInventoryModal.style.display = "none";
+    })
+})
+
+// When the user clicks on the button, open the modal
+addInventoryBtn.onclick = function() {
+    addInventoryModal.style.display = "block";
+}
+
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == addInventoryModal) {
+    addInventoryModal.style.display = "none";
+  }
+}
+
+//========================================== 
 </script>
 
 

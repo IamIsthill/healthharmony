@@ -51,3 +51,7 @@ function dockerrun(){
 function seed(){
   python manage.py seed "$1"
 }
+
+function test(){
+  python manage.py test
+}

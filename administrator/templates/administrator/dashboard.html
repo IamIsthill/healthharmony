@@ -1,15 +1,321 @@
+{% extends 'base.html' %}
+
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Dashboard</title>
-  </head>
-  <body>
+
+{% block title %}
+  Dashboard | HealthHarmony
+{% endblock %}
+{% block header %}
+
+{% endblock %}
+
+{% block message %}
+
+{% endblock %}
+{% block main %}
+  <div class="container">
     {% include 'administrator/nav.html' %}
     <hr />
     <h2>Active User</h2>
     <h3>{{ count_users }}</h3>
-  </body>
-</html>
+    <div class="upper">
+      <h3>User Reports</h3>
+      <div>
+        <button class="user-filter-btn" data-category="year">12 Months</button>
+        <button class="user-filter-btn" data-category="month">30 Days</button>
+        <button class="user-filter-btn" data-category="week">7 Days</button>
+      </div>
+      <div>
+        <div>
+          <canvas id="user-canvas"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="lower">
+      <div class="left">
+        <h3>Account Roles</h3>
+        <div>
+          <div>
+            <canvas id="account-roles"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="right">
+        <h3>User Demographics</h3>
+        <div>
+          <div>
+            <canvas id="user-demo"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block script %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Get the desired filter
+    let userDateFilter = 'year'
+    const userFilterBtns = document.querySelectorAll('.user-filter-btn')
+    userFilterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        let text = btn.getAttribute('data-category').toLowerCase()
+        userDateFilter = text
+        fetchUserData()
+      })
+    })
+    //====================================================
+    
+    // A function to fetch user data from database
+    async function fetchUserData() {
+      try {
+        const baseUrl = window.location.origin
+        let url = new URL(baseUrl + '/api/administrator/user-data/')
+        const params = { date_filter: userDateFilter }
+    
+        // Append parameters to URL
+        Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]))
+    
+        const response = await fetch(url)
+        const data = await response.json()
+        let ar = data[userDateFilter]
+    
+        createUserReport(ar)
+      } catch (error) {
+        console.error('There has been a problem with your fetch operation:', error)
+      }
+    }
+    
+    fetchUserData()
+    
+    //====================================================
+    
+    // A function to fetch account role data from database
+    async function fetchAccountRoleData() {
+      try {
+        const baseUrl = window.location.origin
+        let url = new URL(baseUrl + '/api/administrator/account-role-data/')
+    
+        const response = await fetch(url)
+        const data = await response.json()
+        createAccountRoles(data)
+      } catch (error) {
+        console.error('There has been a problem with your fetch operation:', error)
+      }
+    }
+    
+    fetchAccountRoleData()
+    
+    //====================================================
+    
+    // A function to fetch user demographics data from database
+    async function fetchUserDemographicsData() {
+      try {
+        const baseUrl = window.location.origin
+        let url = new URL(baseUrl + '/api/administrator/user-demographics-data/')
+    
+        const response = await fetch(url)
+        const data = await response.json()
+        createUserDemopgraphics(data)
+      } catch (error) {
+        console.error('There has been a problem with your fetch operation:', error)
+      }
+    }
+    
+    fetchUserDemographicsData()
+    
+    //====================================================
+    
+    // Create the user Reports
+    
+    function createUserReport(data) {
+      const userCanvas = document.getElementById('user-canvas')
+    
+      let labels = []
+      let datasets = []
+    
+      Object.entries(data).forEach(([key, value]) => {
+        labels.push(key)
+        datasets.push(value)
+      })
+    
+      let ctx = userCanvas.getContext('2d')
+      let existingChart = Chart.getChart(ctx)
+      if (existingChart) {
+        existingChart.destroy() // Destroy if it exists
+      }
+      window.myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              data: datasets,
+              backgroundColor: 'rgba(204, 144, 0, 1)',
+              borderColor: 'rgba(255, 99, 132, 1)',
+              borderWidth: 1,
+              tension: 0.5
+            }
+          ]
+        },
+        options: {
+          scales: {
+            x: {
+              stacked: true
+            },
+            y: {
+              beginAtZero: false,
+              stacked: true,
+              min: 0
+            }
+          },
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false // This will hide the legend
+            },
+            backgroundGradient: {
+              // Custom plugin to apply gradient
+              beforeRender: function (chart, args, options) {
+                const chartArea = chart.chartArea
+                if (chartArea) {
+                  const gradient = getGradient(chart.ctx, chartArea)
+                  chart.data.datasets.forEach((dataset) => {
+                    dataset.backgroundColor = gradient
+                  })
+                }
+              }
+            }
+          }
+        }
+      })
+    }
+    //====================================================
+    
+    //Function to create account roles
+    function createAccountRoles(data) {
+      const accountRolesCanvas = document.getElementById('account-roles')
+      let labels = []
+      let datasets = []
+    
+      Object.entries(data).forEach(([key, value]) => {
+        labels.push(key)
+        datasets.push(value)
+      })
+    
+      let ctx = accountRolesCanvas.getContext('2d')
+      let existingChart = Chart.getChart(ctx)
+      if (existingChart) {
+        existingChart.destroy() // Destroy if it exists
+      }
+      window.myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              data: datasets,
+              backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
+              hoverOffset: 4,
+              borderWidth: 1
+            }
+          ]
+        },
+        options: {
+          scales: {
+            x: {
+              stacked: true,
+              display: false
+            },
+            y: {
+              beginAtZero: false,
+              stacked: true,
+              min: 0,
+              display: false
+            }
+          },
+          responsive: true,
+          plugins: {
+            backgroundGradient: {
+              // Custom plugin to apply gradient
+              beforeRender: function (chart, args, options) {
+                const chartArea = chart.chartArea
+                if (chartArea) {
+                  const gradient = getGradient(chart.ctx, chartArea)
+                  chart.data.datasets.forEach((dataset) => {
+                    dataset.backgroundColor = gradient
+                  })
+                }
+              }
+            }
+          }
+        }
+      })
+    }
+    //====================================================
+    
+    //Function to create user demographics graph
+    function createUserDemopgraphics(data) {
+      const userDemoCanvas = document.getElementById('user-demo')
+      let labels = []
+      let datasets = []
+    
+      data.forEach((d) => {
+        labels.push(d.department)
+        datasets.push(d.user_count)
+      })
+    
+      let ctx = userDemoCanvas.getContext('2d')
+      let existingChart = Chart.getChart(ctx)
+      if (existingChart) {
+        existingChart.destroy() // Destroy if it exists
+      }
+      window.myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              labels: labels,
+              data: datasets,
+              backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
+              hoverOffset: 4,
+              borderWidth: 1
+            }
+          ]
+        },
+        options: {
+          scales: {
+            x: {
+              stacked: true
+            },
+            y: {
+              beginAtZero: false,
+              stacked: true,
+              min: 0
+            }
+          },
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false
+            },
+            backgroundGradient: {
+              // Custom plugin to apply gradient
+              beforeRender: function (chart, args, options) {
+                const chartArea = chart.chartArea
+                if (chartArea) {
+                  const gradient = getGradient(chart.ctx, chartArea)
+                  chart.data.datasets.forEach((dataset) => {
+                    dataset.backgroundColor = gradient
+                  })
+                }
+              }
+            }
+          }
+        }
+      })
+    }
+    //====================================================
+  </script>
+{% endblock %}
