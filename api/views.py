@@ -5,11 +5,11 @@ from django.http import JsonResponse
 from django.utils import timezone
 from dateutil.relativedelta import relativedelta
 from datetime import timedelta
-from django.db.models import F, Count
+from django.db.models import F, Count, Prefetch, Q
 from collections import defaultdict
 
 from bed.models import BedStat
-from treatment.models import Certificate, Illness
+from treatment.models import Certificate, Illness, Category
 from users.models import User, Department
 
 from api.serializers import BedStatSerializer, CertificateSerializer
@@ -22,7 +22,8 @@ def get_user_illness_count(request):
     if not email:
         return Response({'Error': 'Related data not fetched'}, status=status.HTTP_400_BAD_REQUEST)
     
-    illness_count = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+    illness_count = defaultdict(lambda: defaultdict(int))
+    labels = defaultdict(int)
     now = timezone.now()
     date_filter = ['week', 'month', 'year']
     context = {}
@@ -46,30 +47,26 @@ def get_user_illness_count(request):
         else:
             start = None 
         
-        for offset in range(max_range):
-            if date == 'month':
-                main_start = start + timedelta(days = offset * date_loop)
-                main_end = main_start + timedelta(days = date_loop)
+        
 
-            if date == 'week':
-                new_start = start + timedelta(days = offset*1)
-                main_start = new_start.replace(hour=0, minute=0, second=0, microsecond=0)
-                main_end = new_start.replace(hour=23, minute=59, second=59, microsecond=999999)
+        try:
+            user = User.objects.get(email = email)
+            categories = Category.objects.annotate(
+                illness_count=Count(
+                    'illness_category',
+                    filter=Q(illness_category__patient=user, illness_category__updated__gte=start, illness_category__updated__lt=now)
+                )
+            ).filter(illness_count__gt=0)
 
-            if date == 'year':
-                main_start = start + relativedelta(months = offset)
-                main_end = main_start + relativedelta(months=1)          
-
-            try:
-                count = Illness.objects.filter(added__gte=main_start, added__lt=main_end).count()
-                visit_data[date][main_start.strftime(date_string)] = count or 0
-
-                context.update({
-                    'visit_data': visit_data
-                })
-
-            except Exception as e:
-                return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            for cat in categories:
+                illness_count[date][cat.id] = cat.illness_count or 0
+                labels[cat.id] = cat.category
+            context.update({
+                'illness_count': illness_count,
+                'labels': labels
+            })
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
     return JsonResponse(context)
 
 

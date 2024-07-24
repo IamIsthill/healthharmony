@@ -11,5 +11,6 @@ urlpatterns = [
     path('administrator/accounts/account-list-data/', views.filtered_account_list, name="admin-account-list-data"),
     path('session-email/', views.get_session_email, name="session-email"),
     path('patient/visit-data/', views.get_visit_data, name='patient-visit-data'),
+    path('patient/treatment-data/', views.get_user_illness_count, name='patient-treatment-data'),
 
 ]
