@@ -1,10 +1,11 @@
 from django.test import TestCase, SimpleTestCase
 from django.urls import reverse
 from django.db.models import Q
+from datetime import time
+from django.utils import timezone
 
-from bed.models import BedStat
 from users.models import User, Department
-from treatment.models import Illness, Category, IllnessTreatment
+from treatment.models import Illness, Category, IllnessTreatment, DoctorDetail
 from inventory.models import InventoryDetail, QuantityHistory
 
 
@@ -91,6 +92,18 @@ class DashboardTestCase(TestCase):
             changed_by = cls.treatment2.illness.doctor
         )
 
+        cls.availability1 = DoctorDetail.objects.create(
+            doctor = cls.doctor,
+            avail = False
+        )
+
+        cls.availability2 = DoctorDetail.objects.create(
+            doctor = cls.user,
+            time_avail_start=time(9, 30),
+            time_avail_end=time(23, 0),
+            avail = True
+        )
+
     def test_dashboard_status_code(self):
         response = self.client.get('/patient/')
         self.assertEqual(response.status_code, 200)
@@ -155,3 +168,14 @@ class DashboardTestCase(TestCase):
             count += quan.updated_quantity
 
         self.assertEqual(count, 80)
+
+    def test_doctor_is_avail(self):
+        doctor = DoctorDetail.objects.select_related('doctor')
+        for doc in doctor:
+            now = timezone.localtime().time()
+            is_avail = doc.is_avail(now)
+            setattr(doc, 'true_avail', is_avail)
+        self.assertFalse(doctor[0].true_avail)
+        self.assertTrue(doctor[1].true_avail)
+
+

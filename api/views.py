@@ -2,17 +2,155 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 from django.http import JsonResponse
-from bed.models import BedStat
-from treatment.models import Certificate
-from users.models import User, Department
-from api.serializers import BedStatSerializer, CertificateSerializer
 from django.utils import timezone
 from dateutil.relativedelta import relativedelta
 from datetime import timedelta
 from django.db.models import F, Count
 from collections import defaultdict
 
+from bed.models import BedStat
+from treatment.models import Certificate, Illness
+from users.models import User, Department
+
+from api.serializers import BedStatSerializer, CertificateSerializer
+
+
 # Create your views here.
+@api_view(['GET'])
+def get_user_illness_count(request):
+    email = request.query_params.get('email', None)
+    if not email:
+        return Response({'Error': 'Related data not fetched'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    illness_count = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+    now = timezone.now()
+    date_filter = ['week', 'month', 'year']
+    context = {}
+
+    for date in date_filter:
+        if date == 'week':
+            start = now - timedelta(days = 6)
+            max_range = 7
+            date_string = '%A, %d'
+            date_loop = 1
+        elif date == 'month':
+            start = now - timedelta(days = 30)
+            max_range = 6
+            date_string = '%B, %d'
+            date_loop = 5
+        elif date == 'year':
+            start = now - timedelta(days = 365)
+            max_range = 13
+            date_string = '%B'
+            date_loop = 1
+        else:
+            start = None 
+        
+        for offset in range(max_range):
+            if date == 'month':
+                main_start = start + timedelta(days = offset * date_loop)
+                main_end = main_start + timedelta(days = date_loop)
+
+            if date == 'week':
+                new_start = start + timedelta(days = offset*1)
+                main_start = new_start.replace(hour=0, minute=0, second=0, microsecond=0)
+                main_end = new_start.replace(hour=23, minute=59, second=59, microsecond=999999)
+
+            if date == 'year':
+                main_start = start + relativedelta(months = offset)
+                main_end = main_start + relativedelta(months=1)          
+
+            try:
+                count = Illness.objects.filter(added__gte=main_start, added__lt=main_end).count()
+                visit_data[date][main_start.strftime(date_string)] = count or 0
+
+                context.update({
+                    'visit_data': visit_data
+                })
+
+            except Exception as e:
+                return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    return JsonResponse(context)
+
+
+@api_view(['GET'])
+def get_visit_data(request):
+    visit_data = defaultdict(lambda: defaultdict(int))
+    context = {}
+    email = request.query_params.get('email', None)
+
+    if email:
+        try:
+
+            visits =Illness.objects.filter( patient__email = str(email) )
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        visits = Illness.objects.all().values('added')
+
+
+    #temporary
+    visits = Illness.objects.filter(patient__id = 40).values('added')
+    
+    now = timezone.now()
+
+    date_filter = ['week', 'month', 'year']
+
+    for date in date_filter:
+        if date == 'week':
+            start = now - timedelta(days = 6)
+            max_range = 7
+            date_string = '%A, %d'
+            date_loop = 1
+        elif date == 'month':
+            start = now - timedelta(days = 30)
+            max_range = 6
+            date_string = '%B, %d'
+            date_loop = 5
+        elif date == 'year':
+            start = now - timedelta(days = 365)
+            max_range = 13
+            date_string = '%B'
+            date_loop = 1
+        else:
+            start = None 
+        
+        for offset in range(max_range):
+            if date == 'month':
+                main_start = start + timedelta(days = offset * date_loop)
+                main_end = main_start + timedelta(days = date_loop)
+
+            if date == 'week':
+                new_start = start + timedelta(days = offset*1)
+                main_start = new_start.replace(hour=0, minute=0, second=0, microsecond=0)
+                main_end = new_start.replace(hour=23, minute=59, second=59, microsecond=999999)
+
+            if date == 'year':
+                main_start = start + relativedelta(months = offset)
+                main_end = main_start + relativedelta(months=1)          
+
+            try:
+                count = Illness.objects.filter(added__gte=main_start, added__lt=main_end).count()
+                visit_data[date][main_start.strftime(date_string)] = count or 0
+
+                context.update({
+                    'visit_data': visit_data
+                })
+
+            except Exception as e:
+                return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    return JsonResponse(context)
+
+
+
+@api_view(['GET'])
+def get_session_email(request):
+    email = request.session.get('email')
+    context = {
+        'email':email
+    }
+    return JsonResponse(context)
+
 @api_view(['GET'])
 def api_data(request):
     beds = BedStat.objects.all()
@@ -212,7 +350,11 @@ def filtered_account_list(request):
     return JsonResponse(users_list, safe=False)
 
 
+@api_view(['GET'])
+def visit_data(request):
+    email = request.query_params.get('email')
 
+    return JsonResponse({}, safe=False)
     
 
 
