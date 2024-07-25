@@ -1,5 +1,6 @@
 main{
     margin-top: 1rem;
+    color: var(--normal-fontcolor);
 }
 .add-buttons{
     display: flex;

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
+<head>
+    <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <link rel="stylesheet" href="styles/modern-normalize.css">
         <link rel="stylesheet" href="styles/components/nurse/nav.css">
-        <link rel="stylesheet" href="styles/components/nurse/overview-main.css">
+        <link rel="stylesheet" href="styles/components/nurse/record-main.css">
         <link rel="stylesheet" href="styles/style.css">
         <link rel="stylesheet" href="styles/utils.css">
         
@@ -14,17 +14,16 @@
 
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet">
         
-        <title>Health Harmony Overview</title>
-        
-    </head>
+    <title>Health Harmony Record</title>
+</head>
 <body>
-    <div class="nurse-container">
+    <div class="nurse-container2">
         <aside>
             <div class="logo">
                 <img src="../../static/assets/images/landing-page/logo/adminlogo.svg"> 
             </div>
             <div class="sidebar">
-                <a href="#" class="active">
+                <a href="./newNurse.html">
                     <span>
                             <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M14.3707 7.06811L24.4793 7.06811L25.8513 7.13622L26.3977 7.27245L26.9441 7.47678L27.3539 7.68111L27.6954 7.95356L28.0369 8.29412L28.3785 8.70279L28.5151 8.90712L28.608 9.11146L28.7036 9.31579L28.7883 9.52012L28.9249 9.92879L28.9872 10.4056L28.9973 10.6099L29 10.8824L29 11.291L28.9872 14.7647L28.9872 21.7121L14.3707 21.7802L14.3707 7.06811Z" fill="#97A1AF"/>
@@ -42,7 +41,7 @@
                     </span>
                     <span class="span-lightgray">Inventory</span>
                 </a>
-                <a href="./nurse-record.html">
+                <a href="./nurse-record.html" class="active">
                     <span>
                         <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M23.5455 7.63636H20.9436C20.7748 7.15891 20.4625 6.74536 20.0494 6.4524C19.6363 6.15945 19.1428 6.00142 18.6364 6H15.3636C14.8572 6.00142 14.3637 6.15945 13.9506 6.4524C13.5375 6.74536 13.2252 7.15891 13.0564 7.63636H10.4545C9.80356 7.63636 9.17924 7.89497 8.71892 8.35528C8.2586 8.8156 8 9.43992 8 10.0909V26.4545C8 27.1055 8.2586 27.7299 8.71892 28.1902C9.17924 28.6505 9.80356 28.9091 10.4545 28.9091H23.5455C24.1964 28.9091 24.8208 28.6505 25.2811 28.1902C25.7414 27.7299 26 27.1055 26 26.4545V10.0909C26 9.43992 25.7414 8.8156 25.2811 8.35528C24.8208 7.89497 24.1964 7.63636 23.5455 7.63636ZM14.5455 8.45455C14.5455 8.23755 14.6317 8.02944 14.7851 7.876C14.9385 7.72256 15.1466 7.63636 15.3636 7.63636H18.6364C18.8534 7.63636 19.0615 7.72256 19.2149 7.876C19.3683 8.02944 19.4545 8.23755 19.4545 8.45455V9.27273H14.5455V8.45455ZM24.3636 26.4545C24.3636 26.6715 24.2774 26.8796 24.124 27.0331C23.9706 27.1865 23.7624 27.2727 23.5455 27.2727H10.4545C10.2376 27.2727 10.0294 27.1865 9.876 27.0331C9.72256 26.8796 9.63636 26.6715 9.63636 26.4545V10.0909C9.63636 9.87391 9.72256 9.66581 9.876 9.51237C10.0294 9.35893 10.2376 9.27273 10.4545 9.27273H12.9091V10.9091H21.0909V9.27273H23.5455C23.7624 9.27273 23.9706 9.35893 24.124 9.51237C24.2774 9.66581 24.3636 9.87391 24.3636 10.0909V26.4545Z" fill="#97A1AF"/>
@@ -90,27 +89,69 @@
             </div>
         </aside>
 
+        <!-- MAIN -->
         <main>
-            <h2>Appointment</h2>
-            <div class="top-part">
-                <div class="add-buttons">
-                    <button class="add-patient"><span class="material-symbols-sharp">add</span> Add Patient </button>
-                    <button class="create-post"><span class="material-symbols-sharp">add</span> Create Post </button>
-                </div>
-                <div class="today-patient">
-                        <div class="info">
-                            <span>Today's Patients</span>
-                            <h1>00</h1>
-                        </div>
-                </div>
-                <div class="today-patient">
-                        <div class="info">
-                            <span>Total Patients</span>
-                            <h1>00</h1>
-                        </div>
-                </div>
+            <h2>Record</h2>
+            <div class="record">
+                <h3>General Log</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="table-head">Date/Time</th>
+                            <th class="table-head">No</th>
+                            <th class="table-head">Name</th>
+                            <th class="table-head">Sex</th>
+                            <th class="table-head">Age</th>
+                            <th class="table-head">Address</th>
+                            <th class="table-head">Course/YR-Sec</th>
+                            <th class="table-head">Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="table-data">12/14/2025 08:10am</td>
+                            <td class="table-data">1</td>
+                            <td class="table-data">Charles Berc</td>
+                            <td class="table-data">Male</td>
+                            <td class="table-data">18</td>
+                            <td class="table-data">Bacolor</td>
+                            <td class="table-data">BSIT 3-A</td>
+                            <td class="table-data">sadfsd12@gmail.com</td>
+                        </tr>
+                        <tr>
+                            <td class="table-data">12/14/2025 08:10am</td>
+                            <td class="table-data">1</td>
+                            <td class="table-data">Charles Berc</td>
+                            <td class="table-data">Male</td>
+                            <td class="table-data">18</td>
+                            <td class="table-data">Bacolor</td>
+                            <td class="table-data">BSIT 3-A</td>
+                            <td class="table-data">sadfsd12@gmail.com</td>
+                        </tr>
+                        <tr>
+                            <td class="table-data">12/14/2025 08:10am</td>
+                            <td class="table-data">1</td>
+                            <td class="table-data">Charles Berc</td>
+                            <td class="table-data">Male</td>
+                            <td class="table-data">18</td>
+                            <td class="table-data">Bacolor</td>
+                            <td class="table-data">BSIT 3-A</td>
+                            <td class="table-data">sadfsd12@gmail.com</td>
+                        </tr>
+                        <tr>
+                            <td class="table-data">12/14/2025 08:10am</td>
+                            <td class="table-data">1</td>
+                            <td class="table-data">Charles Berc</td>
+                            <td class="table-data">Male</td>
+                            <td class="table-data">18</td>
+                            <td class="table-data">Bacolor</td>
+                            <td class="table-data">BSIT 3-A</td>
+                            <td class="table-data">sadfsd12@gmail.com</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-         </main>
+        </main>
 
     </div>
 </body>

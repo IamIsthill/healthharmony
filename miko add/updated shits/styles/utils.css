@@ -59,14 +59,23 @@
 
 /* BUTTON */
 
-  /* YELLOW */
   .yellow_button{
     background: var(--Light-Yellow);
     padding: 0.5rem 1rem;
     border-radius: 8px;
     color:white;
   }
-  /* YELLOW */
+
+  .inventory_cat{
+    padding: 0.4rem 0.6rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-weight: 500;
+
+  }
+
 
 /* BUTTON */
 
@@ -99,11 +108,17 @@ color: var(--Yellow);
 
 
 /* NURSE UTILS */
-.nurse-container{
+.nurse-container, .nurse-container2{
   width: 96%;
   display: grid;
-  grid-template-columns: 12rem auto 23rem;
   gap: 1rem;
   margin: 0 auto;
   /* border: 1px solid peachpuff; */
+}
+.nurse-container{
+  grid-template-columns: 12rem auto 23rem;
+}
+.nurse-container2{
+ grid-template-columns: 12rem auto;
+ /* border: 1px solid black; */
 }

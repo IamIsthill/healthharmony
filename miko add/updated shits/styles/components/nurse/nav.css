@@ -32,7 +32,7 @@ aside{
     transition: all 0.3s ease;
 }
 
-.sidebar a span, a img{
+.sidebar a span, a svg{
     transition: margin-left 0.3s ease;
 }
 .sidebar a:last-child{
@@ -41,10 +41,12 @@ aside{
 }
 .sidebar a.active{
     width: 100%;
-    background-color: var(--color-light);
+    background-color: white;
     margin-left: 0;
-    border-top-left-radius: 0.8rem;
-    border-top-right-radius: 0.8rem;
+}
+.sidebar a.active span, a.active svg path{
+    color: var(--Yellow);
+    fill: var(--Yellow);
 }
 .sidebar a.active::before{
     content: '';
@@ -52,12 +54,12 @@ aside{
     height: 18px;
     background-color: var(--Yellow);
 }
-.sidebar a.active img{
+.sidebar a.active svg{
     margin-left: calc(1rem - 3px);
 }
-.sidebar a:hover img{
+.sidebar a:hover svg{
     margin-left: 0.6rem;
 }
-.sidebar a.active:hover img {
+.sidebar a.active:hover svg {
     margin-left: calc(1rem - 3px); /* Ensures the active state hover does not conflict */
 }
