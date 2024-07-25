@@ -1,9 +1,10 @@
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
-from django.db.models import Q, Count
+from django.db.models import Q, Count, Prefetch
 from datetime import time
 from django.utils import timezone
 from collections import defaultdict
+from django.db import connection
 
 from users.models import User, Department
 from treatment.models import Illness, Category, IllnessTreatment, DoctorDetail
@@ -11,6 +12,7 @@ from inventory.models import InventoryDetail, QuantityHistory
 
 
 # Create your tests here.
+@override_settings(DEBUG=True)
 class DashboardTestCase(TestCase):
 
     @classmethod
@@ -216,6 +218,39 @@ class DashboardTestCase(TestCase):
         }
 
         self.assertDictEqual(dict(illness_count), expected)
+
+    def test_illness_to_illness_treatment_to_inventory(self):
+        connection.queries.clear()
+        treatment = Illness.objects.prefetch_related(
+            Prefetch(
+                'illnesstreatment_set', queryset=IllnessTreatment.objects.select_related('inventory_detail')
+            )
+        )
+
+        # Force evaluation of the queryset
+        treatments_list = list(treatment)
+
+        # Print the QuerySet
+        # print("QuerySet:", treatments_list)
+
+        # Print the SQL query of the treatment queryset
+        # print("Query (treatment.query):", str(treatment.query))
+
+
+        for t in treatment:
+            print(t.patient)
+            for detail in t.illnesstreatment_set.all():
+                print(detail.inventory_detail)
+                print(detail.quantity)
+        
+        print(connection.queries)
+
+ 
+
+        self.assertIsNotNone(treatment)
+
+
+
         
 
 

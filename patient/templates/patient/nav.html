@@ -2,7 +2,7 @@
 {% cache 600 patient_nav %}
 <nav>
   <a href="{% url 'patient-home' %}">Dashboard</a>
-  <a href="#">Health Records</a>
-  <a href="#">Account Setting</a>
+  <a href="{% url 'patient-records' %}">Health Records</a>
+  <a href="#">Patient Profile</a>
 </nav>
 {% endcache %}

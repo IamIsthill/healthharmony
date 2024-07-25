@@ -4,8 +4,12 @@ import requests
 import environ
 from base.functions import get_season, pred, train_model, load_data_and_model
 from django.utils import timezone
+import json
+from collections import defaultdict
+from django.db.models import Prefetch
+from django.db import connection
 
-from treatment.models import Illness, DoctorDetail
+from treatment.models import Illness, DoctorDetail, IllnessTreatment
 from bed.models import BedStat
 from users.models import User
 
@@ -57,3 +61,27 @@ def overview_view(request):
         messages.error(request, f'Failed to fetch data: {e}')
 
     return render(request, 'patient/overview.html', context)
+
+def records_view(request):
+    if 'email' not in request.session:
+        request.session['email'] = request.user.email
+    context = {}
+    try:
+        treatments = Illness.objects.filter(patient=request.user).prefetch_related( 
+            Prefetch(
+                'illnesstreatment_set', queryset=IllnessTreatment.objects.select_related('inventory_detail')
+                )
+        )
+
+        for illness in treatments:
+            for treatment in illness.illnesstreatment_set.all():
+                treatment.quantity = treatment.quantity or 0
+
+        context.update({
+            'treatments':treatments,
+        })
+        
+    except Exception as e:
+        messages.error(request, f'Failed to fetch data, please reload page : {e}')
+
+    return render(request, 'patient/records.html', context)
