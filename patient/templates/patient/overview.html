@@ -99,7 +99,8 @@ messages|has_error_message %}
         </div>
       </div>
     </div>
-    {% endcache %} {% cache 30 bed_monitor %}
+    {% endcache %} 
+    {% cache 30 bed_monitor %}
     <div class="bed-monitor">
       {% if beds %}
       <div class="beds">
@@ -144,7 +145,7 @@ messages|has_error_message %}
       </div>
     </div>
     <div class="right">
-      <h6>Recent Treatments</h6>
+      <h3>Recent Treatments</h3>
       <div>
         <button class="treatment-filter" data-category="week">7 days</button>
         <button class="treatment-filter" data-category="month">30 days</button>
@@ -161,17 +162,13 @@ messages|has_error_message %}
   const mainContainer = document.querySelector(".container");
   const visitCanvas = document.getElementById("visitCanvas");
 
-  document.addEventListener("DOMContentLoaded", main)
-
-
-
-
+  main()
 
   //Grouping the main logic
   async function main() {
     // Temporary, uncomment later
-    //mainContainer.style.display = 'none'
-    //getDashboard()
+    mainContainer.style.display = 'none'
+    getDashboard()
 
     //Fetch session email first
     const session = await fetchSessionEmail();
@@ -189,6 +186,9 @@ messages|has_error_message %}
     updateVisitCanvas(visitData.year)
     createTreatmentBarsCanvas(Object.entries(treatmentData.week), treatmentDataLabels)
     updateTreatmentBars(Object.entries(treatmentData.week), treatmentDataLabels)
+    setTimeout(() => {
+      updateTreatmentBars(Object.entries(treatmentData.week), treatmentDataLabels);
+    }, 1000);
 
     // Date Filter for Visit Records
     const visitFilterBtns = document.querySelectorAll(".visit-filter");
@@ -217,24 +217,33 @@ messages|has_error_message %}
     for( const [key,value] of data){
       maxCount += parseInt(value)
     }
+    
 
     for( const [key, value] of data){
+
       const treatment_name = (getTreatmentName(labels, key))
-      const canvas = document.getElementById(`${key}-${treatment_name}`)
+      const canvasId = `${key}-${treatment_name}`;
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) {
+        console.error(`Canvas with ID ${treatment_name}-${key} not found`);
+        continue;
+      }
       const ctx = canvas.getContext('2d')
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // Clear and reset the canvas dimensions
       canvas.width = 0
       canvas.height = 0
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
       canvas.width = canvas.parentElement.clientWidth;
       canvas.height = canvas.parentElement.clientHeight;
-
+    
       //background bar
       ctx.fillStyle = '#E4E7EC'
       ctx.fillRect(0,0,parseInt(canvas.width),parseInt(canvas.height))
 
       //foreground bar
       ctx.fillStyle = '#FFDA80'
-      let width = (parseInt(canvas.width))/maxCount*(parseInt(value))
+      let width = ((parseInt(canvas.width))/maxCount)*(parseInt(value))
       ctx.fillRect(0,0,width,parseInt(canvas.height))
     }
   }
@@ -257,10 +266,12 @@ messages|has_error_message %}
     for(const [key, value] of data){
       let treatment_name = (getTreatmentName(labels, key))
       let html = `
+      <div>
         <h6> ${treatment_name} </h6>
         <div>
           <canvas id="${key}-${treatment_name}"></canvas>
         </div>
+      </div>
       `
       mainHTML += html
     }
@@ -356,7 +367,7 @@ messages|has_error_message %}
       setTimeout(() => {
         loadingSpinner.style.display = "none";
         mainContainer.style.display = "block";
-      }, 700);
+      }, 400);
     } catch (err) {
       console.log(`System faced some error: ${err.message}`);
     }
