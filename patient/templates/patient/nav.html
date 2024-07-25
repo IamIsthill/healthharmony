@@ -3,6 +3,6 @@
 <nav>
   <a href="{% url 'patient-home' %}">Dashboard</a>
   <a href="{% url 'patient-records' %}">Health Records</a>
-  <a href="#">Patient Profile</a>
+  <a href="{% url 'patient-profile' request.user.id %}">Patient Profile</a>
 </nav>
 {% endcache %}

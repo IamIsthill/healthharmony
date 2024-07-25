@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib import messages
 import requests
 import environ
@@ -85,3 +85,65 @@ def records_view(request):
         messages.error(request, f'Failed to fetch data, please reload page : {e}')
 
     return render(request, 'patient/records.html', context)
+
+def patient_view(request, pk):
+    if request.user.id != pk:
+        return redirect('home')
+    if 'email' not in request.session:
+        request.session['email'] = request.user.email
+    context = {}
+
+    if request.method == 'POST':
+        try:
+            user = request.user
+
+            contact = request.POST.get('contact')
+            year = request.POST.get('year')
+            section = request.POST.get('section')
+            program = request.POST.get('program')
+            sex = request.POST.get('sex')
+            
+            # Update user fields
+            user.first_name = request.POST.get('first_name')
+            user.last_name = request.POST.get('last_name')
+            if contact:
+                user.contact = contact
+            if year:
+                user.year = year
+            if section:
+                user.section = section
+            if program:
+                user.program = program
+            if sex:
+                user.sex = sex
+            
+            # Handle profile image upload
+            if 'profile' in request.FILES:
+                user.profile = request.FILES['profile']
+            
+            # Save the updated user
+            user.save()
+
+            messages.success(request, 'Profile updated successfully!')
+
+
+            context.update({
+                'user':user
+            })
+
+            return redirect('patient-profile')
+        except TypeError as e:
+            messages.error(request, f'{e}')
+        except Exception as e:
+            messages.error(request, f'{e}')
+
+    try:
+        user = request.user
+        context.update({
+            'user':user
+        })
+
+    except Exception as e:
+        messages.error(request, f'Error: {e} \nPlease reload page')
+
+    return render(request, 'patient/patient.html', context)

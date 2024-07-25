@@ -12,9 +12,10 @@ class Department(models.Model):
         return self.department
     
 class User(AbstractUser):
-    first_name = models.CharField(max_length=200, null=True, blank=True)
-    last_name = models.CharField(max_length=200, null=True, blank=True)
+    first_name = models.CharField(max_length=200, null=True, blank=True, default="First Name")
+    last_name = models.CharField(max_length=200, null=True, blank=True, default="Last Name")
     email = models.EmailField(null=True, unique=True)
+    contact = models.IntegerField(null=True, blank=True)
     profile = models.ImageField(default="fallback.png", blank=True)
     year = models.SmallIntegerField(null=True, blank=True)
     section = models.CharField(max_length=10, null=True, blank=True)
