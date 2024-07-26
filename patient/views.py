@@ -12,6 +12,7 @@ from django.db import connection
 from treatment.models import Illness, DoctorDetail, IllnessTreatment
 from bed.models import BedStat
 from users.models import User
+from allauth.socialaccount.models import SocialAccount
 
 # Create your views here.
 def overview_view(request):
@@ -140,6 +141,12 @@ def patient_view(request, pk):
 
     try:
         user = User.objects.prefetch_related('blood_pressures').get(email= request.user.email)
+        social = SocialAccount.objects.get(user=user.id)
+        picture = social.extra_data
+        if picture is not None:
+            context.update({
+                'picture':picture
+            })
         if user.DOB is not None:
             age = now.year - user.DOB.year
             context.update({
@@ -155,7 +162,7 @@ def patient_view(request, pk):
                 })
 
         context.update({
-            'user':user
+            'user':user,
         })
 
     except Exception as e:

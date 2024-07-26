@@ -41,7 +41,14 @@
     <hr />
     <div>
       <h2>Patient Profile</h2>
-      <img src="{{ user.profile.url }}" alt="" />
+      {% if user.profile != 'user_profiles/fallback.png' %}
+        <img src="{{ user.profile.url }}" alt="user_uploaded" />
+      {% elif picture.picture is not None %}
+        <img src="{{ picture.picture }}" alt="google_pic" />
+      {% else %}
+        <img src="{{ user.profile.url }}" alt="fallback" />
+      {% endif %}
+
       <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <label for="">Profile:</label>

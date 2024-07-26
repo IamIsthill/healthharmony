@@ -43,7 +43,9 @@ SOCIALACCOUNT_PROVIDERS = {
             'client_id': env('CLIENT_ID'),
             'secret': env('CLIENT_SECRET'),
             'key': ''
-        }
+        },
+        'OAUTH_PKCE_ENABLED': True,
+        'REDIRECT_URI': 'http://127.0.0.1:7000/accounts/google/login/callback/',
     }
 }
 
@@ -52,7 +54,7 @@ AUTHENTICATION_BACKENDS = {
     "allauth.account.auth_backends.AuthenticationBackend"
 }
 
-LOGIN_REDIRECT_URL = "patient/"
+# LOGIN_REDIRECT_URL = "patient/"
 LOGOUT_REDIRECT_URL = "/"
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True

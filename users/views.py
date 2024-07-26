@@ -3,10 +3,24 @@ from django.contrib.auth import authenticate,login, logout
 from django.contrib import messages
 from django.urls import reverse
 from .forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-
-
+@login_required(login_url='account_login')
+def login_redirect(request):
+    if request.user.is_authenticated:
+        if request.user.access == 3:
+            next_url = reverse('doctor-overview')
+        if request.user.access == 4:
+            next_url = reverse('admin-overview')
+        elif request.user.access == 2:
+            next_url = reverse('staff-overview')
+        elif request.user.access == 1:
+            next_url = reverse('patient-overview')
+        else:
+            next_url = reverse('home')
+        return redirect(next_url)
+    return redirect('account_login') 
 
 
 def register_view(request):
@@ -25,8 +39,36 @@ def register_view(request):
                     return render(request, 'users/register.html')
     return render(request, 'users/register.html')
 
-def login_view(request):
-    return render(request, 'users/login.html')
+def normal_login_view(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            messages.error(request, 'User with this email does not exist.')
+            return redirect('account_login')
+        
+        user = authenticate(request, email=user.email, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, 'Login successful!')
+            # Redirect to the appropriate page after login
+            if user.access == 4:
+                next_url = 'admin-overview'
+            if user.access == 3:
+                next_url = 'doctor-overview'
+            if user.access == 2:
+                next_url = 'staff-overview'
+            if user.access == 1:
+                next_url = 'patient-overview'
+            return redirect(next_url)
+        else:
+            messages.error(request, 'Invalid password.')
+            return redirect('account_login')
+
+    
 
 def logout_view(request):
     logout(request)

@@ -1,48 +1,68 @@
-{% extends "account/base_entrance.html" %}
+{% extends 'account/base_entrance.html' %}
 {% load i18n %}
 {% load allauth account %}
+{% load static %}
 {% block head_title %}
-    {% trans "Sign In" %}
-{% endblock head_title %}
+  {% trans 'Sign In' %}
+{% endblock %}
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+  <link rel="icon" type="image/png" href="{% static 'assets/images/svgs/logotitle.svg' %}" />
+{% endblock %}
 {% block content %}
-    {% element h1 %}
-        {% trans "Sign In" %}
-    {% endelement %}
+  <section class="left-side">
+    <img src="{% static 'assets/images/svgs/logo.svg' %}" class="logo" />
+    {% comment %} {% element h1 %}
+    {% trans 'Sign In' %}
+    {% endelement %} {% endcomment %}
     {% if not SOCIALACCOUNT_ONLY %}
-        {% setvar link %}
-            <a href="{{ signup_url }}">
-            {% endsetvar %}
-            {% setvar end_link %}
-            </a>
+      {% setvar link %}
+      <a href="{{ signup_url }}">
         {% endsetvar %}
-        {% element p %}
-            {% blocktranslate %}If you have not created an account yet, then please {{ link }}sign up{{ end_link }} first.{% endblocktranslate %}
+        {% setvar end_link %}
+      </a>
+      {% endsetvar %}
+      <span class="header">Hello there!</span>
+      {% element p tags='smalltext' %}
+      {% blocktranslate %}If you have not created an account yet, then please {{ link }}sign up{{ end_link }} first.{% endblocktranslate %}
+      {% endelement %}
+      {% comment %} {% url 'account_login' as login_url %}
+      {% element form form=form method='post' action=login_url tags='entrance,login' %}
+      {% slot body %} {% endcomment %}
+      <form action="{% url 'normal-login' %}" method="POST">
+        {% csrf_token %}
+
+        <label for="id_login" class="email">Email:</label>
+        <div class="input-container">
+          <input type="email" name="email" placeholder="Email address" autocomplete="email" maxlength="320" required id="id_login" />
+        </div>
+
+        <label for="id_password" class="pass">Password:</label>
+        <div class="input-container2 input-container">
+          <input type="password" name="password" placeholder="Password" autocomplete="current-password" required aria-describedby="id_password_helptext" id="id_password" />
+
+          <span class="helptext" id="id_password_helptext"><a href="/accounts/password/reset/">Forgot your password?</a></span>
+        </div>
+        {% comment %} <p>
+          <label for="id_remember">Remember Me:</label>
+          <input type="checkbox" name="remember" id="id_remember" />
+        </p> {% endcomment %}
+        {% comment %} {% element fields form=form unlabeled=True %}
+        {% endelement %} {% endcomment %}
+        {% comment %} {{ redirect_field }} {% endcomment %}
+        {% comment %} {% endslot %} {% endcomment %}
+        {% comment %} {% slot actions %} {% endcomment %}
+        {% element button type='submit' tags='prominent,login' %}
+        {% trans 'Sign In' %}
         {% endelement %}
-        {% url 'account_login' as login_url %}
-        {% element form form=form method="post" action=login_url tags="entrance,login" %}
-            {% slot body %}
-                {% csrf_token %}
-                {% element fields form=form unlabeled=True %}
-                {% endelement %}
-                {{ redirect_field }}
-            {% endslot %}
-            {% slot actions %}
-                {% element button type="submit" tags="prominent,login" %}
-                    {% trans "Sign In" %}
-                {% endelement %}
-            {% endslot %}
-        {% endelement %}
+        {% comment %} {% endslot %} {% endcomment %}
+        {% comment %} {% endelement %} {% endcomment %}
+      </form>
     {% endif %}
-    {% if LOGIN_BY_CODE_ENABLED %}
-        {% element hr %}
-        {% endelement %}
-        {% element h2 %}
-            {% element button href=request_login_code_url tags="prominent,login,secondary" %}
-                {% trans "Mail me a sign-in code" %}
-            {% endelement %}
-        {% endelement %}
-    {% endif %}
-    {% if SOCIALACCOUNT_ENABLED %}
-        {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
-    {% endif %}
-{% endblock content %}
+    {% comment %} {% if SOCIALACCOUNT_ENABLED %}
+      {% include 'socialaccount/snippets/login.html' with page_layout='entrance' %}
+    {% endif %} {% endcomment %}
+    <a title="Google" href="/accounts/google/login/?process=login" class="">Login Via Google</a>
+  </section>
+  <img src="{% static 'assets/images/svgs/loginillus.svg' %}" class="illus" />
+{% endblock %}
