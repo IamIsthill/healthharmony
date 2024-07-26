@@ -5,7 +5,17 @@ from inventory.models import InventoryDetail, QuantityHistory
 # Create your models here.
 class DoctorDetail(models.Model):
     doctor = models.ForeignKey(User, on_delete=models.CASCADE)
+    time_avail_start = models.TimeField(null=True)
+    time_avail_end = models.TimeField(null=True)
     avail = models.BooleanField()
+
+    def is_avail(self, check_time):
+        if self.avail and self.time_avail_start <= check_time <= self.time_avail_end:
+            return True
+        return False
+
+    def __str__(self):
+        return f"Doctor: {self.doctor.email}, Available: {self.avail}"       
 
 class Category(models.Model):
     category = models.CharField(max_length=20, null=True, blank=True)

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib import messages
 import requests
 import environ
-from .functions import get_season, pred, train_model, load_data_and_model
+from base.functions import get_season, pred, train_model, load_data_and_model
 # Models
 from bed.models import BedStat
 
@@ -26,6 +26,9 @@ def home(request):
     context = {}
     try:
         beds = BedStat.objects.all()
+        context.update({
+            'beds':beds
+        })
     except Exception as e:
         messages.error(request, f'Error: {e}')
 
@@ -34,7 +37,6 @@ def home(request):
         'feels': feels,
         'predict': predict[0],
         'icon': icon,
-        'beds': beds,
     })
     
     return render(request, 'landingpage.html', context)
