@@ -1,0 +1,6 @@
+{% comment %}djlint:off{% endcomment %}
+{% load allauth %}
+<p class="{% if 'text' in attrs.tags %}text{% endif %}">
+  {% slot default %}
+  {% endslot %}
+</p>

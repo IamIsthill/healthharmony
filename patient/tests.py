@@ -9,6 +9,7 @@ from django.db import connection
 from users.models import User, Department
 from treatment.models import Illness, Category, IllnessTreatment, DoctorDetail
 from inventory.models import InventoryDetail, QuantityHistory
+from blood.models import BloodPressure
 
 
 # Create your tests here.
@@ -47,7 +48,6 @@ class DashboardTestCase(TestCase):
             email='janesmith@gmail.com',
             department=cls.department2
         )
-
 
         cls.inventory = InventoryDetail.objects.create(
             item_no = 1001,
@@ -118,6 +118,11 @@ class DashboardTestCase(TestCase):
             time_avail_start=time(9, 30),
             time_avail_end=time(23, 0),
             avail = True
+        )
+
+        cls.blood1 = BloodPressure.objects.create(
+            patient = cls.user,
+            blood_pressure = 100
         )
 
     # def test_dashboard_status_code(self):
@@ -248,6 +253,14 @@ class DashboardTestCase(TestCase):
  
 
         self.assertIsNotNone(treatment)
+
+    def test_user_to_blood_pressure(self):
+        user = User.objects.prefetch_related('blood_pressures').get(email="bercasiocharles@gmail.com")
+
+        blood_pressure = user.blood_pressures.first()
+        expected = 100
+
+        self.assertEqual(blood_pressure.blood_pressure, expected)
 
 
 

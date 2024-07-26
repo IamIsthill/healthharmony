@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate,login, logout
 from django.contrib import messages
+from django.urls import reverse
 from .forms import UserCreationForm
 
 # Create your views here.
@@ -32,6 +33,16 @@ def logout_view(request):
     return redirect('home')
 
 def google_login_view(request):
+    if request.method == 'POST':
+        if request.user.access == 3:
+            next_url = reverse('doctor-overview')
+        elif request.user.access == 2:
+            next_url = reverse('staff-overview')
+        elif request.user.access == 1:
+            next_url = reverse('patient-overview')
+        else:
+            next_url = reverse('home')
+        return redirect(f"{reverse('google_login')}?next={next_url}")
     return render(request, 'users/google-login.html')
 
 

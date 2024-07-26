@@ -11,6 +11,10 @@
       width: 500px;
       height: 500px;
     }
+    
+    .hide {
+      display: none;
+    }
   </style>
 {% endblock %}
 
@@ -41,17 +45,17 @@
       <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <label for="">Profile:</label>
-        <input type="file" name="profile" />
+        <input type="file" name="profile" id="profile-picture" accept=".png, .jpeg, .jpg" />
         <label for="">First Name:</label>
-        <input type="text" value=" {{ user.first_name }}" name="first_name" />
+        <input type="text" value="{% if user.first_name is not None %}{{ user.first_name }}{% endif %}" name="first_name" />
         <label for="">Last Name:</label>
-        <input type="text" value=" {{ user.last_name }}" name="last_name" />
+        <input type="text" value="{% if user.last_name is not None %}{{ user.last_name }}{% endif %}" name="last_name" />
         <label for="">Year:</label>
         <input type="number" value="{{ user.year }}" name="year" />
         <label for="">Section:</label>
         <input type="number" value="{{ user.section }}" name="section" />
         <label for="">Program:</label>
-        <input type="text" value="{{ user.program }}" name="program" />
+        <input type="text" value="{% if user.program is not None %}{{ user.program }}{% endif %}" name="program" />
         <label for="">Department:</label>
         <input type="text" value="{{ user.department }}" name="department" />
         <br />
@@ -72,36 +76,49 @@
     <div>
       <div>
         <h3>Detailed Information</h3>
-        <p>Age:</p>
-        <p>
-          Sex:{% if user.sex is not None %}
-            {{ user.sex }}
-          {% endif %}
-        </p>
-        <p>
-          Contact Number:{% if user.contact is not None %}
-            {{ user.contact }}
-          {% endif %}
-        </p>
-        <p>
-          Year and Section:{% if user.year and user.section is not None %}
-            {{ user.year }} - {{ user.section }}
-          {% elif user.year is not None %}
-            {{ user.year }}
-          {% elif user.section is not None %}
-            {{ user.section }}
-          {% endif %}
-        </p>
-        <p>Program: {{ user.program }}</p>
-        <p>Department: {{ user.department }}</p>
+        {% if age %}
+          <p>Age:{{ age }}</p>
+        {% endif %}
+        {% if user.sex is not None %}
+          <p>Sex:{{ user.sex }}</p>
+        {% endif %}
+        {% if user.contact is not None %}
+          <p>Contact:{{ user.contact }}</p>
+        {% endif %}
+        {% if user.year and user.section is not None %}
+          <p>Year and Section: {{ user.year }} - {{ user.section }}</p>
+        {% elif user.year is not None %}
+          <p>Year:{{ user.year }}</p>
+        {% elif user.section %}
+          <p>Section:{{ user.section }}</p>
+        {% endif %}
+        {% if user.program is not None %}
+          <p>Program: {{ user.program }}</p>
+        {% endif %}
+        {% if user.department is not None %}
+          <p>Department: {{ user.department }}</p>
+        {% endif %}
       </div>
       <div>
         <h3>Vital Statistics</h3>
-        <p>Blood Type: {{ user.blood_type }}</p>
-        <p>Height: {{ user.height }}</p>
-        <p>Weight: {{ user.weight }}</p>
+        {% if user.blood_type is not None %}
+          <p>Blood Type: {{ user.blood_type }}</p>
+        {% endif %}
+        {% if blood_pressure %}
+          <p>Blood Pressure:{{ blood_pressure }}</p>
+        {% endif %}
+        {% if user.height is not None %}
+          <p>Height: {{ user.height }}</p>
+        {% endif %}
+        {% if user.weight is not None %}
+          <p>Weight: {{ user.weight }}</p>
+        {% endif %}
       </div>
     </div>
+  </div>
+  <div id="profileModal" class="hide">
+    <div>Invalid file type. Please upload a PNG, JPEG, or JPG file.</div>
+    <button class="close">Ok</button>
   </div>
 {% endblock %}
 {% block script %}

@@ -92,6 +92,7 @@ def patient_view(request, pk):
     if 'email' not in request.session:
         request.session['email'] = request.user.email
     context = {}
+    now = timezone.now()
 
     if request.method == 'POST':
         try:
@@ -131,14 +132,28 @@ def patient_view(request, pk):
                 'user':user
             })
 
-            return redirect('patient-profile')
+            return redirect('patient-profile', user.id)
         except TypeError as e:
             messages.error(request, f'{e}')
         except Exception as e:
             messages.error(request, f'{e}')
 
     try:
-        user = request.user
+        user = User.objects.prefetch_related('blood_pressures').get(email= request.user.email)
+        if user.DOB is not None:
+            age = now.year - user.DOB.year
+            context.update({
+                'age':age
+            })
+
+        if user.blood_pressures.first():
+            latest_bp = user.blood_pressures.first()
+            if latest_bp.blood_pressure is not None:
+                blood_pressure = latest_bp.blood_pressure
+                context.update({
+                    'blood_pressure':blood_pressure
+                })
+
         context.update({
             'user':user
         })
