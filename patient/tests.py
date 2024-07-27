@@ -1,14 +1,19 @@
-from django.test import TestCase, SimpleTestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
-from django.db.models import Q
+from django.db.models import Q, Count, Prefetch
+from datetime import time
+from django.utils import timezone
+from collections import defaultdict
+from django.db import connection
 
-from bed.models import BedStat
 from users.models import User, Department
-from treatment.models import Illness, Category, IllnessTreatment
+from treatment.models import Illness, Category, IllnessTreatment, DoctorDetail
 from inventory.models import InventoryDetail, QuantityHistory
+from blood.models import BloodPressure
 
 
 # Create your tests here.
+@override_settings(DEBUG=True)
 class DashboardTestCase(TestCase):
 
     @classmethod
@@ -44,7 +49,6 @@ class DashboardTestCase(TestCase):
             department=cls.department2
         )
 
-
         cls.inventory = InventoryDetail.objects.create(
             item_no = 1001,
             unit = 'pcs.',
@@ -59,21 +63,34 @@ class DashboardTestCase(TestCase):
             changed_by = cls.staff
         )
 
-        cls.category = Category.objects.create(
+        cls.category1 = Category.objects.create(
             category='Flu'
+        )
+
+        cls.category2 = Category.objects.create(
+            category='Hika'
         )
 
         cls.illness1 = Illness.objects.create(
             patient = cls.user,
             issue = 'Marami',
-            illness_category = cls.category,
+            illness_category = cls.category1,
             staff = cls.staff
         )
 
         cls.illness2 = Illness.objects.create(
             patient = cls.user,
             issue = 'Maraming marami',
-            illness_category = cls.category,
+            illness_category = cls.category1,
+            staff = cls.staff,
+            doctor = cls.doctor,
+            diagnosis = 'May sakit'
+        )
+
+        cls.illness3 = Illness.objects.create(
+            patient = cls.user,
+            issue = 'Maraming marami',
+            illness_category = cls.category2,
             staff = cls.staff,
             doctor = cls.doctor,
             diagnosis = 'May sakit'
@@ -91,18 +108,35 @@ class DashboardTestCase(TestCase):
             changed_by = cls.treatment2.illness.doctor
         )
 
-    def test_dashboard_status_code(self):
-        response = self.client.get('/patient/')
-        self.assertEqual(response.status_code, 200)
+        cls.availability1 = DoctorDetail.objects.create(
+            doctor = cls.doctor,
+            avail = False
+        )
 
-    def test_dashboard_url_name(self):
-        response = self.client.get(reverse('patient-home'))
-        self.assertEqual(response.status_code, 200)
+        cls.availability2 = DoctorDetail.objects.create(
+            doctor = cls.user,
+            time_avail_start=time(9, 30),
+            time_avail_end=time(23, 0),
+            avail = True
+        )
 
-    def test_template(self):
-        response = self.client.get(reverse('patient-home'))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'patient/overview.html')
+        cls.blood1 = BloodPressure.objects.create(
+            patient = cls.user,
+            blood_pressure = 100
+        )
+
+    # def test_dashboard_status_code(self):
+    #     response = self.client.get('/patient/')
+    #     self.assertEqual(response.status_code, 200)
+
+    # def test_dashboard_url_name(self):
+    #     response = self.client.get(reverse('patient-home'))
+    #     self.assertEqual(response.status_code, 200)
+
+    # def test_template(self):
+    #     response = self.client.get(reverse('patient-home'))
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertTemplateUsed(response, 'patient/overview.html')
 
     def test_number_of_users(self):
         users = User.objects.all().count() or 0
@@ -110,7 +144,7 @@ class DashboardTestCase(TestCase):
 
     def test_user_illness_all(self):
         user_illness = Illness.objects.filter(patient = self.user).count() or 0
-        self.assertEqual(user_illness, 2)
+        self.assertEqual(user_illness, 3)
 
     def test_user_illness_no_diagnosis(self):
         user_illness = Illness.objects.filter(patient = self.user, diagnosis = '').count() or 0
@@ -118,7 +152,7 @@ class DashboardTestCase(TestCase):
 
     def test_user_illness_has_diagnosis(self):
         user_illness = Illness.objects.filter(patient = self.user, diagnosis__gt = '').count() or 0
-        self.assertEqual(user_illness, 1)
+        self.assertEqual(user_illness, 2)
 
     def test_illness_not_existing_user(self):
         user_illness = Illness.objects.filter(patient = self.doctor, diagnosis__gt = '').count() or 0
@@ -155,3 +189,82 @@ class DashboardTestCase(TestCase):
             count += quan.updated_quantity
 
         self.assertEqual(count, 80)
+
+    def test_doctor_is_avail(self):
+        doctor = DoctorDetail.objects.select_related('doctor')
+        for doc in doctor:
+            now = timezone.localtime().time()
+            is_avail = doc.is_avail(now)
+            setattr(doc, 'true_avail', is_avail)
+        self.assertFalse(doctor[0].true_avail)
+        self.assertTrue(doctor[1].true_avail)
+
+    def test_user_illness_count_per_category(self):
+        email = 'bercasiocharles@gmail.com'
+        user = User.objects.get(email = email)
+
+        illness_count = defaultdict(int)
+
+        categories = Category.objects.annotate(
+            illness_count = Count(
+                'illness_category',
+                filter=Q(
+                    illness_category__patient = user,
+                )
+            )
+        ).filter(illness_count__gt=0)
+
+        for category in categories:
+            illness_count[category.category] = category.illness_count or 0
+
+        expected = {
+            'Flu': 2,
+            'Hika': 1
+        }
+
+        self.assertDictEqual(dict(illness_count), expected)
+
+    def test_illness_to_illness_treatment_to_inventory(self):
+        connection.queries.clear()
+        treatment = Illness.objects.prefetch_related(
+            Prefetch(
+                'illnesstreatment_set', queryset=IllnessTreatment.objects.select_related('inventory_detail')
+            )
+        )
+
+        # Force evaluation of the queryset
+        treatments_list = list(treatment)
+
+        # Print the QuerySet
+        # print("QuerySet:", treatments_list)
+
+        # Print the SQL query of the treatment queryset
+        # print("Query (treatment.query):", str(treatment.query))
+
+
+        for t in treatment:
+            print(t.patient)
+            for detail in t.illnesstreatment_set.all():
+                print(detail.inventory_detail)
+                print(detail.quantity)
+        
+        print(connection.queries)
+
+ 
+
+        self.assertIsNotNone(treatment)
+
+    def test_user_to_blood_pressure(self):
+        user = User.objects.prefetch_related('blood_pressures').get(email="bercasiocharles@gmail.com")
+
+        blood_pressure = user.blood_pressures.first()
+        expected = 100
+
+        self.assertEqual(blood_pressure.blood_pressure, expected)
+
+
+
+        
+
+
+

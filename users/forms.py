@@ -4,7 +4,13 @@ from .models import User
 from allauth.account.forms import SignupForm, LoginForm
 from django.core.exceptions import ValidationError
 from django import forms
-
+from allauth.socialaccount.models import SocialAccount
+import requests
+from allauth.account.adapter import get_adapter
+from django.core.files.base import ContentFile
+from django import forms
+from allauth.account.forms import SignupForm
+from uuid import uuid4
 
 class UserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
@@ -30,6 +36,17 @@ class GoogleSignUpForm(SignupForm):
         user.first_name = self.cleaned_data['first_name']
         user.last_name = self.cleaned_data['last_name']
         user.save()
+
+        social_account = SocialAccount.objects.get(user=user, provider='google')
+        extra_data = social_account.extra_data
+        picture_url = extra_data.get('picture')
+        print(picture_url)
+
+        if picture_url:
+            response = requests.get(picture_url)
+            if response.status_code == 200:
+                user.profile.save(f'{uuid4()}.jpg', ContentFile(response.content), save=True)
+
         return user
 
     

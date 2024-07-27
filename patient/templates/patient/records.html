@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load cache %}
+{% load static %}
+{% load tags %}
+{% block header %}
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <style>
+    .hide {
+      display: none;
+    }
+    .show {
+      display: block;
+    }
+  </style>
+{% endblock %}
+
+{% block title %}
+  Health Records | HealthHarmony
+{% endblock %}
+
+{% block message %}
+  {% if messages %}
+    <div>
+      {% for m in messages %}
+        <p>{{ m }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}
+{% block main %}
+  <div class="spinner-border" role="status" id="loading-spinner">
+    <span class="visually-hidden text-success">Loading...</span>
+  </div>
+  {% include 'patient/nav.html' %}
+  <div class="container">
+    <h3>Health Records</h3>
+
+    <ul>
+      {% for illness in treatments %}
+        <li>
+          <div class="visible">
+            <h2>{{ illness.issue }} (Added: {{ illness.added|date:'j'|ordinal }} {{ illness.added|date:'F, Y g:i A' }})</h2>
+            <button class="more-info">Show More</button>
+          </div>
+          <div class="hidden hide">
+            <p>Diagnosis: {{ illness.diagnosis }}</p>
+            <h3>Treatments:</h3>
+            <ul>
+              {% for treatment in illness.illnesstreatment_set.all %}
+                <li>
+                  Medicine: {{ treatment.inventory_detail.item_name }}<br />
+                  Quantity: {{ treatment.quantity }} {{ treatment.inventory_detail.unit }}
+                </li>
+              {% empty %}
+                <li>No treatments found.</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </li>
+      {% empty %}
+        <li>No illnesses found.</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}
+{% block script %}
+  <script type="module">
+    import { setSpinner } from '/static/js/spinner.js'
+    
+    main()
+    
+    async function main() {
+      const mainContainer = document.querySelector('.container')
+      const spinner = document.getElementById('loading-spinner')
+      const pageUrl = '/patient/records/'
+    
+      setSpinner(mainContainer, spinner, pageUrl)
+    
+      // Show More
+      const showMoreBtns = document.querySelectorAll('.more-info')
+      for (const btn of showMoreBtns) {
+        btn.addEventListener('click', () => {
+          const mainInfo = btn.parentElement
+          const moreInfo = mainInfo.nextElementSibling
+    
+          if (moreInfo.classList.contains('hide')) {
+            moreInfo.classList.add('show')
+            moreInfo.classList.remove('hide')
+          } else {
+            moreInfo.classList.remove('show')
+            moreInfo.classList.add('hide')
+          }
+        })
+      }
+    
+      //===========================================
+    }
+  </script>
+{% endblock %}

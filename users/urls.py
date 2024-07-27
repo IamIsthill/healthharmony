@@ -4,8 +4,10 @@ from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    path('accounts/signup/', views.register_view, name="register" ),
-    path('accounts/logins/', views.login_view, name='login'),
+
+    path("accounts/profile/", views.login_redirect, name="login-redirect"),
+    path('accounts/signup/', views.register_view, name="account_signup" ),
+    # path('accounts/login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     # path('accounts/google/login/', views.google_login_view, name='google-login'),
     # path('accounts/google/login/', TemplateView.as_view(template_name='users/google-login.html'), name='google-login'),
@@ -17,5 +19,6 @@ urlpatterns = [
     path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(), name="password_reset_complete"),
     # path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(template_name='users/password_reset_complete.html'), name="password_reset_complete"),
     path("accounts/", include("allauth.urls")),
+    path('login/', views.normal_login_view, name="normal-login")
 ]
 
