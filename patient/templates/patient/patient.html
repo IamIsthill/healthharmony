@@ -64,7 +64,7 @@
         <label for="">Program:</label>
         <input type="text" value="{% if user.program is not None %}{{ user.program }}{% endif %}" name="program" />
         <label for="">Department:</label>
-        <input type="text" value="{{ user.department }}" name="department" />
+        <input type="text" value="{% if user.department is not None %}{{ user.department }}{% endif %}" name="department" />
         <br />
         <label for="sex">Sex:</label>
 

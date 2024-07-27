@@ -35,7 +35,7 @@
   {% include 'patient/nav.html' %}
   <div class="container">
     <h3>Health Records</h3>
-
+    {% cache 100 records %}
     <ul>
       {% for illness in treatments %}
         <li>
@@ -62,6 +62,7 @@
         <li>No illnesses found.</li>
       {% endfor %}
     </ul>
+    {% endcache %}
   </div>
 {% endblock %}
 {% block script %}

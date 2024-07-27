@@ -12,10 +12,12 @@ from django.db import connection
 from treatment.models import Illness, DoctorDetail, IllnessTreatment
 from bed.models import BedStat
 from users.models import User
+from administrator.models import Log
 from allauth.socialaccount.models import SocialAccount
 
 # Create your views here.
 def overview_view(request):
+    access_checker(request)
     # set session data
     if 'email' not in request.session:
         request.session['email'] = request.user.email
@@ -64,6 +66,7 @@ def overview_view(request):
     return render(request, 'patient/overview.html', context)
 
 def records_view(request):
+    access_checker(request)
     if 'email' not in request.session:
         request.session['email'] = request.user.email
     context = {}
@@ -88,6 +91,7 @@ def records_view(request):
     return render(request, 'patient/records.html', context)
 
 def patient_view(request, pk):
+    access_checker(request)
     if request.user.id != pk:
         return redirect('home')
     if 'email' not in request.session:
@@ -126,6 +130,11 @@ def patient_view(request, pk):
             # Save the updated user
             user.save()
 
+            Log.objects.create(
+                user = user,
+                action = f'Updated profile information'
+            )
+
             messages.success(request, 'Profile updated successfully!')
 
 
@@ -141,31 +150,37 @@ def patient_view(request, pk):
 
     try:
         user = User.objects.prefetch_related('blood_pressures').get(email= request.user.email)
-        social = SocialAccount.objects.get(user=user.id)
-        picture = social.extra_data
-        if picture is not None:
-            context.update({
-                'picture':picture
-            })
+        # Try to fetch the social account
+        try:
+            social = SocialAccount.objects.get(user=user.id, provider='google')
+            picture = social.extra_data.get('picture')
+            if picture:
+                context.update({'picture': picture})
+        except SocialAccount.DoesNotExist:
+            pass
         if user.DOB is not None:
             age = now.year - user.DOB.year
             context.update({
                 'age':age
             })
 
-        if user.blood_pressures.first():
-            latest_bp = user.blood_pressures.first()
-            if latest_bp.blood_pressure is not None:
-                blood_pressure = latest_bp.blood_pressure
-                context.update({
-                    'blood_pressure':blood_pressure
-                })
+        # Get the latest blood pressure if available
+        latest_bp = user.blood_pressures.first()
+        if latest_bp and latest_bp.blood_pressure:
+            blood_pressure = latest_bp.blood_pressure
+            context.update({'blood_pressure': blood_pressure})
 
         context.update({
             'user':user,
         })
 
+    except User.DoesNotExist:
+        messages.error(request, 'User not found.')
     except Exception as e:
         messages.error(request, f'Error: {e} \nPlease reload page')
 
     return render(request, 'patient/patient.html', context)
+
+def access_checker(request):
+    if request.user.access < 1:
+        return redirect('home')
