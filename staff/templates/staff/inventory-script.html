@@ -1,5 +1,9 @@
+{% if inventory %}
 {{ inventory|json_script:'inventory-data' }}
+{% endif %}
+{% if inventory_data %}
 {{ inventory_data|json_script:'inventory-counts' }}
+{% endif %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     // Inventory category
@@ -10,6 +14,10 @@ const inventoryCategoryBtns = document.querySelectorAll('.inventory-category')
 inventoryCategoryBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
     let text = btn.innerText.toLowerCase()
+    for( const catbtn of inventoryCategoryBtns){
+        catbtn.classList.remove('active')
+    }
+    btn.classList.add('active')
     inventoryFilter = text
     filterInventoryData()
     renderFilteredInventory()
@@ -72,6 +80,28 @@ function formatDate(dateString) {
     const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date)
     return formattedDate
 }
+//==========================================
+// Inventory sort select
+const inventorySortSelect = document.getElementById('inventory-sort-select')
+ inventorySortSelect.addEventListener('change', () => {  // if inventory sorter is change
+    let text = inventorySortSelect.value.toLowerCase()
+
+    if (sortDirection[text] === 'asc') {
+        sortDirection[text] = 'desc'
+    } else {
+        sortDirection[text] = 'asc'
+    }
+    if (text === 'name') {
+        filteredData = [...filteredData.sort((a, b) => compareItemNames(a, b, sortDirection.name))]
+    } else if (text === 'stock') {
+        filteredData = [...filteredData.sort((a, b) => compareStock(a, b, sortDirection.stock))]
+    } else if (text === 'date') {
+        filteredData = [...filteredData.sort((a, b) => compareDates(a, b, sortDirection.date))]
+    }
+
+    renderFilteredInventory()
+})
+
 //==========================================
 
 // Inventory Sort
