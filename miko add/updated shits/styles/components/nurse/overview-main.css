@@ -1,0 +1,73 @@
+main{
+    margin-top: 1rem;
+    color: var(--normal-fontcolor);
+}
+.add-buttons{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    /* border: 1px solid pink; */
+    width: 170px;
+}
+.add-buttons button{ 
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: 160px;
+    padding: 0.4rem 1rem;
+    font-family: var(--mainfont);
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    transition: all 0.1s ease;
+}
+.add-buttons .add-patient{
+    color: white;
+    background: var(--Light-Yellow);
+} 
+.add-buttons .add-patient:hover{
+    /* background: var(--Yellow); */
+    border: 2px solid var(--Yellow);
+}
+.add-buttons .create-post{
+    color: var(--normal-fontcolor);
+}
+.add-buttons .create-post:hover{
+    color: var(--Light-Yellow);
+    border: 1px solid var(--Light-Yellow);
+}
+main .top-part{
+    margin-top: 0.5rem;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    align-items: center;
+}
+
+main .today-patient{
+    width: 13rem;
+    height: 5.8rem;
+    border-radius: 10px;
+    background: white;
+    box-shadow: var(--box-shadow2); 
+    justify-items: right;
+    display: flex; /* Ensure .today-patient is also flex container */
+    align-items: center; /* Center vertically */
+    transition: all 0.3s ease;
+}
+main .today-patient:hover{
+    box-shadow: var(--box-shadowlight);
+}
+main .today-patient:hover h1{
+    color: #2FC32C;
+}
+main .today-patient .info{
+    margin-left: 1rem;
+}
+main .today-patient .info h1{
+    font-weight: 500;
+}
+main .today-patient .info span{
+    font-size: small;
+    color: var(--normal-fontcolor);
+}

@@ -1,0 +1,90 @@
+main{
+    margin-top: 1.5rem;
+    color: var(--normal-fontcolor);
+}
+.inventory{
+    margin-top: 1.3rem;
+    color: var(--normal-fontcolor);
+}
+.inventory h2{
+    margin-bottom: 0.8rem;
+}
+.inventory table{
+    background-color: white;
+    width: 100%;
+    padding: 0.5rem 1.5rem;
+    text-align: center;
+    box-shadow: var(--box-shadow2);
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+    border-collapse: separate; /* Allows spacing between rows */
+    border-spacing: 0px 8px;
+}
+.inventory table:hover{
+    box-shadow: var(--box-shadowlight);
+}
+main table tbody td{
+    height: 2.8rem;
+    color: var(--normal-fontcolor);
+}
+main table th, td{
+    text-align: left;
+}
+.header-content {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+}
+.header-content{
+    /* border: 1px solid rebeccapurple; */
+    text-align: left;
+}
+.header-content h1 {
+    /* border: 1px solid orange; */
+    font-size: var(--size-lg);
+    color: var(--normal-fontcolor);
+    font-weight: bold;
+}
+/* CATEGORY */
+.category-buttons {
+    display: flex;
+    gap: 0.2rem;
+    font-size:var(--size-xs) ;
+}
+.category-buttons .inventory_cat.active {
+    border: 1px solid var(--normal-fontcolor); /* Active button color */
+    color: var(--normal-fontcolor);
+}
+.category-buttons .inventory_cat:not(.active):hover{
+    border: 1px solid var(--normal-fontcolor);
+}
+.category-buttons .inventory_cat:not(.active) {
+     /* Inactive button color */
+    color: #aaaaaa;
+    transition: all 0.3s ease;
+}
+.sort-by {
+    font-size: var(--size-sm);
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    color: var(--light_gray);
+}
+.sort-by select {
+    padding: 0.3rem 0.2rem;
+    font-size: var(--size-xs);
+    border: none;
+    border-radius: 5px;
+    background-color: white;
+}
+.table-head{
+    font-size: var(--size-sm);
+    opacity: 70%;
+    color: var(--light_gray);
+}
+.table-data{
+    font-size: var(--size-sm);
+    color: var(--normal-fontcolor);
+}
