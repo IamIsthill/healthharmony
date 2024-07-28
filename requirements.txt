@@ -5,9 +5,11 @@ charset-normalizer==3.3.2
 cryptography==42.0.8
 Django==5.0.6
 django-allauth==0.63.3
+django-debug-toolbar==4.4.6
 django-environ==0.11.2
 django-multiselectfield==0.1.12
 django-rest-framework==0.1.0
+django-seed==0.3.1
 djangorestframework==3.15.1
 environ==1.0
 Faker==26.0.0
