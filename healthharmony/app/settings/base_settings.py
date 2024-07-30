@@ -17,7 +17,7 @@ env = environ.Env()
 environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -62,12 +62,12 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 SOCIALACCOUNT_AUTO_SIGNUP = True
-SOCIALACCOUNT_ADAPTER = 'users.adapters.MySocialAccountAdapter'
+SOCIALACCOUNT_ADAPTER = 'healthharmony.users.adapters.MySocialAccountAdapter'
 
 
 ACCOUNT_FORMS = {
-    'signup': 'users.forms.GoogleSignUpForm',
-    'login': 'users.forms.GoogleLoginForm',
+    'signup': 'healthharmony.users.forms.GoogleSignUpForm',
+    'login': 'healthharmony.users.forms.GoogleLoginForm',
 }
 
 
@@ -80,18 +80,23 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "base.apps.BaseConfig",
-    "bed.apps.BedConfig",
-    "api.apps.ApiConfig",
-    "administrator.apps.AdministratorConfig",
-    "inventory.apps.InventoryConfig",
-    "users.apps.UsersConfig",
-    "blood.apps.BloodConfig",
-    "treatment.apps.TreatmentConfig",
     "django.contrib.sites",
-    "patient.apps.PatientConfig",
-    "staff.apps.StaffConfig",
-    "doctor.apps.DoctorConfig",
+
+    # own apps
+    "healthharmony.base.apps.BaseConfig",
+    "healthharmony.bed.apps.BedConfig",
+    "healthharmony.api.apps.ApiConfig",
+    "healthharmony.administrator.apps.AdministratorConfig",
+    "healthharmony.inventory.apps.InventoryConfig",
+    "healthharmony.users.apps.UsersConfig",
+    "healthharmony.blood.apps.BloodConfig",
+    "healthharmony.treatment.apps.TreatmentConfig",
+
+    "healthharmony.patient.apps.PatientConfig",
+    "healthharmony.staff.apps.StaffConfig",
+    "healthharmony.doctor.apps.DoctorConfig",
+
+    # third party
     "django_seed",
     "debug_toolbar", #debug toolbar
     "allauth",
@@ -133,7 +138,7 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",
 ]
 
-ROOT_URLCONF = "app.urls"
+ROOT_URLCONF = "healthharmony.app.urls"
 
 TEMPLATES = [
     {
@@ -153,7 +158,9 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "app.wsgi.application"
+WSGI_APPLICATION = "healthharmony.app.wsgi.application"
+
+ASGI_APPLICATION = "healthharmony.app.asgi.application"
 
 
 # Database
@@ -217,7 +224,7 @@ MEDIA_URL = "/media/"
 
 MEDIA_ROOT = BASE_DIR / 'media'
 
-AUTH_USER_MODEL="users.User"
+AUTH_USER_MODEL= "users.User"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

@@ -1,21 +1,18 @@
 .PHONY:run
 run:
-	python manage.py runserver
+	poetry run python -m healthharmony.manage runserver
 
 .PHONY:migrate
 migrate:
-	python manage.py makemigrations; python manage.py migrate
+	poetry run python -m healthharmony.manage makemigrations; poetry run python -m healthharmony.manage migrate
 
-.PHONY:save-required
-save-require:
-	pip freeze > requirements.txt
-
-.PHONY: install-required
-install-required:
-	pip install -r requirements.txt
+.PHONY: install
+install:
+	poetry install
 
 .PHONY: update
-update: install-required migrate
+update: install migrate;
+
 
 .PHONY: delete-migrations
 delete-migrations: 
@@ -23,7 +20,7 @@ delete-migrations:
 
 .PHONY: import-user
 import-user:
-	python manage.py loaddata db.json
+	poetry run python -m healthharmony.manage loaddata db.json
 
 .PHONY: seed
 seed:
