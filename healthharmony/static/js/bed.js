@@ -21,6 +21,6 @@ fetch('/api/data/')
         mirror: true,
         backgroundScan: false
     });
-    
+
     // Start scanning
     scanner.start();

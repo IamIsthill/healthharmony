@@ -68,23 +68,23 @@
 {% block script %}
   <script type="module">
     import { setSpinner } from '/static/js/spinner.js'
-    
+
     main()
-    
+
     async function main() {
       const mainContainer = document.querySelector('.container')
       const spinner = document.getElementById('loading-spinner')
       const pageUrl = '/patient/records/'
-    
+
       setSpinner(mainContainer, spinner, pageUrl)
-    
+
       // Show More
       const showMoreBtns = document.querySelectorAll('.more-info')
       for (const btn of showMoreBtns) {
         btn.addEventListener('click', () => {
           const mainInfo = btn.parentElement
           const moreInfo = mainInfo.nextElementSibling
-    
+
           if (moreInfo.classList.contains('hide')) {
             moreInfo.classList.add('show')
             moreInfo.classList.remove('hide')
@@ -94,7 +94,7 @@
           }
         })
       }
-    
+
       //===========================================
     }
   </script>

@@ -13,7 +13,7 @@
     --color-shadow: rgba(132, 139, 200, 0.1);
     --mainfont: 'Poppins', 'sans-serif';
     --secondfont: 'Inter', 'san-serif';
-    
+
     --card-padding: 1rem 3rem;
 
     --box-shadow: 0 2rem 3rem var(--color-shadow);
@@ -33,7 +33,7 @@
     color: var(--Green);
 }
 .span-lightred{
-    color: var(--Red) 
+    color: var(--Red)
 }
 .span-lightgray{
     color: var(--light_gray);
@@ -137,7 +137,7 @@ main{
     /* border: 1px solid pink; */
     width: 170px;
 }
-.add-buttons button{ 
+.add-buttons button{
     display: flex;
     align-items: center;
     gap: 4px;
@@ -152,7 +152,7 @@ main{
 .add-buttons .add-patient{
     color: white;
     background: var(--Light-Yellow);
-} 
+}
 .add-buttons .add-patient:hover{
     /* background: var(--Yellow); */
     border: 2px solid var(--Yellow);
@@ -180,7 +180,7 @@ main .today-patient{
     height: 5.8rem;
     border-radius: 10px;
     background: white;
-    box-shadow: var(--box-shadow2); 
+    box-shadow: var(--box-shadow2);
     justify-items: right;
     display: flex; /* Ensure .today-patient is also flex container */
     align-items: center; /* Center vertically */

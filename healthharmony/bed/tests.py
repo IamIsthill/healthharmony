@@ -1,8 +1,8 @@
 from django.test import TestCase
 from bed.models import BedStat
 
-class BedTests(TestCase):
 
+class BedTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         # This method is called once at the beginning to set up non-modifiable data for the entire class
@@ -28,11 +28,11 @@ class BedTests(TestCase):
 
     def test_bed_str_representation_true(self):
         bed = BedStat.objects.get(id=1)
-        self.assertEqual(str(bed), 'Bed 1 - Status: Occupied')
+        self.assertEqual(str(bed), "Bed 1 - Status: Occupied")
 
     def test_bed_str_representation_false(self):
         bed = BedStat.objects.get(id=2)
-        self.assertEqual(str(bed), 'Bed 2 - Status: Available')
+        self.assertEqual(str(bed), "Bed 2 - Status: Available")
 
     def test_toggle_status(self):
         bed = BedStat.objects.get(id=1)

@@ -1,0 +1,14 @@
+[flake8]
+extend-ignore = C101, D403, F401, F403, I100, I201, W503, W504, E501, F811, C901, F841, E722, E402
+exclude =
+    .gitignore,
+    __pycache__,
+    .venv
+filename = *.py
+accept-encodings = utf-8
+inline-quotes = single
+max-complexity = 10
+max-linenumber = 500
+multiline-qoutes = double
+# per-file-ignores =
+#     logger/project/settings/temp/settings.div.py:F821

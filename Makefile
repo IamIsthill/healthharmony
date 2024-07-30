@@ -12,11 +12,11 @@ install:
 	poetry install
 
 .PHONY: update
-update: install migrate;
+update: install migrate install-pre-commit;
 
 
 .PHONY: delete-migrations
-delete-migrations: 
+delete-migrations:
 	find . -path "*/migrations/*.py" -not -name "__init__.py" -not -path "*/.venv/*" -delete
 
 .PHONY: import-user
@@ -34,3 +34,12 @@ seed:
 	else \
 		echo "Argument 'a' is required"; \
 	fi
+
+.PHONY: lint
+lint:
+	poetry run pre-commit run --all-files
+
+.PHONY: install-pre-commit
+install-pre-commit:
+	poetry run pre-commit uninstall
+	poetry run pre-commit install

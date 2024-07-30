@@ -11,7 +11,7 @@
       width: 500px;
       height: 500px;
     }
-    
+
     .hide {
       display: none;
     }
@@ -132,15 +132,15 @@
   {{ request.user.id|json_script:'userId' }}
   <script type="module">
     import { setSpinner } from '/static/js/spinner.js'
-    
+
     main()
-    
+
     async function main() {
       const userId = JSON.parse(document.getElementById('userId').textContent)
       const mainContainer = document.querySelector('.container')
       const spinner = document.getElementById('loading-spinner')
       const pageUrl = `/patient/patient-profile/${userId}/`
-    
+
       setSpinner(mainContainer, spinner, pageUrl)
     }
   </script>

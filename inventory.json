@@ -1,5 +1,5 @@
 [
-    
+
     {
         "item_number":"1",
         "unit": "bxs.",
@@ -7,7 +7,7 @@
         "description": "100's",
         "expiration_date": "2026",
         "quantity": 100
-    }, 
+    },
 
     {
         "item_number":"2",

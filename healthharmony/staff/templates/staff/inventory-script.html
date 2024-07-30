@@ -281,7 +281,7 @@ seasonalFilter.forEach((btn)=>{
     updateSeasonalCanvas(seasonalCanvas)
     })
 })
-//========================================== 
+//==========================================
 
 //Filter inventory counts using the supply category
 const seasonalCategory = document.querySelectorAll('.seasonal-category')
@@ -298,7 +298,7 @@ seasonalCategory.forEach((btn)=>{
     updateSeasonalCanvas(seasonalCanvas)
     })
 })
-//========================================== 
+//==========================================
 
 // Seasonal Line Chart
 const seasonalCanvas = document.getElementById('seasonal-canvas')
@@ -348,7 +348,7 @@ function updateSeasonalCanvas(seasonalCanvas){
     }
     })
 }
-//========================================== 
+//==========================================
 
 // Prepare data for populating the seasonal bars
 let seasonalBarFilter = 'week'
@@ -356,7 +356,7 @@ let seasonalBarData = 'medicine'
 let filteredSeasonalBarData = filterSeasonalBarData()
 
 
-//========================================== 
+//==========================================
 
 
 // Filter seasonal bar data
@@ -364,7 +364,7 @@ function filterSeasonalBarData(){
     return inventoryCounts[seasonalBarData][`detail-${seasonalBarFilter}`]
 }
 
-//========================================== 
+//==========================================
 
 
 
@@ -380,7 +380,7 @@ seasonalBarFilterBtns.forEach((btn)=>{
 
 })
 
-//========================================== 
+//==========================================
 
 // Category Filter for seasonal bars
 const seasonalCategoryBars = document.querySelectorAll('.seasonal-bar-category')
@@ -392,7 +392,7 @@ seasonalCategoryBars.forEach((btn)=>{
         createSeasonalBarCanvas()
     })
 })
-//========================================== 
+//==========================================
 
 //Function for Creating canvas for each inventory data
 function createSeasonalBarCanvas(){
@@ -433,10 +433,10 @@ function createSeasonalBarCanvas(){
 
 }
 createSeasonalBarCanvas()
-//========================================== 
+//==========================================
 
 // Function for creating the bars
-//========================================== 
+//==========================================
 
 // Add new inventory item
 const addInventoryBtn = document.getElementById('add-inventory')
@@ -464,7 +464,5 @@ window.onclick = function(event) {
   }
 }
 
-//========================================== 
+//==========================================
 </script>
-
-

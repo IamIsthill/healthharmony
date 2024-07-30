@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["IamIsthill <159409061+IamIsthill@users.noreply.github.com>"]
 license = "MIT"
-readme = "README.md"
+readme = "README.rst"
 
 [tool.poetry.dependencies]
 python = "^3.12"
@@ -44,6 +44,10 @@ tzdata = "2024.1"
 urllib3 = "2.2.1"
 django-split-settings = "^1.3.2"
 
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "3.7.1"
+colorlog = "^6.8.2"
 
 [build-system]
 requires = ["poetry-core"]
