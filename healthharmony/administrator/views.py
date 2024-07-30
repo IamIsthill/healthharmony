@@ -6,6 +6,9 @@ from healthharmony.users.models import User, Department
 from healthharmony.administrator.models import Log, DataChangeLog
 from django.contrib import messages
 
+# forms
+from healthharmony.administrator.forms import AdminUserCreationForm
+
 
 logger = logging.getLogger(__name__)
 
@@ -34,44 +37,11 @@ def log_and_records(request):
 def account_view(request):
     account_checker(request)
     if request.method == "POST":
-        try:
-            department_name = request.POST.get("department")
-            first_name = request.POST.get("first_name")
-            last_name = request.POST.get("last_name")
-            email = request.POST.get("email")
-            access = request.POST.get("access")
-
-            if not (department_name and first_name and last_name and email and access):
-                raise ValueError("Missing required fields")
-
-            department, created = Department.objects.get_or_create(
-                department=department_name
-            )
-            if created:
-                Log.objects.create(
-                    user=request.user, action="Created a new department instance"
-                )
-
-            user = User.objects.create(
-                first_name=first_name,
-                last_name=last_name,
-                email=email,
-                access=access,
-                department=department,
-            )
-            messages.success(request, "User created successfully.")
-        except ValueError as ve:
-            messages.error(request, f"Input error: {ve}")
-            logger.error(f"Input error: {ve}")
-        except Department.DoesNotExist:
-            messages.error(request, "Department does not exist.")
-            logger.error("Department does not exist.")
-        except User.DoesNotExist:
-            messages.error(request, "User creation failed due to a related error.")
-            logger.error("User creation failed due to a related error.")
-        except Exception as e:
-            messages.error(request, "System failed to create a new user.")
-            logger.error(f"Unexpected error: {e}")
+        form = AdminUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(request)
+        else:
+            messages.error(request, "Please correct the errors.")
 
     users = User.objects.all()
     departments = Department.objects.all()

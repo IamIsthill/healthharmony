@@ -203,12 +203,12 @@ def add_issue(request):
     if request.method == "POST":
         patient = User.objects.get(email=request.POST.get("patient"))
         try:
-            illness = Illness.objects.create(
+            Illness.objects.create(
                 patient=patient,
                 issue=request.POST.get("issue"),
             )
-            logs = Log.objects.create(user=request.user, action="Added a new illness")
-        except:
+            Log.objects.create(user=request.user, action="Added a new illness")
+        except Exception:
             messages.error(request, "Unable to add issue")
     context = {"patients": patients}
     return render(request, "staff/add-issue.html", context)
@@ -388,7 +388,7 @@ def add_inventory(request):
                 user=request.user, action=f"Created inventory item with id [{item.id}]"
             )
             return redirect("staff-inventory")
-        except:
+        except Exception:
             messages.error(request, "Failed to add the inventory item")
 
 
@@ -396,7 +396,7 @@ def bed(request):
     access_checker(request)
     try:
         beds = BedStat.objects.all()
-    except Exception as e:
+    except Exception:
         messages.error(request, "Error fetching bed data")
     context = {"beds": beds, "page": "bed"}
     return render(request, "staff/bed.html", context)
@@ -414,7 +414,7 @@ def bed_handler(request, pk):
                 action=f"Updated BedStat({bed.id}) from {not bed.status} to {bed.status}",
             )
             messages.success(request, "Bed was successfully updated")
-        except Exception as e:
+        except Exception:
             messages.error(request, "Error fetching bed data")
     return redirect("staff-bed")
 
@@ -422,16 +422,14 @@ def bed_handler(request, pk):
 def records(request):
     access_checker(request)
     email = env("EMAIL_ADD")
-    now = timezone.now()
     context = {"page": "records", "email": email}
     try:
-        requests = Certificate.objects.all()
         history = Illness.objects.all().annotate(
             first_name=Coalesce(F("patient__first_name"), Value("")),
             last_name=Coalesce(F("patient__last_name"), Value("")),
         )
         context.update({"history": history})
-    except Exception as e:
+    except Exception:
         messages.error(request, "Error fetching data")
     return render(request, "staff/records.html", context)
 
@@ -472,7 +470,7 @@ def create_patient_add_issue(request):
                 changed_by=request.user,
             )
 
-        except:
+        except Exception:
             messages.error(request, "System faced some error")
         return redirect("staff-records")
 

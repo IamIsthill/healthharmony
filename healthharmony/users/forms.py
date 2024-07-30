@@ -6,8 +6,6 @@ from django import forms
 from allauth.socialaccount.models import SocialAccount
 import requests
 from django.core.files.base import ContentFile
-from django import forms
-from allauth.account.forms import SignupForm
 from uuid import uuid4
 
 

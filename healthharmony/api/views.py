@@ -71,14 +71,11 @@ def get_visit_data(request):
     if email:
         try:
 
-            visits = Illness.objects.filter(patient__email=str(email))
+            user = User.objects.get(email=email)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
     else:
-        visits = Illness.objects.all().values("added")
-
-    # temporary
-    visits = Illness.objects.filter(patient__id=40).values("added")
+        return Response({"error": "please login"}, status=status.HTTP_400_BAD_REQUEST)
 
     now = timezone.now()
 
@@ -123,7 +120,7 @@ def get_visit_data(request):
 
             try:
                 count = Illness.objects.filter(
-                    added__gte=main_start, added__lt=main_end
+                    patient=user, added__gte=main_start, added__lt=main_end
                 ).count()
                 visit_data[date][main_start.strftime(date_string)] = count or 0
 
@@ -356,10 +353,3 @@ def filtered_account_list(request):
         user["access"] = reverse_access_map.get(user["access"], "unknown")
 
     return JsonResponse(users_list, safe=False)
-
-
-@api_view(["GET"])
-def visit_data(request):
-    email = request.query_params.get("email")
-
-    return JsonResponse({}, safe=False)

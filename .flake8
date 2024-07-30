@@ -1,5 +1,5 @@
 [flake8]
-extend-ignore = C101, D403, F401, F403, I100, I201, W503, W504, E501, F811, C901, F841, E722, E402
+extend-ignore = C101, D403, F401, F403, I100, I201, W503, W504, E501, F821
 exclude =
     .gitignore,
     __pycache__,
@@ -10,5 +10,7 @@ inline-quotes = single
 max-complexity = 10
 max-linenumber = 500
 multiline-qoutes = double
-# per-file-ignores =
-#     logger/project/settings/temp/settings.div.py:F821
+per-file-ignores =
+    healthharmony/users/views.py: E402
+    healthharmony/api/views.py: C901
+    healthharmony/staff/views.py: C901

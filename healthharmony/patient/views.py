@@ -19,6 +19,9 @@ from healthharmony.bed.models import BedStat
 from healthharmony.users.models import User
 from healthharmony.administrator.models import Log
 from allauth.socialaccount.models import SocialAccount
+from healthharmony.patient.forms import UpdateProfileInfo
+
+from healthharmony.patient.functions import update_patient_view_context
 
 
 # Create your views here.
@@ -112,83 +115,19 @@ def patient_view(request, pk):
     if "email" not in request.session:
         request.session["email"] = request.user.email
     context = {}
-    now = timezone.now()
 
     if request.method == "POST":
-        try:
-            user = request.user
+        form = UpdateProfileInfo(request.POST, files=request.FILES)
+        if form.is_valid():
+            try:
+                user = form.save(request)
+                messages.success(request, "Profile updated successfully!")
+                context.update({"user": user})
+                return redirect("patient-profile", request.user.id)
+            except ValueError as e:
+                messages.error(request, str(e))
 
-            contact = request.POST.get("contact")
-            year = request.POST.get("year")
-            section = request.POST.get("section")
-            program = request.POST.get("program")
-            sex = request.POST.get("sex")
-
-            # Update user fields
-            user.first_name = request.POST.get("first_name")
-            user.last_name = request.POST.get("last_name")
-            if contact:
-                user.contact = contact
-            if year:
-                user.year = year
-            if section:
-                user.section = section
-            if program:
-                user.program = program
-            if sex:
-                user.sex = sex
-
-            # Handle profile image upload
-            if "profile" in request.FILES:
-                user.profile = request.FILES["profile"]
-
-            # Save the updated user
-            user.save()
-
-            Log.objects.create(user=user, action="Updated profile information")
-
-            messages.success(request, "Profile updated successfully!")
-
-            context.update({"user": user})
-
-            return redirect("patient-profile", user.id)
-        except TypeError as e:
-            messages.error(request, f"{e}")
-        except Exception as e:
-            messages.error(request, f"{e}")
-
-    try:
-        user = User.objects.prefetch_related("blood_pressures").get(
-            email=request.user.email
-        )
-        # Try to fetch the social account
-        try:
-            social = SocialAccount.objects.get(user=user.id, provider="google")
-            picture = social.extra_data.get("picture")
-            if picture:
-                context.update({"picture": picture})
-        except SocialAccount.DoesNotExist:
-            pass
-        if user.DOB is not None:
-            age = now.year - user.DOB.year
-            context.update({"age": age})
-
-        # Get the latest blood pressure if available
-        latest_bp = user.blood_pressures.first()
-        if latest_bp and latest_bp.blood_pressure:
-            blood_pressure = latest_bp.blood_pressure
-            context.update({"blood_pressure": blood_pressure})
-
-        context.update(
-            {
-                "user": user,
-            }
-        )
-
-    except User.DoesNotExist:
-        messages.error(request, "User not found.")
-    except Exception as e:
-        messages.error(request, f"Error: {e} \nPlease reload page")
+    update_patient_view_context(request, context)
 
     return render(request, "patient/patient.html", context)
 

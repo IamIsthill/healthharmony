@@ -51,7 +51,13 @@ messages|has_error_message %}
         <div class="doc">
           <h6>{{ doc.doctor.first_name }} {{ doc.doctor.last_name }}</h6>
           <h6>
-            {% if doc.true_avail %} Available {% else %} Unavailable {% endif %}
+            {% with avail='Available' no_avail='Unavailable' %}
+                {% if doc.true_avail %}
+                    {{ avail }}
+                {% else %}
+                    {{ no_avail }}
+                {% endif %}
+            {% endwith %}
           </h6>
           {% load tz %}
           <h6>
@@ -175,7 +181,7 @@ messages|has_error_message %}
     let email = session.email;
 
     /*****************************************/
-    email = 'millerchelsea@example.com'
+    email = 'bercasiocharles14@gmail.com'
     /*****************************************/
     let visitData = await fetchVisitData(email);
     visitData = visitData.visit_data;

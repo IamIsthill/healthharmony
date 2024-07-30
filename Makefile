@@ -27,9 +27,9 @@ import-user:
 seed:
 	if [ "$(a)" ]; then \
 		if [ "$(n)" ]; then \
-			python manage.py seed $(a) --number=$(n); \
+			poetry run python -m healthharmony.manage seed $(a) --number=$(n); \
 		else \
-			python manage.py seed $(a); \
+			poetry run python -m healthharmony.manage seed $(a); \
 		fi \
 	else \
 		echo "Argument 'a' is required"; \

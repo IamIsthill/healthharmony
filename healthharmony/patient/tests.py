@@ -216,7 +216,7 @@ class DashboardTestCase(TestCase):
         )
 
         # Force evaluation of the queryset
-        treatments_list = list(treatment)
+        treatments_list = list(treatment)  # noqa: F841
 
         # Print the QuerySet
         # print("QuerySet:", treatments_list)
