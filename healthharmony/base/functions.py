@@ -14,7 +14,7 @@ def get_season():
         return "Rainy"
 
 def get_df():
-    df = pd.read_csv('static/assets/models/save.csv')
+    df = pd.read_csv('healthharmony/static/assets/models/save.csv')
     le_season = LabelEncoder()
     le_weather = LabelEncoder()
     le_sickness = LabelEncoder()
@@ -30,7 +30,7 @@ def get_df():
     return f_df
 
 def load_data_and_model():
-    df = pd.read_csv('static/assets/models/save.csv')
+    df = pd.read_csv('healthharmony/static/assets/models/save.csv')
 
     #Encoders
     le_season = LabelEncoder()
@@ -43,7 +43,7 @@ def load_data_and_model():
     df['le_sickness'] = le_sickness.fit_transform(df['Sickness'])
     df = df.drop(['Season', 'Weather', 'Sickness'], axis=1)
 
-    model = joblib.load('static/assets/models/weather.joblib')
+    model = joblib.load('healthharmony/static/assets/models/weather.joblib')
 
     return df, model, le_season, le_sickness, le_weather
 
@@ -73,7 +73,7 @@ def pred(season, weather, df, model, le_season, le_sickness, le_weather):
     return preds
 
 def train_model():
-    df = pd.read_csv('static/assets/models/data.csv')
+    df = pd.read_csv('healthharmony/static/assets/models/data.csv')
     df = df[['Season', 'Weather', 'Sickness']]
     df['Weather'] = df['Weather'].str.lower()
     df['Season'] = df['Season'].str.lower()
@@ -96,7 +96,7 @@ def train_model():
     final = final.reset_index(drop=True)
     df = final
 
-    df.to_csv('static/assets/models/save.csv')
+    df.to_csv('healthharmony/static/assets/models/save.csv')
 
     le_season = LabelEncoder()
     le_weather = LabelEncoder()
@@ -114,4 +114,4 @@ def train_model():
     model = DecisionTreeClassifier(random_state=42)
     model.fit(X_train, y_train)
 
-    joblib.dump(model, 'static/assets/models/weather.joblib')
+    joblib.dump(model, 'healthharmony/static/assets/models/weather.joblib')

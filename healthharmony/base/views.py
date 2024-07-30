@@ -2,9 +2,9 @@ from django.shortcuts import render
 from django.contrib import messages
 import requests
 import environ
-from base.functions import get_season, pred, train_model, load_data_and_model
+from healthharmony.base.functions import get_season, pred, train_model, load_data_and_model
 # Models
-from bed.models import BedStat
+from healthharmony.bed.models import BedStat
 
 env = environ.Env()
 environ.Env.read_env(env_file='.env')

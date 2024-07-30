@@ -1,7 +1,7 @@
 # forms.py
 from django import forms
-from users.models import User
-from users.forms import UserCreationForm
+from healthharmony.users.models import User
+from healthharmony.users.forms import UserCreationForm
 import secrets
 import string
 

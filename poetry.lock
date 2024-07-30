@@ -356,6 +356,17 @@ Faker = ">=0.7.7"
 toposort = ">=1.5"
 
 [[package]]
+name = "django-split-settings"
+version = "1.3.2"
+description = "Organize Django settings into multiple files and directories. Easily override and modify settings. Use wildcards and optional settings files."
+optional = false
+python-versions = "<4.0,>=3.9"
+files = [
+    {file = "django_split_settings-1.3.2-py3-none-any.whl", hash = "sha256:72bd7dd9f12602585681074d1f859643fb4f6b196b584688fab86bdd73a57dff"},
+    {file = "django_split_settings-1.3.2.tar.gz", hash = "sha256:d3975aa3601e37f65c59b9977b6bcb1de8bc27496930054078589c7d56998a9d"},
+]
+
+[[package]]
 name = "djangorestframework"
 version = "3.15.1"
 description = "Web APIs for Django, made easy."
@@ -877,17 +888,6 @@ files = [
 ]
 
 [[package]]
-name = "split-settings"
-version = "1.0.0"
-description = "Organize Django settings into multiple files and directories. Easily override and modify settings. Use wildcards and optional settings files."
-optional = false
-python-versions = ">=3.6,<4.0"
-files = [
-    {file = "split_settings-1.0.0-py3-none-any.whl", hash = "sha256:78904bbbaaaa400d9a5ebc4ac316cbd322f8042ee70ecbcfb60b5ddd8adcd2d2"},
-    {file = "split_settings-1.0.0.tar.gz", hash = "sha256:01bf629db64b4fab5d7e78fe3064fee08761f97d382fd38bea87c9772c5ab247"},
-]
-
-[[package]]
 name = "sqlparse"
 version = "0.5.0"
 description = "A non-validating SQL parser."
@@ -955,4 +955,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "b6a6369d75460472c5df6083b090e1eb5741230b313132fb53a5880842ee9e60"
+content-hash = "d805d60487ba6768130120585c0f8a04c5815ab3ed2ff2d2a3047e64ab12dc20"

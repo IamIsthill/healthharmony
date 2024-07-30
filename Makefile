@@ -4,7 +4,8 @@ run:
 
 .PHONY:migrate
 migrate:
-	poetry run python -m healthharmony.manage makemigrations; poetry run python -m healthharmony.manage migrate
+	poetry run python -m healthharmony.manage makemigrations
+	poetry run python -m healthharmony.manage migrate
 
 .PHONY: install
 install:

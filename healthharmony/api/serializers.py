@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
-from bed.models import BedStat
-from treatment.models import Certificate
+from healthharmony.bed.models import BedStat
+from healthharmony.treatment.models import Certificate
 
 class BedStatSerializer(ModelSerializer):
     class Meta:

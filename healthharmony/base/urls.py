@@ -1,12 +1,12 @@
 from django.urls import path, include
-from . import views
+from healthharmony.base import views
 
 urlpatterns = [
     path("", views.home, name="home"),
-    path("", include('users.urls')),
-    path("staff/", include('staff.urls')),
-    path("doctor/", include('doctor.urls')),
-    path("patient/", include('patient.urls')),
-    path("api/",include('api.urls')),
-    path("administrator/", include('administrator.urls')),
+    path("", include('healthharmony.users.urls')),
+    path("staff/", include('healthharmony.staff.urls')),
+    path("doctor/", include('healthharmony.doctor.urls')),
+    path("patient/", include('healthharmony.patient.urls')),
+    path("api/",include('healthharmony.api.urls')),
+    path("administrator/", include('healthharmony.administrator.urls')),
 ]

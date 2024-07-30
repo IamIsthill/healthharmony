@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 # models
-from users.models import User, Department
-from administrator.models import Log, DataChangeLog
+from healthharmony.users.models import User, Department
+from healthharmony.administrator.models import Log, DataChangeLog
 from django.contrib import messages
 
 # Create your views here.

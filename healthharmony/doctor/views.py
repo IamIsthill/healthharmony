@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from treatment.models import Illness
+from healthharmony.treatment.models import Illness
 
 # Create your views here.
 def overview_view(request):

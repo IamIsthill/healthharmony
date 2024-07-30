@@ -8,11 +8,11 @@ from datetime import timedelta
 from django.db.models import F, Count, Prefetch, Q
 from collections import defaultdict
 
-from bed.models import BedStat
-from treatment.models import Certificate, Illness, Category
-from users.models import User, Department
+from healthharmony.bed.models import BedStat
+from healthharmony.treatment.models import Certificate, Illness, Category
+from healthharmony.users.models import User, Department
 
-from api.serializers import BedStatSerializer, CertificateSerializer
+from healthharmony.api.serializers import BedStatSerializer, CertificateSerializer
 
 
 # Create your views here.

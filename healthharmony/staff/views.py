@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
-from users.models import User, Department
-from .forms import PatientForm
+from healthharmony.users.models import User, Department
+from healthharmony.staff.forms import PatientForm
 import secrets
 import string
-from treatment.models import Illness, Certificate, Category
-from inventory.models import InventoryDetail, QuantityHistory
-from administrator.models import Log, DataChangeLog
-from bed.models import BedStat
+from healthharmony.treatment.models import Illness, Certificate, Category
+from healthharmony.inventory.models import InventoryDetail, QuantityHistory
+from healthharmony.administrator.models import Log, DataChangeLog
+from healthharmony.bed.models import BedStat
 from django.db.models import Sum, F, Value
 from django.db.models.functions import Coalesce
 from django.utils import timezone

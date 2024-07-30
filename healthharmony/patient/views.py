@@ -2,17 +2,17 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 import requests
 import environ
-from base.functions import get_season, pred, train_model, load_data_and_model
+from healthharmony.base.functions import get_season, pred, train_model, load_data_and_model
 from django.utils import timezone
 import json
 from collections import defaultdict
 from django.db.models import Prefetch
 from django.db import connection
 
-from treatment.models import Illness, DoctorDetail, IllnessTreatment
-from bed.models import BedStat
-from users.models import User
-from administrator.models import Log
+from healthharmony.treatment.models import Illness, DoctorDetail, IllnessTreatment
+from healthharmony.bed.models import BedStat
+from healthharmony.users.models import User
+from healthharmony.administrator.models import Log
 from allauth.socialaccount.models import SocialAccount
 
 # Create your views here.

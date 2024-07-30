@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Log, DataChangeLog
+from healthharmony.administrator.models import Log, DataChangeLog
 
 # Register your models here.
 admin.site.register(Log)

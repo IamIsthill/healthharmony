@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from users.manager import UserManager
+from healthharmony.users.manager import UserManager
 import os
 from uuid import uuid4
 # Create your models here.

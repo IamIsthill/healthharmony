@@ -1,12 +1,10 @@
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.forms import UserCreationForm
-from .models import User
+from healthharmony.users.models import User
 from allauth.account.forms import SignupForm, LoginForm
-from django.core.exceptions import ValidationError
 from django import forms
 from allauth.socialaccount.models import SocialAccount
 import requests
-from allauth.account.adapter import get_adapter
 from django.core.files.base import ContentFile
 from django import forms
 from allauth.account.forms import SignupForm
