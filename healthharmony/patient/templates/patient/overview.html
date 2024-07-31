@@ -172,9 +172,6 @@ messages|has_error_message %}
 
   //Grouping the main logic
   async function main() {
-    // Temporary, uncomment later
-    mainContainer.style.display = 'none'
-    getDashboard()
 
     //Fetch session email first
     const session = await fetchSessionEmail();
@@ -192,9 +189,11 @@ messages|has_error_message %}
     updateVisitCanvas(visitData.year)
     createTreatmentBarsCanvas(Object.entries(treatmentData.week), treatmentDataLabels)
     updateTreatmentBars(Object.entries(treatmentData.week), treatmentDataLabels)
-    setTimeout(() => {
-      updateTreatmentBars(Object.entries(treatmentData.week), treatmentDataLabels);
-    }, 1000);
+
+    // Temporary, uncomment later
+    mainContainer.style.display = 'none'
+    getDashboard()
+
 
     // Date Filter for Visit Records
     const visitFilterBtns = document.querySelectorAll(".visit-filter");

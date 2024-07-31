@@ -1,5 +1,6 @@
 [flake8]
-extend-ignore = C101, D403, F401, F403, I100, I201, W503, W504, E501, F821
+; extend-ignore = C101, D403, F401, F403, I100, I201, W503, W504, E501, F821
+extend-ignore = C101, D403, F401, F403, I100, I201, W503, W504, E501
 exclude =
     .gitignore,
     __pycache__,
@@ -12,5 +13,5 @@ max-linenumber = 500
 multiline-qoutes = double
 per-file-ignores =
     healthharmony/users/views.py: E402
-    healthharmony/api/views.py: C901
+    ; healthharmony/api/views.py: C901
     healthharmony/staff/views.py: C901

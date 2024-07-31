@@ -1,11 +1,14 @@
+from healthharmony.app.settings import env
+
+
 SITE_ID = 1
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "SCOPE": ["profile", "email"],
         "AUTH_PARAMS": {"access_type": "online"},
         "APP": {
-            "client_id": env("CLIENT_ID"),  # type:ignore
-            "secret": env("CLIENT_SECRET"),  # type: ignore
+            "client_id": env("CLIENT_ID"),
+            "secret": env("CLIENT_SECRET"),
             "key": "",
         },
         "OAUTH_PKCE_ENABLED": True,

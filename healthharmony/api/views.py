@@ -7,12 +7,22 @@ from dateutil.relativedelta import relativedelta
 from datetime import timedelta
 from django.db.models import F, Count, Prefetch, Q
 from collections import defaultdict
+import logging
 
 from healthharmony.bed.models import BedStat
 from healthharmony.treatment.models import Certificate, Illness, Category
 from healthharmony.users.models import User, Department
 
 from healthharmony.api.serializers import BedStatSerializer, CertificateSerializer
+
+from healthharmony.api.functions import (
+    update_context_visit_data,
+    get_certificate_requests,
+    get_certificate_data,
+)
+
+
+logger = logging.getLogger(__name__)
 
 
 # Create your views here.
@@ -64,7 +74,6 @@ def get_user_illness_count(request):
 
 @api_view(["GET"])
 def get_visit_data(request):
-    visit_data = defaultdict(lambda: defaultdict(int))
     context = {}
     email = request.query_params.get("email", None)
 
@@ -77,57 +86,8 @@ def get_visit_data(request):
     else:
         return Response({"error": "please login"}, status=status.HTTP_400_BAD_REQUEST)
 
-    now = timezone.now()
+    context = update_context_visit_data(user, context)
 
-    date_filter = ["week", "month", "year"]
-
-    for date in date_filter:
-        if date == "week":
-            start = now - timedelta(days=6)
-            max_range = 7
-            date_string = "%A, %d"
-            date_loop = 1
-        elif date == "month":
-            start = now - timedelta(days=30)
-            max_range = 6
-            date_string = "%B, %d"
-            date_loop = 5
-        elif date == "year":
-            start = now - timedelta(days=365)
-            max_range = 13
-            date_string = "%B"
-            date_loop = 1
-        else:
-            start = None
-
-        for offset in range(max_range):
-            if date == "month":
-                main_start = start + timedelta(days=offset * date_loop)
-                main_end = main_start + timedelta(days=date_loop)
-
-            if date == "week":
-                new_start = start + timedelta(days=offset * 1)
-                main_start = new_start.replace(
-                    hour=0, minute=0, second=0, microsecond=0
-                )
-                main_end = new_start.replace(
-                    hour=23, minute=59, second=59, microsecond=999999
-                )
-
-            if date == "year":
-                main_start = start + relativedelta(months=offset)
-                main_end = main_start + relativedelta(months=1)
-
-            try:
-                count = Illness.objects.filter(
-                    patient=user, added__gte=main_start, added__lt=main_end
-                ).count()
-                visit_data[date][main_start.strftime(date_string)] = count or 0
-
-                context.update({"visit_data": visit_data})
-
-            except Exception as e:
-                return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
     return JsonResponse(context)
 
 
@@ -148,110 +108,68 @@ def api_data(request):
 
 @api_view(["GET"])
 def certificate_sorter(request):
-    now = timezone.now()
+    """
+    Retrieve sorted certificate requests based on status and date filters.
+
+    Query Parameters:
+    - status_filter (str): The status filter, can be "all", "pending", or "released".
+    - date_filter (str): The date filter, can be "week", "month", or "year".
+
+    Returns:
+    - Response: A JSON response containing the sorted certificate requests or an error message.
+    """
     status_filter = request.query_params.get("status_filter", "all")
     date_filter = request.query_params.get("date_filter", "week")
-    if date_filter == "week":
-        start = now - timedelta(days=6)
-    elif date_filter == "month":
-        start = now - timedelta(days=30)
-    elif date_filter == "year":
-        start = now - timedelta(days=365)
-    else:
-        start = None
 
-    if status_filter == "all":
-        status_filter = None
-    elif status_filter == "pending":
-        status_filter = False
-    elif status_filter == "released":
-        status_filter = True
-    else:
-        status_filter = None
     try:
-        filters = {}
-        if status_filter is not None:
-            filters["released"] = status_filter
-        if start is not None:
-            filters["requested__gte"] = start.date()
-
-        requests = Certificate.objects.filter(**filters).annotate(
-            email=F("patient__email"),
-            first_name=F("patient__first_name"),
-            last_name=F("patient__last_name"),
+        logger.info(
+            f"Retrieving certificate requests with status_filter='{status_filter}' and date_filter='{date_filter}'"
         )
+        requests = get_certificate_requests(date_filter, status_filter)
+
+        if requests is None:
+            raise ValueError("Failed to retrieve certificate requests.")
+
         serializer = CertificateSerializer(requests, many=True)
+        logger.info("Certificate requests successfully retrieved and serialized.")
         return Response(serializer.data, status=status.HTTP_200_OK)
     except Exception as e:
+        logger.error(f"Error in certificate_sorter: {e}")
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["GET"])
 def certificate_data(request):
-    now = timezone.now()
+    """
+    API endpoint to retrieve certificate data based on status and date filters.
+
+    Args:
+        request (HttpRequest): The request object containing query parameters for filters.
+
+    Query Parameters:
+        status_filter (str): Filter for certificate status ("all", "pending", "released"). Default is "all".
+        date_filter (str): Filter for the date range ("week", "month", "year"). Default is "week".
+
+    Returns:
+        JsonResponse: JSON response with the certificate data or an error message.
+    """
     status_filter = request.query_params.get("status_filter", "all")
     date_filter = request.query_params.get("date_filter", "week")
     cert_data = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
-    status = status_filter
 
-    if date_filter == "week":
-        start = now - timedelta(days=6)
-        max_range = 7
-        date_string = "%A, %d"
-        date_loop = 1
-    elif date_filter == "month":
-        start = now - timedelta(days=30)
-        max_range = 6
-        date_string = "%B, %d"
-        date_loop = 5
-
-    elif date_filter == "year":
-        start = now - timedelta(days=365)
-        max_range = 13
-        date_string = "%B"
-        date_loop = 1
-    else:
-        start = None
-
-    if status_filter == "all":
-        status_filter = None
-    elif status_filter == "pending":
-        status_filter = False
-    elif status_filter == "released":
-        status_filter = True
-    else:
-        status_filter = "all"
-
-    for offset in range(max_range):
-        if date_filter == "month":
-            main_start = start + timedelta(days=offset * date_loop)
-            main_end = main_start + timedelta(days=date_loop)
-
-        if date_filter == "week":
-            new_start = start + timedelta(days=offset * 1)
-            main_start = new_start.replace(hour=0, minute=0, second=0, microsecond=0)
-            main_end = new_start.replace(
-                hour=23, minute=59, second=59, microsecond=999999
+    try:
+        cert_data = get_certificate_data(status_filter, date_filter, cert_data)
+        if cert_data is None:
+            logger.error("Failed to retrieve certificate data.")
+            return Response(
+                {"error": "Failed to retrieve certificate data."},
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
-        if date_filter == "year":
-            main_start = start + relativedelta(months=offset)
-            main_end = main_start + relativedelta(months=1)
-
-        if status_filter is None:
-            count = Certificate.objects.filter(
-                requested__gte=main_start, requested__lt=main_end
-            ).count()
-        else:
-            count = Certificate.objects.filter(
-                released=status_filter,
-                requested__gte=main_start,
-                requested__lt=main_end,
-            ).count()
-
-        cert_data[status][date_filter][main_start.strftime(date_string)] = count or 0
-
-    return JsonResponse(cert_data)
+        return JsonResponse(cert_data)
+    except Exception as e:
+        logger.error(f"Unexpected error: {e}")
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(["GET"])
