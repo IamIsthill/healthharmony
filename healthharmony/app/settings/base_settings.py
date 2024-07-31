@@ -1,76 +1,21 @@
-from pathlib import Path
-import environ
+from healthharmony.app.settings import BASE_DIR
 
-env = environ.Env()
-environ.Env.read_env()
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-s(5zc6(qerhzjavz+s-2t=2e*sud4*)8_5g74b#dw(um4%np2+"
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
-SITE_ID=1
-SOCIALACCOUNT_PROVIDERS = {
-    "google": {
-        "SCOPE": [
-            "profile",
-            "email"
-        ],
-        "AUTH_PARAMS": { "access_type": "online"},
-        "APP": {
-            'client_id': env('CLIENT_ID'),
-            'secret': env('CLIENT_SECRET'),
-            'key': ''
-        },
-        'OAUTH_PKCE_ENABLED': True,
-        'REDIRECT_URI': 'http://127.0.0.1:7000/accounts/google/login/callback/',
-    }
-}
 
 AUTHENTICATION_BACKENDS = {
     "django.contrib.auth.backends.ModelBackend",
-    "allauth.account.auth_backends.AuthenticationBackend"
+    "allauth.account.auth_backends.AuthenticationBackend",
 }
 
-# LOGIN_REDIRECT_URL = "patient/"
-LOGOUT_REDIRECT_URL = "/"
-ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-SOCIALACCOUNT_AUTO_SIGNUP = True
-SOCIALACCOUNT_ADAPTER = 'healthharmony.users.adapters.MySocialAccountAdapter'
-
-
-ACCOUNT_FORMS = {
-    'signup': 'healthharmony.users.forms.GoogleSignUpForm',
-    'login': 'healthharmony.users.forms.GoogleLoginForm',
-}
-
-
-# Application definition
 
 INSTALLED_APPS = [
+    "daphne",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     # apps
-
     "healthharmony.users.apps.UsersConfig",
     "healthharmony.base.apps.BaseConfig",
     "healthharmony.bed.apps.BedConfig",
@@ -82,41 +27,38 @@ INSTALLED_APPS = [
     "healthharmony.patient.apps.PatientConfig",
     "healthharmony.staff.apps.StaffConfig",
     "healthharmony.doctor.apps.DoctorConfig",
-
     # third party
     "django_seed",
-    "debug_toolbar", #debug toolbar
+    "debug_toolbar",  # debug toolbar
     "django.contrib.sites",
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
-
-
 ]
 
 # for debug toolbar
 INTERNAL_IPS = [
-    '127.0.0.1',
+    "127.0.0.1",
 ]
 
 DEBUG_TOOLBAR_PANELS = [
-    'debug_toolbar.panels.versions.VersionsPanel',
-    'debug_toolbar.panels.timer.TimerPanel',
-    'debug_toolbar.panels.settings.SettingsPanel',
-    'debug_toolbar.panels.headers.HeadersPanel',
-    'debug_toolbar.panels.request.RequestPanel',
-    'debug_toolbar.panels.sql.SQLPanel',
-    'debug_toolbar.panels.staticfiles.StaticFilesPanel',
-    'debug_toolbar.panels.templates.TemplatesPanel',
-    'debug_toolbar.panels.cache.CachePanel',
-    'debug_toolbar.panels.signals.SignalsPanel',
-    'debug_toolbar.panels.logging.LoggingPanel',
-    'debug_toolbar.panels.redirects.RedirectsPanel',
+    "debug_toolbar.panels.versions.VersionsPanel",
+    "debug_toolbar.panels.timer.TimerPanel",
+    "debug_toolbar.panels.settings.SettingsPanel",
+    "debug_toolbar.panels.headers.HeadersPanel",
+    "debug_toolbar.panels.request.RequestPanel",
+    "debug_toolbar.panels.sql.SQLPanel",
+    "debug_toolbar.panels.staticfiles.StaticFilesPanel",
+    "debug_toolbar.panels.templates.TemplatesPanel",
+    "debug_toolbar.panels.cache.CachePanel",
+    "debug_toolbar.panels.signals.SignalsPanel",
+    "debug_toolbar.panels.logging.LoggingPanel",
+    "debug_toolbar.panels.redirects.RedirectsPanel",
 ]
 
 MIDDLEWARE = [
-    'debug_toolbar.middleware.DebugToolbarMiddleware', #debug_toolbar
+    "debug_toolbar.middleware.DebugToolbarMiddleware",  # debug_toolbar
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -133,8 +75,8 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
-            BASE_DIR/'healthharmony/templates',
-            ],
+            BASE_DIR / "healthharmony/templates",
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -155,16 +97,10 @@ ASGI_APPLICATION = "healthharmony.app.asgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
 
 CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
     }
 }
 
@@ -205,27 +141,15 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
-STATICFILES_DIRS = [
-  BASE_DIR / 'healthharmony/static'
-]
+STATICFILES_DIRS = [BASE_DIR / "healthharmony/static"]
 
 MEDIA_URL = "/media/"
 
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = BASE_DIR / "media"
 
-AUTH_USER_MODEL= "users.User"
+AUTH_USER_MODEL = "users.User"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-# For sending email to user
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'  
-EMAIL_PORT = 587  
-EMAIL_USE_TLS = True 
-EMAIL_HOST_USER = env('EMAIL_ADD') 
-EMAIL_HOST_PASSWORD = env('EMAIL_PASS') 
-
-

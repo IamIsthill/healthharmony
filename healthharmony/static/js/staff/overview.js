@@ -321,7 +321,7 @@ document.addEventListener('DOMContentLoaded', () => {
     canvas.height = 0
     canvas.width = canvas.parentElement.clientWidth;
     canvas.height = canvas.parentElement.clientHeight;
-  
+
     //background bar
     ctx.fillStyle = '#E4E7EC'
     ctx.fillRect(0,0,parseInt(canvas.width),parseInt(canvas.height))
@@ -378,7 +378,7 @@ document.addEventListener('DOMContentLoaded', () => {
     canvas.height = 0
     canvas.width = canvas.parentElement.clientWidth;
     canvas.height = canvas.parentElement.clientHeight;
-  
+
     //background bar
     ctx.fillStyle = '#E4E7EC'
     ctx.fillRect(0,0,parseInt(canvas.width),parseInt(canvas.height))

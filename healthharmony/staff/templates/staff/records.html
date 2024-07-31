@@ -26,7 +26,7 @@
       background-color: rgb(0, 0, 0); /* Fallback color */
       background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
     }
-    
+
     /* Modal Content/Box */
     .modal-content {
       background-color: #fefefe;
@@ -35,7 +35,7 @@
       border: 1px solid #888;
       width: 80%; /* Could be more or less, depending on screen size */
     }
-    
+
     /* The Close Button */
     .close {
       color: #aaa;
@@ -43,7 +43,7 @@
       font-size: 28px;
       font-weight: bold;
     }
-    
+
     .close:hover,
     .close:focus {
       color: black;
@@ -165,32 +165,32 @@
   <script>
     // Get the modal
     var modal = document.getElementById('myModal')
-    
+
     // Get the button that opens the modal
     var btn = document.getElementById('myBtn')
-    
+
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName('close')[0]
-    
+
     // When the user clicks on the button, open the modal
     btn.onclick = function () {
       modal.style.display = 'block'
     }
-    
+
     // When the user clicks on <span> (x), close the modal
     span.onclick = function () {
       modal.style.display = 'none'
     }
-    
+
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
       if (event.target == modal) {
         modal.style.display = 'none'
       }
     }
-    
+
     //==========================================
-    
+
     // When document fully renders, call certicate_sorter in api to get the data for populate request history
     let requestDateFilter = 'week'
     let requestStatusFilter = 'all'
@@ -202,10 +202,10 @@
           status_filter: requestStatusFilter,
           date_filter: requestDateFilter
         }
-    
+
         // Append parameters to URL
         Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]))
-    
+
         const response = await fetch(url)
         if (!response.ok) {
           throw new Error('Network response was not ok ' + response.statusText)
@@ -224,10 +224,10 @@
           status_filter: requestStatusFilter,
           date_filter: requestDateFilter
         }
-    
+
         // Append parameters to URL
         Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]))
-    
+
         const response = await fetch(url)
         if (!response.ok) {
           throw new Error('Network response was not ok ' + response.statusText)
@@ -243,9 +243,9 @@
       fetchCertificateData()
     })
     //Function to populate the table
-    
+
     const requestSpace = document.querySelector('.request-body')
-    
+
     function createRequests(data) {
       let html = ''
       data.forEach((line) => {
@@ -256,14 +256,14 @@
                                                                                                                                                                                                                                         <td>${line.purpose}</td>
                                                                                                                                                                                                                                         <td>${formatDate(line.requested)}</td>
                                                                                                                                                                                                                                       </tr>
-                                                                                                                                                                                                                                                                              
+
                                                                                                                                                                                                                                     `
         html += text
       })
       requestSpace.innerHTML = html
     }
     //==========================================
-    
+
     // Date Filters
     const requestDateFilters = document.querySelectorAll('.request-date-filter')
     requestDateFilters.forEach((btn) => {
@@ -274,9 +274,9 @@
         fetchCertificateData()
       })
     })
-    
+
     //==========================================
-    
+
     // Status Filters
     const requestStatusFilters = document.querySelectorAll('.request-status-filter')
     requestStatusFilters.forEach((btn) => {
@@ -287,34 +287,34 @@
         fetchCertificateData()
       })
     })
-    
+
     //==========================================
     //Date Formatter
     function formatDate(datestring) {
       const date = new Date(datestring)
-    
+
       const options = { year: 'numeric', month: 'long', day: 'numeric' }
-    
+
       // Format the date using toLocaleDateString()
       const formattedDate = date.toLocaleDateString('en-US', options)
       return formattedDate
     }
     //==========================================
-    
+
     //Request chart
     const requestBarCanvas = document.getElementById('request-bar')
-    
+
     function createRequestBar(requestBarCanvas, data) {
       const datas = data[requestStatusFilter][requestDateFilter]
-    
+
       let labels = []
       let datasets = []
-    
+
       Object.entries(datas).forEach(([key, value]) => {
         labels.push(key)
         datasets.push(value)
       })
-    
+
       let ctx = requestBarCanvas.getContext('2d')
       let existingChart = Chart.getChart(ctx)
       if (existingChart) {
@@ -365,9 +365,9 @@
         }
       })
     }
-    
+
     //==========================================
-    
+
     // Function to create the gradient
     function getGradient(ctx, chartArea) {
       const gradient = ctx.createLinearGradient(0, 0, 0, chartArea.bottom)

@@ -4,7 +4,7 @@ document.querySelectorAll('header a[href^="#"]').forEach(anchor => {
 
         const sectionId = this.getAttribute('href').substring(1);
         const section = document.getElementById(sectionId);
-        
+
         if (section) {
             const scrollTop = window.scrollY || window.pageYOffset;
             const sectionTop = section.getBoundingClientRect().top + scrollTop;
