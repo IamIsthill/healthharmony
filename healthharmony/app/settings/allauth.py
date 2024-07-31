@@ -1,4 +1,4 @@
-from healthharmony.app.settings import env
+# from healthharmony.app.settings import env
 
 
 SITE_ID = 1
@@ -7,8 +7,8 @@ SOCIALACCOUNT_PROVIDERS = {
         "SCOPE": ["profile", "email"],
         "AUTH_PARAMS": {"access_type": "online"},
         "APP": {
-            "client_id": env("CLIENT_ID"),
-            "secret": env("CLIENT_SECRET"),
+            "client_id": env("CLIENT_ID"),  # type: ignore # noqa: F821
+            "secret": env("CLIENT_SECRET"),  # type: ignore # noqa: F821
             "key": "",
         },
         "OAUTH_PKCE_ENABLED": True,

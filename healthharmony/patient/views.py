@@ -31,7 +31,7 @@ def overview_view(request):
     if "email" not in request.session:
         request.session["email"] = request.user.email
     env = environ.Env()
-    environ.Env.read_env(env_file=".env")
+    environ.Env.read_env(env_file="/healthharmony/.env")
 
     train_model()
     df, model, le_season, le_sickness, le_weather = load_data_and_model()

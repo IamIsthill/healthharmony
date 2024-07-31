@@ -13,7 +13,7 @@ from healthharmony.base.functions import (
 from healthharmony.bed.models import BedStat
 
 env = environ.Env()
-environ.Env.read_env(env_file=".env")
+environ.Env.read_env(env_file="healthharmony/.env")
 
 
 # Create your views here.

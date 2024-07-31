@@ -19,7 +19,7 @@ from django.core.mail import EmailMessage
 import environ
 
 env = environ.Env()
-environ.Env.read_env()
+environ.Env.read_env(env_file="healthharmony/.env")
 
 
 def generate_password(length=12):
