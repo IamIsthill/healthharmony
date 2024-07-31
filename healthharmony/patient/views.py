@@ -1,80 +1,49 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-import requests
 import environ
-from healthharmony.base.functions import (
-    get_season,
-    pred,
-    train_model,
-    load_data_and_model,
-)
-from django.utils import timezone
-import json
-from collections import defaultdict
 from django.db.models import Prefetch
-from django.db import connection
+import threading
 
-from healthharmony.treatment.models import Illness, DoctorDetail, IllnessTreatment
-from healthharmony.bed.models import BedStat
-from healthharmony.users.models import User
-from healthharmony.administrator.models import Log
-from allauth.socialaccount.models import SocialAccount
+from healthharmony.treatment.models import Illness, IllnessTreatment
 from healthharmony.patient.forms import UpdateProfileInfo
 
-from healthharmony.patient.functions import update_patient_view_context
+from healthharmony.patient.functions import (
+    update_patient_view_context,
+    get_weather,
+    fetch_overview_data,
+)
 
 
 # Create your views here.
 def overview_view(request):
     access_checker(request)
+
     # set session data
     if "email" not in request.session:
         request.session["email"] = request.user.email
+
     env = environ.Env()
-    environ.Env.read_env(env_file="/healthharmony/.env")
+    environ.Env.read_env(env_file="healthharmony/.env")
 
-    train_model()
-    df, model, le_season, le_sickness, le_weather = load_data_and_model()
-    request_url = f"https://api.openweathermap.org/data/2.5/weather?appid={env.str('WEATHER')}&q=Bacolor,PH&units=metric"
-    weatherData = requests.get(request_url).json()
-    temp = weatherData["main"]["temp"]
-    feels = weatherData["main"]["feels_like"]
-    season = get_season()
-    weather_info = weatherData["weather"][0]
-    weather = weather_info["main"]
-    icon = weather_info["icon"]
-    predict = pred(season, weather, df, model, le_season, le_sickness, le_weather)
+    context = {}
 
-    context = {
-        "temp": temp,
-        "feels": feels,
-        "predict": predict[0],
-        "icon": icon,
-    }
+    # Start the weather thread
+    weather_thread = threading.Thread(target=get_weather, args=(context, env))
+    weather_thread.start()
 
-    try:
-        visits = Illness.objects.filter(patient=request.user).count() or 0
-        treatments = (
-            Illness.objects.filter(patient=request.user, diagnosis__gt="").count() or 0
-        )
-        beds = BedStat.objects.all()
-        doctors = DoctorDetail.objects.select_related("doctor")
+    # Start the data fetching thread
+    data_thread = threading.Thread(target=fetch_overview_data, args=(context, request))
+    data_thread.start()
 
-        for doc in doctors:
-            now = timezone.localtime().time()
-            is_avail = doc.is_avail(now)
-            setattr(doc, "true_avail", is_avail)
+    # Wait for both threads to complete
+    weather_thread.join()
+    data_thread.join()
 
-        context.update(
-            {
-                "visits": visits,
-                "treatments": treatments,
-                "beds": beds,
-                "doctors": doctors,
-            }
-        )
-    except Exception as e:
-        messages.error(request, f"Failed to fetch data: {e}")
+    # Check for any errors and add messages if necessary
+    if "weather_error" in context:
+        messages.error(request, context["weather_error"])
+    if "data_error" in context:
+        messages.error(request, context["data_error"])
 
     return render(request, "patient/overview.html", context)
 
