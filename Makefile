@@ -59,3 +59,7 @@ test:
 .PHONY: install_lang
 install_lang:
 	poetry run python -m  healthharmony.install_lang
+
+.PHONY: train_diagnosis
+train_diagnosis:
+	poetry run python -m healthharmony.manage train_diag_pred
