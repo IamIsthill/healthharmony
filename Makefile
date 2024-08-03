@@ -63,3 +63,7 @@ install_lang:
 .PHONY: train_diagnosis
 train_diagnosis:
 	poetry run python -m healthharmony.manage train_diag_pred
+
+.PHONY: poetry
+poetry:
+	pip install poetry
