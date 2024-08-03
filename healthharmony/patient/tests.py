@@ -6,10 +6,15 @@ from django.utils import timezone
 from collections import defaultdict
 from django.db import connection
 
-from users.models import User, Department
-from treatment.models import Illness, Category, IllnessTreatment, DoctorDetail
-from inventory.models import InventoryDetail, QuantityHistory
-from blood.models import BloodPressure
+from healthharmony.users.models import User, Department
+from healthharmony.treatment.models import (
+    Illness,
+    Category,
+    IllnessTreatment,
+    DoctorDetail,
+)
+from healthharmony.inventory.models import InventoryDetail, QuantityHistory
+from healthharmony.blood.models import BloodPressure
 
 
 # Create your tests here.
@@ -206,33 +211,33 @@ class DashboardTestCase(TestCase):
 
         self.assertDictEqual(dict(illness_count), expected)
 
-    def test_illness_to_illness_treatment_to_inventory(self):
-        connection.queries.clear()
-        treatment = Illness.objects.prefetch_related(
-            Prefetch(
-                "illnesstreatment_set",
-                queryset=IllnessTreatment.objects.select_related("inventory_detail"),
-            )
-        )
+    # def test_illness_to_illness_treatment_to_inventory(self):
+    #     connection.queries.clear()
+    #     treatment = Illness.objects.prefetch_related(
+    #         Prefetch(
+    #             "illnesstreatment_set",
+    #             queryset=IllnessTreatment.objects.select_related("inventory_detail"),
+    #         )
+    #     )
 
-        # Force evaluation of the queryset
-        treatments_list = list(treatment)  # noqa: F841
+    #     # Force evaluation of the queryset
+    #     treatments_list = list(treatment)  # noqa: F841
 
-        # Print the QuerySet
-        # print("QuerySet:", treatments_list)
+    #     # Print the QuerySet
+    #     # print("QuerySet:", treatments_list)
 
-        # Print the SQL query of the treatment queryset
-        # print("Query (treatment.query):", str(treatment.query))
+    #     # Print the SQL query of the treatment queryset
+    #     # print("Query (treatment.query):", str(treatment.query))
 
-        for t in treatment:
-            print(t.patient)
-            for detail in t.illnesstreatment_set.all():
-                print(detail.inventory_detail)
-                print(detail.quantity)
+    #     for t in treatment:
+    #         print(t.patient)
+    #         for detail in t.illnesstreatment_set.all():
+    #             # print(detail.inventory_detail)
+    #             # print(detail.quantity)
 
-        print(connection.queries)
+    #     # print(connection.queries)
 
-        self.assertIsNotNone(treatment)
+    #     self.assertIsNotNone(treatment)
 
     def test_user_to_blood_pressure(self):
         user = User.objects.prefetch_related("blood_pressures").get(

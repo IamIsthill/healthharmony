@@ -12,8 +12,60 @@
 {% endblock %}
 {% block main %}
   {% include 'doctor/nav.html' %}
-  <div class="container">{{ done_illness }}</div>
+  <div class="container">
+    <h3>Illnesses</h3>
+    <div>
+      <button class="illness-filter">All</button>
+      <button class="active illness-filter">Pending</button>
+      <button class="illness-filter">Released</button>
+    </div>
+    <div class="illness_list">
+      <table>
+        <thead>
+          <tr>
+            <th>Patient Name</th>
+            <th>Issue</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for illness in not_illness %}
+            <tr>
+              <td>{{ illness.patient.first_name }} {{ illness.patient.last_name }}</td>
+              <td>{{ illness.issue }}</td>
+              <td>Pending</td>
+              <td class="view-illness" data-issue-id="{{ illness.id }}">View</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="4">Congratulations! No pending issue as of this moment.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="modals"></div>
 {% endblock %}
 {% block script %}
+  {{ illness_data|json_script:'illnessData' }}
+  <script>
+    main()
 
+    async function main() {
+      let illnessData = JSON.parse(document.getElementById('illnessData').textContent)
+      console.log(illnessData)
+
+      const illnessBtns = document.querySelectorAll('.illness-filter')
+      illnessBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          illnessBtns.forEach((btn) => {
+            btn.classList.remove('active')
+          })
+          btn.classList.add('active')
+        })
+      })
+    }
+  </script>
 {% endblock %}

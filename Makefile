@@ -12,7 +12,7 @@ install:
 	poetry install
 
 .PHONY: update
-update: install migrate install-pre-commit;
+update: install migrate install-pre-commit install_lang;
 
 
 .PHONY: delete-migrations
@@ -43,3 +43,27 @@ lint:
 install-pre-commit:
 	poetry run pre-commit uninstall
 	poetry run pre-commit install
+
+.PHONY: dump
+dump:
+	poetry run python -m healthharmony.manage dumpdata>datas.json
+
+.PHONY: test
+test:
+	if [ "$(a)" ]; then \
+		poetry run python -m healthharmony.manage test healthharmony.$(a); \
+	else \
+		poetry run python -m healthharmony.manage test; \
+	fi
+
+.PHONY: install_lang
+install_lang:
+	poetry run python -m  healthharmony.install_lang
+
+.PHONY: train_diagnosis
+train_diagnosis:
+	poetry run python -m healthharmony.manage train_diag_pred
+
+.PHONY: poetry
+poetry:
+	pip install poetry

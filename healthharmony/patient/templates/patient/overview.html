@@ -173,6 +173,10 @@ messages|has_error_message %}
   //Grouping the main logic
   async function main() {
 
+    // Temporary, uncomment later
+    mainContainer.style.display = 'none'
+    await getDashboard()
+
     //Fetch session email first
     const session = await fetchSessionEmail();
     let email = session.email;
@@ -189,11 +193,6 @@ messages|has_error_message %}
     updateVisitCanvas(visitData.year)
     createTreatmentBarsCanvas(Object.entries(treatmentData.week), treatmentDataLabels)
     updateTreatmentBars(Object.entries(treatmentData.week), treatmentDataLabels)
-
-    // Temporary, uncomment later
-    mainContainer.style.display = 'none'
-    getDashboard()
-
 
     // Date Filter for Visit Records
     const visitFilterBtns = document.querySelectorAll(".visit-filter");
