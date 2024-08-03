@@ -1,5 +1,5 @@
 from django.test import TestCase
-from bed.models import BedStat
+from healthharmony.bed.models import BedStat
 
 
 class BedTests(TestCase):

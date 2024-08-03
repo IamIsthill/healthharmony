@@ -1,6 +1,6 @@
 from django.db import models
 from healthharmony.users.models import User
-from healthharmony.inventory.models import InventoryDetail, QuantityHistory
+from healthharmony.inventory.models import InventoryDetail
 
 
 # Create your models here.
