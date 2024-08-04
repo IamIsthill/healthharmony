@@ -14,12 +14,12 @@
     <title>Document</title>
 </head>
 <body>
-    
+
   <section class="left-side">
     <img src="../../healthharmony/static/assets/images/svgs/logo.svg" class="logo" />
-    
+
       <a href="{{ signup_url }}">
-    
+
       </a>
       <span class="header">Welcome</span>
       <form action="{% url 'normal-login' %}" method="POST">
@@ -31,9 +31,9 @@
                 <input type="password" name="password" placeholder="Password" autocomplete="current-password" required aria-describedby="id_password_helptext" id="id_password" />
                 <span class="material-symbols-outlined input-logo">lock</span>
             </div>
-            
+
         <div class="remember-forgot">
-         
+
           <label> <input type="checkbox" name="remember"/> Remember Me</label>
           <span class="helptext" id="id_password_helptext"><a href="/accounts/password/reset/">Forgot your password?</a></span>
         </div>
