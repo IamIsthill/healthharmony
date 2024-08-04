@@ -7,6 +7,7 @@ from healthharmony.base.functions import (
     pred,
     train_model,
     load_data_and_model,
+    check_models,
 )
 
 # Models
@@ -18,6 +19,7 @@ environ.Env.read_env(env_file="healthharmony/.env")
 
 # Create your views here.
 def home(request):
+    check_models()
     train_model()
     df, model, le_season, le_sickness, le_weather = load_data_and_model()
     request_url = f"https://api.openweathermap.org/data/2.5/weather?appid={env.str('WEATHER')}&q=Bacolor,PH&units=metric"

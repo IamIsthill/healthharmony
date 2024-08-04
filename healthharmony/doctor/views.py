@@ -11,13 +11,14 @@ from healthharmony.treatment.models import Illness, IllnessTreatment
 from healthharmony.doctor.forms import UpdateIllness
 
 from healthharmony.doctor.functions import predict_diagnosis
-
+from healthharmony.base.functions import check_models
 
 logger = logging.getLogger(__name__)
 
 
 # Create your views here.
 def overview_view(request):
+    check_models()
     access_checker(request)
     if "email" not in request.session:
         request.session["email"] = request.user.email
