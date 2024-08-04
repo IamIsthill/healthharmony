@@ -5,6 +5,64 @@ from sklearn.tree import DecisionTreeClassifier
 import pandas as pd
 import joblib
 import numpy as np
+from django.utils import timezone
+from datetime import timedelta
+from healthharmony.doctor.models import ModelLog
+from healthharmony.doctor.functions import train_diagnosis_predictor
+import logging
+
+
+logger = logging.getLogger(__name__)
+
+
+def check_models():
+    """
+    Check the log entries and train the diagnosis predictor if needed.
+
+    This function performs the following steps:
+    1. Retrieves all entries from the `ModelLog` table.
+    2. If there are no log entries, it triggers the training of the diagnosis predictor.
+    3. If there are log entries, it checks if the `update_time` of the first entry is older than 24 hours.
+       - If so, it triggers the training of the diagnosis predictor.
+    4. Creates a new `ModelLog` entry to record that the diagnosis predictor was trained.
+    5. Logs an informational message indicating that the predictor was trained successfully.
+    6. Catches and logs any exceptions that occur during the process.
+
+    Exceptions:
+    - Logs an error message if an exception occurs during the execution of this function.
+
+    Returns:
+    - None
+    """
+    try:
+        # Retrieve all log entries
+        logs = ModelLog.objects.all()
+
+        # Get the first log entry, if any
+        first_log = logs.first()
+
+        # Check if logs count is 0
+        if logs.count() == 0:
+            logger.info("No logs found. Training diagnosis predictor.")
+            train_diagnosis_predictor()
+        elif first_log and first_log.update_time:
+            # Calculate the time difference
+            now = timezone.now()
+            time_diff = now - first_log.update_time
+
+            # Check if the update_time is older than 24 hours
+            if time_diff > timedelta(hours=24):
+                logger.info(
+                    "The first log entry is older than 24 hours. Training diagnosis predictor."
+                )
+                train_diagnosis_predictor()
+
+        # Record that the diagnosis predictor was trained
+        ModelLog.objects.create(model_name="diagnosis predictor")
+        logger.info("Diagnosis Predictor was trained successfully.")
+
+    except Exception as e:
+        logger.error(f"Failed to train models: {e}")
 
 
 def get_season():

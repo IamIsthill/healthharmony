@@ -17,6 +17,7 @@ from collections import defaultdict
 from dateutil.relativedelta import relativedelta
 from django.core.mail import EmailMessage
 import environ
+from healthharmony.base.functions import check_models
 
 env = environ.Env()
 environ.Env.read_env(env_file="healthharmony/.env")
@@ -53,6 +54,7 @@ def add_patient(request):
 
 
 def overview(request):
+    check_models()
     access_checker(request)
     now = timezone.now()
     start_date = (now - timedelta(days=365)).replace(day=1)

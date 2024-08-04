@@ -56,7 +56,7 @@ class Illness(models.Model):
     )
     added = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated = models.DateTimeField(auto_now=True, null=True, blank=True)
-    diagnosis = models.TextField()
+    diagnosis = models.TextField(blank=True, null=True)
     treatment = models.ManyToManyField(InventoryDetail, through="IllnessTreatment")
 
     def __str__(self):

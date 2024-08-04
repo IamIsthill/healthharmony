@@ -199,5 +199,18 @@ def train_diagnosis_predictor():
     joblib.dump(model, "healthharmony/static/assets/models/diagnosis_predictor.joblib")
 
 
+def predict_diagnosis(issue):
+    text = issue.replace("\n", "")
+    doc = t.make_spacy_doc(preproc(text), lang="en_core_web_sm")
+    text = [i.lemma_ for i in doc]
+
+    model_path = "healthharmony/static/assets/models/diagnosis_predictor.joblib"
+    model = joblib.load(model_path)
+
+    diagnosis = model.predict([string_lemma(text)])
+
+    return diagnosis[0]
+
+
 if __name__ == "__main__":
     train_diagnosis_predictor()
