@@ -1,4 +1,36 @@
-    /* CONTAINER */
+
+ /* 2xl */
+@media (max-width: 1536px) {
+  
+}
+
+/* xl */ 
+@media (max-width: 1280px) {
+  
+}
+
+/* lg */
+@media (max-width: 1024px) {
+  
+}
+
+/* md */
+@media (max-width: 768px) {
+  
+}
+
+/* sm */
+@media (max-width: 640px) {
+  
+}
+
+/* xs */
+@media (max-width: 475px) {
+  
+}
+
+
+ /* CONTAINER */
 .containers {
   max-width: 1536px;
   margin-left: auto;
@@ -61,7 +93,6 @@
 
   .yellow_button{
     background: var(--Light-Yellow);
-    padding: 0.5rem 1rem;
     border-radius: 8px;
     color:white;
   }
@@ -121,4 +152,8 @@ color: var(--Yellow);
 .nurse-container2{
  grid-template-columns: 12rem auto;
  /* border: 1px solid black; */
+}
+hr{
+  margin: 0 auto;
+  width: 50%;
 }

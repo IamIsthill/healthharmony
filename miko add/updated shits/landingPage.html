@@ -4,22 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+
     <link rel="stylesheet" href="styles/modern-normalize.css">
     <link rel="stylesheet" href="styles/components/index/header.css">
-    <link rel="stylesheet" href="styles/components/index/section.css">
+    <link rel="stylesheet" href="styles/components/index/hero.css">
+    <link rel="stylesheet" href="styles/components/index/bed.css">
+    <link rel="stylesheet" href="styles/components/index/weather.css">
+    <link rel="stylesheet" href="styles/components/index/doctor.css">
+    <link rel="stylesheet" href="styles/components/index/footer.css">
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/utils.css">
 
     <!-- link for swiper -->
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
-    <link rel="shortcut icon" href="../../users/" type="image/x-icon">
+    <link rel="shortcut icon" href="../../healthharmony/users/" type="image/x-icon">
     <!-- Fontawesome CDN Link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
     <title>Health Harmony</title>
 </head>
 <body>
     <nav class="header containers"> <!-- TOP PART NAVIGATION BAR -->
-        <a href="#"><img src="../../static/assets/images/landing-page/logo/logo.svg" class="nav-logo"></a>
+        <a href="#"><img src="../../healthharmony/static/assets/images/landing-page/logo/logo.svg" class="nav-logo"></a>
         <ul class="header_menu">
             <li>
                 <a href="#" class="header_link" >Medical Record</a>
@@ -38,7 +43,7 @@
             </li>
         </ul>
         <button class="logout yellow_button"> LOGIN</button>
-        <button class="header_hamburger"><img src="../../static/assets/images/landing-page/header/hamburger.svg" alt=""></button>
+        <button class="header_hamburger"><img src="../../healthharmony/static/assets/images/landing-page/header/hamburger.svg" alt=""></button>
     </nav>
 
     <main>
@@ -49,29 +54,29 @@
             <p>Imagine a world where your patients can schedule appointments online, and access their medical records with ease. Health Harmony helps a seamless patient experience, increasing satisfaction and loyalty while reducing administrative burdens. </p>
             <a><button class="hero_button yellow_button" onclick="openPopup()">View your Medical Record</button></a>
         </div>
-        <img src="../../static/assets/images/landing-page/mainillus.svg" class="main-illus">
+        <img src="../../healthharmony/static/assets/images/landing-page/mainillus.svg" class="main-illus">
     </section>
 
     <section class="bedSpace containers section">
         <div class="beds">
             <div class="bed-container">
                 <span class="span-green"> Available </span>
-                <img src="../../static/assets/images/landing-page/available-bed.svg">
+                <img src="../../healthharmony/static/assets/images/landing-page/available-bed.svg">
                 <span class="span-lightgray"> Bed 1 </span>
             </div>
             <div class="bed-container">
                 <span class="span-lightred"> Occupied </span>
-                <img src="../../static/assets/images/landing-page/occupied-bed.svg">
+                <img src="../../healthharmony/static/assets/images/landing-page/occupied-bed.svg">
                 <span class="span-lightgray"> Bed 2 </span>
             </div>
             <div class="bed-container">
                 <span class="span-lightred"> Occupied </span>
-                <img src="../../static/assets/images/landing-page/occupied-bed.svg">
+                <img src="../../healthharmony/static/assets/images/landing-page/occupied-bed.svg">
                 <span class="span-lightgray"> Bed 3 </span>
             </div>
             <div class="bed-container">
                 <span class="span-green"> Available </span>
-                <img src="../../static/assets/images/landing-page/available-bed.svg">
+                <img src="../../healthharmony/static/assets/images/landing-page/available-bed.svg">
                 <span class="span-lightgray"> Bed 4 </span>
             </div>
         </div>
@@ -88,7 +93,7 @@
         </div>
         <div class="weather-container">
             <div class="temp-part">
-                <img src="../../static/assets/images/landing-page/sun.svg">
+                <img src="../../healthharmony/static/assets/images/landing-page/sun.svg">
                 <div class="temp-heatwave">
                     <h1 class="span-normal">39°C</h1>
                     <div class="heatwave">
@@ -98,14 +103,14 @@
                 </div>
             </div>
             <div class="location-part">
-                <img src="../../static/assets/images/landing-page/loc.svg">
+                <img src="../../healthharmony/static/assets/images/landing-page/loc.svg">
                 <div class="location">
                     <h3>Bacolor, Dhvsu</h3>
                     <span class="span-lightgray">Main Campus</span>
                 </div>
             </div>
             <div class="sickness-part">
-                <img src="../../static/assets/images/landing-page/sick.svg">
+                <img src="../../healthharmony/static/assets/images/landing-page/sick.svg">
                 <div class="sickness">
                     <ul>
                         <li>Sick 1</li>
@@ -127,14 +132,9 @@
                 <div class="swiper-slide card">
                   <div class="card-content">
                     <div class="image">
-                      <img src="../../images_svg/doctor pics/Miko.jpg" alt="">
+                      <img src="../../healthharmony/static/assets/images/doctor-pics/Miko.jpg" alt="">
                     </div>
 
-                    <div class="media-icons">
-                      <i class="fab fa-facebook"></i>
-                      <i class="fab fa-twitter"></i>
-                      <i class="fab fa-github"></i>
-                    </div>
 
                     <div class="name-profession">
                       <span class="name">Miko Basilio</span>
@@ -158,14 +158,9 @@
                 <div class="swiper-slide card">
                   <div class="card-content">
                     <div class="image">
-                      <img src="../../images_svg/doctor pics/charls.jpg" alt="">
+                      <img src="../../healthharmony/static/assets/images/doctor-pics/charls.jpg" alt="">
                     </div>
 
-                    <div class="media-icons">
-                      <i class="fab fa-facebook"></i>
-                      <i class="fab fa-twitter"></i>
-                      <i class="fab fa-github"></i>
-                    </div>
 
                     <div class="name-profession">
                       <span class="name">Charles Bercasio</span>
@@ -189,14 +184,9 @@
                 <div class="swiper-slide card">
                   <div class="card-content">
                     <div class="image">
-                      <img src="../../images_svg/doctor pics/tan.jpg" alt="">
+                      <img src="../../healthharmony/static/assets/images/doctor-pics/tan.jpg" alt="">
                     </div>
 
-                    <div class="media-icons">
-                      <i class="fab fa-facebook"></i>
-                      <i class="fab fa-twitter"></i>
-                      <i class="fab fa-github"></i>
-                    </div>
 
                     <div class="name-profession">
                       <span class="name">Ethan Dwayne Baun</span>
@@ -220,14 +210,9 @@
                 <div class="swiper-slide card">
                   <div class="card-content">
                     <div class="image">
-                      <img src="../../images_svg/doctor pics/tanya.jpg" alt="">
+                      <img src="../../healthharmony/static/assets/images/doctor-pics/tanya.jpg" alt="">
                     </div>
 
-                    <div class="media-icons">
-                      <i class="fab fa-facebook"></i>
-                      <i class="fab fa-twitter"></i>
-                      <i class="fab fa-github"></i>
-                    </div>
 
                     <div class="name-profession">
                       <span class="name">Tanya Bartocillo</span>
@@ -251,14 +236,9 @@
                 <div class="swiper-slide card">
                   <div class="card-content">
                     <div class="image">
-                      <img src="../../images_svg/doctor pics/jl.jpg" alt="">
+                      <img src="../../healthharmony/static/assets/images/doctor-pics/jl.jpg" alt="">
                     </div>
 
-                    <div class="media-icons">
-                      <i class="fab fa-facebook"></i>
-                      <i class="fab fa-twitter"></i>
-                      <i class="fab fa-github"></i>
-                    </div>
 
                     <div class="name-profession">
                       <span class="name">John Luis Bernarte</span>
@@ -282,14 +262,9 @@
                 <div class="swiper-slide card">
                   <div class="card-content">
                     <div class="image">
-                      <img src="../../images_svg/doctor pics/habi.jpg" alt="">
+                      <img src="../../healthharmony/static/assets/images/doctor-pics/habi.jpg" alt="">
                     </div>
 
-                    <div class="media-icons">
-                      <i class="fab fa-facebook"></i>
-                      <i class="fab fa-twitter"></i>
-                      <i class="fab fa-github"></i>
-                    </div>
 
                     <div class="name-profession">
                       <span class="name">Ivee Aquino</span>
@@ -342,7 +317,7 @@
    <footer class="containers section">
     <h1>Contact</h1>
       <div class="contact-info">
-        <a href="https://maps.app.goo.gl/HNc8SfR3dTgpyV3p8" target="_blank"><div class="dhvsu-loc"><img src="../../static/assets/images/landing-page/location.svg"></div></a>
+        <a href="https://maps.app.goo.gl/HNc8SfR3dTgpyV3p8" target="_blank"><div class="dhvsu-loc"><img src="../../healthharmony/static/assets/images/landing-page/location.svg"></div></a>
         <div class="right-info">
           <div class="email-info">
             <h3>Email</h3>
