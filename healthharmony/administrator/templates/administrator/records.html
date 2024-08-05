@@ -1,105 +1,96 @@
 {% extends 'base.html' %}
-{% block title %}
-  Log and Records | HealthHarmony
-{% endblock %}
-{% block header %}
-
-{% endblock %}
-
-{% block message %}
-
-{% endblock %}
+{% block title %}Log and Records | HealthHarmony{% endblock %}
+{% block header %}{% endblock %}
+{% block message %}{% endblock %}
 {% block main %}
-  <div class="container">
-    {% include 'administrator/nav.html' %}
-    <div class="upper">
-      <h3>User Activity Trail</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Email</th>
-            <th>Timestamp</th>
-            <th>Action</th>
-            <th>Access</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% if logs %}
-            {% for log in logs %}
-              <tr>
-                <td>{{ log.user }}</td>
-                <td>{{ log.timestamp }}</td>
-                <td>{{ log.action }}</td>
-                <td>
-                  {% if log.user.access == 1 %}
-                    Patient
-                  {% elif log.user.access == 2 %}
-                    Clinic Staff
-                  {% elif log.user.access == 3 %}
-                    Doctor
-                  {% else %}
-                    Admin
-                  {% endif %}
-                </td>
-              </tr>
-            {% endfor %}
-          {% else %}
-            <tr>
-              <td cols="4">No Data Available</td>
-            </tr>
-          {% endif %}
-        </tbody>
-      </table>
+    <div class="container">
+        {% include 'administrator/nav.html' %}
+        <div class="upper">
+            <h3>User Activity Trail</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Timestamp</th>
+                        <th>Action</th>
+                        <th>Access</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if logs %}
+                        {% for log in logs %}
+                            <tr>
+                                <td>{{ log.user }}</td>
+                                <td>{{ log.timestamp }}</td>
+                                <td>{{ log.action }}</td>
+                                <td>
+                                    {% if log.user.access == 1 %}
+                                        Patient
+                                    {% elif log.user.access == 2 %}
+                                        Clinic Staff
+                                    {% elif log.user.access == 3 %}
+                                        Doctor
+                                    {% else %}
+                                        Admin
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td cols="4">No Data Available</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+        <div class="lower">
+            <h3>Data Change Trail</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Table</th>
+                        <th>Related Id</th>
+                        <th>Action</th>
+                        <th>Old Value</th>
+                        <th>New Value</th>
+                        <th>Changed By</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if data_logs %}
+                        {% for log in data_logs %}
+                            <tr>
+                                <td>{{ log.table }}</td>
+                                <td>{{ log.record_id }}</td>
+                                <td>{{ log.action }}</td>
+                                <td>
+                                    {% if log.old_value == 'No data' %}
+                                        <em>No Data</em>
+                                    {% else %}
+                                        {{ log.old_value }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if log.new_value == 'No data' %}
+                                        <em>No Data</em>
+                                    {% else %}
+                                        {{ log.new_value }}
+                                    {% endif %}
+                                </td>
+                                <td>{{ log.changed_by }}</td>
+                                <td>{{ log.timestamp|date:'F j, Y' }} at {{ log.timestamp|date:'g:i A' }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td cols="6">No data available</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="lower">
-      <h3>Data Change Trail</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Table</th>
-            <th>Related Id</th>
-            <th>Action</th>
-            <th>Old Value</th>
-            <th>New Value</th>
-            <th>Changed By</th>
-            <th>Timestamp</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% if data_logs %}
-            {% for log in data_logs %}
-              <tr>
-                <td>{{ log.table }}</td>
-                <td>{{ log.record_id }}</td>
-                <td>{{ log.action }}</td>
-                <td>
-                  {% if log.old_value == 'No data' %}
-                    <em>No Data</em>
-                  {% else %}
-                    {{ log.old_value }}
-                  {% endif %}
-                </td>
-                <td>
-                  {% if log.new_value == 'No data' %}
-                    <em>No Data</em>
-                  {% else %}
-                    {{ log.new_value }}
-                  {% endif %}
-                </td>
-                <td>{{ log.changed_by }}</td>
-                <td>{{ log.timestamp|date:'F j, Y' }} at {{ log.timestamp|date:'g:i A' }}</td>
-              </tr>
-            {% endfor %}
-          {% else %}
-            <tr>
-              <td cols="6">No data available</td>
-            </tr>
-          {% endif %}
-        </tbody>
-      </table>
-    </div>
-  </div>
 {% endblock %}
-{% block script %}
-
-{% endblock %}
+{% block script %}{% endblock %}

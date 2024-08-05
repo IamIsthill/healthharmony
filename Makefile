@@ -12,7 +12,7 @@ install:
 	poetry install
 
 .PHONY: update
-update: install migrate install-pre-commit install_lang;
+update: install migrate install-pre-commit;
 
 
 .PHONY: delete-migrations

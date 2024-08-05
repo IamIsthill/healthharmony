@@ -1,36 +1,31 @@
 {% extends 'staff/base.html' %}
-{% block title %}
-  Add Patient
-{% endblock %}
+{% block title %}Add Patient{% endblock %}
 {% block main %}
-  <form action="" method="POST">
-    {% csrf_token %}
-    <label for="">First Name:</label>
-    <input type="text" name="first_name" />
-    <label for="">Last Name:</label>
-    <input type="text" name="last_name" />
-    <label for="">Email:</label>
-    <input type="email" name="email" />
-    <label for="">Year:</label>
-    <input type="number" name="year" />
-    <label for="">Section:</label>
-    <input type="text" name="section" />
-    <label for="">Program:</label>
-    <input type="text" name="program" />
-    <label for="">Date of Birth:</label>
-    <input type="date" name="DOB" />
-    <label for="">Sex:</label>
-    <input type="text" name="sex" />
-    <label for="">Blood Type:</label>
-    <input type="text" name="blood_type" />
-    <label for="">Height:</label>
-    <input type="text" name="height" />
-    <label for="">Weight:</label>
-    <input type="text" name="weight" />
-    <button type="submit">Add Patient</button>
-  </form>
-
-  {% if form.errors %}
-    <div class="errors">{{ form.errors }}</div>
-  {% endif %}
+    <form action="" method="post">
+        {% csrf_token %}
+        <label for="">First Name:</label>
+        <input type="text" name="first_name" />
+        <label for="">Last Name:</label>
+        <input type="text" name="last_name" />
+        <label for="">Email:</label>
+        <input type="email" name="email" />
+        <label for="">Year:</label>
+        <input type="number" name="year" />
+        <label for="">Section:</label>
+        <input type="text" name="section" />
+        <label for="">Program:</label>
+        <input type="text" name="program" />
+        <label for="">Date of Birth:</label>
+        <input type="date" name="DOB" />
+        <label for="">Sex:</label>
+        <input type="text" name="sex" />
+        <label for="">Blood Type:</label>
+        <input type="text" name="blood_type" />
+        <label for="">Height:</label>
+        <input type="text" name="height" />
+        <label for="">Weight:</label>
+        <input type="text" name="weight" />
+        <button type="submit">Add Patient</button>
+    </form>
+    {% if form.errors %}<div class="errors">{{ form.errors }}</div>{% endif %}
 {% endblock %}

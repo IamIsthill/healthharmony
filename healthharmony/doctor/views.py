@@ -13,15 +13,33 @@ from healthharmony.doctor.forms import UpdateIllness
 from healthharmony.doctor.functions import predict_diagnosis
 from healthharmony.base.functions import check_models
 
+
 logger = logging.getLogger(__name__)
 
 
 # Create your views here.
 def overview_view(request):
+    """
+    View to display and update illness information.
+
+    This view handles both GET and POST requests. On GET requests, it fetches and organizes
+    illness data into categories based on their diagnosis status and prepares it for rendering.
+    On POST requests, it processes form data to update illness information.
+
+    Args:
+        request: The HTTP request object.
+
+    Returns:
+        HttpResponse: The rendered HTML page with illness information.
+    """
     check_models()
     access_checker(request)
+
+    # Ensure user email is in session
     if "email" not in request.session:
         request.session["email"] = request.user.email
+
+    # Handle POST request for updating illness
     if request.method == "POST":
         form = UpdateIllness(request.POST)
         if form.is_valid():
@@ -29,41 +47,56 @@ def overview_view(request):
                 form.save(request)
                 messages.success(request, "Illness updated successfully!")
             except Exception as e:
-                messages.error(request, str(e))
+                logger.error("Error updating illness: %s", str(e))
+                messages.error(request, "An error occurred while updating the illness.")
         else:
             messages.error(request, "Form data is invalid.")
 
-    all_illness = Illness.objects.all().prefetch_related(
-        Prefetch(
-            "illnesstreatment_set",
-            queryset=IllnessTreatment.objects.select_related("inventory_detail"),
+    # Handle GET request to fetch and prepare illness data
+    try:
+        all_illness = Illness.objects.all().prefetch_related(
+            Prefetch(
+                "illnesstreatment_set",
+                queryset=IllnessTreatment.objects.select_related("inventory_detail"),
+            )
         )
-    )
-    done_illness = Illness.objects.filter(diagnosis__isnull=False).prefetch_related(
-        Prefetch(
-            "illnesstreatment_set",
-            queryset=IllnessTreatment.objects.select_related("inventory_detail"),
+        done_illness = Illness.objects.filter(diagnosis__isnull=False).prefetch_related(
+            Prefetch(
+                "illnesstreatment_set",
+                queryset=IllnessTreatment.objects.select_related("inventory_detail"),
+            )
         )
-    )
-    not_illness = Illness.objects.filter(
-        Q(diagnosis__isnull=True) | Q(diagnosis="")
-    ).prefetch_related(
-        Prefetch(
-            "illnesstreatment_set",
-            queryset=IllnessTreatment.objects.select_related("inventory_detail"),
+        not_illness = Illness.objects.filter(
+            Q(diagnosis__isnull=True) | Q(diagnosis="")
+        ).prefetch_related(
+            Prefetch(
+                "illnesstreatment_set",
+                queryset=IllnessTreatment.objects.select_related("inventory_detail"),
+            )
         )
-    )
 
-    illness_data = {
-        "all": [illness_to_dict(illness) for illness in all_illness],
-        "not": [illness_to_dict(illness) for illness in not_illness],
-        "done": [illness_to_dict(illness) for illness in done_illness],
-    }
+        illness_data = {
+            "all": [illness_to_dict(illness) for illness in all_illness],
+            "not": [illness_to_dict(illness) for illness in not_illness],
+            "done": [illness_to_dict(illness) for illness in done_illness],
+        }
 
-    context = {
-        "not_illness": not_illness,
-        "illness_data": illness_data,
-    }
+        context = {
+            "not_illness": not_illness,
+            "illness_data": illness_data,
+        }
+    except Exception as e:
+        logger.error("Error retrieving illness data: %s", str(e))
+        context = {
+            "not_illness": [],
+            "illness_data": {
+                "all": [],
+                "not": [],
+                "done": [],
+            },
+        }
+        messages.error(request, "An error occurred while retrieving illness data.")
+
     return render(request, "doctor/overview.html", context)
 
 

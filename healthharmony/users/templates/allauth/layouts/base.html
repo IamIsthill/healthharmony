@@ -1,31 +1,25 @@
 {% load i18n %}
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>
-      {% block head_title %}
-
-      {% endblock %}
-    </title>
-    {% block extra_head %}
-
-    {% endblock %}
-  </head>
-  <body>
-    {% block body %}
-      {% if messages %}
-        <div>
-          <strong>{% trans 'Messages:' %}</strong>
-          <ul>
-            {% for message in messages %}
-              <li>{{ message }}</li>
-            {% endfor %}
-          </ul>
-        </div>
-      {% endif %}
-      {% comment %} <div>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>
+            {% block head_title %}{% endblock %}
+        </title>
+        {% block extra_head %}{% endblock %}
+    </head>
+    <body>
+        {% block body %}
+            {% if messages %}
+                <div>
+                    <strong>{% trans 'Messages:' %}</strong>
+                    <ul>
+                        {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            {% comment %} <div>
         <strong>{% trans 'Menu:' %}</strong>
         <ul>
           {% if user.is_authenticated %}
@@ -74,13 +68,9 @@
             {% endif %}
           {% endif %}
         </ul>
-      </div> {% endcomment %}
-      {% block content %}
-
-      {% endblock %}
-    {% endblock %}
-    {% block extra_body %}
-
-    {% endblock %}
-  </body>
+            </div> {% endcomment %}
+            {% block content %}{% endblock %}
+        {% endblock %}
+        {% block extra_body %}{% endblock %}
+    </body>
 </html>

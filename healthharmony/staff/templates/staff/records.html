@@ -1,18 +1,16 @@
 {% extends 'base.html' %}
 {% load static %}
-
-{% block title %}
-  Records | HealthHarmony
-{% endblock %}
+{% block title %}Records | HealthHarmony{% endblock %}
 {% block header %}
-  <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/clinic/record-main.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/clinic/overview.css' %}" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet" />
-  <style>
+    <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/clinic/record-main.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/clinic/overview.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
+          rel="stylesheet" />
+    <style>
     /* The Modal (background) */
     .modal {
       display: none; /* Hidden by default */
@@ -50,119 +48,114 @@
       text-decoration: none;
       cursor: pointer;
     }
-  </style>
+    </style>
 {% endblock %}
-
-{% block message %}
-
-{% endblock %}
+{% block message %}{% endblock %}
 {% block main %}
-  <div class="nurse-container2">
-    {% include 'staff/navbar.html' %}
-
-    <div>
-      <h3>Visit and Request History</h3>
-      <div class="upper">
-        <h4>Visit History</h4>
+    <div class="nurse-container2">
+        {% include 'staff/navbar.html' %}
         <div>
-          <button id="myBtn">Add Record</button>
-
-          <!-- The Modal -->
-          <div id="myModal" class="modal">
-            <!-- Modal content -->
-            <div class="modal-content">
-              <span class="close">&times;</span>
-              <form action="{% url 'create-patient-add-issue' %}" method="POST">
-                {% csrf_token %}
-                <label for="">Patient Email</label>
-                <input type="text" name="email" list="patients" />
-                <datalist id="patients"></datalist>
-                <label for="">Issue</label>
-                <input type="text" name="issue" />
-                <button type="submit">Add Complaint</button>
-              </form>
+            <h3>Visit and Request History</h3>
+            <div class="upper">
+                <h4>Visit History</h4>
+                <div>
+                    <button id="myBtn">Add Record</button>
+                    <!-- The Modal -->
+                    <div id="myModal" class="modal">
+                        <!-- Modal content -->
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <form action="{% url 'create-patient-add-issue' %}" method="post">
+                                {% csrf_token %}
+                                <label for="">Patient Email</label>
+                                <input type="text" name="email" list="patients" />
+                                <datalist id="patients"></datalist>
+                                <label for="">Issue</label>
+                                <input type="text" name="issue" />
+                                <button type="submit">Add Complaint</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="table-head">Date and Time of Visit</th>
+                            <th class="table-head">Patient</th>
+                            <th class="table-head">Concern</th>
+                            <th class="table-head">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if history %}
+                            {% for data in history %}
+                                <tr>
+                                    <td class="table-data">{{ data.added }}</td>
+                                    <td class="table-data">{{ data.first_name }} {{ data.last_name }}</td>
+                                    <td class="table-data">{{ data.issue }}</td>
+                                    <td class="table-data">
+                                        {% if data.diagnosis %}
+                                            Finished
+                                        {% else %}
+                                            Ongoing
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td class="table-data" colspan="4">No available data</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
             </div>
-          </div>
+            <div class="lower">
+                <div class="left">
+                    <h4>Request Summary</h4>
+                    <div>
+                        <button class="request-date-filter" data-filter="week">Last 7 days</button>
+                        <button class="request-date-filter" data-filter="month">Last 30 days</button>
+                        <button class="request-date-filter" data-filter="year">Last 12 months</button>
+                    </div>
+                    <div class="main-content">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Email</th>
+                                    <th>Requester</th>
+                                    <th>Purpose</th>
+                                    <th>Date Requested</th>
+                                </tr>
+                            </thead>
+                            <tbody class="request-body">
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <button class="request-status-filter" data-filter="all">All</button>
+                        <button class="request-status-filter" data-filter="pending">Pending</button>
+                        <button class="request-status-filter" data-filter="released">Released</button>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="bar-space">
+                        <canvas id="request-bar"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th class="table-head">Date and Time of Visit</th>
-              <th class="table-head">Patient</th>
-              <th class="table-head">Concern</th>
-              <th class="table-head">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% if history %}
-              {% for data in history %}
-                <tr>
-                  <td class="table-data">{{ data.added }}</td>
-                  <td class="table-data">{{ data.first_name }} {{ data.last_name }}</td>
-                  <td class="table-data">{{ data.issue }}</td>
-                  <td class="table-data">
-                    {% if data.diagnosis %}
-                      Finished
-                    {% else %}
-                      Ongoing
-                    {% endif %}
-                  </td>
-                </tr>
-              {% endfor %}
-            {% else %}
-              <tr>
-                <td class="table-data" colspan="4">No available data</td>
-              </tr>
-            {% endif %}
-          </tbody>
-        </table>
-      </div>
-      <div class="lower">
-        <div class="left">
-          <h4>Request Summary</h4>
-          <div>
-            <button class="request-date-filter" data-filter="week">Last 7 days</button>
-            <button class="request-date-filter" data-filter="month">Last 30 days</button>
-            <button class="request-date-filter" data-filter="year">Last 12 months</button>
-          </div>
-          <div class="main-content">
-            <table>
-              <thead>
-                <tr>
-                  <th>Email</th>
-                  <th>Requester</th>
-                  <th>Purpose</th>
-                  <th>Date Requested</th>
-                </tr>
-              </thead>
-              <tbody class="request-body">
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div>
-            <button class="request-status-filter" data-filter="all">All</button>
-            <button class="request-status-filter" data-filter="pending">Pending</button>
-            <button class="request-status-filter" data-filter="released">Released</button>
-          </div>
-        </div>
-        <div class="right">
-          <div class="bar-space">
-            <canvas id="request-bar"></canvas>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 {% endblock %}
 {% block script %}
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
     // Get the modal
     var modal = document.getElementById('myModal')
 
@@ -250,14 +243,14 @@
       let html = ''
       data.forEach((line) => {
         let text = `
-                                                                                                                                                                                                                                      <tr>
-                                                                                                                                                                                                                                        <td>${line.email}</td>
-                                                                                                                                                                                                                                        <td>${line.first_name} ${line.last_name}</td>
-                                                                                                                                                                                                                                        <td>${line.purpose}</td>
-                                                                                                                                                                                                                                        <td>${formatDate(line.requested)}</td>
-                                                                                                                                                                                                                                      </tr>
+                                                                                                                                                                                                                                          <tr>
+                                                                                                                                                                                                                                            <td>${line.email}</td>
+                                                                                                                                                                                                                                            <td>${line.first_name} ${line.last_name}</td>
+                                                                                                                                                                                                                                            <td>${line.purpose}</td>
+                                                                                                                                                                                                                                            <td>${formatDate(line.requested)}</td>
+                                                                                                                                                                                                                                          </tr>
 
-                                                                                                                                                                                                                                    `
+                                                                                                                                                                                                                                        `
         html += text
       })
       requestSpace.innerHTML = html
@@ -376,5 +369,5 @@
       return gradient
     }
     //==========================================
-  </script>
+    </script>
 {% endblock %}
