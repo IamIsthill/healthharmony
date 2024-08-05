@@ -1,59 +1,50 @@
 {% extends 'base.html' %}
-
 {% load static %}
-
-{% block title %}
-  Dashboard | HealthHarmony
-{% endblock %}
-{% block header %}
-
-{% endblock %}
-
-{% block message %}
-
-{% endblock %}
+{% block title %}Dashboard | HealthHarmony{% endblock %}
+{% block header %}{% endblock %}
+{% block message %}{% endblock %}
 {% block main %}
-  <div class="container">
-    {% include 'administrator/nav.html' %}
-    <hr />
-    <h2>Active User</h2>
-    <h3>{{ count_users }}</h3>
-    <div class="upper">
-      <h3>User Reports</h3>
-      <div>
-        <button class="user-filter-btn" data-category="year">12 Months</button>
-        <button class="user-filter-btn" data-category="month">30 Days</button>
-        <button class="user-filter-btn" data-category="week">7 Days</button>
-      </div>
-      <div>
-        <div>
-          <canvas id="user-canvas"></canvas>
+    <div class="container">
+        {% include 'administrator/nav.html' %}
+        <hr />
+        <h2>Active User</h2>
+        <h3>{{ count_users }}</h3>
+        <div class="upper">
+            <h3>User Reports</h3>
+            <div>
+                <button class="user-filter-btn" data-category="year">12 Months</button>
+                <button class="user-filter-btn" data-category="month">30 Days</button>
+                <button class="user-filter-btn" data-category="week">7 Days</button>
+            </div>
+            <div>
+                <div>
+                    <canvas id="user-canvas"></canvas>
+                </div>
+            </div>
         </div>
-      </div>
+        <div class="lower">
+            <div class="left">
+                <h3>Account Roles</h3>
+                <div>
+                    <div>
+                        <canvas id="account-roles"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <h3>User Demographics</h3>
+                <div>
+                    <div>
+                        <canvas id="user-demo"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="lower">
-      <div class="left">
-        <h3>Account Roles</h3>
-        <div>
-          <div>
-            <canvas id="account-roles"></canvas>
-          </div>
-        </div>
-      </div>
-      <div class="right">
-        <h3>User Demographics</h3>
-        <div>
-          <div>
-            <canvas id="user-demo"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 {% endblock %}
 {% block script %}
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
     // Get the desired filter
     let userDateFilter = 'year'
     const userFilterBtns = document.querySelectorAll('.user-filter-btn')
@@ -317,5 +308,5 @@
       })
     }
     //====================================================
-  </script>
+    </script>
 {% endblock %}

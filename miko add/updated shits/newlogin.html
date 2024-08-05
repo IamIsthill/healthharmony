@@ -1,48 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="login.css" />
-    <link rel="icon" type="image/png" href="../../healthharmony/static/assets/images/svgs/logotitle.svg" />
-    <link rel="stylesheet" href="styles/modern-normalize.css">
-    <link rel="stylesheet" href="styles/style.css">
-    <link rel="stylesheet" href="styles/utils.css">
-
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
-
-    <title>Document</title>
-</head>
-<body>
-
-  <section class="left-side">
-    <img src="../../healthharmony/static/assets/images/svgs/logo.svg" class="logo" />
-
-      <a href="{{ signup_url }}">
-
-      </a>
-      <span class="header">Welcome</span>
-      <form action="{% url 'normal-login' %}" method="POST">
-            <div class="input-container">
-                <input type="email" name="email" placeholder="Email address" autocomplete="email" maxlength="320" required id="id_login" />
-                <span class="material-symbols-outlined input-logo">person</span>
-            </div>
-            <div class="input-container">
-                <input type="password" name="password" placeholder="Password" autocomplete="current-password" required aria-describedby="id_password_helptext" id="id_password" />
-                <span class="material-symbols-outlined input-logo">lock</span>
-            </div>
-
-        <div class="remember-forgot">
-
-          <label> <input type="checkbox" name="remember"/> Remember Me</label>
-          <span class="helptext" id="id_password_helptext"><a href="/accounts/password/reset/">Forgot your password?</a></span>
-        </div>
-        <button class="login">Login</button>
-      </form>
-    <a title="Google" href="/accounts/google/login/?process=login" class="">Login Via Google</a>
-    <p>Don't have an account yet? Please <a href="#">Sign Up here</a></p>
-  </section>
-  <!-- <img src="{% static 'assets/images/svgs/loginillus.svg' %}" class="illus" /> -->
-   <img class="illus" src="../../healthharmony/static/assets/images/svgs/loginillus.svg">
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="login.css" />
+        <link rel="icon"
+              type="image/png"
+              href="../../healthharmony/static/assets/images/svgs/logotitle.svg" />
+        <link rel="stylesheet" href="styles/modern-normalize.css">
+        <link rel="stylesheet" href="styles/style.css">
+        <link rel="stylesheet" href="styles/utils.css">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+              rel="stylesheet">
+        <title>Document</title>
+    </head>
+    <body>
+        <section class="left-side">
+            <img src="../../healthharmony/static/assets/images/svgs/logo.svg"
+                 class="logo" />
+            <a href="{{ signup_url }}"></a>
+            <span class="header">Welcome</span>
+            <form action="{% url 'normal-login' %}" method="post">
+                <div class="input-container">
+                    <input type="email"
+                           name="email"
+                           placeholder="Email address"
+                           autocomplete="email"
+                           maxlength="320"
+                           required
+                           id="id_login" />
+                    <span class="material-symbols-outlined input-logo">person</span>
+                </div>
+                <div class="input-container">
+                    <input type="password"
+                           name="password"
+                           placeholder="Password"
+                           autocomplete="current-password"
+                           required
+                           aria-describedby="id_password_helptext"
+                           id="id_password" />
+                    <span class="material-symbols-outlined input-logo">lock</span>
+                </div>
+                <div class="remember-forgot">
+                    <label>
+                        <input type="checkbox" name="remember" />
+                        Remember Me
+                    </label>
+                    <span class="helptext" id="id_password_helptext"><a href="/accounts/password/reset/">Forgot your password?</a></span>
+                </div>
+                <button class="login">Login</button>
+            </form>
+            <a title="Google" href="/accounts/google/login/?process=login" class="">Login Via Google</a>
+            <p>
+                Don't have an account yet? Please <a href="#">Sign Up here</a>
+            </p>
+        </section>
+        <!-- <img src="{% static 'assets/images/svgs/loginillus.svg' %}" class="illus" /> -->
+        <img class="illus"
+             src="../../healthharmony/static/assets/images/svgs/loginillus.svg">
+    </body>
 </html>

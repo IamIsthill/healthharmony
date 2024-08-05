@@ -3,60 +3,70 @@
 {% load allauth account %}
 {% load static %}
 {% block head_title %}
-  {% trans 'Login' %}
+    {% trans 'Login' %}
 {% endblock %}
 {% block extra_head %}
-  <link rel="stylesheet" href="{% static 'css/login.css' %}" />
-  <link rel="icon" type="image/png" href="{% static 'assets/images/svgs/logotitle.svg' %}" />
-  <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+    <link rel="icon"
+          type="image/png"
+          href="{% static 'assets/images/svgs/logotitle.svg' %}" />
+    <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+          rel="stylesheet" />
 {% endblock %}
 {% block content %}
-  <section class="left-side">
-    <img src="{% static 'assets/images/svgs/logo.svg' %}" class="logo" />
-    {% comment %} {% element h1 %}
+    <section class="left-side">
+        <img src="{% static 'assets/images/svgs/logo.svg' %}" class="logo" />
+        {% comment %} {% element h1 %}
     {% trans 'Sign In' %}
-    {% endelement %} {% endcomment %}
-    {% if not SOCIALACCOUNT_ONLY %}
-      {% setvar link %}
-      <a href="{{ signup_url }}">
-        {% endsetvar %}
-        {% setvar end_link %}
-      </a>
-      {% endsetvar %}
-      <span class="header">Welcome</span>
-      {% comment %} {% element p tags='smalltext' %}
+        {% endelement %} {% endcomment %}
+        {% if not SOCIALACCOUNT_ONLY %}
+            {% setvar link %}
+            <a href="{{ signup_url }}">
+            {% endsetvar %}
+            {% setvar end_link %}
+        </a>
+    {% endsetvar %}
+    <span class="header">Welcome</span>
+    {% comment %} {% element p tags='smalltext' %}
       {% blocktranslate %}If you have not created an account yet, then please {{ link }}sign up{{ end_link }} first.{% endblocktranslate %}
-      {% endelement %} {% endcomment %}
-
-      <form action="{% url 'normal-login' %}" method="POST">
+    {% endelement %} {% endcomment %}
+    <form action="{% url 'normal-login' %}" method="post">
         {% csrf_token %}
-
         <div class="input-container">
-          <input type="email" name="email" placeholder="Email address" autocomplete="email" maxlength="320" required id="id_login" />
-          <span class="material-symbols-outlined input-logo">person</span>
+            <input type="email"
+                   name="email"
+                   placeholder="Email address"
+                   autocomplete="email"
+                   maxlength="320"
+                   required
+                   id="id_login" />
+            <span class="material-symbols-outlined input-logo">person</span>
         </div>
-
         <div class="input-container">
-          <input type="password" name="password" placeholder="Password" autocomplete="current-password" required aria-describedby="id_password_helptext" id="id_password" />
-          <span class="material-symbols-outlined input-logo">lock</span>
+            <input type="password"
+                   name="password"
+                   placeholder="Password"
+                   autocomplete="current-password"
+                   required
+                   aria-describedby="id_password_helptext"
+                   id="id_password" />
+            <span class="material-symbols-outlined input-logo">lock</span>
         </div>
         <div class="remember-forgot">
-          <span class="helptext" id="id_password_helptext"><a href="/accounts/password/reset/">Forgot your password?</a></span>
+            <span class="helptext" id="id_password_helptext"><a href="/accounts/password/reset/">Forgot your password?</a></span>
         </div>
-
         {% element button type='submit' tags='prominent,login' %}
         {% trans 'Login' %}
-        {% endelement %}
-      </form>
-    {% endif %}
-
-    <a title="Google" href="/accounts/google/login/?process=login" class="">Login Via Google</a>
-    <p>
-      Don't have an account yet? Please <a href="#">Sign Up here</a>
-    </p>
-  </section>
-  <img src="{% static 'assets/images/svgs/loginillus.svg' %}" class="illus" />
+    {% endelement %}
+</form>
+{% endif %}
+<a title="Google" href="/accounts/google/login/?process=login" class="">Login Via Google</a>
+<p>
+    Don't have an account yet? Please <a href="#">Sign Up here</a>
+</p>
+</section>
+<img src="{% static 'assets/images/svgs/loginillus.svg' %}" class="illus" />
 {% endblock %}

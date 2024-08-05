@@ -1,9 +1,5 @@
-{% if inventory %}
-{{ inventory|json_script:'inventory-data' }}
-{% endif %}
-{% if inventory_data %}
-{{ inventory_data|json_script:'inventory-counts' }}
-{% endif %}
+{% if inventory %}{{ inventory|json_script:'inventory-data' }}{% endif %}
+{% if inventory_data %}{{ inventory_data|json_script:'inventory-counts' }}{% endif %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     // Inventory category

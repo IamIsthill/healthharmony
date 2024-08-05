@@ -1,29 +1,26 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}
-  Overview | HealthHarmony
-{% endblock %}
-
+{% block title %}Overview | HealthHarmony{% endblock %}
 {% block header %}
-  <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/clinic/overview-main.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/clinic/overview.css' %}" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/clinic/overview-main.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/clinic/overview.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
+          rel="stylesheet" />
 {% endblock %}
-
 {% block main %}
-  <div class="nurse-container">
-    {% include 'staff/navbar.html' %}
-    <!-- MAIN CONTENT -->
-    <main>
-      {% include 'staff/overview-top.html' %}
-      {% include 'staff/overview-graphs.html' %}
-    </main>
-  </div>
+    <div class="nurse-container">
+        {% include 'staff/navbar.html' %}
+        <!-- MAIN CONTENT -->
+        <main>
+            {% include 'staff/overview-top.html' %}
+            {% include 'staff/overview-graphs.html' %}
+        </main>
+    </div>
 {% endblock %}
 {% block script %}
-  {% include 'staff/overview-script.html' %}
+    {% include 'staff/overview-script.html' %}
 {% endblock %}

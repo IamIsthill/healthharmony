@@ -1,10 +1,8 @@
 {% extends 'base.html' %}
 {% load tags %}
-{% block title %}
-  Accounts | HealthHarmony
-{% endblock %}
+{% block title %}Accounts | HealthHarmony{% endblock %}
 {% block header %}
-  <style>
+    <style>
     /* The Modal (background) */
     .modal {
       display: none; /* Hidden by default */
@@ -42,111 +40,108 @@
       text-decoration: none;
       cursor: pointer;
     }
-  </style>
+    </style>
 {% endblock %}
-
 {% block message %}
-  {% if messages %}
-    <div>
-      {% for message in messages %}
+    {% if messages %}
         <div>
-          <p>{{ message }}</p>
+            {% for message in messages %}
+                <div>
+                    <p>{{ message }}</p>
+                </div>
+            {% endfor %}
         </div>
-      {% endfor %}
-    </div>
-  {% endif %}
+    {% endif %}
 {% endblock %}
 {% block main %}
-  <div class="container">
-    {% include 'administrator/nav.html' %}
-    <div>
-      <h1>Account Management</h1>
-      <div class="account-list-container">
-        <div class="account-header">
-          <h1>Account List</h1>
-          <button id="add-account-btn">Add Account</button>
-          <div>
-            <button class="account-filter" data-filter="all">All</button>
-            <button class="account-filter" data-filter="patient">Patients</button>
-            <button class="account-filter" data-filter="staff">Staff</button>
-            <button class="account-filter" data-filter="doctor">Doctors</button>
-          </div>
+    <div class="container">
+        {% include 'administrator/nav.html' %}
+        <div>
+            <h1>Account Management</h1>
+            <div class="account-list-container">
+                <div class="account-header">
+                    <h1>Account List</h1>
+                    <button id="add-account-btn">Add Account</button>
+                    <div>
+                        <button class="account-filter" data-filter="all">All</button>
+                        <button class="account-filter" data-filter="patient">Patients</button>
+                        <button class="account-filter" data-filter="staff">Staff</button>
+                        <button class="account-filter" data-filter="doctor">Doctors</button>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Account Name</th>
+                            <th>Email</th>
+                            <th>Date Joined</th>
+                            <th>Access</th>
+                        </tr>
+                    </thead>
+                    <tbody class="account-body">
+                        {% if users %}
+                            {% for user in users %}
+                                <tr>
+                                    <td>{{ user.first_name }} {{ user.last_name }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>{{ user.date_joined|date:'F j, Y' }} at {{ user.date_joined|date:'g:i A' }}</td>
+                                    <td>
+                                        {% if user.access == 1 %}
+                                            Patient
+                                        {% elif user.access == 2 %}
+                                            Staff
+                                        {% elif user.access == 3 %}
+                                            Doctor
+                                        {% else %}
+                                            Admin
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td>No data available</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Account Name</th>
-              <th>Email</th>
-              <th>Date Joined</th>
-              <th>Access</th>
-            </tr>
-          </thead>
-          <tbody class="account-body">
-            {% if users %}
-              {% for user in users %}
-                <tr>
-                  <td>{{ user.first_name }} {{ user.last_name }}</td>
-                  <td>{{ user.email }}</td>
-                  <td>{{ user.date_joined|date:'F j, Y' }} at {{ user.date_joined|date:'g:i A' }}</td>
-                  <td>
-                    {% if user.access == 1 %}
-                      Patient
-                    {% elif user.access == 2 %}
-                      Staff
-                    {% elif user.access == 3 %}
-                      Doctor
-                    {% else %}
-                      Admin
+    </div>
+    <div id="add-account-modal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <label for="">First Name:</label>
+                <input type="text" name="first_name" required />
+                <label for="">Last Name:</label>
+                <input type="text" name="last_name" required />
+                <label for="">Email:</label>
+                <input type="email" name="email" required />
+                <label for="">Access Type:</label>
+                <select name="access" id="">
+                    <option value="1">Patient</option>
+                    <option value="2">Staff</option>
+                    <option value="3">Doctor</option>
+                    <option value="4">Admin</option>
+                </select>
+                <label for="">Department:</label>
+                <input type="text" name="department" list="department-list" required />
+                <datalist id="department-list">
+                    {% if departments %}
+                        {% for department in departments %}<option value="{{ department }}"></option>{% endfor %}
                     {% endif %}
-                  </td>
-                </tr>
-              {% endfor %}
-            {% else %}
-              <tr>
-                <td>No data available</td>
-              </tr>
-            {% endif %}
-          </tbody>
-        </table>
-      </div>
+                </datalist>
+                <input type="hidden" id="department-id" />
+                <button type="submit">Add Account</button>
+            </form>
+        </div>
     </div>
-  </div>
-  <div id="add-account-modal" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <form action="" method="POST">
-        {% csrf_token %}
-        <label for="">First Name:</label>
-        <input type="text" name="first_name" required />
-        <label for="">Last Name:</label>
-        <input type="text" name="last_name" required />
-        <label for="">Email:</label>
-        <input type="email" name="email" required />
-        <label for="">Access Type:</label>
-        <select name="access" id="">
-          <option value="1">Patient</option>
-          <option value="2">Staff</option>
-          <option value="3">Doctor</option>
-          <option value="4">Admin</option>
-        </select>
-        <label for="">Department:</label>
-        <input type="text" name="department" list="department-list" required />
-        <datalist id="department-list">
-          {% if departments %}
-            {% for department in departments %}
-              <option value="{{ department }}"></option>
-            {% endfor %}
-          {% endif %}
-        </datalist>
-        <input type="hidden" id="department-id" />
-        <button type="submit">Add Account</button>
-      </form>
-    </div>
-  </div>
 {% endblock %}
 {% block script %}
-  <script>
+    <script>
     // INITIALIZE
     let accountDataFilter = 'all'
     //=============================================
@@ -251,5 +246,5 @@
     }
 
     //=============================================
-  </script>
+    </script>
 {% endblock %}

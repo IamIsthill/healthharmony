@@ -1,24 +1,18 @@
 {% extends 'staff/base.html' %}
-{% block title %}
-  Add Issue
-{% endblock %}
+{% block title %}Add Issue{% endblock %}
 {% block main %}
-  {% if messages %}
-    {% for message in messages %}
-      <div>{{ message }}</div>
-    {% endfor %}
-  {% endif %}
-  <form action="{% url 'add-issue' %}" method="POST">
-    {% csrf_token %}
-    <label for="">Patient</label>
-    <input type="text" name="patient" list="patients" />
-    <datalist id="patients">
-      {% for patient in patients %}
-        <option value="{{ patient.email }}">{{ patient.email }}</option>
-      {% endfor %}
-    </datalist>
-    <label for="">Issue</label>
-    <input type="text" name="issue" />
-    <button type="submit">Add Complaint</button>
-  </form>
+    {% if messages %}
+        {% for message in messages %}<div>{{ message }}</div>{% endfor %}
+    {% endif %}
+    <form action="{% url 'add-issue' %}" method="post">
+        {% csrf_token %}
+        <label for="">Patient</label>
+        <input type="text" name="patient" list="patients" />
+        <datalist id="patients">
+            {% for patient in patients %}<option value="{{ patient.email }}">{{ patient.email }}</option>{% endfor %}
+        </datalist>
+        <label for="">Issue</label>
+        <input type="text" name="issue" />
+        <button type="submit">Add Complaint</button>
+    </form>
 {% endblock %}

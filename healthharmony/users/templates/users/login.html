@@ -3,33 +3,34 @@
 {% load socialaccount %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link rel="stylesheet" href="{% static 'css/login.css' %}" />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="{% static 'assets/images/svgs/logotitle.svg' %}" />
-    <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
-    <title>Login</title>
-  </head>
-  <body>
-    <section class="left-side">
-      <img src="{% static 'assets/images/svgs/logo.svg' %}" class="logo" />
-
-      <span class="smalltext">Are you a clinic staff?</span>
-      <span class="email">Email</span>
-      <div class="input-container">
-        <input type="text" placeholder="name@email.com" />
-      </div>
-      <span class="pass">Password</span>
-      <div class="input-container2 input-container">
-        <input type="password" placeholder="******" />
-      </div>
-      <a href="{% url 'password_reset' %}">Forgot Password?</a>
-      <button class="login">Log in</button>
-      <button onclick="window.location.href='{% provider_login_url 'google' %}'">Login Via Google</button>
-    </section>
-    <img src="{% static 'assets/images/svgs/loginillus.svg' %}" class="illus" />
-  </body>
+    <head>
+        <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon"
+              type="image/png"
+              href="{% static 'assets/images/svgs/logotitle.svg' %}" />
+        <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
+        <title>Login</title>
+    </head>
+    <body>
+        <section class="left-side">
+            <img src="{% static 'assets/images/svgs/logo.svg' %}" class="logo" />
+            <span class="smalltext">Are you a clinic staff?</span>
+            <span class="email">Email</span>
+            <div class="input-container">
+                <input type="text" placeholder="name@email.com" />
+            </div>
+            <span class="pass">Password</span>
+            <div class="input-container2 input-container">
+                <input type="password" placeholder="******" />
+            </div>
+            <a href="{% url 'password_reset' %}">Forgot Password?</a>
+            <button class="login">Log in</button>
+            <button onclick="window.location.href='{% provider_login_url 'google' %}'">Login Via Google</button>
+        </section>
+        <img src="{% static 'assets/images/svgs/loginillus.svg' %}" class="illus" />
+    </body>
 </html>

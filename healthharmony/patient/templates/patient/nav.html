@@ -1,9 +1,9 @@
 {% load cache %}
 {% cache 600 patient_nav %}
 <nav>
-  <a href="{% url 'patient-overview' %}">Dashboard</a>
-  <a href="{% url 'patient-records' %}">Health Records</a>
-  <a href="{% url 'patient-profile' request.user.id %}">Patient Profile</a>
-  <a href="{% url 'logout' %}">Logout</a>
+    <a href="{% url 'patient-overview' %}">Dashboard</a>
+    <a href="{% url 'patient-records' %}">Health Records</a>
+    <a href="{% url 'patient-profile' request.user.id %}">Patient Profile</a>
+    <a href="{% url 'logout' %}">Logout</a>
 </nav>
 {% endcache %}
