@@ -3,11 +3,15 @@
 {% load allauth account %}
 {% load static %}
 {% block head_title %}
-  {% trans 'Sign In' %}
+  {% trans 'Login' %}
 {% endblock %}
 {% block extra_head %}
   <link rel="stylesheet" href="{% static 'css/login.css' %}" />
   <link rel="icon" type="image/png" href="{% static 'assets/images/svgs/logotitle.svg' %}" />
+  <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 {% endblock %}
 {% block content %}
   <section class="left-side">
@@ -22,47 +26,37 @@
         {% setvar end_link %}
       </a>
       {% endsetvar %}
-      <span class="header">Hello there!</span>
-      {% element p tags='smalltext' %}
+      <span class="header">Welcome</span>
+      {% comment %} {% element p tags='smalltext' %}
       {% blocktranslate %}If you have not created an account yet, then please {{ link }}sign up{{ end_link }} first.{% endblocktranslate %}
-      {% endelement %}
-      {% comment %} {% url 'account_login' as login_url %}
-      {% element form form=form method='post' action=login_url tags='entrance,login' %}
-      {% slot body %} {% endcomment %}
+      {% endelement %} {% endcomment %}
+
       <form action="{% url 'normal-login' %}" method="POST">
         {% csrf_token %}
 
-        <label for="id_login" class="email">Email:</label>
         <div class="input-container">
           <input type="email" name="email" placeholder="Email address" autocomplete="email" maxlength="320" required id="id_login" />
+          <span class="material-symbols-outlined input-logo">person</span>
         </div>
 
-        <label for="id_password" class="pass">Password:</label>
-        <div class="input-container2 input-container">
+        <div class="input-container">
           <input type="password" name="password" placeholder="Password" autocomplete="current-password" required aria-describedby="id_password_helptext" id="id_password" />
-
+          <span class="material-symbols-outlined input-logo">lock</span>
+        </div>
+        <div class="remember-forgot">
           <span class="helptext" id="id_password_helptext"><a href="/accounts/password/reset/">Forgot your password?</a></span>
         </div>
-        {% comment %} <p>
-          <label for="id_remember">Remember Me:</label>
-          <input type="checkbox" name="remember" id="id_remember" />
-        </p> {% endcomment %}
-        {% comment %} {% element fields form=form unlabeled=True %}
-        {% endelement %} {% endcomment %}
-        {% comment %} {{ redirect_field }} {% endcomment %}
-        {% comment %} {% endslot %} {% endcomment %}
-        {% comment %} {% slot actions %} {% endcomment %}
+
         {% element button type='submit' tags='prominent,login' %}
-        {% trans 'Sign In' %}
+        {% trans 'Login' %}
         {% endelement %}
-        {% comment %} {% endslot %} {% endcomment %}
-        {% comment %} {% endelement %} {% endcomment %}
       </form>
     {% endif %}
-    {% comment %} {% if SOCIALACCOUNT_ENABLED %}
-      {% include 'socialaccount/snippets/login.html' with page_layout='entrance' %}
-    {% endif %} {% endcomment %}
+
     <a title="Google" href="/accounts/google/login/?process=login" class="">Login Via Google</a>
+    <p>
+      Don't have an account yet? Please <a href="#">Sign Up here</a>
+    </p>
   </section>
   <img src="{% static 'assets/images/svgs/loginillus.svg' %}" class="illus" />
 {% endblock %}
