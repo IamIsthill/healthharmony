@@ -45,6 +45,9 @@ def check_models():
         if logs.count() == 0:
             logger.info("No logs found. Training diagnosis predictor.")
             train_diagnosis_predictor()
+            # Record that the diagnosis predictor was trained
+            ModelLog.objects.create(model_name="diagnosis predictor")
+            logger.info("Diagnosis Predictor was trained successfully.")
         elif first_log and first_log.update_time:
             # Calculate the time difference
             now = timezone.now()
@@ -56,10 +59,11 @@ def check_models():
                     "The first log entry is older than 24 hours. Training diagnosis predictor."
                 )
                 train_diagnosis_predictor()
-
-        # Record that the diagnosis predictor was trained
-        ModelLog.objects.create(model_name="diagnosis predictor")
-        logger.info("Diagnosis Predictor was trained successfully.")
+                # Record that the diagnosis predictor was trained
+                ModelLog.objects.create(model_name="diagnosis predictor")
+                logger.info("Diagnosis Predictor was trained successfully.")
+        else:
+            return
 
     except Exception as e:
         logger.error(f"Failed to train models: {e}")
