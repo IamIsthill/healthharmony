@@ -73,7 +73,9 @@
                 <tbody id="illness_body">
                     {% for illness in not_illness %}
                         <tr>
-                            <td>{{ illness.patient.first_name }} {{ illness.patient.last_name }}</td>
+                            <td>
+                                <span class="patient" data-patient-id="{{ illness.patient.id }}">{{ illness.patient.first_name }} {{ illness.patient.last_name }}</span>
+                            </td>
                             <td>{{ illness.issue }}</td>
                             <td>Pending</td>
                             <td class="view-illness btn" data-issue-id="{{ illness.id }}">View</td>
@@ -110,5 +112,5 @@
 {% endblock %}
 {% block script %}
     {{ illness_data|json_script:'illnessData' }}
-    <script src="{% static 'js/doctor/overview.js' %}"></script>
+    <script src="{% static 'js/doctor/overview.js' %}" type="module"></script>
 {% endblock %}

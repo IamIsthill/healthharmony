@@ -21,7 +21,7 @@ function createIllnessBody(data){
             }
             html += `
             <tr>
-                <td>${illness.patient}</td>
+                <td><span class="patient" data-patient-id="${illness.patient_id}">${illness.patient}</span></td>
                 <td>${illness.issue}</td>
                 <td>${status}</td>
                 <td class="view-illness btn" data-issue-id="${illness.id}">View</td>
@@ -35,7 +35,7 @@ function createIllnessBody(data){
 }
 
 function filterIllnessData(filter){
-    data = illnessData[filter]
+    let data = illnessData[filter]
     return data
 }
 
@@ -89,6 +89,7 @@ function getIllness(id) {
 }
 
 async function main() {
+
     listenIllnessBtns()
 
     const closeBtns = document.querySelectorAll('.close')

@@ -8,7 +8,9 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 
 from healthharmony.treatment.models import Illness, IllnessTreatment
+from healthharmony.users.models import User
 from healthharmony.doctor.forms import UpdateIllness
+from healthharmony.patient.functions import update_patient_view_context
 
 from healthharmony.doctor.functions import predict_diagnosis
 from healthharmony.base.functions import check_models
@@ -21,6 +23,32 @@ logger = logging.getLogger(__name__)
 @login_required(login_url="account_login")
 def view_patient_profile(request, pk):
     access_checker(request)
+    context = {}
+    update_patient_view_context(request, context)
+    try:
+        user = User.objects.get(id=int(pk))
+        illness_data = Illness.objects.filter(patient=user).prefetch_related(
+            Prefetch(
+                "illnesstreatment_set",
+                queryset=IllnessTreatment.objects.select_related("inventory_detail"),
+            )
+        )
+
+        for illness in illness_data:
+            for treatment in illness.illnesstreatment_set.all():
+                treatment.quantity = treatment.quantity or 0
+
+        context.update(
+            {
+                "user": user,
+                "illness_data": illness_data,
+            }
+        )
+
+    except Exception as e:
+        logger.info(f"Failed to fetch data: {str(e)}")
+
+    return render(request, "doctor/patient.html", context)
 
 
 @login_required(login_url="account_login")
@@ -110,6 +138,7 @@ def illness_to_dict(illness):
     return {
         "id": illness.id,
         "patient": illness.patient.first_name + " " + illness.patient.last_name,
+        "patient_id": illness.patient.id,
         "issue": illness.issue,
         "diagnosis": illness.diagnosis,
         "category": illness.illness_category.category,
