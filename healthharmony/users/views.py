@@ -4,6 +4,12 @@ from django.contrib import messages
 from django.urls import reverse
 from .forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+import logging
+
+from healthharmony.administrator.models import Log
+
+
+logger = logging.getLogger(__name__)
 
 
 # Create your views here.
@@ -42,29 +48,44 @@ def register_view(request):
 
 
 def normal_login_view(request):
-    if request.method == "POST":
+    """
+    Handles user login based on email and password. Authenticates the user and logs the login attempt.
+
+    Args:
+        request: The HTTP request object.
+
+    Returns:
+        HttpResponseRedirect: Redirects to the appropriate page based on user access level.
+    """
+    if request.method.lower() == "post":
         email = request.POST.get("email")
         password = request.POST.get("password")
 
-        try:
-            user = User.objects.get(email=email)
-        except User.DoesNotExist:
-            messages.error(request, "User with this email does not exist.")
+        if not email or not password:
+            messages.error(request, "Email and password are required.")
             return redirect("account_login")
 
-        user = authenticate(request, email=user.email, password=password)
+        user = get_user(request, email, password)
+
         if user is not None:
             login(request, user)
+            if "email" not in request.session:
+                request.session["email"] = request.user.email
+            create_log_user(user)
             messages.success(request, "Login successful!")
-            # Redirect to the appropriate page after login
+
+            # Redirect based on user access level
             if user.access == 4:
                 next_url = "admin-overview"
-            if user.access == 3:
+            elif user.access == 3:
                 next_url = "doctor-overview"
-            if user.access == 2:
+            elif user.access == 2:
                 next_url = "staff-overview"
-            if user.access == 1:
+            elif user.access == 1:
                 next_url = "patient-overview"
+            else:
+                next_url = "home"  # Default fallback
+
             return redirect(next_url)
         else:
             messages.error(request, "Invalid password.")
@@ -72,6 +93,21 @@ def normal_login_view(request):
 
 
 def logout_view(request):
+    """
+    Logs out the user, creates a log entry, and redirects to the home page.
+
+    Args:
+        request: The HTTP request object.
+
+    Returns:
+        HttpResponseRedirect: Redirects to the home page after logout.
+    """
+    try:
+        Log.objects.create(user=request.user, action="User has logged out")
+    except Exception as e:
+        # Log the error if logging fails
+        logger.error("Failed to create log entry for logout: %s", str(e))
+    request.session.pop("email", None)
     logout(request)
     return redirect("home")
 
@@ -133,3 +169,22 @@ class PasswordResetConfirmView(FormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+
+def create_log_user(user):
+    try:
+        Log.objects.create(user=user, action="User has logged in")
+    except Exception as e:
+        logger.error("Failed to create log entry for login: %s", str(e))
+        return redirect("account_login")
+
+
+def get_user(request, email, password):
+    try:
+        user = User.objects.get(email=email)
+    except User.DoesNotExist:
+        messages.error(request, "User with this email does not exist.")
+        return redirect("account_login")
+
+    user = authenticate(request, email=user.email, password=password)
+    return user

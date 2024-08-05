@@ -2,10 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.db.models import Prefetch, Q
 import logging
-from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from rest_framework import status
 from django.http import JsonResponse
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 
 from healthharmony.treatment.models import Illness, IllnessTreatment
 from healthharmony.doctor.forms import UpdateIllness
@@ -18,6 +18,12 @@ logger = logging.getLogger(__name__)
 
 
 # Create your views here.
+@login_required(login_url="account_login")
+def view_patient_profile(request, pk):
+    access_checker(request)
+
+
+@login_required(login_url="account_login")
 def overview_view(request):
     """
     View to display and update illness information.
