@@ -2,7 +2,6 @@ let illnessData = JSON.parse(document.getElementById('illnessData').textContent)
 const illnessModal = document.getElementById('illness_modal')
 const modals = document.querySelectorAll('.modal')
 const illnessForm = document.getElementById('illness_form')
-main()
 
 function createIllnessBody(data){
     let html = ''
@@ -21,7 +20,7 @@ function createIllnessBody(data){
             }
             html += `
             <tr>
-                <td><span class="patient" data-patient-id="${illness.patient_id}">${illness.patient}</span></td>
+                <td><span class="patient btn" data-patient-id="${illness.patient_id}">${illness.patient}</span></td>
                 <td>${illness.issue}</td>
                 <td>${status}</td>
                 <td class="view-illness btn" data-issue-id="${illness.id}">View</td>
@@ -89,9 +88,6 @@ function getIllness(id) {
 }
 
 async function main() {
-
-    listenIllnessBtns()
-
     const closeBtns = document.querySelectorAll('.close')
     for (const btn of closeBtns) {
     btn.addEventListener('click', () => {
@@ -100,8 +96,6 @@ async function main() {
         }
     })
     }
-    listenViewIllnessBtns()
-
 
     window.onclick = function (event) {
     if (event.target == illnessModal) {
@@ -110,6 +104,9 @@ async function main() {
         }
     }
     }
+
+    listenIllnessBtns()
+    listenPatientBtns()
 
 }
 
@@ -125,6 +122,7 @@ function listenIllnessBtns(){
         const data = filterIllnessData(text)
         createIllnessBody(data)
         listenViewIllnessBtns()
+        listenPatientBtns()
         })
     })
 }
@@ -140,3 +138,17 @@ function listenViewIllnessBtns(){
         })
     }
 }
+
+function listenPatientBtns(){
+    const patientBtns = document.querySelectorAll('.patient')
+    for(const btn of patientBtns){
+        btn.addEventListener('click', ()=>{
+            const patientId = parseInt(btn.getAttribute('data-patient-id'))
+            let baseUrl = window.location.origin;
+            let url = new URL(`${baseUrl}/doctor/patient/${patientId}/`);
+            window.location.href = url
+        })
+    }
+}
+
+main()
