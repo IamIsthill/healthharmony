@@ -78,43 +78,39 @@
         </div>
         <div class="illnesses">
             <h2>Visit History</h2>
-            {% for illness in illness_data %}
-                <div data-illness-id="{{ illness.id }}" class="illness">
-                    <p>Date and Time: {{ illness.added }}</p>
-                    <p>Symptoms: {{ illness.issue }}</p>
-                    <p>Category: {{ illness.illness_category }}</p>
-                    <p>Diagnosis: {{ illness.diagnosis }}</p>
-                    <div>
-                        <p>Treatments:</p>
-                        <ul>
-                            {% for treatment in illness.illnesstreatment_set.all %}
-                                <li>
-                                    {{ treatment.inventory_detail.category }}: {{ treatment.inventory_detail.item_name }} {{ treatment.quantity }} {{ treatment.inventory_detail.unit }}
-                                </li>
-                            {% endfor %}
-                        </ul>
+            <div>
+                <button class="illness_filter" data-category="all">All</button>
+                <button class="illness_filter" data-category="not">Pending</button>
+                <button class="illness_filter" data-category="done">Released</button>
+            </div>
+            <div class="illness_body">
+                {% for illness in illness_all %}
+                    <div data-illness-id="{{ illness.id }}" class="illness">
+                        <p>Date and Time: {{ illness.added }}</p>
+                        <p>Symptoms: {{ illness.issue }}</p>
+                        <p>Category: {{ illness.illness_category }}</p>
+                        <p>Diagnosis: {{ illness.diagnosis }}</p>
+                        <div class="treatment_body hide">
+                            <p>Treatments:</p>
+                            <ul>
+                                {% for treatment in illness.illnesstreatment_set.all %}
+                                    <li>
+                                        {{ treatment.inventory_detail.category }}: {{ treatment.inventory_detail.item_name }} {{ treatment.quantity }} {{ treatment.inventory_detail.unit }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <button class="expand-illness">Expand</button>
                     </div>
-                </div>
-            {% empty %}
-                <h5>No visit history</h5>
-            {% endfor %}
+                {% empty %}
+                    <h5>No visit history</h5>
+                {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock %}
 {% block script %}
     {{ request.user.id|json_script:'userId' }}
-    <script type="module">
-    import { setSpinner } from '/static/js/spinner.js'
-
-    main()
-
-    async function main() {
-      const userId = JSON.parse(document.getElementById('userId').textContent)
-      const mainContainer = document.querySelector('.container')
-      const spinner = document.getElementById('loading-spinner')
-      const pageUrl = `/patient/patient-profile/${userId}/`
-
-      setSpinner(mainContainer, spinner, pageUrl)
-    }
-    </script>
+    {{ illness_data|json_script:'illness_data' }}
+    <script src="{% static 'js/doctor/patient.js' %}" type="module"></script>
 {% endblock %}
