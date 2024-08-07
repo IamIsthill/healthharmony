@@ -34,6 +34,7 @@
 }
 .logout{
     transition: all 0.3s ease;
+    padding: 0.5rem 1rem;
 }
 .logout:hover{
     background: var(--Yellow);
@@ -51,12 +52,34 @@
 
   /* xl */
   @media (max-width: 1280px) {
-
+    .header_link{
+        font-size: var(--size-sm);
+        color: var(--light_gray);
+        font-weight: 300;
+    }
+    .logout{
+        transition: all 0.3s ease;
+        padding: 0.5rem 0.8rem;
+    }
   }
 
   /* lg */
   @media (max-width: 1024px) {
-
+    .header_link{
+        font-size: var(--size-xs);
+        color: var(--light_gray);
+        font-weight: 300;
+    }
+    .header_menu{
+        margin-left: 60px;
+    }
+    .logout{
+        transition: all 0.3s ease;
+        padding: 0.5rem 0.8em;
+    }
+    .header img{
+        width: 180px;
+    }
   }
 
   /* md */
@@ -66,6 +89,7 @@
     }
     .header_hamburger{
         display: block;
+        width: 30px;
     }
     .logout{
         display: none;

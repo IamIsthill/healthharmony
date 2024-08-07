@@ -1,0 +1,111 @@
+.aboutUs{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .container-aboutUs, .mission-container{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+    text-align: center;
+  }
+.container-aboutUs h1{
+
+}
+.container-aboutUs p{
+    width: 900px;
+}
+.mission-container h3{
+    font-size: 1.4rem;
+}
+.mission-container p{
+    width: 800px;
+    font-size: 1rem;
+}
+/* MAIN SECTION */
+
+/* FOOTER */
+footer{
+    color: var(--normal-fontcolor);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 380px;
+    gap: 1rem;
+}
+footer h1{
+    padding: 0.3rem 0rem;
+}
+.contact-info{
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin-right: 5rem;
+}
+.right-info{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.email-info a{
+    color: var(--normal-fontcolor);
+}
+.right-info h3{
+    font-size: x-large;
+    font-weight: 500;
+}
+.right-info span{
+    font-size: 14px;
+}
+footer p{
+    padding-top: 2rem;
+    font-size: small;
+}
+.dhvsu-loc img{
+    box-shadow: 0 0px 30px rgba(0, 0, 0, 0.3);
+}
+
+
+/* 2xl */
+@media (max-width: 1536px) {
+
+}
+
+/* xl */
+@media (max-width: 1280px) {
+
+}
+
+/* lg */
+@media (max-width: 1024px) {
+    /* ABOUT US */
+    .container-aboutUs p{
+        width: 680px;
+    }
+    .mission-container p, .container-aboutUs p{
+        font-size: var(--size-sm);
+    }
+    .mission-container p{
+        width: 700px;
+    }
+    /* ABOUT US */
+
+}
+
+/* md */
+@media (max-width: 768px) {
+
+}
+
+/* sm */
+@media (max-width: 640px) {
+
+}
+
+/* xs */
+@media (max-width: 475px) {
+
+}
