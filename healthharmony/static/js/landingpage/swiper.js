@@ -1,3 +1,18 @@
+let popup =document.getElementById("popup");
+
+function openPopup(){
+    popup.classList.add("open-popup");
+}
+function closePopup(){
+    popup.classList.remove("open-popup");
+    const baseUrl = new URL(window.location.origin)
+    window.location.href = baseUrl
+}
+
+document.addEventListener("DOMContentLoaded", ()=>{
+  openPopup()
+})
+
 var swiper = new Swiper(".mySwiper", {
     slidesPerView: 3,
     spaceBetween: 30,
@@ -9,16 +24,3 @@ var swiper = new Swiper(".mySwiper", {
       prevEl: ".swiper-button-prev",
     },
   });
-
-  let popup =document.getElementById("popup");
-
-  function openPopup(){
-      popup.classList.add("open-popup");
-      console.log('click')
-  }
-  function closePopup(){
-      popup.classList.remove("open-popup");
-  }
-
-  const registerBtn = document.querySelector('.register-btn')
-  registerBtn.addEventListener('click', openPopup)
