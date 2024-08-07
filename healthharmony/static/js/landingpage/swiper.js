@@ -10,14 +10,15 @@ var swiper = new Swiper(".mySwiper", {
     },
   });
 
-  let popup=document.getElementById("popup");
+  let popup =document.getElementById("popup");
 
   function openPopup(){
       popup.classList.add("open-popup");
+      console.log('click')
   }
   function closePopup(){
       popup.classList.remove("open-popup");
   }
-  document.addEventListener('DOMContentLoaded', ()=>{
-    openPopup()
-  })
+
+  const registerBtn = document.querySelector('.register-btn')
+  registerBtn.addEventListener('click', openPopup)
