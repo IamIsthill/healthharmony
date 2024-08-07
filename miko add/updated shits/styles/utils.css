@@ -157,3 +157,26 @@ hr{
   margin: 0 auto;
   width: 50%;
 }
+
+.small-card{
+  width: 19rem;
+  height: 7.25rem;
+  border-radius: 10px;
+  background: white;
+  box-shadow: var(--box-shadow2);
+}
+
+.green-progress{
+  background-color: hsl(112, 100%, 66%,30%);
+  color: green;
+}
+.red-progress{
+  background-color: hsl(5, 100%, 71%,30%);
+  color: red;
+}
+.green-progress, .red-progress{
+  padding: 4px 0px;
+  width: 4rem;
+  border-radius: 6px;
+  text-align: center;
+}
