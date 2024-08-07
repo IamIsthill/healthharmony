@@ -1,24 +1,31 @@
 {% load static %}
 <nav class="header containers">
-  <!-- TOP PART NAVIGATION BAR -->
-  <a href="#"><img src="{% static 'assets/images/landing-page/logo/logo.svg' %}" class="nav-logo" /></a>
-  <ul class="header_menu">
-    <li>
-      <a href="#" class="header_link">Medical Record</a>
-    </li>
-    <li>
-      <a href="#" class="header_link">Bed Space</a>
-    </li>
-    <li>
-      <a href="#" class="header_link">Weather Check</a>
-    </li>
-    <li>
-      <a href="#" class="header_link">About us</a>
-    </li>
-    <li>
-      <a href="#" class="header_link">Contact</a>
-    </li>
-  </ul>
-  <button class="logout yellow_button" onclick="window.location.href = '{% url 'account_login' %}'">LOGIN</button>
-  <button class="header_hamburger"><img src="{% static 'assets/images/landing-page/header/hamburger.svg' %}" alt="" /></button>
+    <!-- TOP PART NAVIGATION BAR -->
+    <a href="#">
+        <img src="{% static 'assets/images/landing-page/logo/logo.svg' %}"
+             class="nav-logo" />
+    </a>
+    <ul class="header_menu">
+        <li>
+            <a href="#" class="header_link">Medical Record</a>
+        </li>
+        <li>
+            <a href="#" class="header_link">Bed Space</a>
+        </li>
+        <li>
+            <a href="#" class="header_link">Weather Check</a>
+        </li>
+        <li>
+            <a href="#" class="header_link">About us</a>
+        </li>
+        <li>
+            <a href="#" class="header_link">Contact</a>
+        </li>
+    </ul>
+    <button class="logout yellow_button"
+            onclick="window.location.href = '{% url 'account_login' %}'">LOGIN</button>
+    <button class="header_hamburger">
+        <img src="{% static 'assets/images/landing-page/header/hamburger.svg' %}"
+             alt="" />
+    </button>
 </nav>

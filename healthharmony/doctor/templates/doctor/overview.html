@@ -1,71 +1,114 @@
 {% extends 'base.html' %}
-{% block title %}
-  Overview | HealthHarmony
-{% endblock %}
-
+{% load static %}
+{% block title %}Overview | HealthHarmony{% endblock %}
 {% block header %}
+    <style>
+    .btn {
+      cursor: pointer;
+    }
 
+    #illness_modal,
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0, 0, 0); /* Fallback color */
+      background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content/Box */
+    .modal_content {
+      background-color: #fefefe;
+      margin: 15% auto; /* 15% from the top and centered */
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%; /* Could be more or less, depending on screen size */
+    }
+
+    /* The Close Button */
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    </style>
 {% endblock %}
-
 {% block message %}
-
+    <div class="messages">
+        {% for m in messages %}<div>{{ m }}</div>{% endfor %}
+    </div>
 {% endblock %}
 {% block main %}
-  {% include 'doctor/nav.html' %}
-  <div class="container">
-    <h3>Illnesses</h3>
-    <div>
-      <button class="illness-filter">All</button>
-      <button class="active illness-filter">Pending</button>
-      <button class="illness-filter">Released</button>
+    {% include 'doctor/nav.html' %}
+    <div class="container">
+        <h3>Illnesses</h3>
+        <div>
+            <button class="illness-filter" data-category="all">All</button>
+            <button class="active illness-filter" data-category="not">Pending</button>
+            <button class="illness-filter" data-category="done">Released</button>
+        </div>
+        <div class="illness_list">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Patient Name</th>
+                        <th>Issue</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="illness_body">
+                    {% for illness in not_illness %}
+                        <tr>
+                            <td>{{ illness.patient.first_name }} {{ illness.patient.last_name }}</td>
+                            <td>{{ illness.issue }}</td>
+                            <td>Pending</td>
+                            <td class="view-illness btn" data-issue-id="{{ illness.id }}">View</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4">Congratulations! No pending issue as of this moment.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="illness_list">
-      <table>
-        <thead>
-          <tr>
-            <th>Patient Name</th>
-            <th>Issue</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for illness in not_illness %}
-            <tr>
-              <td>{{ illness.patient.first_name }} {{ illness.patient.last_name }}</td>
-              <td>{{ illness.issue }}</td>
-              <td>Pending</td>
-              <td class="view-illness" data-issue-id="{{ illness.id }}">View</td>
-            </tr>
-          {% empty %}
-            <tr>
-              <td colspan="4">Congratulations! No pending issue as of this moment.</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+    <div class="modals">
+        <div id="illness_modal" class="modal">
+            <div class="modal_content">
+                <form action="" method="POST" id="illness_form">
+                    {% csrf_token %}
+                    <div id="illness_form_content">
+                        <h3>Patient Name:</h3>
+                        <label>Illness:</label>
+                        <input type="text" name="issue" value="" />
+                        <label>Illness Category:</label>
+                        <input type="text" name="category" value="" />
+                        <label>Diagnosis:</label>
+                        <input type="text" name="diagnosis" value="" />
+                        <button type="submit">Update</button>
+                    </div>
+                </form>
+                <span class="close">&times;</span>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="modals"></div>
 {% endblock %}
 {% block script %}
-  {{ illness_data|json_script:'illnessData' }}
-  <script>
-    main()
-
-    async function main() {
-      let illnessData = JSON.parse(document.getElementById('illnessData').textContent)
-      console.log(illnessData)
-
-      const illnessBtns = document.querySelectorAll('.illness-filter')
-      illnessBtns.forEach((btn) => {
-        btn.addEventListener('click', () => {
-          illnessBtns.forEach((btn) => {
-            btn.classList.remove('active')
-          })
-          btn.classList.add('active')
-        })
-      })
-    }
-  </script>
+    {{ illness_data|json_script:'illnessData' }}
+    <script src="{% static 'js/doctor/overview.js' %}"></script>
 {% endblock %}

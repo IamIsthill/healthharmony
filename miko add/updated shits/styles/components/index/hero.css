@@ -40,14 +40,14 @@
 
  /* 2xl */
  @media (max-width: 1536px) {
-  
+
  }
- 
- /* xl */ 
+
+ /* xl */
  @media (max-width: 1280px) {
-   
+
  }
- 
+
  /* lg */
  @media (max-width: 1024px) {
     .hero-content{
@@ -95,16 +95,15 @@
 
  /* md */
  @media (max-width: 768px) {
-   
+
  }
- 
+
  /* sm */
  @media (max-width: 640px) {
-   
+
  }
- 
+
  /* xs */
  @media (max-width: 475px) {
-   
+
  }
- 

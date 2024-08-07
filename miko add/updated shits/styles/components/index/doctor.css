@@ -123,16 +123,16 @@
 
   /* 2xl */
 @media (max-width: 1536px) {
-  
+
 }
 
-/* xl */ 
+/* xl */
 @media (max-width: 1280px) {
 }
 
 /* lg */
 @media (max-width: 1024px) {
-  
+
   .swiper{
     width: 700px;
   }
@@ -198,16 +198,16 @@
 @media (max-width: 768px) {
   .swiper-button-next, .swiper-button-prev{
     display: none;
-   
+
   }
 }
 
 /* sm */
 @media (max-width: 640px) {
-  
+
 }
 
 /* xs */
 @media (max-width: 475px) {
-  
+
 }

@@ -12,10 +12,12 @@ from healthharmony.patient.functions import (
     get_weather,
     fetch_overview_data,
 )
+from healthharmony.base.functions import check_models
 
 
 # Create your views here.
 def overview_view(request):
+    check_models()
     access_checker(request)
 
     # set session data

@@ -1,13 +1,13 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
+exclude: .*migrations\/.*
 repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.2.0
+    rev: v2.3.0
     hooks:
-    -   id: trailing-whitespace
-    -   id: end-of-file-fixer
     -   id: check-yaml
-    # -   id: check-added-large-files
+    -   id: end-of-file-fixer
+    -   id: trailing-whitespace
 
 -   repo: https://github.com/psf/black
     rev: 22.10.0
@@ -18,3 +18,10 @@ repos:
     rev: 7.0.0
     hooks:
     -   id: flake8
+
+-   repo: https://github.com/djlint/djLint
+    rev: v1.34.1
+    hooks:
+    -   id: djlint-reformat-django
+    -   id: djlint-django
+        args: ["--profile", "django", "--ignore", "T003,T002,H030,H031,H013,H023,H006,D018,H021,H016,H005,H029,H026"]

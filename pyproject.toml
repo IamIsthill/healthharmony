@@ -9,7 +9,7 @@ readme = "README.rst"
 [tool.poetry.dependencies]
 python = "^3.12"
 asgiref = "3.8.1"
-certifi = "2024.2.2"
+certifi = "2024.7.4"
 cffi = "1.16.0"
 charset-normalizer = "3.3.2"
 cryptography = "42.0.8"
@@ -52,6 +52,7 @@ imbalanced-learn = "^0.12.3"
 [tool.poetry.group.dev.dependencies]
 pre-commit = "3.7.1"
 colorlog = "^6.8.2"
+
 
 [build-system]
 requires = ["poetry-core"]

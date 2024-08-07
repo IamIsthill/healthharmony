@@ -1,15 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}
-  Inventory | HealthHarmony
-{% endblock %}
+{% block title %}Inventory | HealthHarmony{% endblock %}
 {% block header %}
-  <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/clinic/inventory-main.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-  <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
-  <style>
+    <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/clinic/inventory-main.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
+    <style>
     /* The Modal (background) */
     .modal {
       display: none; /* Hidden by default */
@@ -47,156 +45,153 @@
       text-decoration: none;
       cursor: pointer;
     }
-  </style>
+    </style>
 {% endblock %}
-
 {% block main %}
-  <div class="nurse-container">
-    {% include 'staff/navbar.html' %}
-    <main>
-      <h1>Inventory</h1>
-      <div class="inventory">
-        <table>
-          <thead>
-            <tr>
-              <th colspan="5">
-                <div class="header-content">
-                  <h1>Inventory Overview</h1>
-                  <div>
-                    <button class="search-btn">Search</button>
-                    <input type="text" id="search-field" placeholder="Search inventory..." />
-                    <button id="add-inventory">Add New Item</button>
-                  </div>
-                  <div class="sort-by">
-                    <span>Sort By:</span>
-                    <select id="inventory-sort-select">
-                      <option value="name">Name</option>
-                      <option value="date">Expiry Date</option>
-                      <option value="stock">Stock</option>
-                    </select>
-                  </div>
+    <div class="nurse-container">
+        {% include 'staff/navbar.html' %}
+        <main>
+            <h1>Inventory</h1>
+            <div class="inventory">
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="5">
+                                <div class="header-content">
+                                    <h1>Inventory Overview</h1>
+                                    <div>
+                                        <button class="search-btn">Search</button>
+                                        <input type="text" id="search-field" placeholder="Search inventory..." />
+                                        <button id="add-inventory">Add New Item</button>
+                                    </div>
+                                    <div class="sort-by">
+                                        <span>Sort By:</span>
+                                        <select id="inventory-sort-select">
+                                            <option value="name">Name</option>
+                                            <option value="date">Expiry Date</option>
+                                            <option value="stock">Stock</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="5">
+                                <div class="header-content">
+                                    <div class="category-buttons">
+                                        <button class="inventory_cat active inventory-category inventory-category">All</button>
+                                        <button class="inventory_cat inventory-category">Medication</button>
+                                        <button class="inventory_cat inventory-category">Supply</button>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th class="table-head">Name</th>
+                            <th class="table-head">Category</th>
+                            <th class="table-head">Stock</th>
+                            <th class="table-head">Expiration Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventory-body">
+                        {% for data in inventory %}
+                            <tr>
+                                <td class="table-data">{{ data.item_name }}</td>
+                                <td class="table-data">{{ data.category }}</td>
+                                <td class="table-data">{{ data.total_quantity }}</td>
+                                <td class="table-data">{{ data.expiration_date }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="graphs">
+                <div class="upper">
+                    <div class="right">
+                        <div class="top">
+                            <div>
+                                <h2>Inventory Chart</h2>
+                            </div>
+                            <div>
+                                <h4>Medicines</h4>
+                            </div>
+                            <div>
+                                <h4>Supply</h4>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <canvas id="inventory-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </th>
-            </tr>
-            <tr>
-              <th colspan="5">
-                <div class="header-content">
-                  <div class="category-buttons">
-                    <button class="inventory_cat active inventory-category inventory-category">All</button>
-                    <button class="inventory_cat inventory-category">Medication</button>
-                    <button class="inventory_cat inventory-category">Supply</button>
-                  </div>
+                <div class="lower">
+                    <div class="left">
+                        <div class="header">
+                            <h4>Seasonal Trends</h4>
+                            <div>
+                                <button class="seasonal-filter">12 Months</button>
+                                <button class="seasonal-filter">30 Days</button>
+                                <button class="seasonal-filter">7 Days</button>
+                            </div>
+                        </div>
+                        <div class="seasonal-graph">
+                            <div>
+                                <canvas id="seasonal-canvas"></canvas>
+                            </div>
+                        </div>
+                        <div>
+                            <button class="seasonal-category">Medicine</button>
+                            <button class="seasonal-category">Supply</button>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div>
+                            <h4>Trends</h4>
+                            <div>
+                                <button class="seasonal-bar-filter" data-filter="week">7 Days</button>
+                                <button class="seasonal-bar-filter" data-filter="month">30 Days</button>
+                                <button class="seasonal-bar-filter" data-filter="year">12 Months</button>
+                            </div>
+                        </div>
+                        <div id="bar-space"></div>
+                        <div>
+                            <button class="seasonal-bar-category" data-filter="medicine">Medicine</button>
+                            <button class="seasonal-bar-category" data-filter="supply">Suppy</button>
+                        </div>
+                    </div>
                 </div>
-              </th>
-            </tr>
-            <tr>
-              <th class="table-head">Name</th>
-              <th class="table-head">Category</th>
-              <th class="table-head">Stock</th>
-              <th class="table-head">Expiration Date</th>
-            </tr>
-          </thead>
-          <tbody id="inventory-body">
-            {% for data in inventory %}
-              <tr>
-                <td class="table-data">{{ data.item_name }}</td>
-                <td class="table-data">{{ data.category }}</td>
-                <td class="table-data">{{ data.total_quantity }}</td>
-                <td class="table-data">{{ data.expiration_date }}</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-      <div class="graphs">
-        <div class="upper">
-          <div class="right">
-            <div class="top">
-              <div>
-                <h2>Inventory Chart</h2>
-              </div>
-              <div>
-                <h4>Medicines</h4>
-              </div>
-              <div>
-                <h4>Supply</h4>
-              </div>
             </div>
-            <div>
-              <div>
-                <canvas id="inventory-chart"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="lower">
-          <div class="left">
-            <div class="header">
-              <h4>Seasonal Trends</h4>
-              <div>
-                <button class="seasonal-filter">12 Months</button>
-                <button class="seasonal-filter">30 Days</button>
-                <button class="seasonal-filter">7 Days</button>
-              </div>
-            </div>
-            <div class="seasonal-graph">
-              <div>
-                <canvas id="seasonal-canvas"></canvas>
-              </div>
-            </div>
-            <div>
-              <button class="seasonal-category">Medicine</button>
-              <button class="seasonal-category">Supply</button>
-            </div>
-          </div>
-          <div class="right">
-            <div>
-              <h4>Trends</h4>
-              <div>
-                <button class="seasonal-bar-filter" data-filter="week">7 Days</button>
-                <button class="seasonal-bar-filter" data-filter="month">30 Days</button>
-                <button class="seasonal-bar-filter" data-filter="year">12 Months</button>
-              </div>
-            </div>
-            <div id="bar-space"></div>
-            <div>
-              <button class="seasonal-bar-category" data-filter="medicine">Medicine</button>
-              <button class="seasonal-bar-category" data-filter="supply">Suppy</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
-  <div id="inventory-modal" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <form action="{% url 'staff-inventory-add' %}" method="POST">
-        {% csrf_token %}
-        <label for="item_no">Item Number:</label>
-        <input type="number" name="item_no" required />
-        <label for="unit">Unit Type:</label>
-        <input type="text" name="unit" required />
-        <label for="item_name">Item Name:</label>
-        <input type="text" name="item_name" required />
-        <label for="category">Category:</label>
-        <select name="category" required>
-          <option value="Medicine">Medicine</option>
-          <option value="Supply">Supply</option>
-        </select>
-        <label for="description">Item Description:</label>
-        <input type="search" name="description" required />
-
-        <label for="expiration_date">Item Description:</label>
-        <input type="date" name="expiration_date" />
-
-        <button type="submit">Add</button>
-        <button class="close">Cancel</button>
-      </form>
+        </main>
     </div>
-  </div>
+    <div id="inventory-modal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form action="{% url 'staff-inventory-add' %}" method="post">
+                {% csrf_token %}
+                <label for="item_no">Item Number:</label>
+                <input type="number" name="item_no" required />
+                <label for="unit">Unit Type:</label>
+                <input type="text" name="unit" required />
+                <label for="item_name">Item Name:</label>
+                <input type="text" name="item_name" required />
+                <label for="category">Category:</label>
+                <select name="category" required>
+                    <option value="Medicine">Medicine</option>
+                    <option value="Supply">Supply</option>
+                </select>
+                <label for="description">Item Description:</label>
+                <input type="search" name="description" required />
+                <label for="expiration_date">Item Description:</label>
+                <input type="date" name="expiration_date" />
+                <button type="submit">Add</button>
+                <button class="close">Cancel</button>
+            </form>
+        </div>
+    </div>
 {% endblock %}
 {% block script %}
-  {% include 'staff/inventory-script.html' %}
+    {% include 'staff/inventory-script.html' %}
 {% endblock %}

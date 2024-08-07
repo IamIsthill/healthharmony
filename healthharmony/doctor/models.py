@@ -8,3 +8,6 @@ class ModelLog(models.Model):
 
     def __str__(self):
         return self.model_name
+
+    class Meta:
+        ordering = ["update_time"]
