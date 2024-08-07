@@ -2,6 +2,7 @@ let illnessData = JSON.parse(document.getElementById('illnessData').textContent)
 const illnessModal = document.getElementById('illness_modal')
 const modals = document.querySelectorAll('.modal')
 const illnessForm = document.getElementById('illness_form')
+
 main()
 
 function createIllnessBody(data){
@@ -21,7 +22,7 @@ function createIllnessBody(data){
             }
             html += `
             <tr>
-                <td>${illness.patient}</td>
+                <td><span class="patient btn" data-patient-id="${illness.patient_id}">${illness.patient}</span></td>
                 <td>${illness.issue}</td>
                 <td>${status}</td>
                 <td class="view-illness btn" data-issue-id="${illness.id}">View</td>
@@ -35,7 +36,7 @@ function createIllnessBody(data){
 }
 
 function filterIllnessData(filter){
-    data = illnessData[filter]
+    let data = illnessData[filter]
     return data
 }
 
@@ -89,8 +90,6 @@ function getIllness(id) {
 }
 
 async function main() {
-    listenIllnessBtns()
-
     const closeBtns = document.querySelectorAll('.close')
     for (const btn of closeBtns) {
     btn.addEventListener('click', () => {
@@ -99,8 +98,6 @@ async function main() {
         }
     })
     }
-    listenViewIllnessBtns()
-
 
     window.onclick = function (event) {
     if (event.target == illnessModal) {
@@ -109,6 +106,9 @@ async function main() {
         }
     }
     }
+
+    listenIllnessBtns()
+    listenPatientBtns()
 
 }
 
@@ -124,6 +124,7 @@ function listenIllnessBtns(){
         const data = filterIllnessData(text)
         createIllnessBody(data)
         listenViewIllnessBtns()
+        listenPatientBtns()
         })
     })
 }
@@ -133,9 +134,22 @@ function listenViewIllnessBtns(){
     for (const btn of viewIllnessBtns) {
         btn.addEventListener('click', () => {
         const illnessId = parseInt(btn.getAttribute('data-issue-id'))
+        console.log(illnessId)
         const illness = getIllness(illnessId)
         createIllnessForm(illness)
         illnessModal.style.display = 'block'
+        })
+    }
+}
+
+function listenPatientBtns(){
+    const patientBtns = document.querySelectorAll('.patient')
+    for(const btn of patientBtns){
+        btn.addEventListener('click', ()=>{
+            const patientId = parseInt(btn.getAttribute('data-patient-id'))
+            let baseUrl = window.location.origin;
+            let url = new URL(`${baseUrl}/doctor/patient/${patientId}/`);
+            window.location.href = url
         })
     }
 }

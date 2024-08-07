@@ -2,13 +2,15 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.db.models import Prefetch, Q
 import logging
-from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from rest_framework import status
 from django.http import JsonResponse
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 
 from healthharmony.treatment.models import Illness, IllnessTreatment
+from healthharmony.users.models import User
 from healthharmony.doctor.forms import UpdateIllness
+from healthharmony.patient.functions import update_patient_view_context
 
 from healthharmony.doctor.functions import predict_diagnosis
 from healthharmony.base.functions import check_models
@@ -18,6 +20,61 @@ logger = logging.getLogger(__name__)
 
 
 # Create your views here.
+@login_required(login_url="account_login")
+def view_patient_profile(request, pk):
+    access_checker(request)
+    context = {}
+    update_patient_view_context(request, context)
+    try:
+        user = User.objects.get(id=int(pk))
+        illness_all = Illness.objects.filter(patient=user).prefetch_related(
+            Prefetch(
+                "illnesstreatment_set",
+                queryset=IllnessTreatment.objects.select_related("inventory_detail"),
+            )
+        )
+
+        for illness in illness_all:
+            for treatment in illness.illnesstreatment_set.all():
+                treatment.quantity = treatment.quantity or 0
+
+        done_illness = Illness.objects.filter(
+            diagnosis__isnull=False, patient=user
+        ).prefetch_related(
+            Prefetch(
+                "illnesstreatment_set",
+                queryset=IllnessTreatment.objects.select_related("inventory_detail"),
+            )
+        )
+        not_illness = Illness.objects.filter(
+            Q(patient=user) & Q(diagnosis__isnull=True) | Q(diagnosis="")
+        ).prefetch_related(
+            Prefetch(
+                "illnesstreatment_set",
+                queryset=IllnessTreatment.objects.select_related("inventory_detail"),
+            )
+        )
+        illness_data = {
+            "all": [illness_to_dict(illness) for illness in illness_all],
+            "not": [illness_to_dict(illness) for illness in not_illness],
+            "done": [illness_to_dict(illness) for illness in done_illness],
+        }
+
+        context.update(
+            {
+                "user": user,
+                "illness_all": illness_all,
+                "illness_data": illness_data,
+            }
+        )
+
+    except Exception as e:
+        logger.info(f"Failed to fetch data: {str(e)}")
+
+    return render(request, "doctor/patient.html", context)
+
+
+@login_required(login_url="account_login")
 def overview_view(request):
     """
     View to display and update illness information.
@@ -104,17 +161,18 @@ def illness_to_dict(illness):
     return {
         "id": illness.id,
         "patient": illness.patient.first_name + " " + illness.patient.last_name,
+        "patient_id": illness.patient.id,
         "issue": illness.issue,
         "diagnosis": illness.diagnosis,
-        "category": illness.illness_category.category,
+        # "category": illness.illness_category.category or ' ',
         "staff": illness.staff.id,
         "doctor": illness.doctor.id,
         "added": illness.added,
         "updated": illness.updated,
-        "treatments": [
-            treatment_to_dict(treatment)
-            for treatment in illness.illnesstreatment_set.all()
-        ],
+        # "treatments": [
+        #     treatment_to_dict(treatment)
+        #     for treatment in illness.illnesstreatment_set.all()
+        # ],
     }
 
 
@@ -123,6 +181,8 @@ def treatment_to_dict(treatment):
         "treatmentId": treatment.id,
         "medicine": treatment.inventory_detail.item_name,
         "quantity": treatment.quantity or 0,
+        "unit": treatment.inventory_detail.unit,
+        "category": treatment.inventory_detail.category,
     }
 
 
