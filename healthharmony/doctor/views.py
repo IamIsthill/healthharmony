@@ -164,15 +164,15 @@ def illness_to_dict(illness):
         "patient_id": illness.patient.id,
         "issue": illness.issue,
         "diagnosis": illness.diagnosis,
-        "category": illness.illness_category.category,
+        # "category": illness.illness_category.category or ' ',
         "staff": illness.staff.id,
         "doctor": illness.doctor.id,
         "added": illness.added,
         "updated": illness.updated,
-        "treatments": [
-            treatment_to_dict(treatment)
-            for treatment in illness.illnesstreatment_set.all()
-        ],
+        # "treatments": [
+        #     treatment_to_dict(treatment)
+        #     for treatment in illness.illnesstreatment_set.all()
+        # ],
     }
 
 

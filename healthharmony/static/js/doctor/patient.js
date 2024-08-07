@@ -13,6 +13,7 @@ async function main() {
 
   filterIllness()
   expandIllness()
+  editIllness()
 }
 
 function filterIllness(){
@@ -23,6 +24,7 @@ function filterIllness(){
       const data = filterIllnessData(filter)
       createIllnessBody(data)
       expandIllness()
+      editIllness()
     })
   }
 }
@@ -54,6 +56,7 @@ function createIllnessBody(data){
               <ul>${treatmentHTML}</ul>
             </div>
             <button class="expand-illness">Expand</button>
+            <button class="edit-illness">Edit</button>
       </div>
     `
   }
@@ -82,4 +85,26 @@ function expandIllness(){
       }
     })
   }
+}
+
+function editIllness(){
+  const editIllnessBtns = document.querySelectorAll('.edit-illness')
+  for (const btn of editIllnessBtns){
+    btn.addEventListener('click', ()=>{
+      const parent = btn.parentElement
+      const illnessId = parseInt(parent.getAttribute('data-illness-id'))
+      const data = getIllnessData(illnessId)
+      console.log(data)
+    })
+  }
+}
+
+function getIllnessData(illnessId){
+  let data = null
+  for (const illness of illnessData['all']){
+    if(illness.id == illnessId){
+      data = illness
+    }
+  }
+  return data
 }

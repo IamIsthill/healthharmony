@@ -3,6 +3,8 @@ const illnessModal = document.getElementById('illness_modal')
 const modals = document.querySelectorAll('.modal')
 const illnessForm = document.getElementById('illness_form')
 
+main()
+
 function createIllnessBody(data){
     let html = ''
     if(data.length <= 0){
@@ -132,6 +134,7 @@ function listenViewIllnessBtns(){
     for (const btn of viewIllnessBtns) {
         btn.addEventListener('click', () => {
         const illnessId = parseInt(btn.getAttribute('data-issue-id'))
+        console.log(illnessId)
         const illness = getIllness(illnessId)
         createIllnessForm(illness)
         illnessModal.style.display = 'block'
@@ -150,5 +153,3 @@ function listenPatientBtns(){
         })
     }
 }
-
-main()
