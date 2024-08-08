@@ -12,7 +12,7 @@ install:
 	poetry install
 
 .PHONY: update
-update: install migrate install-pre-commit;
+update: install migrate install-pre-commit npm-install;
 
 
 .PHONY: delete-migrations
@@ -74,3 +74,7 @@ docker-build:
 .PHONY: docker-run
 docker-run:
 	docker run --name app  -p 9000:9000  healthharmony
+
+.PHONY: npm-install
+npm-install:
+	npm install
