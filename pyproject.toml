@@ -47,6 +47,7 @@ daphne = "^4.1.2"
 textacy = "^0.13.0"
 spacy = "^3.7.5"
 imbalanced-learn = "^0.12.3"
+whitenoise = "^6.7.0"
 
 
 [tool.poetry.group.dev.dependencies]

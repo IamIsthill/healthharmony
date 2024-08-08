@@ -67,3 +67,10 @@ train_diagnosis:
 .PHONY: poetry
 poetry:
 	pip install poetry
+
+.PHONY: docker-build
+docker-build:
+	docker build -t healthharmony .
+.PHONY: docker-run
+docker-run:
+	docker run --name app  -p 9000:9000  healthharmony
