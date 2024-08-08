@@ -19,6 +19,8 @@ from django.core.mail import EmailMessage
 import environ
 from healthharmony.base.functions import check_models
 
+from healthharmony.staff.functions import get_sorted_category
+
 env = environ.Env()
 environ.Env.read_env(env_file="healthharmony/.env")
 
@@ -187,6 +189,8 @@ def overview(request):
             category_data["weekly"][category.id] = json.dumps(weekly_count)
             category_data["weekly_count"][category.id] += illness_count
 
+    request, sorted_category = get_sorted_category(request)
+
     context = {
         "page": "overview",
         "today_patient": today_patient,
@@ -196,6 +200,7 @@ def overview(request):
         "total_patient": total_patient,
         "department_data": department_data,
         "departments": list(departments_names),
+        "sorted_category": sorted_category,
     }
     return render(request, "staff/overview.html", context)
 

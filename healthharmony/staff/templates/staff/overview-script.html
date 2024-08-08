@@ -4,4 +4,9 @@
 {{ category_data|json_script:'category-cases' }}
 {{ department_data|json_script:'patient-cases' }}
 {{ departments|json_script:'department-names' }}
+{{ sorted_category|json_script:'categoryS' }}
 <script src="{% static 'js/staff/overview.js' %}"></script>
+<script>
+  const category = JSON.parse(document.getElementById('categoryS').textContent)
+  console.log(category)
+</script>
