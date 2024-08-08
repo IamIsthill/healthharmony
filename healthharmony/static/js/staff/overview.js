@@ -396,81 +396,120 @@
 //     updateMorbidityChart(parseInt(categoryOpt.value))
 //   })
 // })
-import { getCategoryFilter, getCategoryName, getCategoryNames, getSelectedCategoryId } from '/static/js/staff/morbidity.js'
-import { getCountsAndLabelsForChart } from '/static/js/utils.js'
+import {
+    getCategoryFilter,
+    getCategoryName,
+    getCategoryNames,
+    getSelectedCategoryId
+} from '/static/js/staff/morbidity.js'
+import {
+    getCountsAndLabelsForChart,
+    createChart
+} from '/static/js/utils.js'
 const categoryData = JSON.parse(document.getElementById('categoryS').textContent)
 
 main()
 
-function main(){
+function main() {
 
-  listenToCategoryFilterBtns()
-  listenToCategorySelector()
-  getParamsThenCreateMorbidityChart(getCategoryDataParams, getCountsAndLabelsForChart,createMorbidityChart,categoryData)
+    listenToCategoryFilterBtns()
+    listenToCategorySelector()
+    getParamsThenCreateMorbidityChart(getCategoryDataParams, getCountsAndLabelsForChart, createMorbidityChart, categoryData)
 
 
 }
 
-function listenToCategoryFilterBtns(){
-  const categoryFilterBtns = document.querySelectorAll('.categoryDateFilter')
+function listenToCategoryFilterBtns() {
+    const categoryFilterBtns = document.querySelectorAll('.categoryDateFilter')
 
-  for (const btn of categoryFilterBtns){
+    for (const btn of categoryFilterBtns) {
 
-    btn.addEventListener('click', ()=>{
-      for (const btn of categoryFilterBtns) {
-        btn.classList.remove('active-category-filter')
-      }
+        btn.addEventListener('click', () => {
+            for (const btn of categoryFilterBtns) {
+                btn.classList.remove('active-category-filter')
+            }
 
-      btn.classList.add('active-category-filter')
+            btn.classList.add('active-category-filter')
 
-      const filter = getCategoryFilter()
+            const filter = getCategoryFilter()
 
-      const categoryNames = (getCategoryNames(filter, categoryData))
-      updateCategorySelectorOptions(categoryNames)
+            const categoryNames = (getCategoryNames(filter, categoryData))
+            updateCategorySelectorOptions(categoryNames)
 
-      getParamsThenCreateMorbidityChart(getCategoryDataParams, getCountsAndLabelsForChart,createMorbidityChart,categoryData)
+            getParamsThenCreateMorbidityChart(getCategoryDataParams, getCountsAndLabelsForChart, createMorbidityChart, categoryData)
 
 
 
-    })
-  }
+        })
+    }
 }
 
-function updateCategorySelectorOptions(categoryNames){
-  const categorySelector = document.getElementById('categories')
-  let html = ''
-  for (const [id, name] of Object.entries(categoryNames)){
-    html += `
+function updateCategorySelectorOptions(categoryNames) {
+    const categorySelector = document.getElementById('categories')
+    let html = ''
+    for (const [id, name] of Object.entries(categoryNames)) {
+        html += `
       <option value="${id}">${name}</option>
     `
-  }
+    }
 
-  categorySelector.innerHTML = html
+    categorySelector.innerHTML = html
 }
 
-function listenToCategorySelector(){
-  const categorySelector = document.getElementById('categories')
-  categorySelector.addEventListener('change', ()=>{
-    getParamsThenCreateMorbidityChart(getCategoryDataParams, getCountsAndLabelsForChart,createMorbidityChart,categoryData)
-  })
+function listenToCategorySelector() {
+    const categorySelector = document.getElementById('categories')
+    categorySelector.addEventListener('change', () => {
+        getParamsThenCreateMorbidityChart(getCategoryDataParams, getCountsAndLabelsForChart, createMorbidityChart, categoryData)
+    })
 }
 
-function getCategoryDataParams(categoryData){
-  const filter = getCategoryFilter()
-  const id =  getSelectedCategoryId()
-  const categoryName = getCategoryName(id, filter, categoryData)
-  return {filter, id, categoryName}
+function getCategoryDataParams(categoryData) {
+    const filter = getCategoryFilter()
+    const id = getSelectedCategoryId()
+    const categoryName = getCategoryName(id, filter, categoryData)
+    return {
+        filter,
+        id,
+        categoryName
+    }
 }
 
-function createMorbidityChart(labels, counts){
-  console.log('Creating chart...')
-  console.log(labels)
-  console.log(counts)
+function createMorbidityChart(labels, counts, categoryName) {
+    const canvas = document.getElementById('morbidityChart')
+    const ctx = canvas.getContext('2d')
+
+    const chartType = 'line'
+    const chartData = {
+        labels: labels,
+        datasets: [{
+            label: categoryName,
+            data: counts,
+            borderWidth: 1,
+            indexAxis: 'x',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Simplified background color for line chart
+            borderColor: 'rgba(75, 192, 192, 1)', // Adding border color for better visualization
+            fill: false,
+            tension: 0.5
+        }]
+    }
+    const chartOptions = {
+        scales: {
+            y: {
+                beginAtZero: true // Ensure y-axis starts from 0
+            }
+        }
+    }
+
+    createChart(ctx, chartType, chartData, chartOptions)
 }
 
-function getParamsThenCreateMorbidityChart(getCategoryDataParams, getCountsAndLabelsForChart,createMorbidityChart,categoryData){
-  const {filter, id, categoryName} = getCategoryDataParams(categoryData)
-  const data = categoryData[filter][id][categoryName]
-  const [labels, counts] = getCountsAndLabelsForChart(data)
-  createMorbidityChart(labels, counts)
+function getParamsThenCreateMorbidityChart(getCategoryDataParams, getCountsAndLabelsForChart, createMorbidityChart, categoryData) {
+    const {
+        filter,
+        id,
+        categoryName
+    } = getCategoryDataParams(categoryData)
+    const data = categoryData[filter][id][categoryName]
+    const [labels, counts] = getCountsAndLabelsForChart(data)
+    createMorbidityChart(labels, counts, categoryName)
 }
