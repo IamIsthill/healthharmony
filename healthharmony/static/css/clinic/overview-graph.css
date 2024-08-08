@@ -29,6 +29,7 @@
 }
 .morbidity-chart h4{
     font-size: var(--size-2xl);
+    font-weight: 600;
 }
 
 .categoryDateFilter{
@@ -41,6 +42,11 @@
 .active-cat{
     border: 1px solid var(--Red);
     color: var(--Red);
+    opacity: 100%;
+}
+.active-pat{
+    border: 1px solid var(--Yellow);
+    color: var(--Yellow);
     opacity: 100%;
 }
 .label-container{

@@ -1,13 +1,13 @@
 <div class="myGraphs">
     <div class="morbidity-chart">
-    <div class="top-chart">
-        <h4>Morbidity Cases</h4>
-        <div class="date-buttons">
-            <button class="categoryDateFilter active-cat" data-category-data="past-12">12 Months</button>
-            <button class="categoryDateFilter" data-category-data="past-30">30 days</button>
-            <button class="categoryDateFilter" data-category-data="past-7">7 days</button>
+        <div class="top-chart">
+            <h4>Morbidity Cases</h4>
+                <div class="date-buttons">
+                    <button class="categoryDateFilter active-cat" data-category-data="past-12">12 Months</button>
+                    <button class="categoryDateFilter" data-category-data="past-30">30 days</button>
+                    <button class="categoryDateFilter" data-category-data="past-7">7 days</button>
+                </div>
         </div>
-    </div>
     
         <div>
             <canvas id="morbidityChart"></canvas>
@@ -20,7 +20,7 @@
             </select> 
         </div>
     </div>
-    <hr />
+    
     <!-- <div>
         <h4>Morbidity Cases</h4>
         <div>
@@ -30,38 +30,31 @@
         </div>
         <div id="morbidityBars"></div>
     </div> -->
-    <hr />
-    <div>
-        <div>
-            <button class="patientDateFilter"
-                    data-patient-data="yearly"
-                    data-department-id="1">Past 12 Months</button>
-            <button class="patientDateFilter"
-                    data-patient-data="monthly"
-                    data-department-id="1">Past 30 days</button>
-            <button class="patientDateFilter"
-                    data-patient-data="weekly"
-                    data-department-id="1">Past 7 days</button>
+    <div class="morbidity-chart">
+        <div class="top-chart">
+            <h4>Patient Report</h4>
+                <div class="date-buttons">
+                    <button class="categoryDateFilter active-pat"
+                            data-patient-data="yearly"
+                            data-department-id="1">12 Months</button>
+                    <button class="categoryDateFilter"
+                            data-patient-data="monthly"
+                            data-department-id="1">30 days</button>
+                    <button class="categoryDateFilter"
+                            data-patient-data="weekly"
+                            data-department-id="1">7 days</button>
+                </div>
         </div>
-        <div>
-            <canvas id="patientChart"></canvas>
-        </div>
-        <div>
-            {% for department in departments %}
-                <button class="departmentNames"
-                        data-department-id="{{ department.id }}"
-                        data-fetch="0">{{ department.department }}</button>
-            {% endfor %}
-        </div>
-    </div>
-    <hr />
-    <div>
-        <h4>Colleges</h4>
-        <div>
-            <button class="departmentBarFilter" data-category-data="yearly">Past 12 Months</button>
-            <button class="departmentBarFilter" data-category-data="monthly">Past 30 days</button>
-            <button class="departmentBarFilter" data-category-data="weekly">Past 7 days</button>
-        </div>
-        <div id="departmentBars"></div>
+            <div>
+                <canvas id="patientChart"></canvas>
+            </div>
+            <div>
+                {% for department in departments %}
+                    <button class="departmentNames"
+                            data-department-id="{{ department.id }}"
+                            data-fetch="0">{{ department.department }}</button>
+                {% endfor %}
+            </div>
+        
     </div>
 </div>

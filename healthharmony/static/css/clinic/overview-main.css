@@ -3,11 +3,10 @@ main{
     color: var(--normal-fontcolor);
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.5rem;
 }
 main h2{
     font-weight: 500;
-    margin-bottom: 0.5rem;
 }
 main .top-part{
     width: 100%;
