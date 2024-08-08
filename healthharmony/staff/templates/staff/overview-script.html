@@ -6,7 +6,3 @@
 {{ sorted_category|json_script:'categoryS' }}
 {{ sorted_department|json_script:'sorted-department' }}
 <script src="{% static 'js/staff/overview.js' %}" type="module"></script>
-<script>
-  const departmentData = JSON.parse(document.getElementById('sorted-department').textContent)
-  console.log(departmentData)
-</script>

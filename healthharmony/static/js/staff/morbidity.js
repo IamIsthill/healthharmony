@@ -24,3 +24,32 @@ export function getCategoryNames(filter, categoryData) {
     }
     return categoryNames
 }
+
+export function createMorbidityChart(labels, counts, categoryName, createChart) {
+    const canvas = document.getElementById('morbidityChart')
+    const ctx = canvas.getContext('2d')
+
+    const chartType = 'line'
+    const chartData = {
+        labels: labels,
+        datasets: [{
+            label: categoryName,
+            data: counts,
+            borderWidth: 1,
+            indexAxis: 'x',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Simplified background color for line chart
+            borderColor: 'rgba(75, 192, 192, 1)', // Adding border color for better visualization
+            fill: false,
+            tension: 0.5
+        }]
+    }
+    const chartOptions = {
+        scales: {
+            y: {
+                beginAtZero: true // Ensure y-axis starts from 0
+            }
+        }
+    }
+
+    createChart(ctx, chartType, chartData, chartOptions)
+}

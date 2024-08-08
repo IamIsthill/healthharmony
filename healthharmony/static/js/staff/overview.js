@@ -400,23 +400,27 @@ import {
     getCategoryFilter,
     getCategoryName,
     getCategoryNames,
-    getSelectedCategoryId
+    getSelectedCategoryId,
+    createMorbidityChart
 } from '/static/js/staff/morbidity.js'
+import {
+    getDepartmentFilter,
+} from '/static/js/staff/department.js'
 import {
     getCountsAndLabelsForChart,
     createChart
 } from '/static/js/utils.js'
 const categoryData = JSON.parse(document.getElementById('categoryS').textContent)
+const departmentData = JSON.parse(document.getElementById('sorted-department').textContent)
 
 main()
 
 function main() {
-
     listenToCategoryFilterBtns()
     listenToCategorySelector()
-    getParamsThenCreateMorbidityChart(getCategoryDataParams, getCountsAndLabelsForChart, createMorbidityChart, categoryData)
+    getParamsThenCreateMorbidityChart(getCategoryDataParams, getCountsAndLabelsForChart, createMorbidityChart, categoryData, createChart)
 
-
+    listenToDepartmentsFilterBtns()
 }
 
 function listenToCategoryFilterBtns() {
@@ -436,10 +440,7 @@ function listenToCategoryFilterBtns() {
             const categoryNames = (getCategoryNames(filter, categoryData))
             updateCategorySelectorOptions(categoryNames)
 
-            getParamsThenCreateMorbidityChart(getCategoryDataParams, getCountsAndLabelsForChart, createMorbidityChart, categoryData)
-
-
-
+            getParamsThenCreateMorbidityChart(getCategoryDataParams, getCountsAndLabelsForChart, createMorbidityChart, categoryData, createChart)
         })
     }
 }
@@ -459,7 +460,7 @@ function updateCategorySelectorOptions(categoryNames) {
 function listenToCategorySelector() {
     const categorySelector = document.getElementById('categories')
     categorySelector.addEventListener('change', () => {
-        getParamsThenCreateMorbidityChart(getCategoryDataParams, getCountsAndLabelsForChart, createMorbidityChart, categoryData)
+        getParamsThenCreateMorbidityChart(getCategoryDataParams, getCountsAndLabelsForChart, createMorbidityChart, categoryData, createChart)
     })
 }
 
@@ -474,36 +475,7 @@ function getCategoryDataParams(categoryData) {
     }
 }
 
-function createMorbidityChart(labels, counts, categoryName) {
-    const canvas = document.getElementById('morbidityChart')
-    const ctx = canvas.getContext('2d')
-
-    const chartType = 'line'
-    const chartData = {
-        labels: labels,
-        datasets: [{
-            label: categoryName,
-            data: counts,
-            borderWidth: 1,
-            indexAxis: 'x',
-            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Simplified background color for line chart
-            borderColor: 'rgba(75, 192, 192, 1)', // Adding border color for better visualization
-            fill: false,
-            tension: 0.5
-        }]
-    }
-    const chartOptions = {
-        scales: {
-            y: {
-                beginAtZero: true // Ensure y-axis starts from 0
-            }
-        }
-    }
-
-    createChart(ctx, chartType, chartData, chartOptions)
-}
-
-function getParamsThenCreateMorbidityChart(getCategoryDataParams, getCountsAndLabelsForChart, createMorbidityChart, categoryData) {
+function getParamsThenCreateMorbidityChart(getCategoryDataParams, getCountsAndLabelsForChart, createMorbidityChart, categoryData, createChart) {
     const {
         filter,
         id,
@@ -511,5 +483,20 @@ function getParamsThenCreateMorbidityChart(getCategoryDataParams, getCountsAndLa
     } = getCategoryDataParams(categoryData)
     const data = categoryData[filter][id][categoryName]
     const [labels, counts] = getCountsAndLabelsForChart(data)
-    createMorbidityChart(labels, counts, categoryName)
+    createMorbidityChart(labels, counts, categoryName, createChart)
+}
+
+function listenToDepartmentsFilterBtns() {
+    const departmentFilterBtns = document.querySelectorAll('.departmentDateFilter')
+
+    for (const btn of departmentFilterBtns) {
+        btn.addEventListener('click', () => {
+            for (const btn of departmentFilterBtns) {
+                btn.classList.remove('active-department-filter')
+            }
+            btn.classList.add('active-department-filter')
+            const filter = getDepartmentFilter()
+            console.log(filter)
+        })
+    }
 }
