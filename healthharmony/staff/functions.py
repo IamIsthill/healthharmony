@@ -28,7 +28,7 @@ def sort_category(categories, request):
     for filter in data_filter:
         if filter == "yearly":
             max_range = 12
-            start = now - timedelta(days=365)
+            start = now - relativedelta(months=11)
             date_loop = 1
             date_format = "%B"
 
@@ -46,7 +46,7 @@ def sort_category(categories, request):
 
         for offset in range(max_range):
             if filter == "yearly":
-                main_start = start + relativedelta(months=offset)
+                main_start = start + relativedelta(months=offset, day=1)
                 main_end = main_start + relativedelta(months=date_loop)
 
             if filter == "monthly":
@@ -80,31 +80,33 @@ def sort_category_loop(
 ):
     for category in categories:
         try:
-            illnesses = Illness.objects.filter(
+            illnesses = Illness.objects.select_related("illness_category").filter(
                 illness_category=category, updated__gte=main_start, updated__lt=main_end
             )
 
-            if filter == "weekly_count":
+            if filter == "weekly":
                 illnesses = Illness.objects.filter(
                     illness_category=category,
-                    update__gte=main_start,
+                    updated__gte=main_start,
                     updated__lte=main_end,
                 )
 
             if filter not in category_storage:
                 category_storage[filter] = {}
-            if category.category not in category_storage[filter]:
-                category_storage[filter][category.category] = {}
+            if category.id not in category_storage[filter]:
+                category_storage[filter][category.id] = {}
+            if category.category not in category_storage[filter][category.id]:
+                category_storage[filter][category.id][category.category] = {}
             if (
                 main_start.strftime(date_format)
-                not in category_storage[filter][category.category]
+                not in category_storage[filter][category.id][category.category]
             ):
-                category_storage[filter][category.category][
+                category_storage[filter][category.id][category.category][
                     main_start.strftime(date_format)
                 ] = []
 
             if illnesses:
-                category_storage[filter][category.category][
+                category_storage[filter][category.id][category.category][
                     main_start.strftime(date_format)
                 ] = [illness_to_dict(illness) for illness in illnesses]
 
