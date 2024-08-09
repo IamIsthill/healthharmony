@@ -2,6 +2,8 @@
 {% load static %}
 {% block title %}Overview | HealthHarmony{% endblock %}
 {% block header %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
     <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
     <link rel="stylesheet" href="{% static 'css/clinic/overview-main.css' %}" />
@@ -19,11 +21,11 @@
     <div class="nurse-container">
         {% include 'staff/navbar.html' %}
         <!-- MAIN CONTENT -->
-        <main>
+        <main class="staff-main">
             {% include 'staff/overview-top.html' %}
             {% include 'staff/overview-graphs.html' %}
         </main>
-        {% include 'staff/right-part.html' %}
+        {% include 'staff/overview-right.html' %}
     </div>
 {% endblock %}
 {% block script %}

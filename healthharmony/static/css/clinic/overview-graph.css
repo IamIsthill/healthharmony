@@ -32,7 +32,7 @@
     font-weight: 600;
 }
 
-.categoryDateFilter{
+.cat-button{
     font-size: var(--size-sm);
     width: 7rem;
     height: 2.5rem;

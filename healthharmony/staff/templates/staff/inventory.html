@@ -7,51 +7,17 @@
     <link rel="stylesheet" href="{% static 'css/clinic/inventory-main.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
-    <style>
-    /* The Modal (background) */
-    .modal {
-      display: none; /* Hidden by default */
-      position: fixed; /* Stay in place */
-      z-index: 1; /* Sit on top */
-      left: 0;
-      top: 0;
-      width: 100%; /* Full width */
-      height: 100%; /* Full height */
-      overflow: auto; /* Enable scroll if needed */
-      background-color: rgb(0, 0, 0); /* Fallback color */
-      background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-    }
 
-    /* Modal Content/Box */
-    .modal-content {
-      background-color: #fefefe;
-      margin: 15% auto; /* 15% from the top and centered */
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%; /* Could be more or less, depending on screen size */
-    }
-
-    /* The Close Button */
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
+          rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+          rel="stylesheet" />
 {% endblock %}
 {% block main %}
     <div class="nurse-container">
         {% include 'staff/navbar.html' %}
-        <main>
-            <h1>Inventory</h1>
+        <main class="staff-main">
+            <h2>Inventory</h2>
             <div class="inventory">
                 <table>
                     <thead>
@@ -59,11 +25,12 @@
                             <th colspan="5">
                                 <div class="header-content">
                                     <h1>Inventory Overview</h1>
-                                    <div>
-                                        <button class="search-btn">Search</button>
-                                        <input type="text" id="search-field" placeholder="Search inventory..." />
-                                        <button id="add-inventory">Add New Item</button>
-                                    </div>
+                                        <div class="search-container">
+                                            <input type="text" id="search-field" placeholder="Search..." />
+                                            <button class="search-btn"><span class="material-symbols-outlined">
+                                                search
+                                                </span></button>
+                                        </div>
                                     <div class="sort-by">
                                         <span>Sort By:</span>
                                         <select id="inventory-sort-select">
@@ -83,6 +50,9 @@
                                         <button class="inventory_cat inventory-category">Medication</button>
                                         <button class="inventory_cat inventory-category">Supply</button>
                                     </div>
+                                    <button id="add-inventory" class="add-inventory"> <span class="material-symbols-outlined">
+                                        add
+                                        </span> Item </button>
                                 </div>
                             </th>
                         </tr>
@@ -105,28 +75,9 @@
                     </tbody>
                 </table>
             </div>
+
             <div class="graphs">
-                <div class="upper">
-                    <div class="right">
-                        <div class="top">
-                            <div>
-                                <h2>Inventory Chart</h2>
-                            </div>
-                            <div>
-                                <h4>Medicines</h4>
-                            </div>
-                            <div>
-                                <h4>Supply</h4>
-                            </div>
-                        </div>
-                        <div>
-                            <div>
-                                <canvas id="inventory-chart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="lower">
+                
                     <div class="left">
                         <div class="header">
                             <h4>Seasonal Trends</h4>
@@ -146,48 +97,49 @@
                             <button class="seasonal-category">Supply</button>
                         </div>
                     </div>
-                    <div class="right">
-                        <div>
-                            <h4>Trends</h4>
-                            <div>
-                                <button class="seasonal-bar-filter" data-filter="week">7 Days</button>
-                                <button class="seasonal-bar-filter" data-filter="month">30 Days</button>
-                                <button class="seasonal-bar-filter" data-filter="year">12 Months</button>
-                            </div>
-                        </div>
-                        <div id="bar-space"></div>
-                        <div>
-                            <button class="seasonal-bar-category" data-filter="medicine">Medicine</button>
-                            <button class="seasonal-bar-category" data-filter="supply">Suppy</button>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
         </main>
+        {% include 'staff/inventory-right.html' %}
     </div>
     <div id="inventory-modal" class="modal">
-        <!-- Modal content -->
+         
+         <!-- Modal content -->
         <div class="modal-content">
-            <span class="close">&times;</span>
+           <span class="close">&times;</span>
             <form action="{% url 'staff-inventory-add' %}" method="post">
                 {% csrf_token %}
-                <label for="item_no">Item Number:</label>
-                <input type="number" name="item_no" required />
-                <label for="unit">Unit Type:</label>
-                <input type="text" name="unit" required />
-                <label for="item_name">Item Name:</label>
-                <input type="text" name="item_name" required />
-                <label for="category">Category:</label>
-                <select name="category" required>
-                    <option value="Medicine">Medicine</option>
-                    <option value="Supply">Supply</option>
-                </select>
-                <label for="description">Item Description:</label>
-                <input type="search" name="description" required />
-                <label for="expiration_date">Item Description:</label>
-                <input type="date" name="expiration_date" />
-                <button type="submit">Add</button>
-                <button class="close">Cancel</button>
+                <div class="form-group">
+                    <label for="item_no">Item Number:</label>
+                    <input type="number" name="item_no" required />
+                </div>
+                <div class="form-group">
+                    <label for="unit">Unit Type:</label>
+                    <input type="text" name="unit" required />
+                </div>
+                <div class="form-group">
+                    <label for="item_name">Item Name:</label>
+                    <input type="text" name="item_name" required />
+                </div>
+                <div class="form-group">
+                    <label for="category">Category:</label>
+                    <select name="category" required>
+                        <option value="Medicine">Medicine</option>
+                        <option value="Supply">Supply</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="description">Item Description:</label>
+                    <input type="search" name="description" required />
+                </div>
+                <div class="form-group">
+                    <label for="expiration_date">Expiration Date:</label>
+                    <input type="date" name="expiration_date" />
+                </div>
+                <div class="form-buttons">
+                    <button type="submit" class="add-btn">Add</button>
+                    <button type="button" class="cancel-btn">Cancel</button>
+                </div>
             </form>
         </div>
     </div>

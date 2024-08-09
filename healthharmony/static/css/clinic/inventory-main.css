@@ -1,17 +1,25 @@
-main{
-    margin-top: 1.5rem;
-    color: var(--normal-fontcolor);
-}
 .inventory{
-    margin-top: 1.3rem;
     color: var(--normal-fontcolor);
 }
-.inventory h2{
-    margin-bottom: 0.8rem;
+
+.inventory table tbody{
+    display: block;
+    max-height: 300px; /* Set the height of the tbody */
+    overflow-y: auto; /* Enable scrolling for the tbody */
+    width: 100%;
+}
+.inventory table thead{
+    position: sticky;
+}
+.inventory table tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed; /* Ensures that cells align properly */
 }
 .inventory table{
+    border: 1px solid black;
     background-color: white;
-    width: 100%;
+    width: 95%;
     padding: 0.5rem 1.5rem;
     text-align: center;
     box-shadow: var(--box-shadow2);
@@ -65,6 +73,22 @@ main table th, td{
     color: #aaaaaa;
     transition: all 0.3s ease;
 }
+
+.add-inventory{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--Green);
+    border-radius: 2rem;
+    padding: 0.3rem 0.8rem;
+    color: white;
+    font-size: var(--size-lg);
+}
+.add-inventory span{
+    display: inline;
+    line-height: 0.9;
+    font-size: var(--size-2xl);
+}
 .sort-by {
     font-size: var(--size-sm);
     display: flex;
@@ -87,4 +111,92 @@ main table th, td{
 .table-data{
     font-size: var(--size-sm);
     color: var(--normal-fontcolor);
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  }
+
+  /* Modal Content/Box */
+  .modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #fefefe;
+    margin: 2% auto; /* 15% from the top and centered */
+    padding: 10px;
+    border: 1px solid #888;
+    border-radius: 1rem; 
+    padding: 2rem 2rem;
+    width: 20%;
+    
+  }
+
+  /* The Close Button */
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+}
+.form-group {
+    margin-bottom: 12px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
+    width: calc(100% - 10px);
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-buttons {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-buttons button {
+    width: 6rem;
+    padding: 0.6rem 0rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.add-btn{
+    background: var(--Green);
+    color: white;
+}
+.add-btn:hover{
+    background: #1d771c;
+}
+.cancel-btn{
+    background: white;
+    border: 1px solid var(--Red);
+    color: var(--Red);
+}
+.cancel-btn:hover{
+    background: var(--Red);
+    color: white;
 }
