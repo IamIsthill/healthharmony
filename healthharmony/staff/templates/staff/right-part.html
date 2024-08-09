@@ -1,0 +1,47 @@
+{% load static %}
+<section class="right-part ">
+
+    <div class="profile-container">
+        <img src="{% static 'assets/images/doctor-pics/Miko.jpg' %}" alt="Profile Picture" class="profile-pic" />
+        <div class="profile-info">
+            <h3>Miko Basilio</h3>
+            <span>Nurse</span>
+        </div>
+        <a href="{% url 'logout' %}">
+            <div class="logout-container">
+                <span class="material-symbols-outlined">
+                    logout
+                </span>
+            </div>
+        </a>
+    </div>
+
+    <div class="action-part">
+        <h1>Actions</h1>
+        <div class="action-button-container">
+            <button class="action-button">Add Visit Record</button>
+            <button class="action-button">Create Post</button>
+        </div>
+    </div>
+
+    <div>
+        <h4>Morbidity Cases</h4>
+        <div>
+            <button class="categoryBarFilter" data-category-data="yearly">Past 12 Months</button>
+            <button class="categoryBarFilter" data-category-data="monthly">Past 30 days</button>
+            <button class="categoryBarFilter" data-category-data="weekly">Past 7 days</button>
+        </div>
+        <div id="morbidityBars"></div>
+    </div>
+
+    <div>
+        <h4>Colleges</h4>
+        <div>
+            <button class="departmentBarFilter" data-category-data="yearly">Past 12 Months</button>
+            <button class="departmentBarFilter" data-category-data="monthly">Past 30 days</button>
+            <button class="departmentBarFilter" data-category-data="weekly">Past 7 days</button>
+        </div>
+        <div id="departmentBars"></div>
+    </div>
+
+</section>
