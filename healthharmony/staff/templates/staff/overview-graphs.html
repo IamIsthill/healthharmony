@@ -1,21 +1,25 @@
-<div>
-    <div>
-        <button class="categoryDateFilter active-category-filter"
-                data-category-data="yearly">Past 12 Months</button>
-        <button class="categoryDateFilter" data-category-data="monthly">Past 30 days</button>
-        <button class="categoryDateFilter" data-category-data="weekly">Past 7 days</button>
-    </div>
-    <div>
-        <label for="categories">Choose an Option</label>
-        <select name="categories" id="categories">
-            {% for category in categories %}<option value="{{ category.id }}">{{ category }}</option>{% endfor %}
-        </select>
+<div class="myGraphs">
+    <div class="morbidity-chart">
+        <div class="top-chart">
+            <h4>Morbidity Cases</h4>
+            <div class="date-buttons">
+                <button class="categoryDateFilter active-category-filter active-cat"
+                        data-category-data="yearly">Past 12 Months</button>
+                <button class="categoryDateFilter" data-category-data="monthly">Past 30 days</button>
+                <button class="categoryDateFilter" data-category-data="weekly">Past 7 days</button>
+            </div>
+        </div>
         <div>
             <canvas id="morbidityChart"></canvas>
         </div>
     </div>
-    <hr />
-    <div>
+    <div class="label-container">
+        <label for="categories">Choose an Option</label>
+        <select name="categories" id="categories">
+            {% for category in categories %}<option value="{{ category.id }}">{{ category }}</option>{% endfor %}
+        </select>
+    </div>
+    <!--    <div>
         <h4>Morbidity Cases</h4>
         <div>
             <button class="categoryBarFilter" data-category-data="yearly">Past 12 Months</button>
@@ -23,19 +27,14 @@
             <button class="categoryBarFilter" data-category-data="weekly">Past 7 days</button>
         </div>
         <div id="morbidityBars"></div>
+<<<<<<< HEAD
     </div>
     <hr />
     <div>
         <div>
-            <button class="departmentDateFilter active-department-filter"
-                    data-patient-data="yearly"
-                    data-department-id="1">Past 12 Months</button>
-            <button class="departmentDateFilter"
-                    data-patient-data="monthly"
-                    data-department-id="1">Past 30 days</button>
-            <button class="departmentDateFilter"
-                    data-patient-data="weekly"
-                    data-department-id="1">Past 7 days</button>
+            <button class="departmentDateFilter active-department-filter" data-patient-data="yearly" data-department-id="1">Past 12 Months</button>
+            <button class="departmentDateFilter" data-patient-data="monthly" data-department-id="1">Past 30 days</button>
+            <button class="departmentDateFilter" data-patient-data="weekly" data-department-id="1">Past 7 days</button>
         </div>
         <div>
             <canvas id="departmentChart"></canvas>
@@ -43,8 +42,7 @@
         <div class="department-options">
             {% for department in department_names %}
                 {% if forloop.counter == 1 %}
-                    <button class="departmentNames active-department-selector"
-                            data-department-id="{{ department.id }}">{{ department.department }}</button>
+                    <button class="departmentNames active-department-selector" data-department-id="{{ department.id }}">{{ department.department }}</button>
                 {% else %}
                     <button class="departmentNames" data-department-id="{{ department.id }}">{{ department.department }}</button>
                 {% endif %}
@@ -60,5 +58,32 @@
             <button class="departmentBarFilter" data-category-data="weekly">Past 7 days</button>
         </div>
         <div id="departmentBars"></div>
+=======
+    </div>    -->
+    <div class="morbidity-chart">
+        <div class="top-chart">
+            <h4>Patient Report</h4>
+            <div class="date-buttons">
+                <button class="categoryDateFilter active-pat"
+                        data-patient-data="yearly"
+                        data-department-id="1">12 Months</button>
+                <button class="categoryDateFilter"
+                        data-patient-data="monthly"
+                        data-department-id="1">30 days</button>
+                <button class="categoryDateFilter"
+                        data-patient-data="weekly"
+                        data-department-id="1">7 days</button>
+            </div>
+        </div>
+        <div>
+            <canvas id="patientChart"></canvas>
+        </div>
+        <div>
+            {% for department in departments %}
+                <button class="departmentNames"
+                        data-department-id="{{ department.id }}"
+                        data-fetch="0">{{ department.department }}</button>
+            {% endfor %}
+        </div>
     </div>
 </div>
