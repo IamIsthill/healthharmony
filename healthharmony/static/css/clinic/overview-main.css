@@ -1,4 +1,15 @@
 
+main{
+    margin-top: 1.5rem;
+    color: var(--normal-fontcolor);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+main h2{
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
 main .top-part{
     width: 100%;
     display: grid;
@@ -35,3 +46,4 @@ main .today-patient .info span{
     align-items: center;
     width: 100%;
 }
+
