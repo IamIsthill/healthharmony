@@ -38,13 +38,16 @@
                     data-department-id="1">Past 7 days</button>
         </div>
         <div>
-            <canvas id="patientChart"></canvas>
+            <canvas id="departmentChart"></canvas>
         </div>
-        <div>
-            {% for department in departments %}
-                <button class="departmentNames"
-                        data-department-id="{{ department.id }}"
-                        data-fetch="0">{{ department.department }}</button>
+        <div class="department-options">
+            {% for department in department_names %}
+                {% if forloop.counter == 1 %}
+                    <button class="departmentNames active-department-selector"
+                            data-department-id="{{ department.id }}">{{ department.department }}</button>
+                {% else %}
+                    <button class="departmentNames" data-department-id="{{ department.id }}">{{ department.department }}</button>
+                {% endif %}
             {% endfor %}
         </div>
     </div>

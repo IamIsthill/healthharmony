@@ -397,14 +397,10 @@
 //   })
 // })
 import {
-    getCategoryFilter,
-    getCategoryName,
-    getCategoryNames,
-    getSelectedCategoryId,
-    createMorbidityChart
+    getParamsThenCreateMorbidityChart
 } from '/static/js/staff/morbidity.js'
 import {
-    getDepartmentFilter,
+    getParamsThenCreateDepartmentChart
 } from '/static/js/staff/department.js'
 import {
     getCountsAndLabelsForChart,
@@ -412,16 +408,20 @@ import {
 } from '/static/js/utils.js'
 const categoryData = JSON.parse(document.getElementById('categoryS').textContent)
 const departmentData = JSON.parse(document.getElementById('sorted-department').textContent)
+const departments = JSON.parse(document.getElementById('departments').textContent)
 
 main()
 
 function main() {
     listenToCategoryFilterBtns()
     listenToCategorySelector()
-    getParamsThenCreateMorbidityChart(getCategoryDataParams, getCountsAndLabelsForChart, createMorbidityChart, categoryData, createChart)
+    getParamsThenCreateMorbidityChart(getCountsAndLabelsForChart, categoryData, createChart)
 
     listenToDepartmentsFilterBtns()
+    listenToDepartmentSelector()
+    getParamsThenCreateDepartmentChart(departments, departmentData, getCountsAndLabelsForChart, createChart)
 }
+
 
 function listenToCategoryFilterBtns() {
     const categoryFilterBtns = document.querySelectorAll('.categoryDateFilter')
@@ -435,68 +435,42 @@ function listenToCategoryFilterBtns() {
 
             btn.classList.add('active-category-filter')
 
-            const filter = getCategoryFilter()
-
-            const categoryNames = (getCategoryNames(filter, categoryData))
-            updateCategorySelectorOptions(categoryNames)
-
-            getParamsThenCreateMorbidityChart(getCategoryDataParams, getCountsAndLabelsForChart, createMorbidityChart, categoryData, createChart)
+            getParamsThenCreateMorbidityChart(getCountsAndLabelsForChart, categoryData, createChart)
         })
     }
 }
 
-function updateCategorySelectorOptions(categoryNames) {
-    const categorySelector = document.getElementById('categories')
-    let html = ''
-    for (const [id, name] of Object.entries(categoryNames)) {
-        html += `
-      <option value="${id}">${name}</option>
-    `
-    }
-
-    categorySelector.innerHTML = html
-}
 
 function listenToCategorySelector() {
     const categorySelector = document.getElementById('categories')
     categorySelector.addEventListener('change', () => {
-        getParamsThenCreateMorbidityChart(getCategoryDataParams, getCountsAndLabelsForChart, createMorbidityChart, categoryData, createChart)
+        getParamsThenCreateMorbidityChart(getCountsAndLabelsForChart, categoryData, createChart)
     })
 }
 
-function getCategoryDataParams(categoryData) {
-    const filter = getCategoryFilter()
-    const id = getSelectedCategoryId()
-    const categoryName = getCategoryName(id, filter, categoryData)
-    return {
-        filter,
-        id,
-        categoryName
-    }
-}
-
-function getParamsThenCreateMorbidityChart(getCategoryDataParams, getCountsAndLabelsForChart, createMorbidityChart, categoryData, createChart) {
-    const {
-        filter,
-        id,
-        categoryName
-    } = getCategoryDataParams(categoryData)
-    const data = categoryData[filter][id][categoryName]
-    const [labels, counts] = getCountsAndLabelsForChart(data)
-    createMorbidityChart(labels, counts, categoryName, createChart)
-}
 
 function listenToDepartmentsFilterBtns() {
     const departmentFilterBtns = document.querySelectorAll('.departmentDateFilter')
-
     for (const btn of departmentFilterBtns) {
         btn.addEventListener('click', () => {
             for (const btn of departmentFilterBtns) {
                 btn.classList.remove('active-department-filter')
             }
             btn.classList.add('active-department-filter')
-            const filter = getDepartmentFilter()
-            console.log(filter)
+            getParamsThenCreateDepartmentChart(departments, departmentData, getCountsAndLabelsForChart, createChart)
+        })
+    }
+}
+
+function listenToDepartmentSelector() {
+    const departmentSelectorBtns = document.querySelectorAll('.departmentNames')
+    for (const btn of departmentSelectorBtns) {
+        btn.addEventListener('click', () => {
+            for (const btn of departmentSelectorBtns) {
+                btn.classList.remove('active-department-selector')
+            }
+            btn.classList.add('active-department-selector')
+            getParamsThenCreateDepartmentChart(departments, departmentData, getCountsAndLabelsForChart, createChart)
         })
     }
 }

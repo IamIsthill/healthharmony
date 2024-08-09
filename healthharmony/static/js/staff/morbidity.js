@@ -1,3 +1,14 @@
+export function getParamsThenCreateMorbidityChart(getCountsAndLabelsForChart, categoryData, createChart) {
+    const {
+        filter,
+        id,
+        categoryName
+    } = getCategoryDataParams(categoryData)
+    const data = categoryData[filter][id][categoryName]
+    const [labels, counts] = getCountsAndLabelsForChart(data)
+    createMorbidityChart(labels, counts, categoryName, createChart)
+}
+
 export function getCategoryFilter() {
     const activeCategoryFilter = document.querySelector('.active-category-filter')
     const filter = activeCategoryFilter.getAttribute('data-category-data')
@@ -23,6 +34,17 @@ export function getCategoryNames(filter, categoryData) {
         }
     }
     return categoryNames
+}
+
+export function getCategoryDataParams(categoryData) {
+    const filter = getCategoryFilter()
+    const id = getSelectedCategoryId()
+    const categoryName = getCategoryName(id, filter, categoryData)
+    return {
+        filter,
+        id,
+        categoryName
+    }
 }
 
 export function createMorbidityChart(labels, counts, categoryName, createChart) {
