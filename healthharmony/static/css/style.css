@@ -6,21 +6,21 @@
     --Light-Yellow: #FFCB4C;
     --Maroon: #97180c;
     --Red: #FF2D19;
-    --asd:rgb(255, 45, 26);
     --Green: #2FC32C;
     --normal-fontcolor:#202B37;
-    --shadow-color:rgb(32, 43, 55,0.1);
+    --shadow-color:rgb(32, 43, 55,0.3);
     --light_gray: #97A1AF;
     --navbuttons: #7D7D7D;
     --mainfont: 'Poppins', 'sans-serif';
     --secondfont: 'Inter', 'san-serif';
 
     --card-padding: 1rem 3rem;
-    --right-card-padding: 1rem 2rem;
+
+    --right-card-padding: padding: 1rem 2rem;
 
     --box-shadow: 0 2rem 3rem var(--shadow-color);
     --box-shadow2: 0 0rem 1.5rem var(--shadow-color);
-    --box-shadowlight: 0 0rem 1.5rem rgba(130, 137, 145, 0.1);
+    --box-shadowlight: 0 0rem 1.5rem rgb(32, 43, 55,0.2);
     /* SIZES */
 
     --size-xxs: 0.5rem;

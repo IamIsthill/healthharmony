@@ -5,17 +5,17 @@ const illnessForm = document.getElementById('illness_form')
 
 main()
 
-function createIllnessBody(data){
+function createIllnessBody(data) {
     let html = ''
-    if(data.length <= 0){
+    if (data.length <= 0) {
         html = `
         <tr>
             <td colspan="4">Congratulations! No pending issue as of this moment.</td>
         </tr>
         `
     } else {
-        for(const illness of data){
-            if (illness.diagnosis != ''){
+        for (const illness of data) {
+            if (illness.diagnosis != '') {
                 status = 'Released'
             } else {
                 status = 'Pending'
@@ -35,12 +35,12 @@ function createIllnessBody(data){
     document.getElementById('illness_body').innerHTML = html
 }
 
-function filterIllnessData(filter){
+function filterIllnessData(filter) {
     let data = illnessData[filter]
     return data
 }
 
-async function fetchPredictedDiagnosis(issue){
+async function fetchPredictedDiagnosis(issue) {
     try {
         let baseUrl = window.location.origin;
         let url = new URL(`${baseUrl}/doctor/get-diagnosis/`);
@@ -57,10 +57,10 @@ async function fetchPredictedDiagnosis(issue){
             throw new Error("Network response was not ok");
         }
         return response.json();
-        } catch (err) {
+    } catch (err) {
         console.log(`Failed to fetch session: ${err.message}`);
         return null;
-        }
+    }
 }
 
 async function createIllnessForm(illness) {
@@ -83,28 +83,28 @@ async function createIllnessForm(illness) {
 
 function getIllness(id) {
     for (const data of illnessData['all']) {
-    if (data.id == id) {
-        return data
-    }
+        if (data.id == id) {
+            return data
+        }
     }
 }
 
 async function main() {
     const closeBtns = document.querySelectorAll('.close')
     for (const btn of closeBtns) {
-    btn.addEventListener('click', () => {
-        for (const modal of modals) {
-        modal.style.display = 'none'
-        }
-    })
+        btn.addEventListener('click', () => {
+            for (const modal of modals) {
+                modal.style.display = 'none'
+            }
+        })
     }
 
-    window.onclick = function (event) {
-    if (event.target == illnessModal) {
-        for (const modal of modals) {
-        modal.style.display = 'none'
+    window.onclick = function(event) {
+        if (event.target == illnessModal) {
+            for (const modal of modals) {
+                modal.style.display = 'none'
+            }
         }
-    }
     }
 
     listenIllnessBtns()
@@ -112,40 +112,40 @@ async function main() {
 
 }
 
-function listenIllnessBtns(){
+function listenIllnessBtns() {
     const illnessBtns = document.querySelectorAll('.illness-filter')
     illnessBtns.forEach((btn) => {
         btn.addEventListener('click', () => {
-        illnessBtns.forEach((btn) => {
-            btn.classList.remove('active')
-        })
-        btn.classList.add('active')
-        const text = btn.getAttribute('data-category').toLowerCase()
-        const data = filterIllnessData(text)
-        createIllnessBody(data)
-        listenViewIllnessBtns()
-        listenPatientBtns()
+            illnessBtns.forEach((btn) => {
+                btn.classList.remove('active')
+            })
+            btn.classList.add('active')
+            const text = btn.getAttribute('data-category').toLowerCase()
+            const data = filterIllnessData(text)
+            createIllnessBody(data)
+            listenViewIllnessBtns()
+            listenPatientBtns()
         })
     })
 }
 
-function listenViewIllnessBtns(){
+function listenViewIllnessBtns() {
     const viewIllnessBtns = document.querySelectorAll('.view-illness')
     for (const btn of viewIllnessBtns) {
         btn.addEventListener('click', () => {
-        const illnessId = parseInt(btn.getAttribute('data-issue-id'))
-        console.log(illnessId)
-        const illness = getIllness(illnessId)
-        createIllnessForm(illness)
-        illnessModal.style.display = 'block'
+            const illnessId = parseInt(btn.getAttribute('data-issue-id'))
+            console.log(illnessId)
+            const illness = getIllness(illnessId)
+            createIllnessForm(illness)
+            illnessModal.style.display = 'block'
         })
     }
 }
 
-function listenPatientBtns(){
+function listenPatientBtns() {
     const patientBtns = document.querySelectorAll('.patient')
-    for(const btn of patientBtns){
-        btn.addEventListener('click', ()=>{
+    for (const btn of patientBtns) {
+        btn.addEventListener('click', () => {
             const patientId = parseInt(btn.getAttribute('data-patient-id'))
             let baseUrl = window.location.origin;
             let url = new URL(`${baseUrl}/doctor/patient/${patientId}/`);

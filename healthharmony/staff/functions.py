@@ -1,0 +1,475 @@
+from django.contrib import messages
+from django.utils import timezone
+from datetime import timedelta
+from dateutil.relativedelta import relativedelta
+import logging
+
+from healthharmony.treatment.models import Category, Illness
+from healthharmony.users.models import Department, User
+
+
+logger = logging.getLogger(__name__)
+
+
+def getCategory(request):
+    """
+    Fetch all categories from the database.
+
+    This function attempts to retrieve all Category objects from the database.
+    If an exception occurs during the retrieval process, it logs the error and
+    sends an error message to the user via Django's messaging framework.
+
+    Args:
+        request (HttpRequest): The HTTP request object that triggered this function.
+
+    Returns:
+        tuple: A tuple containing:
+            - QuerySet: A QuerySet of all Category objects.
+            - HttpRequest: The original request object, potentially modified to include error messages.
+    """
+    try:
+        categories = Category.objects.all()
+    except Exception as e:
+        logger.error(f"Error fetching data: {str(e)}")
+        messages.error(request, "Error fetching data. Please reload.")
+    return categories, request
+
+
+def sort_category(categories, request):
+    """
+    Organize category data by filtering illnesses into yearly, monthly, and weekly ranges.
+
+    This function iterates over a list of predefined filters ("yearly", "monthly", "weekly")
+    and processes each filter by calculating date ranges. For each filter, it determines the
+    start and end dates based on the current date and then invokes the `sort_category_loop`
+    function to categorize and store the relevant illness data.
+
+    Args:
+        categories (QuerySet): A Django QuerySet containing Category objects to process.
+        request (HttpRequest): The HTTP request object, used to send error messages if necessary.
+
+    Returns:
+        tuple: A tuple containing:
+            - HttpRequest: The original request object, potentially modified to include error messages.
+            - dict: A dictionary containing categorized illness data, organized by filters (yearly, monthly, weekly).
+
+    Raises:
+        None: Any exceptions encountered during processing are handled within the `sort_category_loop` function.
+    """
+    category_data = {}
+    data_filter = ["yearly", "monthly", "weekly"]
+
+    now = timezone.now()
+
+    for filter in data_filter:
+        start, max_range, date_format, date_loop = get_init_loop_params(filter, now)
+
+        for offset in range(max_range):
+            main_start, main_end = get_changing_loop_params(
+                offset, start, date_loop, filter
+            )
+
+            request, category_data = sort_category_loop(
+                categories,
+                main_start,
+                main_end,
+                category_data,
+                date_format,
+                request,
+                filter,
+            )
+
+    return request, category_data
+
+
+def sort_category_loop(
+    categories, main_start, main_end, category_storage, date_format, request, filter
+):
+    """
+    Sort and categorize illnesses based on their update timestamps and a specified filter.
+
+    This function iterates through a list of categories and retrieves associated illnesses
+    from the database based on the category and a date range (`main_start` to `main_end`).
+    The illnesses are then stored in a nested dictionary (`category_storage`) organized
+    by category and date. The function handles different filtering conditions, such as
+    weekly filtering, and stores the data accordingly.
+
+    Args:
+        categories (QuerySet): A Django QuerySet containing Category objects to process.
+        main_start (datetime): The start date for filtering illnesses.
+        main_end (datetime): The end date for filtering illnesses.
+        category_storage (dict): A dictionary to store the categorized illness data.
+        date_format (str): The format string used to format dates for dictionary keys.
+        request (HttpRequest): The HTTP request object, used to send error messages if necessary.
+        filter (str): A string that determines the filtering condition (e.g., "weekly").
+
+    Returns:
+        tuple: A tuple containing:
+            - HttpRequest: The original request object, potentially modified to include error messages.
+            - dict: The updated `category_storage` dictionary containing categorized illness data.
+
+    Raises:
+        None: Any exceptions encountered during processing are logged and handled
+              within the function, and an error message is sent to the user.
+    """
+    for category in categories:
+        try:
+            illnesses = Illness.objects.select_related("illness_category").filter(
+                illness_category=category, updated__gte=main_start, updated__lt=main_end
+            )
+
+            if filter == "weekly":
+                illnesses = Illness.objects.filter(
+                    illness_category=category,
+                    updated__gte=main_start,
+                    updated__lte=main_end,
+                )
+
+            if filter not in category_storage:
+                category_storage[filter] = {}
+            if category.id not in category_storage[filter]:
+                category_storage[filter][category.id] = {}
+            if category.category not in category_storage[filter][category.id]:
+                category_storage[filter][category.id][category.category] = {}
+            if (
+                main_start.strftime(date_format)
+                not in category_storage[filter][category.id][category.category]
+            ):
+                category_storage[filter][category.id][category.category][
+                    main_start.strftime(date_format)
+                ] = []
+
+            if illnesses:
+                category_storage[filter][category.id][category.category][
+                    main_start.strftime(date_format)
+                ] = [illness_to_dict(illness) for illness in illnesses]
+
+        except Exception as e:
+            logger.error(f"Failed to sort data: {str(e)}")
+            messages.error(request, "Failed to sort data. Please try again")
+
+    return request, category_storage
+
+
+def illness_to_dict(illness):
+    """
+    Convert an Illness object into a dictionary.
+
+    This function takes an Illness object and converts it into a dictionary
+    containing its ID, issue, category ID, and category name. This dictionary
+    representation can be useful for serialization, JSON responses, or
+    other operations where a structured data format is needed.
+
+    Args:
+        illness (Illness): An Illness object to be converted.
+
+    Returns:
+        dict: A dictionary containing the following keys:
+            - "id" (int): The unique identifier of the illness.
+            - "issue" (str): A brief description or name of the illness.
+            - "category_id" (int): The unique identifier of the illness's category.
+            - "category" (str): The name of the category associated with the illness.
+    """
+    return {
+        "id": illness.id,
+        "issue": illness.issue,
+        "category_id": illness.illness_category.id,
+        "category": illness.illness_category.category,
+    }
+
+
+def get_sorted_category(request):
+    """
+    Retrieve and sort categories along with their associated illnesses.
+
+    This function first retrieves all categories using the `getCategory` function.
+    If no categories are found or an error occurs during retrieval, it returns early.
+    Otherwise, it proceeds to sort the categories and their associated illnesses by
+    different time filters (yearly, monthly, weekly) using the `sort_category` function.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        tuple: A tuple containing:
+            - HttpRequest: The original request object, potentially modified to include error messages.
+            - dict or None: A dictionary containing the sorted category data if successful, or `None` if an error occurred during category retrieval.
+    """
+    categories, request = getCategory(request)
+
+    if categories is None:
+        return request, categories
+
+    request, category_data = sort_category(categories, request)
+
+    return request, category_data
+
+
+def get_departments(request):
+    """
+    Fetches all Department instances from the database.
+
+    Args:
+        request: The HTTP request object. Used for logging errors and displaying messages.
+
+    Returns:
+        tuple: A tuple containing the request object and a queryset of Department instances.
+    """
+    try:
+        # Fetch all Department instances
+        departments = Department.objects.all()
+
+    except Exception as e:
+        # Log the error with a message
+        logger.error(f"Failed to fetch department data: {str(e)}")
+        # Add an error message to the request to inform the user
+        messages.error(request, "Failed to fetch data. Please reload")
+        # Return the request and an empty list of departments
+        return request, []
+
+    # Return the request and the list of departments
+    return request, departments
+
+
+def sort_department(
+    request,
+    departments,
+    get_init_loop_params,
+    get_changing_loop_params,
+    sort_department_loop,
+):
+    """
+    Sorts department data based on different time filters and updates the department_data dictionary.
+
+    Args:
+        request (HttpRequest): The HTTP request object, used for logging errors and messages.
+        departments (QuerySet): A queryset of Department objects to be sorted.
+        get_init_loop_params (function): A function to get initial loop parameters for a given filter.
+        get_changing_loop_params (function): A function to get changing loop parameters for a given offset.
+        sort_department_loop (function): A function to sort and process department data for each period.
+
+    Returns:
+        tuple: A tuple containing the updated request and department_data dictionary.
+    """
+    # Initialize the department_data dictionary with keys for each filter type
+    department_data = {filter: {} for filter in ["yearly", "monthly", "weekly"]}
+
+    # Get the current time
+    now = timezone.now()
+
+    # Iterate over each filter type (yearly, monthly, weekly)
+    for filter in department_data:
+        # Get the initial parameters for the loop based on the filter type
+        start, max_range, date_format, date_loop = get_init_loop_params(filter, now)
+
+        # Iterate through each offset value within the range for the current filter
+        for offset in range(max_range):
+            # Get the start and end dates for the current period
+            main_start, main_end = get_changing_loop_params(
+                offset, start, date_loop, filter
+            )
+
+            # Sort and process the department data for the current period
+            request, department_data = sort_department_loop(
+                departments,
+                department_data,
+                main_start,
+                main_end,
+                date_format,
+                filter,
+                request,
+            )
+
+    return request, department_data
+
+
+def get_prepared_department_storage(
+    department_data, department, main_start, date_format, filter
+):
+    """
+    Prepares the department data structure for storing department information.
+
+    Args:
+        department_data (dict): The data structure to store department information.
+        department (Department): The department instance to be used as a key.
+        main_start (datetime): The start date for the period.
+        date_format (str): The format for dates used as keys in the storage.
+        filter (str): The type of filter applied, which determines the storage key.
+
+    Returns:
+        dict: The updated department_data dictionary with prepared storage for the department.
+    """
+    # Ensure the filter key exists in the department_data dictionary
+    if filter not in department_data:
+        department_data[filter] = {}
+
+    # Ensure the department ID key exists under the filter key
+    if department.id not in department_data[filter]:
+        department_data[filter][department.id] = {}
+
+    # Ensure the department name key exists under the department ID key
+    if department.department not in department_data[filter][department.id]:
+        department_data[filter][department.id][department.department] = {}
+
+    # Ensure the formatted date key exists under the department name key
+    if (
+        main_start.strftime(date_format)
+        not in department_data[filter][department.id][department.department]
+    ):
+        department_data[filter][department.id][department.department][
+            main_start.strftime(date_format)
+        ] = []
+
+    return department_data
+
+
+def get_init_loop_params(filter, now):
+    """
+    Initializes parameters for date looping based on the filter type.
+
+    Args:
+        filter (str): The type of filter to apply. Can be "yearly", "monthly", or "weekly".
+        now (datetime): The current date and time.
+
+    Returns:
+        tuple: A tuple containing the start date, maximum range of iterations, date format, and date loop increment.
+    """
+    if filter == "yearly":
+        # For yearly filter, set parameters to loop through months
+        max_range = 12  # Number of months to loop through
+        start = now - relativedelta(months=11)  # Start from 11 months ago
+        date_loop = 1  # Increment by 1 month
+        date_format = "%B"  # Format for month names
+
+    if filter == "monthly":
+        # For monthly filter, set parameters to loop through days
+        max_range = 6  # Number of periods to loop through (e.g., 6 months)
+        start = now - timedelta(days=30)  # Start from 30 days ago
+        date_loop = 5  # Increment by 5 days
+        date_format = "%B %d"  # Format for month and day
+
+    if filter == "weekly":
+        # For weekly filter, set parameters to loop through weeks
+        start = now - timedelta(days=6)  # Start from 6 days ago
+        max_range = 7  # Number of days to loop through (a week)
+        date_format = "%A, %d"  # Format for day of the week and day of the month
+        date_loop = 1  # Increment by 1 day
+
+    return start, max_range, date_format, date_loop
+
+
+def get_changing_loop_params(offset, start, date_loop, filter):
+    """
+    Calculates the start and end dates for each period based on the filter type.
+
+    Args:
+        offset (int): The offset value to calculate the period start.
+        start (datetime): The base start date for calculations.
+        date_loop (int): The loop increment for the filter type (e.g., number of months, days).
+        filter (str): The type of filter to apply. Can be "yearly", "monthly", or "weekly".
+
+    Returns:
+        tuple: A tuple containing the calculated start date and end date for the period.
+    """
+    if filter == "yearly":
+        # For yearly filter, calculate the start and end of the month
+        main_start = start + relativedelta(months=offset, day=1)
+        main_end = main_start + relativedelta(months=date_loop)
+
+    if filter == "monthly":
+        # For monthly filter, calculate the start and end of the period
+        main_start = start + timedelta(days=offset * date_loop)
+        main_end = main_start + timedelta(days=date_loop)
+
+    if filter == "weekly":
+        # For weekly filter, calculate the start and end of the week
+        new_start = start + timedelta(days=offset * date_loop)
+        main_start = new_start.replace(hour=0, minute=0, second=0, microsecond=0)
+        main_end = new_start.replace(hour=23, minute=59, second=59, microsecond=999999)
+
+    return main_start, main_end
+
+
+def sort_department_loop(
+    departments, department_data, main_start, main_end, date_format, filter, request
+):
+    """
+    Processes and sorts department data for a given time period and updates the department_data dictionary.
+
+    Args:
+        departments (QuerySet): A queryset of Department objects to process.
+        department_data (dict): The dictionary to store sorted department data.
+        main_start (datetime): The start date for the current period.
+        main_end (datetime): The end date for the current period.
+        date_format (str): The date format used as the key in department_data.
+        filter (str): The type of filter applied (e.g., "yearly", "monthly", "weekly").
+        request (HttpRequest): The HTTP request object, used for logging errors and messages.
+
+    Returns:
+        tuple: A tuple containing the updated request and department_data dictionary.
+    """
+    for department in departments:
+        # Prepare the department data storage structure for the current department
+        department_data = get_prepared_department_storage(
+            department_data, department, main_start, date_format, filter
+        )
+
+        try:
+            # Query for patients associated with the current department and within the specified date range
+            patients = (
+                User.objects.select_related("department")
+                .filter(
+                    department=department,
+                    patient_illness__updated__gte=main_start,
+                    patient_illness__updated__lte=main_end,
+                )
+                .distinct()
+            )
+
+            # If there are patients, add their information to the department_data dictionary
+            if patients:
+                department_data[filter][department.id][department.department][
+                    main_start.strftime(date_format)
+                ] = [
+                    {
+                        "patientId": patient.id,
+                        "department": patient.department.department,
+                    }
+                    for patient in patients
+                ]
+
+        except Exception as e:
+            # Log the error and add an error message to the request if sorting fails
+            logger.error(f"Failed to sort department data: {str(e)}")
+            messages.error(request, "Failed to sort data. Please try again")
+
+    return request, department_data
+
+
+def get_sorted_department(request):
+    """
+    Retrieves and sorts department data based on various time filters.
+
+    Args:
+        request (HttpRequest): The HTTP request object used for logging errors and messages.
+
+    Returns:
+        tuple: A tuple containing the updated request and the department_data dictionary, or None if there are no departments.
+    """
+    # Fetch all departments and update the request with any potential errors
+    request, departments = get_departments(request)
+
+    # If no departments are found, return the updated request and None for departments
+    if departments is None:
+        return request, departments
+
+    # Sort department data based on various filters and update the request with any potential errors
+    request, department_data = sort_department(
+        request,
+        departments,
+        get_init_loop_params,
+        get_changing_loop_params,
+        sort_department_loop,
+    )
+
+    return request, department_data
