@@ -1,182 +1,182 @@
-    /* CONTAINER */
- /* 2xl */
- @media (max-width: 1536px) {
 
- }
- 
- /* xl */
- @media (max-width: 1280px) {
- 
- }
- 
- /* lg */
- @media (max-width: 1024px) {
- 
- }
- 
- /* md */
- @media (max-width: 768px) {
- 
- }
- 
- /* sm */
- @media (max-width: 640px) {
- 
- }
- 
- /* xs */
- @media (max-width: 475px) {
- 
- }
- 
- 
-  /* CONTAINER */
- .containers {
-   max-width: 1536px;
-   margin-left: auto;
-   margin-right: auto;
-   padding-left: 0.5rem;
-   padding-right: 0.5rem;
-   /* border: 1px solid black; */
- }
- 
- .section{
-     margin-top: 2.5rem;
-     padding: 2rem 0rem;
- }
  /* 2xl */
- @media (max-width: 1536px) {
-   .containers {
-     max-width: 1280px;
-   }
- }
- 
- /* xl */
- @media (max-width: 1280px) {
-   .containers {
-     max-width: 1024px;
-   }
- }
- 
- /* lg */
- @media (max-width: 1024px) {
-   .containers {
-     max-width: 768px;
-   }
-   .section{
-     margin-top: 2rem;
- }
- }
- 
- /* md */
- @media (max-width: 768px) {
-   .containers {
-     max-width: 640px;
-   }
- }
- 
- /* sm */
- @media (max-width: 640px) {
-   .containers {
-     max-width: 475px;
-   }
- }
- 
- /* xs */
- @media (max-width: 475px) {
-   .containers {
-     width: 100%;
-   }
- }
- 
- /* BUTTON */
- 
-   .yellow_button{
-     background: var(--Light-Yellow);
-     border-radius: 8px;
-     color:white;
-   }
- 
-   .inventory_cat{
-     padding: 0.4rem 0.6rem;
-     border: none;
-     border-radius: 5px;
-     cursor: pointer;
-     transition: background-color 0.3s, color 0.3s;
-     font-weight: 500;
- 
-   }
- 
- 
- /* BUTTON */
- 
- /* COLORS */
- .span-normal{
-   color: var(--normal-fontcolor);
- }
- .span-red{
- color: var(--Maroon);
- }
- .span-yellow{
- color: var(--Yellow);
- }
- .span-green{
-   color: var(--Green);
- }
- .span-lightred{
-   color: var(--Red)
- }
- .span-lightgray{
-   color: var(--light_gray);
- }
- /* COLORS */
- 
- /* letter size */
- .h1_hero{
-   font-size: var(--size-3xl);
- }
- /* letter size */
- 
- 
- /* NURSE UTILS */
- .nurse-container, .nurse-container2{
-   width: 98%;
-   display: grid;
-   gap: 1rem;
-   margin: 0 auto;
- }
- .nurse-container{
-   grid-template-columns: 12rem auto 26rem;
-   /* border: 1px solid black; */
- }
- .nurse-container2{
-  grid-template-columns: 12rem auto;
+@media (max-width: 1536px) {
+
+}
+
+/* xl */
+@media (max-width: 1280px) {
+
+}
+
+/* lg */
+@media (max-width: 1024px) {
+
+}
+
+/* md */
+@media (max-width: 768px) {
+
+}
+
+/* sm */
+@media (max-width: 640px) {
+
+}
+
+/* xs */
+@media (max-width: 475px) {
+
+}
+
+
+ /* CONTAINER */
+.containers {
+  max-width: 1536px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
   /* border: 1px solid black; */
- }
- hr{
-   margin: 0 auto;
-   width: 50%;
- }
- 
- .small-card{
-   width: 19rem;
-   height: 7.25rem;
-   border-radius: 10px;
-   background: white;
-   box-shadow: var(--box-shadow2);
- }
- 
- .green-progress{
-   background-color: hsl(112, 100%, 66%,30%);
-   color: green;
- }
- .red-progress{
-   background-color: hsl(5, 100%, 71%,30%);
-   color: red;
- }
- .green-progress, .red-progress{
-   padding: 4px 0px;
-   width: 4rem;
-   border-radius: 6px;
-   text-align: center;
- }
+}
+
+.section{
+    margin-top: 2.5rem;
+    padding: 2rem 0rem;
+}
+/* 2xl */
+@media (max-width: 1536px) {
+  .containers {
+    max-width: 1280px;
+  }
+}
+
+/* xl */
+@media (max-width: 1280px) {
+  .containers {
+    max-width: 1024px;
+  }
+}
+
+/* lg */
+@media (max-width: 1024px) {
+  .containers {
+    max-width: 768px;
+  }
+  .section{
+    margin-top: 2rem;
+}
+}
+
+/* md */
+@media (max-width: 768px) {
+  .containers {
+    max-width: 640px;
+  }
+}
+
+/* sm */
+@media (max-width: 640px) {
+  .containers {
+    max-width: 475px;
+  }
+}
+
+/* xs */
+@media (max-width: 475px) {
+  .containers {
+    width: 100%;
+  }
+}
+
+/* BUTTON */
+
+  .yellow_button{
+    background: var(--Light-Yellow);
+    border-radius: 8px;
+    color:white;
+  }
+
+  .inventory_cat{
+    padding: 0.4rem 0.6rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    font-weight: 500;
+
+  }
+
+
+/* BUTTON */
+
+/* COLORS */
+.span-normal{
+  color: var(--normal-fontcolor);
+}
+.span-red{
+color: var(--Maroon);
+}
+.span-yellow{
+color: var(--Yellow);
+}
+.span-green{
+  color: var(--Green);
+}
+.span-lightred{
+  color: var(--Red)
+}
+.span-lightgray{
+  color: var(--light_gray);
+}
+/* COLORS */
+
+/* letter size */
+.h1_hero{
+  font-size: var(--size-3xl);
+}
+/* letter size */
+
+
+/* NURSE UTILS */
+.nurse-container, .nurse-container2{
+  width: 96%;
+  display: grid;
+  gap: 1rem;
+  margin: 0 auto;
+  /* border: 1px solid peachpuff; */
+}
+.nurse-container{
+  grid-template-columns: 12rem auto 23rem;
+}
+.nurse-container2{
+ grid-template-columns: 12rem auto;
+ /* border: 1px solid black; */
+}
+hr{
+  margin: 0 auto;
+  width: 50%;
+}
+
+.small-card{
+  width: 19rem;
+  height: 7.25rem;
+  border-radius: 10px;
+  background: white;
+  box-shadow: var(--box-shadow2);
+}
+
+.green-progress{
+  background-color: hsl(112, 100%, 66%,30%);
+  color: green;
+}
+.red-progress{
+  background-color: hsl(5, 100%, 71%,30%);
+  color: red;
+}
+.green-progress, .red-progress{
+  padding: 4px 0px;
+  width: 4rem;
+  border-radius: 6px;
+  text-align: center;
+}

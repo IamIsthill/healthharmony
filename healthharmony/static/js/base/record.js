@@ -1,4 +1,6 @@
-import {Scanner } from 'scanner.js';
+import {
+    Scanner
+} from 'scanner.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     // Your code here
@@ -6,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     medBtn.addEventListener('click', medBtnEvent);
 });
-function medBtnEvent(){
+
+function medBtnEvent() {
     console.log('Hi')
 }

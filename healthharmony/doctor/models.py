@@ -10,4 +10,4 @@ class ModelLog(models.Model):
         return self.model_name
 
     class Meta:
-        ordering = ["update_time"]
+        ordering = ["-update_time"]

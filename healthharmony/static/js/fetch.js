@@ -5,9 +5,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function fetchSectionContent(url, targetId) {
     fetch(url)
-    .then(response => response.text())
-    .then(data => {
-        document.getElementById(targetId).innerHTML = data;
-    })
-    .catch(error => console.error("Error fetching section content:", error));
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById(targetId).innerHTML = data;
+        })
+        .catch(error => console.error("Error fetching section content:", error));
 }

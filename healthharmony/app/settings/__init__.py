@@ -26,6 +26,7 @@ try:
         "allauth.py",
         "email.py",
         "logging.py",
+        "static.py",
         SETTINGS_PATH,
     )
 
