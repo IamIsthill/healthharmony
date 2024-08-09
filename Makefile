@@ -78,3 +78,7 @@ docker-run:
 .PHONY: npm-install
 npm-install:
 	npm install
+
+.PHONY: staff-test
+staff-test:
+	poetry run python -m healthharmony.staff.tests

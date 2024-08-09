@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load tags %}
 {% block title %}Overview | HealthHarmony{% endblock %}
 {% block header %}
     <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
@@ -14,6 +15,11 @@
           rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
           rel="stylesheet" />
+{% endblock %}
+{% block message %}
+    {% if messages|has_error_message %}
+        {% include 'error.html' %}
+    {% endif %}
 {% endblock %}
 {% block main %}
     <div class="nurse-container">
