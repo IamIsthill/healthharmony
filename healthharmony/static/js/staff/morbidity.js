@@ -66,9 +66,35 @@ export function createMorbidityChart(labels, counts, categoryName, createChart) 
         }]
     }
     const chartOptions = {
+        plugins: {
+            legend: {
+                labels: {
+                    font: {
+                        family: 'Poppins', // Your custom font family
+                        size: 14, // Font size
+                        weight: 'normal', // Font weight
+                        style: 'normal' // Font style
+                    }
+                }
+            }
+        },
         scales: {
+            x: {
+                grid: {
+                    display: false // This removes the grid lines on the x-axis
+                },
+                ticks: {
+                    font: {
+                        family: 'Arial', // Web-safe font
+                        size: 10,
+                        weight: 'bold',
+                        style: 'normal'
+                    }
+                }
+            },
             y: {
-                beginAtZero: true // Ensure y-axis starts from 0
+                beginAtZero: true, // Ensure y-axis starts from 0
+                display: false
             }
         }
     }

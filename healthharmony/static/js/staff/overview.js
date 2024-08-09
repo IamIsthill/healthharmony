@@ -431,9 +431,11 @@ function listenToCategoryFilterBtns() {
         btn.addEventListener('click', () => {
             for (const btn of categoryFilterBtns) {
                 btn.classList.remove('active-category-filter')
+                btn.classList.remove('active-cat')
             }
 
             btn.classList.add('active-category-filter')
+            btn.classList.add('active-cat')
 
             getParamsThenCreateMorbidityChart(getCountsAndLabelsForChart, categoryData, createChart)
         })
@@ -455,8 +457,10 @@ function listenToDepartmentsFilterBtns() {
         btn.addEventListener('click', () => {
             for (const btn of departmentFilterBtns) {
                 btn.classList.remove('active-department-filter')
+                btn.classList.remove('active-pat')
             }
             btn.classList.add('active-department-filter')
+            btn.classList.add('active-pat')
             getParamsThenCreateDepartmentChart(departments, departmentData, getCountsAndLabelsForChart, createChart)
         })
     }
@@ -473,4 +477,8 @@ function listenToDepartmentSelector() {
             getParamsThenCreateDepartmentChart(departments, departmentData, getCountsAndLabelsForChart, createChart)
         })
     }
+}
+
+function listenToCategoryBarFilters() {
+
 }
