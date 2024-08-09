@@ -14,7 +14,6 @@ aside{
     /* border: 1px solid peachpuff; */
     height: 100%;
     flex-direction: column;
-    background: white;
     top: 20%;
     left: 1%;
     transition: all 0.3s ease;
@@ -38,7 +37,6 @@ aside{
 
 .sidebar a.active{
     width: 100%;
-    background-color: white;
     margin-left: 0;
 }
 .sidebar a.active span, a.active svg path{
@@ -86,7 +84,6 @@ aside{
     font-weight: 500;
     font-size: var(--size-base);
     margin-right: 0.2rem;
-    line-height: 1;
 }
 .profile-info span{
     opacity: 75%;
@@ -115,4 +112,20 @@ aside{
 }
 .logout-container:hover span{
     color: white;
+}
+.nav-top{
+    background: var(--Background-color);
+    position: sticky;
+    top:0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;  
+    height: 5rem;
+    width: 100%;
+    padding: 0 1rem;
+}
+.nav-top h2{
+    margin-left: 13rem;
+    font-weight: 600;
+    color: var(--normal-fontcolor);
 }

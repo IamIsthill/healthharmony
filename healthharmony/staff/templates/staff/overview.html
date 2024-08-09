@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
     <link rel="stylesheet" href="{% static 'css/clinic/overview-main.css' %}" />
     <link rel="stylesheet" href="{% static 'css/clinic/overview-graph.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/clinic/right-part.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/clinic/overview-right-part.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <!-- <link rel="stylesheet" href="{% static 'css/clinic/overview.css' %}" /> -->
     <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
@@ -60,6 +60,7 @@
     {% endif %}
 {% endblock %}
 {% block main %}
+{% include 'staff/nav-top.html' %}
     <div class="nurse-container">
         {% include 'staff/navbar.html' %}
         <!-- MAIN CONTENT -->
