@@ -397,14 +397,20 @@
 //   })
 // })
 import {
-    getParamsThenCreateMorbidityChart
+    getParamsThenCreateMorbidityChart,
+    createMorbidityBarCanvas,
+    selectEachMorbidityBarThenCreateBars
 } from '/static/js/staff/morbidity.js'
 import {
-    getParamsThenCreateDepartmentChart
+    getParamsThenCreateDepartmentChart,
+    createDepartmentBarCanvas,
+    selectEachDepartmentBarThenCreateBars
 } from '/static/js/staff/department.js'
 import {
     getCountsAndLabelsForChart,
-    createChart
+    createChart,
+    getBarCounts,
+    createBars
 } from '/static/js/utils.js'
 const categoryData = JSON.parse(document.getElementById('categoryS').textContent)
 const departmentData = JSON.parse(document.getElementById('sorted-department').textContent)
@@ -420,6 +426,15 @@ function main() {
     listenToDepartmentsFilterBtns()
     listenToDepartmentSelector()
     getParamsThenCreateDepartmentChart(departments, departmentData, getCountsAndLabelsForChart, createChart)
+
+    listenToCategoryBarFilters()
+    createMorbidityBarCanvas(getBarCounts(categoryData['yearly']))
+    selectEachMorbidityBarThenCreateBars(getBarCounts(categoryData['yearly']), createBars)
+
+    listenToDepartmentBarFilters()
+    createDepartmentBarCanvas(getBarCounts(departmentData['yearly']))
+    selectEachDepartmentBarThenCreateBars(getBarCounts(categoryData['yearly']), createBars)
+
 }
 
 
@@ -480,5 +495,29 @@ function listenToDepartmentSelector() {
 }
 
 function listenToCategoryBarFilters() {
+    const categoryBarBtns = document.querySelectorAll('.js-category-bar-btn')
+    for (const btn of categoryBarBtns) {
+        btn.addEventListener('click', () => {
+            for (const btn of categoryBarBtns) {
+                btn.classList.remove('js-category-bar-filter-btn')
+            }
+            btn.classList.add('js-category-bar-filter-btn')
+            const filter = btn.getAttribute('data-category-data')
+            selectEachMorbidityBarThenCreateBars(getBarCounts(categoryData[filter]), createBars)
+        })
+    }
+}
 
+function listenToDepartmentBarFilters() {
+    const departmentBarBtns = document.querySelectorAll('.js-department-bar-btn')
+    for (const btn of departmentBarBtns) {
+        btn.addEventListener('click', () => {
+            for (const btn of departmentBarBtns) {
+                btn.classList.remove('js-department-bar-filter-btn')
+            }
+            btn.classList.add('js-department-bar-filter-btn')
+            const filter = btn.getAttribute('data-category-data')
+            selectEachDepartmentBarThenCreateBars(getBarCounts(categoryData[filter]), createBars)
+        })
+    }
 }

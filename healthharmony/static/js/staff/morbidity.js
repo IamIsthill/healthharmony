@@ -101,3 +101,32 @@ export function createMorbidityChart(labels, counts, categoryName, createChart) 
 
     createChart(ctx, chartType, chartData, chartOptions)
 }
+
+
+export function createMorbidityBarCanvas(categories) {
+    const morbidityBarSpace = document.getElementById('morbidityBars')
+    let html = ''
+    for (const category of categories) {
+        html += `
+            <div>
+                <h5>${category.name}</h5>
+                <h2>${category.count}</h2>
+                <div class="bars">
+                    <canvas id="category-bar-${category.id}"></canvas>
+                </div>
+            </div>
+        `
+    }
+    morbidityBarSpace.innerHTML = html
+}
+
+export function selectEachMorbidityBarThenCreateBars(categories, createBars) {
+    let maxCount = 0
+    for (const category of categories) {
+        maxCount += category.count
+    }
+    for (const category of categories) {
+        const morbidityBar = document.getElementById(`category-bar-${category.id}`)
+        createBars(morbidityBar, maxCount, category.count)
+    }
+}

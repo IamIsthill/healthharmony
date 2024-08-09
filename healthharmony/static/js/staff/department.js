@@ -69,3 +69,31 @@ export function createDepartmentChart(labels, counts, department, createChart) {
 
     createChart(ctx, chartType, chartData, chartOptions)
 }
+
+export function createDepartmentBarCanvas(departments) {
+    const departmentBarSpace = document.getElementById('departmentBars')
+    let html = ''
+    for (const department of departments) {
+        html += `
+            <div>
+                <h5>${department.name}</h5>
+                <h2>${department.count}</h2>
+                <div class="bars">
+                    <canvas id="department-bar-${department.id}"></canvas>
+                </div>
+            </div>
+        `
+    }
+    departmentBarSpace.innerHTML = html
+}
+
+export function selectEachDepartmentBarThenCreateBars(departments, createBars) {
+    let maxCount = 0
+    for (const department of departments) {
+        maxCount += department.count
+    }
+    for (const department of departments) {
+        const departmentBar = document.getElementById(`department-bar-${department.id}`)
+        createBars(departmentBar, maxCount, department.count)
+    }
+}
