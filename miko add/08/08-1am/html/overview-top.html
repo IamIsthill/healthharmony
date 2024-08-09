@@ -14,16 +14,30 @@
             <span>Today Patients</span>
             <div class="info-bottom">
                 <h1>{{ today_patient }}</h1>
-                <div class="green-progress">+18.0%</div>
+                {% if patient_percent != 0 %}
+                    <div class="green-progress">+{{ patient_percent }}%</div>
+                {% endif %}
             </div>
         </div>
+<<<<<<< HEAD
+        <div class="today-patient small-card">
+            <div class="info">
+                <span>Monthly Med Cert Issued</span>
+                <div class="info-bottom">
+                    <h1>{{ monthly_medcert }}</h1>
+                    <div class="red-progress">-1.0%</div>
+                </div>
+=======
     </div>
     <div class="today-patient small-card">
         <div class="info">
             <span>Monthly Med Cert Issued</span>
             <div class="info-bottom">
                 <h1>{{ monthly_medcert }}</h1>
-                <div class="green-progress">+18.0%</div>
+                {% if medcert_percent != 0 %}
+                    <div class="green-progress">+{{ medcert_percent }}%</div>
+                {% endif %}
+>>>>>>> main
             </div>
         </div>
     </div>
