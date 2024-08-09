@@ -3,7 +3,7 @@
         <div class="top-chart">
             <h4>Morbidity Cases</h4>
             <div class="date-buttons">
-                <button class="categoryDateFilter active-category-filter active-cat cat-button"
+                <button class="categoryDateFilter cat-button active-category-filter active-cat"
                         data-category-data="yearly">Past 12 Months</button>
                 <button class="categoryDateFilter cat-button" data-category-data="monthly">Past 30 days</button>
                 <button class="categoryDateFilter cat-button" data-category-data="weekly">Past 7 days</button>
@@ -19,7 +19,7 @@
             {% for category in categories %}<option value="{{ category.id }}">{{ category }}</option>{% endfor %}
         </select>
     </div>
-    <!--                 <div>
+    <!--                   <div>
         <h4>Morbidity Cases</h4>
         <div>
             <button class="categoryBarFilter" data-category-data="yearly">Past 12 Months</button>
@@ -58,12 +58,12 @@
             <button class="departmentBarFilter" data-category-data="weekly">Past 7 days</button>
         </div>
         <div id="departmentBars"></div>
-    </div>                 -->
+    </div>                   -->
     <div class="morbidity-chart">
         <div class="top-chart">
             <h4>Patient Report</h4>
             <div class="date-buttons">
-                <button class="departmentDateFilter active-pat active-department-filter cat-button"
+                <button class="departmentDateFilter active-pat cat-button active-department-filter"
                         data-patient-data="yearly">12 Months</button>
                 <button class="departmentDateFilter cat-button" data-patient-data="monthly">30 days</button>
                 <button class="departmentDateFilter cat-button" data-patient-data="weekly">7 days</button>
