@@ -1,32 +1,34 @@
 from django.shortcuts import render, redirect
-from healthharmony.users.models import User, Department
-from healthharmony.staff.forms import PatientForm
 import secrets
 import string
-from healthharmony.treatment.models import Illness, Certificate, Category
-from healthharmony.inventory.models import InventoryDetail, QuantityHistory
-from healthharmony.administrator.models import Log, DataChangeLog
-from healthharmony.bed.models import BedStat
+from django.db.models import Count
 from django.db.models import Sum, F, Value
 from django.db.models.functions import Coalesce
 from django.utils import timezone
 from datetime import timedelta
 from django.contrib import messages
-import json
 from collections import defaultdict
 from dateutil.relativedelta import relativedelta
 from django.core.mail import EmailMessage
 import environ
-from healthharmony.base.functions import check_models
+import logging
 
+from healthharmony.bed.models import BedStat
+from healthharmony.users.models import User, Department
+from healthharmony.administrator.models import Log, DataChangeLog
+from healthharmony.treatment.models import Illness, Certificate, Category
+from healthharmony.inventory.models import InventoryDetail, QuantityHistory
+from healthharmony.base.functions import check_models
 from healthharmony.staff.functions import (
     get_sorted_category,
     get_sorted_department,
     get_departments,
 )
+from healthharmony.staff.forms import PatientForm
 
 env = environ.Env()
 environ.Env.read_env(env_file="healthharmony/.env")
+logger = logging.getLogger(__name__)
 
 
 def generate_password(length=12):
@@ -63,157 +65,88 @@ def overview(request):
     check_models()
     access_checker(request)
     now = timezone.now()
-    start_date = (now - timedelta(days=365)).replace(day=1)
-    today_patient = Illness.objects.filter(updated__date=now.date()).count()
-    total_patient = Illness.objects.all().count()
-    monthly_medcert = Certificate.objects.filter(
-        requested__month=now.month, requested__year=now.year, released=True
-    ).count()
-    categories = Category.objects.all()
-    category_data = defaultdict(lambda: defaultdict(int))
-    category_data["categories"] = json.dumps(list(categories.values("id", "category")))
-    departments = Department.objects.all()
-    departments_names = Department.objects.all().values("id", "department")
-    department_data = defaultdict(lambda: defaultdict(int))
-
-    for department in departments:
-        year_cases = []
-        department_data["yearly_count"][department.id] = 0
-        department_data["monthly_count"][department.id] = 0
-        department_data["weekly_count"][department.id] = 0
-        for month_offset in range(13):
-            current_month = start_date + relativedelta(months=month_offset)
-            next_month = current_month + relativedelta(months=1)
-            if month_offset == 12:
-                patient_count = User.objects.filter(
-                    department=department,
-                    date_joined__gte=current_month,
-                    date_joined__lte=now,
-                ).count()
-            else:
-                patient_count = User.objects.filter(
-                    department=department,
-                    date_joined__gte=current_month,
-                    date_joined__lt=next_month,
-                ).count()
-            year_cases.append((current_month.strftime("%B"), patient_count))
-            department_data["yearly"][department.id] = json.dumps(year_cases)
-            department_data["yearly_count"][department.id] += patient_count
-
-        five_days_count = []
-        last30days = now - timedelta(days=30)
-        for five_offset in range(6):
-            current_day = last30days + timedelta(days=five_offset * 5)
-            next_five = current_day + timedelta(days=5)
-            patient_count = User.objects.filter(
-                department=department,
-                date_joined__gte=current_day,
-                date_joined__lt=next_five,
+    previous_day = now - relativedelta(days=1)
+    previous_month = now - relativedelta(months=1)
+    context = {}
+    try:
+        today_patient = (
+            User.objects.filter(patient_illness__updated__date=now.date())
+            .distinct()
+            .count()
+            or 0
+        )
+        total_patient = (
+            User.objects.annotate(illness_count=Count("patient_illness"))
+            .filter(illness_count__gt=0)
+            .count()
+            or 0
+        )
+        previous_patients = (
+            User.objects.filter(patient_illness__updated__date=previous_day.date())
+            .distinct()
+            .count()
+            or 0
+        )
+        if previous_patients == 0:
+            patient_percent = 0.00
+        else:
+            patient_percent = today_patient / previous_patients * 100
+            patient_percent = round(patient_percent, 2)
+        monthly_medcert = (
+            Certificate.objects.filter(
+                requested__month=now.month, requested__year=now.year, released=True
             ).count()
-            five_days_count.append((current_day.strftime("%B %d"), patient_count))
-            department_data["monthly"][department.id] = json.dumps(five_days_count)
-            department_data["monthly_count"][department.id] += patient_count
-
-        weekly_count = []
-        week = now - timedelta(days=6)
-        for day_offset in range(7):
-            current_day = week + timedelta(days=day_offset * 1)
-            start_of_day = current_day.replace(
-                hour=0, minute=0, second=0, microsecond=0
-            )
-            end_of_day = current_day.replace(
-                hour=23, minute=59, second=59, microsecond=999999
-            )
-            patient_count = User.objects.filter(
-                department=department,
-                date_joined__gte=start_of_day,
-                date_joined__lte=end_of_day,
+            or 0
+        )
+        previous_medcert = (
+            Certificate.objects.filter(
+                requested__month=previous_month.month,
+                requested__year=previous_month.year,
+                released=True,
             ).count()
-            weekly_count.append((current_day.strftime("%A, %d"), patient_count))
-            department_data["weekly"][department.id] = json.dumps(weekly_count)
-            department_data["weekly_count"][department.id] += patient_count
+            or 0
+        )
 
-    # category_counts = []
+        if previous_medcert == 0:
+            medcert_percent = 0.00
+        else:
+            medcert_percent = monthly_medcert / previous_medcert * 100
+            medcert_percent = round(medcert_percent, 2)
 
-    for category in categories:
-        month_cases = []
-        category_data["yearly_count"][category.id] = 0
-        category_data["monthly_count"][category.id] = 0
-        category_data["weekly_count"][category.id] = 0
-
-        for month_offset in range(13):  # 13 months to include the current month
-            current_month = start_date + relativedelta(months=month_offset)
-            next_month = current_month + relativedelta(months=1)
-            if month_offset == 12:
-                illness_count = Illness.objects.filter(
-                    illness_category=category,
-                    updated__gte=current_month,
-                    updated__lte=now,
-                ).count()
-            else:
-                illness_count = Illness.objects.filter(
-                    illness_category=category,
-                    updated__gte=current_month,
-                    updated__lt=next_month,
-                ).count()
-            month_cases.append((current_month.strftime("%B"), illness_count))
-            category_data["yearly"][category.id] = json.dumps(month_cases)
-            category_data["yearly_count"][category.id] += illness_count
-
-        five_days_count = []
-        last30days = now - timedelta(days=30)
-        for five_offset in range(6):
-            current_day = last30days + timedelta(days=five_offset * 5)
-            next_five = current_day + timedelta(days=5)
-            illness_count = Illness.objects.filter(
-                illness_category=category,
-                updated__gte=current_day,
-                updated__lt=next_five,
-            ).count()
-            five_days_count.append((current_day.strftime("%B %d"), illness_count))
-            category_data["monthly"][category.id] = json.dumps(five_days_count)
-            category_data["monthly_count"][category.id] += illness_count
-
-        weekly_count = []
-        week = now - timedelta(days=6)
-        for day_offset in range(7):
-            current_day = week + timedelta(days=day_offset * 1)
-            start_of_day = current_day.replace(
-                hour=0, minute=0, second=0, microsecond=0
-            )
-            end_of_day = current_day.replace(
-                hour=23, minute=59, second=59, microsecond=999999
-            )
-            illness_count = Illness.objects.filter(
-                illness_category=category,
-                updated__gte=start_of_day,
-                updated__lte=end_of_day,
-            ).count()
-            weekly_count.append((current_day.strftime("%A, %d"), illness_count))
-            category_data["weekly"][category.id] = json.dumps(weekly_count)
-            category_data["weekly_count"][category.id] += illness_count
+        categories = Category.objects.all()
+        context.update(
+            {
+                "today_patient": today_patient,
+                "monthly_medcert": monthly_medcert,
+                "categories": categories,
+                "total_patient": total_patient,
+                "patient_percent": patient_percent,
+                "medcert_percent": medcert_percent,
+            }
+        )
+    except Exception as e:
+        logger.error(f"Error in staff/overview: {str(e)}")
+        messages.error(
+            request, "Facing problems connecting to server. Please reload page."
+        )
 
     request, sorted_category = get_sorted_category(request)
     request, sorted_department = get_sorted_department(request)
     request, department_names = get_departments(request)
+
     department_names = [
         {"id": department.id, "department": department.department}
         for department in department_names
     ]
 
-    context = {
-        "page": "overview",
-        "today_patient": today_patient,
-        "monthly_medcert": monthly_medcert,
-        "categories": categories,
-        "category_data": category_data,
-        "total_patient": total_patient,
-        "department_data": department_data,
-        "departments": list(departments_names),
-        "sorted_category": sorted_category,
-        "sorted_department": sorted_department,
-        "department_names": department_names,
-    }
+    context.update(
+        {
+            "page": "overview",
+            "sorted_category": sorted_category,
+            "sorted_department": sorted_department,
+            "department_names": department_names,
+        }
+    )
     return render(request, "staff/overview.html", context)
 
 
