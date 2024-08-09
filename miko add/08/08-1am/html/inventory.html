@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Inventory | HealthHarmony{% endblock %}
+{% block header %}
+    <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/clinic/inventory-main.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
+          rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+          rel="stylesheet" />
+{% endblock %}
+{% block main %}
+    <div class="nurse-container">
+        {% include 'staff/navbar.html' %}
+        <main class="staff-main">
+            <h2>Inventory</h2>
+            <div class="inventory">
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="5">
+                                <div class="header-content">
+                                    <h1>Inventory Overview</h1>
+                                        <div class="search-container">
+                                            <input type="text" id="search-field" placeholder="Search..." />
+                                            <button class="search-btn"><span class="material-symbols-outlined">
+                                                search
+                                                </span></button>
+                                        </div>
+                                    <div class="sort-by">
+                                        <span>Sort By:</span>
+                                        <select id="inventory-sort-select">
+                                            <option value="name">Name</option>
+                                            <option value="date">Expiry Date</option>
+                                            <option value="stock">Stock</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="5">
+                                <div class="header-content">
+                                    <div class="category-buttons">
+                                        <button class="inventory_cat active inventory-category inventory-category">All</button>
+                                        <button class="inventory_cat inventory-category">Medication</button>
+                                        <button class="inventory_cat inventory-category">Supply</button>
+                                    </div>
+                                    <button id="add-inventory" class="add-inventory"> <span class="material-symbols-outlined">
+                                        add
+                                        </span> Item </button>
+                                </div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th class="table-head">Name</th>
+                            <th class="table-head">Category</th>
+                            <th class="table-head">Stock</th>
+                            <th class="table-head">Expiration Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventory-body">
+                        {% for data in inventory %}
+                            <tr>
+                                <td class="table-data">{{ data.item_name }}</td>
+                                <td class="table-data">{{ data.category }}</td>
+                                <td class="table-data">{{ data.total_quantity }}</td>
+                                <td class="table-data">{{ data.expiration_date }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="graphs">
+                
+                    <div class="left">
+                        <div class="header">
+                            <h4>Seasonal Trends</h4>
+                            <div>
+                                <button class="seasonal-filter">12 Months</button>
+                                <button class="seasonal-filter">30 Days</button>
+                                <button class="seasonal-filter">7 Days</button>
+                            </div>
+                        </div>
+                        <div class="seasonal-graph">
+                            <div>
+                                <canvas id="seasonal-canvas"></canvas>
+                            </div>
+                        </div>
+                        <div>
+                            <button class="seasonal-category">Medicine</button>
+                            <button class="seasonal-category">Supply</button>
+                        </div>
+                    </div>
+                
+            </div>
+        </main>
+        {% include 'staff/inventory-right.html' %}
+    </div>
+    <div id="inventory-modal" class="modal">
+         
+         <!-- Modal content -->
+        <div class="modal-content">
+            <h1>Add New Item</h1>
+            <span class="material-symbols-outlined close">
+                cancel
+                </span>
+            <form action="{% url 'staff-inventory-add' %}" method="post">
+                {% csrf_token %}
+                <div class="form-top">
+                        <label for="item_name">Item Name</label>
+                        <input type="text" placeholder="name.." name="item_name" required />
+                </div>
+                <div class="form-middle">
+                   <div class="form-group">
+                        <label for="item_no">Item Number</label>
+                        <input type="number" placeholder="#" name="item_no" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="unit">Unit Type</label>
+                        <input type="text" placeholder="unit type.." name="unit" required />
+                    </div>
+                </div>
+                <div class="form-bottom">
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select name="category" required>
+                            <option value="Medicine">Medicine</option>
+                            <option value="Supply">Supply</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="expiration_date">Expiration Date</label>
+                        <input type="date" name="expiration_date" />
+                    </div>
+                </div>
+                <div class="form-last">
+                    
+                        <label for="description">Item Description</label>
+                        <input type="search" placeholder="description.." name="description" required />
+                    
+                </div>
+                <div class="form-buttons">
+                    <button type="submit" class="add-btn">Add</button>
+                    <button type="button" class="cancel-btn">Cancel</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    {% include 'staff/inventory-script.html' %}
+{% endblock %}
