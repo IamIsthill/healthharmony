@@ -113,6 +113,8 @@ def overview(request):
             medcert_percent = monthly_medcert / previous_medcert * 100
             medcert_percent = round(medcert_percent, 2)
 
+        patients = User.objects.filter(access=1)
+
         categories = Category.objects.all()
         context.update(
             {
@@ -122,6 +124,7 @@ def overview(request):
                 "total_patient": total_patient,
                 "patient_percent": patient_percent,
                 "medcert_percent": medcert_percent,
+                "patients": patients,
             }
         )
     except Exception as e:
@@ -398,6 +401,8 @@ def create_patient_add_issue(request):
                 password = generate_password()
                 patient.set_password(password)
                 patient.save()
+                logger.info(f"Created new user {patient.email} with id [{patient.id}]")
+
                 Log.objects.create(
                     user=request.user,
                     action=f"Created new user {patient.email} with id [{patient.id}]",
@@ -411,9 +416,17 @@ def create_patient_add_issue(request):
                 email = EmailMessage(subject, body, from_email, recipient_list)
                 email.content_subtype = "html"
                 email.send()
+                logger.info(f"Email was sent to: {patient.email}")
+            else:
+                logger.info(f"User {patient.email} already exists.")
+
             visit = Illness.objects.create(
                 patient=patient, issue=request.POST.get("issue")
             )
+            logger.info(
+                f"Created new illness record for patient {patient.email} with id [{visit.id}]"
+            )
+
             DataChangeLog.objects.create(
                 table="Illness",
                 record_id=visit.id,
@@ -421,10 +434,12 @@ def create_patient_add_issue(request):
                 new_value=visit.__str__(),
                 changed_by=request.user,
             )
+            logger.info(f"Logged data change for illness record id [{visit.id}]")
 
-        except Exception:
+        except Exception as e:
             messages.error(request, "System faced some error")
-        return redirect("staff-records")
+            logger.error(f"Error occurred while creating patient or issue: {str(e)}")
+    return redirect(request.META.get("HTTP_REFERER", "staff-records"))
 
 
 def access_checker(request):
