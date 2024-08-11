@@ -59,3 +59,24 @@ export function createBars(bar, maxCount, value) {
     ctx.fillRect(0, 0, width, parseInt(canvas.height))
     console.log('Canvas width:', canvas.width, 'Canvas height:', canvas.height);
 }
+
+export function getActiveFilter(filterClassName, sorterName) {
+    const activeFilterBtn = document.querySelector(`.${filterClassName}`)
+    const filter = activeFilterBtn.getAttribute(sorterName)
+    return filter
+}
+
+export function openModal(modal) {
+    modal.style.display = "block";
+}
+
+export function closeModal(modal, btn) {
+    btn.addEventListener('click', () => {
+        modal.style.display = "none";
+    })
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+}

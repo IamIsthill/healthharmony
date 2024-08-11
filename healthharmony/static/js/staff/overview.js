@@ -12,7 +12,9 @@ import {
     getCountsAndLabelsForChart,
     createChart,
     getBarCounts,
-    createBars
+    createBars,
+    openModal,
+    closeModal
 } from '/static/js/utils.js'
 const categoryData = JSON.parse(document.getElementById('categoryS').textContent)
 const departmentData = JSON.parse(document.getElementById('sorted-department').textContent)
@@ -131,23 +133,8 @@ function listenToAddVisitBtn() {
     const addVisitBtn = document.querySelector('.js-add-visit-btn')
     addVisitBtn.addEventListener('click', () => {
         const addVisitModal = document.getElementById('js-add-visit-modal')
+        const closeVisitModalBtn = document.querySelector('.js-close-add-visit-modal-btn')
         openModal(addVisitModal)
-        closeModal(addVisitModal)
+        closeModal(addVisitModal, closeVisitModalBtn)
     })
-}
-
-function openModal(modal) {
-    modal.style.display = "block";
-}
-
-function closeModal(modal) {
-    const closeVisitModalBtn = document.querySelector('.js-close-add-visit-modal-btn')
-    closeVisitModalBtn.addEventListener('click', () => {
-        modal.style.display = "none";
-    })
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
 }

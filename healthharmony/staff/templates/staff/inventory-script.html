@@ -1,10 +1,14 @@
+{% load static %}
 {% if inventory %}{{ inventory|json_script:'inventory-data' }}{% endif %}
 {% if inventory_data %}{{ inventory_data|json_script:'inventory-counts' }}{% endif %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
+{{ sorted_inventory|json_script:'sorted-inventory' }}
+<script src="{% static 'chart.js/dist/chart.umd.js' %}"></script>
+<script src="{% static "js/staff/inventory.js" %}" type="module"></script>
+<script>/*
     // Inventory category
 let inventoryFilter = 'all'
 let inventoryData = JSON.parse(document.getElementById('inventory-data').textContent)
+console.log(inventoryData)
 let filteredData = [...inventoryData]
 const inventoryCategoryBtns = document.querySelectorAll('.inventory-category')
 inventoryCategoryBtns.forEach((btn) => {
@@ -461,4 +465,5 @@ window.onclick = function(event) {
 }
 
 //==========================================
+*/
 </script>

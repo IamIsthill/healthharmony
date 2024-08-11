@@ -2,9 +2,13 @@ from django.contrib import messages
 from django.utils import timezone
 from datetime import timedelta
 from dateutil.relativedelta import relativedelta
+from collections import defaultdict
+from django.db.models import Sum
 import logging
+import json
 
 from healthharmony.treatment.models import Category, Illness
+from healthharmony.inventory.models import InventoryDetail
 from healthharmony.users.models import Department, User
 
 
@@ -473,3 +477,46 @@ def get_sorted_department(request):
     )
 
     return request, department_data
+
+
+def get_inventory(request):
+    inventory = None
+    try:
+        inventory = (
+            InventoryDetail.objects.all()
+            .annotate(total_quantity=Sum("quantities__updated_quantity"))
+            .values("id", "item_name", "category", "expiration_date", "total_quantity")
+        )
+
+    except Exception as e:
+        messages.error(
+            request, "Failure to connect to the server. Please reload the page"
+        )
+        logger.error(f"Faild to fetch the inventory data: {str(e)}")
+
+    return request, inventory
+
+
+def get_sorted_inventory_list(request):
+    inventory = None
+    try:
+        inventory = (
+            InventoryDetail.objects.all()
+            .annotate(total_quantity=Sum("quantities__updated_quantity"))
+            .values("id", "total_quantity", "item_name", "category", "expiration_date")
+        )
+
+        for data in inventory:
+            if data["total_quantity"] is None:
+                data["total_quantity"] = 0
+            data["expiration_date"] = data["expiration_date"].isoformat()
+            if data["category"] == "Medicine":
+                data["sorter"] = 1
+            if data["category"] == "Supply":
+                data["sorter"] = 2
+
+    except Exception as e:
+        logger.error(f"Failed to fetch sorted inventory list: {str(e)}")
+        messages.error(request, "Requested data not fetched. Please reload page")
+
+    return request, list(inventory)

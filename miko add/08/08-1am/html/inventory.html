@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="{% static 'css/clinic/inventory-main.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
-
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
           rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
@@ -25,12 +24,12 @@
                             <th colspan="5">
                                 <div class="header-content">
                                     <h1>Inventory Overview</h1>
-                                        <div class="search-container">
-                                            <input type="text" id="search-field" placeholder="Search..." />
-                                            <button class="search-btn"><span class="material-symbols-outlined">
-                                                search
-                                                </span></button>
-                                        </div>
+                                    <div class="search-container">
+                                        <input type="text" id="search-field" placeholder="Search..." />
+                                        <button class="search-btn">
+                                            <span class="material-symbols-outlined">search</span>
+                                        </button>
+                                    </div>
                                     <div class="sort-by">
                                         <span>Sort By:</span>
                                         <select id="inventory-sort-select">
@@ -50,9 +49,9 @@
                                         <button class="inventory_cat inventory-category">Medication</button>
                                         <button class="inventory_cat inventory-category">Supply</button>
                                     </div>
-                                    <button id="add-inventory" class="add-inventory"> <span class="material-symbols-outlined">
-                                        add
-                                        </span> Item </button>
+                                    <button id="add-inventory" class="add-inventory">
+                                        <span class="material-symbols-outlined">add</span> Item
+                                    </button>
                                 </div>
                             </th>
                         </tr>
@@ -75,49 +74,43 @@
                     </tbody>
                 </table>
             </div>
-
             <div class="graphs">
-                
-                    <div class="left">
-                        <div class="header">
-                            <h4>Seasonal Trends</h4>
-                            <div>
-                                <button class="seasonal-filter">12 Months</button>
-                                <button class="seasonal-filter">30 Days</button>
-                                <button class="seasonal-filter">7 Days</button>
-                            </div>
-                        </div>
-                        <div class="seasonal-graph">
-                            <div>
-                                <canvas id="seasonal-canvas"></canvas>
-                            </div>
-                        </div>
+                <div class="left">
+                    <div class="header">
+                        <h4>Seasonal Trends</h4>
                         <div>
-                            <button class="seasonal-category">Medicine</button>
-                            <button class="seasonal-category">Supply</button>
+                            <button class="seasonal-filter">12 Months</button>
+                            <button class="seasonal-filter">30 Days</button>
+                            <button class="seasonal-filter">7 Days</button>
                         </div>
                     </div>
-                
+                    <div class="seasonal-graph">
+                        <div>
+                            <canvas id="seasonal-canvas"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="seasonal-category">Medicine</button>
+                        <button class="seasonal-category">Supply</button>
+                    </div>
+                </div>
             </div>
         </main>
         {% include 'staff/inventory-right.html' %}
     </div>
     <div id="inventory-modal" class="modal">
-         
-         <!-- Modal content -->
+        <!-- Modal content -->
         <div class="modal-content">
             <h1>Add New Item</h1>
-            <span class="material-symbols-outlined close">
-                cancel
-                </span>
+            <span class="material-symbols-outlined close">cancel</span>
             <form action="{% url 'staff-inventory-add' %}" method="post">
                 {% csrf_token %}
                 <div class="form-top">
-                        <label for="item_name">Item Name</label>
-                        <input type="text" placeholder="name.." name="item_name" required />
+                    <label for="item_name">Item Name</label>
+                    <input type="text" placeholder="name.." name="item_name" required />
                 </div>
                 <div class="form-middle">
-                   <div class="form-group">
+                    <div class="form-group">
                         <label for="item_no">Item Number</label>
                         <input type="number" placeholder="#" name="item_no" required />
                     </div>
@@ -140,16 +133,13 @@
                     </div>
                 </div>
                 <div class="form-last">
-                    
-                        <label for="description">Item Description</label>
-                        <input type="search" placeholder="description.." name="description" required />
-                    
+                    <label for="description">Item Description</label>
+                    <input type="search" placeholder="description.." name="description" required />
                 </div>
                 <div class="form-buttons">
                     <button type="submit" class="add-btn">Add</button>
                     <button type="button" class="cancel-btn">Cancel</button>
                 </div>
-
             </form>
         </div>
     </div>

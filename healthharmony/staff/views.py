@@ -23,6 +23,7 @@ from healthharmony.staff.functions import (
     get_sorted_category,
     get_sorted_department,
     get_departments,
+    get_sorted_inventory_list,
 )
 from healthharmony.staff.forms import PatientForm
 
@@ -319,11 +320,14 @@ def inventory(request):
 
     inventory_list = list(inventory)
 
+    request, sorted_inventory = get_sorted_inventory_list(request)
+
     context = {
         "page": "inventory",
         "inventory": inventory_list,
         "counts": counts,
         "inventory_data": dict(inventory_data),
+        "sorted_inventory": sorted_inventory,
     }
     return render(request, "staff/inventory.html", context)
 
