@@ -24,6 +24,7 @@ from healthharmony.staff.functions import (
     get_sorted_department,
     get_departments,
     get_sorted_inventory_list,
+    get_counted_inventory,
 )
 from healthharmony.staff.forms import PatientForm, AddInventoryForm
 
@@ -172,11 +173,19 @@ def add_issue(request):
 
 def inventory(request):
     access_checker(request)
+    try:
+        inventory = InventoryDetail.objects.all().values("id", "item_name", "category")
+    except Exception as e:
+        logger.error(f"Failed to fetch inventory data: {str(e)}")
+        messages.error(request, "Failed to fetched inventory data. Please reload page.")
     request, sorted_inventory = get_sorted_inventory_list(request)
+    request, counted_inventory = get_counted_inventory(request)
 
     context = {
         "page": "inventory",
+        "inventory": list(inventory),
         "sorted_inventory": sorted_inventory,
+        "counted_inventory": counted_inventory,
     }
     return render(request, "staff/inventory.html", context)
 

@@ -1,7 +1,8 @@
 import {
     getActiveFilter,
     openModal,
-    closeModal
+    closeModal,
+    createChart
 } from '/static/js/utils.js'
 import {
     compareItemNames,
@@ -10,18 +11,140 @@ import {
     getInitParamsForInventorySorter,
     searchInventory
 } from '/static/js/staff/inventory-table.js'
+import {
+    getCountsAndLabelsForInventoryChart,
+    getChartParams
+} from '/static/js/staff/inventory-chart.js'
 
 const sortedInventory = JSON.parse(document.getElementById('sorted-inventory').textContent)
+const countedInventory = JSON.parse(document.getElementById('counted-inventory').textContent)
+const inventoryData = JSON.parse(document.getElementById('inventory-data').textContent)
 
 main()
 
 function main() {
+    console.log(countedInventory)
     listenToInventoryCategoryBtns()
     listenToInventorySortSelector()
     listenInventorySortDirectionBtn()
     listenToSearchBtn()
     listenToAddInventoryBtn()
     listenToInventorySearchContainer()
+    listenChartCategoryBtns()
+    listenChartFilterBtns()
+
+    const {
+        category,
+        filter
+    } = getChartParams(getActiveFilter)
+    const data = countedInventory[category][filter]
+    const {
+        labels,
+        counts
+    } = getCountsAndLabelsForInventoryChart(data)
+    createInventoryChart(labels, counts, category, createChart)
+}
+
+function createInventoryChart(labels, counts, categoryName, createChart) {
+    const canvas = document.getElementById('js-seasonal-canvas')
+    const ctx = canvas.getContext('2d')
+
+    const chartType = 'line'
+    const chartData = {
+        labels: labels,
+        datasets: [{
+            label: categoryName,
+            data: counts,
+            borderWidth: 1,
+            indexAxis: 'x',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Simplified background color for line chart
+            borderColor: 'rgba(75, 192, 192, 1)', // Adding border color for better visualization
+            fill: false,
+            tension: 0.5
+        }]
+    }
+    const chartOptions = {
+        plugins: {
+            legend: {
+                labels: {
+                    font: {
+                        family: 'Poppins', // Your custom font family
+                        size: 14, // Font size
+                        weight: 'normal', // Font weight
+                        style: 'normal' // Font style
+                    }
+                }
+            }
+        },
+        scales: {
+            x: {
+                grid: {
+                    display: false // This removes the grid lines on the x-axis
+                },
+                ticks: {
+                    font: {
+                        family: 'Arial', // Web-safe font
+                        size: 10,
+                        weight: 'bold',
+                        style: 'normal'
+                    }
+                }
+            },
+            y: {
+                beginAtZero: true, // Ensure y-axis starts from 0
+                display: false
+            }
+        }
+    }
+
+    createChart(ctx, chartType, chartData, chartOptions)
+}
+
+function listenChartCategoryBtns() {
+    const chartCategoryBtns = document.querySelectorAll('.js-seasonal-category-btn')
+    for (const btn of chartCategoryBtns) {
+        btn.addEventListener('click', () => {
+            for (const btn of chartCategoryBtns) {
+                btn.classList.remove('js-seasonal-category-btn-active')
+            }
+            btn.classList.add('js-seasonal-category-btn-active')
+            const {
+                category,
+                filter
+            } = getChartParams(getActiveFilter)
+            const data = countedInventory[category][filter]
+            const {
+                labels,
+                counts
+            } = getCountsAndLabelsForInventoryChart(data)
+            createInventoryChart(labels, counts, category, createChart)
+
+        })
+    }
+}
+
+function listenChartFilterBtns() {
+    const chartFilterBtns = document.querySelectorAll('.js-seasonal-filter')
+
+    for (const btn of chartFilterBtns) {
+        btn.addEventListener('click', () => {
+            for (const btn of chartFilterBtns) {
+                btn.classList.remove('js-seasonal-filter-active')
+            }
+            btn.classList.add('js-seasonal-filter-active')
+            const {
+                category,
+                filter
+            } = getChartParams(getActiveFilter)
+            const data = countedInventory[category][filter]
+            const {
+                labels,
+                counts
+            } = getCountsAndLabelsForInventoryChart(data)
+            createInventoryChart(labels, counts, category, createChart)
+
+        })
+    }
 
 }
 

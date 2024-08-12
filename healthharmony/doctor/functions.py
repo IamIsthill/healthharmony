@@ -42,11 +42,19 @@ def get_illness_data():
     try:
         data = Illness.objects.all().values("pk", "issue", "diagnosis")
         logger.info("Illness data was successfully fetched.")
-        data = list(data)
-        data = json.dumps(data)
-        data = StringIO(data)
-        df = pd.read_json(data)
-        return df
+        if data:
+            for d in data:
+                if d["issue"] is None:
+                    d["issue"] = ""
+                if d["diagnosis"] is None:
+                    d["diagnosis"] = ""
+            data = list(data)
+            data = json.dumps(data)
+            data = StringIO(data)
+            df = pd.read_json(data)
+            return df
+        else:
+            return None
     except Exception as e:
         logger.error(f"Illness data not fetched: {e}")
         return None

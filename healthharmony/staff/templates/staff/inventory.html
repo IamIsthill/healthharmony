@@ -94,19 +94,22 @@
                     <div class="header">
                         <h4>Seasonal Trends</h4>
                         <div>
-                            <button class="seasonal-filter">12 Months</button>
-                            <button class="seasonal-filter">30 Days</button>
-                            <button class="seasonal-filter">7 Days</button>
+                            <button class="seasonal-filter js-seasonal-filter js-seasonal-filter-active"
+                                    data-sorter="yearly">12 Months</button>
+                            <button class="seasonal-filter js-seasonal-filter" data-sorter="monthly">30 Days</button>
+                            <button class="seasonal-filter js-seasonal-filter" data-sorter="weekly">7 Days</button>
                         </div>
                     </div>
                     <div class="seasonal-graph">
                         <div>
-                            <canvas id="seasonal-canvas"></canvas>
+                            <canvas id="js-seasonal-canvas"></canvas>
                         </div>
                     </div>
                     <div>
-                        <button class="seasonal-category">Medicine</button>
-                        <button class="seasonal-category">Supply</button>
+                        <button class="seasonal-category js-seasonal-category-btn js-seasonal-category-btn-active"
+                                data-sorter="Medicine">Medicine</button>
+                        <button class="seasonal-category js-seasonal-category-btn"
+                                data-sorter="Supply">Supply</button>
                     </div>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 {% load static %}
-{% if inventory %}{{ inventory|json_script:'inventory-data' }}{% endif %}
-{% if inventory_data %}{{ inventory_data|json_script:'inventory-counts' }}{% endif %}
 {{ sorted_inventory|json_script:'sorted-inventory' }}
+{{ counted_inventory|json_script:'counted-inventory' }}
+{{ inventory|json_script:'inventory-data' }}
 <script src="{% static 'chart.js/dist/chart.umd.js' %}"></script>
 <script src="{% static "js/staff/inventory.js" %}" type="module"></script>
 <script src="{% static "js/error.js" %}"></script>

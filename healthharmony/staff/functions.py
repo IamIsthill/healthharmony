@@ -2,10 +2,8 @@ from django.contrib import messages
 from django.utils import timezone
 from datetime import timedelta
 from dateutil.relativedelta import relativedelta
-from collections import defaultdict
 from django.db.models import Sum
 import logging
-import json
 
 from healthharmony.treatment.models import Category, Illness
 from healthharmony.inventory.models import InventoryDetail
@@ -523,3 +521,54 @@ def get_sorted_inventory_list(request):
         messages.error(request, "Requested data not fetched. Please reload page")
 
     return request, list(inventory)
+
+
+def get_counted_inventory(request):
+    try:
+        categories = ["Medicine", "Supply"]
+        filters = ["yearly", "monthly", "weekly"]
+        inventory_data = {
+            category: {filter: {} for filter in filters} for category in categories
+        }
+
+        now = timezone.now()
+
+        for category in inventory_data:
+
+            for filter in inventory_data[category]:
+                start, max_range, date_format, date_loop = get_init_loop_params(
+                    filter, now
+                )
+
+                for offset in range(max_range):
+                    main_start, main_end = get_changing_loop_params(
+                        offset, start, date_loop, filter
+                    )
+                    inventory = InventoryDetail.objects.filter(
+                        category=category,
+                        quantities__timestamp__gte=main_start,
+                        quantities__timestamp__lte=main_end,
+                    ).annotate(total_quantity=Sum("quantities__updated_quantity"))
+                    inventory_data[category][filter][
+                        main_start.strftime(date_format)
+                    ] = []
+                    if inventory:
+                        for data in inventory:
+                            inventory_data[category][filter][
+                                main_start.strftime(date_format)
+                            ].append(
+                                {
+                                    "id": data.id,
+                                    "total_quantity": data.total_quantity or 0,
+                                    "expiration_date": data.expiration_date.isoformat()
+                                    if data.expiration_date
+                                    else "",
+                                }
+                            )
+
+    except Exception as e:
+        logger.error(str(e))
+        messages.error(request, "Failed to fetch inventory data.")
+        inventory_data = None
+
+    return request, inventory_data

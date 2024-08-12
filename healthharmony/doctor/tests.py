@@ -26,6 +26,9 @@ from healthharmony.treatment.models import Illness
 
 # Create your tests here.
 class PredictorTestCase(TestCase):
+    from healthharmony.users.models import User
+    from healthharmony.treatment.models import Illness
+
     @classmethod
     def setUpTestData(cls):
         cls.user = User.objects.create(
