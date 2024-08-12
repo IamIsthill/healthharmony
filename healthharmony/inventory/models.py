@@ -10,11 +10,11 @@ class InventoryDetail(models.Model):
     ]
     item_no = models.SmallIntegerField(default=None, blank=True, null=True)
     unit = models.CharField(max_length=50, null=True)
-    item_name = models.CharField(max_length=100, null=False)
+    item_name = models.CharField(max_length=100, null=True)
     category = models.CharField(
-        max_length=10, choices=CATEGORY_CHOICES, default="Medicine"
+        max_length=10, choices=CATEGORY_CHOICES, default="Medicine", null=True
     )
-    description = models.TextField(null=False)
+    description = models.TextField(null=True)
     expiration_date = models.DateField(default=None, null=True, blank=True)
     added_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
@@ -26,7 +26,7 @@ class QuantityHistory(models.Model):
     inventory = models.ForeignKey(
         InventoryDetail, on_delete=models.SET_NULL, null=True, related_name="quantities"
     )
-    updated_quantity = models.IntegerField(null=False, blank=False)
+    updated_quantity = models.IntegerField(null=True, blank=False)
     timestamp = models.DateTimeField(auto_now=True)
     changed_by = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True, blank=True
