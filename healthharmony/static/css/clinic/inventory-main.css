@@ -138,11 +138,11 @@ main table th, td{
     background-color: #fefefe;
     margin: 2% auto; /* 15% from the top and centered */
     border: 1px solid #888;
-    border-radius: 1rem; 
+    border-radius: 1rem;
     padding: 0rem 3rem;
     width: 50%;
     height: 90%;
-    
+
   }
   .modal-content h1{
     align-self: flex-start;

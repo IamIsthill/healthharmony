@@ -52,7 +52,7 @@
    margin: 0 auto;
    width: 50%;
  }
- 
+
  .small-card{
    width: 19rem;
    height: 7.25rem;
@@ -60,7 +60,7 @@
    background: white;
    box-shadow: var(--box-shadow2);
  }
- 
+
  .green-progress{
    background-color: hsl(112, 100%, 66%,30%);
    color: green;

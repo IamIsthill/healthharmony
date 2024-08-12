@@ -2,6 +2,10 @@ import os
 import django
 from django.test import RequestFactory
 import json
+from django.db.models import Sum
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def main():
@@ -11,12 +15,16 @@ def main():
     # Setup Django
     django.setup()
 
-    # factory = RequestFactory()
-    # request = factory.get("/dummy-url/")
+    factory = RequestFactory()
+    request = factory.get("/dummy-url/")
 
     # test_data_structure()
     # test_staff_patient_percents()
-    test_medcert_percents()
+    # test_medcert_percents()
+    # test_query_inventory_data_structure(request)
+    # test_inventory_list_function(request)
+    test_chart_inventory_structure(request)
+    # test_diagnosis_predictor()
 
 
 def test_data_structure():
@@ -91,6 +99,113 @@ def test_medcert_percents():
         medcert_percent = monthly_medcert / previous_medcert * 100
         medcert_percent = round(medcert_percent, 2)
     print(medcert_percent)
+
+
+def test_query_inventory_data_structure(request):
+    from healthharmony.staff.functions import get_inventory_data
+    from healthharmony.inventory.models import InventoryDetail
+
+    inventory = (
+        InventoryDetail.objects.all()
+        .annotate(total_quantity=(Sum("quantities__updated_quantity")) or 0)
+        .values("id", "total_quantity", "item_name", "category", "expiration_date")
+    )
+
+    for data in inventory:
+        if data["total_quantity"] is None:
+            data["total_quantity"] = 0
+        data["expiration_date"] = data["expiration_date"].isoformat()
+    print(json.dumps(list(inventory), indent=4, sort_keys=True))
+
+    # print(inventory)
+
+
+def test_inventory_list_function(request):
+    from healthharmony.staff.functions import get_sorted_inventory_list
+
+    request, inventory = get_sorted_inventory_list(request)
+    print(json.dumps((inventory), indent=4, sort_keys=True))
+
+
+def test_chart_inventory_structure(request):
+    from healthharmony.inventory.models import InventoryDetail
+    from django.contrib import messages
+    from django.utils import timezone
+    from datetime import timedelta
+    from dateutil.relativedelta import relativedelta
+    from healthharmony.staff.functions import (
+        get_init_loop_params,
+        get_changing_loop_params,
+        get_counted_inventory,
+    )
+
+    try:
+        categories = ["Medicine", "Supply"]
+        filters = ["yearly", "monthly", "weekly"]
+
+        inventory_data = {
+            category: {filter: {} for filter in filters} for category in categories
+        }
+
+        now = timezone.now()
+
+        for category in inventory_data:
+
+            for filter in inventory_data[category]:
+                start, max_range, date_format, date_loop = get_init_loop_params(
+                    filter, now
+                )
+
+                for offset in range(max_range):
+                    main_start, main_end = get_changing_loop_params(
+                        offset, start, date_loop, filter
+                    )
+                    inventory = InventoryDetail.objects.filter(
+                        quantities__timestamp__gte=main_start,
+                        quantities__timestamp__lte=main_end,
+                    ).annotate(total_quantity=Sum("quantities__updated_quantity"))
+                    inventory_data[category][filter][
+                        main_start.strftime(date_format)
+                    ] = []
+                    if inventory:
+
+                        for data in inventory:
+                            inventory_data[category][filter][
+                                main_start.strftime(date_format)
+                            ].append(
+                                {
+                                    "total_quantity": data.total_quantity or 0,
+                                    "expiration_date": data.expiration_date.isoformat()
+                                    if data.expiration_date
+                                    else "",
+                                }
+                            )
+        request, inventory_data = get_counted_inventory(request)
+
+        print(json.dumps(inventory_data, indent=4, sort_keys=True))
+    except Exception as e:
+        logger.error(str(e))
+        messages.error(request, "Failed to fetch inventory data.")
+
+
+#  def get_inventory_chart_data(request):
+
+
+def test_diagnosis_predictor():
+    from healthharmony.treatment.models import Illness
+
+    data = Illness.objects.all().values("pk", "issue", "diagnosis")
+    logger.info("Illness data was successfully fetched.")
+    for d in data:
+        if d["issue"] is None:
+            d["issue"] = ""
+        if d["diagnosis"] is None:
+            d["diagnosis"] = ""
+    print(json.dumps((data), indent=4, sort_keys=True))
+
+
+def print_data(data):
+    print(json.dumps(list(data), indent=4, sort_keys=True))
 
 
 if __name__ == "__main__":
