@@ -62,8 +62,16 @@ export function searchInventory(inventory) {
     const inventorySearchContainer = document.querySelector('.js-inventory-search-container')
     let searchText = inventorySearchContainer.value.toLowerCase()
     const filteredInventory = inventory.filter((data) => {
-        return data.item_name.toLowerCase().includes(searchText)
+        if (
+            data.item_name.toLowerCase().includes(searchText) ||
+            data.category.toLowerCase().includes(searchText) ||
+            data.expiration_date.toLowerCase().includes(searchText) ||
+            String(data.total_quantity).includes(searchText)
+
+        ) {
+            return data
+        }
     })
-    searchText.value = ''
+    inventorySearchContainer.value = ''
     return filteredInventory
 }

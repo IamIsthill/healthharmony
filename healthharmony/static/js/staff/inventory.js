@@ -21,6 +21,7 @@ function main() {
     listenInventorySortDirectionBtn()
     listenToSearchBtn()
     listenToAddInventoryBtn()
+    listenToInventorySearchContainer()
 
 }
 
@@ -111,23 +112,34 @@ function updateInventoryTable(inventory) {
     const inventoryBody = document.getElementById('inventory-body')
 
     let html = ''
-    for (const data of inventory) {
+    if (inventory.length > 0) {
+        for (const data of inventory) {
+            html += `
+                <tr>
+                    <td class="table-data">${data.item_name}</td>
+                    <td class="table-data">${data.category}</td>
+                    <td class="table-data">${ data.total_quantity }</td>
+                    <td class="table-data">${ data.expiration_date }</td>
+                </tr>
+
+            `
+        }
+    } else {
         html += `
             <tr>
-                <td class="table-data">${data.item_name}</td>
-                <td class="table-data">${data.category}</td>
-                <td class="table-data">${ data.total_quantity }</td>
-                <td class="table-data">${ data.expiration_date }</td>
-            </tr>
+                <td class="table-data" colspan="4">No inventory item found.</td>
 
+            </tr>
         `
     }
+
 
     inventoryBody.innerHTML = html
 }
 
 function listenToSearchBtn() {
     const inventorySearchBtn = document.querySelector('.js-inventory-search-btn')
+
     inventorySearchBtn.addEventListener('click', () => {
         const {
             filter,
@@ -151,4 +163,27 @@ function listenToAddInventoryBtn() {
         }
 
     })
+}
+
+function listenToInventorySearchContainer() {
+    const inventorySearchContainer = document.querySelector('.js-inventory-search-container')
+    inventorySearchContainer.addEventListener('mouseenter', () => {
+        document.addEventListener('keypress', handleKeyPressOnInventorySearchContainer)
+    })
+    inventorySearchContainer.addEventListener('mouseleave', () => {
+        document.removeEventListener('keypress', handleKeyPressOnInventorySearchContainer)
+    })
+}
+
+function handleKeyPressOnInventorySearchContainer(event) {
+    if (event.key === 'Enter') {
+        const {
+            filter,
+            inventorySort,
+            sortDirection
+        } = getInitParamsForInventorySorter(getActiveFilter)
+        const inventory = getSortedInventoryData(filter, inventorySort, sortDirection)
+        const filteredInventory = searchInventory(inventory)
+        updateInventoryTable(filteredInventory)
+    }
 }
