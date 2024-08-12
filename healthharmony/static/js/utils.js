@@ -71,7 +71,8 @@ export function openModal(modal) {
 }
 
 export function closeModal(modal, btn) {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (event) => {
+        event.preventDefault()
         modal.style.display = "none";
     })
     window.onclick = function(event) {

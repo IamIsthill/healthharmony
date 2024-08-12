@@ -35,6 +35,10 @@ export function compareDates(a, b, direction) {
     const dateA = new Date(a.expiration_date)
     const dateB = new Date(b.expiration_date)
 
+    if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) {
+        return 0
+    }
+
     if (direction === 'asc') {
         return dateA - dateB
     } else {
@@ -52,4 +56,14 @@ export function getInitParamsForInventorySorter(getActiveFilter) {
         inventorySort,
         sortDirection
     }
+}
+
+export function searchInventory(inventory) {
+    const inventorySearchContainer = document.querySelector('.js-inventory-search-container')
+    let searchText = inventorySearchContainer.value.toLowerCase()
+    const filteredInventory = inventory.filter((data) => {
+        return data.item_name.toLowerCase().includes(searchText)
+    })
+    searchText.value = ''
+    return filteredInventory
 }

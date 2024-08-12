@@ -1,11 +1,14 @@
 import {
-    getActiveFilter
+    getActiveFilter,
+    openModal,
+    closeModal
 } from '/static/js/utils.js'
 import {
     compareItemNames,
     compareStock,
     compareDates,
-    getInitParamsForInventorySorter
+    getInitParamsForInventorySorter,
+    searchInventory
 } from '/static/js/staff/inventory-table.js'
 
 const sortedInventory = JSON.parse(document.getElementById('sorted-inventory').textContent)
@@ -16,6 +19,8 @@ function main() {
     listenToInventoryCategoryBtns()
     listenToInventorySortSelector()
     listenInventorySortDirectionBtn()
+    listenToSearchBtn()
+    listenToAddInventoryBtn()
 
 }
 
@@ -30,7 +35,13 @@ function listenToInventoryCategoryBtns() {
                 btn.classList.remove(filterClassName)
             }
             btn.classList.add(filterClassName)
-            updateInventoryTable()
+            const {
+                filter,
+                inventorySort,
+                sortDirection
+            } = getInitParamsForInventorySorter(getActiveFilter)
+            const inventory = getSortedInventoryData(filter, inventorySort, sortDirection)
+            updateInventoryTable(inventory)
         })
     }
 }
@@ -38,7 +49,13 @@ function listenToInventoryCategoryBtns() {
 function listenToInventorySortSelector() {
     const inventorySortSelector = document.querySelector('.js-inventory-sort-select')
     inventorySortSelector.addEventListener('change', () => {
-        updateInventoryTable()
+        const {
+            filter,
+            inventorySort,
+            sortDirection
+        } = getInitParamsForInventorySorter(getActiveFilter)
+        const inventory = getSortedInventoryData(filter, inventorySort, sortDirection)
+        updateInventoryTable(inventory)
     })
 
 }
@@ -54,13 +71,20 @@ function listenInventorySortDirectionBtn() {
             inventorySortDirectionBtn.setAttribute('data-sort', 'desc')
             inventorySortDirectionBtn.innerHTML = 'Down'
         }
-        updateInventoryTable()
+        const {
+            filter,
+            inventorySort,
+            sortDirection
+        } = getInitParamsForInventorySorter(getActiveFilter)
+        const inventory = getSortedInventoryData(filter, inventorySort, sortDirection)
+        updateInventoryTable(inventory)
     })
 }
 
 function getSortedInventoryData(filter, inventorySort, sortDirection) {
     let localInventory = sortedInventory
     let updatedData = []
+
     if (filter != 0) {
         for (const data of localInventory) {
             if (data.sorter == filter) {
@@ -74,7 +98,6 @@ function getSortedInventoryData(filter, inventorySort, sortDirection) {
     if (inventorySort == 'name') {
         updatedData = updatedData.sort((a, b) => compareItemNames(a, b, sortDirection))
     }
-
     if (inventorySort == 'stock') {
         updatedData = updatedData.sort((a, b) => compareStock(a, b, sortDirection))
     }
@@ -84,14 +107,8 @@ function getSortedInventoryData(filter, inventorySort, sortDirection) {
     return updatedData
 }
 
-function updateInventoryTable() {
+function updateInventoryTable(inventory) {
     const inventoryBody = document.getElementById('inventory-body')
-    const {
-        filter,
-        inventorySort,
-        sortDirection
-    } = getInitParamsForInventorySorter(getActiveFilter)
-    const inventory = getSortedInventoryData(filter, inventorySort, sortDirection)
 
     let html = ''
     for (const data of inventory) {
@@ -107,4 +124,31 @@ function updateInventoryTable() {
     }
 
     inventoryBody.innerHTML = html
+}
+
+function listenToSearchBtn() {
+    const inventorySearchBtn = document.querySelector('.js-inventory-search-btn')
+    inventorySearchBtn.addEventListener('click', () => {
+        const {
+            filter,
+            inventorySort,
+            sortDirection
+        } = getInitParamsForInventorySorter(getActiveFilter)
+        const inventory = getSortedInventoryData(filter, inventorySort, sortDirection)
+        const filteredInventory = searchInventory(inventory)
+        updateInventoryTable(filteredInventory)
+    })
+}
+
+function listenToAddInventoryBtn() {
+    const addInventoryBtn = document.querySelector('.js-add-inventory-btn')
+    const addInventoryModal = document.querySelector('.js-add-inventory-modal')
+    const cancelInventoryBtns = document.querySelectorAll('.js-close-inventory-btn')
+    addInventoryBtn.addEventListener('click', () => {
+        openModal(addInventoryModal)
+        for (const cancelInventoryBtn of cancelInventoryBtns) {
+            closeModal(addInventoryModal, cancelInventoryBtn)
+        }
+
+    })
 }

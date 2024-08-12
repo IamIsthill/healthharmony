@@ -4,6 +4,7 @@
 {{ sorted_inventory|json_script:'sorted-inventory' }}
 <script src="{% static 'chart.js/dist/chart.umd.js' %}"></script>
 <script src="{% static "js/staff/inventory.js" %}" type="module"></script>
+<script src="{% static "js/error.js" %}"></script>
 <script>/*
     // Inventory category
 let inventoryFilter = 'all'

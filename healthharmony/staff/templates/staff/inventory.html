@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load tags %}
 {% block title %}Inventory | HealthHarmony{% endblock %}
 {% block header %}
     <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
@@ -12,6 +13,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
           rel="stylesheet" />
 {% endblock %}
+{% block message %}
+    {% if messages|has_error_message %}
+        {% include 'error.html' %}
+    {% endif %}
+{% endblock message %}
 {% block main %}
     <div class="nurse-container">
         {% include 'staff/navbar.html' %}
@@ -25,8 +31,11 @@
                                 <div class="header-content">
                                     <h1>Inventory Overview</h1>
                                     <div class="search-container">
-                                        <input type="text" id="search-field" placeholder="Search..." />
-                                        <button class="search-btn">
+                                        <input type="text"
+                                               class="js-inventory-search-container"
+                                               id="search-field"
+                                               placeholder="Search..." />
+                                        <button class="js-inventory-search-btn">
                                             <span class="material-symbols-outlined">search</span>
                                         </button>
                                     </div>
@@ -55,7 +64,7 @@
                                         <button class="inventory_cat inventory-category js-inventory-category"
                                                 data-sorter="2">Supply</button>
                                     </div>
-                                    <button id="add-inventory" class="add-inventory">
+                                    <button id="add-inventory" class="add-inventory js-add-inventory-btn">
                                         <span class="material-symbols-outlined">add</span> Item
                                     </button>
                                 </div>
@@ -104,11 +113,11 @@
         </main>
         {% include 'staff/inventory-right.html' %}
     </div>
-    <div id="inventory-modal" class="modal">
+    <div id="inventory-modal" class="modal js-add-inventory-modal">
         <!-- Modal content -->
         <div class="modal-content">
             <h1>Add New Item</h1>
-            <span class="material-symbols-outlined close">cancel</span>
+            <span class="material-symbols-outlined close js-close-inventory-btn">cancel</span>
             <form action="{% url 'staff-inventory-add' %}" method="post">
                 {% csrf_token %}
                 <div class="form-top">
@@ -137,14 +146,18 @@
                         <label for="expiration_date">Expiration Date</label>
                         <input type="date" name="expiration_date" />
                     </div>
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input type="number" name="quantity" />
+                    </div>
                 </div>
                 <div class="form-last">
                     <label for="description">Item Description</label>
-                    <input type="search" placeholder="description.." name="description" required />
+                    <input type="search" placeholder="description.." name="description" />
                 </div>
                 <div class="form-buttons">
                     <button type="submit" class="add-btn">Add</button>
-                    <button type="button" class="cancel-btn">Cancel</button>
+                    <button type="button" class="cancel-btn js-close-inventory-btn">Cancel</button>
                 </div>
             </form>
         </div>

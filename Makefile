@@ -82,3 +82,11 @@ npm-install:
 .PHONY: staff-test
 staff-test:
 	poetry run python -m healthharmony.staff.tests
+
+.PHONY: flush
+flush:
+	poetry run python -m healthharmony.manage flush --noinput
+	make seed a=users
+	make seed a=inventory &
+	make seed a=treatment
+	make import-user

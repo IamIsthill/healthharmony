@@ -509,7 +509,10 @@ def get_sorted_inventory_list(request):
         for data in inventory:
             if data["total_quantity"] is None:
                 data["total_quantity"] = 0
-            data["expiration_date"] = data["expiration_date"].isoformat()
+            if data["expiration_date"] is not None:
+                data["expiration_date"] = data["expiration_date"].isoformat()
+            else:
+                data["expiration_date"] = ""
             if data["category"] == "Medicine":
                 data["sorter"] = 1
             if data["category"] == "Supply":
