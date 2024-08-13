@@ -81,3 +81,28 @@ export function closeModal(modal, btn) {
         }
     }
 }
+
+// export function getDateBasedOnFilter(filter){
+//     const now = new Date()
+//     let returnedDate = null
+//     if( filter == 'yearly'){
+//         const year = now.getFullYear() - 1
+//         const month = now.getMonth()
+//         const day = now.getDate()
+//         returnedDate = new Date(year, month, day);
+//     }
+//     if (filter == 'monthly') {
+//         const year = now.getFullYear()
+//         const month = now.getMonth() - 1
+//         const day = now.getDate()
+//         returnedDate = new Date(year, month, day);
+//     }
+//     if (filter == 'weekly') {
+//         const year = now.getFullYear()
+//         const month = now.getMonth()
+//         const day = now.getDate() - 7
+//         returnedDate = new Date(year, month, day);
+//     }
+//     return returnedDate
+
+// }

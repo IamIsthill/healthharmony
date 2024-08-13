@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.utils import timezone
 from datetime import timedelta
 from dateutil.relativedelta import relativedelta
-from django.db.models import Sum
+from django.db.models import Sum, Min
 import logging
 
 from healthharmony.treatment.models import Category, Illness
@@ -548,7 +548,10 @@ def get_counted_inventory(request):
                         category=category,
                         quantities__timestamp__gte=main_start,
                         quantities__timestamp__lte=main_end,
-                    ).annotate(total_quantity=Sum("quantities__updated_quantity"))
+                    ).annotate(
+                        total_quantity=Sum("quantities__updated_quantity"),
+                        date_updated=Min("quantities__timestamp"),
+                    )
                     inventory_data[category][filter][
                         main_start.strftime(date_format)
                     ] = []
@@ -563,6 +566,7 @@ def get_counted_inventory(request):
                                     "expiration_date": data.expiration_date.isoformat()
                                     if data.expiration_date
                                     else "",
+                                    "date_updated": data.date_updated.isoformat(),
                                 }
                             )
 
