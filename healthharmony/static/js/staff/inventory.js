@@ -20,6 +20,11 @@ import {
     getTrendsParams,
     getInventoryItem
 } from '/static/js/staff/inventory-chart.js'
+import {
+    sortInventoryData,
+    countCurrentStocksAndExpiredItems,
+    createInventoryBar
+} from '/static/js/staff/inventory-stock.js'
 
 const sortedInventory = JSON.parse(document.getElementById('sorted-inventory').textContent)
 const countedInventory = JSON.parse(document.getElementById('counted-inventory').textContent)
@@ -28,13 +33,16 @@ const inventoryData = JSON.parse(document.getElementById('inventory-data').textC
 main()
 
 function main() {
-    console.log(countedInventory)
+    // console.log(countedInventory)
     // console.log(sortedInventory)
-    console.log(inventoryData)
+    // console.log(inventoryData)
     // console.log(getInventoryItemTotalQuantity(4))
+
 
     createLogicTrendsBar()
     createLogicInventoryChart()
+    createLogicInventoryBar()
+
 
     listenToInventoryCategoryBtns()
     listenToInventorySortSelector()
@@ -49,6 +57,12 @@ function main() {
     listenInventoryTrendsCategoryBtns()
     listenInventoryTrendsFilterBtns()
 
+}
+
+function createLogicInventoryBar() {
+    const categorizedData = sortInventoryData(inventoryData)
+    const categorizedCounts = countCurrentStocksAndExpiredItems(categorizedData)
+    createInventoryBar(categorizedCounts, createChart)
 }
 
 function createLogicInventoryTable() {

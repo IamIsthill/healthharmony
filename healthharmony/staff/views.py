@@ -174,7 +174,16 @@ def add_issue(request):
 def inventory(request):
     access_checker(request)
     try:
-        inventory = InventoryDetail.objects.all().values("id", "item_name", "category")
+        inventory = (
+            InventoryDetail.objects.all()
+            .annotate(quantity=Sum("quantities__updated_quantity"))
+            .values("id", "item_name", "category", "quantity", "expiration_date")
+        )
+
+        for data in inventory:
+            if data["expiration_date"]:
+                data["expiration_date"] = data["expiration_date"].isoformat()
+            data["quantity"] = data["quantity"] or 0
     except Exception as e:
         logger.error(f"Failed to fetch inventory data: {str(e)}")
         messages.error(request, "Failed to fetched inventory data. Please reload page.")
