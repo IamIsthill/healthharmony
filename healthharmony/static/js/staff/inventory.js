@@ -33,9 +33,9 @@ const inventoryData = JSON.parse(document.getElementById('inventory-data').textC
 main()
 
 function main() {
-    // console.log(countedInventory)
-    // console.log(sortedInventory)
-    // console.log(inventoryData)
+    console.log(countedInventory)
+    console.log(sortedInventory)
+    console.log(inventoryData)
     // console.log(getInventoryItemTotalQuantity(4))
 
 
@@ -57,46 +57,65 @@ function main() {
     listenInventoryTrendsCategoryBtns()
     listenInventoryTrendsFilterBtns()
 
+    listenToInventoryButtons()
+
+}
+
+function listenToInventoryButtons() {
+    const inventoryBtns = document.querySelectorAll('.js-inventory-btn')
+    for (const btn of inventoryBtns) {
+        btn.addEventListener('click', () => {
+            console.log('clicked')
+        })
+    }
 }
 
 function createLogicInventoryBar() {
-    const categorizedData = sortInventoryData(inventoryData)
-    const categorizedCounts = countCurrentStocksAndExpiredItems(categorizedData)
-    createInventoryBar(categorizedCounts, createChart)
+    if (inventoryData) {
+        const categorizedData = sortInventoryData(inventoryData)
+        const categorizedCounts = countCurrentStocksAndExpiredItems(categorizedData)
+        createInventoryBar(categorizedCounts, createChart)
+    }
 }
 
 function createLogicInventoryTable() {
-    const {
-        filter,
-        inventorySort,
-        sortDirection
-    } = getInitParamsForInventorySorter(getActiveFilter)
-    const inventory = getSortedInventoryData(filter, inventorySort, sortDirection)
-    updateInventoryTable(inventory)
+    if (sortedInventory) {
+        const {
+            filter,
+            inventorySort,
+            sortDirection
+        } = getInitParamsForInventorySorter(getActiveFilter)
+        const inventory = getSortedInventoryData(filter, inventorySort, sortDirection)
+        updateInventoryTable(inventory)
+    }
 }
 
 function createLogicInventoryChart() {
-    const {
-        category,
-        filter
-    } = getChartParams(getActiveFilter)
+    if (countedInventory) {
+        const {
+            category,
+            filter
+        } = getChartParams(getActiveFilter)
 
-    const data = countedInventory[category][filter]
-    const {
-        labels,
-        counts
-    } = getCountsAndLabelsForInventoryChart(data)
-    createInventoryChart(labels, counts, category, createChart)
+        const data = countedInventory[category][filter]
+        const {
+            labels,
+            counts
+        } = getCountsAndLabelsForInventoryChart(data)
+        createInventoryChart(labels, counts, category, createChart)
+    }
+
 }
 
 function createLogicTrendsBar() {
-    const {
-        trendCategory,
-        trendFilter
-    } = getTrendsParams(getActiveFilter)
-    createTrendsBarCanvas(trendCategory, trendFilter)
-    selectEachTrendsCanvasThenCreateTrendsBar(trendCategory, trendFilter)
-
+    if (inventoryData) {
+        const {
+            trendCategory,
+            trendFilter
+        } = getTrendsParams(getActiveFilter)
+        createTrendsBarCanvas(trendCategory, trendFilter)
+        selectEachTrendsCanvasThenCreateTrendsBar(trendCategory, trendFilter)
+    }
 }
 
 function selectEachTrendsCanvasThenCreateTrendsBar(trendCategory, trendFilter) {

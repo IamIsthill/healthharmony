@@ -1,7 +1,9 @@
 {% load static %}
 <aside>
     <div class="logo">
-        <img src="{% static 'assets/images/landing-page/logo/adminlogo.svg' %}" />
+        <a href="{% url 'staff-overview' %}">
+            <img src="{% static 'assets/images/landing-page/logo/adminlogo.svg' %}" />
+        </a>
     </div>
     <div class="sidebar">
         <a href="{% url 'staff-overview' %}"

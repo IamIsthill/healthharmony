@@ -12,6 +12,11 @@
           rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
           rel="stylesheet" />
+    <style>
+        .btn {
+            cursor: pointer;
+        }
+    </style>
 {% endblock %}
 {% block message %}
     {% if messages|has_error_message %}
@@ -79,7 +84,7 @@
                     </thead>
                     <tbody id="inventory-body">
                         {% for data in sorted_inventory %}
-                            <tr>
+                            <tr class="js-inventory-btn btn" data-id="{{ data.id }}">
                                 <td class="table-data">{{ data.item_name }}</td>
                                 <td class="table-data">{{ data.category }}</td>
                                 <td class="table-data">{{ data.total_quantity }}</td>

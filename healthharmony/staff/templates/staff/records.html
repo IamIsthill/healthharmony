@@ -101,6 +101,10 @@
                                         {% endif %}
                                     </td>
                                 </tr>
+                            {% empty %}
+                                <tr>
+                                    <td class="table-data" colspan="4">No available data</td>
+                                </tr>
                             {% endfor %}
                         {% else %}
                             <tr>
@@ -243,14 +247,14 @@
       let html = ''
       data.forEach((line) => {
         let text = `
-                                                                                                                                                                                                                                          <tr>
-                                                                                                                                                                                                                                            <td>${line.email}</td>
-                                                                                                                                                                                                                                            <td>${line.first_name} ${line.last_name}</td>
-                                                                                                                                                                                                                                            <td>${line.purpose}</td>
-                                                                                                                                                                                                                                            <td>${formatDate(line.requested)}</td>
-                                                                                                                                                                                                                                          </tr>
+                                                                                                                                                                                                                                              <tr>
+                                                                                                                                                                                                                                                <td>${line.email}</td>
+                                                                                                                                                                                                                                                <td>${line.first_name} ${line.last_name}</td>
+                                                                                                                                                                                                                                                <td>${line.purpose}</td>
+                                                                                                                                                                                                                                                <td>${formatDate(line.requested)}</td>
+                                                                                                                                                                                                                                              </tr>
 
-                                                                                                                                                                                                                                        `
+                                                                                                                                                                                                                                            `
         html += text
       })
       requestSpace.innerHTML = html
