@@ -16,6 +16,26 @@
         <title>Health Harmony Overview</title>
     </head>
     <body>
+                <!-- PS STILL EDITABLE IN TERMS OF DESIGN AND SHIT -->
+        <!-- POPUP Success-->
+        <div class="containerPage" id="popupSuccess">
+            <div class="popUp">
+                <span>Added Successfuly!</span>
+                <button class="btn" onclick="closePopup()">OK</button>
+            </div>
+        </div>
+        <!-- POPUP Success -->
+         <!-- POPUP Error-->
+        <div class="containerPage" id="popupError">
+            <div class="popUp">
+                <span>Unsuccessful Input</span>
+                <p>An error occured while adding visit record, please try again</p>
+                <button class="btn" onclick="closePopup()">OK</button>
+            </div>
+        </div>
+        <!-- POPUP Error -->
+                <!-- PS STILL EDITABLE IN TERMS OF DESIGN AND SHIT -->
+
         <div class="nurse-container">
             <aside>
                 <div class="logo">
@@ -35,7 +55,7 @@
                             </svg>
                         </span>
                         <span class="span-lightgray">Overview</span>
-                    </a>
+                    </a>   
                     <a href="./nurse-inventory.html">
                         <span>
                             <svg width="33"
@@ -142,10 +162,28 @@
                         </div>
                     </div>
                 </div>
+                <button onclick="openPopup()">Alert Success</button>
+                <button onclick="openPopupError()">Alert Error</button>
             </main>
             <section class="Right-section">
                 asd
             </section>
         </div>
+        <script>
+            let popupSuccess=document.getElementById("popupSuccess");
+            let popupError=document.getElementById("popupError");
+
+            function openPopup(){
+                popupSuccess.classList.add("open-popup");
+            }
+            function closePopup(){
+                popupSuccess.classList.remove("open-popup");
+                popupError.classList.remove("open-popup");
+            }
+
+            function openPopupError(){
+                popupError.classList.add("open-popup");
+            }
+        </script>
     </body>
 </html>
