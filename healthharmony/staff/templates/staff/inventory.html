@@ -116,15 +116,19 @@
                             <th class="table-head">Category</th>
                             <th class="table-head">Stock</th>
                             <th class="table-head">Expiration Date</th>
+                            <th class="table-head" colspan="2">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="inventory-body">
                         {% for data in sorted_inventory %}
-                            <tr class="js-inventory-btn btn" data-id="{{ data.id }}">
+                            <tr>
                                 <td class="table-data">{{ data.item_name }}</td>
                                 <td class="table-data">{{ data.category }}</td>
                                 <td class="table-data">{{ data.total_quantity }}</td>
                                 <td class="table-data">{{ data.expiration_date }}</td>
+                                <td class="table-data js-inventory-btn btn" data-id="{{ data.id }}">View</td>
+                                <td class="table-data js-inventory-delete-btn btn"
+                                    data-id="{{ data.id }}">Delete</td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -249,6 +253,18 @@
                 <div class="form-buttons">
                     <button type="submit" class="add-btn">Add</button>
                     <button type="button" class="cancel-btn js-close-update-inventory-btn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="deleteInventoryModal" class="modal">
+        <div class="modal-content">
+            <span class="js-close-delete-btn">&times;</span>
+            <form action="" class="form-body" method="POST">
+                <div>Are you sure you want to delete?</div>
+                <div class="form-buttons">
+                    <button type="submit" class="add-btn">Delete</button>
+                    <button type="button" class="cancel-btn js-close-delete-btn">Cancel</button>
                 </div>
             </form>
         </div>

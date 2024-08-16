@@ -9,8 +9,7 @@ from dateutil.relativedelta import relativedelta
 from django.core.mail import EmailMessage
 import environ
 import logging
-from concurrent.futures import ProcessPoolExecutor, as_completed, ThreadPoolExecutor
-import threading
+from concurrent.futures import as_completed, ThreadPoolExecutor
 
 from healthharmony.bed.models import BedStat
 from healthharmony.users.models import User
@@ -33,7 +32,12 @@ from healthharmony.staff.functions import (
     fetch_categories,
     fetch_inventory,
 )
-from healthharmony.staff.forms import PatientForm, AddInventoryForm, EditInventoryForm
+from healthharmony.staff.forms import (
+    PatientForm,
+    AddInventoryForm,
+    EditInventoryForm,
+    DeleteInventoryForm,
+)
 
 env = environ.Env()
 environ.Env.read_env(env_file="healthharmony/.env")
@@ -208,6 +212,18 @@ def add_inventory(request):
             return redirect("staff-inventory")
 
 
+def delete_inventory(request, pk):
+    access_checker(request)
+    if request.method == "POST":
+        form = DeleteInventoryForm(request.POST)
+        if form.is_valid():
+            form.save(request, pk)
+        else:
+            messages.error(request, "Form is invalid. Please try again")
+            logger.error("Delete inventory form is invalid")
+    return redirect("staff-inventory")
+
+
 def update_inventory(request, pk):
     access_checker(request)
     if request.method == "POST":
@@ -216,7 +232,7 @@ def update_inventory(request, pk):
             form.save(request, pk)
         else:
             messages.error(request, "Form is invalid. Please try again.")
-            logger.error("Form is invalid")
+            logger.error("Update inventory form is invalid")
     return redirect("staff-inventory")
 
 

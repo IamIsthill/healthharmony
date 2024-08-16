@@ -153,3 +153,24 @@ class EditInventoryForm(forms.Form):
                 request, "Failed to update inventory record. Please try again"
             )
             logger.error(f"Failed to update inventory record: {str(e)}")
+
+
+class DeleteInventoryForm(forms.Form):
+    def save(self, request, pk):
+        try:
+            pk = int(pk)
+            item = InventoryDetail.objects.get(id=pk)
+            old_item = item
+            item.delete()
+            messages.success(
+                request, f"Successfully deleted inventory item {old_item.item_name}"
+            )
+            Log.objects.create(
+                user=request.user,
+                action=f"Successfully deleted inventory record[id:{old_item.id}]",
+            )
+        except Exception as e:
+            messages.error(
+                request, "Failed to delete inventory record. Please try again"
+            )
+            logger.error(f"Failed to delete inventory record: {str(e)}")
