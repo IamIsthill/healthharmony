@@ -92,6 +92,7 @@ function createLogicInventoryTable() {
         } = getInitParamsForInventorySorter(getActiveFilter)
         const inventory = getSortedInventoryData(filter, inventorySort, sortDirection)
         updateInventoryTable(inventory)
+        listenToInventoryButtons()
     }
 }
 
