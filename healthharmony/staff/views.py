@@ -216,6 +216,7 @@ def update_inventory(request, pk):
             form.save(request, pk)
         else:
             messages.error(request, "Form is invalid. Please try again.")
+            logger.error("Form is invalid")
     return redirect("staff-inventory")
 
 

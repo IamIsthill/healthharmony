@@ -104,8 +104,14 @@ class EditInventoryForm(forms.Form):
     def save(self, request, pk):
         try:
             pk = int(pk)
-            inventory_item = InventoryDetail.objects.get(id=pk).annotate(
-                quantity=Sum("quantities__updated_quantity")
+            inventory_item = InventoryDetail.objects.get(id=pk)
+            quantities_sum = inventory_item.quantities.aggregate(
+                total_quantity=Sum("updated_quantity")
+            )
+            total_quantity = (
+                quantities_sum["total_quantity"]
+                if quantities_sum["total_quantity"] is not None
+                else 0
             )
             expiration_date = self.cleaned_data.get("expiration_date")
             quantity = self.cleaned_data.get("quantity")
@@ -117,10 +123,9 @@ class EditInventoryForm(forms.Form):
             inventory_item.item_no = self.cleaned_data.get("item_no")
             inventory_item.unit = self.cleaned_data.get("unit")
             inventory_item.item_name = self.cleaned_data.get("item_name")
-            inventory_item.category = self.cleaned_data.get("category")
-            inventory_item.description = category if category else None
-
-            if inventory_item.quantity != quantity:
+            inventory_item.category = category if category else None
+            inventory_item.description = self.cleaned_data.get("description")
+            if total_quantity != quantity:
                 item_quantity = QuantityHistory.objects.create(
                     inventory=inventory_item,
                     changed_by=request.user,
@@ -133,6 +138,7 @@ class EditInventoryForm(forms.Form):
                 logger.info(
                     f"Successfully updated quantity history record[id:{item_quantity.id}]"
                 )
+            inventory_item.full_clean()
             inventory_item.save()
 
             Log.objects.create(

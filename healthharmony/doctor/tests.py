@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TestCase, RequestFactory
 import json
 import pandas as pd
 from io import StringIO
@@ -19,41 +19,100 @@ from imblearn.over_sampling import SMOTE
 from sklearn.metrics import accuracy_score, classification_report
 
 import threading
-from datetime import date
+from django.urls import reverse
+from django.utils import timezone
 
 from healthharmony.users.models import User
 from healthharmony.treatment.models import Illness
 from healthharmony.staff.forms import EditInventoryForm
 from healthharmony.inventory.models import InventoryDetail, QuantityHistory
+from healthharmony.administrator.models import Log
 
 
 # Create your tests here.
-class StaffUpdateInventoryFormTestCase(TestCase):
-    @classmethod
-    def setUpTestData(cls):
-        cls.staff = User.objects.create(
-            first_name="Charles",
-            last_name="Bercasio",
-            email="bercasiocharles@gmail.com",
-            year=4,
-            section="A",
-            program="Bachelor of Science Major in Information Technology",
-        )
-        cls.item1 = InventoryDetail.objects.create(
-            item_no=1001,
-            unit="pcs.",
-            item_name="Paracetamol",
-            category="Medicine",
-            description=None,
-            expiration_date=date(2222, 1, 1),
-            added_by=cls.staff,
+class EditInventoryFormTest(TestCase):
+    def setUp(self):
+        # Create a user
+        self.user = User.objects.create(
+            email="bercasiocharles@gmail.com", password="12345"
         )
 
-    def test_date(self):
-        inventory = InventoryDetail.objects.get(id=1)
-        expected = "2222-01-01"
-        output = inventory.expiration_date.isoformat()
-        self.assertEqual(expected, output)
+        # Create an inventory item
+        self.inventory = InventoryDetail.objects.create(
+            item_no=1,
+            unit="pcs",
+            item_name="Test Item",
+            category="Medicine",
+            description="Test Description",
+            expiration_date=timezone.now(),
+            added_by=self.user,
+        )
+        self.factory = RequestFactory()
+
+    def test_save_form_valid(self):
+        request = self.factory.post("/some-url/")
+        request.user = self.user
+        # New data to update the inventory
+        data = {
+            "item_no": 2,
+            "unit": "box",
+            "item_name": "Updated Item",
+            "category": "Supply",
+            "description": "Updated Description",
+            "expiration_date": "2025-01-01",
+            "quantity": 100,
+        }
+
+        # Instantiate form with data
+        form = EditInventoryForm(data=data)
+
+        # Check form is valid
+        self.assertTrue(form.is_valid())
+
+        # Call the save method
+        form.save(request, pk=self.inventory.pk)
+
+        # Fetch the updated inventory item
+        updated_inventory = InventoryDetail.objects.get(pk=self.inventory.pk)
+
+        # Assertions to check if the fields are updated correctly
+        self.assertEqual(updated_inventory.item_no, 2)
+        self.assertEqual(updated_inventory.unit, "box")
+        self.assertEqual(updated_inventory.item_name, "Updated Item")
+        self.assertEqual(updated_inventory.category, "Supply")
+        self.assertEqual(updated_inventory.description, "Updated Description")
+        self.assertEqual(
+            updated_inventory.expiration_date, timezone.datetime(2025, 1, 1).date()
+        )
+
+        # Check if QuantityHistory is created
+        quantity_history = QuantityHistory.objects.filter(
+            inventory=updated_inventory
+        ).first()
+        self.assertIsNotNone(quantity_history)
+        self.assertEqual(quantity_history.updated_quantity, 100)
+
+    def test_save_form_invalid(self):
+        request = self.factory.post("/some-url/")
+        request.user = self.user
+        # Invalid data (missing required fields)
+        data = {
+            "item_name": "",  # Missing required item_name
+            "category": "Supply",
+            "description": "Updated Description",
+            "expiration_date": "2025-01-01",
+            "quantity": 100,
+        }
+
+        # Instantiate form with data
+        form = EditInventoryForm(data=data)
+
+        # Check form is invalid
+        self.assertFalse(form.is_valid())
+
+        # Try saving (should not update anything)
+        with self.assertRaises(Exception):
+            form.save(request, pk=self.inventory.pk)
 
 
 # class PredictorTestCase(TestCase):

@@ -95,6 +95,7 @@ export function getInventoryUsingId(sortedInventory, id) {
 }
 
 export function createUpdateInventoryForm(item, token) {
+    const url = `/staff/inventory/update/${item.id}/`
     const updateInventoryForm = document.querySelector('#updatedInventoryModal .modal-content .form-body')
     let html = `
         <input type="hidden" name="csrfmiddlewaretoken" value="${token}" />
@@ -109,7 +110,7 @@ export function createUpdateInventoryForm(item, token) {
             </div>
             <div class="form-group">
                 <label for="unit">Unit Type</label>
-                <input type="text" placeholder="unit type.." name="unit" value="${item.unit}" required />
+                <input type="text" placeholder="unit type.." name="unit" maxlength="15" value="${item.unit}" required />
             </div>
         </div>
         <div class="form-bottom">
@@ -139,4 +140,5 @@ export function createUpdateInventoryForm(item, token) {
         </div>
     `
     updateInventoryForm.innerHTML = html
+    updateInventoryForm.setAttribute('action', url)
 }
