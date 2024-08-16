@@ -2,10 +2,10 @@ from django.contrib import messages
 from django.utils import timezone
 from datetime import timedelta
 from dateutil.relativedelta import relativedelta
-from django.db.models import Sum, Min
+from django.db.models import Sum, Min, Count
 import logging
 
-from healthharmony.treatment.models import Category, Illness
+from healthharmony.treatment.models import Category, Illness, Certificate
 from healthharmony.inventory.models import InventoryDetail
 from healthharmony.users.models import Department, User
 
@@ -585,3 +585,78 @@ def get_counted_inventory(request):
         inventory_data = None
 
     return request, inventory_data
+
+
+def fetch_today_patient(now):
+    return (
+        User.objects.filter(patient_illness__updated__date=now.date())
+        .distinct()
+        .count()
+        or 0
+    )
+
+
+def fetch_total_patient():
+    return (
+        User.objects.annotate(illness_count=Count("patient_illness"))
+        .filter(illness_count__gt=0)
+        .count()
+        or 0
+    )
+
+
+def fetch_previous_patients(previous_day):
+    return (
+        User.objects.filter(patient_illness__updated__date=previous_day.date())
+        .distinct()
+        .count()
+        or 0
+    )
+
+
+def fetch_monthly_medcert(now):
+    return (
+        Certificate.objects.filter(
+            requested__month=now.month, requested__year=now.year, released=True
+        ).count()
+        or 0
+    )
+
+
+def fetch_previous_medcert(previous_month):
+    return (
+        Certificate.objects.filter(
+            requested__month=previous_month.month,
+            requested__year=previous_month.year,
+            released=True,
+        ).count()
+        or 0
+    )
+
+
+def fetch_patients():
+    return User.objects.filter(access=1)
+
+
+def fetch_categories():
+    return Category.objects.all()
+
+
+def fetch_inventory(InventoryDetail, Sum, request):
+    inventory = None
+    try:
+        inventory = (
+            InventoryDetail.objects.all()
+            .annotate(quantity=Sum("quantities__updated_quantity"))
+            .values("id", "item_name", "category", "quantity", "expiration_date")
+        )
+
+        for data in inventory:
+            if data["expiration_date"]:
+                data["expiration_date"] = data["expiration_date"].isoformat()
+            data["quantity"] = data["quantity"] or 0
+
+    except Exception as e:
+        logger.error(f"Failed to fetch inventory data: {str(e)}")
+        messages.error(request, "Failed to fetched inventory data. Please reload page.")
+    return request, inventory
