@@ -501,7 +501,16 @@ def get_sorted_inventory_list(request):
         inventory = (
             InventoryDetail.objects.all()
             .annotate(total_quantity=Sum("quantities__updated_quantity"))
-            .values("id", "total_quantity", "item_name", "category", "expiration_date")
+            .values(
+                "id",
+                "total_quantity",
+                "item_name",
+                "category",
+                "expiration_date",
+                "item_no",
+                "description",
+                "unit",
+            )
         )
 
         for data in inventory:

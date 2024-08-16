@@ -29,20 +29,16 @@ import {
 const sortedInventory = JSON.parse(document.getElementById('sorted-inventory').textContent)
 const countedInventory = JSON.parse(document.getElementById('counted-inventory').textContent)
 const inventoryData = JSON.parse(document.getElementById('inventory-data').textContent)
+const token = document.getElementsByName('csrfmiddlewaretoken')[0].value
 
 main()
 
 function main() {
-    console.log(countedInventory)
-    console.log(sortedInventory)
-    console.log(inventoryData)
-    // console.log(getInventoryItemTotalQuantity(4))
-
-
+    // console.log(countedInventory)
+    // console.log(sortedInventory)
     createLogicTrendsBar()
     createLogicInventoryChart()
     createLogicInventoryBar()
-
 
     listenToInventoryCategoryBtns()
     listenToInventorySortSelector()
@@ -50,24 +46,100 @@ function main() {
     listenToSearchBtn()
     listenToAddInventoryBtn()
     listenToInventorySearchContainer()
+    listenToInventoryButtons()
 
     listenChartCategoryBtns()
     listenChartFilterBtns()
 
     listenInventoryTrendsCategoryBtns()
     listenInventoryTrendsFilterBtns()
+}
 
-    listenToInventoryButtons()
+
+function getInventoryUsingId(sortedInventory, id) {
+    const mid = Math.round((sortedInventory.length) / 2)
+    const firstHalfArr = sortedInventory.slice(0, mid)
+    const secondHalfArr = sortedInventory.slice(mid)
+
+    for (const item of firstHalfArr) {
+        if (item.id === id) {
+            return item
+        }
+    }
+    if (secondHalfArr.length > 0) {
+        return getInventoryUsingId(secondHalfArr, id);
+    } else {
+        return null; // Or return undefined
+    }
+
+}
+
+function createUpdateInventoryForm(item, token) {
+    const updateInventoryForm = document.querySelector('#updatedInventoryModal .modal-content .form-body')
+    let html = `
+        <input type="hidden" name="csrfmiddlewaretoken" value="${token}" />
+        <div class="form-top">
+            <label for="item_name">Item Name</label>
+            <input type="text" placeholder="name.." name="item_name" value="${item.item_name}" required />
+        </div>
+        <div class="form-middle">
+            <div class="form-group">
+                <label for="item_no">Item Number</label>
+                <input type="number" placeholder="#" name="item_no" value="${item.item_no}" required />
+            </div>
+            <div class="form-group">
+                <label for="unit">Unit Type</label>
+                <input type="text" placeholder="unit type.." name="unit" value="${item.unit}" required />
+            </div>
+        </div>
+        <div class="form-bottom">
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select name="category" value="${item.category}"required>
+                    <option value="Medicine">Medicine</option>
+                    <option value="Supply">Supply</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="expiration_date">Expiration Date</label>
+                <input type="date" name="expiration_date" value="${item.expiration_date}"/>
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantity</label>
+                <input type="number" name="quantity" value="${item.total_quantity}" />
+            </div>
+        </div>
+        <div class="form-last">
+            <label for="description">Item Description</label>
+            <input type="search" placeholder="description.." name="description" value="${item.description}" />
+        </div>
+        <div class="form-buttons">
+            <button type="submit" class="add-btn">Add</button>
+            <button type="button" class="cancel-btn js-close-update-inventory-btn">Cancel</button>
+        </div>
+    `
+    updateInventoryForm.innerHTML = html
 
 }
 
 function listenToInventoryButtons() {
     const inventoryBtns = document.querySelectorAll('.js-inventory-btn')
-    for (const btn of inventoryBtns) {
-        btn.addEventListener('click', () => {
-            console.log('clicked')
+    const updateInventoryModal = document.getElementById('updatedInventoryModal')
+    for (const inventoryBtn of inventoryBtns) {
+        inventoryBtn.addEventListener('click', () => {
+            const inventoryId = parseInt(inventoryBtn.getAttribute('data-id'))
+            const item = getInventoryUsingId(Object.values(sortedInventory), inventoryId)
+            createUpdateInventoryForm(item, token)
+            openModal(updateInventoryModal)
+            const cancelInventoryBtns = document.querySelectorAll('.js-close-update-inventory-btn')
+            for (const cancelInventoryBtn of cancelInventoryBtns) {
+                closeModal(updateInventoryModal, cancelInventoryBtn)
+            }
+
         })
     }
+
+
 }
 
 function createLogicInventoryBar() {
@@ -301,7 +373,7 @@ function updateInventoryTable(inventory) {
     if (inventory.length > 0) {
         for (const data of inventory) {
             html += `
-                <tr>
+                <tr class="js-inventory-btn btn" data-id="${data.id}">
                     <td class="table-data">${data.item_name}</td>
                     <td class="table-data">${data.category}</td>
                     <td class="table-data">${ data.total_quantity }</td>

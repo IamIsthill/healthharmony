@@ -89,3 +89,15 @@ class AddInventoryForm(forms.Form):
         except Exception as e:
             logger.error(f"Failed to add a new inventory record: {str(e)}")
             messages.error(request, "Failed to add a new inventory record.")
+
+
+class EditQuantityForm(forms.Form):
+    item_no = forms.IntegerField(required=False)
+    unit = forms.CharField(required=False, max_length=15)
+    item_name = forms.CharField(max_length=100, required=True)
+    category = forms.CharField(max_length=20, required=False)
+    description = forms.CharField(required=False)
+    expiration_date = forms.DateField(required=False)
+    quantity = forms.IntegerField(required=False)
+
+    # def save(self, request):
