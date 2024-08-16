@@ -57,7 +57,7 @@ export function createBars(bar, maxCount, value) {
     ctx.fillStyle = '#FFDA80'
     let width = (parseInt(canvas.width)) / maxCount * (parseInt(value))
     ctx.fillRect(0, 0, width, parseInt(canvas.height))
-    console.log('Canvas width:', canvas.width, 'Canvas height:', canvas.height);
+    // console.log('Canvas width:', canvas.width, 'Canvas height:', canvas.height);
 }
 
 export function getActiveFilter(filterClassName, sorterName) {

@@ -12,6 +12,47 @@
           rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
           rel="stylesheet" />
+    <style>
+        .btn {
+            cursor: pointer;
+        }
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+          }
+
+          /* Modal Content/Box */
+          .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+          }
+
+          /* The Close Button */
+          .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+          }
+
+          .close:hover,
+          .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+          }
+    </style>
 {% endblock %}
 {% block message %}
     {% if messages|has_error_message %}
@@ -79,7 +120,7 @@
                     </thead>
                     <tbody id="inventory-body">
                         {% for data in sorted_inventory %}
-                            <tr>
+                            <tr class="js-inventory-btn btn" data-id="{{ data.id }}">
                                 <td class="table-data">{{ data.item_name }}</td>
                                 <td class="table-data">{{ data.category }}</td>
                                 <td class="table-data">{{ data.total_quantity }}</td>
@@ -161,6 +202,53 @@
                 <div class="form-buttons">
                     <button type="submit" class="add-btn">Add</button>
                     <button type="button" class="cancel-btn js-close-inventory-btn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="updatedInventoryModal" class="modal">
+        <div class="modal-content">
+            <span class="js-close-update-inventory-btn">&times;</span>
+            <form action="" method="post" class="form-body">
+                {% csrf_token class="token" %}
+                <div class="form-top">
+                    <label for="item_name">Item Name</label>
+                    <input type="text" placeholder="name.." name="item_name" required />
+                </div>
+                <div class="form-middle">
+                    <div class="form-group">
+                        <label for="item_no">Item Number</label>
+                        <input type="number" placeholder="#" name="item_no" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="unit">Unit Type</label>
+                        <input type="text" placeholder="unit type.." name="unit" required />
+                    </div>
+                </div>
+                <div class="form-bottom">
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select name="category" required>
+                            <option value="Medicine">Medicine</option>
+                            <option value="Supply">Supply</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="expiration_date">Expiration Date</label>
+                        <input type="date" name="expiration_date" />
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input type="number" name="quantity" />
+                    </div>
+                </div>
+                <div class="form-last">
+                    <label for="description">Item Description</label>
+                    <input type="search" placeholder="description.." name="description" />
+                </div>
+                <div class="form-buttons">
+                    <button type="submit" class="add-btn">Add</button>
+                    <button type="button" class="cancel-btn js-close-update-inventory-btn">Cancel</button>
                 </div>
             </form>
         </div>

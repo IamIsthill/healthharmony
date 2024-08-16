@@ -4,7 +4,7 @@
         <img src="{% static 'assets/images/landing-page/pop-up.svg' %}" />
         <span>OOPS, SOMETHING WENT WRONG</span>
         {% for message in messages %}
-            {% if 'error' in message.tags %}<p>{{ message.text }}</p>{% endif %}
+            {% if message.tags == 'error' %}<p>{{ message }}</p>{% endif %}
         {% endfor %}
         <button class="btn" onclick="closePopup()">OK</button>
     </div>
