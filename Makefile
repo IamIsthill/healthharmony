@@ -90,3 +90,11 @@ flush:
 	make seed a=inventory &
 	make seed a=treatment
 	make import-user
+
+.PHONY: test-doctor
+test-doctor:
+	poetry run python -m healthharmony.manage test healthharmony.doctor
+
+.PHONY: test-inventory
+test-inventory:
+	poetry run python -m healthharmony.manage test healthharmony.inventory

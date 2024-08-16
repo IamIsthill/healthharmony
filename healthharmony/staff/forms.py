@@ -4,6 +4,7 @@ from django.contrib import messages
 import secrets
 import string
 import logging
+from django.db.models import Sum
 
 from healthharmony.users.models import User
 from healthharmony.inventory.models import QuantityHistory, InventoryDetail
@@ -91,7 +92,7 @@ class AddInventoryForm(forms.Form):
             messages.error(request, "Failed to add a new inventory record.")
 
 
-class EditQuantityForm(forms.Form):
+class EditInventoryForm(forms.Form):
     item_no = forms.IntegerField(required=False)
     unit = forms.CharField(required=False, max_length=15)
     item_name = forms.CharField(max_length=100, required=True)
@@ -100,4 +101,49 @@ class EditQuantityForm(forms.Form):
     expiration_date = forms.DateField(required=False)
     quantity = forms.IntegerField(required=False)
 
-    # def save(self, request):
+    def save(self, request, pk):
+        try:
+            pk = int(pk)
+            inventory_item = InventoryDetail.objects.get(id=pk).annotate(
+                quantity=Sum("quantities__updated_quantity")
+            )
+            expiration_date = self.cleaned_data.get("expiration_date")
+            quantity = self.cleaned_data.get("quantity")
+            category = self.cleaned_data.get("category")
+
+            inventory_item.expiration_date = (
+                expiration_date if expiration_date else None
+            )
+            inventory_item.item_no = self.cleaned_data.get("item_no")
+            inventory_item.unit = self.cleaned_data.get("unit")
+            inventory_item.item_name = self.cleaned_data.get("item_name")
+            inventory_item.category = self.cleaned_data.get("category")
+            inventory_item.description = category if category else None
+
+            if inventory_item.quantity != quantity:
+                item_quantity = QuantityHistory.objects.create(
+                    inventory=inventory_item,
+                    changed_by=request.user,
+                    updated_quantity=quantity if quantity else 0,
+                )
+                Log.objects.create(
+                    user=request.user,
+                    action=f"Successfully updated quantity history record[id:{item_quantity.id}]",
+                )
+                logger.info(
+                    f"Successfully updated quantity history record[id:{item_quantity.id}]"
+                )
+            inventory_item.save()
+
+            Log.objects.create(
+                user=request.user,
+                action=f"Successfully updated inventory record[id:{inventory_item.id}]",
+            )
+            logger.info(
+                f"Successfully updated inventory record[id:{inventory_item.id}]"
+            )
+        except Exception as e:
+            messages.error(
+                request, "Failed to update inventory record. Please try again"
+            )
+            logger.error(f"Failed to update inventory record: {str(e)}")

@@ -26,7 +26,7 @@ from healthharmony.staff.functions import (
     get_sorted_inventory_list,
     get_counted_inventory,
 )
-from healthharmony.staff.forms import PatientForm, AddInventoryForm
+from healthharmony.staff.forms import PatientForm, AddInventoryForm, EditInventoryForm
 
 env = environ.Env()
 environ.Env.read_env(env_file="healthharmony/.env")
@@ -200,11 +200,23 @@ def inventory(request):
 
 
 def add_inventory(request):
+    access_checker(request)
     if request.method == "POST":
         form = AddInventoryForm(request.POST)
         if form.is_valid():
             form.save(request)
             return redirect("staff-inventory")
+
+
+def update_inventory(request, pk):
+    access_checker(request)
+    if request.method == "POST":
+        form = EditInventoryForm(request.POST)
+        if form.is_valid():
+            form.save(request, pk)
+        else:
+            messages.error(request, "Form is invalid. Please try again.")
+    return redirect("staff-inventory")
 
 
 def bed(request):
