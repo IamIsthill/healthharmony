@@ -187,3 +187,28 @@ def train_model():
     model.fit(X_train, y_train)
 
     joblib.dump(model, "healthharmony/static/assets/models/weather.joblib")
+
+
+def get_prediction(
+    weather, df, model, le_season, le_sickness, le_weather, request, messages
+):
+    predict = None
+    try:
+        # Determine the current season
+        season = get_season()
+        predict = pred(season, weather, df, model, le_season, le_sickness, le_weather)
+    except Exception as e:
+        logger.error(f"Error in making prediction: {e}")
+        messages.error(request, f"Error in making prediction: {e}")
+    return request, predict
+
+
+def get_beds(BedStat, messages, request):
+    beds = None
+    try:
+        # Retrieve bed statistics from the database
+        beds = BedStat.objects.all()
+    except Exception as e:
+        logger.error(f"Error in retrieving bed statistics: {e}")
+        messages.error(request, f"Error in retrieving bed statistics: {e}")
+    return request, beds
