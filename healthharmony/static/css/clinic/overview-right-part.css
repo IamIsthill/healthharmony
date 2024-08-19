@@ -35,14 +35,21 @@
 .action-button:hover{
     background: rgba(255, 255, 255, 0.596);
 }
-.morbidityBar{
+
+.bar-section{
+    max-height: 65vh;
+    overflow-y: auto;
+}
+
+.Bar{
     display: flex;
     flex-direction: column;
     gap: 1rem;
     background: white;
     box-shadow: var( --box-shadowlight);
     border-radius: 2rem;
-    padding: 2rem 3rem;
+    padding: 2rem 2rem;
+    margin-bottom: 2rem;
 }
 .bars{
     height: 1rem;
@@ -54,4 +61,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+.bar-data{
+    padding: 0.5rem 0.5rem;
+    max-height: 16rem;
+    overflow-y: auto;
 }

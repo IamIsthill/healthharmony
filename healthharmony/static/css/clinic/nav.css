@@ -6,6 +6,7 @@
 }
 aside{
     height: 100%;
+    z-index: 1001;
     /* box-shadow: var(--box-shadow); */
 }
 .sidebar{
@@ -123,6 +124,7 @@ aside{
     height: 5rem;
     width: 100%;
     padding: 0 1rem;
+    z-index: 1000;
 }
 .nav-top h2{
     margin-left: 13rem;

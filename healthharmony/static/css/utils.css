@@ -149,6 +149,13 @@
    grid-template-columns: 12rem auto 26rem;
    /* border: 1px solid black; */
  }
+ .nurse-container > .right-part {
+  position: sticky;
+  top: 5.5rem; /* This makes the third column stick to the top when scrolling */
+  align-self: start; /* Ensure it aligns properly within the grid */
+}
+
+
  .nurse-container2{
   grid-template-columns: 12rem auto;
   /* border: 1px solid black; */
@@ -300,3 +307,4 @@
   color: white;
 }
 /* POP UP ERROR */
+
