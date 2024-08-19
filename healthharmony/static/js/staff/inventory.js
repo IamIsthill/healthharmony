@@ -2,102 +2,200 @@ import {
     getActiveFilter,
     openModal,
     closeModal,
-    createChart
+    createChart,
+    createBars,
+    // getDateBasedOnFilter
 } from '/static/js/utils.js'
 import {
     compareItemNames,
     compareStock,
     compareDates,
     getInitParamsForInventorySorter,
-    searchInventory
+    searchInventory,
+    getInventoryUsingId,
+    createUpdateInventoryForm
 } from '/static/js/staff/inventory-table.js'
 import {
     getCountsAndLabelsForInventoryChart,
-    getChartParams
+    getChartParams,
+    createInventoryChart,
+    getTrendsParams,
+    getInventoryItem,
 } from '/static/js/staff/inventory-chart.js'
+import {
+    sortInventoryData,
+    countCurrentStocksAndExpiredItems,
+    createInventoryBar
+} from '/static/js/staff/inventory-stock.js'
 
 const sortedInventory = JSON.parse(document.getElementById('sorted-inventory').textContent)
 const countedInventory = JSON.parse(document.getElementById('counted-inventory').textContent)
 const inventoryData = JSON.parse(document.getElementById('inventory-data').textContent)
+const token = document.getElementsByName('csrfmiddlewaretoken')[0].value
 
 main()
 
 function main() {
-    console.log(countedInventory)
+    // console.log(countedInventory)
+    // console.log(sortedInventory)
+    createLogicTrendsBar()
+    createLogicInventoryChart()
+    createLogicInventoryBar()
+
     listenToInventoryCategoryBtns()
     listenToInventorySortSelector()
     listenInventorySortDirectionBtn()
     listenToSearchBtn()
     listenToAddInventoryBtn()
     listenToInventorySearchContainer()
+    listenToInventoryButtons()
+
     listenChartCategoryBtns()
     listenChartFilterBtns()
 
-    const {
-        category,
-        filter
-    } = getChartParams(getActiveFilter)
-    const data = countedInventory[category][filter]
-    const {
-        labels,
-        counts
-    } = getCountsAndLabelsForInventoryChart(data)
-    createInventoryChart(labels, counts, category, createChart)
+    listenInventoryTrendsCategoryBtns()
+    listenInventoryTrendsFilterBtns()
 }
 
-function createInventoryChart(labels, counts, categoryName, createChart) {
-    const canvas = document.getElementById('js-seasonal-canvas')
-    const ctx = canvas.getContext('2d')
 
-    const chartType = 'line'
-    const chartData = {
-        labels: labels,
-        datasets: [{
-            label: categoryName,
-            data: counts,
-            borderWidth: 1,
-            indexAxis: 'x',
-            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Simplified background color for line chart
-            borderColor: 'rgba(75, 192, 192, 1)', // Adding border color for better visualization
-            fill: false,
-            tension: 0.5
-        }]
+function listenToInventoryButtons() {
+    const inventoryBtns = document.querySelectorAll('.js-inventory-btn')
+    const updateInventoryModal = document.getElementById('updatedInventoryModal')
+    for (const inventoryBtn of inventoryBtns) {
+        inventoryBtn.addEventListener('click', () => {
+            const inventoryId = parseInt(inventoryBtn.getAttribute('data-id'))
+            const item = getInventoryUsingId(Object.values(sortedInventory), inventoryId)
+            createUpdateInventoryForm(item, token)
+            openModal(updateInventoryModal)
+            const cancelInventoryBtns = document.querySelectorAll('.js-close-update-inventory-btn')
+            for (const cancelInventoryBtn of cancelInventoryBtns) {
+                closeModal(updateInventoryModal, cancelInventoryBtn)
+            }
+        })
     }
-    const chartOptions = {
-        plugins: {
-            legend: {
-                labels: {
-                    font: {
-                        family: 'Poppins', // Your custom font family
-                        size: 14, // Font size
-                        weight: 'normal', // Font weight
-                        style: 'normal' // Font style
-                    }
-                }
-            }
-        },
-        scales: {
-            x: {
-                grid: {
-                    display: false // This removes the grid lines on the x-axis
-                },
-                ticks: {
-                    font: {
-                        family: 'Arial', // Web-safe font
-                        size: 10,
-                        weight: 'bold',
-                        style: 'normal'
-                    }
-                }
-            },
-            y: {
-                beginAtZero: true, // Ensure y-axis starts from 0
-                display: false
-            }
+}
+
+function createLogicInventoryBar() {
+    if (inventoryData) {
+        const categorizedData = sortInventoryData(inventoryData)
+        const categorizedCounts = countCurrentStocksAndExpiredItems(categorizedData)
+        createInventoryBar(categorizedCounts, createChart)
+    }
+}
+
+function createLogicInventoryTable() {
+    if (sortedInventory) {
+        const {
+            filter,
+            inventorySort,
+            sortDirection
+        } = getInitParamsForInventorySorter(getActiveFilter)
+        const inventory = getSortedInventoryData(filter, inventorySort, sortDirection)
+        updateInventoryTable(inventory)
+    }
+}
+
+function createLogicInventoryChart() {
+    if (countedInventory) {
+        const {
+            category,
+            filter
+        } = getChartParams(getActiveFilter)
+
+        const data = countedInventory[category][filter]
+        const {
+            labels,
+            counts
+        } = getCountsAndLabelsForInventoryChart(data)
+        createInventoryChart(labels, counts, category, createChart)
+    }
+
+}
+
+function createLogicTrendsBar() {
+    if (inventoryData) {
+        const {
+            trendCategory,
+            trendFilter
+        } = getTrendsParams(getActiveFilter)
+        createTrendsBarCanvas(trendCategory, trendFilter)
+        selectEachTrendsCanvasThenCreateTrendsBar(trendCategory, trendFilter)
+    }
+}
+
+function selectEachTrendsCanvasThenCreateTrendsBar(trendCategory, trendFilter) {
+    let maxCount = 0
+    for (const inventory of Object.values(inventoryData)) {
+        const trendsCategories = ['Medicine', 'Supply']
+        for (const category of trendsCategories) {
+            const filteredInventoryData = countedInventory[category][trendFilter]
+            const inventoryItem = getInventoryItem(inventory.id, filteredInventoryData)
+            let quantity = inventoryItem ? inventoryItem.total_quantity : 0
+            maxCount += quantity
         }
     }
 
-    createChart(ctx, chartType, chartData, chartOptions)
+    for (const inventory of Object.values(inventoryData)) {
+        if (inventory.category == trendCategory) {
+            const trendCanvas = document.getElementById(`trends-bar-${inventory.id}`)
+            const filteredInventoryData = countedInventory[trendCategory][trendFilter]
+            const inventoryItem = getInventoryItem(inventory.id, filteredInventoryData)
+            let quantity = inventoryItem ? inventoryItem.total_quantity : 0
+            createBars(trendCanvas, maxCount, quantity)
+        }
+    }
+}
+
+function createTrendsBarCanvas(trendCategory, trendFilter) {
+    const trendsBarSpace = document.querySelector('.bar-space')
+    let html = ''
+
+    for (const item of Object.values(inventoryData)) {
+        if (item.category == trendCategory) {
+            const filteredInventoryData = countedInventory[trendCategory][trendFilter]
+            const inventoryItem = getInventoryItem(item.id, filteredInventoryData)
+            let quantity = inventoryItem ? inventoryItem.total_quantity : 0
+            html += `
+                <div class="bars">
+                    <h4>${item.item_name}</h4>
+                    <h4>${quantity}</h4>
+                    <div>
+                        <canvas id="trends-bar-${item.id}"></canvas>
+                    </div>
+                </div>
+            `
+
+        }
+        trendsBarSpace.innerHTML = html
+    }
+}
+
+function listenInventoryTrendsCategoryBtns() {
+    const trendsCategoryBtns = document.querySelectorAll('.js-seasonal-bar-category')
+    for (const btn of trendsCategoryBtns) {
+        btn.addEventListener('click', () => {
+            const trendsClass = 'js-seasonal-bar-category-active'
+            for (const btn of trendsCategoryBtns) {
+                btn.classList.remove(trendsClass)
+            }
+            btn.classList.add(trendsClass)
+            createLogicTrendsBar()
+        })
+    }
+}
+
+function listenInventoryTrendsFilterBtns() {
+    const trendFilterBtns = document.querySelectorAll('.js-seasonal-bar-filter')
+    for (const btn of trendFilterBtns) {
+        btn.addEventListener('click', () => {
+            const filterClass = 'js-seasonal-bar-filter-active'
+            for (const btn of trendFilterBtns) {
+                btn.classList.remove(filterClass)
+            }
+            btn.classList.add(filterClass)
+            createLogicTrendsBar()
+        })
+    }
 }
 
 function listenChartCategoryBtns() {
@@ -108,16 +206,7 @@ function listenChartCategoryBtns() {
                 btn.classList.remove('js-seasonal-category-btn-active')
             }
             btn.classList.add('js-seasonal-category-btn-active')
-            const {
-                category,
-                filter
-            } = getChartParams(getActiveFilter)
-            const data = countedInventory[category][filter]
-            const {
-                labels,
-                counts
-            } = getCountsAndLabelsForInventoryChart(data)
-            createInventoryChart(labels, counts, category, createChart)
+            createLogicInventoryChart()
 
         })
     }
@@ -132,16 +221,7 @@ function listenChartFilterBtns() {
                 btn.classList.remove('js-seasonal-filter-active')
             }
             btn.classList.add('js-seasonal-filter-active')
-            const {
-                category,
-                filter
-            } = getChartParams(getActiveFilter)
-            const data = countedInventory[category][filter]
-            const {
-                labels,
-                counts
-            } = getCountsAndLabelsForInventoryChart(data)
-            createInventoryChart(labels, counts, category, createChart)
+            createLogicInventoryChart()
 
         })
     }
@@ -159,13 +239,7 @@ function listenToInventoryCategoryBtns() {
                 btn.classList.remove(filterClassName)
             }
             btn.classList.add(filterClassName)
-            const {
-                filter,
-                inventorySort,
-                sortDirection
-            } = getInitParamsForInventorySorter(getActiveFilter)
-            const inventory = getSortedInventoryData(filter, inventorySort, sortDirection)
-            updateInventoryTable(inventory)
+            createLogicInventoryTable()
         })
     }
 }
@@ -173,13 +247,7 @@ function listenToInventoryCategoryBtns() {
 function listenToInventorySortSelector() {
     const inventorySortSelector = document.querySelector('.js-inventory-sort-select')
     inventorySortSelector.addEventListener('change', () => {
-        const {
-            filter,
-            inventorySort,
-            sortDirection
-        } = getInitParamsForInventorySorter(getActiveFilter)
-        const inventory = getSortedInventoryData(filter, inventorySort, sortDirection)
-        updateInventoryTable(inventory)
+        createLogicInventoryTable()
     })
 
 }
@@ -238,7 +306,7 @@ function updateInventoryTable(inventory) {
     if (inventory.length > 0) {
         for (const data of inventory) {
             html += `
-                <tr>
+                <tr class="js-inventory-btn btn" data-id="${data.id}">
                     <td class="table-data">${data.item_name}</td>
                     <td class="table-data">${data.category}</td>
                     <td class="table-data">${ data.total_quantity }</td>

@@ -22,9 +22,27 @@ def main():
     # test_staff_patient_percents()
     # test_medcert_percents()
     # test_query_inventory_data_structure(request)
-    # test_inventory_list_function(request)
-    test_chart_inventory_structure(request)
+    test_inventory_list_function(request)
+    # test_chart_inventory_structure(request)
     # test_diagnosis_predictor()
+    # count_current_stocks_expired_items()
+
+
+def count_current_stocks_expired_items():
+    from healthharmony.inventory.models import InventoryDetail
+
+    try:
+        inventory_data = (
+            InventoryDetail.objects.all()
+            .annotate(quantity=Sum("quantities__updated_quantity"))
+            .values("category", "expiration_date", "quantity")
+        )
+        for data in inventory_data:
+            if data["expiration_date"]:
+                data["expiration_date"] = data["expiration_date"].isoformat()
+        print_data(inventory_data)
+    except Exception as e:
+        logger.error(str(e))
 
 
 def test_data_structure():

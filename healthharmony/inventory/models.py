@@ -14,7 +14,7 @@ class InventoryDetail(models.Model):
     category = models.CharField(
         max_length=10, choices=CATEGORY_CHOICES, default="Medicine", null=True
     )
-    description = models.TextField(null=True)
+    description = models.TextField(null=True, blank=True)
     expiration_date = models.DateField(default=None, null=True, blank=True)
     added_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 

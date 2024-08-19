@@ -75,3 +75,70 @@ export function searchInventory(inventory) {
     inventorySearchContainer.value = ''
     return filteredInventory
 }
+
+
+export function getInventoryUsingId(sortedInventory, id) {
+    const mid = Math.round((sortedInventory.length) / 2)
+    const firstHalfArr = sortedInventory.slice(0, mid)
+    const secondHalfArr = sortedInventory.slice(mid)
+
+    for (const item of firstHalfArr) {
+        if (item.id === id) {
+            return item
+        }
+    }
+    if (secondHalfArr.length > 0) {
+        return getInventoryUsingId(secondHalfArr, id);
+    } else {
+        return null; // Or return undefined
+    }
+}
+
+export function createUpdateInventoryForm(item, token) {
+    const url = `/staff/inventory/update/${item.id}/`
+    const updateInventoryForm = document.querySelector('#updatedInventoryModal .modal-content .form-body')
+    let html = `
+        <input type="hidden" name="csrfmiddlewaretoken" value="${token}" />
+        <div class="form-top">
+            <label for="item_name">Item Name</label>
+            <input type="text" placeholder="name.." name="item_name" value="${item.item_name}" required />
+        </div>
+        <div class="form-middle">
+            <div class="form-group">
+                <label for="item_no">Item Number</label>
+                <input type="number" placeholder="#" name="item_no" value="${item.item_no}" required />
+            </div>
+            <div class="form-group">
+                <label for="unit">Unit Type</label>
+                <input type="text" placeholder="unit type.." name="unit" maxlength="15" value="${item.unit}" required />
+            </div>
+        </div>
+        <div class="form-bottom">
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select name="category" value="${item.category}"required>
+                    <option value="Medicine">Medicine</option>
+                    <option value="Supply">Supply</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="expiration_date">Expiration Date</label>
+                <input type="date" name="expiration_date" value="${item.expiration_date}"/>
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantity</label>
+                <input type="number" name="quantity" value="${item.total_quantity}" />
+            </div>
+        </div>
+        <div class="form-last">
+            <label for="description">Item Description</label>
+            <input type="search" placeholder="description.." name="description" value="${item.description}" />
+        </div>
+        <div class="form-buttons">
+            <button type="submit" class="add-btn">Add</button>
+            <button type="button" class="cancel-btn js-close-update-inventory-btn">Cancel</button>
+        </div>
+    `
+    updateInventoryForm.innerHTML = html
+    updateInventoryForm.setAttribute('action', url)
+}

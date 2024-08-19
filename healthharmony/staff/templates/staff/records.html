@@ -50,7 +50,11 @@
     }
     </style>
 {% endblock %}
-{% block message %}{% endblock %}
+{% block message %}
+    {% if messages|has_error_message %}
+        {% include 'error.html' %}
+    {% endif %}
+{% endblock %}
 {% block main %}
     <div class="nurse-container2">
         {% include 'staff/navbar.html' %}
@@ -100,6 +104,10 @@
                                             Ongoing
                                         {% endif %}
                                     </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td class="table-data" colspan="4">No available data</td>
                                 </tr>
                             {% endfor %}
                         {% else %}
@@ -243,14 +251,14 @@
       let html = ''
       data.forEach((line) => {
         let text = `
-                                                                                                                                                                                                                                          <tr>
-                                                                                                                                                                                                                                            <td>${line.email}</td>
-                                                                                                                                                                                                                                            <td>${line.first_name} ${line.last_name}</td>
-                                                                                                                                                                                                                                            <td>${line.purpose}</td>
-                                                                                                                                                                                                                                            <td>${formatDate(line.requested)}</td>
-                                                                                                                                                                                                                                          </tr>
+                                                                                                                                                                                                                                                  <tr>
+                                                                                                                                                                                                                                                    <td>${line.email}</td>
+                                                                                                                                                                                                                                                    <td>${line.first_name} ${line.last_name}</td>
+                                                                                                                                                                                                                                                    <td>${line.purpose}</td>
+                                                                                                                                                                                                                                                    <td>${formatDate(line.requested)}</td>
+                                                                                                                                                                                                                                                  </tr>
 
-                                                                                                                                                                                                                                        `
+                                                                                                                                                                                                                                                `
         html += text
       })
       requestSpace.innerHTML = html

@@ -1,23 +1,22 @@
 from django.shortcuts import render, redirect
 import secrets
 import string
-from django.db.models import Count
 from django.db.models import Sum, F, Value
 from django.db.models.functions import Coalesce
 from django.utils import timezone
-from datetime import timedelta
 from django.contrib import messages
-from collections import defaultdict
 from dateutil.relativedelta import relativedelta
 from django.core.mail import EmailMessage
 import environ
 import logging
+from concurrent.futures import ProcessPoolExecutor, as_completed, ThreadPoolExecutor
+import threading
 
 from healthharmony.bed.models import BedStat
-from healthharmony.users.models import User, Department
+from healthharmony.users.models import User
 from healthharmony.administrator.models import Log, DataChangeLog
-from healthharmony.treatment.models import Illness, Certificate, Category
-from healthharmony.inventory.models import InventoryDetail, QuantityHistory
+from healthharmony.treatment.models import Illness
+from healthharmony.inventory.models import InventoryDetail
 from healthharmony.base.functions import check_models
 from healthharmony.staff.functions import (
     get_sorted_category,
@@ -25,8 +24,16 @@ from healthharmony.staff.functions import (
     get_departments,
     get_sorted_inventory_list,
     get_counted_inventory,
+    fetch_today_patient,
+    fetch_total_patient,
+    fetch_previous_patients,
+    fetch_monthly_medcert,
+    fetch_previous_medcert,
+    fetch_patients,
+    fetch_categories,
+    fetch_inventory,
 )
-from healthharmony.staff.forms import PatientForm, AddInventoryForm
+from healthharmony.staff.forms import PatientForm, AddInventoryForm, EditInventoryForm
 
 env = environ.Env()
 environ.Env.read_env(env_file="healthharmony/.env")
@@ -71,53 +78,56 @@ def overview(request):
     previous_month = now - relativedelta(months=1)
     context = {}
     try:
-        today_patient = (
-            User.objects.filter(patient_illness__updated__date=now.date())
-            .distinct()
-            .count()
-            or 0
+        with ThreadPoolExecutor() as tp:
+            futures = {
+                tp.submit(fetch_today_patient, now): "today_patient",
+                tp.submit(fetch_total_patient): "total_patient",
+                tp.submit(fetch_previous_patients, previous_day): "previous_patients",
+                tp.submit(fetch_monthly_medcert, now): "monthly_medcert",
+                tp.submit(fetch_previous_medcert, previous_month): "previous_medcert",
+                tp.submit(fetch_patients): "patients",
+                tp.submit(fetch_categories): "categories",
+                tp.submit(get_sorted_category, request): "sorted_category",
+                tp.submit(get_sorted_department, request): "sorted_department",
+                tp.submit(get_departments, request): "department_names",
+            }
+            results = {}
+            for future in as_completed(futures):
+                key = futures[future]
+                try:
+                    results[key] = future.result()
+                except Exception as exc:
+                    logger.error(f"{key} generated an exception: {exc}")
+                    results[key] = 0
+
+        today_patient = results["today_patient"]
+        total_patient = results["total_patient"]
+        previous_patients = results["previous_patients"]
+        monthly_medcert = results["monthly_medcert"]
+        previous_medcert = results["previous_medcert"]
+        patients = results["patients"]
+        categories = results["categories"]
+        request, sorted_category = results["sorted_category"]
+        request, sorted_department = results["sorted_department"]
+        request, department_names = results["department_names"]
+
+        # Calculate percentages
+        patient_percent = (
+            0.00
+            if previous_patients == 0
+            else round(today_patient / previous_patients * 100, 2)
         )
-        total_patient = (
-            User.objects.annotate(illness_count=Count("patient_illness"))
-            .filter(illness_count__gt=0)
-            .count()
-            or 0
-        )
-        previous_patients = (
-            User.objects.filter(patient_illness__updated__date=previous_day.date())
-            .distinct()
-            .count()
-            or 0
-        )
-        if previous_patients == 0:
-            patient_percent = 0.00
-        else:
-            patient_percent = today_patient / previous_patients * 100
-            patient_percent = round(patient_percent, 2)
-        monthly_medcert = (
-            Certificate.objects.filter(
-                requested__month=now.month, requested__year=now.year, released=True
-            ).count()
-            or 0
-        )
-        previous_medcert = (
-            Certificate.objects.filter(
-                requested__month=previous_month.month,
-                requested__year=previous_month.year,
-                released=True,
-            ).count()
-            or 0
+        medcert_percent = (
+            0.00
+            if previous_medcert == 0
+            else round(monthly_medcert / previous_medcert * 100, 2)
         )
 
-        if previous_medcert == 0:
-            medcert_percent = 0.00
-        else:
-            medcert_percent = monthly_medcert / previous_medcert * 100
-            medcert_percent = round(medcert_percent, 2)
+        department_names = [
+            {"id": department.id, "department": department.department}
+            for department in department_names
+        ]
 
-        patients = User.objects.filter(access=1)
-
-        categories = Category.objects.all()
         context.update(
             {
                 "today_patient": today_patient,
@@ -127,6 +137,10 @@ def overview(request):
                 "patient_percent": patient_percent,
                 "medcert_percent": medcert_percent,
                 "patients": patients,
+                "page": "overview",
+                "sorted_category": sorted_category,
+                "sorted_department": sorted_department,
+                "department_names": department_names,
             }
         )
     except Exception as e:
@@ -135,23 +149,6 @@ def overview(request):
             request, "Facing problems connecting to server. Please reload page."
         )
 
-    request, sorted_category = get_sorted_category(request)
-    request, sorted_department = get_sorted_department(request)
-    request, department_names = get_departments(request)
-
-    department_names = [
-        {"id": department.id, "department": department.department}
-        for department in department_names
-    ]
-
-    context.update(
-        {
-            "page": "overview",
-            "sorted_category": sorted_category,
-            "sorted_department": sorted_department,
-            "department_names": department_names,
-        }
-    )
     return render(request, "staff/overview.html", context)
 
 
@@ -173,11 +170,23 @@ def add_issue(request):
 
 def inventory(request):
     access_checker(request)
-    try:
-        inventory = InventoryDetail.objects.all().values("id", "item_name", "category")
-    except Exception as e:
-        logger.error(f"Failed to fetch inventory data: {str(e)}")
-        messages.error(request, "Failed to fetched inventory data. Please reload page.")
+    with ThreadPoolExecutor() as tp:
+        futures = {
+            tp.submit(fetch_inventory, InventoryDetail, Sum, request): "inventory",
+            tp.submit(get_sorted_inventory_list, request): "sorted_inventory",
+            tp.submit(get_counted_inventory, request): "counted_inventory",
+        }
+        results = {}
+
+        for future in as_completed(futures):
+            key = futures[future]
+            try:
+                results[key] = future.result()
+            except Exception as e:
+                logger.error(f"{key} generated an exception: {e}")
+                results[key] = 0
+
+    request, inventory = fetch_inventory(InventoryDetail, Sum, request)
     request, sorted_inventory = get_sorted_inventory_list(request)
     request, counted_inventory = get_counted_inventory(request)
 
@@ -191,11 +200,24 @@ def inventory(request):
 
 
 def add_inventory(request):
+    access_checker(request)
     if request.method == "POST":
         form = AddInventoryForm(request.POST)
         if form.is_valid():
             form.save(request)
             return redirect("staff-inventory")
+
+
+def update_inventory(request, pk):
+    access_checker(request)
+    if request.method == "POST":
+        form = EditInventoryForm(request.POST)
+        if form.is_valid():
+            form.save(request, pk)
+        else:
+            messages.error(request, "Form is invalid. Please try again.")
+            logger.error("Form is invalid")
+    return redirect("staff-inventory")
 
 
 def bed(request):
