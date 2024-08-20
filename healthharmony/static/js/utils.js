@@ -66,6 +66,11 @@ export function getActiveFilter(filterClassName, sorterName) {
     return filter
 }
 
+/**
+ * Opens a modal by setting its display style to "block".
+ *
+ * @param {HTMLElement} modal - The modal element to be opened.
+ */
 export function openModal(modal) {
     modal.style.display = "block";
 }
@@ -80,4 +85,12 @@ export function closeModal(modal, btn) {
             modal.style.display = "none";
         }
     }
+}
+
+export function openPopup(modal) {
+    modal.classList.add('open-popup')
+}
+
+export function closePopup(modal) {
+    modal.classList.remove('open-popup')
 }

@@ -10,11 +10,13 @@ from django.core.mail import EmailMessage
 import environ
 import logging
 from concurrent.futures import as_completed, ThreadPoolExecutor
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.utils.dateparse import parse_datetime
 
 from healthharmony.bed.models import BedStat
 from healthharmony.users.models import User
 from healthharmony.administrator.models import Log, DataChangeLog
-from healthharmony.treatment.models import Illness
+from healthharmony.treatment.models import Illness, IllnessTreatment
 from healthharmony.inventory.models import InventoryDetail
 from healthharmony.base.functions import check_models
 from healthharmony.staff.functions import (
@@ -268,11 +270,56 @@ def records(request):
     email = env("EMAIL_ADD")
     context = {"page": "records", "email": email}
     try:
-        history = Illness.objects.all().annotate(
-            first_name=Coalesce(F("patient__first_name"), Value("")),
-            last_name=Coalesce(F("patient__last_name"), Value("")),
+        history = (
+            Illness.objects.all()
+            .annotate(
+                first_name=Coalesce(F("patient__first_name"), Value("")),
+                last_name=Coalesce(F("patient__last_name"), Value("")),
+                category=Coalesce(F("illness_category__category"), Value("")),
+            )
+            .values(
+                "first_name",
+                "last_name",
+                "issue",
+                "updated",
+                "diagnosis",
+                "category",
+                "staff",
+                "doctor",
+                "id",
+                "added",
+                "patient",
+            )
         )
-        context.update({"history": history})
+
+        # Preparing the data for each illness
+        for data in history:
+            data["updated"] = data["updated"].isoformat()
+            data["added"] = data["added"].isoformat()
+            data["treatment"] = []
+
+            # Get the related IllnessTreatment instances
+            illness_treatments = IllnessTreatment.objects.filter(
+                illness_id=data["id"]
+            ).select_related("inventory_detail")
+
+            for treatment in illness_treatments:
+                data["treatment"].append(
+                    {
+                        "quantity": treatment.quantity or 0,
+                        "medicine": treatment.inventory_detail.item_name,
+                    }
+                )
+        paginator = Paginator(history, 10)
+        page = request.GET.get("page")
+
+        try:
+            history_page = paginator.page(page)
+        except PageNotAnInteger:
+            history_page = paginator.page(1)
+        except EmptyPage:
+            history_page = paginator.page(paginator.num_pages)
+        context.update({"history": history_page, "history_data": list(history)})
     except Exception:
         messages.error(request, "Error fetching data")
     return render(request, "staff/records.html", context)

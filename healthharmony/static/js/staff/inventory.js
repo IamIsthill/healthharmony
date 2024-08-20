@@ -33,11 +33,13 @@ const countedInventory = JSON.parse(document.getElementById('counted-inventory')
 const inventoryData = JSON.parse(document.getElementById('inventory-data').textContent)
 const token = document.getElementsByName('csrfmiddlewaretoken')[0].value
 
-main()
+await main()
 
-function main() {
+async function main() {
     // console.log(countedInventory)
     // console.log(sortedInventory)
+    // const data = await getData()
+    // console.log(data)
     createLogicTrendsBar()
     createLogicInventoryChart()
     createLogicInventoryBar()
@@ -57,6 +59,23 @@ function main() {
     listenInventoryTrendsCategoryBtns()
     listenInventoryTrendsFilterBtns()
 }
+
+// async function getData() {
+//     let response = null
+//     try {
+//         // const url = new URL('https://www.googleapis.com/books/v1/volumes/zyTCAlFPjgYC?key=AIzaSyCg9zmLFmVYtJCMWdDBP_WuyrHBYD2RWHA')
+//         const url = new URL('https://www.googleapis.com/books/v1/volumes?q=health+books')
+//         response = await fetch (url)
+//         if (!response.ok) {
+//             throw new Error('Network response was not ok ' + response.statusText)
+//         }
+//         const data = await response.json()
+//         return data
+//     } catch (error) {
+//         console.error('There has been a problem with your fetch operation:', error)
+//         return response
+//     }
+// }
 
 function listenToInventoryDeleteButtons() {
     const inventoryDeleteBtns = document.querySelectorAll('.js-inventory-delete-btn')

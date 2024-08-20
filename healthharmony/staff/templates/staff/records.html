@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load tags %}
 {% block title %}Records | HealthHarmony{% endblock %}
 {% block header %}
     <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
@@ -63,12 +64,12 @@
             <div class="upper">
                 <h4>Visit History</h4>
                 <div>
-                    <button id="myBtn">Add Record</button>
+                    <button id="addRecordBtn">Add Record</button>
                     <!-- The Modal -->
-                    <div id="myModal" class="modal">
+                    <div class="modal js-add-record-modal">
                         <!-- Modal content -->
                         <div class="modal-content">
-                            <span class="close">&times;</span>
+                            <span class="js-close-add-record">&times;</span>
                             <form action="{% url 'create-patient-add-issue' %}" method="post">
                                 {% csrf_token %}
                                 <label for="">Patient Email</label>
@@ -77,6 +78,7 @@
                                 <label for="">Issue</label>
                                 <input type="text" name="issue" />
                                 <button type="submit">Add Complaint</button>
+                                <button type="button" class="js-close-add-record">Cancel</button>
                             </form>
                         </div>
                     </div>
@@ -88,15 +90,16 @@
                             <th class="table-head">Patient</th>
                             <th class="table-head">Concern</th>
                             <th class="table-head">Status</th>
+                            <th class="table-head" colspan="2">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% if history %}
                             {% for data in history %}
                                 <tr>
-                                    <td class="table-data">{{ data.added }}</td>
+                                    <td class="table-data date" data="date-{{ data.id }}">{{ data.added }}</td>
                                     <td class="table-data">{{ data.first_name }} {{ data.last_name }}</td>
-                                    <td class="table-data">{{ data.issue }}</td>
+                                    <td class="table-data">{{ data.issue|truncatechars:60 }}</td>
                                     <td class="table-data">
                                         {% if data.diagnosis %}
                                             Finished
@@ -104,6 +107,9 @@
                                             Ongoing
                                         {% endif %}
                                     </td>
+                                    <td class="table-data js-view-illness-btn"
+                                        data-illness-id="{{ data.id }}">View Illness</td>
+                                    <td class="table-data" data-patient-id="{{ data.patient }}">Go to Patient Profile</td>
                                 </tr>
                             {% empty %}
                                 <tr>
@@ -116,6 +122,21 @@
                             </tr>
                         {% endif %}
                     </tbody>
+                    {% if history.has_other_pages %}
+                        <div class="pagination">
+                            <span class="step-links">
+                                {% if history.has_previous %}
+                                    <a href="?page=1">&laquo; First</a>
+                                    <a href="?page={{ history.previous_page_number }}">Previous</a>
+                                {% endif %}
+                                <span class="current">Page {{ history.number }} of {{ history.paginator.num_pages }}.</span>
+                                {% if history.has_next %}
+                                    <a href="?page={{ history.next_page_number }}">Next</a>
+                                    <a href="?page={{ history.paginator.num_pages }}">Last &raquo;</a>
+                                {% endif %}
+                            </span>
+                        </div>
+                    {% endif %}
                 </table>
             </div>
             <div class="lower">
@@ -160,38 +181,23 @@
             </div>
         </div>
     </div>
+    <div class="modals">
+        <div id="viewIllnessModal" class="modal">
+            <div class="modal-content">
+                <span class="js-close-view-illness-modal">&times;</span>
+                <div class="modal-body">
+                    <h1>Hi</h1>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 {% block script %}
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    {{ history_data|json_script:'history-data' }}
+    <script src="{% static 'chart.js/dist/chart.umd.js' %}"></script>
+    <script src="{% static 'js/error.js' %}" type="module"></script>
+    <script src="{% static 'js/staff/records.js' %}" type="module"></script>
     <script>
-    // Get the modal
-    var modal = document.getElementById('myModal')
-
-    // Get the button that opens the modal
-    var btn = document.getElementById('myBtn')
-
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName('close')[0]
-
-    // When the user clicks on the button, open the modal
-    btn.onclick = function () {
-      modal.style.display = 'block'
-    }
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function () {
-      modal.style.display = 'none'
-    }
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-      if (event.target == modal) {
-        modal.style.display = 'none'
-      }
-    }
-
-    //==========================================
-
     // When document fully renders, call certicate_sorter in api to get the data for populate request history
     let requestDateFilter = 'week'
     let requestStatusFilter = 'all'
@@ -251,14 +257,14 @@
       let html = ''
       data.forEach((line) => {
         let text = `
-                                                                                                                                                                                                                                                  <tr>
-                                                                                                                                                                                                                                                    <td>${line.email}</td>
-                                                                                                                                                                                                                                                    <td>${line.first_name} ${line.last_name}</td>
-                                                                                                                                                                                                                                                    <td>${line.purpose}</td>
-                                                                                                                                                                                                                                                    <td>${formatDate(line.requested)}</td>
-                                                                                                                                                                                                                                                  </tr>
+                                                                                                                                                                                                                                                                                                                                                                                                                          <tr>
+                                                                                                                                                                                                                                                                                                                                                                                                                            <td>${line.email}</td>
+                                                                                                                                                                                                                                                                                                                                                                                                                            <td>${line.first_name} ${line.last_name}</td>
+                                                                                                                                                                                                                                                                                                                                                                                                                            <td>${line.purpose}</td>
+                                                                                                                                                                                                                                                                                                                                                                                                                            <td>${formatDate(line.requested)}</td>
+                                                                                                                                                                                                                                                                                                                                                                                                                          </tr>
 
-                                                                                                                                                                                                                                                `
+                                                                                                                                                                                                                                                                                                                                                                                                                        `
         html += text
       })
       requestSpace.innerHTML = html

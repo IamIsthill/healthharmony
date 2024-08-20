@@ -22,10 +22,60 @@ def main():
     # test_staff_patient_percents()
     # test_medcert_percents()
     # test_query_inventory_data_structure(request)
-    test_inventory_list_function(request)
+    # test_inventory_list_function(request)
     # test_chart_inventory_structure(request)
     # test_diagnosis_predictor()
     # count_current_stocks_expired_items()
+    test_get_visit_records(request)
+
+
+def test_get_visit_records(request):
+    from healthharmony.treatment.models import Illness, IllnessTreatment
+    from django.db.models import Q, F, Value, Prefetch
+    from django.db.models.functions import Coalesce
+    from django.utils.dateparse import parse_datetime
+
+    history = (
+        Illness.objects.all()
+        .annotate(
+            first_name=Coalesce(F("patient__first_name"), Value("")),
+            last_name=Coalesce(F("patient__last_name"), Value("")),
+            category=Coalesce(F("illness_category__category"), Value("")),
+        )
+        .values(
+            "first_name",
+            "last_name",
+            "issue",
+            "updated",
+            "diagnosis",
+            "category",
+            "staff",
+            "doctor",
+            "id",
+            "added",
+        )
+    )
+
+    # Preparing the data for each illness
+    for data in history:
+        data["updated"] = data["updated"].isoformat()
+        data["added"] = data["added"].isoformat()
+        data["treatment"] = []
+
+        # Get the related IllnessTreatment instances
+        illness_treatments = IllnessTreatment.objects.filter(
+            illness_id=data["id"]
+        ).select_related("inventory_detail")
+
+        for treatment in illness_treatments:
+            data["treatment"].append(
+                {
+                    "quantity": treatment.quantity or 0,
+                    "medicine": treatment.inventory_detail.item_name,
+                }
+            )
+
+    print(json.dumps(list(history), indent=4, sort_keys=True))
 
 
 def count_current_stocks_expired_items():
