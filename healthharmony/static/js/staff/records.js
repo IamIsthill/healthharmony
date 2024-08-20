@@ -18,6 +18,19 @@ function main() {
     listenAddRecordBtn()
     formatDatesInVisitHistory()
     listenViewIllnessesBtn()
+    listenViewPatient()
+}
+
+function listenViewPatient() {
+    const viewPatientBtns = document.querySelectorAll('.js-view-patient')
+    const baseUrl = window.location.origin
+    for (const btn of viewPatientBtns) {
+        btn.addEventListener('click', () => {
+            const patientId = btn.getAttribute('data-patient-id')
+            const url = `${baseUrl}/doctor/patient/${patientId}/`
+            window.location.href = new URL(url)
+        })
+    }
 }
 
 function listenViewIllnessesBtn() {
@@ -26,7 +39,7 @@ function listenViewIllnessesBtn() {
         viewIllnessBtn.addEventListener('click', () => {
             const illnessId = parseInt(viewIllnessBtn.getAttribute('data-illness-id'))
             const illnessData = getIllnessUsingId(historyData, illnessId)
-            console.log(illnessData.treatment)
+            console.log(illnessData)
             createViewIllnessBody(illnessData)
             const viewIllnessModal = document.getElementById('viewIllnessModal')
             const closeBtns = document.querySelectorAll('.js-close-view-illness-modal')

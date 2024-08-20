@@ -22,7 +22,6 @@ logger = logging.getLogger(__name__)
 # Create your views here.
 @login_required(login_url="account_login")
 def view_patient_profile(request, pk):
-    access_checker(request)
     context = {}
     update_patient_view_context(request, context)
     try:

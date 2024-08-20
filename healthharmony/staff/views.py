@@ -298,6 +298,11 @@ def records(request):
             data["added"] = data["added"].isoformat()
             data["treatment"] = []
 
+            staff = User.objects.get(id=data["staff"])
+            doctor = User.objects.get(id=data["doctor"])
+            data["staff"] = f"{staff.first_name} {staff.last_name}"
+            data["doctor"] = f"{doctor.first_name} {doctor.last_name}"
+
             # Get the related IllnessTreatment instances
             illness_treatments = IllnessTreatment.objects.filter(
                 illness_id=data["id"]
