@@ -1,0 +1,203 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+:root {
+    --Yellow: #FFBA14;
+    --Light-Yellow: #FFCB4C;
+    --Maroon: #97180c;
+    --Red: #FF2D19;
+    --Green: #2FC32C;
+    --normal-fontcolor:#202B37;
+    --light_gray: #97A1AF;
+    --navbuttons: #7D7D7D;
+    --color-light: rgba(132, 139, 200, 0.12);
+    --color-shadow: rgba(132, 139, 200, 0.1);
+    --mainfont: 'Poppins', 'sans-serif';
+    --secondfont: 'Inter', 'san-serif';
+
+    --card-padding: 1rem 3rem;
+
+    --box-shadow: 0 2rem 3rem var(--color-shadow);
+    --box-shadow2: 0 0rem 1.5rem var(--color-shadow);
+  }
+/* UTILITY CLASS */
+.span-normal{
+    color: var(--normal-fontcolor);
+}
+.span-red{
+ color: var(--Maroon);
+}
+.span-yellow{
+ color: var(--Yellow);
+}
+.span-green{
+    color: var(--Green);
+}
+.span-lightred{
+    color: var(--Red)
+}
+.span-lightgray{
+    color: var(--light_gray);
+}
+*{
+    margin: 0;
+    padding:0;
+    outline: 0;
+    appearance: 0;
+    border: 0;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+body{
+    background: var(--color-light);
+    font-family: var(--mainfont);
+    font-size: 0.88rem;
+    width: 100vw;
+    height: 100vh;
+    user-select: none;
+    color: var(--normal-fontcolor);
+}
+.container{
+    width: 96%;
+    display: grid;
+    grid-template-columns: 12rem auto 23rem;
+    gap: 1rem;
+    margin: 0 auto;
+    /* border: 1px solid peachpuff; */
+}
+.logo{
+    margin-top: 1rem;
+    margin-left: 2.1rem;
+}
+aside{
+    height: 100vh;
+    /* box-shadow: var(--box-shadow); */
+}
+.sidebar{
+    display: flex;
+    /* border: 1px solid peachpuff; */
+    height: 78vh;
+    flex-direction: column;
+    background: white;
+    position: relative;
+    top: 1.5rem;
+    box-shadow: var(--box-shadow);
+    transition: all 0.3s ease;
+    border-radius: .8rem;
+}
+.sidebar:hover{
+    box-shadow: none;
+}
+.sidebar a{
+    display: flex;
+    align-items: center;
+    margin-left: 2rem;
+    height: 3.7rem;
+    gap: 0.5rem;
+    position: relative;
+    margin-left: 2rem;
+    transition: all 0.3s ease;
+}
+
+.sidebar a span, a img{
+    transition: all 0.3 ease;
+}
+.sidebar a:last-child{
+    position: absolute;
+    bottom: 2rem;
+}
+.sidebar a.active{
+    width: 100%;
+    background-color: var(--color-light);
+    margin-left: 0;
+    border-top-left-radius: 0.8rem;
+    border-top-right-radius: 0.8rem;
+}
+.sidebar a.active::before{
+    content: '';
+    width: 6px;
+    height: 18px;
+    background-color: var(--Yellow);
+}
+.sidebar a.active img{
+    margin-left: calc(1rem - 3px);
+}
+.sidebar a:hover img{
+    margin-left: 0.6rem;
+}
+.sidebar a.active:hover img {
+    margin-left: calc(1rem - 3px); /* Ensures the active state hover does not conflict */
+}
+main{
+    margin-top: 1rem;
+}
+.add-buttons{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    /* border: 1px solid pink; */
+    width: 170px;
+}
+.add-buttons button{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: 160px;
+    padding: 0.4rem 1rem;
+    font-family: var(--mainfont);
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    transition: all 0.1s ease;
+}
+.add-buttons .add-patient{
+    color: white;
+    background: var(--Light-Yellow);
+}
+.add-buttons .add-patient:hover{
+    /* background: var(--Yellow); */
+    border: 2px solid var(--Yellow);
+}
+.add-buttons .create-post{
+    color: var(--normal-fontcolor);
+}
+.add-buttons .create-post:hover{
+    color: var(--Light-Yellow);
+    border: 1px solid var(--Light-Yellow);
+}
+main .top-part{
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+main .top-cards{
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+}
+main .today-patient{
+    width: 13rem;
+    height: 5.8rem;
+    border-radius: 10px;
+    background: white;
+    box-shadow: var(--box-shadow2);
+    justify-items: right;
+    display: flex; /* Ensure .today-patient is also flex container */
+    align-items: center; /* Center vertically */
+    transition: all 0.3s ease;
+}
+main .today-patient:hover{
+    box-shadow: none;
+}
+main .today-patient:hover h1{
+    color: #2FC32C;
+}
+main .today-patient .info{
+    margin-left: 1rem;
+}
+main .today-patient .info h1{
+    font-weight: 500;
+}
+main .today-patient .info span{
+    font-size: small;
+}

@@ -1,182 +1,308 @@
-
+   /* CONTAINER */
  /* 2xl */
-@media (max-width: 1536px) {
+ @media (max-width: 1536px) {
 
-}
+ }
 
-/* xl */
-@media (max-width: 1280px) {
+ /* xl */
+ @media (max-width: 1280px) {
 
-}
+ }
 
-/* lg */
-@media (max-width: 1024px) {
+ /* lg */
+ @media (max-width: 1024px) {
 
-}
+ }
 
-/* md */
-@media (max-width: 768px) {
+ /* md */
+ @media (max-width: 768px) {
 
-}
+ }
 
-/* sm */
-@media (max-width: 640px) {
+ /* sm */
+ @media (max-width: 640px) {
 
-}
+ }
 
-/* xs */
-@media (max-width: 475px) {
+ /* xs */
+ @media (max-width: 475px) {
 
-}
+ }
 
 
- /* CONTAINER */
-.containers {
-  max-width: 1536px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  /* CONTAINER */
+ .containers {
+   max-width: 1536px;
+   margin-left: auto;
+   margin-right: auto;
+   padding-left: 0.5rem;
+   padding-right: 0.5rem;
+   /* border: 1px solid black; */
+ }
+
+ .section{
+     margin-top: 2.5rem;
+     padding: 2rem 0rem;
+ }
+ /* 2xl */
+ @media (max-width: 1536px) {
+   .containers {
+     max-width: 1280px;
+   }
+ }
+
+ /* xl */
+ @media (max-width: 1280px) {
+   .containers {
+     max-width: 1024px;
+   }
+ }
+
+ /* lg */
+ @media (max-width: 1024px) {
+   .containers {
+     max-width: 768px;
+   }
+   .section{
+     margin-top: 2rem;
+ }
+ }
+
+ /* md */
+ @media (max-width: 768px) {
+   .containers {
+     max-width: 640px;
+   }
+ }
+
+ /* sm */
+ @media (max-width: 640px) {
+   .containers {
+     max-width: 475px;
+   }
+ }
+
+ /* xs */
+ @media (max-width: 475px) {
+   .containers {
+     width: 100%;
+   }
+ }
+
+ /* BUTTON */
+
+   .yellow_button{
+     background: var(--Light-Yellow);
+     border-radius: 8px;
+     color:white;
+   }
+
+   .inventory_cat{
+     padding: 0.4rem 0.6rem;
+     border: none;
+     border-radius: 5px;
+     cursor: pointer;
+     transition: background-color 0.3s, color 0.3s;
+     font-weight: 500;
+
+   }
+
+
+ /* BUTTON */
+
+ /* COLORS */
+ .span-normal{
+   color: var(--normal-fontcolor);
+ }
+ .span-red{
+ color: var(--Maroon);
+ }
+ .span-yellow{
+ color: var(--Yellow);
+ }
+ .span-green{
+   color: var(--Green);
+ }
+ .span-lightred{
+   color: var(--Red)
+ }
+ .span-lightgray{
+   color: var(--light_gray);
+ }
+ /* COLORS */
+
+ /* letter size */
+ .h1_hero{
+   font-size: var(--size-3xl);
+ }
+ /* letter size */
+
+
+ /* NURSE UTILS */
+ .nurse-container, .nurse-container2{
+   width: 98%;
+   display: grid;
+   gap: 1rem;
+   margin: 0 auto;
+ }
+ .nurse-container{
+   grid-template-columns: 12rem auto 26rem;
+   /* border: 1px solid black; */
+ }
+ .nurse-container2{
+  grid-template-columns: 12rem auto;
   /* border: 1px solid black; */
+ }
+
+ .right-part{
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
 }
 
-.section{
-    margin-top: 2.5rem;
-    padding: 2rem 0rem;
-}
-/* 2xl */
-@media (max-width: 1536px) {
-  .containers {
-    max-width: 1280px;
-  }
-}
+ hr{
+   margin: 0 auto;
+   width: 50%;
+ }
 
-/* xl */
-@media (max-width: 1280px) {
-  .containers {
-    max-width: 1024px;
-  }
-}
+ .small-card{
+   width: 19rem;
+   height: 7.25rem;
+   border-radius: 10px;
+   background: white;
+   box-shadow: var(--box-shadow2);
+ }
 
-/* lg */
-@media (max-width: 1024px) {
-  .containers {
-    max-width: 768px;
-  }
-  .section{
-    margin-top: 2rem;
-}
-}
+ .green-progress{
+   background-color: hsl(112, 100%, 66%,30%);
+   color: green;
+ }
+ .red-progress{
+   background-color: hsl(5, 100%, 71%,30%);
+   color: red;
+ }
+ .green-progress, .red-progress{
+   padding: 4px 0px;
+   width: 4rem;
+   border-radius: 6px;
+   text-align: center;
+ }
 
-/* md */
-@media (max-width: 768px) {
-  .containers {
-    max-width: 640px;
-  }
-}
-
-/* sm */
-@media (max-width: 640px) {
-  .containers {
-    max-width: 475px;
-  }
-}
-
-/* xs */
-@media (max-width: 475px) {
-  .containers {
-    width: 100%;
-  }
-}
-
-/* BUTTON */
-
-  .yellow_button{
-    background: var(--Light-Yellow);
-    border-radius: 8px;
-    color:white;
-  }
-
-  .inventory_cat{
-    padding: 0.4rem 0.6rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-    font-weight: 500;
-
-  }
-
-
-/* BUTTON */
-
-/* COLORS */
-.span-normal{
+.staff-main{
+  margin-top: 1.5rem;
   color: var(--normal-fontcolor);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
-.span-red{
-color: var(--Maroon);
-}
-.span-yellow{
-color: var(--Yellow);
-}
-.span-green{
-  color: var(--Green);
-}
-.span-lightred{
-  color: var(--Red)
-}
-.span-lightgray{
-  color: var(--light_gray);
-}
-/* COLORS */
-
-/* letter size */
-.h1_hero{
-  font-size: var(--size-3xl);
-}
-/* letter size */
-
-
-/* NURSE UTILS */
-.nurse-container, .nurse-container2{
-  width: 96%;
-  display: grid;
-  gap: 1rem;
-  margin: 0 auto;
-  /* border: 1px solid peachpuff; */
-}
-.nurse-container{
-  grid-template-columns: 12rem auto 23rem;
-}
-.nurse-container2{
- grid-template-columns: 12rem auto;
- /* border: 1px solid black; */
-}
-hr{
-  margin: 0 auto;
-  width: 50%;
+.staff-main h2{
+  font-weight: 500;
 }
 
-.small-card{
-  width: 19rem;
-  height: 7.25rem;
-  border-radius: 10px;
+/* SEARCH UTIL */
+.search-container {
+  position: relative;
+  max-width: 300px; /* Set the max width of the search box */
+}
+
+.search-container input {
+  width: 100%;
+  padding: 0.8rem 1rem; /* Adjust right padding for the button */
+  border-radius: 0.2rem;
+  background-color: var(--light_gray);
+  border: none;
+}
+.search-container ::placeholder{
+  color: white;
+}
+
+.search-container button {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3rem;
+  height: 2rem;
+  border: none;
+  color: white;
+  border-radius: 2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.search-container button span{
+  width: 100%;
+  height: auto;
+}
+.search-container button:hover {
+  background-color: rgba(255, 255, 255, 0.438); /* Darker green on hover */
+}
+/* SEARCH UTIL */
+
+
+/* POP UP SUCCESS AND ERROR ADDING VISIT RECORD */ 
+.containerPage{
+  position: fixed;
+  top:50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  visibility: hidden;
+  transition: transform 0.4s;
+  z-index: 102;
+  transform: translate(-50%,-100%) scale(0.1);
+}
+.popUp-visit{
+  border: 1px solid black;
   background: white;
-  box-shadow: var(--box-shadow2);
+  width: 340px;
+  padding: 1rem 0rem;
+  position: fixed;
+  top: 35%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0.5rem;
+  transform: translate(-50%,-100%);
 }
-
-.green-progress{
-  background-color: hsl(112, 100%, 66%,30%);
-  color: green;
+.open-popup-visit{
+  transform: translate(-50%,-40%) scale(1);
+  visibility: visible;
 }
-.red-progress{
-  background-color: hsl(5, 100%, 71%,30%);
-  color: red;
+.popUp-visit span{
+  margin-top: 0.5rem;
+  font-weight: 600;
+  font-size: var(--size-xl);
 }
-.green-progress, .red-progress{
-  padding: 4px 0px;
-  width: 4rem;
-  border-radius: 6px;
+.popUp-visit p{
+  width: 20rem;
   text-align: center;
+  font-size: var(--size-sm);
 }
+.popUp-icon{
+  font-size: 30rem;
+  border: 1px solid black;
+}
+.popUp-visit img{
+  width: 300px;
+}
+.popUp-visit button{
+  margin-top: 1rem;
+  width: 150px;
+  padding: 10px 0rem;
+  border-radius: 1.5rem;
+  background: rgb(0, 0, 0);
+  border: 1px solid black;
+  cursor: pointer;
+  font-size: large;
+  transition: all 0.3s ease;
+  color: rgb(255, 255, 255);
+}
+.popUp-visit button:hover{
+  background: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+}
+/* POP UP ERROR */
