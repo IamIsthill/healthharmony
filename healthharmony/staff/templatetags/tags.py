@@ -9,6 +9,11 @@ def has_error_message(messages):
 
 
 @register.filter
+def has_success_message(messages):
+    return any("success" in message.tags for message in messages)
+
+
+@register.filter
 def ordinal(value):
     try:
         value = int(value)

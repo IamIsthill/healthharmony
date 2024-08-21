@@ -28,7 +28,30 @@ def main():
     # count_current_stocks_expired_items()
     # test_get_visit_records(request)
     # test_certificates_chart()
-    test_certificates()
+    # test_certificates()
+    test_department_names()
+
+
+def test_department_names():
+    from healthharmony.users.models import Department, User
+    from healthharmony.treatment.models import Illness
+    from django.db.models import Subquery, OuterRef, Exists, F
+
+    # Subquery to check if there are any Illness instances associated with users in the department
+    illness_exists_subquery = Illness.objects.filter(
+        patient=OuterRef("user_department")
+    ).values("id")[:1]
+
+    departments = (
+        Department.objects.annotate(
+            user_id=F("user_department__id"),
+            has_illness=Exists(illness_exists_subquery),
+        )
+        .filter(has_illness=True)
+        .values("department")
+    )
+
+    print(json.dumps(list(departments), indent=4, sort_keys=True))
 
 
 def test_certificates():

@@ -361,6 +361,7 @@ def create_patient_add_issue(request):
                 email.content_subtype = "html"
                 email.send()
                 logger.info(f"Email was sent to: {patient.email}")
+                messages.success(request, "Patient has been added to the system.")
             else:
                 logger.info(f"User {patient.email} already exists.")
 
@@ -370,6 +371,7 @@ def create_patient_add_issue(request):
             logger.info(
                 f"Created new illness record for patient {patient.email} with id [{visit.id}]"
             )
+            messages.success(request, "A new record has been added.")
 
             DataChangeLog.objects.create(
                 table="Illness",
