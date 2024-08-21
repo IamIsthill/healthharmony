@@ -1,26 +1,25 @@
 .logo{
+    position: fixed;
+    top: 0;
     margin-top: 1rem;
     margin-left: 2.1rem;
 }
 aside{
-    height: 100vh;
+    height: 100%;
     /* box-shadow: var(--box-shadow); */
 }
 .sidebar{
+    position: fixed;
     display: flex;
     /* border: 1px solid peachpuff; */
-    height: 78vh;
+    height: 100%;
     flex-direction: column;
-    background: white;
-    position: relative;
-    top: 1.5rem;
-    box-shadow: var(--box-shadow);
+    top: 20%;
+    left: 1%;
     transition: all 0.3s ease;
     border-radius: .8rem;
 }
-.sidebar:hover{
-    box-shadow: none;
-}
+
 .sidebar a{
     display: flex;
     align-items: center;
@@ -35,13 +34,9 @@ aside{
 .sidebar a span, a svg{
     transition: margin-left 0.3s ease;
 }
-.sidebar a:last-child{
-    position: absolute;
-    bottom: 2rem;
-}
+
 .sidebar a.active{
     width: 100%;
-    background-color: white;
     margin-left: 0;
 }
 .sidebar a.active span, a.active svg path{
@@ -62,4 +57,75 @@ aside{
 }
 .sidebar a.active:hover svg {
     margin-left: calc(1rem - 3px); /* Ensures the active state hover does not conflict */
+}
+
+.profile-container {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    height: 3rem;
+    gap: 4px;
+}
+.profile-pic {
+    width: 40px; /* Adjust size as necessary */
+    height: 40px; /* Ensure width and height are equal */
+    border-radius: 8px; /* Makes the image circular */
+    object-fit: cover; /* Ensures the image covers the container */
+    border: 2px solid #fff; /* Optional: Adds a border around the image */
+}
+.profile-info{
+    display: flex;
+    flex-direction: column;
+    margin-top: 4px;
+}
+.profile-info h3{
+    display: inline-block;
+    color: var(--normal-fontcolor);
+    font-weight: 500;
+    font-size: var(--size-base);
+    margin-right: 0.2rem;
+}
+.profile-info span{
+    opacity: 75%;
+    font-size: var(--size-sm);
+}
+
+.logout-container{
+    display: flex;              /* Enable flexbox */
+    justify-content: center;    /* Center horizontally */
+    align-items: center;
+    height: 2.5rem;
+    width: 2.7rem;
+    border-radius: 4px;
+}
+.logout-container span{
+    display: inline-block;
+    width: 1.7rem;
+    height: 1.9rem;
+    font-size: var(--size-3xl);
+    color: black;
+    transition: all 0.5s ease;
+    cursor: pointer;
+}
+.logout-container:hover{
+    background: black;
+}
+.logout-container:hover span{
+    color: white;
+}
+.nav-top{
+    background: var(--Background-color);
+    position: sticky;
+    top:0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;  
+    height: 5rem;
+    width: 100%;
+    padding: 0 1rem;
+}
+.nav-top h2{
+    margin-left: 13rem;
+    font-weight: 600;
+    color: var(--normal-fontcolor);
 }
