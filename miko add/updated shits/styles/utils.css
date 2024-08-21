@@ -241,7 +241,7 @@
 /* SEARCH UTIL */
 
 
-/* POP UP ERROR */
+/* POP UP SUCCESS AND ERROR ADDING VISIT RECORD */ 
 .containerPage{
   position: fixed;
   top:50%;
@@ -254,10 +254,11 @@
   z-index: 102;
   transform: translate(-50%,-100%) scale(0.1);
 }
-.popUp{
+.popUp-visit{
+  border: 1px solid black;
   background: white;
-  width: 430px;
-  padding: 3rem 0rem;
+  width: 340px;
+  padding: 1rem 0rem;
   position: fixed;
   top: 35%;
   left: 50%;
@@ -267,36 +268,41 @@
   border-radius: 0.5rem;
   transform: translate(-50%,-100%);
 }
-.open-popup{
-  transform: translate(-50%,-50%) scale(1);
+.open-popup-visit{
+  transform: translate(-50%,-40%) scale(1);
   visibility: visible;
 }
-.popUp span{
-  margin-top: 2rem;
-  font-weight: bold;
-  font-size: larger;
+.popUp-visit span{
+  margin-top: 0.5rem;
+  font-weight: 600;
+  font-size: var(--size-xl);
 }
-.popUp p{
-  margin-top: 8px;
+.popUp-visit p{
   width: 20rem;
   text-align: center;
+  font-size: var(--size-sm);
 }
-.popUp img{
+.popUp-icon{
+  font-size: 30rem;
+  border: 1px solid black;
+}
+.popUp-visit img{
   width: 300px;
 }
-.popUp button{
-  margin-top: 1.5rem;
-  width: 200px;
+.popUp-visit button{
+  margin-top: 1rem;
+  width: 150px;
   padding: 10px 0rem;
-  border-radius: 1rem;
-  background: white;
+  border-radius: 1.5rem;
+  background: rgb(0, 0, 0);
   border: 1px solid black;
   cursor: pointer;
   font-size: large;
   transition: all 0.3s ease;
+  color: rgb(255, 255, 255);
 }
-.popUp button:hover{
-  background: black;
-  color: white;
+.popUp-visit button:hover{
+  background: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
 }
 /* POP UP ERROR */

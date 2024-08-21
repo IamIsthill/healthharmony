@@ -256,7 +256,60 @@
 }
 /* POP UP ERROR */
 
+/* POP UP SUCCESS AND ERROR ADDING VISIT RECORD */ 
+.popUp-visit{
+  border: 1px solid black;
+  background: white;
+  width: 340px;
+  padding: 1rem 0rem;
+  position: fixed;
+  top: 35%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0.5rem;
+  transform: translate(-50%,-100%);
+}
+.open-popup-visit{
+  transform: translate(-50%,-40%) scale(1);
+  visibility: visible;
+}
+.popUp-visit span{
+  margin-top: 0.5rem;
+  font-weight: 600;
+  font-size: var(--size-xl);
+}
+.popUp-visit p{
+  width: 20rem;
+  text-align: center;
+  font-size: var(--size-sm);
+}
+.popUp-icon{
+  font-size: 30rem;
+  border: 1px solid black;
+}
+.popUp-visit img{
+  width: 300px;
+}
+.popUp-visit button{
+  margin-top: 1rem;
+  width: 150px;
+  padding: 10px 0rem;
+  border-radius: 1.5rem;
+  background: rgb(0, 0, 0);
+  border: 1px solid black;
+  cursor: pointer;
+  font-size: large;
+  transition: all 0.3s ease;
+  color: rgb(255, 255, 255);
+}
+.popUp-visit button:hover{
+  background: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+}
 
+/* POP UP SUCCESS AND ERROR ADDING VISIT RECORD */ 
 
 /* RESPONSIVE CODES */
 /* 2xl */

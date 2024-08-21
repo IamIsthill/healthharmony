@@ -41,3 +41,15 @@ main .today-patient .info span{
     align-items: center;
     width: 100%;
 }
+.test-btn{
+    background: black;
+    height: 3rem;
+    width: 10rem;
+    border-radius: 1rem;
+    transition: all 0.5s ease-in;
+}
+.test-btn:hover{
+    color: white;
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(121,9,73,1) 46%, rgba(0,212,255,1) 100%);
+}
