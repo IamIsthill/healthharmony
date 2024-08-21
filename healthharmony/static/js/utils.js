@@ -81,3 +81,16 @@ export function closeModal(modal, btn) {
         }
     }
 }
+
+export function openPopup(modal) {
+    modal.classList.add('open-popup')
+}
+
+export function closePopup(modal) {
+    modal.classList.remove('open-popup')
+}
+
+export function getCurrentUrl() {
+    const url = new URL(window.location.href)
+    return url
+}

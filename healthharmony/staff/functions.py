@@ -660,3 +660,105 @@ def fetch_inventory(InventoryDetail, Sum, request):
         logger.error(f"Failed to fetch inventory data: {str(e)}")
         messages.error(request, "Failed to fetched inventory data. Please reload page.")
     return request, inventory
+
+
+def fetch_history(Illness, Coalesce, F, Value, IllnessTreatment):
+    history = (
+        Illness.objects.all()
+        .annotate(
+            first_name=Coalesce(F("patient__first_name"), Value("")),
+            last_name=Coalesce(F("patient__last_name"), Value("")),
+            category=Coalesce(F("illness_category__category"), Value("")),
+        )
+        .values(
+            "first_name",
+            "last_name",
+            "issue",
+            "updated",
+            "diagnosis",
+            "category",
+            "staff",
+            "doctor",
+            "id",
+            "added",
+            "patient",
+        )
+    )
+
+    for data in history:
+        data["updated"] = data["updated"].isoformat()
+        data["added"] = data["added"].isoformat()
+        data["treatment"] = []
+
+        staff = User.objects.get(id=data["staff"])
+        doctor = User.objects.get(id=data["doctor"])
+        data["staff"] = f"{staff.first_name} {staff.last_name}"
+        data["doctor"] = f"{doctor.first_name} {doctor.last_name}"
+
+        # Get the related IllnessTreatment instances
+        illness_treatments = IllnessTreatment.objects.filter(
+            illness_id=data["id"]
+        ).select_related("inventory_detail")
+
+        for treatment in illness_treatments:
+            data["treatment"].append(
+                {
+                    "quantity": treatment.quantity or 0,
+                    "medicine": treatment.inventory_detail.item_name,
+                }
+            )
+    return history
+
+
+def fetch_certificate_chart(timezone, Certificate, relativedelta):
+    certificate_chart = {}
+
+    cert_dates = ["yearly", "monthly", "weekly"]
+
+    now = timezone.now()
+
+    start = now - relativedelta(months=11)
+
+    certificates = Certificate.objects.filter(requested__gte=start)
+
+    for cert_date in cert_dates:
+        start, max_range, date_format, date_loop = get_init_loop_params(cert_date, now)
+        certificate_chart[cert_date] = []
+        for offset in range(max_range):
+            main_start, main_end = get_changing_loop_params(
+                offset, start, date_loop, cert_date
+            )
+            count = 0
+            for cert in certificates:
+                if cert.requested >= main_start and cert.requested < main_end:
+                    count = count + 1
+            certificate_chart[cert_date].append(
+                {f"{main_start.strftime(date_format)}": count}
+            )
+
+    return certificate_chart
+
+
+def fetch_certificates(Certificate, F):
+    certificates = (
+        Certificate.objects.all()
+        .annotate(
+            email=F("patient__email"),
+            first_name=F("patient__first_name"),
+            last_name=F("patient__last_name"),
+        )
+        .values(
+            "patient",
+            "purpose",
+            "requested",
+            "released",
+            "email",
+            "first_name",
+            "last_name",
+        )
+    )
+
+    for cert in certificates:
+        cert["requested"] = cert["requested"].isoformat()
+
+    return certificates

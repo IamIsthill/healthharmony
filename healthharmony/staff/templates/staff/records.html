@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load tags %}
 {% block title %}Records | HealthHarmony{% endblock %}
 {% block header %}
     <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
@@ -63,12 +64,12 @@
             <div class="upper">
                 <h4>Visit History</h4>
                 <div>
-                    <button id="myBtn">Add Record</button>
+                    <button id="addRecordBtn">Add Record</button>
                     <!-- The Modal -->
-                    <div id="myModal" class="modal">
+                    <div class="modal js-add-record-modal">
                         <!-- Modal content -->
                         <div class="modal-content">
-                            <span class="close">&times;</span>
+                            <span class="js-close-add-record">&times;</span>
                             <form action="{% url 'create-patient-add-issue' %}" method="post">
                                 {% csrf_token %}
                                 <label for="">Patient Email</label>
@@ -77,6 +78,7 @@
                                 <label for="">Issue</label>
                                 <input type="text" name="issue" />
                                 <button type="submit">Add Complaint</button>
+                                <button type="button" class="js-close-add-record">Cancel</button>
                             </form>
                         </div>
                     </div>
@@ -88,15 +90,16 @@
                             <th class="table-head">Patient</th>
                             <th class="table-head">Concern</th>
                             <th class="table-head">Status</th>
+                            <th class="table-head" colspan="2">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% if history %}
                             {% for data in history %}
                                 <tr>
-                                    <td class="table-data">{{ data.added }}</td>
+                                    <td class="table-data date" data="date-{{ data.id }}">{{ data.added }}</td>
                                     <td class="table-data">{{ data.first_name }} {{ data.last_name }}</td>
-                                    <td class="table-data">{{ data.issue }}</td>
+                                    <td class="table-data">{{ data.issue|truncatechars:60 }}</td>
                                     <td class="table-data">
                                         {% if data.diagnosis %}
                                             Finished
@@ -104,6 +107,10 @@
                                             Ongoing
                                         {% endif %}
                                     </td>
+                                    <td class="table-data js-view-illness-btn"
+                                        data-illness-id="{{ data.id }}">View Illness</td>
+                                    <td class="table-data js-view-patient"
+                                        data-patient-id="{{ data.patient }}">Go to Patient Profile</td>
                                 </tr>
                             {% empty %}
                                 <tr>
@@ -116,16 +123,26 @@
                             </tr>
                         {% endif %}
                     </tbody>
+                    {% if history.has_other_pages %}
+                        <div class="pagination">
+                            <span class="step-links">
+                                {% if history.has_previous %}
+                                    <a href="?page=1" class="js-links">&laquo; First</a>
+                                    <a class="js-links" href="?page={{ history.previous_page_number }}">Previous</a>
+                                {% endif %}
+                                <span class="current">Page {{ history.number }} of {{ history.paginator.num_pages }}.</span>
+                                {% if history.has_next %}
+                                    <a class="js-links" href="?page={{ history.next_page_number }}">Next</a>
+                                    <a class="js-links" href="?page={{ history.paginator.num_pages }}">Last &raquo;</a>
+                                {% endif %}
+                            </span>
+                        </div>
+                    {% endif %}
                 </table>
             </div>
             <div class="lower">
                 <div class="left">
                     <h4>Request Summary</h4>
-                    <div>
-                        <button class="request-date-filter" data-filter="week">Last 7 days</button>
-                        <button class="request-date-filter" data-filter="month">Last 30 days</button>
-                        <button class="request-date-filter" data-filter="year">Last 12 months</button>
-                    </div>
                     <div class="main-content">
                         <table>
                             <thead>
@@ -136,23 +153,48 @@
                                     <th>Date Requested</th>
                                 </tr>
                             </thead>
-                            <tbody class="request-body">
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                            <tbody class="request-body js-request-body">
+                                {% for certificate in certificates_page %}
+                                    <tr>
+                                        <td>{{ certificate.email }}</td>
+                                        <td>{{ certificate.first_name }} {{ certificate.last_name }}</td>
+                                        <td>{{ certificate.purpose|truncatechars:60 }}</td>
+                                        <td class="js-cert-date">{{ certificate.requested }}</td>
+                                    </tr>
+                                {% endfor %}
                             </tbody>
+                            {% if certificates_page.has_other_pages %}
+                                <div class="pagination">
+                                    <span class="step-links">
+                                        {% if certificates_page.has_previous %}
+                                            <a href="?cert-page=1" class="js-links">&laquo; First</a>
+                                            <a href="?cert-page={{ certificates_page.previous_page_number }}"
+                                               class="js-links">Previous</a>
+                                        {% endif %}
+                                        <span class="current">Page {{ certificates_page.number }} of {{ certificates_page.paginator.num_pages }}.</span>
+                                        {% if certificates_page.has_next %}
+                                            <a href="?cert-page={{ certificates_page.next_page_number }}"
+                                               class="js-links">Next</a>
+                                            <a href="?cert-page={{ certificates_page.paginator.num_pages }}"
+                                               class="js-links">Last &raquo;</a>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            {% endif %}
                         </table>
                     </div>
                     <div>
-                        <button class="request-status-filter" data-filter="all">All</button>
-                        <button class="request-status-filter" data-filter="pending">Pending</button>
-                        <button class="request-status-filter" data-filter="released">Released</button>
+                        <button class="js-request-status-filter" data-filter="">All</button>
+                        <button class="js-request-status-filter" data-filter="false">Pending</button>
+                        <button class="js-request-status-filter" data-filter="true">Released</button>
                     </div>
                 </div>
                 <div class="right">
+                    <div>
+                        <button class="js-request-date-filter" data-filter="weekly">Last 7 days</button>
+                        <button class="js-request-date-filter" data-filter="monthly">Last 30 days</button>
+                        <button class="js-request-date-filter" data-filter="yearly">Last 12 months</button>
+                    </div>
                     <div class="bar-space">
                         <canvas id="request-bar"></canvas>
                     </div>
@@ -160,222 +202,22 @@
             </div>
         </div>
     </div>
+    <div class="modals">
+        <div id="viewIllnessModal" class="modal">
+            <div class="modal-content">
+                <span class="js-close-view-illness-modal">&times;</span>
+                <div class="modal-body">
+                    <h1>Hi</h1>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 {% block script %}
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-    // Get the modal
-    var modal = document.getElementById('myModal')
-
-    // Get the button that opens the modal
-    var btn = document.getElementById('myBtn')
-
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName('close')[0]
-
-    // When the user clicks on the button, open the modal
-    btn.onclick = function () {
-      modal.style.display = 'block'
-    }
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function () {
-      modal.style.display = 'none'
-    }
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-      if (event.target == modal) {
-        modal.style.display = 'none'
-      }
-    }
-
-    //==========================================
-
-    // When document fully renders, call certicate_sorter in api to get the data for populate request history
-    let requestDateFilter = 'week'
-    let requestStatusFilter = 'all'
-    async function fetchCertificateData() {
-      try {
-        const baseUrl = window.location.origin
-        let url = new URL(baseUrl + '/api/staff/records/certificate-data/')
-        const params = {
-          status_filter: requestStatusFilter,
-          date_filter: requestDateFilter
-        }
-
-        // Append parameters to URL
-        Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]))
-
-        const response = await fetch(url)
-        if (!response.ok) {
-          throw new Error('Network response was not ok ' + response.statusText)
-        }
-        const data = await response.json()
-        createRequestBar(requestBarCanvas, data)
-      } catch (error) {
-        console.error('There has been a problem with your fetch operation:', error)
-      }
-    }
-    async function fetchData() {
-      try {
-        const baseUrl = window.location.origin
-        let url = new URL(baseUrl + '/api/staff/records/request-data/')
-        const params = {
-          status_filter: requestStatusFilter,
-          date_filter: requestDateFilter
-        }
-
-        // Append parameters to URL
-        Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]))
-
-        const response = await fetch(url)
-        if (!response.ok) {
-          throw new Error('Network response was not ok ' + response.statusText)
-        }
-        const data = await response.json()
-        createRequests(data)
-      } catch (error) {
-        console.error('There has been a problem with your fetch operation:', error)
-      }
-    }
-    document.addEventListener('DOMContentLoaded', () => {
-      fetchData()
-      fetchCertificateData()
-    })
-    //Function to populate the table
-
-    const requestSpace = document.querySelector('.request-body')
-
-    function createRequests(data) {
-      let html = ''
-      data.forEach((line) => {
-        let text = `
-                                                                                                                                                                                                                                                  <tr>
-                                                                                                                                                                                                                                                    <td>${line.email}</td>
-                                                                                                                                                                                                                                                    <td>${line.first_name} ${line.last_name}</td>
-                                                                                                                                                                                                                                                    <td>${line.purpose}</td>
-                                                                                                                                                                                                                                                    <td>${formatDate(line.requested)}</td>
-                                                                                                                                                                                                                                                  </tr>
-
-                                                                                                                                                                                                                                                `
-        html += text
-      })
-      requestSpace.innerHTML = html
-    }
-    //==========================================
-
-    // Date Filters
-    const requestDateFilters = document.querySelectorAll('.request-date-filter')
-    requestDateFilters.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        let text = btn.getAttribute('data-filter').toLowerCase()
-        requestDateFilter = text
-        fetchData()
-        fetchCertificateData()
-      })
-    })
-
-    //==========================================
-
-    // Status Filters
-    const requestStatusFilters = document.querySelectorAll('.request-status-filter')
-    requestStatusFilters.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        let text = btn.getAttribute('data-filter').toLowerCase()
-        requestStatusFilter = text
-        fetchData()
-        fetchCertificateData()
-      })
-    })
-
-    //==========================================
-    //Date Formatter
-    function formatDate(datestring) {
-      const date = new Date(datestring)
-
-      const options = { year: 'numeric', month: 'long', day: 'numeric' }
-
-      // Format the date using toLocaleDateString()
-      const formattedDate = date.toLocaleDateString('en-US', options)
-      return formattedDate
-    }
-    //==========================================
-
-    //Request chart
-    const requestBarCanvas = document.getElementById('request-bar')
-
-    function createRequestBar(requestBarCanvas, data) {
-      const datas = data[requestStatusFilter][requestDateFilter]
-
-      let labels = []
-      let datasets = []
-
-      Object.entries(datas).forEach(([key, value]) => {
-        labels.push(key)
-        datasets.push(value)
-      })
-
-      let ctx = requestBarCanvas.getContext('2d')
-      let existingChart = Chart.getChart(ctx)
-      if (existingChart) {
-        existingChart.destroy() // Destroy if it exists
-      }
-      window.myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: labels,
-          datasets: [
-            {
-              data: datasets,
-              backgroundColor: 'rgba(204, 144, 0, 1)',
-              borderColor: 'rgba(255, 99, 132, 1)',
-              borderWidth: 1
-            }
-          ]
-        },
-        options: {
-          scales: {
-            x: {
-              stacked: true
-            },
-            y: {
-              beginAtZero: false,
-              stacked: true,
-              min: 0
-            }
-          },
-          responsive: true,
-          plugins: {
-            legend: {
-              display: false // This will hide the legend
-            },
-            backgroundGradient: {
-              // Custom plugin to apply gradient
-              beforeRender: function (chart, args, options) {
-                const chartArea = chart.chartArea
-                if (chartArea) {
-                  const gradient = getGradient(chart.ctx, chartArea)
-                  chart.data.datasets.forEach((dataset) => {
-                    dataset.backgroundColor = gradient
-                  })
-                }
-              }
-            }
-          }
-        }
-      })
-    }
-
-    //==========================================
-
-    // Function to create the gradient
-    function getGradient(ctx, chartArea) {
-      const gradient = ctx.createLinearGradient(0, 0, 0, chartArea.bottom)
-      gradient.addColorStop(0, '#996B00')
-      gradient.addColorStop(1, '#FDCE62')
-      return gradient
-    }
-    //==========================================
-    </script>
+    {{ history_data|json_script:'history-data' }}
+    {{ certificates|json_script:'certificates' }}
+    {{ certificate_chart|json_script:'certificate-chart' }}
+    <script src="{% static 'chart.js/dist/chart.umd.js' %}"></script>
+    <script src="{% static 'js/error.js' %}" type="module"></script>
+    <script src="{% static 'js/staff/records.js' %}" type="module"></script>
 {% endblock %}

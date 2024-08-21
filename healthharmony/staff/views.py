@@ -9,13 +9,14 @@ from dateutil.relativedelta import relativedelta
 from django.core.mail import EmailMessage
 import environ
 import logging
-from concurrent.futures import ProcessPoolExecutor, as_completed, ThreadPoolExecutor
-import threading
+from concurrent.futures import as_completed, ThreadPoolExecutor
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.utils.dateparse import parse_datetime
 
 from healthharmony.bed.models import BedStat
 from healthharmony.users.models import User
 from healthharmony.administrator.models import Log, DataChangeLog
-from healthharmony.treatment.models import Illness
+from healthharmony.treatment.models import Illness, IllnessTreatment, Certificate
 from healthharmony.inventory.models import InventoryDetail
 from healthharmony.base.functions import check_models
 from healthharmony.staff.functions import (
@@ -32,8 +33,16 @@ from healthharmony.staff.functions import (
     fetch_patients,
     fetch_categories,
     fetch_inventory,
+    fetch_history,
+    fetch_certificate_chart,
+    fetch_certificates,
 )
-from healthharmony.staff.forms import PatientForm, AddInventoryForm, EditInventoryForm
+from healthharmony.staff.forms import (
+    PatientForm,
+    AddInventoryForm,
+    EditInventoryForm,
+    DeleteInventoryForm,
+)
 
 env = environ.Env()
 environ.Env.read_env(env_file="healthharmony/.env")
@@ -208,6 +217,18 @@ def add_inventory(request):
             return redirect("staff-inventory")
 
 
+def delete_inventory(request, pk):
+    access_checker(request)
+    if request.method == "POST":
+        form = DeleteInventoryForm(request.POST)
+        if form.is_valid():
+            form.save(request, pk)
+        else:
+            messages.error(request, "Form is invalid. Please try again")
+            logger.error("Delete inventory form is invalid")
+    return redirect("staff-inventory")
+
+
 def update_inventory(request, pk):
     access_checker(request)
     if request.method == "POST":
@@ -216,7 +237,7 @@ def update_inventory(request, pk):
             form.save(request, pk)
         else:
             messages.error(request, "Form is invalid. Please try again.")
-            logger.error("Form is invalid")
+            logger.error("Update inventory form is invalid")
     return redirect("staff-inventory")
 
 
@@ -252,13 +273,63 @@ def records(request):
     email = env("EMAIL_ADD")
     context = {"page": "records", "email": email}
     try:
-        history = Illness.objects.all().annotate(
-            first_name=Coalesce(F("patient__first_name"), Value("")),
-            last_name=Coalesce(F("patient__last_name"), Value("")),
+        with ThreadPoolExecutor() as tp:
+            futures = {
+                tp.submit(
+                    fetch_history, Illness, Coalesce, F, Value, IllnessTreatment
+                ): "fetch_history",
+                tp.submit(
+                    fetch_certificate_chart, timezone, Certificate, relativedelta
+                ): "fetch_certificate_chart",
+                tp.submit(fetch_certificates, Certificate, F): "fetch_certificates",
+            }
+            results = {}
+
+            for future in as_completed(futures):
+                key = futures[future]
+                try:
+                    results[key] = future.result()
+                except Exception as e:
+                    logger.error(f"{key} generated an exception: {e}")
+                    results[key] = 0
+        # history = fetch_history(Illness, Coalesce, F, Value, IllnessTreatment)
+        history = results["fetch_history"]
+        certificate_chart = results["fetch_certificate_chart"]
+        certificates = results["fetch_certificates"]
+        # certificate_chart = fetch_certificate_chart(timezone, Certificate, relativedelta)
+
+        paginator = Paginator(history, 10)
+        page = request.GET.get("page")
+
+        try:
+            history_page = paginator.page(page)
+        except PageNotAnInteger:
+            history_page = paginator.page(1)
+        except EmptyPage:
+            history_page = paginator.page(paginator.num_pages)
+
+        cert_paginator = Paginator(certificates, 10)
+        cert_page = request.GET.get("cert-page")
+        try:
+            certificates_page = cert_paginator.page(cert_page)
+        except PageNotAnInteger:
+            certificates_page = cert_paginator.page(1)
+        except EmptyPage:
+            certificates_page = cert_paginator.page(cert_paginator.num_pages)
+        context.update(
+            {
+                "certificates_page": certificates_page,
+                "certificate_chart": certificate_chart,
+                "history": history_page,
+                "history_data": list(history),
+                "certificates": list(certificates),
+            }
         )
-        context.update({"history": history})
-    except Exception:
+
+    except Exception as e:
+        logger.error(f"Failed to fetch necessary data: {e}")
         messages.error(request, "Error fetching data")
+
     return render(request, "staff/records.html", context)
 
 

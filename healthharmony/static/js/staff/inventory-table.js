@@ -135,7 +135,7 @@ export function createUpdateInventoryForm(item, token) {
             <input type="search" placeholder="description.." name="description" value="${item.description}" />
         </div>
         <div class="form-buttons">
-            <button type="submit" class="add-btn">Add</button>
+            <button type="submit" class="add-btn">Update</button>
             <button type="button" class="cancel-btn js-close-update-inventory-btn">Cancel</button>
         </div>
     `
