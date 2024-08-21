@@ -16,7 +16,7 @@ from django.utils.dateparse import parse_datetime
 from healthharmony.bed.models import BedStat
 from healthharmony.users.models import User
 from healthharmony.administrator.models import Log, DataChangeLog
-from healthharmony.treatment.models import Illness, IllnessTreatment
+from healthharmony.treatment.models import Illness, IllnessTreatment, Certificate
 from healthharmony.inventory.models import InventoryDetail
 from healthharmony.base.functions import check_models
 from healthharmony.staff.functions import (
@@ -33,6 +33,9 @@ from healthharmony.staff.functions import (
     fetch_patients,
     fetch_categories,
     fetch_inventory,
+    fetch_history,
+    fetch_certificate_chart,
+    fetch_certificates,
 )
 from healthharmony.staff.forms import (
     PatientForm,
@@ -270,51 +273,31 @@ def records(request):
     email = env("EMAIL_ADD")
     context = {"page": "records", "email": email}
     try:
-        history = (
-            Illness.objects.all()
-            .annotate(
-                first_name=Coalesce(F("patient__first_name"), Value("")),
-                last_name=Coalesce(F("patient__last_name"), Value("")),
-                category=Coalesce(F("illness_category__category"), Value("")),
-            )
-            .values(
-                "first_name",
-                "last_name",
-                "issue",
-                "updated",
-                "diagnosis",
-                "category",
-                "staff",
-                "doctor",
-                "id",
-                "added",
-                "patient",
-            )
-        )
+        with ThreadPoolExecutor() as tp:
+            futures = {
+                tp.submit(
+                    fetch_history, Illness, Coalesce, F, Value, IllnessTreatment
+                ): "fetch_history",
+                tp.submit(
+                    fetch_certificate_chart, timezone, Certificate, relativedelta
+                ): "fetch_certificate_chart",
+                tp.submit(fetch_certificates, Certificate, F): "fetch_certificates",
+            }
+            results = {}
 
-        # Preparing the data for each illness
-        for data in history:
-            data["updated"] = data["updated"].isoformat()
-            data["added"] = data["added"].isoformat()
-            data["treatment"] = []
+            for future in as_completed(futures):
+                key = futures[future]
+                try:
+                    results[key] = future.result()
+                except Exception as e:
+                    logger.error(f"{key} generated an exception: {e}")
+                    results[key] = 0
+        # history = fetch_history(Illness, Coalesce, F, Value, IllnessTreatment)
+        history = results["fetch_history"]
+        certificate_chart = results["fetch_certificate_chart"]
+        certificates = results["fetch_certificates"]
+        # certificate_chart = fetch_certificate_chart(timezone, Certificate, relativedelta)
 
-            staff = User.objects.get(id=data["staff"])
-            doctor = User.objects.get(id=data["doctor"])
-            data["staff"] = f"{staff.first_name} {staff.last_name}"
-            data["doctor"] = f"{doctor.first_name} {doctor.last_name}"
-
-            # Get the related IllnessTreatment instances
-            illness_treatments = IllnessTreatment.objects.filter(
-                illness_id=data["id"]
-            ).select_related("inventory_detail")
-
-            for treatment in illness_treatments:
-                data["treatment"].append(
-                    {
-                        "quantity": treatment.quantity or 0,
-                        "medicine": treatment.inventory_detail.item_name,
-                    }
-                )
         paginator = Paginator(history, 10)
         page = request.GET.get("page")
 
@@ -324,9 +307,29 @@ def records(request):
             history_page = paginator.page(1)
         except EmptyPage:
             history_page = paginator.page(paginator.num_pages)
-        context.update({"history": history_page, "history_data": list(history)})
-    except Exception:
+
+        cert_paginator = Paginator(certificates, 10)
+        cert_page = request.GET.get("cert-page")
+        try:
+            certificates_page = cert_paginator.page(cert_page)
+        except PageNotAnInteger:
+            certificates_page = cert_paginator.page(1)
+        except EmptyPage:
+            certificates_page = cert_paginator.page(cert_paginator.num_pages)
+        context.update(
+            {
+                "certificates_page": certificates_page,
+                "certificate_chart": certificate_chart,
+                "history": history_page,
+                "history_data": list(history),
+                "certificates": list(certificates),
+            }
+        )
+
+    except Exception as e:
+        logger.error(f"Failed to fetch necessary data: {e}")
         messages.error(request, "Error fetching data")
+
     return render(request, "staff/records.html", context)
 
 

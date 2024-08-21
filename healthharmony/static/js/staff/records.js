@@ -1,24 +1,108 @@
 import {
     openModal,
     closeModal,
+    getCurrentUrl
 } from '/static/js/utils.js'
 
 import {
     createViewIllnessBody,
     format_date,
-    getIllnessUsingId
+    getIllnessUsingId,
+    formatDatesInVisitHistory
 } from '/static/js/staff/record-visit.js'
 
+import {
+    formatDatesInRequestHistory,
+    parseBoolean,
+    createRequestBody,
+    getFilteredCertificateData
+} from '/static/js/staff/record-request.js'
 
 const historyData = JSON.parse(document.getElementById('history-data').textContent)
+const certficateChartData = JSON.parse(document.getElementById('certificate-chart').textContent)
+const certificates = JSON.parse(document.getElementById('certificates').textContent)
 main()
 
 function main() {
     // console.log(historyData)
+    // console.log(certficateChartData)
+    // console.log(certificates[2])
+    // Visit
     listenAddRecordBtn()
-    formatDatesInVisitHistory()
+    formatDatesInVisitHistory(format_date)
     listenViewIllnessesBtn()
     listenViewPatient()
+
+    //chart
+    listenRequestDateBtns()
+
+    //requests
+    formatDatesInRequestHistory(format_date)
+    listenRequestStatusBtns()
+
+    //pagination links
+    listenToLinks()
+
+    createRequestBody(true, certificates, NaN)
+
+
+}
+
+function listenRequestStatusBtns() {
+    const requestStatusBtns = document.querySelectorAll('.js-request-status-filter')
+    for (const btn of requestStatusBtns) {
+        btn.addEventListener('click', () => {
+            const status = parseBoolean(btn.getAttribute('data-filter'))
+            const url = getCurrentUrl()
+            const certPage = url.searchParams.get('cert-page')
+            getFilteredCertificateData(certificates, status, certPage)
+            // createRequestBody(status, certificates, certPage)
+            // formatDatesInRequestHistory(format_date)
+
+        })
+    }
+}
+
+function listenRequestDateBtns() {
+    const requestDateBtns = document.querySelectorAll('.js-request-date-filter')
+    for (const btn of requestDateBtns) {
+        btn.addEventListener('click', () => {
+            const filter = btn.getAttribute('data-filter')
+            const data = certficateChartData[filter]
+            console.log(data)
+        })
+
+    }
+}
+
+function listenToLinks() {
+    const links = document.querySelectorAll('.js-links')
+    for (const link of links) {
+        link.addEventListener('click', (event) => {
+            event.preventDefault()
+            let newParams = {}
+            const baseUrl = window.location.origin
+            let newUrl = `${baseUrl}/staff/records/`
+            const clickedHref = link.getAttribute('href')
+            const clickedUrl = new URL(`${newUrl}${clickedHref}`)
+            const clickParams = new URLSearchParams(clickedUrl.search)
+            const currentUrl = new URL(window.location.href)
+            const currentParams = new URLSearchParams(currentUrl.search)
+
+            for (const [key, value] of currentParams.entries()) {
+                newParams[key] = value;
+            }
+
+            for (const [key, value] of clickParams.entries()) {
+                newParams[key] = value;
+            }
+            newUrl = new URL(newUrl)
+            for (const [key, value] of Object.entries(newParams)) {
+                newUrl.searchParams.append(key, value);
+            }
+            window.location.href = newUrl
+        })
+    }
 }
 
 function listenViewPatient() {
@@ -49,15 +133,6 @@ function listenViewIllnessesBtn() {
             }
 
         })
-    }
-}
-
-
-function formatDatesInVisitHistory() {
-    const dateStrings = document.querySelectorAll('.date')
-    for (const date of dateStrings) {
-        const newDate = format_date(date.textContent)
-        date.innerText = newDate
     }
 }
 
