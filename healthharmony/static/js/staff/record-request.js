@@ -34,10 +34,10 @@ export function createRequestBody(certificates) {
 }
 
 export function getFilteredCertificateData(certificates, status, certPage) {
-    certPage = parseInt(certPage)
-    if (certPage === NaN) {
+    if (!certPage) {
         certPage = 1
     }
+    certPage = parseInt(certPage)
     let data = []
     for (let key in certificates) {
         key = parseInt(key)
