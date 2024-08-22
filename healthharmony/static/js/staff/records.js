@@ -43,8 +43,6 @@ function main() {
     //pagination links
     listenToLinks()
 
-    createRequestBody(true, certificates, NaN)
-
 
 }
 
@@ -55,10 +53,9 @@ function listenRequestStatusBtns() {
             const status = parseBoolean(btn.getAttribute('data-filter'))
             const url = getCurrentUrl()
             const certPage = url.searchParams.get('cert-page')
-            getFilteredCertificateData(certificates, status, certPage)
-            // createRequestBody(status, certificates, certPage)
-            // formatDatesInRequestHistory(format_date)
-
+            const filteredCertificates = getFilteredCertificateData(certificates, status, certPage)
+            createRequestBody(filteredCertificates)
+            formatDatesInRequestHistory(format_date)
         })
     }
 }

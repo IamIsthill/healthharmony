@@ -690,10 +690,23 @@ def fetch_history(Illness, Coalesce, F, Value, IllnessTreatment):
         data["added"] = data["added"].isoformat()
         data["treatment"] = []
 
-        staff = User.objects.get(id=data["staff"])
-        doctor = User.objects.get(id=data["doctor"])
-        data["staff"] = f"{staff.first_name} {staff.last_name}"
-        data["doctor"] = f"{doctor.first_name} {doctor.last_name}"
+        try:
+            staff = User.objects.get(id=data["staff"])
+            doctor = User.objects.get(id=data["doctor"])
+            data["staff"] = (
+                f"{staff.first_name} {staff.last_name}"
+                if staff
+                else "First Name Last Name"
+            )
+            data["doctor"] = (
+                f"{doctor.first_name} {doctor.last_name}"
+                if doctor
+                else "First Name Last Name"
+            )
+        except Exception as e:
+            logger.error(f"Cannot find id: {str(e)}")
+            data["staff"] = "First Name Last Name"
+            data["doctor"] = "First Name Last Name"
 
         # Get the related IllnessTreatment instances
         illness_treatments = IllnessTreatment.objects.filter(

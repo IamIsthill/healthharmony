@@ -13,39 +13,22 @@ export function parseBoolean(str) {
     return str.toLowerCase() === 'true';
 }
 
-export function createRequestBody(status, certificates, certPage) {
-    if (certPage === NaN) {
-        certPage = 1
-    }
+export function createRequestBody(certificates) {
     const requestBody = document.querySelector('.js-request-body')
     let html = ''
-    let pages = certPage * 10
-    let page = 1
     for (const certificate of certificates) {
-        if (page > pages) {
-            break
+        let purpose = certificate.purpose
+        if (purpose.length > 60) {
+            purpose = `${purpose.slice(0, 59)}...`
         }
-        if (page < (pages - 9)) {
-            continue
-        }
-        let data = null
-        if (status == null) {
-            data = certificate
-        } else if (certificate.released === status) {
-            data = certificate
-        } else {
-            continue
-        }
-
         html += `
             <tr>
-                <td>${data.email}</td>
-                <td>${data.first_name} ${data.last_name}</td>
-                <td>${data.purpose}</td>
-                <td class="js-cert-date">${data.requested}</td>
+                <td>${certificate.email}</td>
+                <td>${certificate.first_name} ${certificate.last_name}</td>
+                <td>${purpose}</td>
+                <td class="js-cert-date">${certificate.requested}</td>
             </tr>
         `
-        page++
     }
     requestBody.innerHTML = html
 }
@@ -55,15 +38,29 @@ export function getFilteredCertificateData(certificates, status, certPage) {
     if (certPage === NaN) {
         certPage = 1
     }
-    let pages = certPage * 10
-    const pageStart = pages - 11
-    const pageEnd = pages - 1
     let data = []
-    for (const cert of certificates) {
-        if (cert.released == status) {
-            data.push(cert)
+    for (let key in certificates) {
+        key = parseInt(key)
+        const certificate = certificates[key]
+        if (certificate.released == status || status == null) {
+            data.push(certificate)
         }
     }
 
+    let itemStart = certPage * 10 - 9
+    let itemEnd = certPage * 10
+    if (itemStart > data.length) {
+        certPage = (Math.ceil(data.length / 10))
+        itemStart = certPage * 10 - 9
+        itemEnd = certPage * 10
+    }
 
+    certificates = []
+    for (let key in data) {
+        key = parseInt(key)
+        if (key + 1 >= itemStart && key + 1 <= itemEnd) (
+            certificates.push(data[key])
+        )
+    }
+    return certificates
 }

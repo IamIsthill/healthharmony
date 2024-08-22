@@ -366,7 +366,7 @@ def create_patient_add_issue(request):
                 logger.info(f"User {patient.email} already exists.")
 
             visit = Illness.objects.create(
-                patient=patient, issue=request.POST.get("issue")
+                patient=patient, issue=request.POST.get("issue"), staff=request.user
             )
             logger.info(
                 f"Created new illness record for patient {patient.email} with id [{visit.id}]"

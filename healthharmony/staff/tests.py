@@ -29,7 +29,75 @@ def main():
     # test_get_visit_records(request)
     # test_certificates_chart()
     # test_certificates()
-    test_department_names()
+    # test_department_names()
+    test_history_structure()
+
+
+def test_history_structure():
+    from healthharmony.treatment.models import Illness, IllnessTreatment
+    from healthharmony.users.models import User
+    from django.db.models import F, Value
+    from django.db.models.functions import Coalesce
+
+    history = (
+        Illness.objects.all()
+        .select_related("staff", "doctor", "illness_category", "patient")
+        .annotate(
+            first_name=Coalesce(F("patient__first_name"), Value("")),
+            last_name=Coalesce(F("patient__last_name"), Value("")),
+            category=Coalesce(F("illness_category__category"), Value("")),
+        )
+        .values(
+            "first_name",
+            "last_name",
+            "issue",
+            "updated",
+            "diagnosis",
+            "category",
+            "staff",
+            "doctor",
+            "id",
+            "added",
+            "patient",
+        )
+    )
+
+    for data in history:
+        data["updated"] = data["updated"].isoformat()
+        data["added"] = data["added"].isoformat()
+        data["treatment"] = []
+
+        try:
+            staff = User.objects.get(id=data["staff"])
+            doctor = User.objects.get(id=data["doctor"])
+            data["staff"] = (
+                f"{staff.first_name} {staff.last_name}"
+                if staff
+                else "First Name Last Name"
+            )
+            data["doctor"] = (
+                f"{doctor.first_name} {doctor.last_name}"
+                if doctor
+                else "First Name Last Name"
+            )
+        except Exception as e:
+            logger.error(f"Cannot find id: {str(e)}")
+            data["staff"] = "First Name Last Name"
+            data["doctor"] = "First Name Last Name"
+
+        # Get the related IllnessTreatment instances
+        illness_treatments = IllnessTreatment.objects.filter(
+            illness_id=data["id"]
+        ).select_related("inventory_detail")
+
+        for treatment in illness_treatments:
+            data["treatment"].append(
+                {
+                    "quantity": treatment.quantity or 0,
+                    "medicine": treatment.inventory_detail.item_name,
+                }
+            )
+    print(json.dumps(list(history), indent=4, sort_keys=True))
 
 
 def test_department_names():
