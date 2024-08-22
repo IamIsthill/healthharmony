@@ -243,6 +243,14 @@ def update_inventory(request, pk):
 
 def bed(request):
     access_checker(request)
+    if request.method == "POST":
+        try:
+            BedStat.objects.create()
+            messages.success(request, "New bed has been added!")
+        except Exception as e:
+            logger.error(f"Failed to create a new bed: {str(e)}")
+            messages.error(request, "Failed to add new bed.")
+        return redirect("staff-bed")
     try:
         beds = BedStat.objects.all()
     except Exception:

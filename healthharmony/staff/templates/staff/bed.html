@@ -6,7 +6,16 @@
 {% block message %}
     {% if messages|has_error_message %}
         <div class="error">
-            <h2>Sorry, data was unavailable. Please reload the page.</h2>
+            {% for message in messages %}
+                {% if message.tags == 'error' %}<p>{{ message }}</p>{% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% if messages|has_success_message %}
+        <div class="success">
+            {% for message in messages %}
+                {% if message.tags == 'success' %}<p>{{ message }}</p>{% endif %}
+            {% endfor %}
         </div>
     {% endif %}
 {% endblock %}
@@ -15,6 +24,10 @@
         {% include 'staff/navbar.html' %}
         <div>
             <h3>Bed Monitor</h3>
+            <form action="" method="post">
+                {% csrf_token %}
+                <button type="submit">Add New Bed</button>
+            </form>
             {% if beds %}
                 {% for bed in beds %}
                     <form action="{% url 'staff-bed-handler' bed.id %}" method="post">
@@ -29,9 +42,14 @@
                             {% endif %}
                         </button>
                     </form>
+                {% empty %}
                 {% endfor %}
+            {% else %}
+                <h5>No bed available</h5>
             {% endif %}
         </div>
     </div>
 {% endblock %}
-{% block script %}{% endblock %}
+{% block script %}
+    <script src="{% static 'js/staff/features.js' %}" type="module"></script>
+{% endblock %}
