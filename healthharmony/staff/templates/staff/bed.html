@@ -2,7 +2,20 @@
 {% load static %}
 {% load tags %}
 {% block title %}Bed Monitor | HealthHarmony{% endblock %}
-{% block header %}{% endblock %}
+{% block header %}
+
+    <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/clinic/action.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <!-- <link rel="stylesheet" href="{% static 'css/clinic/overview.css' %}" /> -->
+    <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
+          rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+          rel="stylesheet" />
+
+{% endblock %}
 {% block message %}
     {% if messages|has_error_message %}
         <div class="error">
@@ -11,27 +24,101 @@
     {% endif %}
 {% endblock %}
 {% block main %}
-    <div class="container">
-        {% include 'staff/navbar.html' %}
-        <div>
-            <h3>Bed Monitor</h3>
-            {% if beds %}
-                {% for bed in beds %}
-                    <form action="{% url 'staff-bed-handler' bed.id %}" method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="status" value="{{ bed.status }}" />
-                        <h4>Bed {{ forloop.counter }}</h4>
-                        <button type="submit">
-                            {% if bed.status == True %}
-                                Occupied
-                            {% else %}
-                                Available
-                            {% endif %}
-                        </button>
-                    </form>
-                {% endfor %}
-            {% endif %}
+
+    <div class="nav-top">
+        <h2>Actions</h2>
+        <div class="profile-container">
+            <img src="{% static 'assets/images/doctor-pics/Miko.jpg' %}" alt="Profile Picture" class="profile-pic" />
+            <div class="profile-info">
+                <h3>Miko Basilio</h3>
+                <span>Nurse</span>
+            </div>
+            <a href="{% url 'logout' %}">
+                <div class="logout-container">
+                    <span class="material-symbols-outlined">
+                        logout
+                    </span>
+                </div>
+            </a>
         </div>
+    </div>
+
+    <div class="nurse-container2">
+        {% include 'staff/navbar.html' %}
+        <!-- MAIN CONTENT -->
+        <main>
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="5">
+                            <div class="header-content">
+                                <h1>Post Management</h1>
+                                <div class="sort-by">
+                                    <span>Sort By:</span>
+                                    <select id="inventory-sort-select" class="js-inventory-sort-select">
+                                        <option value="name">Title</option>
+                                        <option value="date">Date Posted</option>
+                                    </select>
+                                    <button class="js-inventory-direction" data-sort='asc'>Up</button>
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                    <tr class="title-part">
+                        <th class="table-head title-column">Title</th>
+                        <th class="table-head content-column">Content</th>
+                        <th class="table-head media-column">Media</th>
+                        <th class="table-head date-column">Date Posted</th>
+                        <th class="table-head actions-column"></th>
+                        <th class="table-head actions-column"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="title-column">Announcement</td>
+                        <td class="content-column">sinaktan ako ni arman asdasdas dasd asd sad asdasdasdasdas fsdafasdfsadfsdafsadfs</td>
+                        <td class="media-column"><a href="#VIEWIMAGE">View</a></td>
+                        <td class="date-column span-lightgray">Yesterday</td>
+                        <td class="actions-column"> <a  href=""> <span class="material-symbols-outlined edit-btn">
+                            edit
+                            </span> </a></td>
+                        <td class="actions-column"> <a href=""> <span class="material-symbols-outlined delete-btn">
+                            delete
+                            </span></a> </td>
+                    </tr>
+                    <tr>
+                        <td class="title-column">Feeling lucky</td>
+                        <td class="content-column">nakatapak ng tae</td>
+                        <td class="media-column NA">N/A</td>
+                        <td class="date-column span-lightgray">03/11/2040</td>
+                        <td class="actions-column"> <a  href=""> <span class="material-symbols-outlined edit-btn">
+                            edit
+                            </span> </a></td>
+                        <td class="actions-column"> <a href=""> <span class="material-symbols-outlined delete-btn">
+                            delete
+                            </span></a> </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div>
+                {% if beds %}
+                    {% for bed in beds %}
+                        <form action="{% url 'staff-bed-handler' bed.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="status" value="{{ bed.status }}" />
+                            <h4>Bed {{ forloop.counter }}</h4>
+                            <button type="submit">
+                                {% if bed.status == True %}
+                                    Occupied
+                                {% else %}
+                                    Available
+                                {% endif %}
+                            </button>
+                        </form>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </main>
     </div>
 {% endblock %}
 {% block script %}{% endblock %}

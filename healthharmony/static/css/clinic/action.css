@@ -1,0 +1,117 @@
+main{
+    margin-top: 1rem;
+}
+main table{
+    background-color: #EFEFEF;
+    width: 65rem;
+    padding: 0rem 1.5rem;
+    text-align: center;
+    box-shadow: var(--box-shadow2);
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+    border-collapse: separate; /* Allows spacing between rows */
+}
+
+main table tbody{
+    display: block;
+    max-height: 300px; /* Set the height of the tbody */
+    overflow-y: auto; /* Enable scrolling for the tbody */
+    width: 100%;
+}
+main table thead{
+    position: sticky;
+}
+main table tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed; /* Ensures that cells align properly */
+}
+
+main table:hover{
+    box-shadow: var(--box-shadowlight);
+}
+main table tbody td{
+    height: 2.8rem;
+    color: var(--normal-fontcolor);
+}
+main table th, td{
+    text-align: left;
+}
+.header-content {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:1rem 0;
+}
+.header-content{
+    /* border: 1px solid rebeccapurple; */
+    text-align: left;
+}
+.header-content h1 {
+    /* border: 1px solid orange; */
+    font-size: var(--size-lg);
+    color: var(--normal-fontcolor);
+    font-weight: bold;
+}
+table a{
+    color: black;
+    font-weight: 600;
+}
+.sort-by {
+    font-size: var(--size-sm);
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    color: var(--light_gray);
+}
+.sort-by select {
+    padding: 0.3rem 0.2rem;
+    font-size: var(--size-xs);
+    border: none;
+    border-radius: 5px;
+    background-color: white;
+}
+
+/* ADJUST WIDTH OF SPECIFIC  COLUMNS */
+
+.table-head.title-column, td.title-column {
+    width: 15%; /* Adjust the percentage as needed */
+}
+
+.table-head.content-column, td.content-column  {
+    width: 35%; /* Adjust the percentage as needed */
+}
+
+.table-head.media-column, td.media-column {
+    width: 10%; /* Adjust the percentage as needed */
+}
+
+.table-head.date-column, td.date-column {
+    width: 15%; /* Adjust the percentage as needed */
+}
+
+.table-head.actions-column, td.actions-column {
+    width: 3%; /* Adjust the percentage as needed */
+}
+
+/* Adjust data cells to match the header widths */
+
+.edit-btn{
+    color: var(--Green);
+}
+.delete-btn{
+    color: var(--Red);
+}
+.title-part, tbody tr{
+    padding: 0.5rem 1rem;
+}
+.title-part th{
+    font-weight: 600;
+    color: var(--normal-fontcolor);
+}
+table tbody tr{
+    margin-bottom: 6px;
+    background: rgb(255, 255, 255);
+    border-radius: 1rem;
+}
