@@ -2,7 +2,7 @@ import os
 import django
 from django.test import RequestFactory
 import json
-from django.db.models import Sum
+from django.db.models import Sum, F, Value
 import logging
 
 logger = logging.getLogger(__name__)
@@ -30,13 +30,31 @@ def main():
     # test_certificates_chart()
     # test_certificates()
     # test_department_names()
-    test_history_structure()
+    # test_history_structure()
+    test_accounts()
+
+
+def test_accounts():
+    from healthharmony.users.models import User
+
+    patients = (
+        User.objects.filter(access=1)
+        .annotate(last_visit=F("patient_illness__added"))
+        .distinct()
+        .values("last_visit", "first_name", "last_name", "profile", "id", "date_joined")
+    )
+    for patient in patients:
+        if patient["last_visit"]:
+            patient["last_visit"] = patient["last_visit"].isoformat()
+        if patient["date_joined"]:
+            patient["date_joined"] = patient["date_joined"].isoformat()
+    print(json.dumps(list(patients), indent=4, sort_keys=True))
 
 
 def test_history_structure():
     from healthharmony.treatment.models import Illness, IllnessTreatment
     from healthharmony.users.models import User
-    from django.db.models import F, Value
+    from django.db.models import F
     from django.db.models.functions import Coalesce
 
     history = (
@@ -179,7 +197,7 @@ def test_certificates_chart():
 
 def test_get_visit_records(request):
     from healthharmony.treatment.models import Illness, IllnessTreatment
-    from django.db.models import Q, F, Value, Prefetch
+    from django.db.models import Q, F, Prefetch
     from django.db.models.functions import Coalesce
     from django.utils.dateparse import parse_datetime
 

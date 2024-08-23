@@ -163,7 +163,7 @@ function listenToDepartmentBarFilters() {
             }
             btn.classList.add('js-department-bar-filter-btn')
             const filter = btn.getAttribute('data-category-data')
-            selectEachDepartmentBarThenCreateBars(getBarCounts(categoryData[filter]), createBars)
+            selectEachDepartmentBarThenCreateBars(getBarCounts(departmentData[filter]), createBars)
         })
     }
 }

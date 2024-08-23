@@ -399,3 +399,49 @@ def create_patient_add_issue(request):
 def access_checker(request):
     if request.user.access < 2:
         return redirect("home")
+
+
+def patients_and_accounts(request):
+    context = {}
+    try:
+        patients = (
+            User.objects.filter(access=1)
+            .select_related("department")
+            .annotate(
+                last_visit=F("patient_illness__added"),
+                department_name=F("department__department"),
+            )
+            .distinct()
+            .values(
+                "last_visit",
+                "first_name",
+                "last_name",
+                "profile",
+                "id",
+                "date_joined",
+                "department_name",
+                "email",
+            )
+        )
+        for patient in patients:
+            if patient["last_visit"]:
+                patient["last_visit"] = patient["last_visit"].isoformat()
+            if patient["date_joined"]:
+                patient["date_joined"] = patient["date_joined"].isoformat()
+        patients_paginator = Paginator(patients, 10)
+
+        try:
+            patients_page = patients_paginator.page(request.GET.get("patients-page"))
+        except PageNotAnInteger:
+            patients_page = patients_paginator.page(1)
+            logger.error("Page set was not integer")
+        except EmptyPage:
+            patients_page = patients_paginator.page(patients_paginator.num_pages)
+            logger.error("No page was set")
+
+        context.update({"patients": list(patients), "patients_page": patients_page})
+
+    except Exception as e:
+        logger.error(f"Failed to fetch data: {str(e)}")
+        messages.error(request, "Failed to fetch necessary data. Please reload page.")
+    return render(request, "staff/accounts.html", context)
