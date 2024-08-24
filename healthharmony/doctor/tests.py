@@ -21,10 +21,12 @@ from sklearn.metrics import accuracy_score, classification_report
 import threading
 from django.urls import reverse
 from django.utils import timezone
+from django.contrib.messages.storage.fallback import FallbackStorage
+from django.http import HttpRequest
 
 from healthharmony.users.models import User
 from healthharmony.treatment.models import Illness
-from healthharmony.staff.forms import EditInventoryForm
+from healthharmony.staff.forms import EditInventoryForm, DeleteInventoryForm
 from healthharmony.inventory.models import InventoryDetail, QuantityHistory
 from healthharmony.administrator.models import Log
 
@@ -113,6 +115,86 @@ class EditInventoryFormTest(TestCase):
         # Try saving (should not update anything)
         with self.assertRaises(Exception):
             form.save(request, pk=self.inventory.pk)
+
+
+class DeleteInventoryFormTest(TestCase):
+    def setUp(self):
+        # Create a test user
+        self.user = User.objects.create(
+            email="bercasiocharles@gmail.com", password="12345"
+        )
+        # Create a test inventory item
+        self.inventory_item = InventoryDetail.objects.create(
+            item_no=1,
+            unit="pcs",
+            item_name="Test Item",
+            category="Medicine",
+            description="Test Description",
+            expiration_date=timezone.now(),
+            added_by=self.user,
+        )
+
+        self.quantity = QuantityHistory.objects.create(
+            inventory=self.inventory_item, changed_by=self.user, updated_quantity=10
+        )
+        self.factory = RequestFactory()
+        self.request = HttpRequest()
+        self.request.user = self.user
+        self.request.session = {}
+        self.request._messages = FallbackStorage(self.request)
+
+    def test_successful_deletion(self):
+        form = DeleteInventoryForm()
+        pk = 1
+
+        form.save(self.request, pk)
+
+        # Test if the item is deleted
+        with self.assertRaises(InventoryDetail.DoesNotExist):
+            InventoryDetail.objects.get(pk=self.inventory_item.pk)
+
+        # Check if a success message is added
+        messages = list(self.request._messages)
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(
+            messages[0].message,
+            f"Successfully deleted inventory item {self.inventory_item.item_name}",
+        )
+
+    def test_deletion_with_invalid_pk(self):
+        form = DeleteInventoryForm()  # Non-existent PK
+        pk = 900
+
+        form.save(self.request, pk)
+
+        # Ensure no items were deleted
+        self.assertEqual(InventoryDetail.objects.count(), 1)
+
+        # Check if an error message is added
+        messages = list(self.request._messages)
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(
+            messages[0].message, "Failed to delete inventory record. Please try again"
+        )
+
+    def test_deletion_with_no_pk(self):
+
+        form = DeleteInventoryForm()  # Missing PK
+        pk = ""
+        form.save(self.request, pk)
+        self.assertTrue(
+            InventoryDetail.objects.filter(pk=self.inventory_item.pk).exists()
+        )
+
+        # Check if an error message is added
+        messages = list(self.request._messages)
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(
+            messages[0].message, "Failed to delete inventory record. Please try again"
+        )
+
+        # Ensure no log entry was created
+        self.assertEqual(Log.objects.filter(user=self.user).count(), 0)
 
 
 # class PredictorTestCase(TestCase):

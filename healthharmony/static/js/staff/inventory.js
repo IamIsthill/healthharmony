@@ -33,11 +33,13 @@ const countedInventory = JSON.parse(document.getElementById('counted-inventory')
 const inventoryData = JSON.parse(document.getElementById('inventory-data').textContent)
 const token = document.getElementsByName('csrfmiddlewaretoken')[0].value
 
-main()
+await main()
 
-function main() {
+async function main() {
     // console.log(countedInventory)
     // console.log(sortedInventory)
+    // const data = await getData()
+    // console.log(data)
     createLogicTrendsBar()
     createLogicInventoryChart()
     createLogicInventoryBar()
@@ -49,12 +51,62 @@ function main() {
     listenToAddInventoryBtn()
     listenToInventorySearchContainer()
     listenToInventoryButtons()
+    listenToInventoryDeleteButtons()
 
     listenChartCategoryBtns()
     listenChartFilterBtns()
 
     listenInventoryTrendsCategoryBtns()
     listenInventoryTrendsFilterBtns()
+}
+
+// async function getData() {
+//     let response = null
+//     try {
+//         // const url = new URL('https://www.googleapis.com/books/v1/volumes/zyTCAlFPjgYC?key=AIzaSyCg9zmLFmVYtJCMWdDBP_WuyrHBYD2RWHA')
+//         const url = new URL('https://www.googleapis.com/books/v1/volumes?q=health+books')
+//         response = await fetch (url)
+//         if (!response.ok) {
+//             throw new Error('Network response was not ok ' + response.statusText)
+//         }
+//         const data = await response.json()
+//         return data
+//     } catch (error) {
+//         console.error('There has been a problem with your fetch operation:', error)
+//         return response
+//     }
+// }
+
+function listenToInventoryDeleteButtons() {
+    const inventoryDeleteBtns = document.querySelectorAll('.js-inventory-delete-btn')
+    const deleteInventoryModal = document.getElementById('deleteInventoryModal')
+    for (const deleteBtn of inventoryDeleteBtns) {
+        deleteBtn.addEventListener('click', () => {
+            const inventoryId = parseInt(deleteBtn.getAttribute('data-id'))
+            const item = getInventoryUsingId(Object.values(sortedInventory), inventoryId)
+            createDeleteInventoryForm(item, token)
+            openModal(deleteInventoryModal)
+            const cancelDeleteInventoryBtns = document.querySelectorAll('.js-close-delete-btn')
+            for (const btn of cancelDeleteInventoryBtns) {
+                closeModal(deleteInventoryModal, btn)
+            }
+        })
+    }
+}
+
+function createDeleteInventoryForm(item, token) {
+    const url = `/staff/inventory/delete/${item.id}/`
+    const deleteInventoryForm = document.querySelector('#deleteInventoryModal .modal-content .form-body')
+    let html = `
+        <input type="hidden" name="csrfmiddlewaretoken" value="${token}" />
+        <div>Are you sure you want to delete "${item.item_name}"?</div>
+        <div class="form-buttons">
+            <button type="submit" class="add-btn">Delete</button>
+            <button type="button" class="cancel-btn js-close-delete-btn">Cancel</button>
+        </div>
+    `
+    deleteInventoryForm.innerHTML = html
+    deleteInventoryForm.setAttribute('action', url)
 }
 
 
@@ -92,6 +144,8 @@ function createLogicInventoryTable() {
         } = getInitParamsForInventorySorter(getActiveFilter)
         const inventory = getSortedInventoryData(filter, inventorySort, sortDirection)
         updateInventoryTable(inventory)
+        listenToInventoryButtons()
+        listenToInventoryDeleteButtons()
     }
 }
 
@@ -306,11 +360,13 @@ function updateInventoryTable(inventory) {
     if (inventory.length > 0) {
         for (const data of inventory) {
             html += `
-                <tr class="js-inventory-btn btn" data-id="${data.id}">
+                <tr>
                     <td class="table-data">${data.item_name}</td>
                     <td class="table-data">${data.category}</td>
                     <td class="table-data">${ data.total_quantity }</td>
                     <td class="table-data">${ data.expiration_date }</td>
+                    <td class="table-data js-inventory-btn btn" data-id="${data.id}">View</td>
+                    <td class="table-data js-inventory-delete-btn btn" data-id="${data.id}">Delete</td>
                 </tr>
 
             `
