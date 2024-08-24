@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 import secrets
 import string
-from django.db.models import Sum, F, Value
+from django.db.models import OuterRef, Subquery, Value, Sum, F, CharField
 from django.db.models.functions import Coalesce
 from django.utils import timezone
 from django.contrib import messages
@@ -404,12 +404,14 @@ def access_checker(request):
 def patients_and_accounts(request):
     context = {}
     try:
+        last_visit = Illness.objects.filter(patient=OuterRef("pk")).values("added")
         patients = (
             User.objects.filter(access=1)
-            .select_related("department")
             .annotate(
-                last_visit=F("patient_illness__added"),
                 department_name=F("department__department"),
+                last_visit=Coalesce(
+                    Subquery(last_visit[:1]), Value(None), output_field=CharField()
+                ),
             )
             .distinct()
             .values(
@@ -424,8 +426,7 @@ def patients_and_accounts(request):
             )
         )
         for patient in patients:
-            if patient["last_visit"]:
-                patient["last_visit"] = patient["last_visit"].isoformat()
+            print(patient["last_visit"])
             if patient["date_joined"]:
                 patient["date_joined"] = patient["date_joined"].isoformat()
         patients_paginator = Paginator(patients, 10)

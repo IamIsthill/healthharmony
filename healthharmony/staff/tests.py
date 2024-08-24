@@ -2,7 +2,8 @@ import os
 import django
 from django.test import RequestFactory
 import json
-from django.db.models import Sum, F, Value
+from django.db.models import OuterRef, Subquery, Value, Sum, F, CharField
+from django.db.models.functions import Coalesce
 import logging
 
 logger = logging.getLogger(__name__)
@@ -35,20 +36,35 @@ def main():
 
 
 def test_accounts():
-    from healthharmony.users.models import User
+    from healthharmony.users.models import User, Department
+    from healthharmony.treatment.models import Illness
 
+    last_visit = Illness.objects.filter(patient=OuterRef("pk")).values("added")
     patients = (
         User.objects.filter(access=1)
-        .annotate(last_visit=F("patient_illness__added"))
+        .annotate(
+            department_name=F("department__department"),
+            last_visit=Coalesce(
+                Subquery(last_visit[:1]), Value(None), output_field=CharField()
+            ),
+        )
         .distinct()
-        .values("last_visit", "first_name", "last_name", "profile", "id", "date_joined")
+        .values(
+            "last_visit",
+            "first_name",
+            "last_name",
+            "profile",
+            "id",
+            "date_joined",
+            "department_name",
+            "email",
+        )
     )
     for patient in patients:
-        if patient["last_visit"]:
-            patient["last_visit"] = patient["last_visit"].isoformat()
+        print(patient["last_visit"])
         if patient["date_joined"]:
             patient["date_joined"] = patient["date_joined"].isoformat()
-    print(json.dumps(list(patients), indent=4, sort_keys=True))
+    # print(json.dumps(list(patients), indent=4, sort_keys=True))
 
 
 def test_history_structure():
