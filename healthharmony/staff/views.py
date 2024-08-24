@@ -256,7 +256,7 @@ def bed(request):
     except Exception:
         messages.error(request, "Error fetching bed data")
     context = {"beds": beds, "page": "bed"}
-    return render(request, "staff/bed.html", context)
+    return render(request, "staff/action.html", context)
 
 
 def bed_handler(request, pk):
