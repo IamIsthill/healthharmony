@@ -66,26 +66,6 @@
 
  /* BUTTON */
 
- /* COLORS */
- .span-normal{
-   color: var(--normal-fontcolor);
- }
- .span-red{
- color: var(--Maroon);
- }
- .span-yellow{
- color: var(--Yellow);
- }
- .span-green{
-   color: var(--Green);
- }
- .span-lightred{
-   color: var(--Red)
- }
- .span-lightgray{
-   color: var(--light_gray);
- }
- /* COLORS */
 
  /* letter size */
  .h1_hero{
@@ -157,8 +137,7 @@
 
 /* SEARCH UTIL */
 .search-container {
-  position: relative;
-  max-width: 300px; /* Set the max width of the search box */
+  position: relative; /* Set the max width of the search box */
 }
 
 .search-container input {
@@ -322,6 +301,11 @@
    width: 96%;
    grid-template-columns: 9rem auto 24rem;
  }
+ .nurse-container2{
+  /* border:1px solid rgb(170, 37, 37); */
+  width: 96%;
+  grid-template-columns: 9rem auto;
+}
 }
 
 /* xl */
@@ -333,6 +317,11 @@
     /* border:1px solid rgb(170, 37, 37); */
     width: 96%;
     grid-template-columns: 9rem auto 20rem;
+  }
+  .nurse-container2{
+    /* border:1px solid rgb(170, 37, 37); */
+    width: 96%;
+    grid-template-columns: 9rem auto;
   }
 }
 

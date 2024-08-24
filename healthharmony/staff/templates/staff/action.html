@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tags %}
+{% block title %}Overview | HealthHarmony{% endblock %}
+{% block header %}
+    <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/clinic/action.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <!-- <link rel="stylesheet" href="{% static 'css/clinic/overview.css' %}" /> -->
+    <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
+          rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+          rel="stylesheet" />
+{% endblock %}
+{% block message %}
+    {% if messages|has_error_message %}
+        {% include 'error.html' %}
+    {% endif %}
+{% endblock %}
+{% block main %}
+    <div class="nav-top">
+        <h2>Actions</h2>
+        <div class="profile-container">
+            <img src="{% static 'assets/images/doctor-pics/Miko.jpg' %}"
+                 alt="Profile Picture"
+                 class="profile-pic" />
+            <div class="profile-info">
+                <h3>Miko Basilio</h3>
+                <span>Nurse</span>
+            </div>
+            <a href="{% url 'logout' %}">
+                <div class="logout-container">
+                    <span class="material-symbols-outlined">logout</span>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="nurse-container">
+        {% include 'staff/navbar.html' %}
+        <!-- MAIN CONTENT -->
+    </div>
+{% endblock %}
+{% block script %}{% endblock %}
