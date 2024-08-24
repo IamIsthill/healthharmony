@@ -1,7 +1,9 @@
 import {
     openModal,
     closeModal,
-    getCurrentUrl
+    getCurrentUrl,
+    getActiveFilter,
+    createChart,
 } from '/static/js/utils.js'
 
 import {
@@ -18,6 +20,11 @@ import {
     getFilteredCertificateData
 } from '/static/js/staff/record-request.js'
 
+import {
+    createRequestBarChart,
+    getCountsAndLabelForRequestBar
+} from '/static/js/staff/record-bar.js'
+
 const historyData = JSON.parse(document.getElementById('history-data').textContent)
 const certficateChartData = JSON.parse(document.getElementById('certificate-chart').textContent)
 const certificates = JSON.parse(document.getElementById('certificates').textContent)
@@ -28,6 +35,8 @@ function main() {
     // console.log(certficateChartData)
     // console.log(certificates[2])
     // Visit
+    createLogicRequestBarChart()
+
     listenAddRecordBtn()
     formatDatesInVisitHistory(format_date)
     listenViewIllnessesBtn()
@@ -42,10 +51,12 @@ function main() {
 
     //pagination links
     listenToLinks()
+}
 
-    createRequestBody(true, certificates, NaN)
-
-
+function createLogicRequestBarChart() {
+    const filter = getActiveFilter('js-request-date-active', 'data-filter')
+    const { counts, labels } = getCountsAndLabelForRequestBar(certficateChartData[filter])
+    createRequestBarChart(labels, counts, createChart)
 }
 
 function listenRequestStatusBtns() {
@@ -55,10 +66,9 @@ function listenRequestStatusBtns() {
             const status = parseBoolean(btn.getAttribute('data-filter'))
             const url = getCurrentUrl()
             const certPage = url.searchParams.get('cert-page')
-            getFilteredCertificateData(certificates, status, certPage)
-            // createRequestBody(status, certificates, certPage)
-            // formatDatesInRequestHistory(format_date)
-
+            const filteredCertificates = getFilteredCertificateData(certificates, status, certPage)
+            createRequestBody(filteredCertificates)
+            formatDatesInRequestHistory(format_date)
         })
     }
 }
@@ -67,9 +77,12 @@ function listenRequestDateBtns() {
     const requestDateBtns = document.querySelectorAll('.js-request-date-filter')
     for (const btn of requestDateBtns) {
         btn.addEventListener('click', () => {
-            const filter = btn.getAttribute('data-filter')
-            const data = certficateChartData[filter]
-            console.log(data)
+            for (const btn of requestDateBtns) {
+                btn.classList.remove('js-request-date-active')
+            }
+            btn.classList.add('js-request-date-active')
+            createLogicRequestBarChart()
+
         })
 
     }

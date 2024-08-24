@@ -2,7 +2,7 @@ import os
 import django
 from django.test import RequestFactory
 import json
-from django.db.models import Sum
+from django.db.models import Sum, F, Value
 import logging
 
 logger = logging.getLogger(__name__)
@@ -28,7 +28,116 @@ def main():
     # count_current_stocks_expired_items()
     # test_get_visit_records(request)
     # test_certificates_chart()
-    test_certificates()
+    # test_certificates()
+    # test_department_names()
+    # test_history_structure()
+    test_accounts()
+
+
+def test_accounts():
+    from healthharmony.users.models import User
+
+    patients = (
+        User.objects.filter(access=1)
+        .annotate(last_visit=F("patient_illness__added"))
+        .distinct()
+        .values("last_visit", "first_name", "last_name", "profile", "id", "date_joined")
+    )
+    for patient in patients:
+        if patient["last_visit"]:
+            patient["last_visit"] = patient["last_visit"].isoformat()
+        if patient["date_joined"]:
+            patient["date_joined"] = patient["date_joined"].isoformat()
+    print(json.dumps(list(patients), indent=4, sort_keys=True))
+
+
+def test_history_structure():
+    from healthharmony.treatment.models import Illness, IllnessTreatment
+    from healthharmony.users.models import User
+    from django.db.models import F
+    from django.db.models.functions import Coalesce
+
+    history = (
+        Illness.objects.all()
+        .select_related("staff", "doctor", "illness_category", "patient")
+        .annotate(
+            first_name=Coalesce(F("patient__first_name"), Value("")),
+            last_name=Coalesce(F("patient__last_name"), Value("")),
+            category=Coalesce(F("illness_category__category"), Value("")),
+        )
+        .values(
+            "first_name",
+            "last_name",
+            "issue",
+            "updated",
+            "diagnosis",
+            "category",
+            "staff",
+            "doctor",
+            "id",
+            "added",
+            "patient",
+        )
+    )
+
+    for data in history:
+        data["updated"] = data["updated"].isoformat()
+        data["added"] = data["added"].isoformat()
+        data["treatment"] = []
+
+        try:
+            staff = User.objects.get(id=data["staff"])
+            doctor = User.objects.get(id=data["doctor"])
+            data["staff"] = (
+                f"{staff.first_name} {staff.last_name}"
+                if staff
+                else "First Name Last Name"
+            )
+            data["doctor"] = (
+                f"{doctor.first_name} {doctor.last_name}"
+                if doctor
+                else "First Name Last Name"
+            )
+        except Exception as e:
+            logger.error(f"Cannot find id: {str(e)}")
+            data["staff"] = "First Name Last Name"
+            data["doctor"] = "First Name Last Name"
+
+        # Get the related IllnessTreatment instances
+        illness_treatments = IllnessTreatment.objects.filter(
+            illness_id=data["id"]
+        ).select_related("inventory_detail")
+
+        for treatment in illness_treatments:
+            data["treatment"].append(
+                {
+                    "quantity": treatment.quantity or 0,
+                    "medicine": treatment.inventory_detail.item_name,
+                }
+            )
+    print(json.dumps(list(history), indent=4, sort_keys=True))
+
+
+def test_department_names():
+    from healthharmony.users.models import Department, User
+    from healthharmony.treatment.models import Illness
+    from django.db.models import Subquery, OuterRef, Exists, F
+
+    # Subquery to check if there are any Illness instances associated with users in the department
+    illness_exists_subquery = Illness.objects.filter(
+        patient=OuterRef("user_department")
+    ).values("id")[:1]
+
+    departments = (
+        Department.objects.annotate(
+            user_id=F("user_department__id"),
+            has_illness=Exists(illness_exists_subquery),
+        )
+        .filter(has_illness=True)
+        .values("department")
+    )
+
+    print(json.dumps(list(departments), indent=4, sort_keys=True))
 
 
 def test_certificates():
@@ -88,7 +197,7 @@ def test_certificates_chart():
 
 def test_get_visit_records(request):
     from healthharmony.treatment.models import Illness, IllnessTreatment
-    from django.db.models import Q, F, Value, Prefetch
+    from django.db.models import Q, F, Prefetch
     from django.db.models.functions import Coalesce
     from django.utils.dateparse import parse_datetime
 

@@ -13,13 +13,12 @@
             <canvas id="morbidityChart"></canvas>
         </div>
         <div class="label-container">
-        <label for="categories">Choose a Morbidity:</label>
-        <select name="categories" id="categories">
-            {% for category in categories %}<option value="{{ category.id }}">{{ category }}</option>{% endfor %}
-        </select>
+            <label for="categories">Choose a Morbidity:</label>
+            <select name="categories" id="categories">
+                {% for category in categories %}<option value="{{ category.id }}">{{ category }}</option>{% endfor %}
+            </select>
         </div>
     </div>
-    
     <!--                   <div>
         <h4>Morbidity Cases</h4>
         <div>

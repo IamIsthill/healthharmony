@@ -9,7 +9,7 @@ document.querySelectorAll('.card-item').forEach(card => {
 
     seeMoreButton.addEventListener('click', function() {
         contentWrapper.classList.toggle('expanded');
-        
+
         if (contentWrapper.classList.contains('expanded')) {
             this.textContent = "See Less";
         } else {

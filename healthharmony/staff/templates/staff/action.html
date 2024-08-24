@@ -13,7 +13,6 @@
           rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
           rel="stylesheet" />
-   
 {% endblock %}
 {% block message %}
     {% if messages|has_error_message %}
@@ -21,35 +20,26 @@
     {% endif %}
 {% endblock %}
 {% block main %}
-
     <div class="nav-top">
         <h2>Actions</h2>
         <div class="profile-container">
-            <img src="{% static 'assets/images/doctor-pics/Miko.jpg' %}" alt="Profile Picture" class="profile-pic" />
+            <img src="{% static 'assets/images/doctor-pics/Miko.jpg' %}"
+                 alt="Profile Picture"
+                 class="profile-pic" />
             <div class="profile-info">
                 <h3>Miko Basilio</h3>
                 <span>Nurse</span>
             </div>
             <a href="{% url 'logout' %}">
                 <div class="logout-container">
-                    <span class="material-symbols-outlined">
-                        logout
-                    </span>
+                    <span class="material-symbols-outlined">logout</span>
                 </div>
             </a>
         </div>
     </div>
-
     <div class="nurse-container">
         {% include 'staff/navbar.html' %}
         <!-- MAIN CONTENT -->
-        <main>
-           
-        </main>
-       
     </div>
-    
 {% endblock %}
-{% block script %}
-   
-{% endblock %}
+{% block script %}{% endblock %}

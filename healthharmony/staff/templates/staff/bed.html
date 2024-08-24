@@ -3,62 +3,90 @@
 {% load tags %}
 {% block title %}Bed Monitor | HealthHarmony{% endblock %}
 {% block header %}
-
     <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
     <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
     <link rel="stylesheet" href="{% static 'css/clinic/action.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <!-- <link rel="stylesheet" href="{% static 'css/clinic/overview.css' %}" /> -->
     <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
-
-    <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-    />
-
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
           rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
           rel="stylesheet" />
-
 {% endblock %}
 {% block message %}
     {% if messages|has_error_message %}
         <div class="error">
-            <h2>Sorry, data was unavailable. Please reload the page.</h2>
+            {% for message in messages %}
+                {% if message.tags == 'error' %}<p>{{ message }}</p>{% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% if messages|has_success_message %}
+        <div class="success">
+            {% for message in messages %}
+                {% if message.tags == 'success' %}<p>{{ message }}</p>{% endif %}
+            {% endfor %}
         </div>
     {% endif %}
 {% endblock %}
 {% block main %}
-
-    <div class="nav-top">
-        <h2>Actions</h2>
-        <div class="profile-container">
-            <img src="{% static 'assets/images/doctor-pics/Miko.jpg' %}" alt="Profile Picture" class="profile-pic" />
-            <div class="profile-info">
-                <h3>Miko Basilio</h3>
-                <span>Nurse</span>
-            </div>
-            <a href="{% url 'logout' %}">
-                <div class="logout-container">
-                    <span class="material-symbols-outlined">
-                        logout
-                    </span>
-                </div>
-            </a>
-        </div>
-    </div>
-
     <div class="nurse-container2">
         {% include 'staff/navbar.html' %}
+        <div class="nav-top">
+            <h2>Actions</h2>
+            <div class="profile-container">
+                <img src="{% static 'assets/images/doctor-pics/Miko.jpg' %}"
+                     alt="Profile Picture"
+                     class="profile-pic" />
+                <div class="profile-info">
+                    <h3>Miko Basilio</h3>
+                    <span>Nurse</span>
+                </div>
+                <a href="{% url 'logout' %}">
+                    <div class="logout-container">
+                        <span class="material-symbols-outlined">logout</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div>
+            <h3>Bed Monitor</h3>
+            <form action="" method="post">
+                {% csrf_token %}
+                <button type="submit">Add New Bed</button>
+            </form>
+            {% if beds %}
+                {% for bed in beds %}
+                    <form action="{% url 'staff-bed-handler' bed.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="status" value="{{ bed.status }}" />
+                        <h4>Bed {{ forloop.counter }}</h4>
+                        <button type="submit">
+                            {% if bed.status == True %}
+                                Occupied
+                            {% else %}
+                                Available
+                            {% endif %}
+                        </button>
+                    </form>
+                {% empty %}
+                {% endfor %}
+            {% else %}
+                <h5>No bed available</h5>
+            {% endif %}
+        </div>
         <!-- MAIN CONTENT -->
         <main>
-            
             <div class="container swiper">
                 <div class="slider-wrapper">
                     <div class="card-list swiper-wrapper">
                         <div class="card-item swiper-slide">
-                            <img class="media-content" src="{% static 'assets/images/doctor-pics/charls.jpg' %}" alt="">
+                            <img class="media-content"
+                                 src="{% static 'assets/images/doctor-pics/charls.jpg' %}"
+                                 alt="" />
                             <h2 class="card-title">Lana Del Rey is the Goat</h2>
                             <div class="content-wrapper">
                                 <p class="content">
@@ -68,22 +96,24 @@
                             <span class="see-more">See More</span>
                             <div class="card-bottom">
                                 <div class="card-profile">
-                                    <div class="dp-container"><img src="{% static 'assets/images/doctor-pics/charls.jpg' %}" alt=""></div>
+                                    <div class="dp-container">
+                                        <img src="{% static 'assets/images/doctor-pics/charls.jpg' %}" alt="" />
+                                    </div>
                                     <div class="card-profile-info">
                                         <h5>Miko Basilio</h5>
                                         <span class="span-lightgray">01/23/24 07:32am</span>
                                     </div>
                                 </div>
-        
                                 <div class="card-buttons">
                                     <a href=""><span class="material-symbols-outlined edit-btn">edit</span></a>
                                     <a href=""><span class="material-symbols-outlined delete-btn">delete</span></a>
-                                </div>           
+                                </div>
                             </div>
                         </div>
-        
                         <div class="card-item swiper-slide">
-                            <img class="media-content" src="{% static 'assets/images/doctor-pics/charls.jpg' %}" alt="">
+                            <img class="media-content"
+                                 src="{% static 'assets/images/doctor-pics/charls.jpg' %}"
+                                 alt="" />
                             <h2 class="card-title">Joji is Peak</h2>
                             <div class="content-wrapper">
                                 <p class="content">
@@ -93,23 +123,25 @@
                             <span class="see-more">See More</span>
                             <div class="card-bottom">
                                 <div class="card-profile">
-                                    <div class="dp-container"><img src="{% static 'assets/images/doctor-pics/charls.jpg' %}" alt=""></div>
+                                    <div class="dp-container">
+                                        <img src="{% static 'assets/images/doctor-pics/charls.jpg' %}" alt="" />
+                                    </div>
                                     <div class="card-profile-info">
                                         <h5>Charles Berc</h5>
                                         <span class="span-lightgray">01/23/24 07:32am</span>
                                     </div>
                                 </div>
-        
                                 <div class="card-buttons">
                                     <a href=""><span class="material-symbols-outlined edit-btn">edit</span></a>
                                     <a href=""><span class="material-symbols-outlined delete-btn">delete</span></a>
-                                </div>           
+                                </div>
                             </div>
                         </div>
-        
                         <div class="card-item swiper-slide">
-                            <img class="media-content" src="{% static 'assets/images/doctor-pics/charls.jpg' %}" alt="">
-                            <h2 class="card-title">Rex Orange County is my iskibidi </h2>
+                            <img class="media-content"
+                                 src="{% static 'assets/images/doctor-pics/charls.jpg' %}"
+                                 alt="" />
+                            <h2 class="card-title">Rex Orange County is my iskibidi</h2>
                             <div class="content-wrapper">
                                 <p class="content">
                                     Rex Orange County is my "skibidi" because his music brings a sense of joy, comfort, and connection that feels uniquely personal. Just like a catchy tune that sticks with you, his songs have a way of resonating with your experiences and emotions, making them a go-to soundtrack for your life. Whether you're feeling up or down, Rex Orange County's music has a vibe that speaks directly to your heart, making him an irreplaceable part of your musical journey.
@@ -118,23 +150,25 @@
                             <span class="see-more">See More</span>
                             <div class="card-bottom">
                                 <div class="card-profile">
-                                    <div class="dp-container"><img src="{% static 'assets/images/doctor-pics/charls.jpg' %}" alt=""></div>
+                                    <div class="dp-container">
+                                        <img src="{% static 'assets/images/doctor-pics/charls.jpg' %}" alt="" />
+                                    </div>
                                     <div class="card-profile-info">
                                         <h5>Charles Berc</h5>
                                         <span class="span-lightgray">01/23/24 07:32am</span>
                                     </div>
                                 </div>
-        
                                 <div class="card-buttons">
                                     <a href=""><span class="material-symbols-outlined edit-btn">edit</span></a>
                                     <a href=""><span class="material-symbols-outlined delete-btn">delete</span></a>
-                                </div>           
+                                </div>
                             </div>
                         </div>
-        
                         <div class="card-item swiper-slide">
-                            <img class="media-content" src="{% static 'assets/images/doctor-pics/charls.jpg' %}" alt="">
-                            <h2 class="card-title">Radiohead </h2>
+                            <img class="media-content"
+                                 src="{% static 'assets/images/doctor-pics/charls.jpg' %}"
+                                 alt="" />
+                            <h2 class="card-title">Radiohead</h2>
                             <div class="content-wrapper">
                                 <p class="content">
                                     Radiohead because his music brings a sense of joy, comfort, and connection that feels uniquely personal. Just like a catchy tune that sticks with you, his songs have a way of resonating with your experiences and emotions, making them a go-to soundtrack for your life. Whether you're feeling up or down, Rex Orange County's music has a vibe that speaks directly to your heart, making him an irreplaceable part of your musical journey.
@@ -143,78 +177,76 @@
                             <span class="see-more">See More</span>
                             <div class="card-bottom">
                                 <div class="card-profile">
-                                    <div class="dp-container"><img src="{% static 'assets/images/doctor-pics/charls.jpg' %}" alt=""></div>
+                                    <div class="dp-container">
+                                        <img src="{% static 'assets/images/doctor-pics/charls.jpg' %}" alt="" />
+                                    </div>
                                     <div class="card-profile-info">
                                         <h5>Miko Basilio</h5>
                                         <span class="span-lightgray">01/23/24 07:32am</span>
                                     </div>
                                 </div>
-        
                                 <div class="card-buttons">
                                     <a href=""><span class="material-symbols-outlined edit-btn">edit</span></a>
                                     <a href=""><span class="material-symbols-outlined delete-btn">delete</span></a>
-                                </div>           
+                                </div>
                             </div>
                         </div>
-        
                         <div class="card-item swiper-slide">
-                            <img class="media-content" src="{% static 'assets/images/doctor-pics/charls.jpg' %}" alt="">
+                            <img class="media-content"
+                                 src="{% static 'assets/images/doctor-pics/charls.jpg' %}"
+                                 alt="" />
                             <h2 class="card-title">my Beabadoobee</h2>
                             <div class="content-wrapper">
-                                <p class="content">
-                                    She is my wife.
-                                </p>
+                                <p class="content">She is my wife.</p>
                             </div>
                             <span class="see-more">See More</span>
                             <div class="card-bottom">
                                 <div class="card-profile">
-                                    <div class="dp-container"><img src="{% static 'assets/images/doctor-pics/charls.jpg' %}" alt=""></div>
+                                    <div class="dp-container">
+                                        <img src="{% static 'assets/images/doctor-pics/charls.jpg' %}" alt="" />
+                                    </div>
                                     <div class="card-profile-info">
                                         <h5>Miko Basilio</h5>
                                         <span class="span-lightgray">01/23/24 07:32am</span>
                                     </div>
                                 </div>
-        
                                 <div class="card-buttons">
                                     <a href=""><span class="material-symbols-outlined edit-btn">edit</span></a>
                                     <a href=""><span class="material-symbols-outlined delete-btn">delete</span></a>
-                                </div>           
+                                </div>
                             </div>
                         </div>
-        
                         <div class="card-item swiper-slide">
-                            <img class="media-content" src="{% static 'assets/images/doctor-pics/charls.jpg' %}" alt="">
+                            <img class="media-content"
+                                 src="{% static 'assets/images/doctor-pics/charls.jpg' %}"
+                                 alt="" />
                             <h2 class="card-title">Drake</h2>
                             <div class="content-wrapper">
-                                <p class="content">
-                                    He like em young.
-                                </p>
+                                <p class="content">He like em young.</p>
                             </div>
                             <span class="see-more">See More</span>
                             <div class="card-bottom">
                                 <div class="card-profile">
-                                    <div class="dp-container"><img src="{% static 'assets/images/doctor-pics/charls.jpg' %}" alt=""></div>
+                                    <div class="dp-container">
+                                        <img src="{% static 'assets/images/doctor-pics/charls.jpg' %}" alt="" />
+                                    </div>
                                     <div class="card-profile-info">
                                         <h5>Kendrick Lamar</h5>
                                         <span class="span-lightgray">01/23/24 07:32am</span>
                                     </div>
                                 </div>
-        
                                 <div class="card-buttons">
                                     <a href=""><span class="material-symbols-outlined edit-btn">edit</span></a>
                                     <a href=""><span class="material-symbols-outlined delete-btn">delete</span></a>
-                                </div>           
+                                </div>
                             </div>
                         </div>
-        
                     </div>
                     <div class="swiper-pagination"></div>
                     <div class="swiperBtn swiper-button-prev"></div>
                     <div class="swiperBtn swiper-button-next"></div>
                 </div>
             </div>
-
-
             <div>
                 {% if beds %}
                     {% for bed in beds %}
@@ -239,4 +271,6 @@
     <script src="{% static 'js/seemore.js' %}"></script>
     <script src="{% static 'js/post-slider.js' %}"></script>
 {% endblock %}
-{% block script %}{% endblock %}
+{% block script %}
+    <script src="{% static 'js/staff/features.js' %}" type="module"></script>
+{% endblock %}

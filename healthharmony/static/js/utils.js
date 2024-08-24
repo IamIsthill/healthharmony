@@ -41,23 +41,27 @@ export function getBarCounts(mainData) {
 }
 
 export function createBars(bar, maxCount, value) {
-    const canvas = bar;
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    canvas.width = 0
-    canvas.height = 0
-    canvas.width = canvas.parentElement.clientWidth || 100; // Fallback value
-    canvas.height = canvas.parentElement.clientHeight || 100;
+    try {
+        const canvas = bar;
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        canvas.width = 0
+        canvas.height = 0
+        canvas.width = canvas.parentElement.clientWidth || 100; // Fallback value
+        canvas.height = canvas.parentElement.clientHeight || 100;
 
-    //background bar
-    ctx.fillStyle = '#E4E7EC'
-    ctx.fillRect(0, 0, parseInt(canvas.width), parseInt(canvas.height))
+        //background bar
+        ctx.fillStyle = '#E4E7EC'
+        ctx.fillRect(0, 0, parseInt(canvas.width), parseInt(canvas.height))
 
-    //foreground bar
-    ctx.fillStyle = '#FFDA80'
-    let width = (parseInt(canvas.width)) / maxCount * (parseInt(value))
-    ctx.fillRect(0, 0, width, parseInt(canvas.height))
-    // console.log('Canvas width:', canvas.width, 'Canvas height:', canvas.height);
+        //foreground bar
+        ctx.fillStyle = '#FFDA80'
+        let width = (parseInt(canvas.width)) / maxCount * (parseInt(value))
+        ctx.fillRect(0, 0, width, parseInt(canvas.height))
+        // console.log('Canvas width:', canvas.width, 'Canvas height:', canvas.height);
+    } catch (error) {
+        console.error(error)
+    }
 }
 
 export function getActiveFilter(filterClassName, sorterName) {

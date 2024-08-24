@@ -23,6 +23,10 @@ const departments = JSON.parse(document.getElementById('departments').textConten
 main()
 
 function main() {
+    listenToError()
+    listenToSuccess()
+    listenToModalOk()
+
     listenToAddVisitBtn()
 
     listenToCategoryFilterBtns()
@@ -39,9 +43,39 @@ function main() {
 
     listenToDepartmentBarFilters()
     createDepartmentBarCanvas(getBarCounts(departmentData['yearly']))
-    selectEachDepartmentBarThenCreateBars(getBarCounts(categoryData['yearly']), createBars)
+    selectEachDepartmentBarThenCreateBars(getBarCounts(departmentData['yearly']), createBars)
+}
 
+function listenToError() {
+    try {
+        const errorModal = document.querySelector('.js-error-modal')
+        errorModal.classList.add('open-popup-visit')
+    } catch(error) {
+        console.error(error)
+    }
+}
 
+function listenToSuccess() {
+    try {
+        const successModal = document.querySelector('.js-success-modal')
+        successModal.classList.add('open-popup-visit')
+    } catch(error) {
+        console.error(error)
+    }
+}
+
+function listenToModalOk() {
+    try {
+        const okBtns = document.querySelectorAll('.js-modal-btn-ok')
+        for (const btn of okBtns) {
+            btn.addEventListener('click', () => {
+                const modal = btn.parentElement.parentElement
+                modal.classList.remove('open-popup-visit')
+            })
+        }
+    } catch(error) {
+        console.error(error)
+    }
 }
 
 
@@ -68,7 +102,12 @@ function listenToCategoryFilterBtns() {
 function listenToCategorySelector() {
     const categorySelector = document.getElementById('categories')
     categorySelector.addEventListener('change', () => {
-        getParamsThenCreateMorbidityChart(getCountsAndLabelsForChart, categoryData, createChart)
+        try {
+            getParamsThenCreateMorbidityChart(getCountsAndLabelsForChart, categoryData, createChart)
+        } catch (error) {
+            console.log(error)
+        }
+
     })
 }
 
@@ -124,7 +163,7 @@ function listenToDepartmentBarFilters() {
             }
             btn.classList.add('js-department-bar-filter-btn')
             const filter = btn.getAttribute('data-category-data')
-            selectEachDepartmentBarThenCreateBars(getBarCounts(categoryData[filter]), createBars)
+            selectEachDepartmentBarThenCreateBars(getBarCounts(departmentData[filter]), createBars)
         })
     }
 }
