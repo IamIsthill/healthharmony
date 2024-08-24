@@ -32,6 +32,15 @@
         <div>
             <h1 class="js-patient-count">All Patients(0)</h1>
             <table>
+                <span>Filter</span>
+                <select class="js-patient-filter-inputs">
+                    <option value="">All</option>
+                    <option value="department">Department</option>
+                    <option value="name">Name</option>
+                </select>
+                <div class="js-patient-filters"></div>
+                <input type="text" class="js-patient-search-field" />
+                <button class="js-patient-search-btn">Search</button>
                 {% if patients_page %}
                     <thead>
                         <tr>
