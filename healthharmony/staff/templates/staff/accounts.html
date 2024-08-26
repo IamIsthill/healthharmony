@@ -171,6 +171,14 @@
             </form>
         </div>
     </div>
+    <div class="js-delete-department-modal modal">
+        <div class="modal-content">
+            <span class="js-close-delete-department-modal">&times;</span>
+            <form action="" method="post" class="form-body">
+                {% csrf_token %}
+            </form>
+        </div>
+    </div>
 {% endblock %}
 {% block script %}
     {{ patients|json_script:'patientData' }}

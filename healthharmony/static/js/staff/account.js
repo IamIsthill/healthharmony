@@ -20,6 +20,12 @@ import {
     formatDatesInPatientsPage
 } from '/static/js/staff/account-patients.js'
 
+import {
+    getPatientList,
+    getDepartment,
+
+} from '/static/js/staff/account-department.js'
+
 const patientData = JSON.parse(document.getElementById('patientData').textContent)
 const departmentData = JSON.parse(document.getElementById('departmentData').textContent)
 
@@ -67,36 +73,38 @@ function listenAddDepartmentBtn() {
 
 }
 
-function getPatientList(patientData, departmentId) {
-    let data = []
-    for (const patient of patientData) {
-        if(parseInt(patient.department) == parseInt(departmentId)) {
-            data.push(patient)
-        }
-    }
-    return data
-}
-
-function getDepartment(departmentData, deparmentId) {
-    let data = null
-    for (const department of departmentData) {
-        if (parseInt(department.id) == parseInt(deparmentId)) {
-            data = department
-        }
-    }
-    return data
-}
-
 function listenDepartmentDelete() {
     const departmentDeleteBtns = document.querySelectorAll('.js-delete-department')
     for (const btn of departmentDeleteBtns) {
         btn.addEventListener('click', () => {
             const departmentId = parseInt(btn.parentElement.getAttribute('data-department-id'))
-            const deparment = getDepartment(departmentData, departmentId)
+            const department = getDepartment(departmentData, departmentId)
             const patients = getPatientList(patientData, departmentId)
-            console.log(patients)
+            createDeleteDepartmentModal(department)
+            const modal = document.querySelector('.js-delete-department-modal')
+            const closeBtns = document.querySelectorAll('.js-close-delete-department-modal')
+            openModal(modal)
+            for (const close of closeBtns) {
+                closeModal(modal, close)
+            }
+
         })
     }
+}
+
+function createDeleteDepartmentModal(department) {
+    const formBody = document.querySelector('.js-delete-department-modal .modal-content .form-body')
+    const url = `/staff/patient-and-accounts/delete-department/${department.id}/`
+    formBody.setAttribute('action', url)
+    const token = getToken()
+    const html = `
+        <input type="hidden" name="csrfmiddlewaretoken" value="${token}" />
+        <h2>Confirm delete?</h2>
+        <h1>${department.department}</h1>
+        <button type="submit">Confirm</button>
+        <button type="button" class="js-close-delete-department-modal">Cancel</button
+    `
+    formBody.innerHTML = html
 }
 
 function listenDepartmentView() {
@@ -123,13 +131,13 @@ function listenDepartmentEdit() {
     }
 }
 
-function getTokenHTML() {
+function getToken() {
     const inputs = document.querySelectorAll('input')
     let token = null
     for (const input of inputs) {
         const inputName = input.getAttribute('name')
         if (inputName == 'csrfmiddlewaretoken') {
-           token = input
+           token = input.value
         }
     }
     return token

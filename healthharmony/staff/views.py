@@ -423,6 +423,7 @@ def patients_and_accounts(request):
                 "date_joined",
                 "department_name",
                 "email",
+                "department",
             )
         )
         for patient in patients:
@@ -516,11 +517,11 @@ def add_department(request):
     return redirect("staff-accounts")
 
 
-def delete_department(request, id):
+def delete_department(request, pk):
     access_checker(request)
     if request.method == "POST":
         try:
-            department = Department.objects.get(id=int(id))
+            department = Department.objects.get(id=int(pk))
             if department:
                 department.delete()
                 messages.success(
@@ -530,7 +531,7 @@ def delete_department(request, id):
                     user=request.user,
                     action=f"Deleted department instance[id:{department.id}]",
                 )
-                logger.success(
+                logger.info(
                     f"{request.user.email} has deleted department instance[id={department.id}]"
                 )
             else:
