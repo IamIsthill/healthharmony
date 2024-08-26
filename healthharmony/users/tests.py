@@ -3,7 +3,16 @@ from healthharmony.users.models import Department, User
 from healthharmony.treatment.models import Illness, IllnessTreatment
 from django.utils import timezone
 from dateutil.relativedelta import relativedelta
-from django.db.models import OuterRef, Subquery, Value, Sum, F, CharField, DateTimeField
+from django.db.models import (
+    OuterRef,
+    Subquery,
+    Value,
+    Sum,
+    F,
+    CharField,
+    DateTimeField,
+    Count,
+)
 from datetime import datetime
 from django.db.models.functions import Coalesce
 import json
@@ -98,7 +107,7 @@ class TestDepartmentModel(TestCase):
                         "last_visit"
                     )  # Only get the last visit of the first patient in the department
                 ),
-                count=Sum("user_department"),
+                count=Count("department"),
             )
             .distinct()
             .values()

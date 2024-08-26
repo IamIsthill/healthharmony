@@ -21,4 +21,14 @@ urlpatterns = [
     path("bed/update/<int:pk>/", views.bed_handler, name="staff-bed-handler"),
     path("records/", views.records, name="staff-records"),
     path("patient-and-accounts/", views.patients_and_accounts, name="staff-accounts"),
+    path(
+        "patient-and-accounts/add-department/",
+        views.add_department,
+        name="staff-accounts-add-department",
+    ),
+    path(
+        "patient-and-accounts/delete-department/<int:pk>/",
+        views.delete_department,
+        name="staff-accounts-delete-department",
+    ),
 ]

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 import secrets
 import string
-from django.db.models import OuterRef, Subquery, Value, Sum, F, CharField
+from django.db.models import OuterRef, Subquery, Value, Sum, F, CharField, Count
 from django.db.models.functions import Coalesce
 from django.utils import timezone
 from django.contrib import messages
@@ -464,7 +464,7 @@ def patients_and_accounts(request):
                         "last_department_visit"
                     )  # Only get the last visit of the first patient in the department
                 ),
-                count=Sum("user_department"),
+                count=Count("user_department"),
             )
             .distinct()
             .values()
@@ -483,3 +483,60 @@ def patients_and_accounts(request):
         logger.error(f"Failed to fetch data: {str(e)}")
         messages.error(request, "Failed to fetch necessary data. Please reload page.")
     return render(request, "staff/accounts.html", context)
+
+
+def add_department(request):
+    access_checker(request)
+    if request.method == "POST":
+        department_name = request.POST.get("department_name")
+        try:
+            department, created = Department.objects.get_or_create(
+                department=department_name
+            )
+
+            if created:
+                messages.success(request, "Success! A new department has been added.")
+                Log.objects.create(
+                    user=request.user,
+                    action=f"New department instance has been created[id:{department.id}]",
+                )
+
+            else:
+                messages.error(
+                    request,
+                    "Department already exists. Please add a new department name",
+                )
+                logger.error(
+                    f"Failed to create a new department as it already exists[id: {department.id}]"
+                )
+
+        except Exception as e:
+            messages.error(request, "Failed to create a new department")
+            logger.error(f"Failed to create a new department: {str(e)}")
+    return redirect("staff-accounts")
+
+
+def delete_department(request, id):
+    access_checker(request)
+    if request.method == "POST":
+        try:
+            department = Department.objects.get(id=int(id))
+            if department:
+                department.delete()
+                messages.success(
+                    request, f"Success! {department.department} has been removed."
+                )
+                Log.objects.create(
+                    user=request.user,
+                    action=f"Deleted department instance[id:{department.id}]",
+                )
+                logger.success(
+                    f"{request.user.email} has deleted department instance[id={department.id}]"
+                )
+            else:
+                messages.error(request, "Failed to find department. Please try again")
+                logger.error("Failed to find deparment instance")
+        except Exception as e:
+            messages.error(request, "Failed to delete department. Please try again")
+            logger.error(f"Failed to delete department instance: {str(e)}")
+    return redirect("staff-accounts")

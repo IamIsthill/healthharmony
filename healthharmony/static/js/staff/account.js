@@ -3,7 +3,9 @@ import {
     paginateArray,
     saveItem,
     getItem,
-    removeItem
+    removeItem,
+    openModal,
+    closeModal
 } from '/static/js/utils.js'
 
 import {
@@ -41,8 +43,48 @@ function main() {
     //departments
     formatDepartmentUserCounts()
     listenDepartmentDelete()
+    listenDepartmentEdit()
+    listenDepartmentView()
+    listenAddDepartmentBtn()
 
 
+
+}
+
+function listenAddDepartmentBtn() {
+    const addDepartmentBtn = document.querySelector('.js-add-department-btn')
+    addDepartmentBtn.addEventListener('click', () => {
+        const modal = document.querySelector('.js-add-department-modal')
+        const form = document.querySelector('.js-add-department-modal .modal-content .form-body')
+        const closeBtns = document.querySelectorAll('.js-close-add-department-modal')
+        openModal(modal)
+        for (const close of closeBtns) {
+            form.reset()
+            closeModal(modal, close)
+        }
+
+    })
+
+}
+
+function getPatientList(patientData, departmentId) {
+    let data = []
+    for (const patient of patientData) {
+        if(parseInt(patient.department) == parseInt(departmentId)) {
+            data.push(patient)
+        }
+    }
+    return data
+}
+
+function getDepartment(departmentData, deparmentId) {
+    let data = null
+    for (const department of departmentData) {
+        if (parseInt(department.id) == parseInt(deparmentId)) {
+            data = department
+        }
+    }
+    return data
 }
 
 function listenDepartmentDelete() {
@@ -50,7 +92,21 @@ function listenDepartmentDelete() {
     for (const btn of departmentDeleteBtns) {
         btn.addEventListener('click', () => {
             const departmentId = parseInt(btn.parentElement.getAttribute('data-department-id'))
-            console.log(departmentId)
+            const deparment = getDepartment(departmentData, departmentId)
+            const patients = getPatientList(patientData, departmentId)
+            console.log(patients)
+        })
+    }
+}
+
+function listenDepartmentView() {
+    const departmentViewBtns = document.querySelectorAll('.js-view-department')
+    for (const btn of departmentViewBtns) {
+        btn.addEventListener('click', () => {
+            const departmentId = parseInt(btn.parentElement.getAttribute('data-department-id'))
+            const deparment = getDepartment(departmentData, departmentId)
+            const patients = getPatientList(patientData, departmentId)
+            console.log(patients)
         })
     }
 }
@@ -60,18 +116,20 @@ function listenDepartmentEdit() {
     for (const btn of departmentEditBtns) {
         btn.addEventListener('click', () => {
             const departmentId = parseInt(btn.parentElement.getAttribute('data-department-id'))
-            console.log(departmentId)
+            const deparment = getDepartment(departmentData, departmentId)
+            const patients = getPatientList(patientData, departmentId)
+            console.log(patients)
         })
     }
 }
 
-function getToken() {
+function getTokenHTML() {
     const inputs = document.querySelectorAll('input')
     let token = null
     for (const input of inputs) {
         const inputName = input.getAttribute('name')
         if (inputName == 'csrfmiddlewaretoken') {
-           token = input.value
+           token = input
         }
     }
     return token
