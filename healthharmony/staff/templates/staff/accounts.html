@@ -12,6 +12,10 @@
       width: 100px;
       height: 100px;
     }
+
+    .btn {
+      cursor: pointer;
+    }
     </style>
 {% endblock %}
 {% block message %}
@@ -29,6 +33,7 @@
 {% block main %}
     <div class="container">
         {% include 'staff/navbar.html' %}
+        {% csrf_token %}
         <div>
             <h1 class="js-patient-count">All Patients(0)</h1>
             <table>
@@ -84,9 +89,37 @@
                 </div>
             {% endif %}
         </div>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Department</th>
+                        <th>Number of Users</th>
+                        <th>Last Clinic Visit</th>
+                        <th colspan="2">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for department in departments %}
+                        <tr data-department-id="{{ department.id }}">
+                            <td>{{ department.department }}</td>
+                            <td class="js-department-counts">{{ department.count }}</td>
+                            <td class="js-dates">{{ department.last_department_visit }}</td>
+                            <td class="js-edit-department btn">Edit</td>
+                            <td class="js-delete-department btn">Delete</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="3">No available department</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 {% endblock %}
 {% block script %}
     {{ patients|json_script:'patientData' }}
+    {{ departmentData|json_script:'departmentData' }}
     <script type="module" src="{% static 'js/staff/account.js' %}"></script>
 {% endblock %}

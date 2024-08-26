@@ -14,7 +14,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.utils.dateparse import parse_datetime
 
 from healthharmony.bed.models import BedStat
-from healthharmony.users.models import User
+from healthharmony.users.models import User, Department
 from healthharmony.administrator.models import Log, DataChangeLog
 from healthharmony.treatment.models import Illness, IllnessTreatment, Certificate
 from healthharmony.inventory.models import InventoryDetail
@@ -440,7 +440,44 @@ def patients_and_accounts(request):
             patients_page = patients_paginator.page(patients_paginator.num_pages)
             logger.error("No page was set")
 
-        context.update({"patients": list(patients), "patients_page": patients_page})
+        last_department_visit = (
+            Illness.objects.filter(patient=OuterRef("pk"))
+            .exclude(added__isnull=True)
+            .order_by("-added")
+            .values("added")
+        )
+
+        # Annotate the departments with the last visit date of any patient in that department
+        departments = (
+            Department.objects.annotate(
+                last_department_visit=Subquery(
+                    User.objects.filter(department=OuterRef("pk"))
+                    .annotate(
+                        last_department_visit=Coalesce(
+                            Subquery(last_department_visit[:1]),
+                            Value(None),
+                            output_field=CharField(),
+                        )
+                    )
+                    .exclude(last_department_visit__isnull=True)
+                    .values(
+                        "last_department_visit"
+                    )  # Only get the last visit of the first patient in the department
+                ),
+                count=Sum("user_department"),
+            )
+            .distinct()
+            .values()
+        )
+
+        context.update(
+            {
+                "patients": list(patients),
+                "patients_page": patients_page,
+                "departments": departments,
+                "departmentData": list(departments),
+            }
+        )
 
     except Exception as e:
         logger.error(f"Failed to fetch data: {str(e)}")

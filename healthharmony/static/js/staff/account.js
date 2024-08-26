@@ -19,11 +19,13 @@ import {
 } from '/static/js/staff/account-patients.js'
 
 const patientData = JSON.parse(document.getElementById('patientData').textContent)
+const departmentData = JSON.parse(document.getElementById('departmentData').textContent)
 
 main()
 
 
 function main() {
+    //patients
     setDefault()
     updatePatientCount()
     checkPatientPagination()
@@ -33,10 +35,55 @@ function main() {
     listenToHoverOnPatientName()
     listenToPatientClearBtn()
     listenToHoverOnPatientSearchField()
-
     listenPatientFilter()
     listenPatientSearchBtn()
 
+    //departments
+    formatDepartmentUserCounts()
+    listenDepartmentDelete()
+
+
+}
+
+function listenDepartmentDelete() {
+    const departmentDeleteBtns = document.querySelectorAll('.js-delete-department')
+    for (const btn of departmentDeleteBtns) {
+        btn.addEventListener('click', () => {
+            const departmentId = parseInt(btn.parentElement.getAttribute('data-department-id'))
+            console.log(departmentId)
+        })
+    }
+}
+
+function listenDepartmentEdit() {
+    const departmentEditBtns = document.querySelectorAll('.js-edit-department')
+    for (const btn of departmentEditBtns) {
+        btn.addEventListener('click', () => {
+            const departmentId = parseInt(btn.parentElement.getAttribute('data-department-id'))
+            console.log(departmentId)
+        })
+    }
+}
+
+function getToken() {
+    const inputs = document.querySelectorAll('input')
+    let token = null
+    for (const input of inputs) {
+        const inputName = input.getAttribute('name')
+        if (inputName == 'csrfmiddlewaretoken') {
+           token = input.value
+        }
+    }
+    return token
+}
+
+function formatDepartmentUserCounts() {
+    const departmentUserCounts = document.querySelectorAll('.js-department-counts')
+    for (const count of departmentUserCounts) {
+        if (count.innerText.toLowerCase() == 'none') {
+            count.innerText = '0'
+        }
+    }
 }
 
 function listenToPatientClearBtn() {
