@@ -98,3 +98,42 @@ export function getCurrentUrl() {
     const url = new URL(window.location.href)
     return url
 }
+
+export function paginateArray(array, page) {
+    if(!page) {
+        page = 1
+    }
+
+    page = parseInt(page)
+    let itemStart = page * 10 - 9
+    let itemEnd = page * 10
+    if (itemStart > array.length) {
+        page = Math.ceil(array.length / 10)
+        itemStart = page * 10 - 9
+        itemEnd = page * 10
+
+    }
+    let paginatedArray = []
+
+    for (let key in array) {
+        key = parseInt(key)
+        if ( key + 1  >= itemStart && key + 1 <= itemEnd ) {
+            paginatedArray.push(array[key])
+        }
+    }
+    return paginatedArray
+}
+
+export function saveItem(key, value) {
+    value = JSON.stringify(value)
+    localStorage.setItem(key, value)
+}
+
+export function getItem(key) {
+    let item = localStorage.getItem(key)
+    return JSON.parse(item)
+}
+
+export function removeItem(key) {
+    localStorage.removeItem(key)
+}

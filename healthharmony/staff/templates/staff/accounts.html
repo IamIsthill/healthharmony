@@ -41,6 +41,7 @@
                 <div class="js-patient-filters"></div>
                 <input type="text" class="js-patient-search-field" />
                 <button class="js-patient-search-btn">Search</button>
+                <button class="js-patient-clear-btn">Clear</button>
                 {% if patients_page %}
                     <thead>
                         <tr>
@@ -49,18 +50,18 @@
                             <th>Last Visited</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="js-patients-body">
                         {% for patient in patients_page %}
                             <tr>
                                 <td class="js-patient-profile" data-patient-id="{{ patient.id }}">{{ patient.first_name }} {{ patient.last_name }}</td>
-                                <td>{{ patient.department_name }}</td>
+                                <td class="js-department-names">{{ patient.department_name }}</td>
                                 <td class="js-dates">{{ patient.last_visit }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 {% else %}
                     <tr>
-                        <td colspan="2">No patients</td>
+                        <td colspan="3">No patients</td>
                     </tr>
                 {% endif %}
             </table>
@@ -68,16 +69,16 @@
                 <div class="pagination js-patients-pagination">
                     <span class="step-links">
                         {% if patients_page.has_previous %}
-                            <a href="?patients-page=1" class="js-links">&laquo; First</a>
+                            <a href="?patients-page=1" class="js-links js-patient-links">&laquo; First</a>
                             <a href="?patients-page={{ patients_page.previous_page_number }}"
-                               class="js-links">Previous</a>
+                               class="js-links js-patient-links">Previous</a>
                         {% endif %}
                         <span class="current">Page {{ patients_page.number }} of {{ patients_page.paginator.num_pages }}.</span>
                         {% if patients_page.has_next %}
                             <a href="?patients-page={{ patients_page.next_page_number }}"
-                               class="js-links">Next</a>
+                               class="js-links js-patient-links">Next</a>
                             <a href="?patients-page={{ patients_page.paginator.num_pages }}"
-                               class="js-links">Last &raquo;</a>
+                               class="js-links js-patient-links">Last &raquo;</a>
                         {% endif %}
                     </span>
                 </div>

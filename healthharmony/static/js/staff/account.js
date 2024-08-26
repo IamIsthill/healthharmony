@@ -1,5 +1,9 @@
 import {
-    getCurrentUrl
+    getCurrentUrl,
+    paginateArray,
+    saveItem,
+    getItem,
+    removeItem
 } from '/static/js/utils.js'
 
 import {
@@ -8,7 +12,10 @@ import {
     checkIfFilterExist,
     getFilterParams,
     filterPatientData,
-    getPatientFilter
+    getPatientFilter,
+    updatePatientHTML,
+    formatDepartmentNames,
+    formatDatesInPatientsPage
 } from '/static/js/staff/account-patients.js'
 
 const patientData = JSON.parse(document.getElementById('patientData').textContent)
@@ -18,74 +25,90 @@ main()
 
 function main() {
     setDefault()
-    // for (const patient of patientData) {
-    //     console.log(patient.profile)
-    // }
     updatePatientCount()
     checkPatientPagination()
-    formatDatesInPatientsPage(format_date)
+    updatePatientSearchField()
+    updatePatientFiltersFromMemory(getItem, updatePatientFilters)
+    updatePatientBasedOnSearchFieldAndFilters()
     listenToHoverOnPatientName()
+    listenToPatientClearBtn()
+    listenToHoverOnPatientSearchField()
 
     listenPatientFilter()
     listenPatientSearchBtn()
 
-    const patientPage = getCurrentUrl().searchParams.get('patients-page')
-    const filterParams = getFilterParams(getPatientFilter())
-    const filteredPatientData = filterPatientData(filterParams, patientData, '')
-    // paginatePatientData(filteredPatientData, patientPage)
+}
 
+function listenToPatientClearBtn() {
+    const patientClearBtn = document.querySelector('.js-patient-clear-btn')
+    patientClearBtn.addEventListener('click', () => {
+        removeItem('searchItem')
+        removeItem('patientFilters')
+        document.querySelector('.js-patient-search-field').value = ''
+        document.querySelector('.js-patient-filters').innerHTML = ''
+        updatePatientBasedOnSearchFieldAndFilters()
+    })
+}
 
+function updatePatientSearchField() {
+    const item = getItem('searchItem')
+    if (item) {
+        document.querySelector('.js-patient-search-field').value = item
+    }
+}
 
-
-
+function updatePatientFiltersFromMemory(getItem, updatePatientFilters) {
+    const filters = getItem('patientFilters')
+    if (filters && filters.length > 0) {
+        for (const filter of filters) {
+            updatePatientFilters(filter)
+        }
+    }
 }
 
 function setDefault(){
     const patientsPagination = document.querySelector('.js-patients-pagination')
     patientsPagination.style.display = "none"
-
 }
 
 function listenPatientSearchBtn() {
     const patientSearchBtn = document.querySelector('.js-patient-search-btn')
     patientSearchBtn.addEventListener('click', () => {
-        const patientSearchField = document.querySelector('.js-patient-search-field')
-        const searchText = patientSearchField.value
-        const filterParams = getFilterParams(getPatientFilter())
-        const filteredPatientData = filterPatientData(filterParams, patientData, searchText)
+        updatePatientBasedOnSearchFieldAndFilters()
     })
 }
 
-function paginatePatientData(filteredPatientData, patientPage) {
-    if(!patientPage) {
-        patientPage = 1
-    }
+function listenToHoverOnPatientSearchField() {
+    const patientSearchField = document.querySelector('.js-patient-search-field')
+    patientSearchField.addEventListener('mouseenter', listenToEnter)
+}
 
-    patientPage = parseInt(patientPage)
-    let itemStart = patientPage * 10 - 9
-    let itemEnd = patientPage * 10
-    if (itemStart > filteredPatientData.length) {
-        patientPage = Math.ceil(filteredPatientData.length / 10)
-
-    }
-    if (Math.ceil(filteredPatientData.length / 10) < patientPage) {
-        itemStart = patientPage * 10 - 9
-        itemEnd = patientPage * 10
-    }
-
-    for (let key in filteredPatientData) {
-        key = parseInt(key)
-        if ( key + 1  >= itemStart && key + 1 <= itemEnd ) {
-            console.log(filteredPatientData[key])
+function listenToEnter() {
+    document.addEventListener('keypress', (event) => {
+        if(event.key == 'Enter') {
+            updatePatientBasedOnSearchFieldAndFilters()
         }
-        // console.log(itemStart, key+1, itemEnd)
-    }
+    })
 
 }
 
-
-
-
+function updatePatientBasedOnSearchFieldAndFilters() {
+    const patientSearchField = document.querySelector('.js-patient-search-field')
+    const searchText = patientSearchField.value
+    saveItem('searchItem', searchText)
+    const filters = getPatientFilter()
+    saveItem('patientFilters', filters)
+    const filterParams = getFilterParams(filters)
+    const filteredPatientData = filterPatientData(filterParams, patientData, searchText)
+    const url = getCurrentUrl()
+    const page = parseInt(url.searchParams.get('patients-page'))
+    const paginatedPatientData = paginateArray(filteredPatientData, page)
+    updatePatientHTML(paginatedPatientData)
+    formatDatesInPatientsPage(format_date)
+    formatDepartmentNames()
+    listenToHoverOnPatientName()
+    clickToRemovePatientFilter()
+}
 
 function listenPatientFilter() {
     const patientFilterInput = document.querySelector('.js-patient-filter-inputs')
@@ -94,17 +117,13 @@ function listenPatientFilter() {
         if(filter) {
             if (!checkIfFilterExist(filter)) {
                 updatePatientFilters(filter)
+                const filters = getPatientFilter()
+                saveItem('patientFilters', filters)
             }
         }
         clickToRemovePatientFilter()
-
-        getPatientFilter()
     })
 }
-
-
-
-
 
 function clickToRemovePatientFilter() {
     const filterInstances = document.querySelectorAll('.js-patient-filter')
@@ -149,21 +168,7 @@ function listenToHoverOnPatientName() {
     }
 }
 
-function formatDatesInPatientsPage(format_date) {
-    const dates = document.querySelectorAll('.js-dates')
-    for (const date of dates) {
-        try {
-            const formattedDate = format_date(date.innerText)
-            if (formattedDate.includes('Invalid Date')) {
-                date.innerText = ' '
-                continue
-            }
-            date.innerText = formattedDate
-        } catch(error) {
-            console.error(error)
-        }
-    }
-}
+
 
 function format_date(dateString) {
     const formattedDate = new Date(dateString).toLocaleString("en-US", {
