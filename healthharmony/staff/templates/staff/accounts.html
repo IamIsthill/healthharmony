@@ -162,6 +162,9 @@
                 </div>
             </div>
         </div>
+        <div class="js-employee-space">
+            {% for employee in employees %}{{ employee.email }}{% endfor %}
+        </div>
     </div>
     <div class="js-add-department-modal modal">
         <div class="modal-content">
@@ -198,6 +201,7 @@
 {% block script %}
     {{ patients|json_script:'patientData' }}
     {{ departmentData|json_script:'departmentData' }}
+    {{ employeeData|json_script:'employeeData' }}
     <script src="{% static 'chart.js/dist/chart.umd.js' %}"></script>
     <script type="module" src="{% static 'js/staff/account.js' %}"></script>
 {% endblock %}

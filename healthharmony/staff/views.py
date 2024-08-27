@@ -1,7 +1,16 @@
 from django.shortcuts import render, redirect
 import secrets
 import string
-from django.db.models import OuterRef, Subquery, Value, Sum, F, CharField, Count
+from django.db.models import (
+    OuterRef,
+    Subquery,
+    Value,
+    Sum,
+    F,
+    CharField,
+    Count,
+    DateTimeField,
+)
 from django.db.models.functions import Coalesce
 from django.utils import timezone
 from django.contrib import messages
@@ -35,6 +44,7 @@ from healthharmony.staff.functions import (
     fetch_history,
     fetch_certificate_chart,
     fetch_certificates,
+    fetch_employees,
 )
 from healthharmony.staff.forms import (
     PatientForm,
@@ -470,6 +480,9 @@ def patients_and_accounts(request):
             .distinct()
             .values()
         )
+        employees = fetch_employees(
+            OuterRef, Coalesce, Subquery, Value, DateTimeField, messages, request
+        )
 
         context.update(
             {
@@ -477,6 +490,8 @@ def patients_and_accounts(request):
                 "patients_page": patients_page,
                 "departments": departments,
                 "departmentData": list(departments),
+                "employees": employees,
+                "employeeData": list(employees),
             }
         )
 

@@ -22,14 +22,14 @@ import json
 class TestDepartmentModel(TestCase):
     @classmethod
     def setUpTestData(cls):
-        department1 = Department.objects.create(department="CSS")
+        cls.department1 = Department.objects.create(department="CSS")
         Department.objects.create(department="CEA")
 
         patient = User.objects.create(
-            department=department1, email="sample@test.com", password="12345678"
+            department=cls.department1, email="sample@test.com", password="12345678"
         )
         User.objects.create(
-            department=department1, email="sample@test.com12", password="12345678"
+            department=cls.department1, email="sample@test.com12", password="12345678"
         )
 
         staff = User.objects.create(email="sample@test.com2", password="12345678")
@@ -60,27 +60,6 @@ class TestDepartmentModel(TestCase):
         output = user.department.department
         err_msg = "Expected user department was not attached"
         self.assertEqual(expected, output, err_msg)
-
-    # def test_user_to_illness(self):
-    #     now = timezone.now()
-    #     last_visit = Illness.objects.filter(patient=OuterRef('pk')).order_by('-added').values('added')
-    #     user = User.objects.filter(pk=1).annotate(
-    #         last_visit = Coalesce (
-    #             Subquery(last_visit[:1]), Value(None), output_field = DateTimeField()
-    #         )
-    #     ).values(
-    #         'last_visit'
-    #     )
-    #     visits = []
-    #     for data in user:
-    #         data['last_visit'] = data['last_visit'].isoformat()
-    #         visits.append(data['last_visit'])
-    #     print(json.dumps(list(user), indent=4, sort_keys=True))
-    #     user = list(user)
-    #     expected = [now.isoformat()]
-    #     output = visits
-    #     err_msg = 'Expected user department was not attached'
-    #     self.assertEqual(expected, output, err_msg)
 
     def test_department_to_illness(self):
         last_visit = (
@@ -120,3 +99,61 @@ class TestDepartmentModel(TestCase):
         output = departments[1]["department"]
         err_msg = "Fetch instance was incorrect"
         self.assertEqual(expect, output, err_msg)
+
+
+class TestUserModel(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.department1 = Department.objects.create(department="CSS")
+        cls.department2 = Department.objects.create(department="COE")
+        cls.patient1 = User.objects.create(
+            email="test@example.com1",
+            password="12345678",
+            access=1,
+            department=cls.department1,
+        )
+        cls.patient2 = User.objects.create(
+            email="test@example.com11",
+            password="12345678",
+            access=1,
+            department=cls.department2,
+        )
+        cls.staff1 = User.objects.create(
+            email="test@example.com2", password="12345678", access=2
+        )
+        User.objects.create(email="test@example.com22", password="12345678", access=2)
+        cls.doctor1 = User.objects.create(
+            email="test@example.com3", password="12345678", access=3
+        )
+        Illness.objects.create(
+            patient=cls.patient1, issue="Issue 1", staff=cls.staff1, doctor=cls.doctor1
+        )
+        Illness.objects.create(
+            patient=cls.patient2, issue="Issue 2", staff=cls.staff1, doctor=cls.doctor1
+        )
+
+    def test_staff_illness_cases_handled(self):
+        cases = (
+            Illness.objects.filter(staff=OuterRef("pk"))
+            .order_by("-updated")
+            .values("updated")[:1]
+        )
+        users = (
+            User.objects.filter(access__gte=2, access__lte=3)
+            .annotate(
+                last_case=Coalesce(
+                    Subquery(cases), Value(None), output_field=DateTimeField()
+                )
+            )
+            .values()
+        )
+        for user in users:
+            if user["DOB"]:
+                user["DOB"] = user["DOB"].isoformat()
+            if user["last_case"]:
+                user["last_case"] = user["last_case"].isoformat()
+            if user["date_joined"]:
+                user["date_joined"] = user["date_joined"].isoformat()
+
+        # print(json.dumps(list(cases), indent=4, sort_keys=True))
+        print(json.dumps(list(users), indent=4, sort_keys=True))
