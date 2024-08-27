@@ -47,3 +47,29 @@ export function createEditDepartmentModal(department, getToken) {
     `
     formBody.innerHTML = html
 }
+
+export function createViewDepartmentModal(department, patients, format_date) {
+    console.log(department)
+    const modalContent = document.querySelector('.js-view-department-modal .modal-content')
+    let html = `
+        <span class="js-close-view-department-modal">&times;</span>
+        <h2>${department.department}</h2>
+        <h5>As of today, ${department.department} has ${department.count} user(s).</h5>
+    `
+    if (department.count > 0) {
+        html += '<div> <h3>Users</h3>'
+        for (const patient of patients) {
+            html += `
+                <div>
+                    <img src="/media/${patient.profile}">
+                    <a href="/patient/patient-profile/${patient.id}/">Go to Profile</a>
+                    <p>Name: ${patient.first_name} ${patient.last_name}</p>
+                    <p>Email: ${patient.email}</p>
+                    <p class="js-dates">Joined On: ${format_date(patient.date_joined)}</p>
+                </div>
+            `
+        }
+        html += '</div>'
+    }
+    modalContent.innerHTML = html
+}

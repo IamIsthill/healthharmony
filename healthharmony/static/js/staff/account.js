@@ -26,7 +26,8 @@ import {
     getPatientList,
     getDepartment,
     createDeleteDepartmentModal,
-    createEditDepartmentModal
+    createEditDepartmentModal,
+    createViewDepartmentModal
 
 } from '/static/js/staff/account-department.js'
 
@@ -44,7 +45,6 @@ function main() {
     updatePatientSearchField()
     updatePatientFiltersFromMemory(getItem, updatePatientFilters)
     updatePatientBasedOnSearchFieldAndFilters()
-    listenToHoverOnPatientName()
     listenToPatientClearBtn()
     listenToHoverOnPatientSearchField()
     listenPatientFilter()
@@ -109,34 +109,6 @@ function listenDepartmentView() {
             }
         })
     }
-}
-
-function createViewDepartmentModal(department, patients, format_date) {
-    console.log(department)
-    const modalContent = document.querySelector('.js-view-department-modal .modal-content')
-    let html = `
-        <span class="js-close-view-department-modal">&times;</span>
-        <h2>${department.department}</h2>
-        <h5>As of today, ${department.department} has ${department.count} user(s).</h5>
-    `
-    if (department.count > 0) {
-        html += '<div> <h3>Users</h3>'
-        for (const patient of patients) {
-            html += `
-                <div>
-                    <img src="/media/${patient.profile}">
-                    <a href="/patient/patient-profile/${patient.id}/">Go to Profile</a>
-                    <p>Name: ${patient.first_name} ${patient.last_name}</p>
-                    <p>Email: ${patient.email}</p>
-                    <p class="js-dates">Joined On: ${format_date(patient.date_joined)}</p>
-                </div>
-            `
-        }
-        html += '</div>'
-
-    }
-    modalContent.innerHTML = html
-
 }
 
 function listenDepartmentEdit() {
@@ -283,10 +255,17 @@ function listenToHoverOnPatientName() {
                 patient.classList.remove('bordered')
             })
         })
+
+        patient.addEventListener('click', () =>{
+            const patientId = parseInt(patient.getAttribute('data-patient-id'))
+            const currentUrl = getCurrentUrl()
+            const goTo = `/patient/patient-profile/${patientId}/`
+            currentUrl.pathname = goTo
+            currentUrl.search = ''
+            window.location.href = currentUrl.href
+        })
     }
 }
-
-
 
 function format_date(dateString) {
     const formattedDate = new Date(dateString).toLocaleString("en-US", {
