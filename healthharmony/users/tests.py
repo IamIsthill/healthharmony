@@ -12,6 +12,7 @@ from django.db.models import (
     CharField,
     DateTimeField,
     Count,
+    Q,
 )
 from datetime import datetime
 from django.db.models.functions import Coalesce
@@ -138,12 +139,15 @@ class TestUserModel(TestCase):
             .order_by("-updated")
             .values("updated")[:1]
         )
+
         users = (
             User.objects.filter(access__gte=2, access__lte=3)
             .annotate(
                 last_case=Coalesce(
                     Subquery(cases), Value(None), output_field=DateTimeField()
-                )
+                ),
+                staff_count=Count("staff_illness"),
+                doctor_count=Count("doctor_illness"),
             )
             .values()
         )

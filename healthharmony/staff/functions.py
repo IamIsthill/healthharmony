@@ -791,7 +791,9 @@ def fetch_employees(
             .annotate(
                 last_case=Coalesce(
                     Subquery(cases), Value(None), output_field=DateTimeField()
-                )
+                ),
+                staff_count=Count("staff_illness"),
+                doctor_count=Count("doctor_illness"),
             )
             .values()
         )

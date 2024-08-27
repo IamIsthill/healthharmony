@@ -35,6 +35,7 @@ import {
 
 const patientData = JSON.parse(document.getElementById('patientData').textContent)
 const departmentData = JSON.parse(document.getElementById('departmentData').textContent)
+const employeeData = JSON.parse(document.getElementById('employeeData').textContent)
 
 main()
 
@@ -58,9 +59,61 @@ function main() {
     listenDepartmentEdit()
     listenDepartmentView()
     listenAddDepartmentBtn()
-
-    //department canvas
     createDepartmentBarGraph()
+
+    //employee
+    updateEmployeeHTMl(employeeData)
+    console.log(employeeData[1])
+    const now = Date.now()
+    const oldDate  = new Date(2024, 6, 27, 11, 3, 0).getTime()
+    const elapseMilli = now - oldDate
+
+    let stmt = ''
+
+    const seconds = Math.floor(elapseMilli / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    // Remaining hours, minutes, and seconds
+    const remainingHours = hours % 24;
+    const remainingMinutes = minutes % 60;
+    const remainingSeconds = seconds % 60;
+
+    console.log(`Elapsed Time: ${days} days, ${remainingHours} hours, ${remainingMinutes} minutes, and ${remainingSeconds} seconds`);
+
+}
+
+function getElapsedTime() {
+    const now = Date.now()
+}
+
+function updateEmployeeHTMl(employeeData) {
+    const employeeBody = document.querySelector('.js-employee-body')
+    let html = ''
+
+    for (const employee of employeeData) {
+        let count = 0
+        let position = ''
+        if (employee.access == 2) {
+            count = employee.staff_count
+            position = 'Staff'
+        }
+
+        if (employee.access == 3) {
+            count = employee.doctor_count
+            position = 'Doctor'
+        }
+        html += `
+            <tr>
+                <td>${employee.first_name} ${employee.last_name}</td>
+                <td>${position}</td>
+                <td>${employee.last_case}</td>
+                <td>${count}</td>
+            </tr>
+        `
+    }
+    employeeBody.innerHTML = html
 }
 
 function createDepartmentBarGraph() {

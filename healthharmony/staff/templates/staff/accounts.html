@@ -163,7 +163,34 @@
             </div>
         </div>
         <div class="js-employee-space">
-            {% for employee in employees %}{{ employee.email }}{% endfor %}
+            <h1>Clinic Employees</h1>
+            <label>Filters</label>
+            <select class="js-employee-filters">
+                <option value="">All</option>
+                <option value="2">Staff</option>
+                <option value="3">Doctors</option>
+            </select>
+            <input type="text" class="js-employee-search-field" />
+            <button class="js-employee-search-btn">Search</button>
+            <button class="js-employee-clear-btn">Clear</button>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Access Level</th>
+                        <th>Time Since Last Case Handled</th>
+                        <th>Number of Cases Handled</th>
+                    </tr>
+                </thead>
+                <tbody class="js-employee-body">
+                    <tr>
+                        <td>Lorem ipsum dolor sit amet.</td>
+                        <td>Lorem ipsum dolor sit amet.</td>
+                        <td>Lorem ipsum dolor sit.</td>
+                        <td>Lorem, ipsum dolor.</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <div class="js-add-department-modal modal">
