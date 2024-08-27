@@ -6,7 +6,7 @@ import string
 import logging
 from django.db.models import Sum
 
-from healthharmony.users.models import User
+from healthharmony.users.models import User, Department
 from healthharmony.inventory.models import QuantityHistory, InventoryDetail
 from healthharmony.administrator.models import Log
 
@@ -174,3 +174,55 @@ class DeleteInventoryForm(forms.Form):
                 request, "Failed to delete inventory record. Please try again"
             )
             logger.error(f"Failed to delete inventory record: {str(e)}")
+
+
+class DeleteDepartmentForm(forms.Form):
+    def save(self, request, pk):
+        try:
+            department = Department.objects.get(id=int(pk))
+            if department:
+                department.delete()
+                messages.success(
+                    request, f"Success! {department.department} has been removed."
+                )
+                Log.objects.create(
+                    user=request.user,
+                    action=f"Deleted department instance[id:{department.id}]",
+                )
+                logger.info(
+                    f"{request.user.email} has deleted department instance[id={department.id}]"
+                )
+            else:
+                messages.error(request, "Failed to find department. Please try again")
+                logger.error("Failed to find deparment instance")
+        except Exception as e:
+            messages.error(request, "Failed to delete department. Please try again")
+            logger.error(f"Failed to delete department instance: {str(e)}")
+
+
+class EditDepartmentForm(forms.Form):
+    department_name = forms.CharField(required=True)
+
+    def save(self, request, pk):
+        try:
+            department = Department.objects.get(id=int(pk))
+            if department:
+                department.department = self.cleaned_data.get("department_name")
+                department.full_clean()
+                department.save()
+                messages.success(request, "Success! Department name has been updated")
+                logger.info(
+                    f"{request.user.email} has updated department instance[id:{department.id}]"
+                )
+                Log.objects.create(
+                    user=request.user,
+                    action=f"{request.user.email} has updated the department name of instance[id:{department.id}]",
+                )
+            else:
+                messages.error(request, "Failed to update. Department not found")
+                logger.error(f"{request.user.email} failed to find department instance")
+        except Exception as e:
+            messages.error("Failed to update department")
+            logger.error(
+                f"{request.user.email} faield to update department instance: {str(e)}"
+            )

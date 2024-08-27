@@ -5,7 +5,9 @@ import {
     getItem,
     removeItem,
     openModal,
-    closeModal
+    closeModal,
+    getToken,
+    listenToEnter
 } from '/static/js/utils.js'
 
 import {
@@ -23,6 +25,8 @@ import {
 import {
     getPatientList,
     getDepartment,
+    createDeleteDepartmentModal,
+    createEditDepartmentModal
 
 } from '/static/js/staff/account-department.js'
 
@@ -79,8 +83,7 @@ function listenDepartmentDelete() {
         btn.addEventListener('click', () => {
             const departmentId = parseInt(btn.parentElement.getAttribute('data-department-id'))
             const department = getDepartment(departmentData, departmentId)
-            const patients = getPatientList(patientData, departmentId)
-            createDeleteDepartmentModal(department)
+            createDeleteDepartmentModal(department, getToken)
             const modal = document.querySelector('.js-delete-department-modal')
             const closeBtns = document.querySelectorAll('.js-close-delete-department-modal')
             openModal(modal)
@@ -92,20 +95,7 @@ function listenDepartmentDelete() {
     }
 }
 
-function createDeleteDepartmentModal(department) {
-    const formBody = document.querySelector('.js-delete-department-modal .modal-content .form-body')
-    const url = `/staff/patient-and-accounts/delete-department/${department.id}/`
-    formBody.setAttribute('action', url)
-    const token = getToken()
-    const html = `
-        <input type="hidden" name="csrfmiddlewaretoken" value="${token}" />
-        <h2>Confirm delete?</h2>
-        <h1>${department.department}</h1>
-        <button type="submit">Confirm</button>
-        <button type="button" class="js-close-delete-department-modal">Cancel</button
-    `
-    formBody.innerHTML = html
-}
+
 
 function listenDepartmentView() {
     const departmentViewBtns = document.querySelectorAll('.js-view-department')
@@ -124,23 +114,16 @@ function listenDepartmentEdit() {
     for (const btn of departmentEditBtns) {
         btn.addEventListener('click', () => {
             const departmentId = parseInt(btn.parentElement.getAttribute('data-department-id'))
-            const deparment = getDepartment(departmentData, departmentId)
-            const patients = getPatientList(patientData, departmentId)
-            console.log(patients)
+            const department = getDepartment(departmentData, departmentId)
+            createEditDepartmentModal(department, getToken)
+            const modal = document.querySelector('.js-edit-department-modal')
+            const closeBtns = document.querySelectorAll('.js-close-edit-department-modal')
+            openModal(modal)
+            for (const close of closeBtns) {
+                closeModal(modal, close)
+            }
         })
     }
-}
-
-function getToken() {
-    const inputs = document.querySelectorAll('input')
-    let token = null
-    for (const input of inputs) {
-        const inputName = input.getAttribute('name')
-        if (inputName == 'csrfmiddlewaretoken') {
-           token = input.value
-        }
-    }
-    return token
 }
 
 function formatDepartmentUserCounts() {
@@ -193,17 +176,9 @@ function listenPatientSearchBtn() {
 
 function listenToHoverOnPatientSearchField() {
     const patientSearchField = document.querySelector('.js-patient-search-field')
-    patientSearchField.addEventListener('mouseenter', listenToEnter)
+    patientSearchField.addEventListener('mouseenter', () => listenToEnter(updatePatientBasedOnSearchFieldAndFilters))
 }
 
-function listenToEnter() {
-    document.addEventListener('keypress', (event) => {
-        if(event.key == 'Enter') {
-            updatePatientBasedOnSearchFieldAndFilters()
-        }
-    })
-
-}
 
 function updatePatientBasedOnSearchFieldAndFilters() {
     const patientSearchField = document.querySelector('.js-patient-search-field')

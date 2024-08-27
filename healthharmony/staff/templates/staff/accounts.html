@@ -179,6 +179,13 @@
             </form>
         </div>
     </div>
+    <div class="js-edit-department-modal modal">
+        <div class="modal-content">
+            <span class="js-close-edit-department-modal">&times;</span>
+            <form action="" class="form-body" method="post">
+            </form>
+        </div>
+    </div>
 {% endblock %}
 {% block script %}
     {{ patients|json_script:'patientData' }}

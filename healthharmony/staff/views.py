@@ -11,7 +11,6 @@ import environ
 import logging
 from concurrent.futures import as_completed, ThreadPoolExecutor
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.utils.dateparse import parse_datetime
 
 from healthharmony.bed.models import BedStat
 from healthharmony.users.models import User, Department
@@ -42,6 +41,8 @@ from healthharmony.staff.forms import (
     AddInventoryForm,
     EditInventoryForm,
     DeleteInventoryForm,
+    DeleteDepartmentForm,
+    EditDepartmentForm,
 )
 
 env = environ.Env()
@@ -214,7 +215,7 @@ def add_inventory(request):
         form = AddInventoryForm(request.POST)
         if form.is_valid():
             form.save(request)
-            return redirect("staff-inventory")
+    return redirect("staff-inventory")
 
 
 def delete_inventory(request, pk):
@@ -427,7 +428,6 @@ def patients_and_accounts(request):
             )
         )
         for patient in patients:
-            print(patient["last_visit"])
             if patient["date_joined"]:
                 patient["date_joined"] = patient["date_joined"].isoformat()
         patients_paginator = Paginator(patients, 10)
@@ -520,24 +520,26 @@ def add_department(request):
 def delete_department(request, pk):
     access_checker(request)
     if request.method == "POST":
-        try:
-            department = Department.objects.get(id=int(pk))
-            if department:
-                department.delete()
-                messages.success(
-                    request, f"Success! {department.department} has been removed."
-                )
-                Log.objects.create(
-                    user=request.user,
-                    action=f"Deleted department instance[id:{department.id}]",
-                )
-                logger.info(
-                    f"{request.user.email} has deleted department instance[id={department.id}]"
-                )
-            else:
-                messages.error(request, "Failed to find department. Please try again")
-                logger.error("Failed to find deparment instance")
-        except Exception as e:
-            messages.error(request, "Failed to delete department. Please try again")
-            logger.error(f"Failed to delete department instance: {str(e)}")
+        form = DeleteDepartmentForm(request.POST)
+        if form.is_valid():
+            form.save(request, pk)
+        else:
+            messages.error(request, "Form is invalid. Please try again.")
+            logger.info(
+                f"{request.user.email} has passed an invalid Delete Department Form"
+            )
+    return redirect("staff-accounts")
+
+
+def edit_department(request, pk):
+    access_checker(request)
+    if request.method == "POST":
+        form = EditDepartmentForm(request.POST)
+        if form.is_valid():
+            form.save(request, pk)
+        else:
+            messages.error(request, "Form is invalid. Please try again.")
+            logger.info(
+                f"{request.user.email} has passed an invalid Edit Department Form"
+            )
     return redirect("staff-accounts")

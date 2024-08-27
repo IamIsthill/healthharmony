@@ -137,3 +137,23 @@ export function getItem(key) {
 export function removeItem(key) {
     localStorage.removeItem(key)
 }
+
+export function getToken() {
+    const inputs = document.querySelectorAll('input')
+    let token = null
+    for (const input of inputs) {
+        const inputName = input.getAttribute('name')
+        if (inputName == 'csrfmiddlewaretoken') {
+           token = input.value
+        }
+    }
+    return token
+}
+
+export function listenToEnter(logicAfterEnter) {
+    document.addEventListener('keypress', (event) => {
+        if(event.key == 'Enter') {
+            logicAfterEnter()
+        }
+    })
+}

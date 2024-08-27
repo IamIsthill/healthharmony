@@ -31,4 +31,9 @@ urlpatterns = [
         views.delete_department,
         name="staff-accounts-delete-department",
     ),
+    path(
+        "patient-and-accounts/edit-department/<int:pk>/",
+        views.edit_department,
+        name="staff-accounts-edit-department",
+    ),
 ]
