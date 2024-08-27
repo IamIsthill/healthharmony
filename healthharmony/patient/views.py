@@ -81,13 +81,15 @@ def records_view(request):
 
 def patient_view(request, pk):
     access_checker(request)
-    if request.user.id != pk:
+    if request.user.access < 2:
         return redirect("home")
     if "email" not in request.session:
         request.session["email"] = request.user.email
     context = {}
 
     if request.method == "POST":
+        if request.user.id != int(pk):
+            return redirect("patient-profile", pk)
         form = UpdateProfileInfo(request.POST, files=request.FILES)
         if form.is_valid():
             try:
@@ -98,7 +100,7 @@ def patient_view(request, pk):
             except ValueError as e:
                 messages.error(request, str(e))
 
-    update_patient_view_context(request, context)
+    update_patient_view_context(request, context, pk)
 
     return render(request, "patient/patient.html", context)
 

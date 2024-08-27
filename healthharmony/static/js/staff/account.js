@@ -56,6 +56,7 @@ function main() {
     listenDepartmentEdit()
     listenDepartmentView()
     listenAddDepartmentBtn()
+    console.log(patientData)
 
 
 
@@ -72,9 +73,7 @@ function listenAddDepartmentBtn() {
             form.reset()
             closeModal(modal, close)
         }
-
     })
-
 }
 
 function listenDepartmentDelete() {
@@ -90,23 +89,54 @@ function listenDepartmentDelete() {
             for (const close of closeBtns) {
                 closeModal(modal, close)
             }
-
         })
     }
 }
-
-
 
 function listenDepartmentView() {
     const departmentViewBtns = document.querySelectorAll('.js-view-department')
     for (const btn of departmentViewBtns) {
         btn.addEventListener('click', () => {
             const departmentId = parseInt(btn.parentElement.getAttribute('data-department-id'))
-            const deparment = getDepartment(departmentData, departmentId)
+            const department = getDepartment(departmentData, departmentId)
             const patients = getPatientList(patientData, departmentId)
-            console.log(patients)
+            createViewDepartmentModal(department, patients, format_date)
+            const modal = document.querySelector('.js-view-department-modal')
+            const closeBtns = document.querySelectorAll('.js-close-view-department-modal')
+            openModal(modal)
+            for (const close of closeBtns) {
+                closeModal(modal, close)
+            }
         })
     }
+}
+
+function createViewDepartmentModal(department, patients, format_date) {
+    console.log(department)
+    const modalContent = document.querySelector('.js-view-department-modal .modal-content')
+    let html = `
+        <span class="js-close-view-department-modal">&times;</span>
+        <h2>${department.department}</h2>
+        <h5>As of today, ${department.department} has ${department.count} user(s).</h5>
+    `
+    if (department.count > 0) {
+        html += '<div> <h3>Users</h3>'
+        for (const patient of patients) {
+            html += `
+                <div>
+                    <img src="/media/${patient.profile}">
+                    <a href="/patient/patient-profile/${patient.id}/">Go to Profile</a>
+                    <p>Name: ${patient.first_name} ${patient.last_name}</p>
+                    <p>Email: ${patient.email}</p>
+                    <p class="js-dates">Joined On: ${format_date(patient.date_joined)}</p>
+                </div>
+            `
+        }
+        html += '</div>'
+
+    }
+    modalContent.innerHTML = html
+
 }
 
 function listenDepartmentEdit() {
