@@ -73,3 +73,18 @@ export function createViewDepartmentModal(department, patients, format_date) {
     }
     modalContent.innerHTML = html
 }
+
+export function getDepartmentLabelsAndCounts(departmentData) {
+    let labels = []
+    let counts = []
+
+    for (const department of departmentData) {
+        labels.push(department.department)
+        counts.push(department.count)
+    }
+
+    return {
+        labels,
+        counts
+    }
+}

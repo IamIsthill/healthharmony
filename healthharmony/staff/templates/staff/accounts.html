@@ -156,6 +156,11 @@
                     {% endfor %}
                 </tbody>
             </table>
+            <div class="js-department-bar-graph">
+                <div class="js-control-canvas-size">
+                    <canvas id="js-department-bar-canvas"></canvas>
+                </div>
+            </div>
         </div>
     </div>
     <div class="js-add-department-modal modal">
@@ -193,5 +198,6 @@
 {% block script %}
     {{ patients|json_script:'patientData' }}
     {{ departmentData|json_script:'departmentData' }}
+    <script src="{% static 'chart.js/dist/chart.umd.js' %}"></script>
     <script type="module" src="{% static 'js/staff/account.js' %}"></script>
 {% endblock %}
