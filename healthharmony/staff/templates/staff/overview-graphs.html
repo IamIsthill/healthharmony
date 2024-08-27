@@ -72,13 +72,19 @@
         <div>
             <canvas id="departmentChart"></canvas>
         </div>
-        <div>
+        <div class="department-btn-section">
+            <!-- <div class="label-container">
+                <label for="department">Choose a Department:</label>
+                <select name="department" id="department">
+                    {% for category in categories %}<option value="{{ department.id }}">{{ department }}</option>{% endfor %}
+                </select>
+            </div> -->
             {% for department in department_names %}
                 {% if forloop.counter == 1 %}
-                    <button class="departmentNames active-department-selector"
+                    <button class="departmentNames active-department-selector department-btn"
                             data-department-id="{{ department.id }}">{{ department.department }}</button>
                 {% else %}
-                    <button class="departmentNames" data-department-id="{{ department.id }}">{{ department.department }}</button>
+                    <button class="departmentNames department-btn data-department-id="{{ department.id }}">{{ department.department }}</button>
                 {% endif %}
             {% endfor %}
         </div>
