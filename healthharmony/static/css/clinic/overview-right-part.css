@@ -38,7 +38,7 @@
 }
 
 .bar-section{
-    max-height: 65vh;
+    max-height: 67vh;
     overflow-y: auto;
 }
 
@@ -46,12 +46,18 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    background: white;
+    /* From https://css.glass */
+    background: rgb(255, 236, 191);
+    backdrop-filter: blur(5.1px);
+    -webkit-backdrop-filter: blur(5.1px);
+    border: 1px solid rgba(251, 194, 91, 0.19);
     border-radius: 2rem;
     padding: 2rem 2rem;
     margin-bottom: 2rem;
 }
 .Bar h4{
+    color:var(--normal-fontcolor);
+    font-weight: 600;
     font-size: var(--size-xl);
 }
 .bars{
@@ -97,7 +103,7 @@
 }
 .bar-btn{
     color: var(--light_gray);
-    border: 1px solid white;
+    border: 1px solid rgba(255, 255, 255, 0);
 }
 .bar-btn-active{
     border:1px solid var(--normal-fontcolor);
@@ -107,6 +113,7 @@
     border:1px solid var(--normal-fontcolor);
     color: var(--normal-fontcolor);
 }
+
 
 
 
