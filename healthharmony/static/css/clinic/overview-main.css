@@ -1,4 +1,29 @@
-
+.modal-content {
+    position: relative  ;
+    background-color: #fefefe;
+    margin: 10% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%; /* Could be more or less, depending on screen size */
+    border-radius: 10px;
+}
+.modal-content h1{
+    align-self: flex-start;
+    font-size: var(--size-2xl);
+    font-weight: 500;
+    margin-bottom: 2rem;
+  }
+  .close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: var(--Red);
+    cursor: pointer;
+}
+.modal-content form{
+    display: flex;
+    flex-direction: column;
+}
 main{
     margin-top: 1.5rem;
     color: var(--normal-fontcolor);
@@ -48,6 +73,24 @@ main .today-patient .info span{
     align-items: center;
     width: 100%;
 }
+.department-btn-section{
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+.department-btn{
+    padding: 0.2rem 0rem;
+    width: 3.5rem;
+    border: 1px solid var(--normal-fontcolor);
+    color: var(--normal-fontcolor);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+.department-btn:hover{
+    background: var(--normal-fontcolor);
+    color: white;
+}
+
 
 /* 2xl */
 @media (max-width: 1536px) {

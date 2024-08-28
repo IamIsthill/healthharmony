@@ -15,20 +15,7 @@
           rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
           rel="stylesheet" />
-    <style>
-    .modal {
-      display: none; /* Hidden by default */
-      position: fixed; /* Stay in place */
-      z-index: 1; /* Sit on top */
-      left: 0;
-      top: 0;
-      width: 100%; /* Full width */
-      height: 100%; /* Full height */
-      overflow: auto; /* Enable scroll if needed */
-      background-color: rgb(0, 0, 0); /* Fallback color */
-      background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-    }
-
+    <!-- <style>
     /* Modal Content/Box */
     .modal-content {
       background-color: #fefefe;
@@ -37,22 +24,7 @@
       border: 1px solid #888;
       width: 80%; /* Could be more or less, depending on screen size */
     }
-
-    /* The Close Button */
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
-    </style>
+    </style> -->
 {% endblock %}
 {% block message %}
     {% if messages|has_error_message %}
@@ -107,6 +79,8 @@
     <div id="js-add-visit-modal" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
+            <h1>Add New Item</h1>
+            <span class="material-symbols-outlined close js-close-add-visit-modal-btn">cancel</span>
             <form action="{% url 'create-patient-add-issue' %}" method="post">
                 {% csrf_token %}
                 <label for="">Patient</label>
@@ -116,9 +90,8 @@
                 </datalist>
                 <label for="">Issue</label>
                 <input type="text" name="issue" />
-                <button type="submit">Add Complaint</button>
+                <button class="form-button" type="submit">Add Complaint</button>
             </form>
-            <span class="close js-close-add-visit-modal-btn">&times;</span>
         </div>
     </div>
 {% endblock %}

@@ -290,6 +290,24 @@
 
 /* POP UP SUCCESS AND ERROR ADDING VISIT RECORD */
 
+.lineChart {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: white;
+  box-shadow: var( --box-shadow2);
+  border-radius: 2rem;
+  padding: 2rem 3rem; 
+  width: 98%;
+  transition: all 0.3s ease;
+}
+.lineChart:hover{
+  box-shadow: var(--box-shadowlight);
+}
+
+
+
+
 /* RESPONSIVE CODES */
 /* 2xl */
 @media (max-width: 1536px) {
