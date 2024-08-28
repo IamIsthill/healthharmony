@@ -211,7 +211,7 @@ function createTrendsBarCanvas(trendCategory, trendFilter) {
             let quantity = inventoryItem ? inventoryItem.total_quantity : 0
             html += `
                 <div class="bars">
-                    <h4>${item.item_name}</h4>
+                    <h5>${item.item_name}</h5>
                     <h4>${quantity}</h4>
                     <div>
                         <canvas id="trends-bar-${item.id}"></canvas>

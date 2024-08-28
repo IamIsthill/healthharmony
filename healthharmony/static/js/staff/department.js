@@ -76,8 +76,10 @@ export function createDepartmentBarCanvas(departments) {
     for (const department of departments) {
         html += `
             <div class>
+            <div class="barsTop">
                 <h5>${department.name}</h5>
                 <h2>${department.count}</h2>
+            </div>
                 <div class="bars">
                     <canvas id="department-bar-${department.id}"></canvas>
                 </div>

@@ -12,7 +12,7 @@
           rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
           rel="stylesheet" />
-    <style>
+    <!-- <style>
         .btn {
             cursor: pointer;
         }
@@ -52,7 +52,7 @@
             text-decoration: none;
             cursor: pointer;
           }
-    </style>
+    </style> -->
 {% endblock %}
 {% block message %}
     {% if messages|has_error_message %}
@@ -134,8 +134,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="graphs">
-                <div class="left">
+            <div class="graphs lineChart">
                     <div class="header">
                         <h4>Seasonal Trends</h4>
                         <div>
@@ -156,7 +155,6 @@
                         <button class="seasonal-category js-seasonal-category-btn"
                                 data-sorter="Supply">Supply</button>
                     </div>
-                </div>
             </div>
         </main>
         {% include 'staff/inventory-right.html' %}
@@ -169,8 +167,14 @@
             <form action="{% url 'staff-inventory-add' %}" method="post">
                 {% csrf_token %}
                 <div class="form-top">
-                    <label for="item_name">Item Name</label>
-                    <input type="text" placeholder="name.." name="item_name" required />
+                    <div class="form-group">
+                        <label for="item_name">Item Name</label>
+                        <input type="text" placeholder="name.." name="item_name" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input type="number" name="quantity" />
+                    </div>
                 </div>
                 <div class="form-middle">
                     <div class="form-group">
@@ -193,10 +197,6 @@
                     <div class="form-group">
                         <label for="expiration_date">Expiration Date</label>
                         <input type="date" name="expiration_date" />
-                    </div>
-                    <div class="form-group">
-                        <label for="quantity">Quantity</label>
-                        <input type="number" name="quantity" />
                     </div>
                 </div>
                 <div class="form-last">
@@ -216,8 +216,14 @@
             <form action="" method="post" class="form-body">
                 {% csrf_token class="token" %}
                 <div class="form-top">
+                    <div class="form-group">
                     <label for="item_name">Item Name</label>
                     <input type="text" placeholder="name.." name="item_name" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input type="number" name="quantity" />
+                    </div>
                 </div>
                 <div class="form-middle">
                     <div class="form-group">
@@ -240,10 +246,6 @@
                     <div class="form-group">
                         <label for="expiration_date">Expiration Date</label>
                         <input type="date" name="expiration_date" />
-                    </div>
-                    <div class="form-group">
-                        <label for="quantity">Quantity</label>
-                        <input type="number" name="quantity" />
                     </div>
                 </div>
                 <div class="form-last">
