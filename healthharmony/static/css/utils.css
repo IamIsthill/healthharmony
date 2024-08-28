@@ -297,7 +297,7 @@
   background: white;
   box-shadow: var( --box-shadow2);
   border-radius: 2rem;
-  padding: 2rem 3rem; 
+  padding: 2rem 3rem;
   width: 98%;
   transition: all 0.3s ease;
 }

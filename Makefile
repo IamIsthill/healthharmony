@@ -95,6 +95,10 @@ flush:
 test-doctor:
 	poetry run python -m healthharmony.manage test healthharmony.doctor
 
+.PHONY: test-users
+test-users:
+	poetry run python -m healthharmony.manage test healthharmony.users
+
 .PHONY: test-inventory
 test-inventory:
 	poetry run python -m healthharmony.manage test healthharmony.inventory

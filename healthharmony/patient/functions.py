@@ -45,13 +45,10 @@ def get_latest_blood_pressure(user):
     return None
 
 
-def update_patient_view_context(request, context):
+def update_patient_view_context(request, context, pk):
     """Update the context with the required information"""
     try:
-        user = User.objects.prefetch_related("blood_pressures").get(
-            email=request.user.email
-        )
-        Log.objects.create(user=user, action="Updated profile information")
+        user = User.objects.prefetch_related("blood_pressures").get(id=int(pk))
     except User.DoesNotExist:
         messages.error(request, "User not found.")
         return

@@ -775,3 +775,41 @@ def fetch_certificates(Certificate, F):
         cert["requested"] = cert["requested"].isoformat()
 
     return certificates
+
+
+def fetch_employees(
+    OuterRef, Coalesce, Subquery, Value, DateTimeField, messages, request
+):
+    try:
+        cases = (
+            Illness.objects.filter(staff=OuterRef("pk"))
+            .order_by("-updated")
+            .values("updated")[:1]
+        )
+        users = (
+            User.objects.filter(access__gte=2, access__lte=3)
+            .annotate(
+                last_case=Coalesce(
+                    Subquery(cases), Value(None), output_field=DateTimeField()
+                ),
+                staff_count=Count("staff_illness"),
+                doctor_count=Count("doctor_illness"),
+            )
+            .values()
+        )
+        for user in users:
+            if user["DOB"]:
+                user["DOB"] = user["DOB"].isoformat()
+            if user["last_case"]:
+                user["last_case"] = user["last_case"].isoformat()
+            if user["date_joined"]:
+                user["date_joined"] = user["date_joined"].isoformat()
+        logger.info(
+            f"{request.user.email} successfully fetched employee instances in staff/accounts"
+        )
+    except Exception as e:
+        messages.error(request, "Failed to fetch necessary data. Please reload page")
+        logger.error(
+            f"{request.user.email} failed to fetched employee instances in staff/accounts: {str(e)}"
+        )
+    return users

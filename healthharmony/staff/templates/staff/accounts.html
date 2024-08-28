@@ -12,6 +12,48 @@
       width: 100px;
       height: 100px;
     }
+
+    .btn {
+      cursor: pointer;
+    }
+
+    /* The Modal (background) */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0, 0, 0); /* Fallback color */
+      background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto; /* 15% from the top and centered */
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%; /* Could be more or less, depending on screen size */
+    }
+
+    /* The Close Button */
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
     </style>
 {% endblock %}
 {% block message %}
@@ -22,13 +64,14 @@
     {% endif %}
     {% if messages|has_success_message %}
         {% for message in messages %}
-            {% if message.tags == 'successs' %}<p>{{ message }}</p>{% endif %}
+            {% if message.tags == 'success' %}<p>{{ message }}</p>{% endif %}
         {% endfor %}
     {% endif %}
 {% endblock %}
 {% block main %}
     <div class="container">
         {% include 'staff/navbar.html' %}
+        {% csrf_token %}
         <div>
             <h1 class="js-patient-count">All Patients(0)</h1>
             <table>
@@ -41,6 +84,7 @@
                 <div class="js-patient-filters"></div>
                 <input type="text" class="js-patient-search-field" />
                 <button class="js-patient-search-btn">Search</button>
+                <button class="js-patient-clear-btn">Clear</button>
                 {% if patients_page %}
                     <thead>
                         <tr>
@@ -49,18 +93,18 @@
                             <th>Last Visited</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="js-patients-body">
                         {% for patient in patients_page %}
                             <tr>
                                 <td class="js-patient-profile" data-patient-id="{{ patient.id }}">{{ patient.first_name }} {{ patient.last_name }}</td>
-                                <td>{{ patient.department_name }}</td>
+                                <td class="js-department-names">{{ patient.department_name }}</td>
                                 <td class="js-dates">{{ patient.last_visit }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 {% else %}
                     <tr>
-                        <td colspan="2">No patients</td>
+                        <td colspan="3">No patients</td>
                     </tr>
                 {% endif %}
             </table>
@@ -68,24 +112,123 @@
                 <div class="pagination js-patients-pagination">
                     <span class="step-links">
                         {% if patients_page.has_previous %}
-                            <a href="?patients-page=1" class="js-links">&laquo; First</a>
+                            <a href="?patients-page=1" class="js-links js-patient-links">&laquo; First</a>
                             <a href="?patients-page={{ patients_page.previous_page_number }}"
-                               class="js-links">Previous</a>
+                               class="js-links js-patient-links">Previous</a>
                         {% endif %}
                         <span class="current">Page {{ patients_page.number }} of {{ patients_page.paginator.num_pages }}.</span>
                         {% if patients_page.has_next %}
                             <a href="?patients-page={{ patients_page.next_page_number }}"
-                               class="js-links">Next</a>
+                               class="js-links js-patient-links">Next</a>
                             <a href="?patients-page={{ patients_page.paginator.num_pages }}"
-                               class="js-links">Last &raquo;</a>
+                               class="js-links js-patient-links">Last &raquo;</a>
                         {% endif %}
                     </span>
                 </div>
             {% endif %}
         </div>
+        <div>
+            <table>
+                <h1>Departments({{ departments.count }})</h1>
+                <button class="js-add-department-btn">Create New Department</button>
+                <thead>
+                    <tr>
+                        <th>Department</th>
+                        <th>Number of Users</th>
+                        <th>Last Clinic Visit</th>
+                        <th colspan="3">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for department in departments %}
+                        <tr data-department-id="{{ department.id }}">
+                            <td>{{ department.department }}</td>
+                            <td class="js-department-counts">{{ department.count }}</td>
+                            <td class="js-dates">{{ department.last_department_visit }}</td>
+                            <td class="js-edit-department btn">Edit</td>
+                            <td class="js-delete-department btn">Delete</td>
+                            <td class="js-view-department btn">View</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="3">No available department</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="js-department-bar-graph">
+                <div class="js-control-canvas-size">
+                    <canvas id="js-department-bar-canvas"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="js-employee-space">
+            <h1>Clinic Employees</h1>
+            <label>Filters</label>
+            <select class="js-employee-filters">
+                <option value="">All</option>
+                <option value="2">Staff</option>
+                <option value="3">Doctors</option>
+            </select>
+            <input type="text" class="js-employee-search-field" />
+            <button class="js-employee-search-btn">Search</button>
+            <button class="js-employee-clear-btn">Clear</button>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Access Level</th>
+                        <th>Time Since Last Case Handled</th>
+                        <th>Number of Cases Handled</th>
+                    </tr>
+                </thead>
+                <tbody class="js-employee-body">
+                    <tr>
+                        <td>Lorem ipsum dolor sit amet.</td>
+                        <td>Lorem ipsum dolor sit amet.</td>
+                        <td>Lorem ipsum dolor sit.</td>
+                        <td>Lorem, ipsum dolor.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="js-add-department-modal modal">
+        <div class="modal-content">
+            <span class="js-close-add-department-modal">&times;</span>
+            <form action="{% url 'staff-accounts-add-department' %}"
+                  class="form-body"
+                  method="post">
+                {% csrf_token %}
+                <input type="text" required name="department_name" />
+                <button type="submit">Add</button>
+                <button class="js-close-add-department-modal">Cancel</button>
+            </form>
+        </div>
+    </div>
+    <div class="js-delete-department-modal modal">
+        <div class="modal-content">
+            <span class="js-close-delete-department-modal">&times;</span>
+            <form action="" method="post" class="form-body">
+                {% csrf_token %}
+            </form>
+        </div>
+    </div>
+    <div class="js-edit-department-modal modal">
+        <div class="modal-content">
+            <span class="js-close-edit-department-modal">&times;</span>
+            <form action="" class="form-body" method="post">
+            </form>
+        </div>
+    </div>
+    <div class="js-view-department-modal modal">
+        <div class="modal-content"></div>
     </div>
 {% endblock %}
 {% block script %}
     {{ patients|json_script:'patientData' }}
+    {{ departmentData|json_script:'departmentData' }}
+    {{ employeeData|json_script:'employeeData' }}
+    <script src="{% static 'chart.js/dist/chart.umd.js' %}"></script>
     <script type="module" src="{% static 'js/staff/account.js' %}"></script>
 {% endblock %}

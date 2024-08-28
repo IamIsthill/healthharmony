@@ -1,7 +1,16 @@
 from django.shortcuts import render, redirect
 import secrets
 import string
-from django.db.models import Sum, F, Value
+from django.db.models import (
+    OuterRef,
+    Subquery,
+    Value,
+    Sum,
+    F,
+    CharField,
+    Count,
+    DateTimeField,
+)
 from django.db.models.functions import Coalesce
 from django.utils import timezone
 from django.contrib import messages
@@ -11,10 +20,9 @@ import environ
 import logging
 from concurrent.futures import as_completed, ThreadPoolExecutor
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.utils.dateparse import parse_datetime
 
 from healthharmony.bed.models import BedStat
-from healthharmony.users.models import User
+from healthharmony.users.models import User, Department
 from healthharmony.administrator.models import Log, DataChangeLog
 from healthharmony.treatment.models import Illness, IllnessTreatment, Certificate
 from healthharmony.inventory.models import InventoryDetail
@@ -36,12 +44,15 @@ from healthharmony.staff.functions import (
     fetch_history,
     fetch_certificate_chart,
     fetch_certificates,
+    fetch_employees,
 )
 from healthharmony.staff.forms import (
     PatientForm,
     AddInventoryForm,
     EditInventoryForm,
     DeleteInventoryForm,
+    DeleteDepartmentForm,
+    EditDepartmentForm,
 )
 
 env = environ.Env()
@@ -214,7 +225,7 @@ def add_inventory(request):
         form = AddInventoryForm(request.POST)
         if form.is_valid():
             form.save(request)
-            return redirect("staff-inventory")
+    return redirect("staff-inventory")
 
 
 def delete_inventory(request, pk):
@@ -256,7 +267,7 @@ def bed(request):
     except Exception:
         messages.error(request, "Error fetching bed data")
     context = {"beds": beds, "page": "bed"}
-    return render(request, "staff/bed.html", context)
+    return render(request, "staff/action.html", context)
 
 
 def bed_handler(request, pk):
@@ -404,12 +415,14 @@ def access_checker(request):
 def patients_and_accounts(request):
     context = {}
     try:
+        last_visit = Illness.objects.filter(patient=OuterRef("pk")).values("added")
         patients = (
             User.objects.filter(access=1)
-            .select_related("department")
             .annotate(
-                last_visit=F("patient_illness__added"),
                 department_name=F("department__department"),
+                last_visit=Coalesce(
+                    Subquery(last_visit[:1]), Value(None), output_field=CharField()
+                ),
             )
             .distinct()
             .values(
@@ -421,11 +434,10 @@ def patients_and_accounts(request):
                 "date_joined",
                 "department_name",
                 "email",
+                "department",
             )
         )
         for patient in patients:
-            if patient["last_visit"]:
-                patient["last_visit"] = patient["last_visit"].isoformat()
             if patient["date_joined"]:
                 patient["date_joined"] = patient["date_joined"].isoformat()
         patients_paginator = Paginator(patients, 10)
@@ -439,9 +451,110 @@ def patients_and_accounts(request):
             patients_page = patients_paginator.page(patients_paginator.num_pages)
             logger.error("No page was set")
 
-        context.update({"patients": list(patients), "patients_page": patients_page})
+        last_department_visit = (
+            Illness.objects.filter(patient=OuterRef("pk"))
+            .exclude(added__isnull=True)
+            .order_by("-added")
+            .values("added")
+        )
+
+        # Annotate the departments with the last visit date of any patient in that department
+        departments = (
+            Department.objects.annotate(
+                last_department_visit=Subquery(
+                    User.objects.filter(department=OuterRef("pk"))
+                    .annotate(
+                        last_department_visit=Coalesce(
+                            Subquery(last_department_visit[:1]),
+                            Value(None),
+                            output_field=CharField(),
+                        )
+                    )
+                    .exclude(last_department_visit__isnull=True)
+                    .values(
+                        "last_department_visit"
+                    )  # Only get the last visit of the first patient in the department
+                ),
+                count=Count("user_department"),
+            )
+            .distinct()
+            .values()
+        )
+        employees = fetch_employees(
+            OuterRef, Coalesce, Subquery, Value, DateTimeField, messages, request
+        )
+
+        context.update(
+            {
+                "patients": list(patients),
+                "patients_page": patients_page,
+                "departments": departments,
+                "departmentData": list(departments),
+                "employees": employees,
+                "employeeData": list(employees),
+            }
+        )
 
     except Exception as e:
         logger.error(f"Failed to fetch data: {str(e)}")
         messages.error(request, "Failed to fetch necessary data. Please reload page.")
     return render(request, "staff/accounts.html", context)
+
+
+def add_department(request):
+    access_checker(request)
+    if request.method == "POST":
+        department_name = request.POST.get("department_name")
+        try:
+            department, created = Department.objects.get_or_create(
+                department=department_name
+            )
+
+            if created:
+                messages.success(request, "Success! A new department has been added.")
+                Log.objects.create(
+                    user=request.user,
+                    action=f"New department instance has been created[id:{department.id}]",
+                )
+
+            else:
+                messages.error(
+                    request,
+                    "Department already exists. Please add a new department name",
+                )
+                logger.error(
+                    f"Failed to create a new department as it already exists[id: {department.id}]"
+                )
+
+        except Exception as e:
+            messages.error(request, "Failed to create a new department")
+            logger.error(f"Failed to create a new department: {str(e)}")
+    return redirect("staff-accounts")
+
+
+def delete_department(request, pk):
+    access_checker(request)
+    if request.method == "POST":
+        form = DeleteDepartmentForm(request.POST)
+        if form.is_valid():
+            form.save(request, pk)
+        else:
+            messages.error(request, "Form is invalid. Please try again.")
+            logger.info(
+                f"{request.user.email} has passed an invalid Delete Department Form"
+            )
+    return redirect("staff-accounts")
+
+
+def edit_department(request, pk):
+    access_checker(request)
+    if request.method == "POST":
+        form = EditDepartmentForm(request.POST)
+        if form.is_valid():
+            form.save(request, pk)
+        else:
+            messages.error(request, "Form is invalid. Please try again.")
+            logger.info(
+                f"{request.user.email} has passed an invalid Edit Department Form"
+            )
+    return redirect("staff-accounts")

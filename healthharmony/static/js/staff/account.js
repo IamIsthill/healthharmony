@@ -1,114 +1,324 @@
 import {
-    getCurrentUrl
+    getCurrentUrl,
+    paginateArray,
+    saveItem,
+    getItem,
+    removeItem,
+    openModal,
+    closeModal,
+    getToken,
+    listenToEnter,
+    createChart
 } from '/static/js/utils.js'
 
+import {
+    getPatientDataUsingId,
+    createPatientInformation,
+    checkIfFilterExist,
+    getFilterParams,
+    filterPatientData,
+    getPatientFilter,
+    updatePatientHTML,
+    formatDepartmentNames,
+    formatDatesInPatientsPage
+} from '/static/js/staff/account-patients.js'
+
+import {
+    getPatientList,
+    getDepartment,
+    createDeleteDepartmentModal,
+    createEditDepartmentModal,
+    createViewDepartmentModal,
+    getDepartmentLabelsAndCounts
+
+} from '/static/js/staff/account-department.js'
+
 const patientData = JSON.parse(document.getElementById('patientData').textContent)
+const departmentData = JSON.parse(document.getElementById('departmentData').textContent)
+const employeeData = JSON.parse(document.getElementById('employeeData').textContent)
 
 main()
 
 
 function main() {
+    //patients
     setDefault()
-    console.log(patientData[0])
     updatePatientCount()
     checkPatientPagination()
-    formatDatesInPatientsPage(format_date)
-    listenToHoverOnPatientName()
-
+    updatePatientSearchField()
+    updatePatientFiltersFromMemory(getItem, updatePatientFilters)
+    updatePatientBasedOnSearchFieldAndFilters()
+    listenToPatientClearBtn()
+    listenToHoverOnPatientSearchField()
     listenPatientFilter()
     listenPatientSearchBtn()
 
-    const patientPage = getCurrentUrl().searchParams.get('patients-page')
-    const filterParams = getFilterParams(getPatientFilter())
-    const filteredPatientData = filterPatientData(filterParams, patientData, '')
-    paginatePatientData(filteredPatientData, patientPage)
+    //departments
+    formatDepartmentUserCounts()
+    listenDepartmentDelete()
+    listenDepartmentEdit()
+    listenDepartmentView()
+    listenAddDepartmentBtn()
+    createDepartmentBarGraph()
 
+    //employee
+    updateEmployeeHTMl(employeeData)
+    console.log(employeeData[1])
+    const now = Date.now()
+    const oldDate  = new Date(2024, 6, 27, 11, 3, 0).getTime()
+    const elapseMilli = now - oldDate
 
+    let stmt = ''
 
+    const seconds = Math.floor(elapseMilli / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
 
+    // Remaining hours, minutes, and seconds
+    const remainingHours = hours % 24;
+    const remainingMinutes = minutes % 60;
+    const remainingSeconds = seconds % 60;
 
+    console.log(`Elapsed Time: ${days} days, ${remainingHours} hours, ${remainingMinutes} minutes, and ${remainingSeconds} seconds`);
+
+}
+
+function getElapsedTime() {
+    const now = Date.now()
+}
+
+function updateEmployeeHTMl(employeeData) {
+    const employeeBody = document.querySelector('.js-employee-body')
+    let html = ''
+
+    for (const employee of employeeData) {
+        let count = 0
+        let position = ''
+        if (employee.access == 2) {
+            count = employee.staff_count
+            position = 'Staff'
+        }
+
+        if (employee.access == 3) {
+            count = employee.doctor_count
+            position = 'Doctor'
+        }
+        html += `
+            <tr>
+                <td>${employee.first_name} ${employee.last_name}</td>
+                <td>${position}</td>
+                <td>${employee.last_case}</td>
+                <td>${count}</td>
+            </tr>
+        `
+    }
+    employeeBody.innerHTML = html
+}
+
+function createDepartmentBarGraph() {
+    const canvas = document.getElementById('js-department-bar-canvas')
+    const ctx = canvas.getContext('2d')
+    const {labels, counts} = getDepartmentLabelsAndCounts(departmentData)
+    const chartType = 'bar'
+    const chartData = {
+        labels: labels,
+        datasets: [{
+          data: counts,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 205, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(201, 203, 207, 0.2)'
+          ],
+          borderColor: [
+            'rgb(255, 99, 132)',
+            'rgb(255, 159, 64)',
+            'rgb(255, 205, 86)',
+            'rgb(75, 192, 192)',
+            'rgb(54, 162, 235)',
+            'rgb(153, 102, 255)',
+            'rgb(201, 203, 207)'
+          ],
+          borderWidth: 1
+        }]
+    }
+
+    const chartOptions = {
+        plugins: {
+            legend: {
+                display: false,
+                labels: {
+                    font: {
+                        family: 'Poppins', // Your custom font family
+                        size: 14, // Font size
+                        weight: 'normal', // Font weight
+                        style: 'normal' // Font style
+                    }
+                }
+            }
+        },
+        scales: {
+            x: {
+                grid: {
+                    display: false // This removes the grid lines on the x-axis
+                },
+                ticks: {
+                    font: {
+                        family: 'Arial', // Web-safe font
+                        size: 10,
+                        weight: 'bold',
+                        style: 'normal'
+                    }
+                }
+            },
+            y: {
+                beginAtZero: true, // Ensure y-axis starts from 0
+                display: false
+            }
+        }
+    }
+    createChart(ctx, chartType, chartData, chartOptions)
+}
+
+function listenAddDepartmentBtn() {
+    const addDepartmentBtn = document.querySelector('.js-add-department-btn')
+    addDepartmentBtn.addEventListener('click', () => {
+        const modal = document.querySelector('.js-add-department-modal')
+        const form = document.querySelector('.js-add-department-modal .modal-content .form-body')
+        const closeBtns = document.querySelectorAll('.js-close-add-department-modal')
+        openModal(modal)
+        for (const close of closeBtns) {
+            form.reset()
+            closeModal(modal, close)
+        }
+    })
+}
+
+function listenDepartmentDelete() {
+    const departmentDeleteBtns = document.querySelectorAll('.js-delete-department')
+    for (const btn of departmentDeleteBtns) {
+        btn.addEventListener('click', () => {
+            const departmentId = parseInt(btn.parentElement.getAttribute('data-department-id'))
+            const department = getDepartment(departmentData, departmentId)
+            createDeleteDepartmentModal(department, getToken)
+            const modal = document.querySelector('.js-delete-department-modal')
+            const closeBtns = document.querySelectorAll('.js-close-delete-department-modal')
+            openModal(modal)
+            for (const close of closeBtns) {
+                closeModal(modal, close)
+            }
+        })
+    }
+}
+
+function listenDepartmentView() {
+    const departmentViewBtns = document.querySelectorAll('.js-view-department')
+    for (const btn of departmentViewBtns) {
+        btn.addEventListener('click', () => {
+            const departmentId = parseInt(btn.parentElement.getAttribute('data-department-id'))
+            const department = getDepartment(departmentData, departmentId)
+            const patients = getPatientList(patientData, departmentId)
+            createViewDepartmentModal(department, patients, format_date)
+            const modal = document.querySelector('.js-view-department-modal')
+            const closeBtns = document.querySelectorAll('.js-close-view-department-modal')
+            openModal(modal)
+            for (const close of closeBtns) {
+                closeModal(modal, close)
+            }
+        })
+    }
+}
+
+function listenDepartmentEdit() {
+    const departmentEditBtns = document.querySelectorAll('.js-edit-department')
+    for (const btn of departmentEditBtns) {
+        btn.addEventListener('click', () => {
+            const departmentId = parseInt(btn.parentElement.getAttribute('data-department-id'))
+            const department = getDepartment(departmentData, departmentId)
+            createEditDepartmentModal(department, getToken)
+            const modal = document.querySelector('.js-edit-department-modal')
+            const closeBtns = document.querySelectorAll('.js-close-edit-department-modal')
+            openModal(modal)
+            for (const close of closeBtns) {
+                closeModal(modal, close)
+            }
+        })
+    }
+}
+
+function formatDepartmentUserCounts() {
+    const departmentUserCounts = document.querySelectorAll('.js-department-counts')
+    for (const count of departmentUserCounts) {
+        if (count.innerText.toLowerCase() == 'none') {
+            count.innerText = '0'
+        }
+    }
+}
+
+function listenToPatientClearBtn() {
+    const patientClearBtn = document.querySelector('.js-patient-clear-btn')
+    patientClearBtn.addEventListener('click', () => {
+        removeItem('searchItem')
+        removeItem('patientFilters')
+        document.querySelector('.js-patient-search-field').value = ''
+        document.querySelector('.js-patient-filters').innerHTML = ''
+        updatePatientBasedOnSearchFieldAndFilters()
+    })
+}
+
+function updatePatientSearchField() {
+    const item = getItem('searchItem')
+    if (item) {
+        document.querySelector('.js-patient-search-field').value = item
+    }
+}
+
+function updatePatientFiltersFromMemory(getItem, updatePatientFilters) {
+    const filters = getItem('patientFilters')
+    if (filters && filters.length > 0) {
+        for (const filter of filters) {
+            updatePatientFilters(filter)
+        }
+    }
 }
 
 function setDefault(){
     const patientsPagination = document.querySelector('.js-patients-pagination')
     patientsPagination.style.display = "none"
-
 }
 
 function listenPatientSearchBtn() {
     const patientSearchBtn = document.querySelector('.js-patient-search-btn')
     patientSearchBtn.addEventListener('click', () => {
-        const patientSearchField = document.querySelector('.js-patient-search-field')
-        const searchText = patientSearchField.value
-        const filterParams = getFilterParams(getPatientFilter())
-        const filteredPatientData = filterPatientData(filterParams, patientData, searchText)
+        updatePatientBasedOnSearchFieldAndFilters()
     })
 }
 
-function paginatePatientData(filteredPatientData, patientPage) {
-    if(!patientPage) {
-        patientPage = 1
-    }
-
-    patientPage = parseInt(patientPage)
-    let itemStart = patientPage * 10 - 9
-    let itemEnd = patientPage * 10
-    if (itemStart > filteredPatientData.length) {
-        patientPage = Math.ceil(filteredPatientData.length / 10)
-
-    }
-    if (Math.ceil(filteredPatientData.length / 10) < patientPage) {
-        itemStart = patientPage * 10 - 9
-        itemEnd = patientPage * 10
-    }
-
-    for (let key in filteredPatientData) {
-        key = parseInt(key)
-        if ( key + 1  >= itemStart && key + 1 <= itemEnd ) {
-            console.log(filteredPatientData[key])
-        }
-        // console.log(itemStart, key+1, itemEnd)
-    }
-
+function listenToHoverOnPatientSearchField() {
+    const patientSearchField = document.querySelector('.js-patient-search-field')
+    patientSearchField.addEventListener('mouseenter', () => listenToEnter(updatePatientBasedOnSearchFieldAndFilters))
 }
 
-function getFilterParams(filters) {
-    let filterParams = ''
-    if (filters.length <= 0) {
-        return `
-            String(patient.department_name).toLowerCase().includes(searchText) ||
-            String(patient.first_name).toLowerCase().includes(searchText) ||
-            String(patient.last_name).toLowerCase().includes(searchText)
-        `
-    }
-
-    for (const filter in filters) {
-        if(filters[filter] == 'department') {
-            filterParams += `String(patient.department_name).toLowerCase().includes(searchText)`
-        }
-        if(filters[filter] == 'name') {
-            filterParams += `
-                String(patient.first_name).toLowerCase().includes(searchText) ||
-                String(patient.last_name).toLowerCase().includes(searchText)
-            `
-        }
-        if( filter < filters.length - 1) {
-            filterParams += `||`
-        }
-    }
-    return filterParams
-}
-
-function filterPatientData(filterParams, patientData, searchText) {
-    searchText = searchText.toLowerCase()
-
-    let filteredPatientData = []
-    for (const patient of patientData) {
-        if (eval(filterParams)) {
-            filteredPatientData.push(patient)
-        }
-    }
-    return filteredPatientData
+function updatePatientBasedOnSearchFieldAndFilters() {
+    const patientSearchField = document.querySelector('.js-patient-search-field')
+    const searchText = patientSearchField.value
+    saveItem('searchItem', searchText)
+    const filters = getPatientFilter()
+    saveItem('patientFilters', filters)
+    const filterParams = getFilterParams(filters)
+    const filteredPatientData = filterPatientData(filterParams, patientData, searchText)
+    const url = getCurrentUrl()
+    const page = parseInt(url.searchParams.get('patients-page'))
+    const paginatedPatientData = paginateArray(filteredPatientData, page)
+    updatePatientHTML(paginatedPatientData)
+    formatDatesInPatientsPage(format_date)
+    formatDepartmentNames()
+    listenToHoverOnPatientName()
+    clickToRemovePatientFilter()
 }
 
 function listenPatientFilter() {
@@ -118,33 +328,12 @@ function listenPatientFilter() {
         if(filter) {
             if (!checkIfFilterExist(filter)) {
                 updatePatientFilters(filter)
+                const filters = getPatientFilter()
+                saveItem('patientFilters', filters)
             }
         }
         clickToRemovePatientFilter()
-
-        getPatientFilter()
     })
-}
-
-function getPatientFilter() {
-    let filters = []
-    const filterInstances = document.querySelectorAll('.js-patient-filter')
-
-    for (const filterInstance of filterInstances) {
-        const filter = filterInstance.getAttribute('data')
-        filters.push(filter)
-    }
-   return filters
-}
-
-function checkIfFilterExist(filter) {
-    const filterInstances = document.querySelectorAll('.js-patient-filter')
-    for (const filterInstance of filterInstances) {
-        if(filterInstance.getAttribute('data') == filter) {
-            return true
-        }
-    }
-    return false
 }
 
 function clickToRemovePatientFilter() {
@@ -180,70 +369,22 @@ function listenToHoverOnPatientName() {
             patient.classList.add('bordered')
 
             patient.addEventListener('mouseleave', () => {
-                const hoverHTML = document.querySelector('.js-hover-patient')
-                hoverHTML.remove()
+                const hoverHTML = document.querySelectorAll('.js-hover-patient')
+                for (const html of hoverHTML){
+                    html.remove()
+                }
                 patient.classList.remove('bordered')
             })
         })
 
-    }
-}
-
-function createPatientInformation(data, x, y, format_date) {
-    const hoverHTML = document.createElement('div')
-    hoverHTML.className = 'js-hover-patient'
-    hoverHTML.style.position = 'absolute';
-    let date = ''
-    try {
-        date = format_date(data.date_joined)
-    } catch(error) {
-        console.log(error)
-    }
-    const content = `
-        <img src="/media/${data.profile}">
-        <p>Email Address: ${data.email}</p>
-        <p>Name: ${data.first_name} ${data.last_name}</p>
-        <p>Department: ${data.department_name}</p>
-        <p>Joined on: ${date}</p>
-    `
-    hoverHTML.style.top = `${y+5}px`
-    hoverHTML.style.left = `${x+5}px`
-    hoverHTML.style.zIndex = '100'
-    hoverHTML.innerHTML = content
-    document.body.append(hoverHTML)
-}
-
-function getPatientDataUsingId(patientData, id) {
-    const mid = Math.ceil(patientData.length / 2)
-    const firstArr = patientData.slice(0, mid)
-    const secondArr = patientData.slice(mid)
-
-    for (const patient of firstArr) {
-        if (patient.id == id) {
-            return patient
-        }
-    }
-
-    if (secondArr.length > 0) {
-        getPatientDataUsingId(secondArr, id)
-    }
-
-    return null
-}
-
-function formatDatesInPatientsPage(format_date) {
-    const dates = document.querySelectorAll('.js-dates')
-    for (const date of dates) {
-        try {
-            const formattedDate = format_date(date.innerText)
-            if (formattedDate.includes('Invalid Date')) {
-                date.innerText = ' '
-                continue
-            }
-            date.innerText = formattedDate
-        } catch(error) {
-            console.error(error)
-        }
+        patient.addEventListener('click', () =>{
+            const patientId = parseInt(patient.getAttribute('data-patient-id'))
+            const currentUrl = getCurrentUrl()
+            const goTo = `/patient/patient-profile/${patientId}/`
+            currentUrl.pathname = goTo
+            currentUrl.search = ''
+            window.location.href = currentUrl.href
+        })
     }
 }
 
