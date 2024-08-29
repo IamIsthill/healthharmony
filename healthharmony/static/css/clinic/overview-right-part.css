@@ -101,17 +101,15 @@
     border-radius: 8px;
     transition: all 0.3s ease;
 }
-.bar-btn{
+.bar-btn, .bar-btn-active{
     color: var(--light_gray);
     border: 1px solid rgba(255, 255, 255, 0);
 }
 .bar-btn-active{
-    border:1px solid var(--normal-fontcolor);
-    color: var(--normal-fontcolor);
+    border: 1px solid var(--light_gray);
 }
 .bar-btn:hover{
-    border:1px solid var(--normal-fontcolor);
-    color: var(--normal-fontcolor);
+    border:1px solid var(--light_gray);
 }
 
 

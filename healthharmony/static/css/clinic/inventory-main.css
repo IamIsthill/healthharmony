@@ -25,7 +25,7 @@
     border-radius: 1rem;
     transition: all 0.3s ease;
     border-collapse: separate; /* Allows spacing between rows */
-    border-spacing: 0px 8px;
+    border-spacing: 0px 4px;
 }
 .inventory table:hover{
     box-shadow: var(--box-shadowlight);
@@ -42,7 +42,7 @@ main table th, td{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.5rem 0;
+    padding: 0.2rem 0;
 }
 .header-content{
     /* border: 1px solid rebeccapurple; */
@@ -58,20 +58,24 @@ main table th, td{
 .category-buttons {
     display: flex;
     gap: 0.2rem;
-    font-size:var(--size-xs) ;
 }
-.category-buttons .inventory_cat.active {
-    border: 1px solid var(--normal-fontcolor); /* Active button color */
-    color: var(--normal-fontcolor);
-}
-.category-buttons .inventory_cat:not(.active):hover{
-    border: 1px solid var(--normal-fontcolor);
-}
-.category-buttons .inventory_cat:not(.active) {
-     /* Inactive button color */
-    color: #aaaaaa;
+.category-buttons button{
+    font-size: var(--size-xs);
+    padding: 0.4rem 0.5rem;
+    border-radius: 8px;
     transition: all 0.3s ease;
 }
+.category-buttons .inventory_cat-active, .inventory_cat{
+    color: var(--light_gray);
+    border: 1px solid rgba(255, 255, 255, 0);
+}
+.category-buttons .inventory_cat-active{
+    border: 1px solid var(--light_gray);
+}
+.category-buttons .inventory_cat:hover{
+    border: 1px solid var(--light_gray);
+}
+
 
 .add-inventory{
     display: flex;
@@ -79,14 +83,14 @@ main table th, td{
     justify-content: center;
     background: var(--Green);
     border-radius: 2rem;
-    padding: 0.3rem 0.8rem;
+    padding: 0.3rem 0.4rem;
     color: white;
-    font-size: var(--size-lg);
+    font-size: var(--size-base);
 }
 .add-inventory span{
     display: inline;
     line-height: 0.9;
-    font-size: var(--size-2xl);
+    font-size: var(--size-xl);
 }
 .sort-by {
     font-size: var(--size-sm);
@@ -105,11 +109,50 @@ main table th, td{
 .table-head{
     font-size: var(--size-sm);
     opacity: 70%;
+    font-weight: 500;
     color: var(--light_gray);
+    /* border: 1px solid green; */
 }
 .table-data{
     font-size: var(--size-sm);
     color: var(--normal-fontcolor);
+}
+.table-head, .table-data{
+    padding-right: 1rem;
+}
+/* Apply consistent column widths */
+.item-column-head, .item-column {
+    width: 13%;
+}
+
+.cat-column-head, .cat-column {
+    width: 7%;
+}
+
+.total-column-head, .total-column {
+    width: 5%;
+}
+
+.exp-column-head, .exp-column {
+    width: 8%;
+}
+
+.action-column{
+    width: 7%;
+}
+.view-column, .delete-column{
+    width: 3%;
+}
+.view-column{
+    opacity: 70%;
+    cursor: pointer;
+}
+.view-column:hover{
+    opacity: 100%;
+    font-weight: 600;
+}
+.delete-column span{
+    margin-top: 4px;
 }
 
 /* The Modal (background) */
@@ -130,7 +173,6 @@ main table th, td{
     padding: 0rem 3rem;
     width: 50%;
     height: 90%;
-
   }
   .modal-content h1{
     align-self: flex-start;

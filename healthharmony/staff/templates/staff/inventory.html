@@ -87,9 +87,9 @@
                                             <option value="date">Expiry Date</option>
                                             <option value="stock">Stock</option>
                                         </select>
-                                    </div>
-                                    <div>
-                                        <button class="js-inventory-direction" data-sort='asc'>Up</button>
+                                        <button class="js-inventory-direction" data-sort='asc'><span class="material-symbols-outlined">
+                                            sort_by_alpha
+                                            </span></button>
                                     </div>
                                 </div>
                             </th>
@@ -98,7 +98,7 @@
                             <th colspan="5">
                                 <div class="header-content">
                                     <div class="category-buttons">
-                                        <button class="inventory_cat active inventory-category inventory-category js-inventory-category js-inventory-category-active"
+                                        <button class="inventory_cat-active inventory-category inventory-category js-inventory-category js-inventory-category-active"
                                                 data-sorter="0">All</button>
                                         <button class="inventory_cat inventory-category js-inventory-category"
                                                 data-sorter="1">Medication</button>
@@ -112,23 +112,25 @@
                             </th>
                         </tr>
                         <tr>
-                            <th class="table-head">Name</th>
-                            <th class="table-head">Category</th>
-                            <th class="table-head">Stock</th>
-                            <th class="table-head">Expiration Date</th>
-                            <th class="table-head" colspan="2">Actions</th>
+                            <th class="table-head item-column-head">Name</th>
+                            <th class="table-head cat-column-head">Category</th>
+                            <th class="table-head total-column-head">Stock</th>
+                            <th class="table-head exp-column-head">Expiration Date</th>
+                            <th class="table-head action-column" colspan="2">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="inventory-body">
                         {% for data in sorted_inventory %}
                             <tr>
-                                <td class="table-data">{{ data.item_name }}</td>
-                                <td class="table-data">{{ data.category }}</td>
-                                <td class="table-data">{{ data.total_quantity }}</td>
-                                <td class="table-data">{{ data.expiration_date }}</td>
-                                <td class="table-data js-inventory-btn btn" data-id="{{ data.id }}">View</td>
-                                <td class="table-data js-inventory-delete-btn btn"
-                                    data-id="{{ data.id }}">Delete</td>
+                                <td class="table-data item-column">{{ data.item_name }}</td>
+                                <td class="table-data cat-column">{{ data.category }}</td>
+                                <td class="table-data total-column">{{ data.total_quantity }}</td>
+                                <td class="table-data exp-column">{{ data.expiration_date }}</td>
+                                <td class="table-data js-inventory-btn btn view-column" data-id="{{ data.id }}">View</td>
+                                <td class="table-data js-inventory-delete-btn btn delete-column"
+                                    data-id="{{ data.id }}"><span class="material-symbols-outlined delete-btn">
+                                        delete
+                                        </span></td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -260,10 +262,10 @@
         </div>
     </div>
     <div id="deleteInventoryModal" class="modal">
-        <div class="modal-content">
-            <span class="js-close-delete-btn">&times;</span>
+        <div class="modal-content small-modal">
+            <span class="material-symbols-outlined close js-close-inventory-btn">cancel</span>
             <form action="" class="form-body" method="POST">
-                <div>Are you sure you want to delete?</div>
+                <p>Are you sure you want to delete?</p>
                 <div class="form-buttons">
                     <button type="submit" class="add-btn">Delete</button>
                     <button type="button" class="cancel-btn js-close-delete-btn">Cancel</button>

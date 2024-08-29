@@ -143,9 +143,10 @@
 .search-container input {
   width: 100%;
   padding: 0.8rem 1rem; /* Adjust right padding for the button */
-  border-radius: 0.2rem;
-  background-color: var(--light_gray);
+  border-radius: 2rem;
+  background-color: #aaabad;
   border: none;
+  font-size: var(--size-sm);
 }
 .search-container ::placeholder{
   color: white;
