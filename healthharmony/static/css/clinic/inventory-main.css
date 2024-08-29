@@ -266,6 +266,40 @@ main table th, td{
     background: var(--Red);
     color: white;
 }
+.cat-button{
+    color: var(--light_gray);
+    border: 1px solid white;
+}
+.cat-button:hover{
+    border: 1px solid var(--normal-fontcolor);
+    color: var(--normal-fontcolor);
+}
+.active-cat{
+    border: 1px solid var(--normal-fontcolor);
+    color: var(--normal-fontcolor);
+}
+.line-chart-bottom{
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+.bottom-cat-btn{
+    padding: 0.3rem 0rem;
+    width: 6rem;
+    border: 1px solid var(--normal-fontcolor);
+    color: var(--normal-fontcolor);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+.bottom-cat-btn:hover{
+    background: var(--normal-fontcolor);
+    color: white;
+}
+.bottom-cat-btn-active{
+    background-color: var(--normal-fontcolor);
+    color: white;
+}
+
 
 /* 2xl */
 @media (max-width: 1536px) {

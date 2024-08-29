@@ -51,14 +51,15 @@ export function createDepartmentChart(labels, counts, department, createChart) {
         datasets: [{
             label: department,
             data: counts,
-            borderWidth: 1,
+            borderWidth: 2,
             indexAxis: 'x',
-            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Simplified background color for line chart
-            borderColor: 'rgba(75, 192, 192, 1)', // Adding border color for better visualization
+            backgroundColor: 'rgba(224, 163, 19, 0.2)', // Simplified background color for line chart
+            borderColor: 'rgba(224, 163, 19, 1)', // Adding border color for better visualization
             fill: false,
             tension: 0.5
         }]
     }
+
     const chartOptions = {
         scales: {
             y: {

@@ -21,20 +21,13 @@
     font-weight: 600;
 }
 
-.cat-button, .active-cat, .active-pat, .pat-button{
-    font-size: var(--size-sm);
-    width: 7rem;
-    height: 2.5rem;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-}
 .cat-button, .pat-button{
     color: var(--light_gray);
     border: 1px solid white;
 }
 .pat-button:hover{
-    border: 1px solid var(--Yellow);
-    color: var(--Yellow);
+    border: 1px solid var(--Dark-Yellow);
+    color: var(--Dark-Yellow);
 }
 .cat-button:hover{
     border: 1px solid var(--Red);
@@ -45,8 +38,8 @@
     color: var(--Red);
 }
 .active-pat{
-    border: 1px solid var(--Yellow);
-    color: var(--Yellow);
+    border: 1px solid var(--Dark-Yellow);
+    color: var(--Dark-Yellow);
 }
 .label-container{
     align-self: center;
@@ -79,7 +72,7 @@
     .top-chart{
         padding: 0rem 1rem;
     }
-    .cat-button{
+    .cat-button, .pat-button{
         font-size: var(--size-xs);
         width: 6.5rem;
         height: 2.2rem;

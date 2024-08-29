@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
     <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
     <link rel="stylesheet" href="{% static 'css/clinic/inventory-main.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/clinic/inventory-right.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
@@ -60,10 +61,26 @@
     {% endif %}
 {% endblock message %}
 {% block main %}
+<div class="nav-top">
+    <h2>Inventory</h2>
+    <div class="profile-container">
+        <img src="{% static 'assets/images/doctor-pics/Miko.jpg' %}"
+            alt="Profile Picture"
+            class="profile-pic" />
+        <div class="profile-info">
+            <h3>Miko Basilio</h3>
+            <span>Nurse</span>
+        </div>
+        <a href="{% url 'logout' %}">
+            <div class="logout-container">
+                <span class="material-symbols-outlined">logout</span>
+            </div>
+        </a>
+    </div>
+</div>
     <div class="nurse-container">
         {% include 'staff/navbar.html' %}
         <main class="staff-main">
-            <h2>Inventory</h2>
             <div class="inventory">
                 <table>
                     <thead>
@@ -137,13 +154,13 @@
                 </table>
             </div>
             <div class="graphs lineChart">
-                    <div class="header">
+                    <div class="top-chart">
                         <h4>Seasonal Trends</h4>
-                        <div>
-                            <button class="seasonal-filter js-seasonal-filter js-seasonal-filter-active"
+                        <div class="date-buttons">
+                            <button class="seasonal-filter js-seasonal-filter js-seasonal-filter-active cat-button active-cat"
                                     data-sorter="yearly">12 Months</button>
-                            <button class="seasonal-filter js-seasonal-filter" data-sorter="monthly">30 Days</button>
-                            <button class="seasonal-filter js-seasonal-filter" data-sorter="weekly">7 Days</button>
+                            <button class="seasonal-filter js-seasonal-filter cat-button" data-sorter="monthly">30 Days</button>
+                            <button class="seasonal-filter js-seasonal-filter cat-button" data-sorter="weekly">7 Days</button>
                         </div>
                     </div>
                     <div class="seasonal-graph">
@@ -151,10 +168,10 @@
                             <canvas id="js-seasonal-canvas"></canvas>
                         </div>
                     </div>
-                    <div>
-                        <button class="seasonal-category js-seasonal-category-btn js-seasonal-category-btn-active"
+                    <div class="line-chart-bottom">
+                        <button class="seasonal-category js-seasonal-category-btn js-seasonal-category-btn-active bottom-cat-btn bottom-cat-btn-active"
                                 data-sorter="Medicine">Medicine</button>
-                        <button class="seasonal-category js-seasonal-category-btn"
+                        <button class="seasonal-category js-seasonal-category-btn bottom-cat-btn"
                                 data-sorter="Supply">Supply</button>
                     </div>
             </div>
