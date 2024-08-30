@@ -134,7 +134,6 @@ function listenViewIllnessBtns() {
     for (const btn of viewIllnessBtns) {
         btn.addEventListener('click', () => {
             const illnessId = parseInt(btn.getAttribute('data-issue-id'))
-            console.log(illnessId)
             const illness = getIllness(illnessId)
             createIllnessForm(illness)
             illnessModal.style.display = 'block'

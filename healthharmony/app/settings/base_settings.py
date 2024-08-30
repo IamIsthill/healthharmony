@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "healthharmony.models.inventory.apps.InventoryConfig",
     "healthharmony.models.blood.apps.BloodConfig",
     "healthharmony.models.treatment.apps.TreatmentConfig",
+    "healthharmony.models.trained_models.apps.TrainedModelsConfig",
     "healthharmony.patient.apps.PatientConfig",
     "healthharmony.staff.apps.StaffConfig",
     "healthharmony.doctor.apps.DoctorConfig",

@@ -3,10 +3,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from healthharmony.app.settings import env, BASE_DIR
 
-
-print(BASE_DIR)
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("healthharmony.base.urls")),

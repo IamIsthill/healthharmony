@@ -112,14 +112,5 @@
 {% endblock %}
 {% block script %}
     {{ illness_data|json_script:'illnessData' }}
-    <script>
-    let view = document.querySelectorAll('.view-illness')
-
-    for (const btn of view) {
-      btn.addEventListener('click', () => {
-        console.log(btn)
-      })
-    }
-    </script>
     <script src="{% static 'js/doctor/overview.js' %}" type="module"></script>
 {% endblock %}
