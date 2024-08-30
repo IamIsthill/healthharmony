@@ -5,8 +5,8 @@ from dateutil.relativedelta import relativedelta
 from django.db.models import Sum, Min, Count
 import logging
 
-from healthharmony.treatment.models import Category, Illness, Certificate
-from healthharmony.inventory.models import InventoryDetail
+from healthharmony.models.treatment.models import Category, Illness, Certificate
+from healthharmony.models.inventory.models import InventoryDetail
 from healthharmony.users.models import Department, User
 
 

@@ -1,4 +1,4 @@
-from healthharmony.treatment.models import Illness
+from healthharmony.models.treatment.models import Illness
 
 import logging
 import pandas as pd

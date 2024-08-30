@@ -7,7 +7,7 @@ import logging
 from django.db.models import Sum
 
 from healthharmony.users.models import User, Department
-from healthharmony.inventory.models import QuantityHistory, InventoryDetail
+from healthharmony.models.inventory.models import QuantityHistory, InventoryDetail
 from healthharmony.administrator.models import Log
 
 logger = logging.getLogger(__name__)

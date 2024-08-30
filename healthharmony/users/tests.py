@@ -1,6 +1,6 @@
 from django.test import TestCase
 from healthharmony.users.models import Department, User
-from healthharmony.treatment.models import Illness, IllnessTreatment
+from healthharmony.models.treatment.models import Illness, IllnessTreatment
 from django.utils import timezone
 from dateutil.relativedelta import relativedelta
 from django.db.models import (

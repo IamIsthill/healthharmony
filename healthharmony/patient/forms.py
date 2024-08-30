@@ -1,5 +1,4 @@
 from django import forms
-from healthharmony.users.models import User
 from healthharmony.administrator.models import Log
 
 

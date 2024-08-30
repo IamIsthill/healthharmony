@@ -1,0 +1,47 @@
+Season,Sickness,Weather
+Dry,Asthma,Thunderstorm
+Dry,Asthma,Clouds
+Dry,Allergies,Clear
+Dry,Allergies,Clouds
+Dry,Migraine,Clear
+Dry,Diarrhea,
+Dry,Contact Rashes,Clear
+Dry,Red Eyes,Clouds
+Dry,Red Eyes,Clear
+Dry,Sun Burn,Clear
+Dry,Meningitis,
+Dry,Low Energy,
+Dry,Muscle Aches,
+Dry,Sneezing,Clouds
+Dry,Congestion,Clouds
+Dry,Chicken Pox,
+Dry,Hyperthermia,Clear
+Dry,Sinus Infection,Clouds
+Dry,Pneumonia,Clouds
+Dry,Bronchitis,Clouds
+Dry,Measles,
+Rainy,Dengue,Rain
+Rainy,Petrichor,Drizzle
+Rainy,Influenza,Rain
+Rainy,Influenza,Thunderstorm
+Rainy,Leptospirosis,Rain
+Rainy,Hepatitis A,Rain
+Rainy,Cold and Coughs,Thunderstorm
+Rainy,Cold and Coughs,Rain
+Rainy,Scabies,Rain
+Rainy,Cholera,Rain
+Rainy,Malaria,Rain
+Rainy,Viral Hemorrhagic Fever,Rain
+Rainy,Headache,Drizzle
+Rainy,Headache,Thunderstorm
+Rainy,Typhoid,Thunderstorm
+Rainy,Typhoid,Rain
+Rainy,Chikungunya,Thunderstorm
+Rainy,Chikungunya,Rain
+Rainy,Diarrhea,Rain
+Rainy,Conjunctivitis,Rain
+Rainy,Conjunctivitis,Thunderstorm
+Rainy,Common Cold,Thunderstorm
+Rainy,Common Cold,Rain
+Rainy,Gastroenteritis,Thunderstorm
+Rainy,Gastroenteritis,Rain

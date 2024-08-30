@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 
-from healthharmony.treatment.models import Illness, IllnessTreatment
+from healthharmony.models.treatment.models import Illness, IllnessTreatment
 from healthharmony.users.models import User
 from healthharmony.doctor.forms import UpdateIllness
 from healthharmony.patient.functions import update_patient_view_context

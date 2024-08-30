@@ -9,8 +9,8 @@ from django.db.models import F, Count, Prefetch, Q
 from collections import defaultdict
 import logging
 
-from healthharmony.bed.models import BedStat
-from healthharmony.treatment.models import Certificate, Illness, Category
+from healthharmony.models.bed.models import BedStat
+from healthharmony.models.treatment.models import Certificate, Illness, Category
 from healthharmony.users.models import User, Department
 
 from healthharmony.api.serializers import BedStatSerializer, CertificateSerializer

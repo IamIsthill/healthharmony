@@ -7,14 +7,14 @@ from collections import defaultdict
 from django.db import connection
 
 from healthharmony.users.models import User, Department
-from healthharmony.treatment.models import (
+from healthharmony.models.treatment.models import (
     Illness,
     Category,
     IllnessTreatment,
     DoctorDetail,
 )
-from healthharmony.inventory.models import InventoryDetail, QuantityHistory
-from healthharmony.blood.models import BloodPressure
+from healthharmony.models.inventory.models import InventoryDetail, QuantityHistory
+from healthharmony.models.blood.models import BloodPressure
 
 
 # Create your tests here.

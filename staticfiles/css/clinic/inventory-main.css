@@ -1,0 +1,292 @@
+.inventory{
+    color: var(--normal-fontcolor);
+}
+
+.inventory table tbody{
+    display: block;
+    max-height: 300px; /* Set the height of the tbody */
+    overflow-y: auto; /* Enable scrolling for the tbody */
+    width: 100%;
+}
+.inventory table thead{
+    position: sticky;
+}
+.inventory table tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed; /* Ensures that cells align properly */
+}
+.inventory table{
+    background-color: white;
+    width: 98%;
+    padding: 0.5rem 1.5rem;
+    text-align: center;
+    box-shadow: var(--box-shadow2);
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+    border-collapse: separate; /* Allows spacing between rows */
+    border-spacing: 0px 8px;
+}
+.inventory table:hover{
+    box-shadow: var(--box-shadowlight);
+}
+main table tbody td{
+    height: 2.8rem;
+    color: var(--normal-fontcolor);
+}
+main table th, td{
+    text-align: left;
+}
+.header-content {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+}
+.header-content{
+    /* border: 1px solid rebeccapurple; */
+    text-align: left;
+}
+.header-content h1 {
+    /* border: 1px solid orange; */
+    font-size: var(--size-lg);
+    color: var(--normal-fontcolor);
+    font-weight: bold;
+}
+/* CATEGORY */
+.category-buttons {
+    display: flex;
+    gap: 0.2rem;
+    font-size:var(--size-xs) ;
+}
+.category-buttons .inventory_cat.active {
+    border: 1px solid var(--normal-fontcolor); /* Active button color */
+    color: var(--normal-fontcolor);
+}
+.category-buttons .inventory_cat:not(.active):hover{
+    border: 1px solid var(--normal-fontcolor);
+}
+.category-buttons .inventory_cat:not(.active) {
+     /* Inactive button color */
+    color: #aaaaaa;
+    transition: all 0.3s ease;
+}
+
+.add-inventory{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--Green);
+    border-radius: 2rem;
+    padding: 0.3rem 0.8rem;
+    color: white;
+    font-size: var(--size-lg);
+}
+.add-inventory span{
+    display: inline;
+    line-height: 0.9;
+    font-size: var(--size-2xl);
+}
+.sort-by {
+    font-size: var(--size-sm);
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    color: var(--light_gray);
+}
+.sort-by select {
+    padding: 0.3rem 0.2rem;
+    font-size: var(--size-xs);
+    border: none;
+    border-radius: 5px;
+    background-color: white;
+}
+.table-head{
+    font-size: var(--size-sm);
+    opacity: 70%;
+    color: var(--light_gray);
+}
+.table-data{
+    font-size: var(--size-sm);
+    color: var(--normal-fontcolor);
+}
+
+/* The Modal (background) */
+
+
+  /* Modal Content/Box */
+  .modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #fefefe;
+    margin: 2% auto; /* 15% from the top and centered */
+    border: 1px solid #888;
+    border-radius: 1rem;
+    padding: 0rem 3rem;
+    width: 50%;
+    height: 90%;
+
+  }
+  .modal-content h1{
+    align-self: flex-start;
+    font-size: var(--size-2xl);
+    font-weight: 500;
+    margin-bottom: 2rem;
+  }
+  /* The Close Button */
+  .close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: var(--Red);
+    cursor: pointer;
+}
+.modal-content form{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    gap: 2rem;
+    width: 100%;
+    height: 80%;
+}
+.form-group label,.form-top label, .form-last label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--normal-fontcolor);
+    font-weight: 500;
+}
+
+.form-middle, .form-bottom, .form-top{
+    display: flex;
+    gap: 4rem;
+    text-align: start;
+}
+
+.form-group input,
+.form-group select {
+    background: #E3E5E6;
+    width: 21rem;
+    height: 3.5rem;
+    border: none;
+    border-radius: 5px;
+    padding: 0rem 1rem;
+}
+.form-last{
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    width: 100%;
+    padding: 0;
+}
+ .form-last input{
+    width: 100%;
+    background: #E3E5E6;
+    height: 3.5rem;
+    border: none;
+    border-radius: 5px;
+    padding: 0rem 1rem;
+}
+
+.form-buttons {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 2rem;
+    box-sizing: border-box;
+}
+
+.form-buttons button {
+    font-size: var(--size-lg);
+    width: 10rem;
+    padding: 0.8rem 0rem;
+    border-radius: 3rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.add-btn{
+    background: var(--Green);
+    color: white;
+}
+.add-btn:hover{
+    background: #1d771c;
+}
+.cancel-btn{
+    background: white;
+    border: 1px solid var(--Red);
+    color: var(--Red);
+}
+.cancel-btn:hover{
+    background: var(--Red);
+    color: white;
+}
+
+/* 2xl */
+@media (max-width: 1536px) {
+    .form-group input,
+    .form-group select {
+        background: #E3E5E6;
+        width: 19rem;
+        height: 3.5rem;
+        /* border: 1px solid rgb(27, 156, 59); */
+    }
+    .form-buttons {
+        margin-top: 0rem;
+    }
+    .form-buttons button {
+        font-size: var(--size-lg);
+        width: 9rem;
+        padding: 0.7rem 0rem;
+        border-radius: 3rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+}
+
+@media (max-width: 1380px) {
+
+    .modal-content {
+        padding: 0rem 2rem;
+      }
+
+    .form-group input,
+    .form-group select {
+        background: #E3E5E6;
+        width: 17rem;
+        height: 3.5rem;
+        /* border: 1px solid orange; */
+    }
+
+    .modal-content form{
+        gap: 1rem;
+    }
+
+}
+/* xl */
+@media (max-width: 1280px) {
+
+}
+
+/* lg */
+@media (max-width: 1024px) {
+
+}
+
+/* md */
+@media (max-width: 768px) {
+
+}
+
+/* sm */
+@media (max-width: 640px) {
+
+}
+
+/* xs */
+@media (max-width: 475px) {
+
+}
