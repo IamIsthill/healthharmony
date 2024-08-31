@@ -5,8 +5,9 @@ export function getDepartmentFilter() {
 }
 
 export function getDepartmentId() {
-    const activeDepartment = document.querySelector('.active-department-selector')
-    const id = activeDepartment.getAttribute('data-department-id')
+    // const activeDepartment = document.querySelector('.active-department-selector')
+    const departmentNames = document.querySelector('.js-department-names')
+    const id = departmentNames.value
     return parseInt(id)
 }
 

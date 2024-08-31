@@ -19,46 +19,6 @@
             </select>
         </div>
     </div>
-    <!--                    <div>
-        <h4>Morbidity Cases</h4>
-        <div>
-            <button class="categoryBarFilter" data-category-data="yearly">Past 12 Months</button>
-            <button class="categoryBarFilter" data-category-data="monthly">Past 30 days</button>
-            <button class="categoryBarFilter" data-category-data="weekly">Past 7 days</button>
-        </div>
-        <div id="morbidityBars"></div>
-
-    </div>
-    <hr />
-    <div>
-        <div>
-            <button class="departmentDateFilter active-department-filter" data-patient-data="yearly" data-department-id="1">Past 12 Months</button>
-            <button class="departmentDateFilter" data-patient-data="monthly" data-department-id="1">Past 30 days</button>
-            <button class="departmentDateFilter" data-patient-data="weekly" data-department-id="1">Past 7 days</button>
-        </div>
-        <div>
-            <canvas id="departmentChart"></canvas>
-        </div>
-        <div class="department-options">
-            {% for department in department_names %}
-                {% if forloop.counter == 1 %}
-                    <button class="departmentNames active-department-selector" data-department-id="{{ department.id }}">{{ department.department }}</button>
-                {% else %}
-                    <button class="departmentNames" data-department-id="{{ department.id }}">{{ department.department }}</button>
-                {% endif %}
-            {% endfor %}
-        </div>
-    </div>
-    <hr />
-    <div>
-        <h4>Colleges</h4>
-        <div>
-            <button class="departmentBarFilter" data-category-data="yearly">Past 12 Months</button>
-            <button class="departmentBarFilter" data-category-data="monthly">Past 30 days</button>
-            <button class="departmentBarFilter" data-category-data="weekly">Past 7 days</button>
-        </div>
-        <div id="departmentBars"></div>
-    </div>                    -->
     <div class="morbidity-chart lineChart">
         <div class="top-chart">
             <h4>Patient Report</h4>
@@ -73,21 +33,19 @@
             <canvas id="departmentChart"></canvas>
         </div>
         <div class="department-btn-section">
-            <!--  <div class="label-container">
-                <label for="department">Choose a Department:</label>
-                <select name="department" id="department">
-                    {% for category in categories %}<option value="{{ department.id }}">{{ department }}</option>{% endfor %}
-                </select>
-            </div>  -->
-            {% for department in department_names %}
-                {% if forloop.counter == 1 %}
-                    <button class="departmentNames active-department-selector department-btn"
-                            data-department-id="{{ department.id }}">{{ department.department }}</button>
-                {% else %}
-                    <button class="departmentNames department-btn"
-                            data-department-id="{{ department.id }}">{{ department.department }}</button>
-                {% endif %}
-            {% endfor %}
+            <label>Choose a Department:</label>
+            <select class="js-department-names">
+                {% for department in department_names %}
+                    <option value="{{ department.id }}">{{ department.department }}</option>
+                {% endfor %}
+            </select>
+            {% comment %} {% for department in department_names %}
+        {% if forloop.counter == 1 %}
+          <button class="departmentNames active-department-selector department-btn" data-department-id="{{ department.id }}">{{ department.department }}</button>
+        {% else %}
+          <button class="departmentNames department-btn" data-department-id="{{ department.id }}">{{ department.department }}</button>
+        {% endif %}
+            {% endfor %} {% endcomment %}
         </div>
     </div>
 </div>
