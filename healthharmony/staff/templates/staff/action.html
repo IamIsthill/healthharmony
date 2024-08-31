@@ -36,34 +36,39 @@
     {% endif %}
 {% endblock %}
 {% block main %}
+        <div class="nav-top">
+                    <h2>Actions</h2>
+                    <div class="profile-container">
+                        <img src="{% static 'assets/images/doctor-pics/Miko.jpg' %}"
+                            alt="Profile Picture"
+                            class="profile-pic" />
+                        <div class="profile-info">
+                            <h3>Miko Basilio</h3>
+                            <span>Nurse</span>
+                        </div>
+                        <a href="{% url 'logout' %}">
+                            <div class="logout-container">
+                                <span class="material-symbols-outlined">logout</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
     <div class="nurse-container2">
         {% include 'staff/navbar.html' %}
-        <div class="nav-top">
-            <h2>Actions</h2>
-            <div class="profile-container">
-                <img src="{% static 'assets/images/doctor-pics/Miko.jpg' %}"
-                     alt="Profile Picture"
-                     class="profile-pic" />
-                <div class="profile-info">
-                    <h3>Miko Basilio</h3>
-                    <span>Nurse</span>
-                </div>
-                <a href="{% url 'logout' %}">
-                    <div class="logout-container">
-                        <span class="material-symbols-outlined">logout</span>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div>
+        
+        <!-- MAIN CONTENT -->
+        <main>
+            <div class="bed-section">
             <h3>Bed Monitor</h3>
             <form action="" method="post">
                 {% csrf_token %}
-                <button type="submit">Add New Bed</button>
+                <button class="newBed-btn" type="submit">Add New Bed</button>
             </form>
             {% if beds %}
+            <div class="bedSpace">
                 {% for bed in beds %}
-                    <form action="{% url 'staff-bed-handler' bed.id %}" method="post">
+                
+                    <form class="singleBed" action="{% url 'staff-bed-handler' bed.id %}" method="post">
                         {% csrf_token %}
                         <input type="hidden" name="status" value="{{ bed.status }}" />
                         <h4>Bed {{ forloop.counter }}</h4>
@@ -75,14 +80,16 @@
                             {% endif %}
                         </button>
                     </form>
+                
                 {% empty %}
                 {% endfor %}
+            </div>
             {% else %}
                 <h5>No bed available</h5>
             {% endif %}
         </div>
-        <!-- MAIN CONTENT -->
-        <main>
+        <div class="post-management">
+            <h3>News Feed</h3>
             <div class="container swiper">
                 <div class="slider-wrapper">
                     <div class="card-list swiper-wrapper">
@@ -250,24 +257,7 @@
                     <div class="swiperBtn swiper-button-next"></div>
                 </div>
             </div>
-            <div>
-                {% if beds %}
-                    {% for bed in beds %}
-                        <form action="{% url 'staff-bed-handler' bed.id %}" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="status" value="{{ bed.status }}" />
-                            <h4>Bed {{ forloop.counter }}</h4>
-                            <button type="submit">
-                                {% if bed.status == True %}
-                                    Occupied
-                                {% else %}
-                                    Available
-                                {% endif %}
-                            </button>
-                        </form>
-                    {% endfor %}
-                {% endif %}
-            </div>
+        </div>
         </main>
     </div>
 {% endblock %}
