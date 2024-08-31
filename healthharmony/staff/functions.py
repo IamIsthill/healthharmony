@@ -699,14 +699,11 @@ def fetch_history(Illness, Coalesce, F, Value, IllnessTreatment):
                 else "First Name Last Name"
             )
             data["doctor"] = (
-                f"{doctor.first_name} {doctor.last_name}"
-                if doctor
-                else "First Name Last Name"
+                f"{doctor.first_name} {doctor.last_name}" if doctor else " "
             )
         except Exception as e:
             logger.error(f"Cannot find id: {str(e)}")
-            data["staff"] = "First Name Last Name"
-            data["doctor"] = "First Name Last Name"
+            data["doctor"] = None
 
         # Get the related IllnessTreatment instances
         illness_treatments = IllnessTreatment.objects.filter(

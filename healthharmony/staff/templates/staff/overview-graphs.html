@@ -39,13 +39,6 @@
                     <option value="{{ department.id }}">{{ department.department }}</option>
                 {% endfor %}
             </select>
-            {% comment %} {% for department in department_names %}
-        {% if forloop.counter == 1 %}
-          <button class="departmentNames active-department-selector department-btn" data-department-id="{{ department.id }}">{{ department.department }}</button>
-        {% else %}
-          <button class="departmentNames department-btn" data-department-id="{{ department.id }}">{{ department.department }}</button>
-        {% endif %}
-            {% endfor %} {% endcomment %}
         </div>
     </div>
 </div>
