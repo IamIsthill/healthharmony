@@ -21,11 +21,11 @@ import logging
 from concurrent.futures import as_completed, ThreadPoolExecutor
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
-from healthharmony.bed.models import BedStat
+from healthharmony.models.bed.models import BedStat
 from healthharmony.users.models import User, Department
 from healthharmony.administrator.models import Log, DataChangeLog
-from healthharmony.treatment.models import Illness, IllnessTreatment, Certificate
-from healthharmony.inventory.models import InventoryDetail
+from healthharmony.models.treatment.models import Illness, IllnessTreatment, Certificate
+from healthharmony.models.inventory.models import InventoryDetail
 from healthharmony.base.functions import check_models
 from healthharmony.staff.functions import (
     get_sorted_category,
@@ -54,9 +54,8 @@ from healthharmony.staff.forms import (
     DeleteDepartmentForm,
     EditDepartmentForm,
 )
+from healthharmony.app.settings import env
 
-env = environ.Env()
-environ.Env.read_env(env_file="healthharmony/.env")
 logger = logging.getLogger(__name__)
 
 

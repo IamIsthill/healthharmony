@@ -1,4 +1,4 @@
-from healthharmony.treatment.models import Illness, Certificate
+from healthharmony.models.treatment.models import Illness, Certificate
 
 import logging
 from django.utils import timezone

@@ -7,7 +7,7 @@ import joblib
 import numpy as np
 from django.utils import timezone
 from datetime import timedelta
-from healthharmony.doctor.models import ModelLog
+from healthharmony.models.trained_models.models import ModelLog, Models
 from healthharmony.doctor.functions import train_diagnosis_predictor
 import logging
 
@@ -35,18 +35,20 @@ def check_models():
     - None
     """
     try:
+        # train_diagnosis_predictor()
         # Retrieve all log entries
-        logs = ModelLog.objects.all()
+        diagnosis_predictor = Models.objects.get(model_name="diagnosis_predictor")
+        logs = ModelLog.objects.filter(model_name=diagnosis_predictor)
 
         # Get the first log entry, if any
         first_log = logs.first()
 
-        # Check if logs count is 0
+        # # Check if logs count is 0
         if logs.count() == 0:
             logger.info("No logs found. Training diagnosis predictor.")
             train_diagnosis_predictor()
             # Record that the diagnosis predictor was trained
-            ModelLog.objects.create(model_name="diagnosis predictor")
+            ModelLog.objects.create(model_name=diagnosis_predictor)
             logger.info("Diagnosis Predictor was trained successfully.")
         elif first_log and first_log.update_time:
             # Calculate the time difference
@@ -60,7 +62,7 @@ def check_models():
                 )
                 train_diagnosis_predictor()
                 # Record that the diagnosis predictor was trained
-                ModelLog.objects.create(model_name="diagnosis predictor")
+                ModelLog.objects.create(model_name=diagnosis_predictor)
                 logger.info("Diagnosis Predictor was trained successfully.")
         else:
             return
@@ -200,7 +202,7 @@ def get_prediction(
     except Exception as e:
         logger.error(f"Error in making prediction: {e}")
         messages.error(request, f"Error in making prediction: {e}")
-    return request, predict
+    return request, predict[0]
 
 
 def get_beds(BedStat, messages, request):

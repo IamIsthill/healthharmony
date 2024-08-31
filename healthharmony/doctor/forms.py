@@ -4,8 +4,8 @@ import logging
 from django.core.serializers import serialize
 
 from healthharmony.administrator.models import Log, DataChangeLog
-from healthharmony.inventory.models import InventoryDetail
-from healthharmony.treatment.models import Illness, Category
+from healthharmony.models.inventory.models import InventoryDetail
+from healthharmony.models.treatment.models import Illness, Category
 from healthharmony.users.models import User
 
 logger = logging.getLogger(__name__)

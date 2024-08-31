@@ -37,7 +37,7 @@ def main():
 
 def test_accounts():
     from healthharmony.users.models import User, Department
-    from healthharmony.treatment.models import Illness
+    from healthharmony.models.treatment.models import Illness
 
     last_visit = Illness.objects.filter(patient=OuterRef("pk")).values("added")
     patients = (
@@ -68,7 +68,7 @@ def test_accounts():
 
 
 def test_history_structure():
-    from healthharmony.treatment.models import Illness, IllnessTreatment
+    from healthharmony.models.treatment.models import Illness, IllnessTreatment
     from healthharmony.users.models import User
     from django.db.models import F
     from django.db.models.functions import Coalesce
@@ -136,7 +136,7 @@ def test_history_structure():
 
 def test_department_names():
     from healthharmony.users.models import Department, User
-    from healthharmony.treatment.models import Illness
+    from healthharmony.models.treatment.models import Illness
     from django.db.models import Subquery, OuterRef, Exists, F
 
     # Subquery to check if there are any Illness instances associated with users in the department
@@ -175,7 +175,7 @@ def test_certificates():
 
 
 def test_certificates_chart():
-    from healthharmony.treatment.models import Certificate
+    from healthharmony.models.treatment.models import Certificate
     from django.utils import timezone
     from dateutil.relativedelta import relativedelta
     from healthharmony.staff.functions import (
@@ -212,7 +212,7 @@ def test_certificates_chart():
 
 
 def test_get_visit_records(request):
-    from healthharmony.treatment.models import Illness, IllnessTreatment
+    from healthharmony.models.treatment.models import Illness, IllnessTreatment
     from django.db.models import Q, F, Prefetch
     from django.db.models.functions import Coalesce
     from django.utils.dateparse import parse_datetime
@@ -261,7 +261,7 @@ def test_get_visit_records(request):
 
 
 def count_current_stocks_expired_items():
-    from healthharmony.inventory.models import InventoryDetail
+    from healthharmony.models.inventory.models import InventoryDetail
 
     try:
         inventory_data = (
@@ -324,7 +324,7 @@ def test_medcert_percents():
     from django.utils import timezone
     from dateutil.relativedelta import relativedelta
 
-    from healthharmony.treatment.models import Certificate
+    from healthharmony.models.treatment.models import Certificate
 
     now = timezone.now()
     previous_month = now - relativedelta(months=1)
@@ -353,7 +353,7 @@ def test_medcert_percents():
 
 def test_query_inventory_data_structure(request):
     from healthharmony.staff.functions import get_inventory_data
-    from healthharmony.inventory.models import InventoryDetail
+    from healthharmony.models.inventory.models import InventoryDetail
 
     inventory = (
         InventoryDetail.objects.all()
@@ -378,7 +378,7 @@ def test_inventory_list_function(request):
 
 
 def test_chart_inventory_structure(request):
-    from healthharmony.inventory.models import InventoryDetail
+    from healthharmony.models.inventory.models import InventoryDetail
     from django.contrib import messages
     from django.utils import timezone
     from datetime import timedelta
@@ -442,7 +442,7 @@ def test_chart_inventory_structure(request):
 
 
 def test_diagnosis_predictor():
-    from healthharmony.treatment.models import Illness
+    from healthharmony.models.treatment.models import Illness
 
     data = Illness.objects.all().values("pk", "issue", "diagnosis")
     logger.info("Illness data was successfully fetched.")

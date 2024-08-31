@@ -1,10 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-import environ
 from django.db.models import Prefetch
 import threading
 
-from healthharmony.treatment.models import Illness, IllnessTreatment
+from healthharmony.models.treatment.models import Illness, IllnessTreatment
 from healthharmony.patient.forms import UpdateProfileInfo
 
 from healthharmony.patient.functions import (
@@ -13,6 +12,7 @@ from healthharmony.patient.functions import (
     fetch_overview_data,
 )
 from healthharmony.base.functions import check_models
+from healthharmony.app.settings import env
 
 
 # Create your views here.
@@ -23,9 +23,6 @@ def overview_view(request):
     # set session data
     if "email" not in request.session:
         request.session["email"] = request.user.email
-
-    env = environ.Env()
-    environ.Env.read_env(env_file="healthharmony/.env")
 
     context = {}
 

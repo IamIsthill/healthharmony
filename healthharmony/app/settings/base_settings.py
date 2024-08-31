@@ -1,5 +1,11 @@
 from healthharmony.app.settings import BASE_DIR
 
+SECRET_KEY = NotImplemented
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False
+
+ALLOWED_HOSTS = []
 
 AUTHENTICATION_BACKENDS = {
     "django.contrib.auth.backends.ModelBackend",
@@ -18,12 +24,13 @@ INSTALLED_APPS = [
     # apps
     "healthharmony.users.apps.UsersConfig",
     "healthharmony.base.apps.BaseConfig",
-    "healthharmony.bed.apps.BedConfig",
+    "healthharmony.models.bed.apps.BedConfig",
     "healthharmony.api.apps.ApiConfig",
     "healthharmony.administrator.apps.AdministratorConfig",
-    "healthharmony.inventory.apps.InventoryConfig",
-    "healthharmony.blood.apps.BloodConfig",
-    "healthharmony.treatment.apps.TreatmentConfig",
+    "healthharmony.models.inventory.apps.InventoryConfig",
+    "healthharmony.models.blood.apps.BloodConfig",
+    "healthharmony.models.treatment.apps.TreatmentConfig",
+    "healthharmony.models.trained_models.apps.TrainedModelsConfig",
     "healthharmony.patient.apps.PatientConfig",
     "healthharmony.staff.apps.StaffConfig",
     "healthharmony.doctor.apps.DoctorConfig",
@@ -60,6 +67,7 @@ DEBUG_TOOLBAR_PANELS = [
 MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware",  # debug_toolbar
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # for serving static files in production
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",

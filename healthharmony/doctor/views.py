@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 
-from healthharmony.treatment.models import Illness, IllnessTreatment
+from healthharmony.models.treatment.models import Illness, IllnessTreatment
 from healthharmony.users.models import User
 from healthharmony.doctor.forms import UpdateIllness
 from healthharmony.patient.functions import update_patient_view_context
@@ -157,15 +157,21 @@ def overview_view(request):
 
 
 def illness_to_dict(illness):
+    if illness.patient is None:
+        logger.warning(f"Illness {illness.id} has no associated patient.")
+    if illness.staff is None:
+        logger.warning(f"Illness {illness.id} has no associated staff.")
+    if illness.doctor is None:
+        logger.warning(f"Illness {illness.id} has no associated doctor.")
     return {
         "id": illness.id,
         "patient": illness.patient.first_name + " " + illness.patient.last_name,
-        "patient_id": illness.patient.id,
+        "patient_id": illness.patient.id if illness.patient.id else None,
         "issue": illness.issue,
         "diagnosis": illness.diagnosis,
-        # "category": illness.illness_category.category or ' ',
-        "staff": illness.staff.id,
-        "doctor": illness.doctor.id,
+        # "category": illness.illness_category.category if illness.illness_category.category else ' ',
+        "staff": illness.staff.id if illness.staff.id else None,
+        # "doctor": illness.doctor.id if illness.doctor.id else None,
         "added": illness.added,
         "updated": illness.updated,
         # "treatments": [
@@ -187,7 +193,7 @@ def treatment_to_dict(treatment):
 
 @api_view(["GET"])
 def get_predicted_diagnosis(request):
-    issue = request.query_params.get("issue", "")
+    issue = request.query_params.get("issue")
 
     diagnosis = predict_diagnosis(issue)
     return JsonResponse(diagnosis, safe=False)

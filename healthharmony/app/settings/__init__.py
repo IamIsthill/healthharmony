@@ -8,14 +8,14 @@ logger = logging.getLogger(__name__)
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 
 env = environ.Env()
-environ.Env.read_env(env_file="healthharmony/.env")
+environ.Env.read_env(env_file=".env")
 
 try:
     PROD = env.bool("PROD", default=False)
     logger.info(f"PROD environment variable is set to: {PROD}")
 
     SETTINGS_PATH = (
-        BASE_DIR / "prod/settings.prod.py"
+        BASE_DIR / "local/settings.prod.py"
         if PROD
         else BASE_DIR / "local/settings.dev.py"
     )
@@ -27,7 +27,7 @@ try:
         "email.py",
         "logging.py",
         "static.py",
-        SETTINGS_PATH,
+        optional(SETTINGS_PATH),
     )
 
 except Exception as e:

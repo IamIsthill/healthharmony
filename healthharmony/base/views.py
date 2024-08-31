@@ -15,10 +15,8 @@ from healthharmony.base.functions import (
 )
 
 # Models
-from healthharmony.bed.models import BedStat
-
-env = environ.Env()
-environ.Env.read_env(env_file="healthharmony/.env")
+from healthharmony.models.bed.models import BedStat
+from healthharmony.app.settings import env
 
 
 # Create your views here.
@@ -82,7 +80,7 @@ def home(request):
         context = {
             "temp": temp,
             "feels": feels,
-            "predict": predict[0],
+            "predict": predict,
             "icon": icon,
             "beds": beds,
         }

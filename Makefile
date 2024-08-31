@@ -37,7 +37,7 @@ seed:
 
 .PHONY: lint
 lint:
-	poetry run pre-commit run --all-files
+	poetry run pre-commit run
 
 .PHONY: install-pre-commit
 install-pre-commit:
@@ -102,3 +102,7 @@ test-users:
 .PHONY: test-inventory
 test-inventory:
 	poetry run python -m healthharmony.manage test healthharmony.inventory
+
+.PHONY: static
+static:
+	poetry run python -m healthharmony.manage collectstatic --noinput

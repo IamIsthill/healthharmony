@@ -12,8 +12,8 @@ from healthharmony.base.functions import (
 
 from allauth.socialaccount.models import SocialAccount
 from healthharmony.users.models import User
-from healthharmony.treatment.models import Illness, DoctorDetail
-from healthharmony.bed.models import BedStat
+from healthharmony.models.treatment.models import Illness, DoctorDetail
+from healthharmony.models.bed.models import BedStat
 from healthharmony.administrator.models import Log
 
 
