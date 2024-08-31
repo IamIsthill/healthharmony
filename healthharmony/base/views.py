@@ -80,7 +80,7 @@ def home(request):
         context = {
             "temp": temp,
             "feels": feels,
-            "predict": predict[0],
+            "predict": predict,
             "icon": icon,
             "beds": beds,
         }
