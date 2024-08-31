@@ -210,10 +210,12 @@ function createTrendsBarCanvas(trendCategory, trendFilter) {
             const inventoryItem = getInventoryItem(item.id, filteredInventoryData)
             let quantity = inventoryItem ? inventoryItem.total_quantity : 0
             html += `
-                <div class="bars">
-                    <h5>${item.item_name}</h5>
-                    <h4>${quantity}</h4>
-                    <div>
+                <div >
+                    <div class="barsTop">
+                        <h5>${item.item_name}</h5>
+                        <h4>${quantity}</h4>
+                    </div>
+                    <div class="bars">
                         <canvas id="trends-bar-${item.id}"></canvas>
                     </div>
                 </div>
@@ -361,12 +363,12 @@ function updateInventoryTable(inventory) {
         for (const data of inventory) {
             html += `
                 <tr>
-                    <td class="table-data">${data.item_name}</td>
-                    <td class="table-data">${data.category}</td>
-                    <td class="table-data">${ data.total_quantity }</td>
-                    <td class="table-data">${ data.expiration_date }</td>
-                    <td class="table-data js-inventory-btn btn" data-id="${data.id}">View</td>
-                    <td class="table-data js-inventory-delete-btn btn" data-id="${data.id}">Delete</td>
+                    <td class="table-data item-column">${data.item_name}</td>
+                    <td class="table-data cat-column">${data.category}</td>
+                    <td class="table-data total-column">${ data.total_quantity }</td>
+                    <td class="table-data exp-column">${ data.expiration_date }</td>
+                    <td class="table-data js-inventory-btn btn view-column" data-id="${data.id}">View</td>
+                    <td class="table-data js-inventory-delete-btn btn delete-column" data-id="${data.id}">Delete</td>
                 </tr>
 
             `

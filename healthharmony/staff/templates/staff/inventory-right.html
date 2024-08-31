@@ -1,39 +1,26 @@
 {% load static %}
-<div class="right-part">
-    {% include 'staff/profile-right.html' %}
-    <div class="right">
-        <div class="top">
-            <div>
-                <h2>Inventory Chart</h2>
-            </div>
-            <div>
-                <h4>Medicines</h4>
-            </div>
-            <div>
-                <h4>Supply</h4>
-            </div>
+<div class="right-part-inv">
+    <div class="inventory-bar">
+        <div class="top">  
+                <h3>Inventory Chart</h3>    
         </div>
         <div>
-            <div>
                 <canvas id="inventory-chart"></canvas>
-            </div>
         </div>
     </div>
-    <div class="right">
-        <div>
+    <div class="Bar">
             <h4>Trends</h4>
-            <div>
-                <button class="js-seasonal-bar-filter js-seasonal-bar-filter-active"
+            <div class="bar-btn-section">
+                <button class="js-seasonal-bar-filter js-seasonal-bar-filter-active bar-btn bar-btn-active"
                         data-filter="weekly">7 Days</button>
-                <button class="js-seasonal-bar-filter" data-filter="monthly">30 Days</button>
-                <button class="js-seasonal-bar-filter" data-filter="yearly">12 Months</button>
+                <button class="js-seasonal-bar-filter bar-btn" data-filter="monthly">30 Days</button>
+                <button class="js-seasonal-bar-filter bar-btn" data-filter="yearly">12 Months</button>
             </div>
-        </div>
-        <div id="bar-space" class="bar-space"></div>
-        <div>
-            <button class="js-seasonal-bar-category js-seasonal-bar-category-active"
+        <div id="bar-space" class="bar-space bar-data"></div>
+        <div class="bottom-cat-section">
+            <button class="js-seasonal-bar-category js-seasonal-bar-category-active bottom-cat-btn bottom-cat-btn-active"
                     data-filter="Medicine">Medicine</button>
-            <button class="js-seasonal-bar-category" data-filter="Supply">Suppy</button>
+            <button class="js-seasonal-bar-category bottom-cat-btn" data-filter="Supply">Supply</button>
         </div>
     </div>
 </div>

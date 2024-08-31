@@ -36,10 +36,10 @@ export function createInventoryChart(labels, counts, categoryName, createChart) 
         datasets: [{
             label: categoryName,
             data: counts,
-            borderWidth: 1,
+            borderWidth: 2,
             indexAxis: 'x',
-            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Simplified background color for line chart
-            borderColor: 'rgba(75, 192, 192, 1)', // Adding border color for better visualization
+            backgroundColor: 'rgba(32, 43, 55, 0.2)', // Simplified background color for line chart
+            borderColor: 'rgba(32, 43, 55, 1)', // Adding border color for better visualization
             fill: false,
             tension: 0.5
         }]
@@ -58,22 +58,8 @@ export function createInventoryChart(labels, counts, categoryName, createChart) 
             }
         },
         scales: {
-            x: {
-                grid: {
-                    display: false // This removes the grid lines on the x-axis
-                },
-                ticks: {
-                    font: {
-                        family: 'Arial', // Web-safe font
-                        size: 10,
-                        weight: 'bold',
-                        style: 'normal'
-                    }
-                }
-            },
             y: {
                 beginAtZero: true, // Ensure y-axis starts from 0
-                display: false
             }
         }
     }
