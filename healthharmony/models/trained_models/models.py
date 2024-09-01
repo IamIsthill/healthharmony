@@ -15,7 +15,7 @@ class ModelLog(models.Model):
     update_time = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.model_name
+        return self.model_name.model_name
 
     class Meta:
         ordering = ["-update_time"]

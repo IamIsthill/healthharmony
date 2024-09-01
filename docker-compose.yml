@@ -1,0 +1,8 @@
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    ports:
+      - '8080:8080'
+    develop:
+      command: poetry run daphne -p 8080 -b 0.0.0.0 healthharmony.app.asgi:application --noreload
