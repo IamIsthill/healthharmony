@@ -59,6 +59,7 @@
     {% endif %}
 {% endblock %}
 {% block main %}
+
 <div class="nav-top">
     <h2>Record</h2>
     <div class="profile-container">
@@ -76,9 +77,10 @@
         </a>
     </div>
 </div>
+
     <div class="nurse-container2">
         {% include 'staff/navbar.html' %}
-        <div>
+        <main>
             <div class="visit-history">
              
                 <table>
@@ -112,7 +114,15 @@
                         </tr>
                         <tr>
                             <th colspan="5">
-                                <div class="header-content2">
+                                <div class="header-content">
+                                    <div class="category-buttons">
+                                        <button class="visit-record_cat-active inventory-category js-inventory-category js-inventory-category-active"
+                                                data-sorter="0">All</button>
+                                        <button class="visit-record_cat inventory-category js-inventory-category"
+                                                data-sorter="1">Ongoing</button>
+                                        <button class="visit-record_cat inventory-category js-inventory-category"
+                                                data-sorter="2">Finished</button>
+                                    </div>
                                     <div class="add-record">
                                         <button id="addRecordBtn" class="add-record-btn">Add Record</button>
                                     </div>
@@ -177,54 +187,84 @@
 
 
             <div class="lower">
-                <div class="left">
-                    <h4>Request Summary</h4>
-                    <div class="main-content">
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Email</th>
-                                    <th>Requester</th>
-                                    <th>Purpose</th>
-                                    <th>Date Requested</th>
+                                    <th colspan="4">
+                                        <div class="header-content">
+                                            <h1>Request Summary</h1>
+                                            <div class="search-container">
+                                                <input type="text"
+                                                       class="js-inventory-search-container"
+                                                       id="search-field"
+                                                       placeholder="Search..." />
+                                                <button class="js-inventory-search-btn">
+                                                    <span class="material-symbols-outlined">search</span>
+                                                </button>
+                                            </div>
+                                            <div class="sort-by">
+                                                <span>Sort By:</span>
+                                                <select id="inventory-sort-select" class="js-inventory-sort-select">
+                                                    <option value="name">Name</option>
+                                                    <option value="date">Expiry Date</option>
+                                                    <option value="stock">Stock</option>
+                                                </select>
+                                                <button class="js-inventory-direction" data-sort='asc'><span class="material-symbols-outlined">
+                                                    sort_by_alpha
+                                                    </span></button>
+                                            </div>
+                                        </div>
+                                    </th>
+                                </tr>
+
+                                <tr>
+                                    <th colspan="4">
+                                        <div class="header-content">
+                                            <div class="category-buttons">
+                                                <button class="js-request-status-filter visit-record_cat-active" data-filter="">All</button>
+                                                <button class="js-request-status-filter visit-record_cat" data-filter="false">Pending</button>
+                                                <button class="js-request-status-filter visit-record_cat" data-filter="true">Released</button>
+                                            </div>
+
+                                            {% if certificates_page.has_other_pages %}
+                                                <div class="pagination">
+                                                    <span class="step-links">
+                                                        {% if certificates_page.has_previous %}
+                                                            <a href="?cert-page=1" class="js-links">&laquo; First</a>
+                                                            <a href="?cert-page={{ certificates_page.previous_page_number }}"
+                                                            class="js-links">Previous</a>
+                                                        {% endif %}
+                                                        <span class="current">Page {{ certificates_page.number }} of {{ certificates_page.paginator.num_pages }}.</span>
+                                                        {% if certificates_page.has_next %}
+                                                            <a href="?cert-page={{ certificates_page.next_page_number }}"
+                                                            class="js-links">Next</a>
+                                                            <a href="?cert-page={{ certificates_page.paginator.num_pages }}"
+                                                            class="js-links">Last &raquo;</a>
+                                                        {% endif %}
+                                                    </span>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th class="table-head">Email</th>
+                                    <th class="table-head">Requester</th>
+                                    <th class="table-head">Purpose</th>
+                                    <th class="table-head">Date Requested</th>
                                 </tr>
                             </thead>
                             <tbody class="request-body js-request-body">
                                 {% for certificate in certificates_page %}
                                     <tr>
-                                        <td>{{ certificate.email }}</td>
-                                        <td>{{ certificate.first_name }} {{ certificate.last_name }}</td>
-                                        <td>{{ certificate.purpose|truncatechars:60 }}</td>
-                                        <td class="js-cert-date">{{ certificate.requested }}</td>
+                                        <td class="table-data">{{ certificate.email }}</td>
+                                        <td class="table-data">{{ certificate.first_name }} {{ certificate.last_name }}</td>
+                                        <td class="table-data">{{ certificate.purpose|truncatechars:60 }}</td>
+                                        <td class="table-data js-cert-date">{{ certificate.requested }}</td>
                                     </tr>
                                 {% endfor %}
-                            </tbody>
-                            {% if certificates_page.has_other_pages %}
-                                <div class="pagination">
-                                    <span class="step-links">
-                                        {% if certificates_page.has_previous %}
-                                            <a href="?cert-page=1" class="js-links">&laquo; First</a>
-                                            <a href="?cert-page={{ certificates_page.previous_page_number }}"
-                                               class="js-links">Previous</a>
-                                        {% endif %}
-                                        <span class="current">Page {{ certificates_page.number }} of {{ certificates_page.paginator.num_pages }}.</span>
-                                        {% if certificates_page.has_next %}
-                                            <a href="?cert-page={{ certificates_page.next_page_number }}"
-                                               class="js-links">Next</a>
-                                            <a href="?cert-page={{ certificates_page.paginator.num_pages }}"
-                                               class="js-links">Last &raquo;</a>
-                                        {% endif %}
-                                    </span>
-                                </div>
-                            {% endif %}
+                        </tbody>
                         </table>
-                    </div>
-                    <div>
-                        <button class="js-request-status-filter" data-filter="">All</button>
-                        <button class="js-request-status-filter" data-filter="false">Pending</button>
-                        <button class="js-request-status-filter" data-filter="true">Released</button>
-                    </div>
-                </div>
                 <div class="right">
                     <div>
                         <button class="js-request-date-filter js-request-date-active"
@@ -237,7 +277,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
     </div>
     <div class="modals">
          <!-- The Modal -->
