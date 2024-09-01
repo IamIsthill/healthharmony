@@ -1,8 +1,9 @@
-from healthharmony.app.settings import BASE_DIR
+from healthharmony.app.settings import BASE_DIR, env
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+if not env.bool("PROD"):
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}

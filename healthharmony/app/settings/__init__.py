@@ -27,7 +27,7 @@ try:
         "email.py",
         "logging.py",
         "static.py",
-        optional(SETTINGS_PATH),
+        SETTINGS_PATH,
     )
 
 except Exception as e:

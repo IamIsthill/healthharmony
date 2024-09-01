@@ -17,11 +17,16 @@ export function createViewIllnessBody(data) {
         <h4>Patient Name: ${data.first_name} ${data.last_name}</h4>
         <h4>Patient's Claim: ${data.issue}</h4>
         <h4>Added by: ${data.staff}</h4>
-        <h4>Diagnosis: ${data.diagnosis}</h4>
-        <h4>Diagnosed by: ${data.doctor}</h4>
-        <h4>${treatment}</h4>
-        <button class="js-close-view-illness-modal">Close</button>
     `
+    if (data.doctor) {
+        html += `
+            <h4>Diagnosis: ${data.diagnosis}</h4>
+            <h4>Diagnosed by: ${data.doctor}</h4>
+            <h4>${treatment}</h4>
+        `
+    }
+
+    html += '<button class="js-close-view-illness-modal">Close</button>'
     modalBody.innerHTML = html
 }
 
