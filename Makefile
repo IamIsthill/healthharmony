@@ -106,3 +106,8 @@ test-inventory:
 .PHONY: static
 static:
 	poetry run python -m healthharmony.manage collectstatic --noinput
+
+.PHONY: deploy
+deploy:
+	chmod a+x ./scripts/deploy.sh
+	./scripts/deploy.sh

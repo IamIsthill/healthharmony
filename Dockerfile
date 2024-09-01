@@ -28,18 +28,9 @@ COPY local /app/local
 COPY healthharmony /app/healthharmony
 
 COPY .env /app/
-COPY db.sqlite3 /app/
-COPY node_modules /app/
-
-# Run Django migrations
-RUN poetry run python -m healthharmony.manage migrate
-
-
 
 # Expose the port the app runs on
-EXPOSE 8080
-
-RUN poetry run python -m healthharmony.manage collectstatic --noinput
+EXPOSE 8000
 
 # Start the Django server
-ENTRYPOINT ["poetry", "run", "daphne", "-p", "8080", "-b", "0.0.0.0", "healthharmony.app.asgi:application"]
+ENTRYPOINT ["poetry", "run", "daphne", "-p", "8000", "-b", "0.0.0.0", "healthharmony.app.asgi:application"]
