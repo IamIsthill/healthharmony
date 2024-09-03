@@ -13,13 +13,6 @@
     font-weight: 500;
     margin-bottom: 2rem;
   }
-  .close {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    color: var(--Red);
-    cursor: pointer;
-}
 .modal-content form{
     display: flex;
     flex-direction: column;

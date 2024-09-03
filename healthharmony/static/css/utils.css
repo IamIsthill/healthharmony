@@ -237,7 +237,13 @@
   color: white;
 }
 /* POP UP ERROR */
-
+.close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: var(--Red);
+  cursor: pointer;
+}
 /* POP UP SUCCESS AND ERROR ADDING VISIT RECORD */
 .popUp-visit{
   border: 1px solid black;

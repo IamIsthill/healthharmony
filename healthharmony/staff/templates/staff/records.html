@@ -8,10 +8,11 @@
     <link rel="stylesheet" href="{% static 'css/clinic/record-main.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/clinic/overview.css' %}" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
           rel="stylesheet" />
-    <style>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+          rel="stylesheet" />
+    <!-- <style>
     /* The Modal (background) */
     .modal {
       display: none; /* Hidden by default */
@@ -49,7 +50,7 @@
       text-decoration: none;
       cursor: pointer;
     }
-    </style>
+    </style> -->
 {% endblock %}
 {% block message %}
     {% if messages|has_error_message %}
@@ -60,58 +61,80 @@
     {% include 'staff/nav-top.html' %}
     <div class="nurse-container2">
         {% include 'staff/navbar.html' %}
-        <div>
-            <h3>Visit and Request History</h3>
-            <div class="upper">
-                <h4>Visit History</h4>
-                <div>
-                    <button id="addRecordBtn">Add Record</button>
-                    <!-- The Modal -->
-                    <div class="modal js-add-record-modal">
-                        <!-- Modal content -->
-                        <div class="modal-content">
-                            <span class="js-close-add-record">&times;</span>
-                            <form action="{% url 'create-patient-add-issue' %}" method="post">
-                                {% csrf_token %}
-                                <label for="">Patient Email</label>
-                                <input type="text" name="email" list="patients" />
-                                <datalist id="patients"></datalist>
-                                <label for="">Issue</label>
-                                <input type="text" name="issue" />
-                                <button type="submit">Add Complaint</button>
-                                <button type="button" class="js-close-add-record">Cancel</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+        <main>
+            <div class="visit-history">
                 <table>
                     <thead>
                         <tr>
-                            <th class="table-head">Date and Time of Visit</th>
-                            <th class="table-head">Patient</th>
-                            <th class="table-head">Concern</th>
-                            <th class="table-head">Status</th>
-                            <th class="table-head" colspan="2">Action</th>
+                            <th colspan="5">
+                                <div class="header-content">
+                                    <h1>Visit History</h1>
+                                    <div class="search-container">
+                                        <input type="text"
+                                               class="js-inventory-search-container"
+                                               id="search-field"
+                                               placeholder="Search..." />
+                                        <button class="js-inventory-search-btn">
+                                            <span class="material-symbols-outlined">search</span>
+                                        </button>
+                                    </div>
+                                    <div class="sort-by">
+                                        <span>Sort By:</span>
+                                        <select id="inventory-sort-select" class="js-inventory-sort-select">
+                                            <option value="name">Name</option>
+                                            <option value="date">Expiry Date</option>
+                                            <option value="stock">Stock</option>
+                                        </select>
+                                        <button class="js-inventory-direction" data-sort='asc'>
+                                            <span class="material-symbols-outlined">sort_by_alpha</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="5">
+                                <div class="header-content">
+                                    <div class="category-buttons">
+                                        <button class="visit-record_cat-active inventory-category js-inventory-category js-inventory-category-active"
+                                                data-sorter="0">All</button>
+                                        <button class="visit-record_cat inventory-category js-inventory-category"
+                                                data-sorter="1">Ongoing</button>
+                                        <button class="visit-record_cat inventory-category js-inventory-category"
+                                                data-sorter="2">Finished</button>
+                                    </div>
+                                    <div class="add-record">
+                                        <button id="addRecordBtn" class="add-record-btn">Add Record</button>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th class="table-head date-column-head">Date and Time</th>
+                            <th class="table-head patient-column-head">Patient</th>
+                            <th class="table-head concern-column-head">Concern</th>
+                            <th class="table-head status-column-head">Status</th>
+                            <th class="table-head action-column-head" colspan="2">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% if history %}
                             {% for data in history %}
                                 <tr>
-                                    <td class="table-data date" data="date-{{ data.id }}">{{ data.added }}</td>
-                                    <td class="table-data">{{ data.first_name }} {{ data.last_name }}</td>
-                                    <td class="table-data">{{ data.issue|truncatechars:60 }}</td>
-                                    <td class="table-data">
+                                    <td class="table-data date date-column" data="date-{{ data.id }}">{{ data.added }}</td>
+                                    <td class="table-data patient-column">{{ data.first_name }} {{ data.last_name }}</td>
+                                    <td class="table-data concern-column">{{ data.issue|truncatechars:60 }}</td>
+                                    <td class="table-data status-column">
                                         {% if data.diagnosis %}
                                             Finished
                                         {% else %}
                                             Ongoing
                                         {% endif %}
                                     </td>
-                                    <td class="table-data js-view-illness-btn"
+                                    <td class="table-data view-column js-view-illness-btn"
                                         data-illness-id="{{ data.id }}">View Illness</td>
-                                    <td class="table-data js-view-patient"
-                                        data-patient-id="{{ data.patient }}">Go to Patient Profile</td>
+                                    <td class="table-data profile-column js-view-patient"
+                                        data-patient-id="{{ data.patient }}">Visit Profile</td>
                                 </tr>
                             {% empty %}
                                 <tr>
@@ -142,69 +165,117 @@
                 </table>
             </div>
             <div class="lower">
-                <div class="left">
-                    <h4>Request Summary</h4>
-                    <div class="main-content">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Email</th>
-                                    <th>Requester</th>
-                                    <th>Purpose</th>
-                                    <th>Date Requested</th>
-                                </tr>
-                            </thead>
-                            <tbody class="request-body js-request-body">
-                                {% for certificate in certificates_page %}
-                                    <tr>
-                                        <td>{{ certificate.email }}</td>
-                                        <td>{{ certificate.first_name }} {{ certificate.last_name }}</td>
-                                        <td>{{ certificate.purpose|truncatechars:60 }}</td>
-                                        <td class="js-cert-date">{{ certificate.requested }}</td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                            {% if certificates_page.has_other_pages %}
-                                <div class="pagination">
-                                    <span class="step-links">
-                                        {% if certificates_page.has_previous %}
-                                            <a href="?cert-page=1" class="js-links">&laquo; First</a>
-                                            <a href="?cert-page={{ certificates_page.previous_page_number }}"
-                                               class="js-links">Previous</a>
-                                        {% endif %}
-                                        <span class="current">Page {{ certificates_page.number }} of {{ certificates_page.paginator.num_pages }}.</span>
-                                        {% if certificates_page.has_next %}
-                                            <a href="?cert-page={{ certificates_page.next_page_number }}"
-                                               class="js-links">Next</a>
-                                            <a href="?cert-page={{ certificates_page.paginator.num_pages }}"
-                                               class="js-links">Last &raquo;</a>
-                                        {% endif %}
-                                    </span>
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="4">
+                                <div class="header-content">
+                                    <h1>Request Summary</h1>
+                                    <div class="search-container">
+                                        <input type="text"
+                                               class="js-inventory-search-container"
+                                               id="search-field"
+                                               placeholder="Search..." />
+                                        <button class="js-inventory-search-btn">
+                                            <span class="material-symbols-outlined">search</span>
+                                        </button>
+                                    </div>
+                                    <div class="sort-by">
+                                        <span>Sort By:</span>
+                                        <select id="inventory-sort-select" class="js-inventory-sort-select">
+                                            <option value="name">Name</option>
+                                            <option value="date">Expiry Date</option>
+                                            <option value="stock">Stock</option>
+                                        </select>
+                                        <button class="js-inventory-direction" data-sort='asc'>
+                                            <span class="material-symbols-outlined">sort_by_alpha</span>
+                                        </button>
+                                    </div>
                                 </div>
-                            {% endif %}
-                        </table>
-                    </div>
-                    <div>
-                        <button class="js-request-status-filter" data-filter="">All</button>
-                        <button class="js-request-status-filter" data-filter="false">Pending</button>
-                        <button class="js-request-status-filter" data-filter="true">Released</button>
-                    </div>
-                </div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="4">
+                                <div class="header-content">
+                                    <div class="category-buttons">
+                                        <button class="js-request-status-filter visit-record_cat-active"
+                                                data-filter="">All</button>
+                                        <button class="js-request-status-filter visit-record_cat" data-filter="false">Pending</button>
+                                        <button class="js-request-status-filter visit-record_cat" data-filter="true">Released</button>
+                                    </div>
+                                    {% if certificates_page.has_other_pages %}
+                                        <div class="pagination">
+                                            <span class="step-links">
+                                                {% if certificates_page.has_previous %}
+                                                    <a href="?cert-page=1" class="js-links">&laquo; First</a>
+                                                    <a href="?cert-page={{ certificates_page.previous_page_number }}"
+                                                       class="js-links">Previous</a>
+                                                {% endif %}
+                                                <span class="current">Page {{ certificates_page.number }} of {{ certificates_page.paginator.num_pages }}.</span>
+                                                {% if certificates_page.has_next %}
+                                                    <a href="?cert-page={{ certificates_page.next_page_number }}"
+                                                       class="js-links">Next</a>
+                                                    <a href="?cert-page={{ certificates_page.paginator.num_pages }}"
+                                                       class="js-links">Last &raquo;</a>
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th class="table-head">Email</th>
+                            <th class="table-head">Requester</th>
+                            <th class="table-head">Purpose</th>
+                            <th class="table-head">Date Requested</th>
+                        </tr>
+                    </thead>
+                    <tbody class="request-body js-request-body">
+                        {% for certificate in certificates_page %}
+                            <tr>
+                                <td class="table-data">{{ certificate.email }}</td>
+                                <td class="table-data">{{ certificate.first_name }} {{ certificate.last_name }}</td>
+                                <td class="table-data">{{ certificate.purpose|truncatechars:60 }}</td>
+                                <td class="table-data js-cert-date">{{ certificate.requested }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
                 <div class="right">
-                    <div>
-                        <button class="js-request-date-filter js-request-date-active"
-                                data-filter="weekly">Last 7 days</button>
-                        <button class="js-request-date-filter" data-filter="monthly">Last 30 days</button>
-                        <button class="js-request-date-filter" data-filter="yearly">Last 12 months</button>
-                    </div>
                     <div class="bar-space">
+                        <h2>Something Bar</h2>
+                        <div>
+                            <button class="js-request-date-filter js-request-date-active"
+                                    data-filter="weekly">Last 7 days</button>
+                            <button class="js-request-date-filter" data-filter="monthly">Last 30 days</button>
+                            <button class="js-request-date-filter" data-filter="yearly">Last 12 months</button>
+                        </div>
                         <canvas id="requestBar"></canvas>
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
     </div>
     <div class="modals">
+        <!-- The Modal -->
+        <div class="modal js-add-record-modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <h1>Add Record</h1>
+                <span class="material-symbols-outlined close js-close-add-record">cancel</span>
+                <form action="{% url 'create-patient-add-issue' %}" method="post">
+                    {% csrf_token %}
+                    <label for="">Patient Email</label>
+                    <input type="text" name="email" list="patients" />
+                    <datalist id="patients"></datalist>
+                    <label for="">Issue</label>
+                    <input type="text" name="issue" />
+                    <button type="submit">Add Complaint</button>
+                    <button type="button" class="js-close-add-record">Cancel</button>
+                </form>
+            </div>
+        </div>
         <div id="viewIllnessModal" class="modal">
             <div class="modal-content">
                 <span class="js-close-view-illness-modal">&times;</span>

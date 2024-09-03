@@ -100,7 +100,7 @@ button{
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 1001; /* Sit on top */
+  z-index: 1002; /* Sit on top */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -110,6 +110,7 @@ button{
   background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 .small-modal{
+    position: relative;
     margin: 2% auto; /* 15% from the top and centered */
     border: 1px solid #888;
     border-radius: 1rem;
