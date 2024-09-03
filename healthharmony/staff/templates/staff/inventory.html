@@ -13,7 +13,7 @@
           rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
           rel="stylesheet" />
-    <!-- <style>
+    <!--   <style>
         .btn {
             cursor: pointer;
         }
@@ -53,31 +53,15 @@
             text-decoration: none;
             cursor: pointer;
           }
-    </style> -->
+    </style>   -->
 {% endblock %}
 {% block message %}
     {% if messages|has_error_message %}
         {% include 'error.html' %}
     {% endif %}
-{% endblock message %}
+{% endblock %}
 {% block main %}
-    <div class="nav-top">
-        <h2>Inventory</h2>
-        <div class="profile-container">
-            <img src="{% static 'assets/images/doctor-pics/Miko.jpg' %}"
-                 alt="Profile Picture"
-                 class="profile-pic" />
-            <div class="profile-info">
-                <h3>Miko Basilio</h3>
-                <span>Nurse</span>
-            </div>
-            <a href="{% url 'logout' %}">
-                <div class="logout-container">
-                    <span class="material-symbols-outlined">logout</span>
-                </div>
-            </a>
-        </div>
-    </div>
+    {% include 'staff/nav-top.html' %}
     <div class="nurse-container">
         {% include 'staff/navbar.html' %}
         <main class="staff-main">
@@ -104,7 +88,7 @@
                                             <option value="date">Expiry Date</option>
                                             <option value="stock">Stock</option>
                                         </select>
-                                        <button class="js-inventory-direction" data-sort='asc'>
+                                        <button class="js-inventory-direction" data-sort="asc">
                                             <span class="material-symbols-outlined">sort_by_alpha</span>
                                         </button>
                                     </div>
@@ -236,7 +220,7 @@
         <div class="modal-content">
             <span class="js-close-update-inventory-btn">&times;</span>
             <form action="" method="post" class="form-body">
-                {% csrf_token class="token" %}
+                {% csrf_token class='token' %}
                 <div class="form-top">
                     <div class="form-group">
                         <label for="item_name">Item Name</label>
