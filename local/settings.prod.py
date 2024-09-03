@@ -1,20 +1,29 @@
 from healthharmony.app.settings import env
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("APP_SECRET_KEY")
+SECRET_KEY = env.str("APP_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 ALLOWED_HOSTS = ["*", "healthharmony.duckdns.org", "localhost", "127.0.0.1"]
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://healthharmony.duckdns.org",
-    "http://healthharmony.duckdns.org",
-    "127.0.0.1",
-    "localhost",
-    "*",
-]
+if not DEBUG:
+    CSRF_TRUSTED_ORIGINS = [
+        "https://healthharmony.duckdns.org",
+        "http://healthharmony.duckdns.org",
+    ]
+
+else:
+    CSRF_TRUSTED_ORIGINS = [
+        "http://127.0.0.1:8000",
+        "http://127.0.0.1",
+        "http://localhost",
+        "http://localhost:8000",
+    ]
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 
 
 DATABASES = {
@@ -37,12 +46,7 @@ AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")
 
 AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
 
-
 AWS_S3_FILE_OVERWRITE = False
-
-
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 
 STORAGES = {
@@ -51,6 +55,3 @@ STORAGES = {
 }
 
 MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
-
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True

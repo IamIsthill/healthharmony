@@ -109,5 +109,4 @@ static:
 
 .PHONY: deploy
 deploy:
-	chmod a+x ./scripts/deploy.sh
-	./scripts/deploy.sh
+	poetry run daphne -p 80 -b 0.0.0.0 healthharmony.app.asgi:application

@@ -189,7 +189,7 @@ def add_issue(request):
 
 def inventory(request):
     access_checker(request)
-    with ThreadPoolExecutor() as tp:
+    with ThreadPoolExecutor(max_workers=2) as tp:
         futures = {
             tp.submit(fetch_inventory, InventoryDetail, Sum, request): "inventory",
             tp.submit(get_sorted_inventory_list, request): "sorted_inventory",
@@ -205,10 +205,12 @@ def inventory(request):
                 logger.error(f"{key} generated an exception: {e}")
                 results[key] = 0
 
-    request, inventory = fetch_inventory(InventoryDetail, Sum, request)
-    request, sorted_inventory = get_sorted_inventory_list(request)
-    request, counted_inventory = get_counted_inventory(request)
-
+    request, inventory = results["inventory"]
+    request, sorted_inventory = results["sorted_inventory"]
+    request, counted_inventory = results["counted_inventory"]
+    # request, inventory = fetch_inventory(InventoryDetail, Sum, request)
+    # request, sorted_inventory = get_sorted_inventory_list(request)
+    # request, counted_inventory = get_counted_inventory(request)
     context = {
         "page": "inventory",
         "inventory": list(inventory),
