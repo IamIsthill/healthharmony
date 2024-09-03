@@ -10,6 +10,7 @@ from django.db.models import (
     CharField,
     Count,
     DateTimeField,
+    Q,
 )
 from django.db.models.functions import Coalesce
 from django.utils import timezone
@@ -463,7 +464,7 @@ def patients_and_accounts(request):
         departments = (
             Department.objects.annotate(
                 last_department_visit=Subquery(
-                    User.objects.filter(department=OuterRef("pk"))
+                    User.objects.filter(department=OuterRef("pk"), access=1)
                     .annotate(
                         last_department_visit=Coalesce(
                             Subquery(last_department_visit[:1]),

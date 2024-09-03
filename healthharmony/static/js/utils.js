@@ -22,21 +22,26 @@ export function createChart(ctx, chartType, chartData, chartOptions) {
 }
 
 export function getBarCounts(mainData) {
-    let barCounts = []
-    for (const [id, name] of Object.entries(mainData)) {
-        for (const [dataName, data] of Object.entries(name)) {
-            let count = 0
-            for (const [dates, cases] of Object.entries(data)) {
-                count += cases.length
+    try{
+        let barCounts = []
+        for (const [id, name] of Object.entries(mainData)) {
+            for (const [dataName, data] of Object.entries(name)) {
+                let count = 0
+                for (const [dates, cases] of Object.entries(data)) {
+                    count += cases.length
+                }
+                barCounts.push({
+                    'count': count,
+                    'name': dataName,
+                    'id': id
+                })
             }
-            barCounts.push({
-                'count': count,
-                'name': dataName,
-                'id': id
-            })
         }
+        return barCounts
+    } catch(error) {
+        console.error(error)
     }
-    return barCounts
+
 
 }
 

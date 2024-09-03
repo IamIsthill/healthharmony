@@ -63,7 +63,7 @@ function main() {
 
     //employee
     updateEmployeeHTMl(employeeData)
-    console.log(employeeData[1])
+    console.log(employeeData)
     const now = Date.now()
     const oldDate  = new Date(2024, 6, 27, 11, 3, 0).getTime()
     const elapseMilli = now - oldDate
@@ -287,8 +287,12 @@ function updatePatientFiltersFromMemory(getItem, updatePatientFilters) {
 }
 
 function setDefault(){
-    const patientsPagination = document.querySelector('.js-patients-pagination')
-    patientsPagination.style.display = "none"
+    try {
+        const patientsPagination = document.querySelector('.js-patients-pagination')
+        patientsPagination.style.display = "none"
+    } catch (e) {
+        console.error(e)
+    }
 }
 
 function listenPatientSearchBtn() {

@@ -95,11 +95,40 @@ class TestDepartmentModel(TestCase):
         # for data in departments:
         #     if data['last_visit']:
         #         data['last_visit'] = data['last_visit'].isoformat()
-        print(json.dumps(list(departments), indent=4, sort_keys=True))
+        # print(json.dumps(list(departments), indent=4, sort_keys=True))
         expect = "CEA"
         output = departments[1]["department"]
         err_msg = "Fetch instance was incorrect"
         self.assertEqual(expect, output, err_msg)
+
+    def test_new_query(self):
+        last_visit = (
+            Illness.objects.filter(patient=OuterRef("pk"), patient__access=1)
+            .exclude(added__isnull=True)
+            .order_by("-added")
+            .values("added")
+        )
+
+        departments = (
+            Department.objects.annotate(
+                last_visit=Subquery(
+                    User.objects.filter(department=OuterRef("pk"), access=1)
+                    .annotate(
+                        last_visit=Coalesce(
+                            Subquery(last_visit[:1]),
+                            Value(None),
+                            output_field=CharField(),
+                        )
+                    )
+                    .exclude(last_visit__isnull=True)
+                    .values("last_visit")[:1],
+                ),
+                count=Count("user_department"),
+            )
+            .distinct()
+            .values()
+        )
+        print(json.dumps(list(departments), indent=4, sort_keys=True))
 
 
 class TestUserModel(TestCase):
