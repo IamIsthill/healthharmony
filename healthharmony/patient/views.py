@@ -79,14 +79,13 @@ def records_view(request):
 def patient_view(request, pk):
     access_checker(request)
     if request.user.access < 2:
-        return redirect("home")
+        if request.user.id != int(pk):
+            return redirect("home")
     if "email" not in request.session:
         request.session["email"] = request.user.email
     context = {}
 
     if request.method == "POST":
-        if request.user.id != int(pk):
-            return redirect("patient-profile", pk)
         form = UpdateProfileInfo(request.POST, files=request.FILES)
         if form.is_valid():
             try:
