@@ -54,8 +54,8 @@ export function createDepartmentChart(labels, counts, department, createChart) {
             data: counts,
             borderWidth: 1,
             indexAxis: 'x',
-            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Simplified background color for line chart
-            borderColor: 'rgba(75, 192, 192, 1)', // Adding border color for better visualization
+            backgroundColor: 'rgba(238, 172, 19, 0.2)', // Simplified background color for line chart
+            borderColor: 'rgba(238, 172, 19, 1)', // Adding border color for better visualization
             fill: false,
             tension: 0.5
         }]
