@@ -3,6 +3,15 @@
 {% load tags %}
 {% block title %}Patients and Accounts | HealthHarmony{% endblock %}
 {% block header %}
+    <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/clinic/accounts.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
+          rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+          rel="stylesheet" />
     <style>
     .bordered {
       border: 2px solid red;
@@ -69,9 +78,29 @@
     {% endif %}
 {% endblock %}
 {% block main %}
-    <div class="container">
+
+    <div class="nav-top">
+        <h2>Account Management</h2>
+        <div class="profile-container">
+            <img src="{% static 'assets/images/doctor-pics/Miko.jpg' %}"
+                alt="Profile Picture"
+                class="profile-pic" />
+            <div class="profile-info">
+                <h3>Miko Basilio</h3>
+                <span>Nurse</span>
+            </div>
+            <a href="{% url 'logout' %}">
+                <div class="logout-container">
+                    <span class="material-symbols-outlined">logout</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="nurse-container2">
         {% include 'staff/navbar.html' %}
         {% csrf_token %}
+        <main>
         <div>
             <h1 class="js-patient-count">All Patients(0)</h1>
             <table>
@@ -127,6 +156,7 @@
                 </div>
             {% endif %}
         </div>
+        
         <div>
             <table>
                 <h1>Departments({{ departments.count }})</h1>
@@ -162,37 +192,42 @@
                 </div>
             </div>
         </div>
+
         <div class="js-employee-space">
-            <h1>Clinic Employees</h1>
-            <label>Filters</label>
-            <select class="js-employee-filters">
-                <option value="">All</option>
-                <option value="2">Staff</option>
-                <option value="3">Doctors</option>
-            </select>
-            <input type="text" class="js-employee-search-field" />
-            <button class="js-employee-search-btn">Search</button>
-            <button class="js-employee-clear-btn">Clear</button>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Employee Name</th>
-                        <th>Access Level</th>
-                        <th>Time Since Last Case Handled</th>
-                        <th>Number of Cases Handled</th>
-                    </tr>
-                </thead>
-                <tbody class="js-employee-body">
-                    <tr>
-                        <td>Lorem ipsum dolor sit amet.</td>
-                        <td>Lorem ipsum dolor sit amet.</td>
-                        <td>Lorem ipsum dolor sit.</td>
-                        <td>Lorem, ipsum dolor.</td>
-                    </tr>
-                </tbody>
-            </table>
+                <h1>Clinic Employees</h1>
+                <label>Filters</label>
+                <select class="js-employee-filters">
+                    <option value="">All</option>
+                    <option value="2">Staff</option>
+                    <option value="3">Doctors</option>
+                </select>
+                <input type="text" class="js-employee-search-field" />
+                <button class="js-employee-search-btn">Search</button>
+                <button class="js-employee-clear-btn">Clear</button>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Employee Name</th>
+                            <th>Access Level</th>
+                            <th>Time Since Last Case Handled</th>
+                            <th>Number of Cases Handled</th>
+                        </tr>
+                    </thead>
+                    <tbody class="js-employee-body">
+                        <tr>
+                            <td>Lorem ipsum dolor sit amet.</td>
+                            <td>Lorem ipsum dolor sit amet.</td>
+                            <td>Lorem ipsum dolor sit.</td>
+                            <td>Lorem, ipsum dolor.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
+    </main>
+        
+
+
     <div class="js-add-department-modal modal">
         <div class="modal-content">
             <span class="js-close-add-department-modal">&times;</span>
