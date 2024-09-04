@@ -162,3 +162,42 @@ export function listenToEnter(logicAfterEnter) {
         }
     })
 }
+
+export function getElapsedTime(dateString) {
+    const now = Date.now();
+    const elapsedTimeInMilliseconds = now - new Date(dateString).getTime();
+    const totalSeconds = Math.floor(elapsedTimeInMilliseconds / 1000);
+    const elapsed = {}
+    if (totalSeconds > 60) {
+        elapsed.seconds = totalSeconds % 60
+        const minutes = Math.floor( totalSeconds / 60 )
+        if ( minutes > 60) {
+            elapsed.minutes = minutes % 60
+            const hours = Math.floor( minutes / 60 )
+            if (hours>24) {
+                elapsed.hours = hours % 60
+                elapsed.days = Math.floor(hours/24)
+            } else {
+                elapsed.hours = hours
+            }
+        } else {
+            elapsed.minutes = minutes
+        }
+    } else {
+        elapsed.seconds = totalSeconds
+    }
+    let stmt = ''
+    if (elapsed.seconds) (
+        stmt = `${elapsed.seconds}s `
+    )
+    if (elapsed.minutes) {
+        stmt = `${elapsed.minutes}m ${elapsed.seconds}s`
+    }
+    if (elapsed.hours) {
+        stmt = `${elapsed.hours}hr ${elapsed.minutes}m ${elapsed.seconds}s`
+    }
+    if (elapsed.days) {
+        stmt = `${elapsed.days}d ${elapsed.hours}hr ${elapsed.minutes}m ${elapsed.seconds}s`
+    }
+    return stmt
+}

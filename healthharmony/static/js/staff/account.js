@@ -8,7 +8,8 @@ import {
     closeModal,
     getToken,
     listenToEnter,
-    createChart
+    createChart,
+    getElapsedTime
 } from '/static/js/utils.js'
 
 import {
@@ -32,6 +33,12 @@ import {
     getDepartmentLabelsAndCounts
 
 } from '/static/js/staff/account-department.js'
+
+import {
+    getEmployeeFilter,
+    getEmployeeSearchValue,
+    filterEmployeeData
+} from '/static/js/staff/account-clinic.js'
 
 const patientData = JSON.parse(document.getElementById('patientData').textContent)
 const departmentData = JSON.parse(document.getElementById('departmentData').textContent)
@@ -62,30 +69,68 @@ function main() {
     createDepartmentBarGraph()
 
     //employee
+    setEmployeeFilters()
     updateEmployeeHTMl(employeeData)
-    console.log(employeeData)
-    const now = Date.now()
-    const oldDate  = new Date(2024, 6, 27, 11, 3, 0).getTime()
-    const elapseMilli = now - oldDate
+    listenEmployeeSearchBtn()
+    listenEmployeeFilter()
+    listenEmployeeSearchField()
+    listenEmployeeClearBtn()
+}
 
-    let stmt = ''
-
-    const seconds = Math.floor(elapseMilli / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
-    const days = Math.floor(hours / 24);
-
-    // Remaining hours, minutes, and seconds
-    const remainingHours = hours % 24;
-    const remainingMinutes = minutes % 60;
-    const remainingSeconds = seconds % 60;
-
-    console.log(`Elapsed Time: ${days} days, ${remainingHours} hours, ${remainingMinutes} minutes, and ${remainingSeconds} seconds`);
+function listenEmployeeClearBtn() {
+    const employeeClearBtn = document.querySelector('.js-employee-clear-btn')
+    employeeClearBtn.addEventListener('click', () => {
+        removeItem('employeeFilter')
+        removeItem('employeeSearchValue')
+        document.querySelector('.js-employee-filters').value = ''
+        document.querySelector('.js-employee-search-field').value = ''
+        updateEmployeeHTMl(employeeData)
+    })
 
 }
 
-function getElapsedTime() {
-    const now = Date.now()
+function enterKeyOnEmployeeSearchField() {
+    const filter =  getItem('employeeFilter') ? getItem('employeeFilter') : ''
+    const searchValue =  getItem('employeeSearchValue') ? getItem('employeeSearchValue') : ''
+    const searchedEmployees = filterEmployeeData(employeeData, filter, searchValue)
+    updateEmployeeHTMl(searchedEmployees)
+
+}
+
+function setEmployeeFilters() {
+    const searchValue =  getItem('employeeSearchValue') ? getItem('employeeSearchValue') : ''
+    const filter =  getItem('employeeFilter') ? getItem('employeeFilter') : ''
+    document.querySelector('.js-employee-filters').value = filter
+    document.querySelector('.js-employee-search-field').value = searchValue
+}
+
+function listenEmployeeSearchField() {
+    const employeeSearchField = document.querySelector('.js-employee-search-field')
+    employeeSearchField.addEventListener('input', () => {
+        saveItem('employeeSearchValue', employeeSearchField.value)
+    })
+    employeeSearchField.addEventListener('mouseenter', () => listenToEnter(enterKeyOnEmployeeSearchField))
+}
+
+function listenEmployeeFilter() {
+    const employeeFilter = document.querySelector('.js-employee-filters')
+    employeeFilter.addEventListener('change', () => {
+        const filter = getEmployeeFilter()
+        saveItem('employeeFilter', filter)
+        const searchValue = getItem('employeeSearchValue') ? getItem('employeeSearchValue') : ''
+        const searchedEmployees = filterEmployeeData(employeeData, filter, searchValue)
+        updateEmployeeHTMl(searchedEmployees)
+    })
+}
+
+function listenEmployeeSearchBtn() {
+    const employeeSearchBtn = document.querySelector('.js-employee-search-btn')
+    employeeSearchBtn.addEventListener('click', () =>{
+        const filter = getEmployeeFilter()
+        const searchValue = getEmployeeSearchValue().toLowerCase()
+        const searchedEmployees = filterEmployeeData(employeeData, filter, searchValue)
+        updateEmployeeHTMl(searchedEmployees)
+    })
 }
 
 function updateEmployeeHTMl(employeeData) {
@@ -104,11 +149,18 @@ function updateEmployeeHTMl(employeeData) {
             count = employee.doctor_count
             position = 'Doctor'
         }
+
+        let last_case = ''
+        if (employee.last_case) {
+            last_case = getElapsedTime(employee.last_case)
+        }
+
+        const name = employee.first_name && employee.last_name ? `${employee.first_name} ${employee.last_name}` : employee.email
         html += `
             <tr>
-                <td>${employee.first_name} ${employee.last_name}</td>
+                <td>${name}</td>
                 <td>${position}</td>
-                <td>${employee.last_case}</td>
+                <td>${last_case}</td>
                 <td>${count}</td>
             </tr>
         `
@@ -291,7 +343,7 @@ function setDefault(){
         const patientsPagination = document.querySelector('.js-patients-pagination')
         patientsPagination.style.display = "none"
     } catch (e) {
-        console.error(e)
+        console.error(e.message)
     }
 }
 
@@ -412,7 +464,7 @@ function checkPatientPagination() {
             patientsPagination.style.display = "block"
         }
     } catch(error) {
-        console.log(error)
+        console.error(error.message)
     }
 }
 
