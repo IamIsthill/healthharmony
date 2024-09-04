@@ -23,6 +23,15 @@ const departments = JSON.parse(document.getElementById('departments').textConten
 main()
 
 function main() {
+    /**
+     * TEST AREA
+     */
+    listenCheckBed()
+
+
+    /**
+     * MAIN CODE
+     */
     listenToError()
     listenToSuccess()
     listenToModalOk()
@@ -44,6 +53,21 @@ function main() {
     listenToDepartmentBarFilters()
     createDepartmentBarCanvas(getBarCounts(departmentData['yearly']))
     selectEachDepartmentBarThenCreateBars(getBarCounts(departmentData['yearly']), createBars)
+}
+
+function listenCheckBed() {
+    const checkBedBtn = document.querySelector('.js-check-bed')
+
+    checkBedBtn.addEventListener('click', () => {
+        const bedModal = document.querySelector('.js-check-bed-modal')
+        openModal(bedModal)
+        window.onclick = function(event) {
+            if (event.target == bedModal) {
+                bedModal.style.display = "none";
+            }
+        }
+    })
+
 }
 
 function listenToError() {
@@ -78,7 +102,6 @@ function listenToModalOk() {
     }
 }
 
-
 function listenToCategoryFilterBtns() {
     const categoryFilterBtns = document.querySelectorAll('.categoryDateFilter')
 
@@ -98,7 +121,6 @@ function listenToCategoryFilterBtns() {
     }
 }
 
-
 function listenToCategorySelector() {
     const categorySelector = document.getElementById('categories')
     categorySelector.addEventListener('change', () => {
@@ -110,7 +132,6 @@ function listenToCategorySelector() {
 
     })
 }
-
 
 function listenToDepartmentsFilterBtns() {
     const departmentFilterBtns = document.querySelectorAll('.departmentDateFilter')

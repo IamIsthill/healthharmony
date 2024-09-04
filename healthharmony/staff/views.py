@@ -148,6 +148,8 @@ def overview(request):
             for department in department_names
         ]
 
+        beds = BedStat.objects.all()
+
         context.update(
             {
                 "today_patient": today_patient,
@@ -161,6 +163,7 @@ def overview(request):
                 "sorted_category": sorted_category,
                 "sorted_department": sorted_department,
                 "department_names": department_names,
+                "beds": beds,
             }
         )
     except Exception as e:
@@ -263,13 +266,8 @@ def bed(request):
         except Exception as e:
             logger.error(f"Failed to create a new bed: {str(e)}")
             messages.error(request, "Failed to add new bed.")
-        return redirect("staff-bed")
-    try:
-        beds = BedStat.objects.all()
-    except Exception:
-        messages.error(request, "Error fetching bed data")
-    context = {"beds": beds, "page": "bed"}
-    return render(request, "staff/action.html", context)
+
+    return redirect("staff-overview")
 
 
 def bed_handler(request, pk):
@@ -286,7 +284,7 @@ def bed_handler(request, pk):
             messages.success(request, "Bed was successfully updated")
         except Exception:
             messages.error(request, "Error fetching bed data")
-    return redirect("staff-bed")
+    return redirect("staff-overview")
 
 
 def records(request):
