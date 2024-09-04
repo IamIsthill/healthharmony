@@ -1,5 +1,6 @@
 from django import forms
 from healthharmony.administrator.models import Log
+from healthharmony.users.models import User
 
 
 class UpdateProfileInfo(forms.Form):
@@ -12,10 +13,10 @@ class UpdateProfileInfo(forms.Form):
     sex = forms.CharField(max_length=10, required=False)
     DOB = forms.DateField(required=False)
 
-    def save(self, request):
-        user = request.user
+    def save(self, request, pk):
+
         try:
-            # Update user fields with cleaned data
+            user = User.objects.get(id=int(pk))
             user.first_name = self.cleaned_data.get("first_name", user.first_name)
             user.last_name = self.cleaned_data.get("last_name", user.last_name)
             user.contact = self.cleaned_data.get("contact", user.contact)

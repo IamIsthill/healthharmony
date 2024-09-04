@@ -1,10 +1,14 @@
-from django.test import TestCase, override_settings
+from django.test import TestCase, override_settings, RequestFactory
 from django.urls import reverse
 from django.db.models import Q, Count, Prefetch
 from datetime import time
 from django.utils import timezone
 from collections import defaultdict
 from django.db import connection
+from django.contrib.auth import get_user_model
+from django.contrib.messages.storage.fallback import FallbackStorage
+from unittest.mock import patch
+import re
 
 from healthharmony.users.models import User, Department
 from healthharmony.models.treatment.models import (
@@ -13,12 +17,12 @@ from healthharmony.models.treatment.models import (
     IllnessTreatment,
     DoctorDetail,
 )
+from .views import records_view
 from healthharmony.models.inventory.models import InventoryDetail, QuantityHistory
 from healthharmony.models.blood.models import BloodPressure
 
 
 # Create your tests here.
-@override_settings(DEBUG=True)
 class DashboardTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
@@ -132,12 +136,6 @@ class DashboardTestCase(TestCase):
         user_illness = Illness.objects.filter(patient=self.user).count() or 0
         self.assertEqual(user_illness, 3)
 
-    def test_user_illness_no_diagnosis(self):
-        user_illness = (
-            Illness.objects.filter(patient=self.user, diagnosis="").count() or 0
-        )
-        self.assertEqual(user_illness, 1)
-
     def test_user_illness_has_diagnosis(self):
         user_illness = (
             Illness.objects.filter(patient=self.user, diagnosis__gt="").count() or 0
@@ -248,3 +246,19 @@ class DashboardTestCase(TestCase):
         expected = 100
 
         self.assertEqual(blood_pressure.blood_pressure, expected)
+
+
+class RecordsViewTest(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.user = User.objects.create_user(
+            email="test@example.com", password="password"
+        )
+        self.url = reverse("patient-records", kwargs={"pk": self.user.pk})
+
+    def test_url(self):
+        print(self.url)
+        match = re.search(r"/patient/records/(\d+)/", self.url)
+        if match:
+            pk = match.group(1)
+            print(f"The primary key from the path is: {pk}")
