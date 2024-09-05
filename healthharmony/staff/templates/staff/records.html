@@ -12,7 +12,7 @@
           rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
           rel="stylesheet" />
-    <!-- <style>
+    <!--   <style>
     /* The Modal (background) */
     .modal {
       display: none; /* Hidden by default */
@@ -50,7 +50,7 @@
       text-decoration: none;
       cursor: pointer;
     }
-    </style> -->
+    </style>   -->
 {% endblock %}
 {% block message %}
     {% if messages|has_error_message %}
@@ -160,26 +160,6 @@
                             <th colspan="4">
                                 <div class="header-content">
                                     <h1>Request Summary</h1>
-                                    <div class="search-container">
-                                        <input type="text"
-                                               class="js-inventory-search-container"
-                                               id="search-field"
-                                               placeholder="Search..." />
-                                        <button class="js-inventory-search-btn">
-                                            <span class="material-symbols-outlined">search</span>
-                                        </button>
-                                    </div>
-                                    <div class="sort-by">
-                                        <span>Sort By:</span>
-                                        <select id="inventory-sort-select" class="js-inventory-sort-select">
-                                            <option value="name">Name</option>
-                                            <option value="date">Expiry Date</option>
-                                            <option value="stock">Stock</option>
-                                        </select>
-                                        <button class="js-inventory-direction" data-sort='asc'>
-                                            <span class="material-symbols-outlined">sort_by_alpha</span>
-                                        </button>
-                                    </div>
                                 </div>
                             </th>
                         </tr>
@@ -233,7 +213,7 @@
                 </table>
                 <div class="right">
                     <div class="bar-space">
-                        <h2>Something Bar</h2>
+                        <h2>Request Over Time</h2>
                         <div>
                             <button class="js-request-date-filter js-request-date-active"
                                     data-filter="weekly">Last 7 days</button>

@@ -82,17 +82,18 @@ export function filterHistoryData(historyData, filter, search) {
     let filteredHistoryData = []
     for (const data of historyData) {
         if (filter == 1) {
-            if (data.diagnosis == '' && (data.first_name.toLowerCase().includes(search.toLowerCase()) || data.last_name.toLowerCase().includes(search.toLowerCase()) || data.issue.toLowerCase().includes(search.toLowerCase()))) {
+            if ((data.diagnosis == '') && (data.first_name.toLowerCase().includes(search.toLowerCase()) || data.last_name.toLowerCase().includes(search.toLowerCase()) || data.issue.toLowerCase().includes(search.toLowerCase()))) {
                 filteredHistoryData.push(data)
             }
         } else if (filter == 2) {
-            if (data.diagnosis != '' && (data.first_name.toLowerCase().includes(search.toLowerCase()) || data.last_name.toLowerCase().includes(search.toLowerCase()) || data.issue.toLowerCase().includes(search.toLowerCase()))) {
+            if ((data.diagnosis != '') && (data.first_name.toLowerCase().includes(search.toLowerCase()) || data.last_name.toLowerCase().includes(search.toLowerCase()) || data.issue.toLowerCase().includes(search.toLowerCase()))) {
+                filteredHistoryData.push(data)
+            }
+        } else {
+            if (data.first_name.toLowerCase().includes(search.toLowerCase()) || data.last_name.toLowerCase().includes(search.toLowerCase()) || data.issue.toLowerCase().includes(search.toLowerCase())) {
                 filteredHistoryData.push(data)
             }
         }
-    }
-    if (filter == 0) {
-        filteredHistoryData = historyData
     }
     return filteredHistoryData
 }

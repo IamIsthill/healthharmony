@@ -7,7 +7,8 @@ import {
     saveItem,
     removeItem,
     getItem,
-    formatDate
+    formatDate,
+    paginateArray
 } from '/static/js/utils.js'
 
 import {
@@ -218,6 +219,7 @@ function setSavedParams() {
     if (getItem('recordVisitSearchValue')) {
         document.querySelector('.js-inventory-search-container').value = getItem('recordVisitSearchValue')
     }
+    createLogicVisit()
 }
 
 function listenVisitSearchBtn() {
@@ -247,7 +249,10 @@ function listenVisitSearchField() {
 
 function createLogicVisit() {
     const filteredHistoryData = filterHistoryData(historyData, getVisitFilter(), getVisitSearchValue())
-    createVisitHtml(filteredHistoryData, formatDate)
+    const url = getCurrentUrl()
+    const page = url.searchParams.get('page')
+    const paginatedHistoryData = paginateArray(filteredHistoryData, page)
+    createVisitHtml(paginatedHistoryData, formatDate)
     listenViewIllnessesBtn()
     listenViewPatient()
     listenToLinks()
