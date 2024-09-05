@@ -4,13 +4,21 @@ import {
     getCurrentUrl,
     getActiveFilter,
     createChart,
+    saveItem,
+    removeItem,
+    getItem,
+    formatDate
 } from '/static/js/utils.js'
 
 import {
     createViewIllnessBody,
     format_date,
     getIllnessUsingId,
-    formatDatesInVisitHistory
+    formatDatesInVisitHistory,
+    getVisitFilter,
+    getVisitSearchValue,
+    filterHistoryData,
+    createVisitHtml
 } from '/static/js/staff/record-visit.js'
 
 import {
@@ -31,9 +39,16 @@ const certificates = JSON.parse(document.getElementById('certificates').textCont
 main()
 
 function main() {
-    // console.log(historyData)
-    // console.log(certficateChartData)
-    // console.log(certificates[2])
+    /**TEST AREA */
+    console.log(historyData)
+    console.log(certficateChartData)
+    console.log(certificates)
+    console.log(formatDate(historyData[0].added))
+    /*************/
+
+    //SET PARAMS
+    setSavedParams()
+
     // Visit
     createLogicRequestBarChart()
 
@@ -41,6 +56,9 @@ function main() {
     formatDatesInVisitHistory(format_date)
     listenViewIllnessesBtn()
     listenViewPatient()
+    listenVisitFilters()
+    listenVisitSearchBtn()
+    listenVisitSearchField()
 
     //chart
     listenRequestDateBtns()
@@ -51,11 +69,17 @@ function main() {
 
     //pagination links
     listenToLinks()
+
 }
+
+
 
 function createLogicRequestBarChart() {
     const filter = getActiveFilter('js-request-date-active', 'data-filter')
-    const { counts, labels } = getCountsAndLabelForRequestBar(certficateChartData[filter])
+    const {
+        counts,
+        labels
+    } = getCountsAndLabelForRequestBar(certficateChartData[filter])
     createRequestBarChart(labels, counts, createChart)
 }
 
@@ -160,4 +184,71 @@ function listenAddRecordBtn() {
         }
 
     })
+}
+
+function listenVisitFilters() {
+    const visitFilters = document.querySelectorAll('.js-inventory-category')
+    for (const visitFilter of visitFilters) {
+        visitFilter.addEventListener('click', () => {
+            for (const visitFilter of visitFilters) {
+                visitFilter.classList.remove('js-inventory-category-active')
+                visitFilter.classList.remove('visit-record_cat-active')
+            }
+            visitFilter.classList.add('js-inventory-category-active')
+            visitFilter.classList.add('visit-record_cat-active')
+            saveItem('recordVisitFilter', getVisitFilter())
+            createLogicVisit()
+        })
+    }
+}
+
+function setSavedParams() {
+    if (getItem('recordVisitFilter')) {
+        const visitFilters = document.querySelectorAll('.js-inventory-category')
+        for (const visitFilter of visitFilters) {
+            visitFilter.classList.remove('js-inventory-category-active')
+            visitFilter.classList.remove('visit-record_cat-active')
+            if (parseInt(visitFilter.getAttribute('data-sorter')) == getItem('recordVisitFilter')) {
+                visitFilter.classList.add('js-inventory-category-active')
+                visitFilter.classList.add('visit-record_cat-active')
+            }
+        }
+    }
+    // Ilagay kung meron visitSearchValue
+    if (getItem('recordVisitSearchValue')) {
+        document.querySelector('.js-inventory-search-container').value = getItem('recordVisitSearchValue')
+    }
+}
+
+function listenVisitSearchBtn() {
+    const visitSearchBtn = document.querySelector('.js-inventory-search-btn')
+    visitSearchBtn.addEventListener('click', () => {
+        //Save search
+        saveItem('recordVisitSearchValue', getVisitSearchValue())
+
+        //get search then do logic
+        createLogicVisit()
+
+        // Cleanup
+        document.querySelector('.js-inventory-search-container').value = ''
+        removeItem('recordVisitSearchValue')
+    })
+}
+
+function listenVisitSearchField() {
+    const visitField = document.querySelector('.js-inventory-search-container')
+    // Makinig sa kada pindot ni user
+    visitField.addEventListener('input', () => {
+        // Kunin yung value sa field tapos save locally
+        const searchValue = visitField.value
+        saveItem('recordVisitSearchValue', searchValue)
+    })
+}
+
+function createLogicVisit() {
+    const filteredHistoryData = filterHistoryData(historyData, getVisitFilter(), getVisitSearchValue())
+    createVisitHtml(filteredHistoryData, formatDate)
+    listenViewIllnessesBtn()
+    listenViewPatient()
+    listenToLinks()
 }

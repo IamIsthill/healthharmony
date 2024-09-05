@@ -78,17 +78,6 @@
                                             <span class="material-symbols-outlined">search</span>
                                         </button>
                                     </div>
-                                    <div class="sort-by">
-                                        <span>Sort By:</span>
-                                        <select id="inventory-sort-select" class="js-inventory-sort-select">
-                                            <option value="name">Name</option>
-                                            <option value="date">Expiry Date</option>
-                                            <option value="stock">Stock</option>
-                                        </select>
-                                        <button class="js-inventory-direction" data-sort='asc'>
-                                            <span class="material-symbols-outlined">sort_by_alpha</span>
-                                        </button>
-                                    </div>
                                 </div>
                             </th>
                         </tr>
@@ -96,7 +85,7 @@
                             <th colspan="5">
                                 <div class="header-content">
                                     <div class="category-buttons">
-                                        <button class="visit-record_cat-active inventory-category js-inventory-category js-inventory-category-active"
+                                        <button class="visit-record_cat visit-record_cat-active inventory-category js-inventory-category js-inventory-category-active"
                                                 data-sorter="0">All</button>
                                         <button class="visit-record_cat inventory-category js-inventory-category"
                                                 data-sorter="1">Ongoing</button>
@@ -117,7 +106,7 @@
                             <th class="table-head action-column-head" colspan="2">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="js-visit-history-body">
                         {% if history %}
                             {% for data in history %}
                                 <tr>

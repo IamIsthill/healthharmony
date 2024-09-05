@@ -22,7 +22,7 @@ export function createChart(ctx, chartType, chartData, chartOptions) {
 }
 
 export function getBarCounts(mainData) {
-    try{
+    try {
         let barCounts = []
         for (const [id, name] of Object.entries(mainData)) {
             for (const [dataName, data] of Object.entries(name)) {
@@ -38,7 +38,7 @@ export function getBarCounts(mainData) {
             }
         }
         return barCounts
-    } catch(error) {
+    } catch (error) {
         console.error(error)
     }
 
@@ -105,7 +105,7 @@ export function getCurrentUrl() {
 }
 
 export function paginateArray(array, page) {
-    if(!page) {
+    if (!page) {
         page = 1
     }
 
@@ -122,7 +122,7 @@ export function paginateArray(array, page) {
 
     for (let key in array) {
         key = parseInt(key)
-        if ( key + 1  >= itemStart && key + 1 <= itemEnd ) {
+        if (key + 1 >= itemStart && key + 1 <= itemEnd) {
             paginatedArray.push(array[key])
         }
     }
@@ -149,7 +149,7 @@ export function getToken() {
     for (const input of inputs) {
         const inputName = input.getAttribute('name')
         if (inputName == 'csrfmiddlewaretoken') {
-           token = input.value
+            token = input.value
         }
     }
     return token
@@ -157,7 +157,7 @@ export function getToken() {
 
 export function listenToEnter(logicAfterEnter) {
     document.addEventListener('keypress', (event) => {
-        if(event.key == 'Enter') {
+        if (event.key == 'Enter') {
             logicAfterEnter()
         }
     })
@@ -170,13 +170,13 @@ export function getElapsedTime(dateString) {
     const elapsed = {}
     if (totalSeconds > 60) {
         elapsed.seconds = totalSeconds % 60
-        const minutes = Math.floor( totalSeconds / 60 )
-        if ( minutes > 60) {
+        const minutes = Math.floor(totalSeconds / 60)
+        if (minutes > 60) {
             elapsed.minutes = minutes % 60
-            const hours = Math.floor( minutes / 60 )
-            if (hours>24) {
+            const hours = Math.floor(minutes / 60)
+            if (hours > 24) {
                 elapsed.hours = hours % 60
-                elapsed.days = Math.floor(hours/24)
+                elapsed.days = Math.floor(hours / 24)
             } else {
                 elapsed.hours = hours
             }
@@ -187,7 +187,7 @@ export function getElapsedTime(dateString) {
         elapsed.seconds = totalSeconds
     }
     let stmt = ''
-    if (elapsed.seconds) (
+    if (elapsed.seconds)(
         stmt = `${elapsed.seconds}s `
     )
     if (elapsed.minutes) {
@@ -200,4 +200,18 @@ export function getElapsedTime(dateString) {
         stmt = `${elapsed.days}d ${elapsed.hours}hr ${elapsed.minutes}m ${elapsed.seconds}s`
     }
     return stmt
+}
+
+export function formatDate(dateString) {
+
+    const formattedDate = new Date(dateString).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true
+    })
+    return formattedDate
+
 }
