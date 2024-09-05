@@ -54,7 +54,7 @@ function main() {
     createLogicRequestBarChart()
 
     listenAddRecordBtn()
-    formatDatesInVisitHistory(format_date)
+    // formatDatesInVisitHistory(format_date)
     listenViewIllnessesBtn()
     listenViewPatient()
     listenVisitFilters()
@@ -161,7 +161,6 @@ function listenViewIllnessesBtn() {
         viewIllnessBtn.addEventListener('click', () => {
             const illnessId = parseInt(viewIllnessBtn.getAttribute('data-illness-id'))
             const illnessData = getIllnessUsingId(historyData, illnessId)
-            console.log(illnessData)
             createViewIllnessBody(illnessData)
             const viewIllnessModal = document.getElementById('viewIllnessModal')
             const closeBtns = document.querySelectorAll('.js-close-view-illness-modal')

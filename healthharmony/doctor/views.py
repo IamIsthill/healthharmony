@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 @login_required(login_url="account_login")
 def view_patient_profile(request, pk):
     context = {}
-    update_patient_view_context(request, context)
+    update_patient_view_context(request, context, pk)
     try:
         user = User.objects.get(id=int(pk))
         illness_all = Illness.objects.filter(patient=user).prefetch_related(
