@@ -90,16 +90,16 @@ function listenEmployeeClearBtn() {
 }
 
 function enterKeyOnEmployeeSearchField() {
-    const filter =  getItem('employeeFilter') ? getItem('employeeFilter') : ''
-    const searchValue =  getItem('employeeSearchValue') ? getItem('employeeSearchValue') : ''
+    const filter = getItem('employeeFilter') ? getItem('employeeFilter') : ''
+    const searchValue = getItem('employeeSearchValue') ? getItem('employeeSearchValue') : ''
     const searchedEmployees = filterEmployeeData(employeeData, filter, searchValue)
     updateEmployeeHTMl(searchedEmployees)
 
 }
 
 function setEmployeeFilters() {
-    const searchValue =  getItem('employeeSearchValue') ? getItem('employeeSearchValue') : ''
-    const filter =  getItem('employeeFilter') ? getItem('employeeFilter') : ''
+    const searchValue = getItem('employeeSearchValue') ? getItem('employeeSearchValue') : ''
+    const filter = getItem('employeeFilter') ? getItem('employeeFilter') : ''
     document.querySelector('.js-employee-filters').value = filter
     document.querySelector('.js-employee-search-field').value = searchValue
 }
@@ -125,7 +125,7 @@ function listenEmployeeFilter() {
 
 function listenEmployeeSearchBtn() {
     const employeeSearchBtn = document.querySelector('.js-employee-search-btn')
-    employeeSearchBtn.addEventListener('click', () =>{
+    employeeSearchBtn.addEventListener('click', () => {
         const filter = getEmployeeFilter()
         const searchValue = getEmployeeSearchValue().toLowerCase()
         const searchedEmployees = filterEmployeeData(employeeData, filter, searchValue)
@@ -171,31 +171,34 @@ function updateEmployeeHTMl(employeeData) {
 function createDepartmentBarGraph() {
     const canvas = document.getElementById('js-department-bar-canvas')
     const ctx = canvas.getContext('2d')
-    const {labels, counts} = getDepartmentLabelsAndCounts(departmentData)
+    const {
+        labels,
+        counts
+    } = getDepartmentLabelsAndCounts(departmentData)
     const chartType = 'bar'
     const chartData = {
         labels: labels,
         datasets: [{
-          data: counts,
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(255, 159, 64, 0.2)',
-            'rgba(255, 205, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(201, 203, 207, 0.2)'
-          ],
-          borderColor: [
-            'rgb(255, 99, 132)',
-            'rgb(255, 159, 64)',
-            'rgb(255, 205, 86)',
-            'rgb(75, 192, 192)',
-            'rgb(54, 162, 235)',
-            'rgb(153, 102, 255)',
-            'rgb(201, 203, 207)'
-          ],
-          borderWidth: 1
+            data: counts,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 205, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(201, 203, 207, 0.2)'
+            ],
+            borderColor: [
+                'rgb(255, 99, 132)',
+                'rgb(255, 159, 64)',
+                'rgb(255, 205, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(54, 162, 235)',
+                'rgb(153, 102, 255)',
+                'rgb(201, 203, 207)'
+            ],
+            borderWidth: 1
         }]
     }
 
@@ -338,7 +341,7 @@ function updatePatientFiltersFromMemory(getItem, updatePatientFilters) {
     }
 }
 
-function setDefault(){
+function setDefault() {
     try {
         const patientsPagination = document.querySelector('.js-patients-pagination')
         patientsPagination.style.display = "none"
@@ -381,7 +384,7 @@ function listenPatientFilter() {
     const patientFilterInput = document.querySelector('.js-patient-filter-inputs')
     patientFilterInput.addEventListener('change', () => {
         const filter = patientFilterInput.value
-        if(filter) {
+        if (filter) {
             if (!checkIfFilterExist(filter)) {
                 updatePatientFilters(filter)
                 const filters = getPatientFilter()
@@ -420,23 +423,24 @@ function listenToHoverOnPatientName() {
         patient.addEventListener('mouseenter', (event) => {
             const patientId = parseInt(patient.getAttribute('data-patient-id'))
             const data = getPatientDataUsingId(patientData, patientId)
-            const x = event.clientX, y = event.clientY
+            const x = event.clientX,
+                y = event.clientY
             createPatientInformation(data, x, y, format_date)
             patient.classList.add('bordered')
 
             patient.addEventListener('mouseleave', () => {
                 const hoverHTML = document.querySelectorAll('.js-hover-patient')
-                for (const html of hoverHTML){
+                for (const html of hoverHTML) {
                     html.remove()
                 }
                 patient.classList.remove('bordered')
             })
         })
 
-        patient.addEventListener('click', () =>{
+        patient.addEventListener('click', () => {
             const patientId = parseInt(patient.getAttribute('data-patient-id'))
             const currentUrl = getCurrentUrl()
-            const goTo = `/patient/patient-profile/${patientId}/`
+            const goTo = `/doctor/patient/${patientId}/`
             currentUrl.pathname = goTo
             currentUrl.search = ''
             window.location.href = currentUrl.href
@@ -463,7 +467,7 @@ function checkPatientPagination() {
         if (count > 1) {
             patientsPagination.style.display = "block"
         }
-    } catch(error) {
+    } catch (error) {
         console.error(error.message)
     }
 }
@@ -475,7 +479,7 @@ function updatePatientCount() {
     if (count > 1) {
         content = `All Patients(${count})`
     } else {
-        content =  `All Patient(${count})`
+        content = `All Patient(${count})`
     }
     patientCountElement.innerText = content
 }

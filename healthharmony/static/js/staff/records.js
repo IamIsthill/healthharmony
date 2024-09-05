@@ -88,6 +88,10 @@ function listenRequestStatusBtns() {
     const requestStatusBtns = document.querySelectorAll('.js-request-status-filter')
     for (const btn of requestStatusBtns) {
         btn.addEventListener('click', () => {
+            for (const btn of requestStatusBtns) {
+                btn.classList.remove('visit-record_cat-active')
+            }
+            btn.classList.add('visit-record_cat-active')
             const status = parseBoolean(btn.getAttribute('data-filter'))
             const url = getCurrentUrl()
             const certPage = url.searchParams.get('cert-page')
