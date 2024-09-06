@@ -90,7 +90,7 @@
                             Date and Time: <span class="js-dates">{{ illness.added }}</span>
                         </p>
                         <p>Symptoms: {{ illness.issue }}</p>
-                        <p>Category: {{ illness.illness_category|default_if_none:'' }}</p>
+                        <p>Category: {{ illness.category_name|default_if_none:'' }}</p>
                         <p>Diagnosis: {{ illness.diagnosis }}</p>
                         {% if illness.treatment %}
                             <div class="treatment_body hide">

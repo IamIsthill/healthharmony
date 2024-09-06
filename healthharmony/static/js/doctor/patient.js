@@ -99,7 +99,7 @@ function createIllnessBody(data) {
             <button class="js-edit-illness">Edit</button>
             `
         }
-        const category = illness.category ? illness.category : ''
+        const category = illness.category_name ? illness.category_name : ''
 
         html += `
       <div data-illness-id="${illness.id}" class="illness">
