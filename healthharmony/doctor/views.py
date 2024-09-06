@@ -25,12 +25,13 @@ logger = logging.getLogger(__name__)
 
 
 # Create your views here.
-# @login_required(login_url="account_login")
+@login_required(login_url="account_login")
 def view_patient_profile(request, pk):
     if request.user.access < 2:
         return redirect(request.META.get("HTTP_REFERER", "doctor-overview"))
     context = {}
     update_patient_view_context(request, context, pk)
+
     try:
         user = User.objects.get(id=int(pk))
         illnesses = []

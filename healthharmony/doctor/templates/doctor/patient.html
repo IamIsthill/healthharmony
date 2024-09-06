@@ -19,6 +19,43 @@
     .hide {
       display: none;
     }
+    /* The Modal (background) */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0, 0, 0); /* Fallback color */
+      background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto; /* 15% from the top and centered */
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%; /* Could be more or less, depending on screen size */
+    }
+
+    /* The Close Button */
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
     </style>
 {% endblock %}
 {% block title %}Patient Information | HealthHarmony{% endblock %}
@@ -108,7 +145,8 @@
                                 </ul>
                             </div>
                             <button class="js-expand-illness">Expand</button>
-                            {% if request.user.access > 2 %}<button class="js-edit-illness">Edit</button>{% endif %}
+                            {% if request.user.access > 2 and illness.diagnosis == '' %}<button class="js-edit-illness">Edit</button>{% endif %}
+                            <button class="js-illness-notes">Leave Notes</button>
                         {% endif %}
                     </div>
                 {% empty %}
@@ -117,6 +155,29 @@
             </div>
         </div>
     </div>
+    <div class="modal js-edit-illness-modal">
+        <div class="modal-content">
+            <span class="close js-close-btn">&times;</span>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <label for="">Symptoms:</label>
+                <input type="text" name="issue" />
+                <label for="">Category:</label>
+                <input type="text" name="category" />
+                <label for="">Diagnosis:</label>
+                <input type="text" name="diagnosis" />
+                <div>
+                    <h5>Provide Treatment</h5>
+                    <div class="js-edit-treatment-list">
+                        <input type="text" name="treatment" placeholder="Medicine or Supply.." />
+                        <input type="number" placeholder="Quantity.." />
+                        <button class="js-edit-add-treatment">Add More Field...</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% csrf_token %}
 {% endblock %}
 {% block script %}
     {{ request.user.id|json_script:'userId' }}

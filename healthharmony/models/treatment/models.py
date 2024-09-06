@@ -83,3 +83,14 @@ class Certificate(models.Model):
 
     def __str__(self):
         return f"{self.patient} on {self.requested}"
+
+
+class IllnessNote(models.Model):
+    attached_to = models.ForeignKey(Illness, on_delete=models.SET_NULL, null=True)
+    notes = models.TextField()
+    noted_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.notes} by {self.noted_by.email}"
