@@ -74,8 +74,8 @@ function listenToError() {
     try {
         const errorModal = document.querySelector('.js-error-modal')
         errorModal.classList.add('open-popup-visit')
-    } catch(error) {
-        console.error(error)
+    } catch (error) {
+        console.error(error.message)
     }
 }
 
@@ -83,8 +83,8 @@ function listenToSuccess() {
     try {
         const successModal = document.querySelector('.js-success-modal')
         successModal.classList.add('open-popup-visit')
-    } catch(error) {
-        console.error(error)
+    } catch (error) {
+        console.error(error.message)
     }
 }
 
@@ -97,7 +97,7 @@ function listenToModalOk() {
                 modal.classList.remove('open-popup-visit')
             })
         }
-    } catch(error) {
+    } catch (error) {
         console.error(error)
     }
 }

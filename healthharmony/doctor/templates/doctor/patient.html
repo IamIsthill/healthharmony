@@ -79,29 +79,37 @@
         <div class="illnesses">
             <h2>Visit History</h2>
             <div>
-                <button class="illness_filter" data-category="all">All</button>
-                <button class="illness_filter" data-category="not">Pending</button>
-                <button class="illness_filter" data-category="done">Released</button>
+                <button class="js-illness-filter" data-category="all">All</button>
+                <button class="js-illness-filter" data-category="not">Pending</button>
+                <button class="js-illness-filter" data-category="done">Released</button>
             </div>
             <div class="illness_body">
-                {% for illness in illness_all %}
+                {% for illness in illnesses %}
                     <div data-illness-id="{{ illness.id }}" class="illness">
-                        <p>Date and Time: {{ illness.added }}</p>
+                        <p>
+                            Date and Time: <span class="js-dates">{{ illness.added }}</span>
+                        </p>
                         <p>Symptoms: {{ illness.issue }}</p>
-                        <p>Category: {{ illness.illness_category }}</p>
+                        <p>Category: {{ illness.illness_category|default_if_none:'' }}</p>
                         <p>Diagnosis: {{ illness.diagnosis }}</p>
-                        <div class="treatment_body hide">
-                            <p>Treatments:</p>
-                            <ul>
-                                {% for treatment in illness.illnesstreatment_set.all %}
-                                    <li>
-                                        {{ treatment.inventory_detail.category }}: {{ treatment.inventory_detail.item_name }} {{ treatment.quantity }} {{ treatment.inventory_detail.unit }}
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                        <button class="expand-illness">Expand</button>
-                        {% if request.use.access > 2 %}<button class="edit-illness">Edit</button>{% endif %}
+                        {% if illness.treatment %}
+                            <div class="treatment_body hide">
+                                <p>Treatments:</p>
+                                <ul>
+                                    {% for key in illness.treatment %}
+                                        {% for treatment in treatments %}
+                                            {% if key == treatment.inventory_detail %}
+                                                <li>
+                                                    {{ treatment.inventory_detail_category }}: {{ treatment.inventory_detail_name }} {{ treatment.quantity }} {{ treatment.inventory_detail_unit }}
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <button class="js-expand-illness">Expand</button>
+                            {% if request.user.access > 2 %}<button class="js-edit-illness">Edit</button>{% endif %}
+                        {% endif %}
                     </div>
                 {% empty %}
                     <h5>No visit history</h5>
@@ -112,6 +120,9 @@
 {% endblock %}
 {% block script %}
     {{ request.user.id|json_script:'userId' }}
+    {{ request.user.access|json_script:'userAccess' }}
+    {{ illnesses|json_script:'illnessData' }}
+    {{ treatments|json_script:'treatmentData' }}
     {{ illness_data|json_script:'illness_data' }}
     <script src="{% static 'js/doctor/patient.js' %}" type="module"></script>
 {% endblock %}

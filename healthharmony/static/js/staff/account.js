@@ -48,6 +48,10 @@ main()
 
 
 function main() {
+    /**TEST AREA */
+    console.log(patientData)
+    console.log(departmentData)
+    console.log(employeeData)
     //patients
     setDefault()
     updatePatientCount()
