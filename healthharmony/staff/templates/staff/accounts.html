@@ -101,98 +101,116 @@
         {% include 'staff/navbar.html' %}
         {% csrf_token %}
         <main>
-        <div>
-            <h1 class="js-patient-count">All Patients(0)</h1>
-            <table>
-                <span>Filter</span>
-                <select class="js-patient-filter-inputs">
-                    <option value="">All</option>
-                    <option value="department">Department</option>
-                    <option value="name">Name</option>
-                </select>
-                <div class="js-patient-filters"></div>
-                <input type="text" class="js-patient-search-field" />
-                <button class="js-patient-search-btn">Search</button>
-                <button class="js-patient-clear-btn">Clear</button>
-                {% if patients_page %}
-                    <thead>
-                        <tr>
-                            <th>Patient Name</th>
-                            <th>Department</th>
-                            <th>Last Visited</th>
-                        </tr>
-                    </thead>
-                    <tbody class="js-patients-body">
-                        {% for patient in patients_page %}
+                <div>
+                    <table class="table-design">
+                        {% if patients_page %}
+                            <thead>
+                                <tr>
+                                    <th colspan="5">
+                                        <div class="header-content">
+                                            <h1 class="js-patient-count">All Patients(0)</h1>
+                                            <div class="search-container">
+                                                <input type="text"
+                                                       class="js-inventory-search-container"
+                                                       id="search-field"
+                                                       placeholder="Search..." />
+                                                <button class="js-patient-search-btn">
+                                                    <span class="material-symbols-outlined">search</span>
+                                                </button>
+                                                <button class="js-patient-clear-btn">Clear</button>
+                                            </div>
+                                            <div class="sort-by">
+                                                <span>Sort By:</span>
+                                                <select id="js-patient-filter-inputs" class="js-inventory-sort-select">
+                                                    <option value="">All</option>
+                                                    <option value="department">Department</option>
+                                                    <option value="name">Name</option>
+                                                </select>
+                                                <div class="js-patient-filters"></div>
+                                                <button class="js-inventory-direction" data-sort='asc'><span class="material-symbols-outlined">
+                                                    swap_vert
+                                                    </span></button>
+                                            </div>
+                                        </div>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Patient Name</th>
+                                    <th>Department</th>
+                                    <th>Last Visited</th>
+                                </tr>
+                            </thead>
+                            <tbody class="js-patients-body">
+                                {% for patient in patients_page %}
+                                    <tr>
+                                        <td class="js-patient-profile" data-patient-id="{{ patient.id }}">{{ patient.first_name }} {{ patient.last_name }}</td>
+                                        <td class="js-department-names">{{ patient.department_name }}</td>
+                                        <td class="js-dates">{{ patient.last_visit }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        {% else %}
                             <tr>
-                                <td class="js-patient-profile" data-patient-id="{{ patient.id }}">{{ patient.first_name }} {{ patient.last_name }}</td>
-                                <td class="js-department-names">{{ patient.department_name }}</td>
-                                <td class="js-dates">{{ patient.last_visit }}</td>
+                                <td colspan="3">No patients</td>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                {% else %}
-                    <tr>
-                        <td colspan="3">No patients</td>
-                    </tr>
-                {% endif %}
-            </table>
-            {% if patients_page.has_other_pages %}
-                <div class="pagination js-patients-pagination">
-                    <span class="step-links">
-                        {% if patients_page.has_previous %}
-                            <a href="?patients-page=1" class="js-links js-patient-links">&laquo; First</a>
-                            <a href="?patients-page={{ patients_page.previous_page_number }}"
-                               class="js-links js-patient-links">Previous</a>
                         {% endif %}
-                        <span class="current">Page {{ patients_page.number }} of {{ patients_page.paginator.num_pages }}.</span>
-                        {% if patients_page.has_next %}
-                            <a href="?patients-page={{ patients_page.next_page_number }}"
-                               class="js-links js-patient-links">Next</a>
-                            <a href="?patients-page={{ patients_page.paginator.num_pages }}"
-                               class="js-links js-patient-links">Last &raquo;</a>
-                        {% endif %}
-                    </span>
+                    </table>
+                    {% if patients_page.has_other_pages %}
+                        <div class="pagination js-patients-pagination">
+                            <span class="step-links">
+                                {% if patients_page.has_previous %}
+                                    <a href="?patients-page=1" class="js-links js-patient-links">&laquo; First</a>
+                                    <a href="?patients-page={{ patients_page.previous_page_number }}"
+                                    class="js-links js-patient-links">Previous</a>
+                                {% endif %}
+                                <span class="current">Page {{ patients_page.number }} of {{ patients_page.paginator.num_pages }}.</span>
+                                {% if patients_page.has_next %}
+                                    <a href="?patients-page={{ patients_page.next_page_number }}"
+                                    class="js-links js-patient-links">Next</a>
+                                    <a href="?patients-page={{ patients_page.paginator.num_pages }}"
+                                    class="js-links js-patient-links">Last &raquo;</a>
+                                {% endif %}
+                            </span>
+                        </div>
+                    {% endif %}
                 </div>
-            {% endif %}
-        </div>
-        
-        <div>
-            <table>
-                <h1>Departments({{ departments.count }})</h1>
-                <button class="js-add-department-btn">Create New Department</button>
-                <thead>
-                    <tr>
-                        <th>Department</th>
-                        <th>Number of Users</th>
-                        <th>Last Clinic Visit</th>
-                        <th colspan="3">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for department in departments %}
-                        <tr data-department-id="{{ department.id }}">
-                            <td>{{ department.department }}</td>
-                            <td class="js-department-counts">{{ department.count }}</td>
-                            <td class="js-dates">{{ department.last_department_visit }}</td>
-                            <td class="js-edit-department btn">Edit</td>
-                            <td class="js-delete-department btn">Delete</td>
-                            <td class="js-view-department btn">View</td>
-                        </tr>
-                    {% empty %}
-                        <tr>
-                            <td colspan="3">No available department</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <div class="js-department-bar-graph">
-                <div class="js-control-canvas-size">
-                    <canvas id="js-department-bar-canvas"></canvas>
-                </div>
-            </div>
-        </div>
-
+            
+                    <div>
+                        <table class="table-design">
+                            <h1>Departments({{ departments.count }})</h1>
+                            <button class="js-add-department-btn">Create New Department</button>
+                            <thead>
+                                <tr>
+                                    <th>Department</th>
+                                    <th>Number of Users</th>
+                                    <th>Last Clinic Visit</th>
+                                    <th colspan="3">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for department in departments %}
+                                    <tr data-department-id="{{ department.id }}">
+                                        <td>{{ department.department }}</td>
+                                        <td class="js-department-counts">{{ department.count }}</td>
+                                        <td class="js-dates">{{ department.last_department_visit }}</td>
+                                        <td class="js-edit-department btn">Edit</td>
+                                        <td class="js-delete-department btn">Delete</td>
+                                        <td class="js-view-department btn">View</td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="3">No available department</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="js-department-bar-graph">
+                            <div class="js-control-canvas-size">
+                                <canvas id="js-department-bar-canvas"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
         <div class="js-employee-space">
                 <h1>Clinic Employees</h1>
                 <label>Filters</label>
@@ -204,7 +222,7 @@
                 <input type="text" class="js-employee-search-field" />
                 <button class="js-employee-search-btn">Search</button>
                 <button class="js-employee-clear-btn">Clear</button>
-                <table>
+                <table class="table-design">
                     <thead>
                         <tr>
                             <th>Employee Name</th>
