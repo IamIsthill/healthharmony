@@ -7,4 +7,5 @@ urlpatterns = [
     path(
         "get-diagnosis/", views.get_predicted_diagnosis, name="doctor-predict-diagnosis"
     ),
+    path("get_illness_categories/", views.get_illness_categories),
 ]

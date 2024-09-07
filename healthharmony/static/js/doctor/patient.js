@@ -13,6 +13,8 @@ const userId = JSON.parse(document.getElementById('userId').textContent)
 const userAccess = JSON.parse(document.getElementById('userAccess').textContent)
 const illnessesData = JSON.parse(document.getElementById('illnessData').textContent)
 const treatmentData = JSON.parse(document.getElementById('treatmentData').textContent)
+const illness_categories = await fetch_illness_categories()
+
 
 
 
@@ -24,6 +26,9 @@ async function main() {
     const pageUrl = `/doctor/patient/${userId}/`
 
     setSpinner(mainContainer, spinner, pageUrl)
+
+    /** TEST AREA */
+    console.log(illness_categories)
 
 
     reformatAllDates()
@@ -284,5 +289,24 @@ async function fetchPredictedDiagnosis(issue) {
     } catch (err) {
         console.error(`Failed to fetch session: ${err.message}`);
         return null;
+    }
+}
+
+async function fetch_illness_categories() {
+    try {
+        const baseUrl = window.location.origin
+        const url = new URL(`${baseUrl}/doctor/get_illness_categories`)
+        const options = {
+            method: "GET"
+        }
+        const response = await fetch(url, options)
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+        return response.json();
+
+    } catch (error) {
+        console.error(`Failed to get illness categories: ${error.messages}`)
+        return null
     }
 }

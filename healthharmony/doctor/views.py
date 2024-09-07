@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 
-from healthharmony.models.treatment.models import Illness, IllnessTreatment
+from healthharmony.models.treatment.models import Illness, IllnessTreatment, Category
 from healthharmony.users.models import User
 from healthharmony.doctor.forms import UpdateIllness
 from healthharmony.patient.functions import update_patient_view_context
@@ -16,6 +16,7 @@ from healthharmony.doctor.functions import predict_diagnosis
 from healthharmony.doctor.serializer import (
     IllnessSerializer,
     IllnessTreatmentSerializer,
+    IllnessCategorySerializer,
 )
 
 from healthharmony.base.functions import check_models
@@ -183,6 +184,15 @@ def get_predicted_diagnosis(request):
 
     diagnosis = predict_diagnosis(issue)
     return JsonResponse(diagnosis, safe=False)
+
+
+@api_view(["GET"])
+def get_illness_categories(request):
+    categories = Category.objects.all()
+    data = []
+    for category in categories:
+        data.append(IllnessCategorySerializer(category).data)
+    return JsonResponse(data, safe=False)
 
 
 def access_checker(request):

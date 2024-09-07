@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from healthharmony.models.treatment.models import Illness, IllnessTreatment
+from healthharmony.models.treatment.models import Illness, IllnessTreatment, Category
 
 
 class IllnessSerializer(serializers.ModelSerializer):
@@ -42,3 +42,9 @@ class IllnessTreatmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = IllnessTreatment
         fields = "__all__"
+
+
+class IllnessCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ["id", "category"]
