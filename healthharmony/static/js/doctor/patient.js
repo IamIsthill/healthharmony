@@ -82,6 +82,10 @@ function createIllnessBody(data) {
     }
     for (const illness of data) {
         let treatmentHTML = ''
+        if (illness.diagnosis == '') {
+            treatmentHTML += '<button class="js-edit-illness">Edit</button>'
+        }
+        treatmentHTML += '<button class="js-illness-notes">Leave Notes</button>'
         if (illness.treatment.length > 0) {
             treatmentHTML = `
                 <div class="treatment_body hide">
@@ -104,6 +108,10 @@ function createIllnessBody(data) {
                     <button class="js-edit-illness">Edit</button>
                 `
             }
+            treatmentHTML += `
+                <button class="js-illness-notes">Leave Notes</button>
+
+            `
 
         }
         const category = illness.category_name ? illness.category_name : ''

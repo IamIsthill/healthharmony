@@ -145,9 +145,9 @@
                                 </ul>
                             </div>
                             <button class="js-expand-illness">Expand</button>
-                            {% if request.user.access > 2 and illness.diagnosis == '' %}<button class="js-edit-illness">Edit</button>{% endif %}
-                            <button class="js-illness-notes">Leave Notes</button>
                         {% endif %}
+                        {% if request.user.access > 2 and illness.diagnosis == '' %}<button class="js-edit-illness">Edit</button>{% endif %}
+                        <button class="js-illness-notes">Leave Notes</button>
                     </div>
                 {% empty %}
                     <h5>No visit history</h5>
