@@ -145,3 +145,15 @@ button{
   color: var(--Red);
   cursor: pointer;
 }
+
+.clr-btn{
+  padding: 0 8px;
+  height: 2rem;
+  border-radius: 8px;
+  background:rgba(59, 59, 59, 0.479);
+  color: white;
+  transition: all 0.3s ease;
+}
+.clr-btn:hover{
+  background:rgba(29, 29, 29, 0.541);
+}
