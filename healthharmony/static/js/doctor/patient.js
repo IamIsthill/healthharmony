@@ -14,7 +14,8 @@ import {
     get_expand_btn,
     get_edit_btn,
     get_leave_notes_btn,
-    get_treatment_data_using_id
+    get_treatment_data_using_id,
+    get_illness_data,
 } from '/static/js/doctor/patient-history.js'
 const userId = JSON.parse(document.getElementById('userId').textContent)
 const userAccess = JSON.parse(document.getElementById('userAccess').textContent)
@@ -22,9 +23,6 @@ const illnessesData = JSON.parse(document.getElementById('illnessData').textCont
 const treatmentData = JSON.parse(document.getElementById('treatmentData').textContent)
 const illness_categories = await fetch_illness_categories()
 const inventory_list = await fetch_inventory_list()
-
-
-
 
 main()
 
@@ -36,19 +34,29 @@ async function main() {
     setSpinner(mainContainer, spinner, pageUrl)
 
     /** TEST AREA */
-    console.log(illness_categories)
-    console.log(illnessesData)
+    // console.log(illness_categories)
+    // console.log(illnessesData)
+    // console.log(userAccess)
     console.log(inventory_list)
-    console.log(treatmentData)
-    console.log(userAccess)
-    let predict = await fetchPredictedDiagnosis(illnessesData[0].issue)
-    predict = predict ? predict : ''
-    console.log(predict)
+    // console.log(treatmentData)
+
+    /** MAKE HTML PRESENTABLE AND DATA PREPATION*/
+    update_existing_dates_to_readable()
+    append_category_list(illness_categories)
 
 
     filter_visit_history()
     click_expand_show_treatments()
+    click_edit_show_form()
 
+}
+
+function update_existing_dates_to_readable() {
+    const dates = document.querySelectorAll('.js-dates')
+
+    for (const date of dates) {
+        date.innerText = formatDate(date.innerText)
+    }
 }
 
 function filter_visit_history() {
@@ -65,9 +73,160 @@ function filter_visit_history() {
     }
 }
 
+async function create_illness_edit_form(illness_data) {
+    const form_body = document.querySelector('.js-edit-illness-modal form')
+    form_body.innerHTML = ''
+    const token = getToken()
+    form_body.appendChild(get_csrf_element(token))
+    form_body.innerHTML += '<label>Symptoms: </label>'
+    form_body.appendChild(get_issue_element(illness_data.issue))
+    form_body.innerHTML += '<label>Category of Symptoms: </label>'
+    form_body.appendChild(get_category_element(illness_data.category_name))
+
+    form_body.innerHTML += '<label>Diagnosis: </label>'
+    const diagnosis = await fetchPredictedDiagnosis(illness_data.issue)
+    if (illness_data.diagnosis != '' && !diagnosis) {
+        form_body.appendChild(get_diagnosis_element(diagnosis))
+        form_body.innerHTML += `
+            <span class="close js-clear-diagnosis-field">&times;</span>
+            <p>This is system generated and may be inaccurate. Please ensure that they are correct.</p>
+        `
+    } else {
+        form_body.appendChild(get_diagnosis_element(illness_data.diagnosis))
+    }
+    form_body.appendChild(get_treatments_element(illness_data.treatment, inventory_list, treatmentData))
+}
+
+function get_treatments_element(treatments, inventory_list, treatmentData) {
+    const treatment_div_element = document.createElement('div')
+    treatment_div_element.innerHTML += `<label>Prescriptions: </label>`
+    if (treatments.length == 0) {
+        const container = document.createElement('div')
+
+        const medicine_element = document.createElement('select')
+        medicine_element.setAttribute('name', 'inventory_item')
+        medicine_element.setAttribute('required', '')
+        medicine_element.setAttribute('list', 'js_inventory_list')
+
+        for (const option of inventory_list) {
+            medicine_element.innerHTML += `<option value="${option.item_name}">${option.item_name}</option>`
+        }
+
+        const quantity_element = document.createElement('input')
+        quantity_element.setAttribute('required', '')
+        quantity_element.setAttribute('type', 'number')
+        quantity_element.setAttribute('name', 'inventory_quantity')
+        quantity_element.setAttribute('placeholder', 'Item quantity...')
+
+        container.append(medicine_element, quantity_element)
+        treatment_div_element.appendChild(container)
+
+    } else {
+        for (const id of treatments) {
+            const treatment = get_treatment_data_using_id(id, treatmentData)
+            console.log(treatment)
+            const container = document.createElement('div')
+
+            const medicine_element = document.createElement('select')
+            medicine_element.setAttribute('required', '')
+            medicine_element.setAttribute('name', 'inventory_item')
+            medicine_element.setAttribute('value', treatment.inventory_detail_name)
+
+            for (const option of inventory_list) {
+                medicine_element.innerHTML += `<option value="${option.item_name}">${option.item_name}</option>`
+            }
+
+            const quantity_element = document.createElement('input')
+            quantity_element.setAttribute('required', '')
+            quantity_element.setAttribute('type', 'number')
+            quantity_element.setAttribute('name', 'inventory_quantity')
+            quantity_element.setAttribute('placeholder', 'Item quantity...')
+            quantity_element.setAttribute('value', treatment.quantity)
+
+            container.append(medicine_element, quantity_element)
+            treatment_div_element.appendChild(container)
+        }
+    }
+    return treatment_div_element
+}
+
+
+function get_csrf_element(token) {
+    const element = document.createElement('input')
+    element.setAttribute('name', 'csrfmiddlewaretoken')
+    element.value = token
+    element.setAttribute('required', '')
+    element.setAttribute('type', 'hidden')
+    return element
+}
+
+function get_issue_element(issue) {
+    const element = document.createElement('input')
+    element.setAttribute('name', 'issue')
+    element.setAttribute('value', issue)
+    // element.value = issue
+    element.setAttribute('required', '')
+    element.setAttribute('type', 'text')
+    return element
+}
+
+function get_category_element(category) {
+    category = category ? category : ''
+    const element = document.createElement('input')
+    element.setAttribute('name', 'category')
+    element.setAttribute('value', category)
+    element.setAttribute('required', '')
+    element.setAttribute('type', 'text')
+    element.setAttribute('list', 'js_categories_list')
+    return element
+}
+
+function get_diagnosis_element(diagnosis) {
+    const element = document.createElement('input')
+    element.setAttribute('name', 'diagnosis')
+    element.setAttribute('value', diagnosis)
+    element.setAttribute('required', '')
+    element.setAttribute('type', 'text')
+    return element
+}
+
+function append_category_list(illness_categories) {
+    const form_body = document.querySelector('.js-edit-illness-modal form')
+    const element = document.createElement('datalist')
+    element.setAttribute('id', 'js_categories_list')
+    let html = ''
+    for (const category of illness_categories) {
+        html += `<option value="${category.category}">`
+    }
+    element.innerHTML = html
+    form_body.insertAdjacentElement('afterend', element)
+}
+
+
+
+
 function click_edit_show_form() {
     const edit_btns = document.querySelectorAll('.js-edit-illness-btn')
 
+    if (edit_btns.length > 0) {
+        for (const btn of edit_btns) {
+            btn.addEventListener('click', () => {
+                const illness_id = btn.parentElement.getAttribute('data-illness-id')
+                const illness_data = get_illness_data(illness_id, illnessesData)
+                console.log(illness_data)
+
+                create_illness_edit_form(illness_data)
+
+                const modal = document.querySelector('.js-edit-illness-modal')
+                const close_btns = document.querySelectorAll('.js-close-btn')
+                openModal(modal)
+                for (const close of close_btns) {
+                    closeModal(modal, close)
+                }
+
+            })
+        }
+    }
 }
 
 function click_expand_show_treatments() {
@@ -105,6 +264,7 @@ function update_visit_html_after_filter(filtered_illness_data) {
             const illness_div_body = `
                 <p>Date of Visit: ${formatDate(illness.added)}</p>
                 <p>Symptoms: ${illness.issue}</p>
+                <p>Category of Symptoms: ${illness.category_name ? illness.category_name : ''}
                 <p>Diagnosis: ${illness.diagnosis ? illness.diagnosis : ''}</p>
             `
             illness_div.innerHTML = illness_div_body
@@ -129,8 +289,6 @@ function update_visit_html_after_filter(filtered_illness_data) {
         }
     }
 }
-
-
 
 function create_treatment_list(treatments, treatmentData) {
     const treatment_div = document.createElement('div')
