@@ -19,3 +19,26 @@ export function get_filtered_illnesses_data(illnessesData, filter) {
 
     return data
 }
+
+export function get_expand_btn() {
+    const btn = document.createElement('button')
+    btn.classList.add('js-expand-illness-btn')
+    btn.innerText = 'Expand'
+
+    return btn
+}
+
+export function get_leave_notes_btn() {
+    const btn = document.createElement('button')
+    btn.classList.add('js-leave-note-btn')
+    btn.innerText = 'Leave Notes'
+    return btn
+}
+
+export function get_edit_btn() {
+    const btn = document.createElement('button')
+    btn.classList.add('js-edit-illness-btn')
+    btn.innerText = 'Edit'
+
+    return btn
+}

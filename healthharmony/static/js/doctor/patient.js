@@ -10,7 +10,10 @@ import {
 } from '/static/js/utils.js'
 
 import {
-    get_filtered_illnesses_data
+    get_filtered_illnesses_data,
+    get_expand_btn,
+    get_edit_btn,
+    get_leave_notes_btn,
 } from '/static/js/doctor/patient-history.js'
 const userId = JSON.parse(document.getElementById('userId').textContent)
 const userAccess = JSON.parse(document.getElementById('userAccess').textContent)
@@ -37,6 +40,7 @@ async function main() {
     console.log(inventory_list)
     console.log(treatmentData)
     console.log(userAccess)
+    console.log(get_edit_btn())
 
     filter_visit_history()
 
@@ -63,6 +67,7 @@ function update_visit_html_after_filter(filtered_illness_data) {
         for (const illness of filtered_illness_data) {
             const illness_div = document.createElement('div')
             illness_div.setAttribute('data-illness-id', illness.id)
+            illness_div.classList.add('js-illness')
 
             const illness_div_body = `
                 <p>Date of Visit: ${formatDate(illness.added)}</p>
@@ -71,10 +76,29 @@ function update_visit_html_after_filter(filtered_illness_data) {
             `
             illness_div.innerHTML = illness_div_body
 
+            if (illness.treatment.length > 0) {
+                const treatment_div = document.createElement('div')
+                treatment_div.classList.add('js-treatment-list hide')
+                illness_div.appendChild(treatment_div)
+
+                const expand_btn = get_expand_btn()
+                illness_div.appendChild(expand_btn)
+            }
+
+            if (userAccess >= 3) {
+                const edit_btn = get_edit_btn()
+                illness_div.appendChild(edit_btn)
+            }
+
+            const note_btn = get_leave_notes_btn()
+            illness_div.appendChild(note_btn)
+
             illness_history_html.appendChild(illness_div)
         }
     }
 }
+
+
 
 
 
