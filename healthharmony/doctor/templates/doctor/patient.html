@@ -138,7 +138,7 @@
                         <p>Category: {{ illness.category_name|default_if_none:'' }}</p>
                         <p>Diagnosis: {{ illness.diagnosis|default_if_none:'' }}</p>
                         {% if illness.treatment %}
-                            <div class="treatment_body hide">
+                            <div class="js-treatment-list hide">
                                 <p>Treatments:</p>
                                 <ul>
                                     {% for key in illness.treatment %}
@@ -152,10 +152,12 @@
                                     {% endfor %}
                                 </ul>
                             </div>
-                            <button class="js-expand-illness">Expand</button>
+                            <button class="js-expand-illness-btn">Expand</button>
                         {% endif %}
-                        {% if request.user.access > 2 and illness.diagnosis is None %}<button class="js-edit-illness">Edit</button>{% endif %}
-                        <button class="js-illness-notes">Leave Notes</button>
+                        {% if request.user.access > 2 and illness.diagnosis is None %}
+                            <button class="js-edit-illness-btn">Edit</button>
+                        {% endif %}
+                        <button class="js-illness-note-btn">Leave Notes</button>
                     </div>
                 {% empty %}
                     <h5>No visit history</h5>

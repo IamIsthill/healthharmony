@@ -40,9 +40,13 @@ async function main() {
     console.log(inventory_list)
     console.log(treatmentData)
     console.log(userAccess)
-    console.log(get_edit_btn())
+    let predict = await fetchPredictedDiagnosis(illnessesData[0].issue)
+    predict = predict ? predict : ''
+    console.log(predict)
+
 
     filter_visit_history()
+    click_expand_show_treatments()
 
 }
 
@@ -53,8 +57,38 @@ function filter_visit_history() {
         btn.addEventListener('click', () => {
             const filter = btn.getAttribute('data-category')
             const filtered_illness_data = get_filtered_illnesses_data(illnessesData, filter)
+
             update_visit_html_after_filter(filtered_illness_data)
+            click_expand_show_treatments()
         })
+    }
+}
+
+function click_edit_show_form() {
+    const edit_btns = document.querySelectorAll('.js-edit-illness-btn')
+
+}
+
+function click_expand_show_treatments() {
+    const expand_btns = document.querySelectorAll('.js-expand-illness-btn')
+
+    if (expand_btns.length > 0) {
+        for (const btn of expand_btns) {
+            btn.addEventListener('click', () => {
+                if(btn.innerText == 'Expand') {
+                    const treatment_list = document.querySelector('.js-treatment-list')
+                    treatment_list.classList.remove('hide')
+                    btn.innerText = 'Close'
+                }
+
+                else if(btn.innerText == 'Close') {
+                    const treatment_list = document.querySelector('.js-treatment-list')
+                    treatment_list.classList.add('hide')
+                    btn.innerText = 'Expand'
+                }
+            })
+
+        }
     }
 }
 
@@ -97,10 +131,6 @@ function update_visit_html_after_filter(filtered_illness_data) {
         }
     }
 }
-
-
-
-
 
 async function fetchPredictedDiagnosis(issue) {
     try {
