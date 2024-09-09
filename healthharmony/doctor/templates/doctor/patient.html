@@ -11,6 +11,10 @@
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
     <style>
+    #inventory_list {
+      max-height: 20px;
+      overflow-y: auto;
+    }
     img {
       width: 500px;
       height: 500px;
@@ -132,7 +136,7 @@
                         </p>
                         <p>Symptoms: {{ illness.issue }}</p>
                         <p>Category: {{ illness.category_name|default_if_none:'' }}</p>
-                        <p>Diagnosis: {{ illness.diagnosis }}</p>
+                        <p>Diagnosis: {{ illness.diagnosis|default_if_none:'' }}</p>
                         {% if illness.treatment %}
                             <div class="treatment_body hide">
                                 <p>Treatments:</p>
@@ -162,22 +166,7 @@
     <div class="modal js-edit-illness-modal">
         <div class="modal-content">
             <span class="close js-close-btn">&times;</span>
-            <form action="" method="POST">
-                {% csrf_token %}
-                <label for="">Symptoms:</label>
-                <input type="text" name="issue" />
-                <label for="">Category:</label>
-                <input type="text" name="category" />
-                <label for="">Diagnosis:</label>
-                <input type="text" name="diagnosis" />
-                <div>
-                    <h5>Provide Treatment</h5>
-                    <div class="js-edit-treatment-list">
-                        <input type="text" name="treatment" placeholder="Medicine or Supply.." />
-                        <input type="number" placeholder="Quantity.." />
-                        <button class="js-edit-add-treatment">Add More Field...</button>
-                    </div>
-                </div>
+            <form action="" method="POST" class="js-edit-illness-form">
             </form>
         </div>
     </div>
