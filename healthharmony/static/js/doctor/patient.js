@@ -14,6 +14,7 @@ import {
     get_expand_btn,
     get_edit_btn,
     get_leave_notes_btn,
+    get_treatment_data_using_id
 } from '/static/js/doctor/patient-history.js'
 const userId = JSON.parse(document.getElementById('userId').textContent)
 const userAccess = JSON.parse(document.getElementById('userAccess').textContent)
@@ -75,13 +76,11 @@ function click_expand_show_treatments() {
     if (expand_btns.length > 0) {
         for (const btn of expand_btns) {
             btn.addEventListener('click', () => {
-                if(btn.innerText == 'Expand') {
+                if (btn.innerText == 'Expand') {
                     const treatment_list = document.querySelector('.js-treatment-list')
                     treatment_list.classList.remove('hide')
                     btn.innerText = 'Close'
-                }
-
-                else if(btn.innerText == 'Close') {
+                } else if (btn.innerText == 'Close') {
                     const treatment_list = document.querySelector('.js-treatment-list')
                     treatment_list.classList.add('hide')
                     btn.innerText = 'Expand'
@@ -111,8 +110,7 @@ function update_visit_html_after_filter(filtered_illness_data) {
             illness_div.innerHTML = illness_div_body
 
             if (illness.treatment.length > 0) {
-                const treatment_div = document.createElement('div')
-                treatment_div.classList.add('js-treatment-list hide')
+                const treatment_div = create_treatment_list(illness.treatment, treatmentData)
                 illness_div.appendChild(treatment_div)
 
                 const expand_btn = get_expand_btn()
@@ -130,6 +128,22 @@ function update_visit_html_after_filter(filtered_illness_data) {
             illness_history_html.appendChild(illness_div)
         }
     }
+}
+
+
+
+function create_treatment_list(treatments, treatmentData) {
+    const treatment_div = document.createElement('div')
+    treatment_div.classList.add('js-treatment-list')
+    treatment_div.classList.add('hide')
+    treatment_div.innerHTML = '<p>Treatments:</p>'
+    let treatment_list_html = ''
+    for (const id of treatments) {
+        const treatment = get_treatment_data_using_id(id, treatmentData)
+        treatment_list_html += `<li>${treatment.inventory_detail_category}: ${treatment.inventory_detail_name} ${treatment.quantity} ${treatment.inventory_detail_unit}</li>`
+    }
+    treatment_div.innerHTML += treatment_list_html
+    return treatment_div
 }
 
 async function fetchPredictedDiagnosis(issue) {

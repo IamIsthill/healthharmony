@@ -42,3 +42,14 @@ export function get_edit_btn() {
 
     return btn
 }
+
+export function get_treatment_data_using_id(id, treatmentData) {
+    let data = null
+    for (const treatment of treatmentData) {
+        if (parseInt(treatment.inventory_detail) == parseInt(id)) {
+            data = treatment
+            return data
+        }
+    }
+    return data
+}
