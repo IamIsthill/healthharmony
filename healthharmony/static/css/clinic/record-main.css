@@ -24,6 +24,11 @@ main{
     flex-direction: column;
 }
 
+.view-content{
+    width: 40%;
+    height: 40%;
+}
+
 .visit-history table, .lower table{
     margin-top: 1rem;
     background-color: white;
