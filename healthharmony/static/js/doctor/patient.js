@@ -49,9 +49,30 @@ function filter_visit_history() {
         btn.addEventListener('click', () => {
             const filter = btn.getAttribute('data-category')
             const filtered_illness_data = get_filtered_illnesses_data(illnessesData, filter)
-            console.log(filtered_illness_data)
-
+            update_visit_html_after_filter(filtered_illness_data)
         })
+    }
+}
+
+function update_visit_html_after_filter(filtered_illness_data) {
+    const illness_history_html = document.querySelector('.illness_body')
+    illness_history_html.innerHTML = ''
+    if (filtered_illness_data.length == 0) {
+        illness_history_html.innerHTML = '<h4>No visit history on this category</h4>'
+    } else {
+        for (const illness of filtered_illness_data) {
+            const illness_div = document.createElement('div')
+            illness_div.setAttribute('data-illness-id', illness.id)
+
+            const illness_div_body = `
+                <p>Date of Visit: ${formatDate(illness.added)}</p>
+                <p>Symptoms: ${illness.issue}</p>
+                <p>Diagnosis: ${illness.diagnosis ? illness.diagnosis : ''}</p>
+            `
+            illness_div.innerHTML = illness_div_body
+
+            illness_history_html.appendChild(illness_div)
+        }
     }
 }
 
