@@ -103,7 +103,7 @@ class UpdateTreatmentForIllness(forms.Form):
                 IllnessTreatment.objects.create(
                     illness=illness,
                     inventory_detail=inventory_instance,
-                    quantity=item_quantity,
+                    quantity=-(int(item_quantity)),
                 )
             except Exception as e:
                 logger.info(

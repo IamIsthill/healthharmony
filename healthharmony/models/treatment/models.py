@@ -69,7 +69,7 @@ class Illness(models.Model):
 class IllnessTreatment(models.Model):
     illness = models.ForeignKey(Illness, on_delete=models.CASCADE)
     inventory_detail = models.ForeignKey(InventoryDetail, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(null=True, blank=True)
+    quantity = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.illness} - {self.inventory_detail} - {self.quantity}"
