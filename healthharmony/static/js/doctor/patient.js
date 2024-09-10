@@ -51,6 +51,67 @@ async function main() {
 
 }
 
+function click_edit_show_form() {
+    const edit_btns = document.querySelectorAll('.js-edit-illness-btn')
+
+    if (edit_btns.length > 0) {
+        for (const btn of edit_btns) {
+            btn.addEventListener('click', () => {
+                const illness_id = btn.parentElement.getAttribute('data-illness-id')
+                const illness_data = get_illness_data(illness_id, illnessesData)
+
+                create_illness_edit_form(illness_data)
+
+                const modal = document.querySelector('.js-edit-illness-modal')
+                const close_btns = document.querySelectorAll('.js-close-btn')
+                openModal(modal)
+                for (const close of close_btns) {
+                    closeModal(modal, close)
+                }
+            })
+        }
+    }
+}
+
+function add_more_prescription(inventory_list) {
+    const add_more_btn = document.querySelector('.js_add_more_btn')
+
+    add_more_btn.addEventListener('click', (event) => {
+        event.preventDefault()
+        const inventory_item_elements = document.querySelectorAll('select[name="inventory_item"]')
+        const inventory_quantity_elements = document.querySelectorAll('input[name="inventory_quantity"]')
+        console.log(is_element_valid(inventory_item_elements) && is_element_valid(inventory_quantity_elements))
+        if (
+            is_element_valid(inventory_item_elements) &&
+            is_element_valid(inventory_quantity_elements)
+        ) {
+            const treatment_fields = document.querySelector('.js_treatment_fields')
+            const container = document.createElement('div')
+            const medicine_element = get_medicine_element(inventory_list)
+            const quantity_element = get_quantity_element()
+
+            container.append(medicine_element, quantity_element)
+            const add_more_btn = document.querySelector('.js_add_more_btn')
+            add_more_btn.insertAdjacentElement('beforebegin', container)
+
+            return
+
+            // treatment_fields.append(container, get_add_more_btn())
+
+            // add_more_prescription(inventory_list)
+        }
+    })
+}
+
+function is_element_valid(elements) {
+    for (const element of elements) {
+        if (!element.reportValidity()) {
+            return false
+        }
+    }
+    return true
+}
+
 function update_existing_dates_to_readable() {
     const dates = document.querySelectorAll('.js-dates')
 
@@ -95,28 +156,18 @@ async function create_illness_edit_form(illness_data) {
         form_body.appendChild(get_diagnosis_element(illness_data.diagnosis))
     }
     form_body.appendChild(get_treatments_element(illness_data.treatment, inventory_list, treatmentData))
+
+    add_more_prescription(inventory_list)
 }
 
 function get_treatments_element(treatments, inventory_list, treatmentData) {
     const treatment_div_element = document.createElement('div')
+    treatment_div_element.classList.add('js_treatment_fields')
     treatment_div_element.innerHTML += `<label>Prescriptions: </label>`
     if (treatments.length == 0) {
         const container = document.createElement('div')
-
-        const medicine_element = document.createElement('select')
-        medicine_element.setAttribute('name', 'inventory_item')
-        medicine_element.setAttribute('required', '')
-        medicine_element.setAttribute('list', 'js_inventory_list')
-
-        for (const option of inventory_list) {
-            medicine_element.innerHTML += `<option value="${option.item_name}">${option.item_name}</option>`
-        }
-
-        const quantity_element = document.createElement('input')
-        quantity_element.setAttribute('required', '')
-        quantity_element.setAttribute('type', 'number')
-        quantity_element.setAttribute('name', 'inventory_quantity')
-        quantity_element.setAttribute('placeholder', 'Item quantity...')
+        const medicine_element = get_medicine_element(inventory_list)
+        const quantity_element = get_quantity_element()
 
         container.append(medicine_element, quantity_element)
         treatment_div_element.appendChild(container)
@@ -124,32 +175,58 @@ function get_treatments_element(treatments, inventory_list, treatmentData) {
     } else {
         for (const id of treatments) {
             const treatment = get_treatment_data_using_id(id, treatmentData)
-            console.log(treatment)
             const container = document.createElement('div')
 
-            const medicine_element = document.createElement('select')
-            medicine_element.setAttribute('required', '')
-            medicine_element.setAttribute('name', 'inventory_item')
+            const medicine_element = get_medicine_element(inventory_list)
             medicine_element.setAttribute('value', treatment.inventory_detail_name)
 
-            for (const option of inventory_list) {
-                medicine_element.innerHTML += `<option value="${option.item_name}">${option.item_name}</option>`
-            }
-
-            const quantity_element = document.createElement('input')
-            quantity_element.setAttribute('required', '')
-            quantity_element.setAttribute('type', 'number')
-            quantity_element.setAttribute('name', 'inventory_quantity')
-            quantity_element.setAttribute('placeholder', 'Item quantity...')
+            const quantity_element = get_quantity_element()
             quantity_element.setAttribute('value', treatment.quantity)
 
             container.append(medicine_element, quantity_element)
             treatment_div_element.appendChild(container)
         }
     }
+    const add_more_btn = get_add_more_btn()
+    treatment_div_element.appendChild(add_more_btn)
+
     return treatment_div_element
 }
 
+function get_add_more_btn() {
+    const add_more_btn = document.createElement('button')
+    add_more_btn.classList.add('js_add_more_btn')
+    add_more_btn.innerText = 'Add More'
+
+    return add_more_btn
+}
+
+function remove_add_more_btn() {
+    const add_more_btn = document.querySelector('.js_add_more_btn')
+    add_more_btn.remove()
+}
+
+function get_medicine_element(inventory_list) {
+    const medicine_element = document.createElement('select')
+    medicine_element.setAttribute('required', '')
+    medicine_element.setAttribute('name', 'inventory_item')
+
+    for (const option of inventory_list) {
+        medicine_element.innerHTML += `<option value="${option.item_name}">${option.item_name}</option>`
+    }
+
+    return medicine_element
+}
+
+function get_quantity_element() {
+    const quantity_element = document.createElement('input')
+    quantity_element.setAttribute('required', '')
+    quantity_element.setAttribute('type', 'number')
+    quantity_element.setAttribute('name', 'inventory_quantity')
+    quantity_element.setAttribute('placeholder', 'Item quantity...')
+
+    return quantity_element
+}
 
 function get_csrf_element(token) {
     const element = document.createElement('input')
@@ -200,33 +277,6 @@ function append_category_list(illness_categories) {
     }
     element.innerHTML = html
     form_body.insertAdjacentElement('afterend', element)
-}
-
-
-
-
-function click_edit_show_form() {
-    const edit_btns = document.querySelectorAll('.js-edit-illness-btn')
-
-    if (edit_btns.length > 0) {
-        for (const btn of edit_btns) {
-            btn.addEventListener('click', () => {
-                const illness_id = btn.parentElement.getAttribute('data-illness-id')
-                const illness_data = get_illness_data(illness_id, illnessesData)
-                console.log(illness_data)
-
-                create_illness_edit_form(illness_data)
-
-                const modal = document.querySelector('.js-edit-illness-modal')
-                const close_btns = document.querySelectorAll('.js-close-btn')
-                openModal(modal)
-                for (const close of close_btns) {
-                    closeModal(modal, close)
-                }
-
-            })
-        }
-    }
 }
 
 function click_expand_show_treatments() {
