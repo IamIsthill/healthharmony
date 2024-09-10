@@ -104,15 +104,22 @@ class EditInventoryForm(forms.Form):
     def save(self, request, pk):
         try:
             pk = int(pk)
+            # Get inventory item
             inventory_item = InventoryDetail.objects.get(id=pk)
+
+            # Get related quantity of the fetched inventory item
             quantities_sum = inventory_item.quantities.aggregate(
                 total_quantity=Sum("updated_quantity")
             )
+
+            # Reassign the total quantity
             total_quantity = (
                 quantities_sum["total_quantity"]
                 if quantities_sum["total_quantity"] is not None
                 else 0
             )
+
+            # Get form data
             expiration_date = self.cleaned_data.get("expiration_date")
             quantity = self.cleaned_data.get("quantity")
             category = self.cleaned_data.get("category")
@@ -126,10 +133,17 @@ class EditInventoryForm(forms.Form):
             inventory_item.category = category if category else None
             inventory_item.description = self.cleaned_data.get("description")
             if total_quantity != quantity:
+                # Get the difference between total and posted quantity
+                quantity = quantity if quantity else 0
+                diff_quantity = 0
+                if total_quantity > quantity:
+                    diff_quantity = -(total_quantity - quantity)
+                else:
+                    diff_quantity = quantity - total_quantity
                 item_quantity = QuantityHistory.objects.create(
                     inventory=inventory_item,
                     changed_by=request.user,
-                    updated_quantity=quantity if quantity else 0,
+                    updated_quantity=diff_quantity,
                 )
                 Log.objects.create(
                     user=request.user,
