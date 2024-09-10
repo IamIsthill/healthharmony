@@ -647,7 +647,9 @@ def fetch_inventory(InventoryDetail, Sum, request):
     try:
         inventory = (
             InventoryDetail.objects.all()
-            .annotate(quantity=Sum("quantities__updated_quantity"))
+            .annotate(
+                quantity=Sum("quantities__updated_quantity"),
+            )
             .values("id", "item_name", "category", "quantity", "expiration_date")
         )
 

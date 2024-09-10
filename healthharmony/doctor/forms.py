@@ -115,6 +115,9 @@ class UpdateTreatmentForIllness(forms.Form):
                 )
                 return
 
+            # Now update your inventory table
+            update_inventory(inventory_instance, item_quantity, request)
+
         # If everything is okay, log the event and add message
         logger.info(
             f"{request.user.email} successfully added prescription records to illness instance[id={illness_id}]"
@@ -127,3 +130,15 @@ class UpdateTreatmentForIllness(forms.Form):
         )
 
         return
+
+
+def update_inventory(inventory_instance, item_quantity, request):
+    # Now update your inventory table
+    try:
+        QuantityHistory.objects.create(
+            inventory=inventory_instance,
+            updated_quantity=-(int(item_quantity)),
+            changed_by=request.user,
+        )
+    except Exception as e:
+        logger.error(f"Failed to update the inventory: {str(e)}")

@@ -30,15 +30,21 @@ export function getDepartmentDataParams(departments) {
     }
 }
 
-export function getParamsThenCreateDepartmentChart(departments, departmentData, getCountsAndLabelsForChart, createChart) {
-    const {
-        filter,
-        id,
-        department
-    } = getDepartmentDataParams(departments)
-    const data = departmentData[filter][id][department]
-    const [labels, counts] = getCountsAndLabelsForChart(data)
-    createDepartmentChart(labels, counts, department, createChart)
+export function getParamsThenCreateDepartmentChart(departments, departmentData, getCountsAndLabelsForChart,
+    createChart) {
+    try {
+        const {
+            filter,
+            id,
+            department
+        } = getDepartmentDataParams(departments)
+        const data = departmentData[filter][id][department]
+        const [labels, counts] = getCountsAndLabelsForChart(data)
+        createDepartmentChart(labels, counts, department, createChart)
+
+    } catch (error) {
+        console.error(`No data for department chart: ${error.message}`)
+    }
 }
 
 
@@ -54,8 +60,8 @@ export function createDepartmentChart(labels, counts, department, createChart) {
             data: counts,
             borderWidth: 1,
             indexAxis: 'x',
-            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Simplified background color for line chart
-            borderColor: 'rgba(75, 192, 192, 1)', // Adding border color for better visualization
+            backgroundColor: 'rgba(238, 172, 19, 0.2)', // Simplified background color for line chart
+            borderColor: 'rgba(238, 172, 19, 1)', // Adding border color for better visualization
             fill: false,
             tension: 0.5
         }]
