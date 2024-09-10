@@ -100,8 +100,14 @@ export function createUpdateInventoryForm(item, token) {
     let html = `
         <input type="hidden" name="csrfmiddlewaretoken" value="${token}" />
         <div class="form-top">
-            <label for="item_name">Item Name</label>
-            <input type="text" placeholder="name.." name="item_name" value="${item.item_name}" required />
+            <div class="form-group">
+                <label for="item_name">Item Name</label>
+                <input type="text" placeholder="name.." name="item_name" value="${item.item_name}" required />
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantity</label>
+                <input type="number" name="quantity" value="${item.total_quantity}" />
+            </div>
         </div>
         <div class="form-middle">
             <div class="form-group">
@@ -125,10 +131,7 @@ export function createUpdateInventoryForm(item, token) {
                 <label for="expiration_date">Expiration Date</label>
                 <input type="date" name="expiration_date" value="${item.expiration_date}"/>
             </div>
-            <div class="form-group">
-                <label for="quantity">Quantity</label>
-                <input type="number" name="quantity" value="${item.total_quantity}" />
-            </div>
+            
         </div>
         <div class="form-last">
             <label for="description">Item Description</label>

@@ -291,12 +291,14 @@
                     <form action="{% url 'create-patient-add-issue' %}" method="post">
                     {% csrf_token %}
                         <label for="">Patient Email</label>
-                        <input type="text" name="email" list="patients" />
+                        <input class="patient-input" type="text" name="email" list="patients" />
                         <datalist id="patients"></datalist>
                         <label for="">Issue</label>
-                        <input type="text" name="issue" />
-                        <button type="submit">Add Complaint</button>
-                        <button type="button" class="js-close-add-record">Cancel</button>
+                        <input class="issue-input" type="text" name="issue" />
+                        <div class="form-buttons">
+                        <button type="submit" class="form-button">Confirm</button>
+                        <button type="button" class="js-close-add-record cancel-button">Cancel</button>
+                        </div>
                     </form>
                 </div>
             </div>

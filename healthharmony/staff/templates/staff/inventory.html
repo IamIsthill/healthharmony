@@ -231,12 +231,13 @@
     </div>
     <div id="updatedInventoryModal" class="modal">
         <div class="modal-content">
-            <span class="js-close-update-inventory-btn">&times;</span>
+            <h1>Item Name</h1>
+            <span class="material-symbols-outlined close js-close-update-inventory-btn">cancel</span>
             <form action="" method="post" class="form-body">
                 {% csrf_token class="token" %}
                 <div class="form-top">
                     <div class="form-group">
-                    <label for="item_name">Item Name</label>
+                    <label for="item_name">Item Names</label>
                     <input type="text" placeholder="name.." name="item_name" required />
                     </div>
                     <div class="form-group">
