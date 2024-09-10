@@ -78,7 +78,7 @@
     <div class="spinner-border" role="status" id="loading-spinner">
         <span class="visually-hidden text-success">Loading...</span>
     </div>
-    <div class="container" style="display: none;">
+    <div class="container">
         {% include 'doctor/nav.html' %}
         <hr />
         <div>
@@ -154,7 +154,7 @@
                             </div>
                             <button class="js-expand-illness-btn">Expand</button>
                         {% endif %}
-                        {% if request.user.access > 2 and illness.diagnosis == '' %}
+                        {% if request.user.access > 2 and illness.diagnosis is None %}
                             <button class="js-edit-illness-btn">Edit</button>
                         {% endif %}
                         <button class="js-illness-note-btn">Leave Notes</button>

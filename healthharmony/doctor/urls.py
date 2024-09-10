@@ -9,4 +9,5 @@ urlpatterns = [
     ),
     path("get_illness_categories/", views.get_illness_categories),
     path("get_inventory_list/", views.get_inventory_list),
+    # path("update_illness/", views.update_illness),
 ]

@@ -6,11 +6,12 @@ from rest_framework.decorators import api_view
 from django.http import JsonResponse
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import never_cache
 
 from healthharmony.models.treatment.models import Illness, Category
 from healthharmony.models.inventory.models import InventoryDetail
 from healthharmony.users.models import User
-from healthharmony.doctor.forms import UpdateIllness
+from healthharmony.doctor.forms import UpdateIllness, UpdateTreatmentForIllness
 from healthharmony.patient.functions import update_patient_view_context
 
 from healthharmony.doctor.functions import predict_diagnosis
@@ -28,6 +29,7 @@ logger = logging.getLogger(__name__)
 
 
 # Create your views here.
+@never_cache
 @login_required(login_url="account_login")
 def view_patient_profile(request, pk):
     if request.user.access < 2:
@@ -51,51 +53,14 @@ def view_patient_profile(request, pk):
             request, "Failed to fetch the required data. Please reload the page"
         )
 
-    #     try:
-    #         user = User.objects.get(id=int(pk))
-    #         illness_all = Illness.objects.filter(patient=user).prefetch_related(
-    #             Prefetch(
-    #                 "illnesstreatment_set",
-    #                 queryset=IllnessTreatment.objects.select_related("inventory_detail"),
-    #             )
-    #         )
-
-    #         for illness in illness_all:
-    #             for treatment in illness.illnesstreatment_set.all():
-    #                 treatment.quantity = treatment.quantity or 0
-
-    #         done_illness = Illness.objects.filter(
-    #             diagnosis__isnull=False, patient=user
-    #         ).prefetch_related(
-    #             Prefetch(
-    #                 "illnesstreatment_set",
-    #                 queryset=IllnessTreatment.objects.select_related("inventory_detail"),
-    #             )
-    #         )
-    #         not_illness = Illness.objects.filter(
-    #             Q(patient=user) & Q(diagnosis__isnull=True) | Q(diagnosis="")
-    #         ).prefetch_related(
-    #             Prefetch(
-    #                 "illnesstreatment_set",
-    #                 queryset=IllnessTreatment.objects.select_related("inventory_detail"),
-    #             )
-    #         )
-    #         illness_data = {
-    #             "all": [illness_to_dict(illness) for illness in illness_all],
-    #             "not": [illness_to_dict(illness) for illness in not_illness],
-    #             "done": [illness_to_dict(illness) for illness in done_illness],
-    #         }
-
-    #         context.update(
-    #             {
-    #                 "user": user,
-    #                 "illness_all": illness_all,
-    #                 "illness_data": illness_data,
-    #             }
-    #         )
-
-    #     except Exception as e:
-    #         logger.info(f"Failed to fetch data: {str(e)}")
+    if request.method == "POST":
+        illness_form = UpdateIllness(request.POST)
+        prescription_form = UpdateTreatmentForIllness(request.POST)
+        if illness_form.is_valid() and prescription_form.is_valid():
+            illness_form.save(request)
+            prescription_form.save(request)
+        else:
+            messages.error(request, "Failed to update patient's case.")
 
     return render(request, "doctor/patient.html", context)
 
@@ -204,6 +169,17 @@ def get_inventory_list(request):
     for inventory in inventories:
         data.append(InventorySerializer(inventory).data)
     return JsonResponse(data, safe=False)
+
+
+# @api_view(["POST"])
+# def update_illness(request):
+#     access_checker(request)
+#     form = UpdateIllness(request.POST)
+#     if form.is_valid():
+#         form.save(request)
+#         return response(status=status.HTTP_200_OK)
+#     else:
+#         return response(form.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 def access_checker(request):
