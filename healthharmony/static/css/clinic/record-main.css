@@ -6,11 +6,10 @@ main{
 .modal-content{
     position: relative  ;
     background-color: #fefefe;
-    margin: 10% auto; /* 15% from the top and centered */
+    margin: 7% auto; /* 15% from the top and centered */
     border: 1px solid #888;
     padding: 1rem 2rem;
     width: 33%;
-    height: 35%; /* Could be more or less, depending on screen size */
     border-radius: 10px;
 }
 .modal-content h1{
@@ -23,7 +22,36 @@ main{
     display: flex;
     flex-direction: column;
 }
+.modal-content form input{
+    background: #E3E5E6;
+    width: 95%;
+    border: none;
+    border-radius: 5px;
+    padding: 0rem 1rem;
+    margin-bottom: 0.5rem;
+}
+.patient-input{
+    height: 3.5rem;
+}
+.issue-input{
+    height: 6rem;
+}
 
+.view-content{
+    width: 40%;
+    height: 40%;
+}
+.view-data{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.view-data h4{
+    font-weight: 500;
+}
+.view-cancel-button{
+    margin-top: 1rem;
+}
 .visit-history table, .lower table{
     margin-top: 1rem;
     background-color: white;

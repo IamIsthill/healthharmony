@@ -12,11 +12,13 @@ export function createViewIllnessBody(data) {
     }
 
     let html = `
+    <div class ="view-data">
         <h4>Date and Time of Visit: ${format_date(data.added)}</h4>
         <h4>Illness Category: ${data.category}</h4>
         <h4>Patient Name: ${data.first_name} ${data.last_name}</h4>
         <h4>Patient's Claim: ${data.issue}</h4>
         <h4>Added by: ${data.staff}</h4>
+    </div>
     `
     if (data.doctor) {
         html += `
@@ -26,7 +28,7 @@ export function createViewIllnessBody(data) {
         `
     }
 
-    html += '<button class="js-close-view-illness-modal">Close</button>'
+    html += '<button class="js-close-view-illness-modal view-cancel-button cancel-button">Close</button>'
     modalBody.innerHTML = html
 }
 
