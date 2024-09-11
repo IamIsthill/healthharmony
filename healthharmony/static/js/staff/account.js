@@ -141,7 +141,10 @@ function handle_patient_sort() {
     btn.addEventListener('change', () => {
         const paginated_data = get_paginated_patient_data()
         const sorted_patient_data = get_sorted_patient_data_based_on_current_params(paginated_data)
+
         update_patient_table(sorted_patient_data, format_date)
+        handle_onhover_patient_name()
+
     })
 }
 
@@ -159,7 +162,10 @@ function handle_click_patient_direction() {
 
         const paginated_data = get_paginated_patient_data()
         const sorted_patient_data = get_sorted_patient_data_based_on_current_params(paginated_data)
+
         update_patient_table(sorted_patient_data, format_date)
+        handle_onhover_patient_name()
+
     })
 }
 
@@ -170,7 +176,9 @@ function handle_onclick_patient_search() {
     btn.addEventListener('click', () => {
         const paginated_data = get_paginated_patient_data()
         const sorted_patient_data = get_sorted_patient_data_based_on_current_params(paginated_data)
+
         update_patient_table(sorted_patient_data, format_date)
+        handle_onhover_patient_name()
 
         // Make sure na ihuli ang pag clear sa search field
         const search_field = document.querySelector('.js-patient-search-field')
@@ -187,7 +195,9 @@ function handle_onclick_clear_patient_search() {
         search_field.value = ''
 
         const paginated_data = get_paginated_patient_data()
+
         update_patient_table(paginated_data, format_date)
+        handle_onhover_patient_name()
 
     })
 }
