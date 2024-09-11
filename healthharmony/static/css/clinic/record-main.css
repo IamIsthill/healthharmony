@@ -30,12 +30,6 @@ main{
     padding: 0rem 1rem;
     margin-bottom: 0.5rem;
 }
-.patient-input{
-    height: 3.5rem;
-}
-.issue-input{
-    height: 6rem;
-}
 
 .view-content{
     width: 40%;

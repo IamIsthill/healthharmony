@@ -17,7 +17,7 @@
     display: flex;
     flex-direction: column;
 }
-.modal-content form input{
+.modal-content form input, form select{
     background: #E3E5E6;
     width: 95%;
     border: none;
@@ -25,12 +25,7 @@
     padding: 0rem 1rem;
     margin-bottom: 0.5rem;
 }
-.patient-input{
-    height: 3.5rem;
-}
-.issue-input{
-    height: 6rem;
-}
+
 main{
     margin-top: 1.5rem;
     color: var(--normal-fontcolor);

@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 /* UTILITY CLASS */
 :root {
-    --Background-color:#fcfcfc;
+    --Background-color:#F5F5F5;
     --Yellow: #FFBA14;
     --Dark-Yellow: #eeac13;
     --Light-Yellow: #FFCB4C;
@@ -22,7 +22,7 @@
 
     --box-shadow: 0 2rem 3rem var(--shadow-color);
     --box-shadow2: 0 0rem 1.5rem var(--shadow-color);
-    --box-shadowlight: 0 0rem 1.5rem rgb(32, 43, 55,0.2);
+    --box-shadowlight: 0 0rem 1rem rgb(32, 43, 55,0.2);
     /* SIZES */
 
     --size-xxs: 0.5rem;
@@ -179,4 +179,11 @@ button{
 }
 .clr-btn:hover{
   background:rgba(29, 29, 29, 0.541);
+}
+
+.patient-input{
+  height: 3.5rem;
+}
+.issue-input{
+  height: 6rem;
 }
