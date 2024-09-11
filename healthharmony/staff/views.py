@@ -370,7 +370,7 @@ def create_patient_add_issue(request):
                     user=request.user,
                     action=f"Created new user {patient.email} with id [{patient.id}]",
                 )
-                subject = "Welcome New User"
+                subject = "Welcome to HealthHarmony!"
                 body = (
                     f"<h1>This is your password {password}</h1><p>With HTML content</p>"
                 )

@@ -37,6 +37,7 @@ function main() {
     listenToModalOk()
 
     listenToAddVisitBtn()
+    // handle_add_new_patient_btn()
 
     listenToCategoryFilterBtns()
     listenToCategorySelector()
@@ -53,6 +54,17 @@ function main() {
     listenToDepartmentBarFilters()
     createDepartmentBarCanvas(getBarCounts(departmentData['yearly']))
     selectEachDepartmentBarThenCreateBars(getBarCounts(departmentData['yearly']), createBars)
+}
+
+function handle_add_new_patient_btn() {
+    const btn = document.querySelector('.js_add_new_patient')
+
+    btn.addEventListener('click', (event) => {
+        event.preventDefault()
+        // const addVisitModal = document.getElementById('js-add-visit-modal')
+
+        // addVisitModal.style.display = 'none'
+    })
 }
 
 function listenCheckBed() {
