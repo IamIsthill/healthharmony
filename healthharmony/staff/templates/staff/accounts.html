@@ -94,7 +94,7 @@
                                         <div class="search-main-container">
                                             <div class="search-container">
                                                 <input type="text"
-                                                       class="js-inventory-search-container"
+                                                       class="js-patient-search-field"
                                                        id="search-field"
                                                        placeholder="Search..." />
                                                 <button class="js-patient-search-btn">
@@ -105,13 +105,12 @@
                                         </div>
                                         <div class="sort-by">
                                             <span>Sort By:</span>
-                                            <select id="js-patient-filter-inputs" class="js-inventory-sort-select">
+                                            <select class="js-patient-filter-inputs">
                                                 <option value="">All</option>
                                                 <option value="department">Department</option>
                                                 <option value="name">Name</option>
                                             </select>
-                                            <div class="js-patient-filters"></div>
-                                            <button class="js-inventory-direction" data-sort='asc'>
+                                            <button class="js_patient_direction" data-sort="asc">
                                                 <span class="material-symbols-outlined">swap_vert</span>
                                             </button>
                                         </div>
@@ -127,11 +126,11 @@
                         <tbody class="js-patients-body">
                             {% for patient in patients_page %}
                                 <tr>
-                                    <td class="table-data js-patient-profile"
+                                    <td class="table-data js-patient-profile js-hover-patient"
                                         data-patient-id="{{ patient.id }}">
                                         {{ patient.first_name }} {{ patient.last_name }}
                                     </td>
-                                    <td class="table-data js-department-names">{{ patient.department_name }}</td>
+                                    <td class="table-data js-department-names">{{ patient.department_name|default_if_none:"" }}</td>
                                     <td class="table-data js-dates">{{ patient.last_visit }}</td>
                                 </tr>
                             {% endfor %}
@@ -188,7 +187,7 @@
                                             <option value="name">Name</option>
                                         </select>
                                         <div class="js-patient-filters"></div>
-                                        <button class="js-inventory-direction" data-sort='asc'>
+                                        <button class="js-inventory-direction" data-sort="asc">
                                             <span class="material-symbols-outlined">swap_vert</span>
                                         </button>
                                         <!-- CHANGE INVENTORY CLASSES TO RECORD SA TAAS -->
@@ -262,7 +261,7 @@
                                             <option value="3">Doctors</option>
                                         </select>
                                         <div class="js-patient-filters"></div>
-                                        <button class="js-inventory-direction" data-sort='asc'>
+                                        <button class="js-inventory-direction" data-sort="asc">
                                             <span class="material-symbols-outlined">swap_vert</span>
                                         </button>
                                     </div>

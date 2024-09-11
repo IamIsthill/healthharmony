@@ -40,6 +40,11 @@ import {
     filterEmployeeData
 } from '/static/js/staff/account-clinic.js'
 
+import {
+    get_sorted_patient_data_based_on_current_params,
+    update_patient_table
+} from '/static/js/staff/account-patients.js'
+
 const patientData = JSON.parse(document.getElementById('patientData').textContent)
 const departmentData = JSON.parse(document.getElementById('departmentData').textContent)
 const employeeData = JSON.parse(document.getElementById('employeeData').textContent)
@@ -52,34 +57,110 @@ function main() {
     console.log(patientData)
     console.log(departmentData)
     console.log(employeeData)
+
+    /**PATIENT TABLE */
+    formatDatesInPatientsPage(format_date)
+
+    handle_patient_sort()
+    handle_click_patient_direction()
+    handle_onclick_patient_search()
+    handle_onclick_clear_patient_search()
+
     //patients
-    setDefault()
-    updatePatientCount()
-    checkPatientPagination()
-    updatePatientSearchField()
-    updatePatientFiltersFromMemory(getItem, updatePatientFilters)
-    updatePatientBasedOnSearchFieldAndFilters()
-    listenToPatientClearBtn()
-    listenToHoverOnPatientSearchField()
-    listenPatientFilter()
-    listenPatientSearchBtn()
+    // listenToHoverOnPatientName()
+    // formatDepartmentNames()
+    // listenToHoverOnPatientName()
+    // clickToRemovePatientFilter()
 
-    //departments
-    formatDepartmentUserCounts()
-    listenDepartmentDelete()
-    listenDepartmentEdit()
-    listenDepartmentView()
-    listenAddDepartmentBtn()
-    createDepartmentBarGraph()
+    // setDefault()
+    // updatePatientCount()
+    // checkPatientPagination()
+    // updatePatientSearchField()
+    // updatePatientFiltersFromMemory(getItem, updatePatientFilters)
+    // updatePatientBasedOnSearchFieldAndFilters()
+    // listenToPatientClearBtn()
+    // listenToHoverOnPatientSearchField()
+    // listenPatientFilter()
+    // listenPatientSearchBtn()
 
-    //employee
-    setEmployeeFilters()
-    updateEmployeeHTMl(employeeData)
-    listenEmployeeSearchBtn()
-    listenEmployeeFilter()
-    listenEmployeeSearchField()
-    listenEmployeeClearBtn()
+    // //departments
+    // formatDepartmentUserCounts()
+    // listenDepartmentDelete()
+    // listenDepartmentEdit()
+    // listenDepartmentView()
+    // listenAddDepartmentBtn()
+    // createDepartmentBarGraph()
+
+    // //employee
+    // setEmployeeFilters()
+    // updateEmployeeHTMl(employeeData)
+    // listenEmployeeSearchBtn()
+    // listenEmployeeFilter()
+    // listenEmployeeSearchField()
+    // listenEmployeeClearBtn()
 }
+
+/** MAIN FUNCTIONS */
+
+// Lagyan ng listener yung sort like all, department, tapos name
+function handle_patient_sort() {
+    const btn = document.querySelector('.js-patient-filter-inputs')
+
+    btn.addEventListener('change', () => {
+        const sorted_patient_data = get_sorted_patient_data_based_on_current_params(patientData)
+        update_patient_table(sorted_patient_data, format_date)
+    })
+}
+
+// Lagyan ng listener yung patient direction like up or down
+function handle_click_patient_direction() {
+    const btn = document.querySelector('.js_patient_direction')
+
+
+    btn.addEventListener('click', () => {
+        const direction = btn.getAttribute('data-sort')
+        if (direction == 'asc') {
+            btn.setAttribute('data-sort', 'desc')
+        } else if (direction == 'desc') {
+            btn.setAttribute('data-sort', 'asc')
+        }
+        const sorted_patient_data = get_sorted_patient_data_based_on_current_params(patientData)
+        update_patient_table(sorted_patient_data, format_date)
+    })
+}
+
+// When pinindot ni user search icon
+function handle_onclick_patient_search() {
+    const btn = document.querySelector('.js-patient-search-btn')
+
+    btn.addEventListener('click', () => {
+        const filtered_patient_data = get_sorted_patient_data_based_on_current_params(patientData)
+        update_patient_table(filtered_patient_data, format_date)
+
+        // Make sure na ihuli ang pag clear sa search field
+        const search_field = document.querySelector('.js-patient-search-field')
+        search_field.value = ''
+
+
+    })
+}
+
+// Empty yung search field
+function handle_onclick_clear_patient_search() {
+    const btn = document.querySelector('.js-patient-clear-btn')
+
+    btn.addEventListener('click', () => {
+        const search_field = document.querySelector('.js-patient-search-field')
+        search_field.value = ''
+    })
+}
+
+/** */
+
+function click() {
+    console.log('click')
+}
+
 
 function listenEmployeeClearBtn() {
     const employeeClearBtn = document.querySelector('.js-employee-clear-btn')
@@ -159,7 +240,8 @@ function updateEmployeeHTMl(employeeData) {
             last_case = getElapsedTime(employee.last_case)
         }
 
-        const name = employee.first_name && employee.last_name ? `${employee.first_name} ${employee.last_name}` : employee.email
+        const name = employee.first_name && employee.last_name ? `${employee.first_name} ${employee.last_name}` :
+            employee.email
         html += `
             <tr>
                 <td>${name}</td>
@@ -338,6 +420,7 @@ function updatePatientSearchField() {
 
 function updatePatientFiltersFromMemory(getItem, updatePatientFilters) {
     const filters = getItem('patientFilters')
+
     if (filters && filters.length > 0) {
         for (const filter of filters) {
             updatePatientFilters(filter)
@@ -387,15 +470,16 @@ function updatePatientBasedOnSearchFieldAndFilters() {
 function listenPatientFilter() {
     const patientFilterInput = document.querySelector('.js-patient-filter-inputs')
     patientFilterInput.addEventListener('change', () => {
-        const filter = patientFilterInput.value
-        if (filter) {
-            if (!checkIfFilterExist(filter)) {
-                updatePatientFilters(filter)
-                const filters = getPatientFilter()
-                saveItem('patientFilters', filters)
-            }
-        }
-        clickToRemovePatientFilter()
+        console.log(patientFilterInput.value)
+        // const filter = patientFilterInput.value
+        // if (filter) {
+        //     if (!checkIfFilterExist(filter)) {
+        //         // updatePatientFilters(filter)
+        //         const filters = getPatientFilter()
+        //         // saveItem('patientFilters', filters)
+        //     }
+        // }
+        // clickToRemovePatientFilter()
     })
 }
 
@@ -404,6 +488,7 @@ function clickToRemovePatientFilter() {
     for (const filterInstance of filterInstances) {
         filterInstance.addEventListener('click', () => {
             filterInstance.remove()
+            removeItem('patientFilters')
         })
     }
 }

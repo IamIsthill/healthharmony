@@ -151,3 +151,157 @@ export function formatDatesInPatientsPage(format_date) {
         }
     }
 }
+
+
+/**UPDATED FUNCTIONS */
+
+// This will get the params based on the current state of the html
+export function get_sorted_patient_data_based_on_current_params(patientData) {
+    const filter = get_current_patient_sort()
+    const direction = get_current_patient_direction()
+    const search_text = get_patient_search_text()
+    const filtered_patient_data = get_filtered_patient_data(filter, search_text, patientData)
+    const sorted_patient_data = get_sorted_patient_data(filter, direction, filtered_patient_data)
+
+    return sorted_patient_data
+
+}
+
+/** */
+
+
+function get_current_patient_sort() {
+    const btn = document.querySelector('.js-patient-filter-inputs')
+    return btn.value
+}
+
+function get_patient_search_text() {
+    const search_field = document.querySelector('.js-patient-search-field')
+    return search_field.value
+}
+
+function get_current_patient_direction() {
+    const btn = document.querySelector('.js_patient_direction')
+    const direction = btn.getAttribute('data-sort')
+    return direction
+}
+
+function get_filtered_patient_data(filter, search_text, patientData) {
+    let filtered_data = []
+
+    if (filter == '') {
+        for (const patient of patientData) {
+            if (String(patient.department_name).toLowerCase().includes(search_text) ||
+                String(patient.first_name).toLowerCase().includes(search_text) ||
+                String(patient.last_name).toLowerCase().includes(search_text)) {
+                filtered_data.push(patient)
+            }
+        }
+    } else if (filter == 'name') {
+        for (const patient of patientData) {
+            if (String(patient.first_name).toLowerCase().includes(search_text) ||
+                String(patient.last_name).toLowerCase().includes(search_text)) {
+                filtered_data.push(patient)
+            }
+        }
+    } else if (filter == 'department') {
+        for (const patient of patientData) {
+            if (String(patient.department_name).toLowerCase().includes(search_text)) {
+                filtered_data.push(patient)
+            }
+        }
+    }
+
+    return filtered_data
+}
+
+function get_sorted_patient_data(filter, direction, patient_data) {
+    if (direction == 'asc') {
+        if (filter == '') {
+            patient_data.sort(
+                (a, b) => {
+                    let nameA = String(a.last_name).toLowerCase()
+                    let nameB = String(b.last_name).toLowerCase()
+
+                    if (nameA < nameB) return -1
+                    if (nameA > nameB) return 1
+                    return 0
+                }
+            )
+        } else if (filter == 'name') {
+            patient_data.sort(
+                (a, b) => {
+                    let nameA = String(a.first_name).toLowerCase()
+                    let nameB = String(b.first_name).toLowerCase()
+
+                    if (nameA < nameB) return -1
+                    if (nameA > nameB) return 1
+                    return 0
+                }
+            )
+        } else if (filter == 'department') {
+            patient_data.sort(
+                (a, b) => {
+                    let nameA = String(a.department_name).toLowerCase()
+                    let nameB = String(b.department_name).toLowerCase()
+
+                    if (nameA < nameB) return -1
+                    if (nameA > nameB) return 1
+                    return 0
+                }
+            )
+        }
+    } else if (direction == 'desc') {
+        if (filter == '') {
+            patient_data.sort(
+                (a, b) => {
+                    let nameA = a.last_name.toLowerCase()
+                    let nameB = b.last_name.toLowerCase()
+
+                    if (nameA > nameB) return -1
+                    if (nameA < nameB) return 1
+                    return 0
+                }
+            )
+        } else if (filter == 'name') {
+            patient_data.sort(
+                (a, b) => {
+                    let nameA = String(a.first_name).toLowerCase()
+                    let nameB = String(b.first_name).toLowerCase()
+
+                    if (nameA > nameB) return -1
+                    if (nameA < nameB) return 1
+                    return 0
+                }
+            )
+        } else if (filter == 'department') {
+            patient_data.sort(
+                (a, b) => {
+                    let nameA = String(a.department_name).toLowerCase()
+                    let nameB = String(b.department_name).toLowerCase()
+
+                    if (nameA > nameB) return -1
+                    if (nameA < nameB) return 1
+                    return 0
+                }
+            )
+        }
+
+    }
+
+    return patient_data
+}
+export function update_patient_table(filtered_patient_data, format_date) {
+    const patient_table_body = document.querySelector('.js-patients-body')
+    patient_table_body.innerHTML = ''
+
+    for (const patient of filtered_patient_data) {
+        const tr_element = document.createElement('tr')
+        tr_element.innerHTML = `
+            <td class="table-data js-patient-profile js-hover-patient" data-patient-id="${patient.id}">${patient.first_name} ${patient.last_name}</td>
+            <td  class="table-data js-department-names">${patient.department_name ? patient.department_name : ''}</td>
+            <td  class="table-data js-dates">${format_date(patient.last_visit)}</td>
+        `
+        patient_table_body.appendChild(tr_element)
+    }
+}
