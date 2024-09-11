@@ -164,9 +164,55 @@ export function get_sorted_patient_data_based_on_current_params(patientData) {
     const sorted_patient_data = get_sorted_patient_data(filter, direction, filtered_patient_data)
 
     return sorted_patient_data
-
 }
 
+export function update_patient_table(filtered_patient_data, format_date) {
+    const patient_table_body = document.querySelector('.js-patients-body')
+    patient_table_body.innerHTML = ''
+
+    for (const patient of filtered_patient_data) {
+        const tr_element = document.createElement('tr')
+        tr_element.innerHTML = `
+            <td class="table-data js-patient-profile" data-patient-id="${patient.id}">${patient.first_name} ${patient.last_name}</td>
+            <td  class="table-data js-department-names">${patient.department_name ? patient.department_name : ''}</td>
+            <td  class="table-data js-dates">${format_date(patient.last_visit)}</td>
+        `
+        patient_table_body.appendChild(tr_element)
+    }
+}
+
+export function create_hover_patient_information(patient_data, x, y, format_date) {
+    const hoverHTML = document.createElement('div')
+    hoverHTML.className = 'js-hover-patient'
+    hoverHTML.style.position = 'absolute'
+    let date = ''
+    try {
+        date = format_date(patient_data.date_joined)
+    } catch (error) {
+        console.log(error)
+    }
+    const content = `
+        <img src="/media/${patient_data.profile}">
+        <p>Email Address: ${patient_data.email}</p>
+        <p>Name: ${patient_data.first_name} ${patient_data.last_name}</p>
+        <p>Department: ${patient_data.department_name}</p>
+        <p>Joined on: ${date}</p>
+    `
+    hoverHTML.style.top = `${y + 5}px`
+    hoverHTML.style.left = `${x + 5}px`
+    hoverHTML.style.zIndex = '100'
+    hoverHTML.innerHTML = content
+    document.body.append(hoverHTML)
+}
+
+export function get_patient_data(patient_datas, patient_id) {
+    for (const patient of patient_datas) {
+        if (parseInt(patient.id) == parseInt(patient_id)) {
+            return patient
+        }
+    }
+    return null
+}
 /** */
 
 
@@ -290,18 +336,4 @@ function get_sorted_patient_data(filter, direction, patient_data) {
     }
 
     return patient_data
-}
-export function update_patient_table(filtered_patient_data, format_date) {
-    const patient_table_body = document.querySelector('.js-patients-body')
-    patient_table_body.innerHTML = ''
-
-    for (const patient of filtered_patient_data) {
-        const tr_element = document.createElement('tr')
-        tr_element.innerHTML = `
-            <td class="table-data js-patient-profile js-hover-patient" data-patient-id="${patient.id}">${patient.first_name} ${patient.last_name}</td>
-            <td  class="table-data js-department-names">${patient.department_name ? patient.department_name : ''}</td>
-            <td  class="table-data js-dates">${format_date(patient.last_visit)}</td>
-        `
-        patient_table_body.appendChild(tr_element)
-    }
 }

@@ -42,7 +42,9 @@ import {
 
 import {
     get_sorted_patient_data_based_on_current_params,
-    update_patient_table
+    update_patient_table,
+    create_hover_patient_information,
+    get_patient_data
 } from '/static/js/staff/account-patients.js'
 
 const patientData = JSON.parse(document.getElementById('patientData').textContent)
@@ -60,11 +62,13 @@ function main() {
 
     /**PATIENT TABLE */
     formatDatesInPatientsPage(format_date)
-
     handle_patient_sort()
     handle_click_patient_direction()
     handle_onclick_patient_search()
     handle_onclick_clear_patient_search()
+    handle_onhover_patient_name()
+
+
 
     //patients
     // listenToHoverOnPatientName()
@@ -102,12 +106,41 @@ function main() {
 
 /** MAIN FUNCTIONS */
 
+// hovering thingy when pointing your cursor on a patient's name
+function handle_onhover_patient_name() {
+    const patient_elements = document.querySelectorAll('.js-patient-profile')
+
+    for (const patient_element of patient_elements) {
+        patient_element.addEventListener('mouseenter', (event) => {
+            const patient_id = parseInt(patient_element.getAttribute('data-patient-id'))
+            const patient_data = get_patient_data(patientData, patient_id)
+
+            // Position of cursor
+            const x = event.clientX,
+                y = event.clientY
+
+            // Create the hovering thingy
+            create_hover_patient_information(patient_data, x, y, format_date)
+
+            // Remove hovering when mouse leaves
+            patient_element.addEventListener('mouseleave', () => {
+                const hover_patient_elements = document.querySelectorAll('.js-hover-patient')
+
+                for (const hover_patient_element of hover_patient_elements) {
+                    hover_patient_element.remove()
+                }
+            })
+        })
+    }
+}
+
 // Lagyan ng listener yung sort like all, department, tapos name
 function handle_patient_sort() {
     const btn = document.querySelector('.js-patient-filter-inputs')
 
     btn.addEventListener('change', () => {
-        const sorted_patient_data = get_sorted_patient_data_based_on_current_params(patientData)
+        const paginated_data = get_paginated_patient_data()
+        const sorted_patient_data = get_sorted_patient_data_based_on_current_params(paginated_data)
         update_patient_table(sorted_patient_data, format_date)
     })
 }
@@ -116,7 +149,6 @@ function handle_patient_sort() {
 function handle_click_patient_direction() {
     const btn = document.querySelector('.js_patient_direction')
 
-
     btn.addEventListener('click', () => {
         const direction = btn.getAttribute('data-sort')
         if (direction == 'asc') {
@@ -124,7 +156,9 @@ function handle_click_patient_direction() {
         } else if (direction == 'desc') {
             btn.setAttribute('data-sort', 'asc')
         }
-        const sorted_patient_data = get_sorted_patient_data_based_on_current_params(patientData)
+
+        const paginated_data = get_paginated_patient_data()
+        const sorted_patient_data = get_sorted_patient_data_based_on_current_params(paginated_data)
         update_patient_table(sorted_patient_data, format_date)
     })
 }
@@ -134,14 +168,13 @@ function handle_onclick_patient_search() {
     const btn = document.querySelector('.js-patient-search-btn')
 
     btn.addEventListener('click', () => {
-        const filtered_patient_data = get_sorted_patient_data_based_on_current_params(patientData)
-        update_patient_table(filtered_patient_data, format_date)
+        const paginated_data = get_paginated_patient_data()
+        const sorted_patient_data = get_sorted_patient_data_based_on_current_params(paginated_data)
+        update_patient_table(sorted_patient_data, format_date)
 
         // Make sure na ihuli ang pag clear sa search field
         const search_field = document.querySelector('.js-patient-search-field')
         search_field.value = ''
-
-
     })
 }
 
@@ -152,10 +185,23 @@ function handle_onclick_clear_patient_search() {
     btn.addEventListener('click', () => {
         const search_field = document.querySelector('.js-patient-search-field')
         search_field.value = ''
+
+        const paginated_data = get_paginated_patient_data()
+        update_patient_table(paginated_data, format_date)
+
     })
 }
 
+function get_paginated_patient_data() {
+    const url = getCurrentUrl()
+    const page = parseInt(url.searchParams.get('patients-page'))
+    const paginated_data = paginateArray(patientData, page)
+
+    return paginated_data
+}
+
 /** */
+
 
 function click() {
     console.log('click')

@@ -126,11 +126,11 @@
                         <tbody class="js-patients-body">
                             {% for patient in patients_page %}
                                 <tr>
-                                    <td class="table-data js-patient-profile js-hover-patient"
+                                    <td class="table-data js-patient-profile"
                                         data-patient-id="{{ patient.id }}">
                                         {{ patient.first_name }} {{ patient.last_name }}
                                     </td>
-                                    <td class="table-data js-department-names">{{ patient.department_name|default_if_none:"" }}</td>
+                                    <td class="table-data js-department-names">{{ patient.department_name|default_if_none:'' }}</td>
                                     <td class="table-data js-dates">{{ patient.last_visit }}</td>
                                 </tr>
                             {% endfor %}
@@ -285,38 +285,38 @@
                     </tbody>
                 </table>
             </div>
+        </main>
+        <div class="js-add-department-modal modal">
+            <div class="modal-content">
+                <span class="js-close-add-department-modal">&times;</span>
+                <form action="{% url 'staff-accounts-add-department' %}"
+                      class="form-body"
+                      method="post">
+                    {% csrf_token %}
+                    <input type="text" required name="department_name" />
+                    <button type="submit">Add</button>
+                    <button class="js-close-add-department-modal">Cancel</button>
+                </form>
+            </div>
         </div>
-    </main>
-    <div class="js-add-department-modal modal">
-        <div class="modal-content">
-            <span class="js-close-add-department-modal">&times;</span>
-            <form action="{% url 'staff-accounts-add-department' %}"
-                  class="form-body"
-                  method="post">
-                {% csrf_token %}
-                <input type="text" required name="department_name" />
-                <button type="submit">Add</button>
-                <button class="js-close-add-department-modal">Cancel</button>
-            </form>
+        <div class="js-delete-department-modal modal">
+            <div class="modal-content">
+                <span class="js-close-delete-department-modal">&times;</span>
+                <form action="" method="post" class="form-body">
+                    {% csrf_token %}
+                </form>
+            </div>
         </div>
-    </div>
-    <div class="js-delete-department-modal modal">
-        <div class="modal-content">
-            <span class="js-close-delete-department-modal">&times;</span>
-            <form action="" method="post" class="form-body">
-                {% csrf_token %}
-            </form>
+        <div class="js-edit-department-modal modal">
+            <div class="modal-content">
+                <span class="js-close-edit-department-modal">&times;</span>
+                <form action="" class="form-body" method="post">
+                </form>
+            </div>
         </div>
-    </div>
-    <div class="js-edit-department-modal modal">
-        <div class="modal-content">
-            <span class="js-close-edit-department-modal">&times;</span>
-            <form action="" class="form-body" method="post">
-            </form>
+        <div class="js-view-department-modal modal">
+            <div class="modal-content"></div>
         </div>
-    </div>
-    <div class="js-view-department-modal modal">
-        <div class="modal-content"></div>
     </div>
 {% endblock %}
 {% block script %}
