@@ -79,7 +79,7 @@
 {% endblock %}
 {% block main %}
     {% include 'staff/nav-top.html' %}
-    <div class="container">
+    <div class="nurse-container2">
         {% include 'staff/navbar.html' %}
         {% csrf_token %}
         <main>
@@ -286,8 +286,10 @@
                     </tbody>
                 </table>
             </div>
+          </main>  
         </div>
-    </main>
+    
+
     <div class="js-add-department-modal modal">
         <div class="modal-content">
             <span class="js-close-add-department-modal">&times;</span>

@@ -180,3 +180,10 @@ button{
 .clr-btn:hover{
   background:rgba(29, 29, 29, 0.541);
 }
+
+.patient-input{
+  height: 3.5rem;
+}
+.issue-input{
+  height: 6rem;
+}
