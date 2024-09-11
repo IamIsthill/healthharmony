@@ -132,16 +132,51 @@ button{
   border-radius: 3rem;
 }
 
-.form-button {
+.form-button, .cancel-button {
   font-size: var(--size-lg);
-  width: 10rem;
-  padding: 0.8rem 0rem;
+  width: 8rem;
+  padding: 0.6rem 0rem;
   border-radius: 3rem;
-  cursor: pointer;
+  cursor: pointer;  
   transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0);
 }
-
+.form-button{
+  background:black;
+  color: white;
+}
+.cancel-button{
+  background:rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  border: 1px solid black;
+}
+.cancel-button:hover{
+  background: rgba(0, 0, 0, 0.548);
+  border: 1px solid rgba(146, 146, 146, 0.548);  
+  color: white;
+}
+.form-button:hover{
+  background:rgba(0, 0, 0, 0.521);
+}
+.form-buttons {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 1.5rem;
+  box-sizing: border-box;
+}
 .delete-btn{
   color: var(--Red);
   cursor: pointer;
+}
+
+.clr-btn{
+  padding: 0 8px;
+  height: 2rem;
+  border-radius: 8px;
+  background:rgba(59, 59, 59, 0.479);
+  color: white;
+  transition: all 0.3s ease;
+}
+.clr-btn:hover{
+  background:rgba(29, 29, 29, 0.541);
 }

@@ -78,6 +78,17 @@
                                             <span class="material-symbols-outlined">search</span>
                                         </button>
                                     </div>
+                                    <div class="sort-by">
+                                        <span>Sort By:</span>
+                                        <select id="inventory-sort-select" class="js-inventory-sort-select">
+                                            <option value="name">Name</option>
+                                            <option value="date">Expiry Date</option>
+                                            <option value="stock">Stock</option>
+                                        </select>
+                                        <button class="js-inventory-direction" data-sort='asc'>
+                                            <span class="material-symbols-outlined">swap_vert</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </th>
                         </tr>
@@ -246,8 +257,8 @@
             </div>
         </div>
         <div id="viewIllnessModal" class="modal">
-            <div class="modal-content">
-                <span class="js-close-view-illness-modal">&times;</span>
+            <div class="modal-content view-content">
+                <span class="material-symbols-outlined close js-close-view-illness-modal">cancel</span>
                 <div class="modal-body">
                     <h1>Hi</h1>
                 </div>

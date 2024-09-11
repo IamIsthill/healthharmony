@@ -70,15 +70,18 @@
         <!-- Modal content -->
         <div class="modal-content">
             <h1>Visit Record</h1>
+            <h1>Add a Patient Record</h1>
             <span class="material-symbols-outlined close js-close-add-visit-modal-btn">cancel</span>
             <form action="{% url 'create-patient-add-issue' %}" method="post">
                 {% csrf_token %}
                 <label for="">Patient</label>
-                <select type="text" name="email" />
-                {% for patient in patients %}<option value="{{ patient.email }}">{{ patient.email }}</option>{% endfor %}
-                <label for="">Patient's Issue</label>
+                <input type="text" name="email" />
+                <select name="email">
+                    {% for patient in patients %}<option value="{{ patient.email }}">{{ patient.email }}</option>{% endfor %}
+                </select>
+                <label for="">Issue</label>
                 <input type="text" name="issue" />
-                <button class="form-button" type="submit">Add Visit Record</button>
+                <button class="form-button" type="submit">Add Complaint</button>
             </form>
         </div>
     </div>

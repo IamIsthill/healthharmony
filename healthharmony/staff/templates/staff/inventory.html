@@ -88,8 +88,8 @@
                                             <option value="date">Expiry Date</option>
                                             <option value="stock">Stock</option>
                                         </select>
-                                        <button class="js-inventory-direction" data-sort="asc">
-                                            <span class="material-symbols-outlined">sort_by_alpha</span>
+                                        <button class="js-inventory-direction" data-sort='asc'>
+                                            <span class="material-symbols-outlined">swap_vert</span>
                                         </button>
                                     </div>
                                 </div>
@@ -218,7 +218,8 @@
     </div>
     <div id="updatedInventoryModal" class="modal">
         <div class="modal-content">
-            <span class="js-close-update-inventory-btn">&times;</span>
+            <h1>Item Name</h1>
+            <span class="material-symbols-outlined close js-close-update-inventory-btn">cancel</span>
             <form action="" method="post" class="form-body">
                 {% csrf_token class='token' %}
                 <div class="form-top">
