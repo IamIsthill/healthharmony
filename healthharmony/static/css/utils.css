@@ -75,7 +75,7 @@
 
 
  /* NURSE UTILS */
- .nurse-container, .nurse-container2{
+ .nurse-container, .nurse-container2, .doctor-profile-container{
    width: 98%;
    display: grid;
    gap: 1rem;
@@ -91,6 +91,9 @@
   align-self: start; /* Ensure it aligns properly within the grid */
 }
 
+.doctor-profile-container{
+  grid-template-columns: 12rem auto 53rem;
+}
 
  .nurse-container2{
   grid-template-columns: 12rem auto;
