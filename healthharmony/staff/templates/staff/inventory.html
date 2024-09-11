@@ -13,7 +13,7 @@
           rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
           rel="stylesheet" />
-    <!-- <style>
+    <!--   <style>
         .btn {
             cursor: pointer;
         }
@@ -53,31 +53,15 @@
             text-decoration: none;
             cursor: pointer;
           }
-    </style> -->
+    </style>   -->
 {% endblock %}
 {% block message %}
     {% if messages|has_error_message %}
         {% include 'error.html' %}
     {% endif %}
-{% endblock message %}
+{% endblock %}
 {% block main %}
-<div class="nav-top">
-    <h2>Inventory</h2>
-    <div class="profile-container">
-        <img src="{% static 'assets/images/doctor-pics/Miko.jpg' %}"
-            alt="Profile Picture"
-            class="profile-pic" />
-        <div class="profile-info">
-            <h3>Miko Basilio</h3>
-            <span>Nurse</span>
-        </div>
-        <a href="{% url 'logout' %}">
-            <div class="logout-container">
-                <span class="material-symbols-outlined">logout</span>
-            </div>
-        </a>
-    </div>
-</div>
+    {% include 'staff/nav-top.html' %}
     <div class="nurse-container">
         {% include 'staff/navbar.html' %}
         <main class="staff-main">
@@ -104,9 +88,9 @@
                                             <option value="date">Expiry Date</option>
                                             <option value="stock">Stock</option>
                                         </select>
-                                        <button class="js-inventory-direction" data-sort='asc'><span class="material-symbols-outlined">
-                                            swap_vert
-                                            </span></button>
+                                        <button class="js-inventory-direction" data-sort='asc'>
+                                            <span class="material-symbols-outlined">swap_vert</span>
+                                        </button>
                                     </div>
                                 </div>
                             </th>
@@ -143,37 +127,40 @@
                                 <td class="table-data cat-column">{{ data.category }}</td>
                                 <td class="table-data total-column">{{ data.total_quantity }}</td>
                                 <td class="table-data exp-column">{{ data.expiration_date }}</td>
-                                <td class="table-data js-inventory-btn btn view-column" data-id="{{ data.id }}">View</td>
+                                <td class="table-data js-inventory-btn btn view-column"
+                                    data-id="{{ data.id }}">View</td>
                                 <td class="table-data js-inventory-delete-btn btn delete-column"
-                                    data-id="{{ data.id }}"><span class="material-symbols-outlined delete-btn">
-                                        delete
-                                        </span></td>
+                                    data-id="{{ data.id }}">
+                                    <span class="material-symbols-outlined delete-btn">delete</span>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
             <div class="graphs lineChart">
-                    <div class="top-chart">
-                        <h4>Seasonal Trends</h4>
-                        <div class="date-buttons">
-                            <button class="seasonal-filter js-seasonal-filter js-seasonal-filter-active cat-button active-cat"
-                                    data-sorter="yearly">12 Months</button>
-                            <button class="seasonal-filter js-seasonal-filter cat-button" data-sorter="monthly">30 Days</button>
-                            <button class="seasonal-filter js-seasonal-filter cat-button" data-sorter="weekly">7 Days</button>
-                        </div>
+                <div class="top-chart">
+                    <h4>Seasonal Trends</h4>
+                    <div class="date-buttons">
+                        <button class="seasonal-filter js-seasonal-filter js-seasonal-filter-active cat-button active-cat"
+                                data-sorter="yearly">12 Months</button>
+                        <button class="seasonal-filter js-seasonal-filter cat-button"
+                                data-sorter="monthly">30 Days</button>
+                        <button class="seasonal-filter js-seasonal-filter cat-button"
+                                data-sorter="weekly">7 Days</button>
                     </div>
-                    <div class="seasonal-graph">
-                        <div>
-                            <canvas id="js-seasonal-canvas"></canvas>
-                        </div>
+                </div>
+                <div class="seasonal-graph">
+                    <div style="aspect-ratio: 2">
+                        <canvas id="js-seasonal-canvas"></canvas>
                     </div>
-                    <div class="line-chart-bottom">
-                        <button class="seasonal-category js-seasonal-category-btn js-seasonal-category-btn-active bottom-cat-btn bottom-cat-btn-active"
-                                data-sorter="Medicine">Medicine</button>
-                        <button class="seasonal-category js-seasonal-category-btn bottom-cat-btn"
-                                data-sorter="Supply">Supply</button>
-                    </div>
+                </div>
+                <div class="line-chart-bottom">
+                    <button class="seasonal-category js-seasonal-category-btn js-seasonal-category-btn-active bottom-cat-btn bottom-cat-btn-active"
+                            data-sorter="Medicine">Medicine</button>
+                    <button class="seasonal-category js-seasonal-category-btn bottom-cat-btn"
+                            data-sorter="Supply">Supply</button>
+                </div>
             </div>
         </main>
         {% include 'staff/inventory-right.html' %}
@@ -234,11 +221,11 @@
             <h1>Item Name</h1>
             <span class="material-symbols-outlined close js-close-update-inventory-btn">cancel</span>
             <form action="" method="post" class="form-body">
-                {% csrf_token class="token" %}
+                {% csrf_token class='token' %}
                 <div class="form-top">
                     <div class="form-group">
-                    <label for="item_name">Item Names</label>
-                    <input type="text" placeholder="name.." name="item_name" required />
+                        <label for="item_name">Item Name</label>
+                        <input type="text" placeholder="name.." name="item_name" required />
                     </div>
                     <div class="form-group">
                         <label for="quantity">Quantity</label>

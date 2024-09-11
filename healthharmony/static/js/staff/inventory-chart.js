@@ -45,6 +45,7 @@ export function createInventoryChart(labels, counts, categoryName, createChart) 
         }]
     }
     const chartOptions = {
+        // responsive: false,  // Nigga keeps shaking, maybe he's cold
         plugins: {
             legend: {
                 labels: {

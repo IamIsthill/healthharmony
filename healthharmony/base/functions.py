@@ -37,7 +37,9 @@ def check_models():
     try:
         # train_diagnosis_predictor()
         # Retrieve all log entries
-        diagnosis_predictor = Models.objects.get(model_name="diagnosis_predictor")
+        diagnosis_predictor, created = Models.objects.get_or_create(
+            model_name="diagnosis_predictor"
+        )
         logs = ModelLog.objects.filter(model_name=diagnosis_predictor)
 
         # Get the first log entry, if any

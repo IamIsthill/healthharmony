@@ -22,7 +22,7 @@ export function createPatientInformation(data, x, y, format_date) {
     let date = ''
     try {
         date = format_date(data.date_joined)
-    } catch(error) {
+    } catch (error) {
         console.log(error)
     }
     const content = `
@@ -42,7 +42,7 @@ export function createPatientInformation(data, x, y, format_date) {
 export function checkIfFilterExist(filter) {
     const filterInstances = document.querySelectorAll('.js-patient-filter')
     for (const filterInstance of filterInstances) {
-        if(filterInstance.getAttribute('data') == filter) {
+        if (filterInstance.getAttribute('data') == filter) {
             return true
         }
     }
@@ -60,16 +60,16 @@ export function getFilterParams(filters) {
     }
 
     for (const filter in filters) {
-        if(filters[filter] == 'department') {
+        if (filters[filter] == 'department') {
             filterParams += `String(patient.department_name).toLowerCase().includes(searchText)`
         }
-        if(filters[filter] == 'name') {
+        if (filters[filter] == 'name') {
             filterParams += `
                 String(patient.first_name).toLowerCase().includes(searchText) ||
                 String(patient.last_name).toLowerCase().includes(searchText)
             `
         }
-        if( filter < filters.length - 1) {
+        if (filter < filters.length - 1) {
             filterParams += `||`
         }
     }
@@ -96,11 +96,12 @@ export function getPatientFilter() {
         const filter = filterInstance.getAttribute('data')
         filters.push(filter)
     }
-   return filters
+    return filters
 }
 
 export function updatePatientHTML(filteredPatientData) {
     const patientBody = document.querySelector('.js-patients-body')
+
     let html = ''
 
     if (filteredPatientData.length <= 0) {
@@ -145,7 +146,7 @@ export function formatDatesInPatientsPage(format_date) {
 
             }
             date.innerText = formattedDate
-        } catch(error) {
+        } catch (error) {
             console.error(error)
         }
     }

@@ -29,7 +29,7 @@ class User(AbstractUser):
     last_name = models.CharField(
         max_length=200, null=True, blank=True, default="Last Name"
     )
-    email = models.EmailField(null=True, unique=True)
+    email = models.EmailField(unique=True)
     contact = models.IntegerField(null=True, blank=True)
     profile = models.ImageField(
         upload_to=user_profile_path, default="user_profiles/fallback.png", blank=True

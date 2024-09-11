@@ -33,23 +33,7 @@
     {% endif %}
 {% endblock %}
 {% block main %}
-    <div class="nav-top">
-        <h2>Actions</h2>
-        <div class="profile-container">
-            <img src="{% static 'assets/images/doctor-pics/Miko.jpg' %}"
-                 alt="Profile Picture"
-                 class="profile-pic" />
-            <div class="profile-info">
-                <h3>Miko Basilio</h3>
-                <span>Nurse</span>
-            </div>
-            <a href="{% url 'logout' %}">
-                <div class="logout-container">
-                    <span class="material-symbols-outlined">logout</span>
-                </div>
-            </a>
-        </div>
-    </div>
+    {% include 'staff/nav-top.html' %}
     <div class="nurse-container2">
         {% include 'staff/navbar.html' %}
         <!-- MAIN CONTENT -->
@@ -254,7 +238,7 @@
                     </div>
                 </div>
             </div>
-            <!-- <div>
+            <!--  <div>
                 {% if beds %}
                     {% for bed in beds %}
                         <form action="{% url 'staff-bed-handler' bed.id %}" method="post">
@@ -271,7 +255,7 @@
                         </form>
                     {% endfor %}
                 {% endif %}
-            </div> -->
+            </div>  -->
         </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>

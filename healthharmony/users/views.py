@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.urls import reverse
 from .forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.backends import ModelBackend
 import logging
 
 from healthharmony.administrator.models import Log
@@ -68,6 +69,7 @@ def normal_login_view(request):
         user = get_user(request, email, password)
 
         if user is not None:
+            user.backend = "django.contrib.auth.backends.ModelBackend"
             login(request, user)
             if "email" not in request.session:
                 request.session["email"] = request.user.email
@@ -182,9 +184,12 @@ def create_log_user(user):
 def get_user(request, email, password):
     try:
         user = User.objects.get(email=email)
+        user = authenticate(
+            request, email=user.email, password=password, backend=ModelBackend
+        )
+        return user
     except User.DoesNotExist:
         messages.error(request, "User with this email does not exist.")
-        return redirect("account_login")
+        return None
 
-    user = authenticate(request, email=user.email, password=password)
-    return user
+    # user = authenticate(request, email=user.email, password=password)

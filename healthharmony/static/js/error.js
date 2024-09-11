@@ -13,7 +13,7 @@ function closePopup() {
 document.addEventListener("DOMContentLoaded", () => {
     try {
         openPopup()
-    } catch(error) {
-        console.error(error)
+    } catch (error) {
+        console.error(error.message)
     }
 })

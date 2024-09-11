@@ -2,100 +2,143 @@ from django import forms
 import json
 import logging
 from django.core.serializers import serialize
+from django.contrib import messages
+
 
 from healthharmony.administrator.models import Log, DataChangeLog
-from healthharmony.models.inventory.models import InventoryDetail
-from healthharmony.models.treatment.models import Illness, Category
+from healthharmony.models.inventory.models import InventoryDetail, QuantityHistory
+from healthharmony.models.treatment.models import Illness, Category, IllnessTreatment
 from healthharmony.users.models import User
 
 logger = logging.getLogger(__name__)
 
 
 class UpdateIllness(forms.Form):
-    """
-    Form to update an existing Illness instance.
-
-    Fields:
-    - id: IntegerField to identify the Illness instance.
-    - issue: Textarea for updating the issue description.
-    - category: CharField for specifying the category name.
-    - diagnosis: Textarea for updating the diagnosis description.
-    """
-
-    id = forms.IntegerField(required=True)
-    issue = forms.CharField(widget=forms.Textarea(attrs={"rows": 4, "cols": 15}))
-    category = forms.CharField(max_length=100)
-    diagnosis = forms.CharField(widget=forms.Textarea(attrs={"rows": 4, "cols": 15}))
+    illness_id = forms.IntegerField(required=True)
+    issue = forms.CharField(max_length=500, required=True)
+    diagnosis = forms.CharField(max_length=500, required=True)
+    category = forms.CharField(max_length=100, required=True)
 
     def save(self, request):
-        """
-        Save the updated Illness instance and create logs for changes.
-
-        Parameters:
-        - request: HttpRequest object to get the current user (doctor).
-
-        This method will:
-        1. Retrieve the Illness instance by ID.
-        2. Get or create the Category instance.
-        3. Update the Illness fields and save the changes.
-        4. Log the creation of new categories and changes to the illness.
-        5. Handle exceptions and log errors.
-        """
-        doctor = request.user
+        illness_id = self.cleaned_data.get("illness_id")
+        issue = self.cleaned_data.get("issue")
+        diagnosis = self.cleaned_data.get("diagnosis")
+        category = self.cleaned_data.get("category")
         try:
-            logger.info(
-                "Attempting to retrieve Illness instance with ID %s",
-                self.cleaned_data["id"],
-            )
-            illness = Illness.objects.get(id=self.cleaned_data.get("id"))
-            old_illness = Illness.objects.get(
-                id=self.cleaned_data.get("id")
-            )  # Store the old state for logging purposes
-
-            logger.info(
-                "Attempting to get or create Category with name %s",
-                self.cleaned_data["category"],
-            )
-            category, created = Category.objects.get_or_create(
-                category=self.cleaned_data["category"]
-            )
-
+            old_illness = Illness.objects.get(pk=illness_id)
+            category, created = Category.objects.get_or_create(category=category)
             if created:
-                logger.info("New Category created with ID %s", category.id)
-                DataChangeLog.objects.create(
-                    table="Category",
-                    record_id=category.id,
-                    action="Create",
-                    new_value=serialize("json", [category]),
-                    changed_by=doctor,
-                )
-            else:
-                # Update the Illness instance fields
-                illness.issue = self.cleaned_data["issue"]
-                illness.category = category
-                illness.diagnosis = self.cleaned_data["diagnosis"]
-                illness.doctor = doctor
-
                 logger.info(
-                    "Saving the updated Illness instance with ID %s", illness.id
+                    f"{request.user.email} created a new category instance[id:{category.id}]"
                 )
-                illness.save()
+            new_illness = Illness.objects.get(id=illness_id)
+            new_illness.issue = issue
+            new_illness.diagnosis = diagnosis
+            new_illness.illness_category = category
+            new_illness.doctor = request.user
+            new_illness.save()
 
-                logger.info(
-                    "Logging the changes to the Illness instance with ID %s", illness.id
-                )
-                DataChangeLog.objects.create(
-                    table="Illness",
-                    record_id=illness.id,
-                    action="Update",
-                    old_value=serialize("json", [old_illness]),
-                    new_value=serialize("json", [illness]),
-                    changed_by=doctor,
-                )
-        except Illness.DoesNotExist:
-            logger.error(
-                "Illness instance with ID %s does not exist", self.cleaned_data["id"]
+            DataChangeLog.objects.create(
+                table="Illness",
+                record_id=new_illness.id,
+                action="update",
+                changed_by=request.user,
+                old_value=serialize("json", [old_illness]),
+                new_value=serialize("json", [new_illness]),
             )
+            messages.success(request, "Successfully updated illness case!")
+
         except Exception as e:
-            logger.error("An error occurred while updating the Illness instance: %s", e)
-            raise
+            logger.warning(
+                f"{request.user.email} failed to update illness instance[id:{illness_id}]: {str(e)}"
+            )
+            messages.error(
+                request, "Failed to update the illness case. Please try again."
+            )
+
+
+class UpdateTreatmentForIllness(forms.Form):
+    illness_id = forms.IntegerField(required=True)
+    inventory_item = forms.CharField(max_length=None)
+    inventory_quantity = forms.CharField(max_length=None)
+
+    def save(self, request):
+        illness_id = self.cleaned_data.get("illness_id")
+
+        # List ng input fields with same name
+        inventory_items = request.POST.getlist("inventory_item")
+        inventory_quantities = request.POST.getlist("inventory_quantity")
+
+        # list should have same length
+        if len(inventory_items) != len(inventory_quantities):
+            raise forms.ValidationError("Mismatched inventory items and quantities.")
+
+        # Get yung illness first
+        try:
+            illness = Illness.objects.get(id=int(illness_id))
+        except Exception as e:
+            logger.info(
+                f"{request.user.email} tried to fetched illness instance[id:{illness_id}] but found none: {str(e)}"
+            )
+            messages.error(request, "Illness case was not found.")
+            return
+
+        # Join the two list then update the db heheh
+        for item_name, item_quantity in zip(inventory_items, inventory_quantities):
+            # Hanapin muna ang inventory item
+            try:
+                inventory_instance = InventoryDetail.objects.get(item_name=item_name)
+            except Exception as e:
+                logger.info(
+                    f"{request.user.email} failed to find inventory instance with item_name[{item_name}]: {str(e)}"
+                )
+                messages.error(
+                    request,
+                    "Failed to find the related inventory item for prescription",
+                )
+                return
+
+            # With inventory item, now create yung treatments
+            try:
+                IllnessTreatment.objects.create(
+                    illness=illness,
+                    inventory_detail=inventory_instance,
+                    quantity=-(int(item_quantity)),
+                )
+            except Exception as e:
+                logger.info(
+                    f"{request.user.email} failed to add prescriptions to illness instance[id={illness_id}]: {str(e)}"
+                )
+                messages.error(
+                    request,
+                    "Failed to add prescription/s to the patient's case. Please try again.",
+                )
+                return
+
+            # Now update your inventory table
+            update_inventory(inventory_instance, item_quantity, request)
+
+        # If everything is okay, log the event and add message
+        logger.info(
+            f"{request.user.email} successfully added prescription records to illness instance[id={illness_id}]"
+        )
+        messages.success(request, "Successfully added prescriptions.")
+
+        Log.objects.create(
+            user=request.user,
+            action=f"Added prescriptions to illness instance[id={illness_id}]",
+        )
+
+        return
+
+
+def update_inventory(inventory_instance, item_quantity, request):
+    # Now update your inventory table
+    try:
+        QuantityHistory.objects.create(
+            inventory=inventory_instance,
+            updated_quantity=-(int(item_quantity)),
+            changed_by=request.user,
+        )
+    except Exception as e:
+        logger.error(f"Failed to update the inventory: {str(e)}")

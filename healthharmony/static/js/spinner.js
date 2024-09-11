@@ -2,8 +2,8 @@ export async function setSpinner(container, spinner, link) {
     container.style.display = 'none'
     spinner.style.display = 'block'
     try {
-        let baseUrl = window.location.origin;
-        let url = new URL(`${baseUrl}${link}`);
+        let baseUrl = window.location.href;
+        let url = new URL(`${baseUrl}`);
         const options = {
             method: "GET",
         };

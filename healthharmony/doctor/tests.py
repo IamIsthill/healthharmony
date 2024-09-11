@@ -17,6 +17,18 @@ from sklearn.ensemble import VotingClassifier
 from imblearn.pipeline import Pipeline as imbpipeline
 from imblearn.over_sampling import SMOTE
 from sklearn.metrics import accuracy_score, classification_report
+from django.db.models import (
+    OuterRef,
+    Subquery,
+    Value,
+    Sum,
+    F,
+    CharField,
+    TextField,
+    Prefetch,
+)
+from django.db.models.functions import Coalesce
+
 
 import threading
 from django.urls import reverse
@@ -25,10 +37,14 @@ from django.contrib.messages.storage.fallback import FallbackStorage
 from django.http import HttpRequest
 
 from healthharmony.users.models import User
-from healthharmony.treatment.models import Illness
+from healthharmony.models.treatment.models import Illness, IllnessTreatment
 from healthharmony.staff.forms import EditInventoryForm, DeleteInventoryForm
-from healthharmony.inventory.models import InventoryDetail, QuantityHistory
+from healthharmony.models.inventory.models import InventoryDetail, QuantityHistory
 from healthharmony.administrator.models import Log
+from healthharmony.doctor.serializer import (
+    IllnessSerializer,
+    IllnessTreatmentSerializer,
+)
 
 
 # Create your tests here.
@@ -195,6 +211,57 @@ class DeleteInventoryFormTest(TestCase):
 
         # Ensure no log entry was created
         self.assertEqual(Log.objects.filter(user=self.user).count(), 0)
+
+
+class PatientProfileTestCase(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.patient = User.objects.create(
+            email="bercasiocharles@gmail.com", password="testpassword"
+        )
+        cls.staff = User.objects.create(
+            email="staff@email.com", password="testpassword"
+        )
+        cls.doctor = User.objects.create(
+            email="doctor@email.com", password="testpassword"
+        )
+        cls.complete_illness = Illness.objects.create(
+            patient=cls.patient,
+            issue="Sample Issue",
+            staff=cls.staff,
+            doctor=cls.doctor,
+            diagnosis="Sample Diagnosis",
+        )
+        cls.complete_illness2 = Illness.objects.create(
+            patient=cls.patient,
+            issue="Sample Issue",
+            staff=cls.staff,
+        )
+        cls.medicine = InventoryDetail.objects.create(
+            item_no=1,
+            unit="pcs",
+            item_name="Mefenamic",
+            category="Medicine",
+            added_by=cls.staff,
+        )
+        QuantityHistory.objects.create(
+            inventory=cls.medicine, updated_quantity=2, changed_by=cls.staff
+        )
+        IllnessTreatment.objects.create(
+            illness=cls.complete_illness, inventory_detail=cls.medicine, quantity=1
+        )
+
+    def test_1(self):
+        illnesses = []
+        treatments = []
+        data = Illness.objects.filter(patient=self.patient)
+        for illness in data:
+            serializer = IllnessSerializer(illness)
+            for treatment in illness.illnesstreatment_set.all():
+                treatments.append(IllnessTreatmentSerializer(treatment).data)
+            illnesses.append(serializer.data)
+        print(illnesses)
+        print(treatments)
 
 
 # class PredictorTestCase(TestCase):

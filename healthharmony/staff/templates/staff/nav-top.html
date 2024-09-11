@@ -1,13 +1,27 @@
 {% load static %}
 <div class="nav-top">
-    <h2>Overview</h2>
+    <h2>{{ page|capfirst }}</h2>
     <div class="profile-container">
-        <img src="{% static 'assets/images/doctor-pics/Miko.jpg' %}"
+        <img src="{{ request.user.profile.url }}"
              alt="Profile Picture"
              class="profile-pic" />
         <div class="profile-info">
-            <h3>Miko Basilio</h3>
-            <span>Nurse</span>
+            {% if request.user.first_name is None or request.user.last_name is None %}
+                <h3>{{ request.user.email }}</h3>
+            {% else %}
+                <h3>{{ request.user.first_name }} {{ request.user.last_name }}</h3>
+            {% endif %}
+            {% if request.user.access == 1 %}
+                <span>Logged in as Patient</span>
+            {% elif request.user.access == 2 %}
+                <span>Logged in as Nurse</span>
+            {% elif request.user.access == 3 %}
+                <span>Logged in as Doctor</span>
+            {% elif request.user.access == 4 %}
+                <span>Logged in as Admin</span>
+            {% elif request.user.is_superuser %}
+                <span>Logged in as SuperAdmin</span>
+            {% endif %}
         </div>
         <a href="{% url 'logout' %}">
             <div class="logout-container">

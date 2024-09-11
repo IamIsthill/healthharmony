@@ -12,7 +12,7 @@ SOCIALACCOUNT_PROVIDERS = {
             "key": "",
         },
         "OAUTH_PKCE_ENABLED": True,
-        "REDIRECT_URI": "http://127.0.0.1:7000/accounts/google/login/callback/",
+        "REDIRECT_URI": "http://127.0.0.1:8000/accounts/google/login/callback/",
     }
 }
 

@@ -8,7 +8,8 @@ import {
     closeModal,
     getToken,
     listenToEnter,
-    createChart
+    createChart,
+    getElapsedTime
 } from '/static/js/utils.js'
 
 import {
@@ -33,6 +34,12 @@ import {
 
 } from '/static/js/staff/account-department.js'
 
+import {
+    getEmployeeFilter,
+    getEmployeeSearchValue,
+    filterEmployeeData
+} from '/static/js/staff/account-clinic.js'
+
 const patientData = JSON.parse(document.getElementById('patientData').textContent)
 const departmentData = JSON.parse(document.getElementById('departmentData').textContent)
 const employeeData = JSON.parse(document.getElementById('employeeData').textContent)
@@ -41,6 +48,10 @@ main()
 
 
 function main() {
+    /**TEST AREA */
+    console.log(patientData)
+    console.log(departmentData)
+    console.log(employeeData)
     //patients
     setDefault()
     updatePatientCount()
@@ -62,30 +73,68 @@ function main() {
     createDepartmentBarGraph()
 
     //employee
+    setEmployeeFilters()
     updateEmployeeHTMl(employeeData)
-    console.log(employeeData[1])
-    const now = Date.now()
-    const oldDate  = new Date(2024, 6, 27, 11, 3, 0).getTime()
-    const elapseMilli = now - oldDate
+    listenEmployeeSearchBtn()
+    listenEmployeeFilter()
+    listenEmployeeSearchField()
+    listenEmployeeClearBtn()
+}
 
-    let stmt = ''
-
-    const seconds = Math.floor(elapseMilli / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
-    const days = Math.floor(hours / 24);
-
-    // Remaining hours, minutes, and seconds
-    const remainingHours = hours % 24;
-    const remainingMinutes = minutes % 60;
-    const remainingSeconds = seconds % 60;
-
-    console.log(`Elapsed Time: ${days} days, ${remainingHours} hours, ${remainingMinutes} minutes, and ${remainingSeconds} seconds`);
+function listenEmployeeClearBtn() {
+    const employeeClearBtn = document.querySelector('.js-employee-clear-btn')
+    employeeClearBtn.addEventListener('click', () => {
+        removeItem('employeeFilter')
+        removeItem('employeeSearchValue')
+        document.querySelector('.js-employee-filters').value = ''
+        document.querySelector('.js-employee-search-field').value = ''
+        updateEmployeeHTMl(employeeData)
+    })
 
 }
 
-function getElapsedTime() {
-    const now = Date.now()
+function enterKeyOnEmployeeSearchField() {
+    const filter = getItem('employeeFilter') ? getItem('employeeFilter') : ''
+    const searchValue = getItem('employeeSearchValue') ? getItem('employeeSearchValue') : ''
+    const searchedEmployees = filterEmployeeData(employeeData, filter, searchValue)
+    updateEmployeeHTMl(searchedEmployees)
+
+}
+
+function setEmployeeFilters() {
+    const searchValue = getItem('employeeSearchValue') ? getItem('employeeSearchValue') : ''
+    const filter = getItem('employeeFilter') ? getItem('employeeFilter') : ''
+    document.querySelector('.js-employee-filters').value = filter
+    document.querySelector('.js-employee-search-field').value = searchValue
+}
+
+function listenEmployeeSearchField() {
+    const employeeSearchField = document.querySelector('.js-employee-search-field')
+    employeeSearchField.addEventListener('input', () => {
+        saveItem('employeeSearchValue', employeeSearchField.value)
+    })
+    employeeSearchField.addEventListener('mouseenter', () => listenToEnter(enterKeyOnEmployeeSearchField))
+}
+
+function listenEmployeeFilter() {
+    const employeeFilter = document.querySelector('.js-employee-filters')
+    employeeFilter.addEventListener('change', () => {
+        const filter = getEmployeeFilter()
+        saveItem('employeeFilter', filter)
+        const searchValue = getItem('employeeSearchValue') ? getItem('employeeSearchValue') : ''
+        const searchedEmployees = filterEmployeeData(employeeData, filter, searchValue)
+        updateEmployeeHTMl(searchedEmployees)
+    })
+}
+
+function listenEmployeeSearchBtn() {
+    const employeeSearchBtn = document.querySelector('.js-employee-search-btn')
+    employeeSearchBtn.addEventListener('click', () => {
+        const filter = getEmployeeFilter()
+        const searchValue = getEmployeeSearchValue().toLowerCase()
+        const searchedEmployees = filterEmployeeData(employeeData, filter, searchValue)
+        updateEmployeeHTMl(searchedEmployees)
+    })
 }
 
 function updateEmployeeHTMl(employeeData) {
@@ -104,11 +153,19 @@ function updateEmployeeHTMl(employeeData) {
             count = employee.doctor_count
             position = 'Doctor'
         }
+
+        let last_case = ''
+        if (employee.last_case) {
+            last_case = getElapsedTime(employee.last_case)
+        }
+
+        const name = employee.first_name && employee.last_name ? `${employee.first_name} ${employee.last_name}` :
+            employee.email
         html += `
             <tr>
-                <td>${employee.first_name} ${employee.last_name}</td>
+                <td>${name}</td>
                 <td>${position}</td>
-                <td>${employee.last_case}</td>
+                <td>${last_case}</td>
                 <td>${count}</td>
             </tr>
         `
@@ -119,31 +176,34 @@ function updateEmployeeHTMl(employeeData) {
 function createDepartmentBarGraph() {
     const canvas = document.getElementById('js-department-bar-canvas')
     const ctx = canvas.getContext('2d')
-    const {labels, counts} = getDepartmentLabelsAndCounts(departmentData)
+    const {
+        labels,
+        counts
+    } = getDepartmentLabelsAndCounts(departmentData)
     const chartType = 'bar'
     const chartData = {
         labels: labels,
         datasets: [{
-          data: counts,
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(255, 159, 64, 0.2)',
-            'rgba(255, 205, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(201, 203, 207, 0.2)'
-          ],
-          borderColor: [
-            'rgb(255, 99, 132)',
-            'rgb(255, 159, 64)',
-            'rgb(255, 205, 86)',
-            'rgb(75, 192, 192)',
-            'rgb(54, 162, 235)',
-            'rgb(153, 102, 255)',
-            'rgb(201, 203, 207)'
-          ],
-          borderWidth: 1
+            data: counts,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 205, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(201, 203, 207, 0.2)'
+            ],
+            borderColor: [
+                'rgb(255, 99, 132)',
+                'rgb(255, 159, 64)',
+                'rgb(255, 205, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(54, 162, 235)',
+                'rgb(153, 102, 255)',
+                'rgb(201, 203, 207)'
+            ],
+            borderWidth: 1
         }]
     }
 
@@ -286,9 +346,13 @@ function updatePatientFiltersFromMemory(getItem, updatePatientFilters) {
     }
 }
 
-function setDefault(){
-    const patientsPagination = document.querySelector('.js-patients-pagination')
-    patientsPagination.style.display = "none"
+function setDefault() {
+    try {
+        const patientsPagination = document.querySelector('.js-patients-pagination')
+        patientsPagination.style.display = "none"
+    } catch (e) {
+        console.error(e.message)
+    }
 }
 
 function listenPatientSearchBtn() {
@@ -325,7 +389,7 @@ function listenPatientFilter() {
     const patientFilterInput = document.querySelector('.js-patient-filter-inputs')
     patientFilterInput.addEventListener('change', () => {
         const filter = patientFilterInput.value
-        if(filter) {
+        if (filter) {
             if (!checkIfFilterExist(filter)) {
                 updatePatientFilters(filter)
                 const filters = getPatientFilter()
@@ -364,23 +428,24 @@ function listenToHoverOnPatientName() {
         patient.addEventListener('mouseenter', (event) => {
             const patientId = parseInt(patient.getAttribute('data-patient-id'))
             const data = getPatientDataUsingId(patientData, patientId)
-            const x = event.clientX, y = event.clientY
+            const x = event.clientX,
+                y = event.clientY
             createPatientInformation(data, x, y, format_date)
             patient.classList.add('bordered')
 
             patient.addEventListener('mouseleave', () => {
                 const hoverHTML = document.querySelectorAll('.js-hover-patient')
-                for (const html of hoverHTML){
+                for (const html of hoverHTML) {
                     html.remove()
                 }
                 patient.classList.remove('bordered')
             })
         })
 
-        patient.addEventListener('click', () =>{
+        patient.addEventListener('click', () => {
             const patientId = parseInt(patient.getAttribute('data-patient-id'))
             const currentUrl = getCurrentUrl()
-            const goTo = `/patient/patient-profile/${patientId}/`
+            const goTo = `/doctor/patient/${patientId}/`
             currentUrl.pathname = goTo
             currentUrl.search = ''
             window.location.href = currentUrl.href
@@ -407,8 +472,8 @@ function checkPatientPagination() {
         if (count > 1) {
             patientsPagination.style.display = "block"
         }
-    } catch(error) {
-        console.log(error)
+    } catch (error) {
+        console.error(error.message)
     }
 }
 
@@ -419,7 +484,7 @@ function updatePatientCount() {
     if (count > 1) {
         content = `All Patients(${count})`
     } else {
-        content =  `All Patient(${count})`
+        content = `All Patient(${count})`
     }
     patientCountElement.innerText = content
 }
