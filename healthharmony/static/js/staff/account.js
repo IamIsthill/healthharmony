@@ -62,11 +62,14 @@ function main() {
 
     /**PATIENT TABLE */
     formatDatesInPatientsPage(format_date)
+
     handle_patient_sort()
     handle_click_patient_direction()
     handle_onclick_patient_search()
     handle_onclick_clear_patient_search()
+
     handle_onhover_patient_name()
+    handle_onclick_patient_name()
 
 
 
@@ -106,6 +109,22 @@ function main() {
 
 /** MAIN FUNCTIONS */
 
+// Redirect to doctors patient page when patient name was clicked
+function handle_onclick_patient_name() {
+    const patient_elements = document.querySelectorAll('.js-patient-profile')
+
+    for (const patient_element of patient_elements) {
+        patient_element.addEventListener('click', () => {
+            const patient_id = parseInt(patient_element.getAttribute('data-patient-id'))
+            const currentUrl = getCurrentUrl()
+            const goTo = `/doctor/patient/${patient_id}/`
+            currentUrl.pathname = goTo
+            currentUrl.search = ''
+            window.location.href = currentUrl.href
+        })
+    }
+}
+
 // hovering thingy when pointing your cursor on a patient's name
 function handle_onhover_patient_name() {
     const patient_elements = document.querySelectorAll('.js-patient-profile')
@@ -144,6 +163,7 @@ function handle_patient_sort() {
 
         update_patient_table(sorted_patient_data, format_date)
         handle_onhover_patient_name()
+        handle_onclick_patient_name()
 
     })
 }
@@ -165,6 +185,7 @@ function handle_click_patient_direction() {
 
         update_patient_table(sorted_patient_data, format_date)
         handle_onhover_patient_name()
+        handle_onclick_patient_name()
 
     })
 }
@@ -179,6 +200,7 @@ function handle_onclick_patient_search() {
 
         update_patient_table(sorted_patient_data, format_date)
         handle_onhover_patient_name()
+        handle_onclick_patient_name()
 
         // Make sure na ihuli ang pag clear sa search field
         const search_field = document.querySelector('.js-patient-search-field')
@@ -198,6 +220,7 @@ function handle_onclick_clear_patient_search() {
 
         update_patient_table(paginated_data, format_date)
         handle_onhover_patient_name()
+        handle_onclick_patient_name()
 
     })
 }
