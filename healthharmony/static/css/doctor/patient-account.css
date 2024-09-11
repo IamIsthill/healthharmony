@@ -1,4 +1,4 @@
-main{
+main, .right-part-profile{
     margin-top: 1rem;
     display: flex;
     flex-direction: column;
@@ -44,22 +44,22 @@ a, span{
     padding: 1rem 1rem;
     box-shadow: var(--box-shadowlight);
 }
-.vital-statistic h3{
+.vital-statistic h3, .detailed-info h3{
     font-size: var(--size-2xl);
     margin-bottom: 0.5rem;
     font-weight: 600;
 }
-.vital-data{
+.vital-data, .info-cont{
     display: flex;
     gap: 1rem;
 }
-.vital-left, .vital-right{
+.vital-left, .vital-right, .detailed-left, .detailed-right{
     width: 50%;
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
-.vital-left span , .vital-right p{
+.vital-left span , .vital-right p, .detailed-left span, .detailed-right p{
     font-size: var(--size-lg);
 }  
 .vital-right p{
@@ -69,3 +69,34 @@ a, span{
 
 /* START OF RIGHT SECTION */
 
+.detailed-info{
+    background-color: white;
+    width: 45rem;
+    padding: 1rem 1rem;
+    border-radius: 1rem;
+    box-shadow: var(--box-shadowlight);
+}
+.detailed-top{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.detailed-top button{
+    padding: 0.5rem 1rem;
+    background:black;
+    border-radius: 0.5rem;
+    color: white;
+    transition: all 0.3s ease ;
+}
+.detailed-top button:hover{
+    background:rgba(0, 0, 0, 0.647);
+}
+
+.visit-history{
+    background:white;
+    width: 45rem;
+    height: 18rem;
+    padding: 1rem 1rem;
+    border-radius: 1rem;
+    box-shadow: var(--box-shadowlight);
+}
