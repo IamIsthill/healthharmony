@@ -11,13 +11,58 @@
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
     <style>
+    #inventory_list {
+      max-height: 20px;
+      overflow-y: auto;
+    }
     img {
       width: 500px;
       height: 500px;
     }
 
+    .btn {
+      cursor: pointer;
+    }
+
     .hide {
       display: none;
+    }
+    /* The Modal (background) */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0, 0, 0); /* Fallback color */
+      background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto; /* 15% from the top and centered */
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%; /* Could be more or less, depending on screen size */
+    }
+
+    /* The Close Button */
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
     }
     </style>
 {% endblock %}
@@ -79,29 +124,40 @@
         <div class="illnesses">
             <h2>Visit History</h2>
             <div>
-                <button class="illness_filter" data-category="all">All</button>
-                <button class="illness_filter" data-category="not">Pending</button>
-                <button class="illness_filter" data-category="done">Released</button>
+                <button class="js-illness-filter" data-category="all">All</button>
+                <button class="js-illness-filter" data-category="not">Pending</button>
+                <button class="js-illness-filter" data-category="done">Released</button>
             </div>
             <div class="illness_body">
-                {% for illness in illness_all %}
-                    <div data-illness-id="{{ illness.id }}" class="illness">
-                        <p>Date and Time: {{ illness.added }}</p>
+                {% for illness in illnesses %}
+                    <div data-illness-id="{{ illness.id }}" class="js-illness">
+                        <p>
+                            Date and Time: <span class="js-dates">{{ illness.added }}</span>
+                        </p>
                         <p>Symptoms: {{ illness.issue }}</p>
-                        <p>Category: {{ illness.illness_category }}</p>
-                        <p>Diagnosis: {{ illness.diagnosis }}</p>
-                        <div class="treatment_body hide">
-                            <p>Treatments:</p>
-                            <ul>
-                                {% for treatment in illness.illnesstreatment_set.all %}
-                                    <li>
-                                        {{ treatment.inventory_detail.category }}: {{ treatment.inventory_detail.item_name }} {{ treatment.quantity }} {{ treatment.inventory_detail.unit }}
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                        <button class="expand-illness">Expand</button>
-                        <button class="edit-illness">Edit</button>
+                        <p>Category of Symptom: {{ illness.category_name|default_if_none:'' }}</p>
+                        <p>Diagnosis: {{ illness.diagnosis|default_if_none:'' }}</p>
+                        {% if illness.treatment %}
+                            <div class="js-treatment-list hide">
+                                <p>Treatments:</p>
+                                <ul>
+                                    {% for key in illness.treatment %}
+                                        {% for treatment in treatments %}
+                                            {% if key == treatment.inventory_detail %}
+                                                <li>
+                                                    {{ treatment.inventory_detail_category }}: {{ treatment.inventory_detail_name }} {{ treatment.quantity }} {{ treatment.inventory_detail_unit }}
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <button class="js-expand-illness-btn">Expand</button>
+                        {% endif %}
+                        {% if request.user.access > 2 and illness.diagnosis is None %}
+                            <button class="js-edit-illness-btn">Edit</button>
+                        {% endif %}
+                        <button class="js-illness-note-btn">Leave Notes</button>
                     </div>
                 {% empty %}
                     <h5>No visit history</h5>
@@ -109,9 +165,20 @@
             </div>
         </div>
     </div>
+    <div class="modal js-edit-illness-modal">
+        <div class="modal-content">
+            <span class="close js-close-btn">&times;</span>
+            <form action="" method="POST" class="js-edit-illness-form">
+            </form>
+        </div>
+    </div>
+    {% csrf_token %}
 {% endblock %}
 {% block script %}
     {{ request.user.id|json_script:'userId' }}
+    {{ request.user.access|json_script:'userAccess' }}
+    {{ illnesses|json_script:'illnessData' }}
+    {{ treatments|json_script:'treatmentData' }}
     {{ illness_data|json_script:'illness_data' }}
     <script src="{% static 'js/doctor/patient.js' %}" type="module"></script>
 {% endblock %}

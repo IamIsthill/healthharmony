@@ -1,12 +1,18 @@
 export function getParamsThenCreateMorbidityChart(getCountsAndLabelsForChart, categoryData, createChart) {
-    const {
-        filter,
-        id,
-        categoryName
-    } = getCategoryDataParams(categoryData)
-    const data = categoryData[filter][id][categoryName]
-    const [labels, counts] = getCountsAndLabelsForChart(data)
-    createMorbidityChart(labels, counts, categoryName, createChart)
+    try {
+        const {
+            filter,
+            id,
+            categoryName
+        } = getCategoryDataParams(categoryData)
+        const data = categoryData[filter][id][categoryName]
+        const [labels, counts] = getCountsAndLabelsForChart(data)
+        createMorbidityChart(labels, counts, categoryName, createChart)
+
+    } catch (e) {
+        console.error(e)
+    }
+
 }
 
 export function getCategoryFilter() {
@@ -92,29 +98,39 @@ export function createMorbidityChart(labels, counts, categoryName, createChart) 
 export function createMorbidityBarCanvas(categories) {
     const morbidityBarSpace = document.getElementById('morbidityBars')
     let html = ''
-    for (const category of categories) {
-        html += `
-            <div class>
-                <div class="barsTop">
-                    <h5>${category.name}</h5>
-                    <h2>${category.count}</h2>
+    try {
+        for (const category of categories) {
+            html += `
+                <div class>
+                    <div class="barsTop">
+                        <h5>${category.name}</h5>
+                        <h2>${category.count}</h2>
+                    </div>
+                    <div class="bars">
+                        <canvas id="category-bar-${category.id}"></canvas>
+                    </div>
                 </div>
-                <div class="bars">
-                    <canvas id="category-bar-${category.id}"></canvas>
-                </div>
-            </div>
-        `
+            `
+        }
+    } catch(error) {
+        console.error(error)
     }
+
     morbidityBarSpace.innerHTML = html
 }
 
 export function selectEachMorbidityBarThenCreateBars(categories, createBars) {
     let maxCount = 0
-    for (const category of categories) {
-        maxCount += category.count
+    try{
+        for (const category of categories) {
+            maxCount += category.count
+        }
+        for (const category of categories) {
+            const morbidityBar = document.getElementById(`category-bar-${category.id}`)
+            createBars(morbidityBar, maxCount, category.count)
+        }
+    } catch(error) {
+        console.error(error)
     }
-    for (const category of categories) {
-        const morbidityBar = document.getElementById(`category-bar-${category.id}`)
-        createBars(morbidityBar, maxCount, category.count)
-    }
+
 }

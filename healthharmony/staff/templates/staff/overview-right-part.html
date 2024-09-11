@@ -4,7 +4,7 @@
         <h1>Shortcut</h1>
         <div class="action-button-container">
             <button class="action-button js-add-visit-btn">Add Visit Record</button>
-            <button class="action-button">Check Bed</button>
+            <button class="action-button js-check-bed">Check Bed</button>
         </div>
     </div>
     <div class="bar-section">
@@ -30,3 +30,35 @@
         </div>
     </div>
 </section>
+<div class="bed-section modal js-check-bed-modal">
+    <div class="modal-content">
+        <h3>Bed Monitor</h3>
+        <form action="{% url 'staff-bed' %}" method="post">
+            {% csrf_token %}
+            <button class="newBed-btn" type="submit">Add New Bed</button>
+        </form>
+        <div class="bedSpace">
+            {% if beds %}
+                {% for bed in beds %}
+                    <form class="singleBed"
+                          action="{% url 'staff-bed-handler' bed.id %}"
+                          method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="status" value="{{ bed.status }}" />
+                        <h4>Bed {{ forloop.counter }}</h4>
+                        <button type="submit">
+                            {% if bed.status == True %}
+                                Occupied
+                            {% else %}
+                                Available
+                            {% endif %}
+                        </button>
+                    </form>
+                {% empty %}
+                {% endfor %}
+            {% else %}
+                <h5>No bed available</h5>
+            {% endif %}
+        </div>
+    </div>
+</div>

@@ -1,13 +1,22 @@
 let popup = document.getElementById("popup");
 
 function openPopup() {
-    popup.classList.add("open-popup");
+    try {
+        popup.classList.add("open-popup");
+    } catch (error) {
+        console.error(error.message)
+
+    }
 }
 
 function closePopup() {
-    popup.classList.remove("open-popup");
-    const baseUrl = new URL(window.location.origin)
-    window.location.href = baseUrl
+    try {
+        popup.classList.remove("open-popup");
+        const baseUrl = new URL(window.location.origin)
+        window.location.href = baseUrl
+    } catch (error) {
+        console.error(error.message)
+    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {

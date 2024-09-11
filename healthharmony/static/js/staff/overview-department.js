@@ -31,14 +31,19 @@ export function getDepartmentDataParams(departments) {
 }
 
 export function getParamsThenCreateDepartmentChart(departments, departmentData, getCountsAndLabelsForChart, createChart) {
-    const {
-        filter,
-        id,
-        department
-    } = getDepartmentDataParams(departments)
-    const data = departmentData[filter][id][department]
-    const [labels, counts] = getCountsAndLabelsForChart(data)
-    createDepartmentChart(labels, counts, department, createChart)
+    try {
+        const {
+            filter,
+            id,
+            department
+        } = getDepartmentDataParams(departments)
+        const data = departmentData[filter][id][department]
+        const [labels, counts] = getCountsAndLabelsForChart(data)
+        createDepartmentChart(labels, counts, department, createChart)
+
+    } catch (error) {
+        console.error(`No data for department chart: ${error.message}`)
+    }
 }
 
 

@@ -23,11 +23,21 @@ const departments = JSON.parse(document.getElementById('departments').textConten
 main()
 
 function main() {
+    /**
+     * TEST AREA
+     */
+    listenCheckBed()
+
+
+    /**
+     * MAIN CODE
+     */
     listenToError()
     listenToSuccess()
     listenToModalOk()
 
     listenToAddVisitBtn()
+    // handle_add_new_patient_btn()
 
     listenToCategoryFilterBtns()
     listenToCategorySelector()
@@ -46,12 +56,38 @@ function main() {
     selectEachDepartmentBarThenCreateBars(getBarCounts(departmentData['yearly']), createBars)
 }
 
+function handle_add_new_patient_btn() {
+    const btn = document.querySelector('.js_add_new_patient')
+
+    btn.addEventListener('click', (event) => {
+        event.preventDefault()
+        // const addVisitModal = document.getElementById('js-add-visit-modal')
+
+        // addVisitModal.style.display = 'none'
+    })
+}
+
+function listenCheckBed() {
+    const checkBedBtn = document.querySelector('.js-check-bed')
+
+    checkBedBtn.addEventListener('click', () => {
+        const bedModal = document.querySelector('.js-check-bed-modal')
+        openModal(bedModal)
+        window.onclick = function(event) {
+            if (event.target == bedModal) {
+                bedModal.style.display = "none";
+            }
+        }
+    })
+
+}
+
 function listenToError() {
     try {
         const errorModal = document.querySelector('.js-error-modal')
         errorModal.classList.add('open-popup-visit')
-    } catch(error) {
-        console.error(error)
+    } catch (error) {
+        console.error(error.message)
     }
 }
 
@@ -59,8 +95,8 @@ function listenToSuccess() {
     try {
         const successModal = document.querySelector('.js-success-modal')
         successModal.classList.add('open-popup-visit')
-    } catch(error) {
-        console.error(error)
+    } catch (error) {
+        console.error(error.message)
     }
 }
 
@@ -73,11 +109,10 @@ function listenToModalOk() {
                 modal.classList.remove('open-popup-visit')
             })
         }
-    } catch(error) {
+    } catch (error) {
         console.error(error)
     }
 }
-
 
 function listenToCategoryFilterBtns() {
     const categoryFilterBtns = document.querySelectorAll('.categoryDateFilter')
@@ -98,7 +133,6 @@ function listenToCategoryFilterBtns() {
     }
 }
 
-
 function listenToCategorySelector() {
     const categorySelector = document.getElementById('categories')
     categorySelector.addEventListener('change', () => {
@@ -110,7 +144,6 @@ function listenToCategorySelector() {
 
     })
 }
-
 
 function listenToDepartmentsFilterBtns() {
     const departmentFilterBtns = document.querySelectorAll('.departmentDateFilter')

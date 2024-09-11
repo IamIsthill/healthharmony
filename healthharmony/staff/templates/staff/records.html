@@ -12,8 +12,7 @@
           rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
           rel="stylesheet" />
-    
-    <!-- <style>
+    <!--    <style>
     /* The Modal (background) */
     .modal {
       display: none; /* Hidden by default */
@@ -51,7 +50,7 @@
       text-decoration: none;
       cursor: pointer;
     }
-    </style> -->
+    </style>    -->
 {% endblock %}
 {% block message %}
     {% if messages|has_error_message %}
@@ -59,30 +58,11 @@
     {% endif %}
 {% endblock %}
 {% block main %}
-
-<div class="nav-top">
-    <h2>Record</h2>
-    <div class="profile-container">
-        <img src="{% static 'assets/images/doctor-pics/Miko.jpg' %}"
-            alt="Profile Picture"
-            class="profile-pic" />
-        <div class="profile-info">
-            <h3>Miko Basilio</h3>
-            <span>Nurse</span>
-        </div>
-        <a href="{% url 'logout' %}">
-            <div class="logout-container">
-                <span class="material-symbols-outlined">logout</span>
-            </div>
-        </a>
-    </div>
-</div>
-
+    {% include 'staff/nav-top.html' %}
     <div class="nurse-container2">
         {% include 'staff/navbar.html' %}
         <main>
             <div class="visit-history">
-             
                 <table>
                     <thead>
                         <tr>
@@ -105,9 +85,9 @@
                                             <option value="date">Expiry Date</option>
                                             <option value="stock">Stock</option>
                                         </select>
-                                        <button class="js-inventory-direction" data-sort='asc'><span class="material-symbols-outlined">
-                                            swap_vert
-                                            </span></button>
+                                        <button class="js-inventory-direction" data-sort='asc'>
+                                            <span class="material-symbols-outlined">swap_vert</span>
+                                        </button>
                                     </div>
                                 </div>
                             </th>
@@ -116,7 +96,7 @@
                             <th colspan="5">
                                 <div class="header-content">
                                     <div class="category-buttons">
-                                        <button class="visit-record_cat-active inventory-category js-inventory-category js-inventory-category-active"
+                                        <button class="visit-record_cat visit-record_cat-active inventory-category js-inventory-category js-inventory-category-active"
                                                 data-sorter="0">All</button>
                                         <button class="visit-record_cat inventory-category js-inventory-category"
                                                 data-sorter="1">Ongoing</button>
@@ -137,7 +117,7 @@
                             <th class="table-head action-column-head" colspan="2">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="js-visit-history-body">
                         {% if history %}
                             {% for data in history %}
                                 <tr>
@@ -184,91 +164,67 @@
                     {% endif %}
                 </table>
             </div>
-
-
             <div class="lower">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th colspan="4">
-                                        <div class="header-content">
-                                            <h1>Request Summary</h1>
-                                            <div class="search-container">
-                                                <input type="text"
-                                                       class="js-inventory-search-container"
-                                                       id="search-field"
-                                                       placeholder="Search..." />
-                                                <button class="js-inventory-search-btn">
-                                                    <span class="material-symbols-outlined">search</span>
-                                                </button>
-                                            </div>
-                                            <div class="sort-by">
-                                                <span>Sort By:</span>
-                                                <select id="inventory-sort-select" class="js-inventory-sort-select">
-                                                    <option value="name">Name</option>
-                                                    <option value="date">Expiry Date</option>
-                                                    <option value="stock">Stock</option>
-                                                </select>
-                                                <button class="js-inventory-direction" data-sort='asc'><span class="material-symbols-outlined">
-                                                    swap_vert
-                                                    </span></button>
-                                            </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="4">
+                                <div class="header-content">
+                                    <h1>Request Summary</h1>
+                                </div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="4">
+                                <div class="header-content">
+                                    <div class="category-buttons">
+                                        <button class="js-request-status-filter visit-record_cat visit-record_cat-active"
+                                                data-filter="">All</button>
+                                        <button class="js-request-status-filter visit-record_cat" data-filter="false">Pending</button>
+                                        <button class="js-request-status-filter visit-record_cat" data-filter="true">Released</button>
+                                    </div>
+                                    {% if certificates_page.has_other_pages %}
+                                        <div class="pagination">
+                                            <span class="step-links">
+                                                {% if certificates_page.has_previous %}
+                                                    <a href="?cert-page=1" class="js-links">&laquo; First</a>
+                                                    <a href="?cert-page={{ certificates_page.previous_page_number }}"
+                                                       class="js-links">Previous</a>
+                                                {% endif %}
+                                                <span class="current">Page {{ certificates_page.number }} of {{ certificates_page.paginator.num_pages }}.</span>
+                                                {% if certificates_page.has_next %}
+                                                    <a href="?cert-page={{ certificates_page.next_page_number }}"
+                                                       class="js-links">Next</a>
+                                                    <a href="?cert-page={{ certificates_page.paginator.num_pages }}"
+                                                       class="js-links">Last &raquo;</a>
+                                                {% endif %}
+                                            </span>
                                         </div>
-                                    </th>
-                                </tr>
-
-                                <tr>
-                                    <th colspan="4">
-                                        <div class="header-content">
-                                            <div class="category-buttons">
-                                                <button class="js-request-status-filter visit-record_cat-active" data-filter="">All</button>
-                                                <button class="js-request-status-filter visit-record_cat" data-filter="false">Pending</button>
-                                                <button class="js-request-status-filter visit-record_cat" data-filter="true">Released</button>
-                                            </div>
-
-                                            {% if certificates_page.has_other_pages %}
-                                                <div class="pagination">
-                                                    <span class="step-links">
-                                                        {% if certificates_page.has_previous %}
-                                                            <a href="?cert-page=1" class="js-links">&laquo; First</a>
-                                                            <a href="?cert-page={{ certificates_page.previous_page_number }}"
-                                                            class="js-links">Previous</a>
-                                                        {% endif %}
-                                                        <span class="current">Page {{ certificates_page.number }} of {{ certificates_page.paginator.num_pages }}.</span>
-                                                        {% if certificates_page.has_next %}
-                                                            <a href="?cert-page={{ certificates_page.next_page_number }}"
-                                                            class="js-links">Next</a>
-                                                            <a href="?cert-page={{ certificates_page.paginator.num_pages }}"
-                                                            class="js-links">Last &raquo;</a>
-                                                        {% endif %}
-                                                    </span>
-                                                </div>
-                                            {% endif %}
-                                        </div>
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th class="table-head">Email</th>
-                                    <th class="table-head">Requester</th>
-                                    <th class="table-head">Purpose</th>
-                                    <th class="table-head">Date Requested</th>
-                                </tr>
-                            </thead>
-                            <tbody class="request-body js-request-body">
-                                {% for certificate in certificates_page %}
-                                    <tr>
-                                        <td class="table-data">{{ certificate.email }}</td>
-                                        <td class="table-data">{{ certificate.first_name }} {{ certificate.last_name }}</td>
-                                        <td class="table-data">{{ certificate.purpose|truncatechars:60 }}</td>
-                                        <td class="table-data js-cert-date">{{ certificate.requested }}</td>
-                                    </tr>
-                                {% endfor %}
-                        </tbody>
-                        </table>
+                                    {% endif %}
+                                </div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th class="table-head">Email</th>
+                            <th class="table-head">Requester</th>
+                            <th class="table-head">Purpose</th>
+                            <th class="table-head">Date Requested</th>
+                        </tr>
+                    </thead>
+                    <tbody class="request-body js-request-body">
+                        {% for certificate in certificates_page %}
+                            <tr>
+                                <td class="table-data">{{ certificate.email }}</td>
+                                <td class="table-data">{{ certificate.first_name }} {{ certificate.last_name }}</td>
+                                <td class="table-data">{{ certificate.purpose|truncatechars:60 }}</td>
+                                <td class="table-data js-cert-date">{{ certificate.requested }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
                 <div class="right">
-                    
                     <div class="bar-space">
-                        <h2> Something Bar </h2>
+                        <h2>Request Over Time</h2>
                         <div>
                             <button class="js-request-date-filter js-request-date-active"
                                     data-filter="weekly">Last 7 days</button>
@@ -282,29 +238,28 @@
         </main>
     </div>
     <div class="modals">
-         <!-- The Modal -->
-         <div class="modal js-add-record-modal">
+        <!-- The Modal -->
+        <div class="modal js-add-record-modal">
             <!-- Modal content -->
-                <div class="modal-content">
+            <div class="modal-content">
                 <h1>Add Record</h1>
-                    <span class="material-symbols-outlined close js-close-add-record">cancel</span>
-                    <form action="{% url 'create-patient-add-issue' %}" method="post">
+                <span class="material-symbols-outlined close js-close-add-record">cancel</span>
+                <form action="{% url 'create-patient-add-issue' %}" method="post">
                     {% csrf_token %}
-                        <label for="">Patient Email</label>
-                        <input class="patient-input" type="text" name="email" list="patients" />
-                        <datalist id="patients"></datalist>
-                        <label for="">Issue</label>
-                        <input class="issue-input" type="text" name="issue" />
-                        <div class="form-buttons">
-                        <button type="submit" class="form-button">Confirm</button>
-                        <button type="button" class="js-close-add-record cancel-button">Cancel</button>
-                        </div>
-                    </form>
-                </div>
+                    <label for="">Patient Email</label>
+                    <input type="text" name="email" list="patients" />
+                    <datalist id="patients"></datalist>
+                    <label for="">Issue</label>
+                    <input type="text" name="issue" />
+                    <button type="submit">Add Complaint</button>
+                    <button type="button" class="js-close-add-record">Cancel</button>
+                </form>
             </div>
+        </div>
         <div id="viewIllnessModal" class="modal">
             <div class="modal-content view-content">
-                <span class="material-symbols-outlined close js-close-view-illness-modal">cancel</span>                <div class="modal-body">
+                <span class="material-symbols-outlined close js-close-view-illness-modal">cancel</span>
+                <div class="modal-body">
                     <h1>Hi</h1>
                 </div>
             </div>

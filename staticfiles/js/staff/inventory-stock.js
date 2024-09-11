@@ -61,14 +61,14 @@ export function createInventoryBar(categorizedCounts, createChart) {
             label: 'Medicine',
             data: medicineCount,
             borderWidth: 1,
-            borderColor: '#36A2EB',
-            backgroundColor: '#9BD0F5',
+            borderColor: '##eeac13',
+            backgroundColor: '#eeac13',
             fill: false,
         }, {
             label: 'Supply',
             data: supplyCount,
-            borderColor: '#FF6384',
-            backgroundColor: '#FFB1C1',
+            borderColor: '#97180c',
+            backgroundColor: '#97180c',
         }]
     };
 
@@ -78,8 +78,8 @@ export function createInventoryBar(categorizedCounts, createChart) {
                 labels: {
                     font: {
                         family: 'Poppins', // Your custom font family
-                        size: 14, // Font size
-                        weight: 'normal', // Font weight
+                        size: 18, // Font size
+                        weight: 'bold', // Font weight
                         style: 'normal' // Font style
                     }
                 }

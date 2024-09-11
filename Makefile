@@ -106,3 +106,7 @@ test-inventory:
 .PHONY: static
 static:
 	poetry run python -m healthharmony.manage collectstatic --noinput
+
+.PHONY: deploy
+deploy:
+	poetry run daphne -p 80 -b 0.0.0.0 healthharmony.app.asgi:application

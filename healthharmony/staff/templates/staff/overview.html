@@ -15,16 +15,6 @@
           rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
           rel="stylesheet" />
-    <!-- <style>
-    /* Modal Content/Box */
-    .modal-content {
-      background-color: #fefefe;
-      margin: 15% auto; /* 15% from the top and centered */
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%; /* Could be more or less, depending on screen size */
-    }
-    </style> -->
 {% endblock %}
 {% block message %}
     {% if messages|has_error_message %}
@@ -79,18 +69,19 @@
     <div id="js-add-visit-modal" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
+            <h1>Visit Record</h1>
             <h1>Add a Patient Record</h1>
             <span class="material-symbols-outlined close js-close-add-visit-modal-btn">cancel</span>
             <form action="{% url 'create-patient-add-issue' %}" method="post">
                 {% csrf_token %}
-                <label for="">Patient Email</label>
-                <input class="patient-input" type="text" name="email" list="patients" />
-                <datalist id="patients">
+                <label for="">Patient</label>
+                <input type="text" name="email" />
+                <select name="email">
                     {% for patient in patients %}<option value="{{ patient.email }}">{{ patient.email }}</option>{% endfor %}
-                </datalist>
+                </select>
                 <label for="">Issue</label>
-                <input class="issue-input" type="text" name="issue" />
-                <button class="form-button confirm" type="submit">Confirm</button>
+                <input type="text" name="issue" />
+                <button class="form-button" type="submit">Add Complaint</button>
             </form>
         </div>
     </div>

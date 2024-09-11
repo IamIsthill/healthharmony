@@ -36,10 +36,6 @@ const token = document.getElementsByName('csrfmiddlewaretoken')[0].value
 await main()
 
 async function main() {
-    // console.log(countedInventory)
-    // console.log(sortedInventory)
-    // const data = await getData()
-    // console.log(data)
     createLogicTrendsBar()
     createLogicInventoryChart()
     createLogicInventoryBar()
@@ -59,23 +55,6 @@ async function main() {
     listenInventoryTrendsCategoryBtns()
     listenInventoryTrendsFilterBtns()
 }
-
-// async function getData() {
-//     let response = null
-//     try {
-//         // const url = new URL('https://www.googleapis.com/books/v1/volumes/zyTCAlFPjgYC?key=AIzaSyCg9zmLFmVYtJCMWdDBP_WuyrHBYD2RWHA')
-//         const url = new URL('https://www.googleapis.com/books/v1/volumes?q=health+books')
-//         response = await fetch (url)
-//         if (!response.ok) {
-//             throw new Error('Network response was not ok ' + response.statusText)
-//         }
-//         const data = await response.json()
-//         return data
-//     } catch (error) {
-//         console.error('There has been a problem with your fetch operation:', error)
-//         return response
-//     }
-// }
 
 function listenToInventoryDeleteButtons() {
     const inventoryDeleteBtns = document.querySelectorAll('.js-inventory-delete-btn')
@@ -163,7 +142,6 @@ function createLogicInventoryChart() {
         } = getCountsAndLabelsForInventoryChart(data)
         createInventoryChart(labels, counts, category, createChart)
     }
-
 }
 
 function createLogicTrendsBar() {
@@ -233,8 +211,10 @@ function listenInventoryTrendsCategoryBtns() {
             const trendsClass = 'js-seasonal-bar-category-active'
             for (const btn of trendsCategoryBtns) {
                 btn.classList.remove(trendsClass)
+                btn.classList.remove('bottom-cat-btn-active')
             }
             btn.classList.add(trendsClass)
+            btn.classList.add('bottom-cat-btn-active')
             createLogicTrendsBar()
         })
     }
@@ -247,8 +227,10 @@ function listenInventoryTrendsFilterBtns() {
             const filterClass = 'js-seasonal-bar-filter-active'
             for (const btn of trendFilterBtns) {
                 btn.classList.remove(filterClass)
+                btn.classList.remove('bar-btn-active')
             }
             btn.classList.add(filterClass)
+            btn.classList.add('bar-btn-active')
             createLogicTrendsBar()
         })
     }
@@ -260,10 +242,12 @@ function listenChartCategoryBtns() {
         btn.addEventListener('click', () => {
             for (const btn of chartCategoryBtns) {
                 btn.classList.remove('js-seasonal-category-btn-active')
+                btn.classList.remove('bottom-cat-btn-active')
             }
             btn.classList.add('js-seasonal-category-btn-active')
+            btn.classList.add('bottom-cat-btn-active')
             createLogicInventoryChart()
-
+            return
         })
     }
 }
@@ -275,9 +259,12 @@ function listenChartFilterBtns() {
         btn.addEventListener('click', () => {
             for (const btn of chartFilterBtns) {
                 btn.classList.remove('js-seasonal-filter-active')
+                btn.classList.remove('active-cat')
             }
             btn.classList.add('js-seasonal-filter-active')
+            btn.classList.add('active-cat')
             createLogicInventoryChart()
+            return
 
         })
     }
@@ -293,8 +280,10 @@ function listenToInventoryCategoryBtns() {
 
             for (const btn of inventoryCategoryBtns) {
                 btn.classList.remove(filterClassName)
+                btn.classList.remove('inventory_cat-active')
             }
             btn.classList.add(filterClassName)
+            btn.classList.add('inventory_cat-active')
             createLogicInventoryTable()
         })
     }
@@ -314,10 +303,10 @@ function listenInventorySortDirectionBtn() {
         const inventorySortDirection = getActiveFilter('js-inventory-direction', 'data-sort')
         if (inventorySortDirection == 'desc') {
             inventorySortDirectionBtn.setAttribute('data-sort', 'asc')
-            inventorySortDirectionBtn.innerHTML = 'Up'
+            // inventorySortDirectionBtn.innerHTML = 'Up'
         } else if (inventorySortDirection == 'asc') {
             inventorySortDirectionBtn.setAttribute('data-sort', 'desc')
-            inventorySortDirectionBtn.innerHTML = 'Down'
+            // inventorySortDirectionBtn.innerHTML = 'Down'
         }
         const {
             filter,
@@ -368,7 +357,9 @@ function updateInventoryTable(inventory) {
                     <td class="table-data total-column">${ data.total_quantity }</td>
                     <td class="table-data exp-column">${ data.expiration_date }</td>
                     <td class="table-data js-inventory-btn btn view-column" data-id="${data.id}">View</td>
-                    <td class="table-data js-inventory-delete-btn btn delete-column" data-id="${data.id}">Delete</td>
+                    <td class="table-data js-inventory-delete-btn btn delete-column" data-id="${data.id}"><span class="material-symbols-outlined delete-btn">
+                                        delete
+                                        </span></td>
                 </tr>
 
             `
