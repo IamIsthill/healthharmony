@@ -90,6 +90,17 @@ function main() {
     listenDepartmentEdit()
     listenDepartmentView()
 
+    listenAddDepartmentBtn()
+
+    createDepartmentBarGraph()
+
+
+    /** CLINIC TABLE */
+    updateEmployeeHTMl(employeeData)
+
+
+
+
 
 
 
@@ -120,7 +131,6 @@ function main() {
 
     // //employee
     // setEmployeeFilters()
-    // updateEmployeeHTMl(employeeData)
     // listenEmployeeSearchBtn()
     // listenEmployeeFilter()
     // listenEmployeeSearchField()
@@ -388,6 +398,43 @@ function handle_onhover_department_search_field() {
     })
 }
 
+/** MAIN CLINIC FUNCTIONS */
+function updateEmployeeHTMl(employeeData) {
+    const employeeBody = document.querySelector('.js-employee-body')
+    let html = ''
+
+    for (const employee of employeeData) {
+        let count = 0
+        let position = ''
+        if (employee.access == 2) {
+            count = employee.staff_count
+            position = 'Staff'
+        }
+
+        if (employee.access == 3) {
+            count = employee.doctor_count
+            position = 'Doctor'
+        }
+
+        let last_case = ''
+        if (employee.last_case) {
+            last_case = getElapsedTime(employee.last_case)
+        }
+
+        const name = employee.first_name && employee.last_name ? `${employee.first_name} ${employee.last_name}` :
+            employee.email
+        html += `
+            <tr>
+                <td>${employee.first_name ? employee.first_name : ''} ${employee.last_name ? employee.last_name : ''}</td>
+                <td>${position}</td>
+                <td>${last_case}</td>
+                <td>${count}</td>
+            </tr>
+        `
+    }
+    employeeBody.innerHTML = html
+}
+
 
 
 
@@ -467,41 +514,7 @@ function listenEmployeeSearchBtn() {
     })
 }
 
-function updateEmployeeHTMl(employeeData) {
-    const employeeBody = document.querySelector('.js-employee-body')
-    let html = ''
 
-    for (const employee of employeeData) {
-        let count = 0
-        let position = ''
-        if (employee.access == 2) {
-            count = employee.staff_count
-            position = 'Staff'
-        }
-
-        if (employee.access == 3) {
-            count = employee.doctor_count
-            position = 'Doctor'
-        }
-
-        let last_case = ''
-        if (employee.last_case) {
-            last_case = getElapsedTime(employee.last_case)
-        }
-
-        const name = employee.first_name && employee.last_name ? `${employee.first_name} ${employee.last_name}` :
-            employee.email
-        html += `
-            <tr>
-                <td>${name}</td>
-                <td>${position}</td>
-                <td>${last_case}</td>
-                <td>${count}</td>
-            </tr>
-        `
-    }
-    employeeBody.innerHTML = html
-}
 
 function createDepartmentBarGraph() {
     const canvas = document.getElementById('js-department-bar-canvas')
