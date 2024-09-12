@@ -67,80 +67,17 @@ def view_patient_profile(request, pk):
 
 @login_required(login_url="account_login")
 def overview_view(request):
-    #     """
-    #     View to display and update illness information.
+    # Check the access level of the user, return to home if not sufficient
+    access_checker(request)
 
-    #     This view handles both GET and POST requests. On GET requests, it fetches and organizes
-    #     illness data into categories based on their diagnosis status and prepares it for rendering.
-    #     On POST requests, it processes form data to update illness information.
+    illness_cases = Illness.objects.filter(doctor=request.user)
+    illness_data = []
 
-    #     Args:
-    #         request: The HTTP request object.
+    for case in illness_cases:
+        data = IllnessSerializer(case).data
+        illness_data.append(data)
 
-    #     Returns:
-    #         HttpResponse: The rendered HTML page with illness information.
-    #     """
-    #     check_models()
-    #     access_checker(request)
-    context = {}
-
-    #     # Handle POST request for updating illness
-    #     if request.method == "POST":
-    #         form = UpdateIllness(request.POST)
-    #         if form.is_valid():
-    #             try:
-    #                 form.save(request)
-    #                 messages.success(request, "Illness updated successfully!")
-    #             except Exception as e:
-    #                 logger.error("Error updating illness: %s", str(e))
-    #                 messages.error(request, "An error occurred while updating the illness.")
-    #         else:
-    #             messages.error(request, "Form data is invalid.")
-
-    #     # Handle GET request to fetch and prepare illness data
-    #     try:
-    #         all_illness = Illness.objects.all().prefetch_related(
-    #             Prefetch(
-    #                 "illnesstreatment_set",
-    #                 queryset=IllnessTreatment.objects.select_related("inventory_detail"),
-    #             )
-    #         )
-    #         done_illness = Illness.objects.filter(diagnosis__isnull=False).prefetch_related(
-    #             Prefetch(
-    #                 "illnesstreatment_set",
-    #                 queryset=IllnessTreatment.objects.select_related("inventory_detail"),
-    #             )
-    #         )
-    #         not_illness = Illness.objects.filter(
-    #             Q(diagnosis__isnull=True) | Q(diagnosis="")
-    #         ).prefetch_related(
-    #             Prefetch(
-    #                 "illnesstreatment_set",
-    #                 queryset=IllnessTreatment.objects.select_related("inventory_detail"),
-    #             )
-    #         )
-
-    #         illness_data = {
-    #             "all": [illness_to_dict(illness) for illness in all_illness],
-    #             "not": [illness_to_dict(illness) for illness in not_illness],
-    #             "done": [illness_to_dict(illness) for illness in done_illness],
-    #         }
-
-    #         context = {
-    #             "not_illness": not_illness,
-    #             "illness_data": illness_data,
-    #         }
-    #     except Exception as e:
-    #         logger.error("Error retrieving illness data: %s", str(e))
-    #         context = {
-    #             "not_illness": [],
-    #             "illness_data": {
-    #                 "all": [],
-    #                 "not": [],
-    #                 "done": [],
-    #             },
-    #         }
-    #         messages.error(request, "An error occurred while retrieving illness data.")
+    context = {"illness_data": illness_data}
 
     return render(request, "doctor/overview.html", context)
 
