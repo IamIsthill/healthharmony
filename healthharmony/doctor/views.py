@@ -10,6 +10,8 @@ from django.views.decorators.cache import never_cache
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.utils import timezone
 from dateutil.relativedelta import relativedelta
+from concurrent.futures import as_completed, ThreadPoolExecutor
+
 
 from healthharmony.models.treatment.models import Illness, Category
 from healthharmony.models.inventory.models import InventoryDetail
@@ -93,20 +95,45 @@ def overview_view(request):
     except EmptyPage:
         illness_page = illness_paginator.page(illness_paginator.num_pages)
 
-    illness_categories = get_sorted_illness_categories(illness_cases)
+    with ThreadPoolExecutor() as tp:
+        futures = {
+            tp.submit(
+                get_sorted_illness_categories, illness_cases
+            ): "illness_categories",
+            tp.submit(get_departments, request): "department_names",
+            tp.submit(get_sorted_department, request): "department_data",
+            tp.submit(get_sorted_category, request): "sorted_illness_category",
+            tp.submit(fetch_categories): "categories",
+        }
+
+        results = {}
+        for future in as_completed(futures):
+            key = futures[future]
+            try:
+                results[key] = future.result()
+            except Exception as exc:
+                logger.error(f"{key} generated an exception: {exc}")
+                results[key] = 0
 
     for case in illness_cases:
         data = IllnessSerializer(case).data
         illness_data.append(data)
 
-    request, department_names = get_departments(request)
+    # illness_categories = get_sorted_illness_categories(illness_cases)
+    # request, department_names = get_departments(request)
+    # request, department_data = get_sorted_department(request)
+    # request, sorted_illness_category = get_sorted_category(request)
+    # categories = fetch_categories()
+    illness_categories = results["illness_categories"]
+    request, department_names = results["department_names"]
+    request, department_data = results["department_data"]
+    request, sorted_illness_category = results["sorted_illness_category"]
+    categories = results["categories"]
+
     department_names = [
         {"id": department.id, "department": department.department}
         for department in department_names
     ]
-    request, department_data = get_sorted_department(request)
-    request, sorted_illness_category = get_sorted_category(request)
-    categories = fetch_categories()
 
     context = {
         "illness_data": illness_data,

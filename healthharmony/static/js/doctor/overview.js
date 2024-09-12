@@ -23,7 +23,36 @@ console.log(department_names)
 console.log(department_data)
 console.log(sorted_illness_category)
 
+/** Illness Category Chart */
 get_init_params_create_morbidity_chart()
+handle_onclick_illness_dates()
+handle_onchange_illness_category()
+
+
+/** Illness Category Chart */
+// When user changes the illness category
+function handle_onchange_illness_category() {
+    const select_element = document.querySelector('.js_illness_category')
+
+    select_element.addEventListener('change', () => {
+        get_init_params_create_morbidity_chart()
+    })
+}
+
+// Update chart when clicking on the illness date filters
+function handle_onclick_illness_dates() {
+    const btns = document.querySelectorAll('.js_category_filter')
+
+    for (const btn of btns) {
+        btn.addEventListener('click', () => {
+            for (const btn of btns) {
+                btn.classList.remove('js_category_filter_active')
+            }
+            btn.classList.add('js_category_filter_active')
+            get_init_params_create_morbidity_chart()
+        })
+    }
+}
 
 // Gets params and create the morbidity chart
 function get_init_params_create_morbidity_chart() {
