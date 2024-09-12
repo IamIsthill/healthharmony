@@ -119,11 +119,6 @@ def overview_view(request):
         data = IllnessSerializer(case).data
         illness_data.append(data)
 
-    # illness_categories = get_sorted_illness_categories(illness_cases)
-    # request, department_names = get_departments(request)
-    # request, department_data = get_sorted_department(request)
-    # request, sorted_illness_category = get_sorted_category(request)
-    # categories = fetch_categories()
     illness_categories = results["illness_categories"]
     request, department_names = results["department_names"]
     request, department_data = results["department_data"]
@@ -146,6 +141,61 @@ def overview_view(request):
     }
 
     return render(request, "doctor/overview.html", context)
+
+
+@login_required(login_url="account_login")
+def handled_cases(request):
+    access_checker(request)
+
+    if request.method.lower() == "get":
+        try:
+            search = request.GET.get("search")
+            if search:
+                illness_cases = Illness.objects.filter(
+                    (Q(doctor=request.user) | Q(staff=request.user))
+                    & (  # Filter by doctor or staff
+                        Q(patient__first_name__icontains=search)
+                        | Q(  # Case-insensitive search on first name
+                            patient__last_name__icontains=search
+                        )
+                        | Q(issue__icontains=search)
+                        | Q(diagnosis__icontains=search)
+                    )
+                )
+
+            # If search query is empty, show all illness cases for the user
+            else:
+                illness_cases = Illness.objects.filter(
+                    Q(doctor=request.user) | Q(staff=request.user)
+                )
+        except Exception as e:
+            logger.info(f"Failed to fetch the illness cases: {str(e)}")
+            messages.error(request, "Failed to fetch required data. Please reload page")
+            return redirect(request.META.get("HTTP_REFERER", "doctor-overview"))
+
+    else:
+        try:
+            illness_cases = Illness.objects.filter(
+                Q(doctor=request.user) | Q(staff=request.user)
+            )
+        except Exception as e:
+            logger.info(f"Failed to fetch the illness cases: {str(e)}")
+            messages.error(request, "Failed to fetch required data. Please reload page")
+            return redirect(request.META.get("HTTP_REFERER", "doctor-overview"))
+
+    illness_paginator = Paginator(illness_cases, 20)
+    page = request.GET.get("page")
+
+    try:
+        illness_page = illness_paginator.page(page)
+    except PageNotAnInteger:
+        illness_page = illness_paginator.page(1)
+    except EmptyPage:
+        illness_page = illness_paginator.page(illness_paginator.num_pages)
+
+    context = {"illness_page": illness_page}
+
+    return render(request, "doctor/handled.html", context)
 
 
 @api_view(["GET"])
