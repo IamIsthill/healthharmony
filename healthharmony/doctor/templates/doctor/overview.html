@@ -60,7 +60,7 @@
                 <button class="js-illness-filter-active js-illness-filter"
                         data-category="all">All</button>
                 <button class="js-illness-filter" data-category="not">Pending</button>
-                <button class="js-illness-filter" data-category="done">Released</button>
+                <button class="js-illness-filter" data-category="done">Completed</button>
             </div>
             <table>
                 <thead>
@@ -117,6 +117,26 @@
                 {% endfor %}
             </div>
         </div>
+        <div class="illness-category-chart-space">
+            <div class="top-chart">
+                <h4>Morbidity Cases</h4>
+                <div class="date-buttons">
+                    <button class="js_category_filter js_category_filter_active"
+                            data-category="yearly">12 Months</button>
+                    <button class="js_category_filter" data-category="monthly">30 days</button>
+                    <button class="js_category_filter" data-category="weekly">7 days</button>
+                </div>
+            </div>
+            <div>
+                <canvas id="morbidityChart"></canvas>
+            </div>
+            <div class="label-container">
+                <label for="categories">Choose a Morbidity:</label>
+                <select name="categories" id="categories" class="js_illness_category">
+                    {% for category in categories %}<option value="{{ category.id }}">{{ category }}</option>{% endfor %}
+                </select>
+            </div>
+        </div>
     </div>
     <div class="modals">
         <div id="illness_modal" class="modal">
@@ -141,6 +161,9 @@
 {% endblock %}
 {% block script %}
     {{ illness_data|json_script:'illness_data' }}
-    {{ illness_categories|json_script:'illness_categories' }}
+    {{ department_names|json_script:'department_names' }}
+    {{ department_data|json_script:'department_data' }}
+    {{ sorted_illness_category|json_script:'sorted_illness_category' }}
+    <script src="{% static 'chart.js/dist/chart.umd.js' %}"></script>
     <script src="{% static 'js/doctor/overview.js' %}" type="module"></script>
 {% endblock %}
