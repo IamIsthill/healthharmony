@@ -24,12 +24,9 @@ const department_names = JSON.parse(document.getElementById('department_names').
 const department_data = JSON.parse(document.getElementById('department_data').textContent)
 const sorted_illness_category = JSON.parse(document.getElementById('sorted_illness_category').textContent)
 
-console.log(illness_data)
-console.log(department_names)
-console.log(department_data)
-console.log(sorted_illness_category)
-
 /** Illness Table */
+handle_onclick_review_illness()
+handle_onclick_illness_status()
 
 
 /** Illness Category Chart */
@@ -43,15 +40,95 @@ handle_onclick_department_filters()
 
 /** Illness Table */
 
-//When user clicks review on illness, redirect to patient-profile
-function handle_onclick_review_illness() {
-    const btns = document.querySelectorAll('.js-view-illness-btn')
+// Update table when user clicks the different illness status
+function handle_onclick_illness_status() {
+    const btns = document.querySelectorAll('.js-illness-filter')
 
     for (const btn of btns) {
+        btn.addEventListener('click', () => {
+            for (const btn of btns) {
+                btn.classList.remove('js-illness-filter-active')
+            }
 
+            btn.classList.add('js-illness-filter-active')
+            const filtered_illness_data = get_filtered_illness_data()
+            update_illness_table(filtered_illness_data)
+            handle_onclick_review_illness()
+        })
+    }
+}
+
+
+//When user clicks review on illness, redirect to patient-profile
+function handle_onclick_review_illness() {
+    const btns = document.querySelectorAll('.js-view-illness')
+
+    for (const btn of btns) {
+        btn.addEventListener('click', () => {
+            const patient_id = btn.getAttribute('data-patient-id')
+            const go_to = `/doctor/patient/${patient_id}/`
+            const url = new URL(window.location.href)
+            url.pathname = go_to
+            window.location.href = url
+        })
+    }
+}
+
+// get filtered data based on current illness status
+function get_filtered_illness_data() {
+    const btn = document.querySelector('.js-illness-filter-active')
+    const filter = btn.getAttribute('data-category').toLowerCase()
+
+    let filtered_data = []
+    if (filter == 'all') {
+        filtered_data = illness_data
     }
 
+    else {
+        for (const illness of illness_data) {
+            if (filter == 'not' && (illness.diagnosis == '' || !illness.diagnosis)) {
+                filtered_data.push(illness)
+            }
+
+            else if (filter == 'done' && (illness.diagnosis != '' || illness.diagnosis)) {
+                filtered_data.push(illness)
+            }
+        }
+    }
+
+    return filtered_data
 }
+
+// Update the illness table
+function update_illness_table(filtered_illness_data) {
+    const illness_body_element = document.getElementById('illness_body')
+    illness_body_element.innerHTML = ''
+    if (filtered_illness_data.length <= 0) {
+        illness_body_element.innerHTML = '<td colspan="4">Congratulations! No case as of this moment.</td>'
+    }
+
+    else {
+
+
+    for (const illness of filtered_illness_data) {
+        const case_status = illness.diagnosis ? 'Completed' : 'Pending'
+        illness_body_element.innerHTML += `
+            <tr>
+              <td>
+                <span class="patient btn" data-patient-id="${illness.patient}">${illness.patient_first_name} ${illness.patient_last_name}</span>
+              </td>
+              <td>${illness.issue}</td>
+              <td>${case_status}</td>
+              <td class="js-view-illness btn" data-patient-id="${illness.patient}">Review</td>
+            </tr>
+        `
+    }
+}
+
+
+}
+
+
 /** Illness Category Chart */
 
 
