@@ -29,6 +29,9 @@ console.log(department_names)
 console.log(department_data)
 console.log(sorted_illness_category)
 
+/** Illness Table */
+
+
 /** Illness Category Chart */
 get_init_params_create_morbidity_chart()
 handle_onclick_illness_dates()
@@ -38,8 +41,20 @@ handle_onchange_illness_category()
 create_department_bars_based_active_params()
 handle_onclick_department_filters()
 
+/** Illness Table */
 
+//When user clicks review on illness, redirect to patient-profile
+function handle_onclick_review_illness() {
+    const btns = document.querySelectorAll('.js-view-illness-btn')
+
+    for (const btn of btns) {
+
+    }
+
+}
 /** Illness Category Chart */
+
+
 // When user changes the illness category
 function handle_onchange_illness_category() {
     const select_element = document.querySelector('.js_illness_category')
