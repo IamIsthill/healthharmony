@@ -142,19 +142,24 @@
                     {% endif %}
                 </table>
                 {% if patients_page.has_other_pages %}
-                    <div class="pagination js-patients-pagination">
+                    <div class="pagination js-patients-pagination pagination-design">
                         <span class="step-links">
                             {% if patients_page.has_previous %}
                                 <a href="?patients-page=1" class="js-links js-patient-links">&laquo; First</a>
-                                <a href="?patients-page={{ patients_page.previous_page_number }}"
-                                   class="js-links js-patient-links">Previous</a>
+                                <div class="previous-page">
+                                    <span class="material-symbols-outlined">
+                                        arrow_back_ios
+                                        </span>
+                                    <a href="?patients-page={{ patients_page.previous_page_number }}"
+                                    class="js-links js-patient-links">Previous</a>
+                                </div>
                             {% endif %}
                             <span class="current">Page {{ patients_page.number }} of {{ patients_page.paginator.num_pages }}.</span>
                             {% if patients_page.has_next %}
                                 <a href="?patients-page={{ patients_page.next_page_number }}"
                                    class="js-links js-patient-links">Next</a>
                                 <a href="?patients-page={{ patients_page.paginator.num_pages }}"
-                                   class="js-links js-patient-links">Last &raquo;</a>
+                                   class="js-links js-patient-links">Last</a>
                             {% endif %}
                         </span>
                     </div>
