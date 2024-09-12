@@ -115,24 +115,41 @@
                     </div>
                 </div>
         </main>
-            <div>
+            <div class="right-part-profile">
+                
                 <div class="detailed-info">
-                    <h3>Detailed Information</h3>
-                    {% if age %}<p>Age:{{ age }}</p>{% endif %}
-                    {% if user.sex %}<p>Sex:{{ user.sex }}</p>{% endif %}
-                    {% if user.contact %}<p>Contact:{{ user.contact }}</p>{% endif %}
-                    {% if user.year and user.section %}
-                        <p>Year and Section: {{ user.year }} - {{ user.section }}</p>
-                    {% elif user.year %}
-                        <p>Year:{{ user.year }}</p>
-                    {% elif user.section %}
-                        <p>Section:{{ user.section }}</p>
-                    {% endif %}
-                    {% if user.program %}<p>Program: {{ user.program }}</p>{% endif %}
-                    {% if user.department %}<p>Department: {{ user.department }}</p>{% endif %}
+                    <div class="detailed-top">
+                        <h3>Detailed Information</h3>
+                        <button> Edit </button>
+                    </div>
+                    
+                    <div class="info-cont">
+                        <div class="detailed-left">
+                            <span>Age</span>
+                            <span>Sex</span>
+                            <span>Contact</span>
+                            <span>Year and Section</span>
+                            <span>Program</span>
+                            <span>Department</span>
+                        </div>
+                        <div class="detailed-right">
+                            {% if age %}<p>{{ age }}</p>{% endif %}
+                            {% if user.sex %}<p>{{ user.sex }}</p>{% endif %}
+                            {% if user.contact %}<p>{{ user.contact }}</p>{% endif %}
+                            {% if user.year and user.section %}
+                                <p> {{ user.year }} - {{ user.section }}</p>
+                            {% elif user.year %}
+                                <p>{{ user.year }}</p>
+                            {% elif user.section %}
+                                <p>{{ user.section }}</p>
+                            {% endif %}
+                            {% if user.program %}<p> {{ user.program }}</p>{% endif %}
+                            {% if user.department %}<p> {{ user.department }}</p>{% endif %}
+                        </div>
+                    </div>
                 </div>
 
-                <div class="illnesses"></div>
+                <div class="illnesses visit-history">
                     <h2>Visit History</h2>
                     <div>
                         <button class="js-illness-filter" data-category="all">All</button>
