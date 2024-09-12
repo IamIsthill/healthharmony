@@ -187,3 +187,32 @@ button{
 .issue-input{
   height: 6rem;
 }
+
+/* PAGINATION TINGS */
+.pagination-design{
+  width: 95%;
+  margin-top: 8px;
+
+}
+.step-links{
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+.previous-next-page, .page-shortcut{
+  display: flex;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.464);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+.previous-next-page .page-icon{
+  font-size: var(--size-lg);
+}
+.previous-next-page:hover, .page-shortcut:hover{
+  background: rgba(0, 0, 0, 0.559);
+}
+/* PAGINATION TINGS */

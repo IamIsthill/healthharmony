@@ -108,22 +108,26 @@
                             </tr>
                         {% endif %}
                     </tbody>
-                    {% if history.has_other_pages %}
-                        <div class="pagination">
+                </table>
+                {% if history.has_other_pages %}
+                        <div class="pagination pagination-design">
                             <span class="step-links">
                                 {% if history.has_previous %}
-                                    <a href="?page=1" class="js-links">&laquo; First</a>
-                                    <a class="js-links" href="?page={{ history.previous_page_number }}">Previous</a>
+                                    <a href="?page=1" class="js-links page-shortcut">First</a>
+                                    <a class="js-links" href="?page={{ history.previous_page_number }}"> <div class="previous-next-page"> <span class="material-symbols-outlined page-icon">
+                                        arrow_back_ios
+                                        </span> <span>Previous </span></div></a>
                                 {% endif %}
                                 <span class="current">Page {{ history.number }} of {{ history.paginator.num_pages }}.</span>
                                 {% if history.has_next %}
-                                    <a class="js-links" href="?page={{ history.next_page_number }}">Next</a>
-                                    <a class="js-links" href="?page={{ history.paginator.num_pages }}">Last &raquo;</a>
+                                    <a class="js-links" href="?page={{ history.next_page_number }}"> <div class="previous-next-page"><span> Next </span><span class="material-symbols-outlined page-icon">
+                                        arrow_forward_ios
+                                        </span></div></a>
+                                    <a class="js-links page-shortcut" href="?page={{ history.paginator.num_pages }}">Last </a>
                                 {% endif %}
                             </span>
                         </div>
                     {% endif %}
-                </table>
             </div>
             <div class="lower">
                 <table>
