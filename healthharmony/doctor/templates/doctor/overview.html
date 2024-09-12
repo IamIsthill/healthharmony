@@ -56,38 +56,37 @@
     <div class="container">
         <h3>Illnesses</h3>
         <div>
-            <button class="illness-filter" data-category="all">All</button>
-            <button class="active illness-filter" data-category="not">Pending</button>
-            <button class="illness-filter" data-category="done">Released</button>
+            <button class="js-illness-filter-active js-illness-filter"
+                    data-category="all">All</button>
+            <button class="js-illness-filter" data-category="not">Pending</button>
+            <button class="js-illness-filter" data-category="done">Released</button>
         </div>
-        <div class="illness_list">
-            <table>
-                <thead>
+        <table>
+            <thead>
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Issue</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="illness_body">
+                {% for illness in illness_data %}
                     <tr>
-                        <th>Patient Name</th>
-                        <th>Issue</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                        <td>
+                            <span class="patient btn" data-patient-id="{{ illness.patient.id }}">{{ illness.patient.first_name }} {{ illness.patient.last_name }}</span>
+                        </td>
+                        <td>{{ illness.issue }}</td>
+                        <td>Pending</td>
+                        <td class="view-illness btn" data-issue-id="{{ illness.id }}">View</td>
                     </tr>
-                </thead>
-                <tbody id="illness_body">
-                    {% for illness in not_illness %}
-                        <tr>
-                            <td>
-                                <span class="patient btn" data-patient-id="{{ illness.patient.id }}">{{ illness.patient.first_name }} {{ illness.patient.last_name }}</span>
-                            </td>
-                            <td>{{ illness.issue }}</td>
-                            <td>Pending</td>
-                            <td class="view-illness btn" data-issue-id="{{ illness.id }}">View</td>
-                        </tr>
-                    {% empty %}
-                        <tr>
-                            <td colspan="4">Congratulations! No pending issue as of this moment.</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                {% empty %}
+                    <tr>
+                        <td colspan="4">Congratulations! No case as of this moment.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
     <div class="modals">
         <div id="illness_modal" class="modal">
@@ -111,6 +110,6 @@
     </div>
 {% endblock %}
 {% block script %}
-    {{ illness_data|json_script:'illnessData' }}
+    {{ illness_data|json_script:'illness_data' }}
     <script src="{% static 'js/doctor/overview.js' %}" type="module"></script>
 {% endblock %}

@@ -30,8 +30,8 @@ import {
     createDeleteDepartmentModal,
     createEditDepartmentModal,
     createViewDepartmentModal,
-    getDepartmentLabelsAndCounts
-
+    getDepartmentLabelsAndCounts,
+    update_department_table
 } from '/static/js/staff/account-department.js'
 
 import {
@@ -46,6 +46,10 @@ import {
     create_hover_patient_information,
     get_patient_data
 } from '/static/js/staff/account-patients.js'
+
+import {
+    get_sorted_department_data_using_current_params,
+} from '/static/js/staff/account-department.js'
 
 const patientData = JSON.parse(document.getElementById('patientData').textContent)
 const departmentData = JSON.parse(document.getElementById('departmentData').textContent)
@@ -62,11 +66,43 @@ function main() {
 
     /**PATIENT TABLE */
     formatDatesInPatientsPage(format_date)
+    update_patient_count_element()
+
     handle_patient_sort()
     handle_click_patient_direction()
+
     handle_onclick_patient_search()
     handle_onclick_clear_patient_search()
+    handle_onhover_patient_search_field()
+
     handle_onhover_patient_name()
+    handle_onclick_patient_name()
+
+    /**DEPARTMENT TABLE */
+    handle_onclick_department_direction()
+    handle_onclick_department_sort()
+
+    handle_onclick_clear_department_search()
+    handle_onclick_department_search()
+    handle_onhover_department_search_field()
+
+    listenDepartmentDelete()
+    listenDepartmentEdit()
+    listenDepartmentView()
+
+    listenAddDepartmentBtn()
+
+    createDepartmentBarGraph()
+
+
+    /** CLINIC TABLE */
+    updateEmployeeHTMl(employeeData)
+
+
+
+
+
+
 
 
 
@@ -89,22 +125,80 @@ function main() {
 
     // //departments
     // formatDepartmentUserCounts()
-    // listenDepartmentDelete()
-    // listenDepartmentEdit()
-    // listenDepartmentView()
+
     // listenAddDepartmentBtn()
     // createDepartmentBarGraph()
 
     // //employee
     // setEmployeeFilters()
-    // updateEmployeeHTMl(employeeData)
     // listenEmployeeSearchBtn()
     // listenEmployeeFilter()
     // listenEmployeeSearchField()
     // listenEmployeeClearBtn()
 }
 
-/** MAIN FUNCTIONS */
+/** MAIN PATIENT FUNCTIONS */
+
+// Update the patient count sa patient table
+function update_patient_count_element() {
+    const patient_count = patientData.length
+
+    const patient_count_element = document.querySelector('.js-patient-count')
+    if (patient_count > 1) {
+        patient_count_element.innerText = `Total Patients(${patient_count})`
+    } else {
+        patient_count_element.innerText = `Total Patient(${patient_count})`
+
+    }
+}
+
+// Add "ENTER" key event listener when hovering on patient search field
+function handle_onhover_patient_search_field() {
+    const search_field = document.querySelector('.js-patient-search-field')
+
+    // This is the logic when  enter key was pressed while the cursor was on hover on patient search field
+    const handle_enter_press = (event) => {
+        if (event.key == 'Enter') {
+            const paginated_data = get_paginated_patient_data()
+            const sorted_patient_data = get_sorted_patient_data_based_on_current_params(paginated_data)
+
+            update_patient_table(sorted_patient_data, format_date)
+            handle_onhover_patient_name()
+            handle_onclick_patient_name()
+
+            // Make sure na ihuli ang pag clear sa search field
+            const search_field = document.querySelector('.js-patient-search-field')
+            search_field.value = ''
+        }
+    }
+
+    // When cursor is on search field, add the ENTER key event listener
+    search_field.addEventListener('mouseenter', () => {
+        document.addEventListener('keypress', handle_enter_press, true)
+    })
+
+    // Remove when mouse leaves
+    search_field.addEventListener('mouseleave', () => {
+        search_field.blur()
+        document.removeEventListener('keypress', handle_enter_press, true)
+    })
+}
+
+// Redirect to doctors patient page when patient name was clicked
+function handle_onclick_patient_name() {
+    const patient_elements = document.querySelectorAll('.js-patient-profile')
+
+    for (const patient_element of patient_elements) {
+        patient_element.addEventListener('click', () => {
+            const patient_id = parseInt(patient_element.getAttribute('data-patient-id'))
+            const currentUrl = getCurrentUrl()
+            const goTo = `/doctor/patient/${patient_id}/`
+            currentUrl.pathname = goTo
+            currentUrl.search = ''
+            window.location.href = currentUrl.href
+        })
+    }
+}
 
 // hovering thingy when pointing your cursor on a patient's name
 function handle_onhover_patient_name() {
@@ -144,6 +238,7 @@ function handle_patient_sort() {
 
         update_patient_table(sorted_patient_data, format_date)
         handle_onhover_patient_name()
+        handle_onclick_patient_name()
 
     })
 }
@@ -165,6 +260,7 @@ function handle_click_patient_direction() {
 
         update_patient_table(sorted_patient_data, format_date)
         handle_onhover_patient_name()
+        handle_onclick_patient_name()
 
     })
 }
@@ -179,6 +275,7 @@ function handle_onclick_patient_search() {
 
         update_patient_table(sorted_patient_data, format_date)
         handle_onhover_patient_name()
+        handle_onclick_patient_name()
 
         // Make sure na ihuli ang pag clear sa search field
         const search_field = document.querySelector('.js-patient-search-field')
@@ -198,6 +295,7 @@ function handle_onclick_clear_patient_search() {
 
         update_patient_table(paginated_data, format_date)
         handle_onhover_patient_name()
+        handle_onclick_patient_name()
 
     })
 }
@@ -210,7 +308,149 @@ function get_paginated_patient_data() {
     return paginated_data
 }
 
-/** */
+
+/**MAIN DEPARMENT FUNCTIONS */
+
+// When user clicks the arrow/sort btns
+function handle_onclick_department_direction() {
+    const btn = document.querySelector('.js_department_direction')
+
+    btn.addEventListener('click', () => {
+        const direction = btn.getAttribute('data-sort')
+
+        if (direction == 'asc') {
+            btn.setAttribute('data-sort', 'desc')
+        } else if (direction == 'desc') {
+            btn.setAttribute('data-sort', 'asc')
+        }
+
+        main_department_table_logic()
+    })
+}
+
+// When user changes the department filters
+function handle_onclick_department_sort() {
+    const btn = document.querySelector('.js-department-filter-inputs')
+
+    btn.addEventListener('change', () => {
+        main_department_table_logic()
+    })
+}
+
+// Empty the department search field when user clicks the clear btn
+function handle_onclick_clear_department_search() {
+    const btn = document.querySelector('.js-department-clear-btn')
+
+    btn.addEventListener('click', () => {
+        const search_field = document.querySelector('.js-department-search-container')
+        search_field.value = ''
+
+        main_department_table_logic()
+    })
+}
+
+// Update the html when user clicks the search btn
+function handle_onclick_department_search() {
+    const btn = document.querySelector('.js-department-search-btn')
+
+    btn.addEventListener('click', () => {
+        main_department_table_logic()
+
+
+        // Make sure na ihuli ang pag clear sa search field
+        const search_field = document.querySelector('.js-department-search-container')
+        search_field.value = ''
+    })
+}
+
+// Grouped the logic for updating the department table and reattaching the event listeners
+function main_department_table_logic() {
+    const filtered_department_data = get_sorted_department_data_using_current_params(departmentData)
+    update_department_table(filtered_department_data, format_date)
+
+    listenDepartmentDelete()
+    listenDepartmentEdit()
+    listenDepartmentView()
+}
+
+// Add "ENTER" key event listener when hovering on department search field
+function handle_onhover_department_search_field() {
+    const search_field = document.querySelector('.js-department-search-container')
+
+    // Actual logic when mouse was on department search field
+    const handle_enter_press = (event) => {
+        if (event.key == 'Enter') {
+            main_department_table_logic()
+
+            // Make sure na ihuli ang pag clear sa search fields
+            search_field.value = ''
+        }
+    }
+
+    search_field.addEventListener('mouseenter', () => {
+        document.addEventListener('keypress', handle_enter_press, true)
+    })
+
+    // Remove when mouse leaves
+    search_field.addEventListener('mouseleave', () => {
+        search_field.blur()
+        document.removeEventListener('keypress', handle_enter_press, true)
+    })
+}
+
+/** MAIN CLINIC FUNCTIONS */
+function updateEmployeeHTMl(employeeData) {
+    const employeeBody = document.querySelector('.js-employee-body')
+    let html = ''
+
+    for (const employee of employeeData) {
+        let count = 0
+        let position = ''
+        if (employee.access == 2) {
+            count = employee.staff_count
+            position = 'Staff'
+        }
+
+        if (employee.access == 3) {
+            count = employee.doctor_count
+            position = 'Doctor'
+        }
+
+        let last_case = ''
+        if (employee.last_case) {
+            last_case = getElapsedTime(employee.last_case)
+        }
+
+        const name = employee.first_name && employee.last_name ? `${employee.first_name} ${employee.last_name}` :
+            employee.email
+        html += `
+            <tr>
+                <td>${employee.first_name ? employee.first_name : ''} ${employee.last_name ? employee.last_name : ''}</td>
+                <td>${position}</td>
+                <td>${last_case}</td>
+                <td>${count}</td>
+            </tr>
+        `
+    }
+    employeeBody.innerHTML = html
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 function click() {
@@ -274,41 +514,7 @@ function listenEmployeeSearchBtn() {
     })
 }
 
-function updateEmployeeHTMl(employeeData) {
-    const employeeBody = document.querySelector('.js-employee-body')
-    let html = ''
 
-    for (const employee of employeeData) {
-        let count = 0
-        let position = ''
-        if (employee.access == 2) {
-            count = employee.staff_count
-            position = 'Staff'
-        }
-
-        if (employee.access == 3) {
-            count = employee.doctor_count
-            position = 'Doctor'
-        }
-
-        let last_case = ''
-        if (employee.last_case) {
-            last_case = getElapsedTime(employee.last_case)
-        }
-
-        const name = employee.first_name && employee.last_name ? `${employee.first_name} ${employee.last_name}` :
-            employee.email
-        html += `
-            <tr>
-                <td>${name}</td>
-                <td>${position}</td>
-                <td>${last_case}</td>
-                <td>${count}</td>
-            </tr>
-        `
-    }
-    employeeBody.innerHTML = html
-}
 
 function createDepartmentBarGraph() {
     const canvas = document.getElementById('js-department-bar-canvas')
