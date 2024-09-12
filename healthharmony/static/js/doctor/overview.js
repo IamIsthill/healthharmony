@@ -1,4 +1,10 @@
 import {
+    create_department_bar_canvas,
+    create_department_bars,
+    get_department_bar_data,
+    get_department_names_and_counts
+} from '/static/js/doctor/overview-bar.js'
+import {
     create_morbidity_chart,
     get_active_illness,
     get_active_illness_category_filter,
@@ -27,6 +33,10 @@ console.log(sorted_illness_category)
 get_init_params_create_morbidity_chart()
 handle_onclick_illness_dates()
 handle_onchange_illness_category()
+
+/** Department Bars */
+create_department_bars_based_active_params()
+handle_onclick_department_filters()
 
 
 /** Illness Category Chart */
@@ -63,4 +73,47 @@ function get_init_params_create_morbidity_chart() {
     const [labels, counts] = getCountsAndLabelsForChart(illness_chart_data[1])
 
     create_morbidity_chart(labels, counts, illness_category_name, createChart)
+}
+
+
+/** Department Bars */
+
+// When user clicks the date filters in departments
+function handle_onclick_department_filters() {
+    const btns = document.querySelectorAll('.js-department-bar-btn')
+
+    for (const btn of btns) {
+        btn.addEventListener('click', () => {
+            for (const btn of btns) {
+                btn.classList.remove('.js-department-bar-btn-active')
+            }
+            btn.classList.add('.js-department-bar-btn-active')
+            create_department_bars_based_active_params()
+            add_border_then_remove_to_bars()
+
+        })
+    }
+}
+
+// Add border thingy to indicate change
+function add_border_then_remove_to_bars() {
+    const bar_elements = document.querySelectorAll('.js-department-bars-border')
+
+    for (const bar_element of bar_elements) {
+        bar_element.classList.add('border')
+    }
+    setTimeout(() => {
+        for (const bar_element of bar_elements) {
+            bar_element.classList.remove('border');
+        }
+    }, 1000);
+
+}
+
+// Get the current params then create the department bars
+function create_department_bars_based_active_params() {
+    const filtered_department_data = get_department_bar_data(department_data)
+    const department_name_with_count = get_department_names_and_counts(filtered_department_data, department_names)
+    create_department_bar_canvas(department_name_with_count)
+    create_department_bars(department_name_with_count, createBars)
 }

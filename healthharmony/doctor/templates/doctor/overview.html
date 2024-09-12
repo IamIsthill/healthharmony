@@ -3,6 +3,11 @@
 {% block title %}Overview | HealthHarmony{% endblock %}
 {% block header %}
     <style>
+    .border {
+      border-style: solid;
+      border-width: thin;
+      border-color: black;
+    }
     .btn {
       cursor: pointer;
     }
@@ -135,6 +140,18 @@
                 <select name="categories" id="categories" class="js_illness_category">
                     {% for category in categories %}<option value="{{ category.id }}">{{ category }}</option>{% endfor %}
                 </select>
+            </div>
+        </div>
+        <div class="department-bars-space">
+            <div class="collegeBar Bar">
+                <h4>Colleges</h4>
+                <div class="bar-btn-section">
+                    <button class="js-department-bar-btn js-department-bar-btn-active bar-btn-active"
+                            data-category="yearly">12 Months</button>
+                    <button class="js-department-bar-btn bar-btn" data-category="monthly">30 days</button>
+                    <button class="js-department-bar-btn bar-btn" data-category="weekly">7 days</button>
+                </div>
+                <div id="departmentBars" class="bar-data"></div>
             </div>
         </div>
     </div>
