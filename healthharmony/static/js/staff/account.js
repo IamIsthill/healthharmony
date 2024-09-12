@@ -65,8 +65,10 @@ function main() {
 
     handle_patient_sort()
     handle_click_patient_direction()
+
     handle_onclick_patient_search()
     handle_onclick_clear_patient_search()
+    handle_onhover_patient_search_field()
 
     handle_onhover_patient_name()
     handle_onclick_patient_name()
@@ -108,6 +110,38 @@ function main() {
 }
 
 /** MAIN FUNCTIONS */
+
+// Add "ENTER" key event listener when hovering on patient search field
+function handle_onhover_patient_search_field() {
+    const search_field = document.querySelector('.js-patient-search-field')
+
+    // This is the logic when  enter key was pressed while the cursor was on hover on patient search field
+    const handle_enter_press = (event) => {
+        if (event.key == 'Enter') {
+            const paginated_data = get_paginated_patient_data()
+            const sorted_patient_data = get_sorted_patient_data_based_on_current_params(paginated_data)
+
+            update_patient_table(sorted_patient_data, format_date)
+            handle_onhover_patient_name()
+            handle_onclick_patient_name()
+
+            // Make sure na ihuli ang pag clear sa search field
+            const search_field = document.querySelector('.js-patient-search-field')
+            search_field.value = ''
+        }
+    }
+
+    // When cursor is on search field, add the ENTER key event listener
+    search_field.addEventListener('mouseenter', () => {
+        document.addEventListener('keypress', handle_enter_press, true)
+    })
+
+    // Remove when mouse leaves
+    search_field.addEventListener('mouseleave', () => {
+        search_field.blur()
+        document.removeEventListener('keypress', handle_enter_press, true)
+    })
+}
 
 // Redirect to doctors patient page when patient name was clicked
 function handle_onclick_patient_name() {
