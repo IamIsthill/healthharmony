@@ -90,7 +90,7 @@
                             <tr>
                                 <th colspan="5">
                                     <div class="header-content">
-                                        <h1 class="js-patient-count">All Patients(0)</h1>
+                                        <h1 class="js-patient-count">Total Patients(0)</h1>
                                         <div class="search-main-container">
                                             <div class="search-container">
                                                 <input type="text"
@@ -166,28 +166,28 @@
                         <tr>
                             <th colspan="6">
                                 <div class="header-content">
-                                    <h1 class="js-patient-count dept-h1">Departments({{ departments.count }})</h1>
+                                    <h1 class="js-department-count dept-h1">Total Departments({{ departments.count }})</h1>
                                     <div class="search-main-container">
                                         <div class="search-container">
                                             <input type="text"
-                                                   class="js-inventory-search-container"
+                                                   class="js-department-search-container"
                                                    id="search-field"
                                                    placeholder="Search..." />
-                                            <button class="js-patient-search-btn">
+                                            <button class="js-department-search-btn">
                                                 <span class="material-symbols-outlined">search</span>
                                             </button>
                                         </div>
-                                        <button class="clr-btn js-patient-clear-btn">Clear</button>
+                                        <button class="clr-btn js-department-clear-btn">Clear</button>
                                     </div>
                                     <div class="sort-by">
                                         <span>Sort By:</span>
-                                        <select id="js-patient-filter-inputs" class="js-inventory-sort-select">
+                                        <select class="js-department-filter-inputs">
                                             <option value="">All</option>
                                             <option value="department">Department</option>
-                                            <option value="name">Name</option>
+                                            <option value="users">Users</option>
                                         </select>
                                         <div class="js-patient-filters"></div>
-                                        <button class="js-inventory-direction" data-sort="asc">
+                                        <button class="js_department_direction" data-sort="asc">
                                             <span class="material-symbols-outlined">swap_vert</span>
                                         </button>
                                         <!-- CHANGE INVENTORY CLASSES TO RECORD SA TAAS -->
@@ -211,7 +211,7 @@
                             <th class="table-head" colspan="3">Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="js_department_body">
                         {% for department in departments %}
                             <tr data-department-id="{{ department.id }}">
                                 <td class="table-data">{{ department.department }}</td>
