@@ -8,6 +8,7 @@
       border-width: thin;
       border-color: black;
     }
+
     .btn {
       cursor: pointer;
     }
@@ -88,7 +89,8 @@
                             {% else %}
                                 <td>Pending</td>
                             {% endif %}
-                            <td class="js-view-illness btn" data-issue-id="{{ illness.id }}">Review</td>
+                            <td class="js-view-illness btn"
+                                data-patient-id="{{ illness.patient.id }}">Review</td>
                         </tr>
                     {% empty %}
                         <tr>
