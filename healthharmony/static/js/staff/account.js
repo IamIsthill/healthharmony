@@ -62,6 +62,7 @@ function main() {
 
     /**PATIENT TABLE */
     formatDatesInPatientsPage(format_date)
+    update_patient_count_element()
 
     handle_patient_sort()
     handle_click_patient_direction()
@@ -110,6 +111,21 @@ function main() {
 }
 
 /** MAIN FUNCTIONS */
+
+// Update the patient count sa patient table
+function update_patient_count_element() {
+    const patient_count = patientData.length
+
+    const patient_count_element = document.querySelector('.js-patient-count')
+    if (patient_count > 1) {
+        patient_count_element.innerText = `Patients(${patient_count})`
+    }
+
+    else {
+        patient_count_element.innerText = `Patient(${patient_count})`
+
+    }
+}
 
 // Add "ENTER" key event listener when hovering on patient search field
 function handle_onhover_patient_search_field() {
