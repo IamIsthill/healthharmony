@@ -7,6 +7,9 @@ from django.http import JsonResponse
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.utils import timezone
+from dateutil.relativedelta import relativedelta
 
 from healthharmony.models.treatment.models import Illness, Category
 from healthharmony.models.inventory.models import InventoryDetail
@@ -70,14 +73,46 @@ def overview_view(request):
     # Check the access level of the user, return to home if not sufficient
     access_checker(request)
 
-    illness_cases = Illness.objects.filter(doctor=request.user)
+    illness_cases = Illness.objects.all()
     illness_data = []
+
+    illness_paginator = Paginator(illness_cases, 20)
+    page = request.GET.get("page")
+
+    try:
+        illness_page = illness_paginator.page(page)
+    except PageNotAnInteger:
+        illness_page = illness_paginator.page(1)
+    except EmptyPage:
+        illness_page = illness_paginator.page(illness_paginator.num_pages)
+
+    illness_categories = []
+
+    now = timezone.now()
 
     for case in illness_cases:
         data = IllnessSerializer(case).data
         illness_data.append(data)
+        if case.added.month == now.month:
+            if case.illness_category and case.illness_category.category:
+                category_found = False
+                for category in illness_categories:
+                    if category["category"] == case.illness_category.category:
+                        category["count"] += 1  # Increment the count
+                        category_found = True
+                        break
 
-    context = {"illness_data": illness_data}
+                # If the category doesn't exist, add it to the list
+                if not category_found:
+                    illness_categories.append(
+                        {"category": case.illness_category.category, "count": 1}
+                    )
+
+    context = {
+        "illness_data": illness_data,
+        "illness_page": illness_page,
+        "illness_categories": illness_categories,
+    }
 
     return render(request, "doctor/overview.html", context)
 
