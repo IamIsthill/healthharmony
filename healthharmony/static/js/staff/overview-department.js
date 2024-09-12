@@ -30,7 +30,8 @@ export function getDepartmentDataParams(departments) {
     }
 }
 
-export function getParamsThenCreateDepartmentChart(departments, departmentData, getCountsAndLabelsForChart, createChart) {
+export function getParamsThenCreateDepartmentChart(departments, departmentData, getCountsAndLabelsForChart,
+    createChart) {
     try {
         const {
             filter,
@@ -81,7 +82,6 @@ export function createDepartmentBarCanvas(departments) {
     let html = ''
     for (const department of departments) {
         html += `
-            <div class>
             <div class="barsTop">
                 <h5>${department.name}</h5>
                 <h2>${department.count}</h2>

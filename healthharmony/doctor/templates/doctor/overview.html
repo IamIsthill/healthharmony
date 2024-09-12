@@ -3,6 +3,11 @@
 {% block title %}Overview | HealthHarmony{% endblock %}
 {% block header %}
     <style>
+    .border {
+      border-style: solid;
+      border-width: thin;
+      border-color: black;
+    }
     .btn {
       cursor: pointer;
     }
@@ -54,39 +59,101 @@
 {% block main %}
     {% include 'doctor/nav.html' %}
     <div class="container">
-        <h3>Illnesses</h3>
-        <div>
-            <button class="js-illness-filter-active js-illness-filter"
-                    data-category="all">All</button>
-            <button class="js-illness-filter" data-category="not">Pending</button>
-            <button class="js-illness-filter" data-category="done">Released</button>
+        <div class="illness-space">
+            <h1>Illnesses</h1>
+            <div>
+                <button class="js-illness-filter-active js-illness-filter"
+                        data-category="all">All</button>
+                <button class="js-illness-filter" data-category="not">Pending</button>
+                <button class="js-illness-filter" data-category="done">Completed</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Patient Name</th>
+                        <th>Issue</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="illness_body">
+                    {% for illness in illness_page %}
+                        <tr>
+                            <td>
+                                <span class="patient btn" data-patient-id="{{ illness.patient.id }}">{{ illness.patient.first_name }} {{ illness.patient.last_name }}</span>
+                            </td>
+                            <td>{{ illness.issue }}</td>
+                            {% if illness.diagnosis %}
+                                <td>Completed</td>
+                            {% else %}
+                                <td>Pending</td>
+                            {% endif %}
+                            <td class="js-view-illness btn" data-issue-id="{{ illness.id }}">Review</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4">Congratulations! No case as of this moment.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="pagination">
+                <span class="step-links">
+                    {% if illness_page.has_previous %}
+                        <a href="?page=1" class="js-links">&laquo; First</a>
+                        <a class="js-links" href="?page={{ illness_page.previous_page_number }}">Previous</a>
+                    {% endif %}
+                    <span class="current">Page {{ illness_page.number }} of {{ illness_page.paginator.num_pages }}.</span>
+                    {% if illness_page.has_next %}
+                        <a class="js-links" href="?page={{ illness_page.next_page_number }}">Next</a>
+                        <a class="js-links" href="?page={{ illness_page.paginator.num_pages }}">Last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
         </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Patient Name</th>
-                    <th>Issue</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="illness_body">
-                {% for illness in illness_data %}
-                    <tr>
-                        <td>
-                            <span class="patient btn" data-patient-id="{{ illness.patient.id }}">{{ illness.patient.first_name }} {{ illness.patient.last_name }}</span>
-                        </td>
-                        <td>{{ illness.issue }}</td>
-                        <td>Pending</td>
-                        <td class="view-illness btn" data-issue-id="{{ illness.id }}">View</td>
-                    </tr>
-                {% empty %}
-                    <tr>
-                        <td colspan="4">Congratulations! No case as of this moment.</td>
-                    </tr>
+        <div class="illness-categories-space">
+            <h1>Usual Illness Categories This Month</h1>
+            <div>
+                {% for categories in illness_categories %}
+                    <div>
+                        <h4>{{ categories.category }}</h4>
+                        <h4>Cases: {{ categories.count }}</h4>
+                    </div>
                 {% endfor %}
-            </tbody>
-        </table>
+            </div>
+        </div>
+        <div class="illness-category-chart-space">
+            <div class="top-chart">
+                <h4>Morbidity Cases</h4>
+                <div class="date-buttons">
+                    <button class="js_category_filter js_category_filter_active"
+                            data-category="yearly">12 Months</button>
+                    <button class="js_category_filter" data-category="monthly">30 days</button>
+                    <button class="js_category_filter" data-category="weekly">7 days</button>
+                </div>
+            </div>
+            <div>
+                <canvas id="morbidityChart"></canvas>
+            </div>
+            <div class="label-container">
+                <label for="categories">Choose a Morbidity:</label>
+                <select name="categories" id="categories" class="js_illness_category">
+                    {% for category in categories %}<option value="{{ category.id }}">{{ category }}</option>{% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="department-bars-space">
+            <div class="collegeBar Bar">
+                <h4>Colleges</h4>
+                <div class="bar-btn-section">
+                    <button class="js-department-bar-btn js-department-bar-btn-active bar-btn-active"
+                            data-category="yearly">12 Months</button>
+                    <button class="js-department-bar-btn bar-btn" data-category="monthly">30 days</button>
+                    <button class="js-department-bar-btn bar-btn" data-category="weekly">7 days</button>
+                </div>
+                <div id="departmentBars" class="bar-data"></div>
+            </div>
+        </div>
     </div>
     <div class="modals">
         <div id="illness_modal" class="modal">
@@ -111,5 +178,9 @@
 {% endblock %}
 {% block script %}
     {{ illness_data|json_script:'illness_data' }}
+    {{ department_names|json_script:'department_names' }}
+    {{ department_data|json_script:'department_data' }}
+    {{ sorted_illness_category|json_script:'sorted_illness_category' }}
+    <script src="{% static 'chart.js/dist/chart.umd.js' %}"></script>
     <script src="{% static 'js/doctor/overview.js' %}" type="module"></script>
 {% endblock %}
