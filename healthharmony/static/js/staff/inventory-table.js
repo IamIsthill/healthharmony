@@ -97,6 +97,9 @@ export function getInventoryUsingId(sortedInventory, id) {
 export function createUpdateInventoryForm(item, token) {
     const url = `/staff/inventory/update/${item.id}/`
     const updateInventoryForm = document.querySelector('#updatedInventoryModal .modal-content .form-body')
+    const form_item_name = document.querySelector('.js_update_modal_item_name')
+    form_item_name.innerText = item.item_name
+
     let html = `
         <input type="hidden" name="csrfmiddlewaretoken" value="${token}" />
         <div class="form-top">
@@ -131,7 +134,7 @@ export function createUpdateInventoryForm(item, token) {
                 <label for="expiration_date">Expiration Date</label>
                 <input type="date" name="expiration_date" value="${item.expiration_date}"/>
             </div>
-            
+
         </div>
         <div class="form-last">
             <label for="description">Item Description</label>
