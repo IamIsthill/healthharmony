@@ -60,7 +60,20 @@
 {% block main %}
     {% include 'doctor/nav.html' %}
     <div class="container">
-        <div class="most-illness-categories"></div>
+        <div class="most-illness-categories">
+            <h1>Illness Categories</h1>
+            <p>Cases you have handled per category</p>
+            <div>
+                <canvas id="js_illness_categories_bar"></canvas>
+            </div>
+        </div>
+        <div class="most-cases-per-department">
+            <h1>Colleges</h1>
+            <p>Cases you have handled per college</p>
+            <div>
+                <canvas id="js_college_bar"></canvas>
+            </div>
+        </div>
         <div>
             <h1>Your Handled Cases</h1>
             <table>
@@ -120,5 +133,5 @@
     {{ department_data|json_script:'department_data' }}
     {{ illness_category_data|json_script:'illness_category_data' }}
     <script src="{% static 'chart.js/dist/chart.umd.js' %}"></script>
-    <script src="{% static 'js/doctor/handled.js' %}"></script>
+    <script src="{% static 'js/doctor/handled.js' %}" type="module"></script>
 {% endblock %}
