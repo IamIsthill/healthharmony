@@ -94,7 +94,7 @@
                         </tr>
                     {% empty %}
                         <tr>
-                            <td colspan="4">Congratulations! No case as of this moment.</td>
+                            <td colspan="4">No cases found.</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -117,4 +117,5 @@
 {% endblock %}
 {% block script %}
     <script src="{% static 'chart.js/dist/chart.umd.js' %}"></script>
+    <script src="{% static 'js/doctor/handled.js' %}"></script>
 {% endblock %}
