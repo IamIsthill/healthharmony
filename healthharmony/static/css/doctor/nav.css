@@ -136,8 +136,8 @@ aside{
     padding: 0 1rem;
     z-index: 500;
 }
-.nav-top h2{
-    margin-left: 13rem;
+.nav-top .page-title{
+    margin-left: 14rem;
     font-weight: 600;
     color: var(--normal-fontcolor);
 }
@@ -145,7 +145,7 @@ aside{
 @media (max-width: 1536px) {
 
     .logo{
-        margin-left: 1rem;
+        margin-left: 2.5rem;
     }
     .nav-top h2{
         margin-left: 11rem;
