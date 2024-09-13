@@ -60,6 +60,7 @@
 {% block main %}
     {% include 'doctor/nav.html' %}
     <div class="container">
+        <div class="most-illness-categories"></div>
         <div>
             <h1>Your Handled Cases</h1>
             <table>
@@ -116,6 +117,8 @@
     </div>
 {% endblock %}
 {% block script %}
+    {{ department_data|json_script:'department_data' }}
+    {{ illness_category_data|json_script:'illness_category_data' }}
     <script src="{% static 'chart.js/dist/chart.umd.js' %}"></script>
     <script src="{% static 'js/doctor/handled.js' %}"></script>
 {% endblock %}

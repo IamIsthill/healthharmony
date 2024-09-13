@@ -1,3 +1,8 @@
+const department_data = JSON.parse(document.getElementById('department_data').textContent)
+const illness_category_data = JSON.parse(document.getElementById('illness_category_data').textContent)
+
+console.log(department_data)
+console.log(illness_category_data)
 
 /** CASES TABLE */
 handle_onclick_review_btn()

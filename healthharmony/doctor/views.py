@@ -183,6 +183,9 @@ def handled_cases(request):
             messages.error(request, "Failed to fetch required data. Please reload page")
             return redirect(request.META.get("HTTP_REFERER", "doctor-overview"))
 
+    department_data = get_doctors_cases_per_department(illness_cases)
+    illness_category_data = get_doctors_cases_per_category(illness_cases)
+
     illness_paginator = Paginator(illness_cases, 20)
     page = request.GET.get("page")
 
@@ -193,7 +196,11 @@ def handled_cases(request):
     except EmptyPage:
         illness_page = illness_paginator.page(illness_paginator.num_pages)
 
-    context = {"illness_page": illness_page}
+    context = {
+        "illness_page": illness_page,
+        "department_data": department_data,
+        "illness_category_data": illness_category_data,
+    }
 
     return render(request, "doctor/handled.html", context)
 
@@ -249,3 +256,94 @@ def get_sorted_illness_categories(illness_cases):
                     )
 
     return illness_categories
+
+
+def get_doctors_cases_per_department(illness_cases):
+    department_data = []
+    for case in illness_cases:
+        # Check if there is a department associated with the user
+        if case.patient.department:
+            department_found = False
+            # Check if there is an existing department in department data
+            for department in department_data:
+                # If found, add another cases count then break
+                if (
+                    department["department_name"]
+                    and department["department_id"] == case.patient.department.id
+                ):
+                    department["cases_count"] += 1
+                    department_found = True
+                    break
+
+            if not department_found:
+                department_data.append(
+                    {
+                        "department_id": case.patient.department.id,
+                        "department_name": case.patient.department.department,
+                        "cases_count": 1,
+                    }
+                )
+
+        # If patient has no department
+        else:
+            department_found = False
+            for department in department_data:
+                # Check if 'Others' was already in depaertment data, then add cases
+                if (
+                    department["department_name"]
+                    and department["department_name"] == "Others"
+                ):
+                    department["cases_count"] += 1
+                    department_found = True
+                    break
+
+                # if not, then create the 'others category
+            if not department_found:
+                department_data.append(
+                    {"department_id": 0, "department_name": "Others", "cases_count": 1}
+                )
+    return department_data
+
+
+def get_doctors_cases_per_category(illness_cases):
+    illness_category_data = []
+    for case in illness_cases:
+        # Check if there is an illness_Category on the case
+        if case.illness_category:
+            category_found = False
+            # Check if there is an existing department in department data
+            for category in illness_category_data:
+                # If found, add another cases count then break
+                if (
+                    category["category_name"]
+                    and category["category_id"] == case.illness_category.id
+                ):
+                    category["cases_count"] += 1
+                    category_found = True
+                    break
+
+            if not category_found:
+                illness_category_data.append(
+                    {
+                        "category_id": case.illness_category.id,
+                        "category_name": case.illness_category.category,
+                        "cases_count": 1,
+                    }
+                )
+
+        # If patient has no department
+        else:
+            category_found = False
+            for category in illness_category_data:
+                # Check if 'Others' was already in illness data, then add cases
+                if category["category_name"] and category["category_name"] == "Others":
+                    category["cases_count"] += 1
+                    category_found = True
+                    break
+
+                # if not, then create the 'others category
+            if not category_found:
+                illness_category_data.append(
+                    {"category_id": 0, "category_name": "Others", "cases_count": 1}
+                )
+    return illness_category_data
