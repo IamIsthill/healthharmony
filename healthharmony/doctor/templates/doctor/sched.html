@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Schedule | HealthHarmony{% endblock %}
+{% block header %}
+    <style>
+    .border {
+      border-style: solid;
+      border-width: thin;
+      border-color: black;
+    }
+
+    .btn {
+      cursor: pointer;
+    }
+
+    #illness_modal,
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0, 0, 0); /* Fallback color */
+      background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content/Box */
+    .modal_content {
+      background-color: #fefefe;
+      margin: 15% auto; /* 15% from the top and centered */
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%; /* Could be more or less, depending on screen size */
+    }
+
+    /* The Close Button */
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    </style>
+{% endblock %}
+{% block message %}
+    <div class="messages">
+        {% for m in messages %}<div>{{ m }}</div>{% endfor %}
+    </div>
+{% endblock %}
+{% block main %}
+    {% include 'doctor/nav.html' %}
+    <div class="container">
+        <div class="TOP">
+            <div class="LEFT">
+                <h1>Your Schedule</h1>
+                <h3>Set your schedule so that patients may know</h3>
+                <div class="js_sched_details">
+                    <h4>Available from: {{ doctor_sched.time_avail_start }}</h4>
+                    <h4>Available until: {{ doctor_sched.time_avail_end }}</h4>
+                </div>
+                <div style="display: none" class="js_sched_form">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <label for="">Available from:</label>
+                        <input type="time"
+                               required
+                               name="time_start"
+                               value="{{ doctor_sched.time_avail_start }}" />
+                        <label for="">Available until:</label>
+                        <input type="time"
+                               required
+                               name="time_end"
+                               value="{{ doctor_sched.time_avail_end }}" />
+                        <button type="submit">Confirm</button>
+                        <button type="button" class="js_update_sched_close_btn">Close</button>
+                    </form>
+                </div>
+                <button class="js_update_sched_btn">Update</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    {{ doctor_sched|json_script:'doctor_sched' }}
+    <script src="{% static 'chart.js/dist/chart.umd.js' %}"></script>
+    <script>
+    const doctor_sched = JSON.parse(document.getElementById('doctor_sched').textContent)
+    /** MAIN */
+    console.log(doctor_sched)
+    update_init_date_data()
+
+    handle_onclick_update_sched()
+    handle_onclick_close_update()
+    /** MAIN */
+
+    /** FUNCTIONS */
+    function update_init_date_data() {
+      const start_input_element = document.querySelector('input[name="time_start"]')
+      const end_input_element = document.querySelector('input[name="time_end"]')
+
+      start_input_element.value = doctor_sched.time_avail_start
+      end_input_element.value = doctor_sched.time_avail_end
+    }
+
+    function handle_onclick_update_sched() {
+      const btn = document.querySelector('.js_update_sched_btn')
+
+      btn.addEventListener('click', () => {
+        const form_element = document.querySelector('.js_sched_form')
+        form_element.setAttribute('style', 'display: block')
+        const sched_element = document.querySelector('.js_sched_details')
+        sched_element.setAttribute('style', 'display: none')
+        btn.setAttribute('style', 'display: none')
+      })
+    }
+
+    function handle_onclick_close_update() {
+      const btn = document.querySelector('.js_update_sched_close_btn')
+
+      btn.addEventListener('click', (event) => {
+        event.preventDefault()
+        const btn = document.querySelector('.js_update_sched_btn')
+        btn.setAttribute('style', 'display: block')
+        const form_element = document.querySelector('.js_sched_form')
+        form_element.setAttribute('style', 'display: none')
+        const sched_element = document.querySelector('.js_sched_details')
+        sched_element.setAttribute('style', 'display: block')
+      })
+    }
+    </script>
+{% endblock %}

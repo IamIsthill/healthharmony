@@ -7,7 +7,12 @@ from django.contrib import messages
 
 from healthharmony.administrator.models import Log, DataChangeLog
 from healthharmony.models.inventory.models import InventoryDetail, QuantityHistory
-from healthharmony.models.treatment.models import Illness, Category, IllnessTreatment
+from healthharmony.models.treatment.models import (
+    Illness,
+    Category,
+    IllnessTreatment,
+    DoctorDetail,
+)
 from healthharmony.users.models import User
 
 logger = logging.getLogger(__name__)
@@ -142,3 +147,46 @@ def update_inventory(inventory_instance, item_quantity, request):
         )
     except Exception as e:
         logger.error(f"Failed to update the inventory: {str(e)}")
+
+
+class UpdateDoctorSched(forms.Form):
+    time_start = forms.TimeField()
+    time_end = forms.TimeField()
+
+    def save(self, request):
+        doctor = request.user
+
+        time_start = request.POST.get("time_start")
+        time_end = request.POST.get("time_end")
+        is_avail = request.POST.get("is_avail")
+
+        try:
+            # Find the related instance first
+            updated_sched = DoctorDetail.objects.get(doctor=doctor)
+
+            # If start and end is avail, update them
+            if time_start and time_end:
+                updated_sched.time_avail_start = time_start
+                updated_sched.time_avail_end = time_end
+                updated_sched.save()
+
+                logger.info(
+                    f"{request.user.email} has updated doctor sched with id[{updated_sched.id}]"
+                )
+                messages.success(request, "Successfully updated your schedule.")
+
+            # Else check kung avail yung 'is_avail' then update it
+            elif is_avail:
+                updated_sched.avail = is_avail
+                updated_sched.save()
+
+                logger.info(
+                    f"{request.user.email} has updated doctor sched with id[{updated_sched.id}]"
+                )
+                messages.success(request, "Successfully updated your availability.")
+
+        except Exception as e:
+            logger.warning(
+                f"{request.user.email} failed to update the doctor instance: ${str(e)}"
+            )
+            messages.error(request, "Failed to up")

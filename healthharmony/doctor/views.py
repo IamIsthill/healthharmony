@@ -13,10 +13,14 @@ from dateutil.relativedelta import relativedelta
 from concurrent.futures import as_completed, ThreadPoolExecutor
 
 
-from healthharmony.models.treatment.models import Illness, Category
+from healthharmony.models.treatment.models import Illness, Category, DoctorDetail
 from healthharmony.models.inventory.models import InventoryDetail
 from healthharmony.users.models import User
-from healthharmony.doctor.forms import UpdateIllness, UpdateTreatmentForIllness
+from healthharmony.doctor.forms import (
+    UpdateIllness,
+    UpdateTreatmentForIllness,
+    UpdateDoctorSched,
+)
 from healthharmony.patient.functions import update_patient_view_context
 
 from healthharmony.staff.functions import (
@@ -203,6 +207,30 @@ def handled_cases(request):
     }
 
     return render(request, "doctor/handled.html", context)
+
+
+@login_required(login_url="account_login")
+def schedule(request):
+    access_checker(request)
+    context = {}
+
+    try:
+        doctor_sched = DoctorDetail.objects.filter(doctor=request.user).values()
+        context.update({"doctor_sched": doctor_sched[0]})
+    except Exception as e:
+        logger.info(f"{request.user.email} has failed to fetch the schedule: {str(e)}")
+        messages.error(request, "Failed to fetch required data. Please reload page.")
+
+    if request.method == "POST":
+        form = UpdateDoctorSched(request.POST)
+
+        if form.is_valid():
+            form.save(request)
+        else:
+            messages.error(request, "Form is invalid. Please try again.")
+        return redirect("doctor-schedule")
+
+    return render(request, "doctor/sched.html", context)
 
 
 @api_view(["GET"])
