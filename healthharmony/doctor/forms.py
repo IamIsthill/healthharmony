@@ -158,7 +158,6 @@ class UpdateDoctorSched(forms.Form):
 
         time_start = request.POST.get("time_start")
         time_end = request.POST.get("time_end")
-        is_avail = request.POST.get("is_avail")
 
         try:
             # Find the related instance first
@@ -175,18 +174,42 @@ class UpdateDoctorSched(forms.Form):
                 )
                 messages.success(request, "Successfully updated your schedule.")
 
-            # Else check kung avail yung 'is_avail' then update it
-            elif is_avail:
-                updated_sched.avail = is_avail
-                updated_sched.save()
+        except Exception as e:
+            logger.warning(
+                f"{request.user.email} failed to update the doctor instance: ${str(e)}"
+            )
+            messages.error(request, "Failed to update date")
 
-                logger.info(
-                    f"{request.user.email} has updated doctor sched with id[{updated_sched.id}]"
-                )
-                messages.success(request, "Successfully updated your availability.")
+        return request
+
+
+class UpdateDoctorAvail(forms.Form):
+    is_avail = forms.BooleanField(required=True)
+
+    def save(self, request):
+        doctor = request.user
+        is_avail = request.POST.get("is_avail")
+
+        try:
+            updated_sched = DoctorDetail.objects.get(doctor=doctor)
+
+            if is_avail:
+                is_avail = True
+            else:
+                is_avail = False
+
+            updated_sched.avail = is_avail
+            updated_sched.save()
+
+            logger.info(
+                f"{request.user.email} has updated doctor sched with id[{updated_sched.id}]"
+            )
+            messages.success(request, "Successfully updated your availability.")
 
         except Exception as e:
             logger.warning(
                 f"{request.user.email} failed to update the doctor instance: ${str(e)}"
             )
-            messages.error(request, "Failed to up")
+            messages.error(request, "Failed to update date")
+
+        return request

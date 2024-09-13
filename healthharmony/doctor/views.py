@@ -20,6 +20,7 @@ from healthharmony.doctor.forms import (
     UpdateIllness,
     UpdateTreatmentForIllness,
     UpdateDoctorSched,
+    UpdateDoctorAvail,
 )
 from healthharmony.patient.functions import update_patient_view_context
 
@@ -221,16 +222,27 @@ def schedule(request):
         logger.info(f"{request.user.email} has failed to fetch the schedule: {str(e)}")
         messages.error(request, "Failed to fetch required data. Please reload page.")
 
+    return render(request, "doctor/sched.html", context)
+
+
+@login_required(login_url="account_login")
+def post_update_doctor_time(request):
     if request.method == "POST":
         form = UpdateDoctorSched(request.POST)
 
         if form.is_valid():
-            form.save(request)
-        else:
-            messages.error(request, "Form is invalid. Please try again.")
+            request = form.save(request)
         return redirect("doctor-schedule")
 
-    return render(request, "doctor/sched.html", context)
+
+@login_required(login_url="account_login")
+def post_update_doctor_avail(request):
+    if request.method == "POST":
+        form = UpdateDoctorAvail(request.POST)
+
+        if form.is_valid():
+            request = form.save(request)
+        return redirect("doctor-schedule")
 
 
 @api_view(["GET"])

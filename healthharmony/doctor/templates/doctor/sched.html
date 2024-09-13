@@ -69,23 +69,42 @@
                     <h4>Available until: {{ doctor_sched.time_avail_end }}</h4>
                 </div>
                 <div style="display: none" class="js_sched_form">
-                    <form action="" method="POST">
+                    <form action="{% url 'post_update_doctor_time' %}" method="POST">
                         {% csrf_token %}
                         <label for="">Available from:</label>
-                        <input type="time"
-                               required
-                               name="time_start"
-                               value="{{ doctor_sched.time_avail_start }}" />
+                        <input type="time" required name="time_start" value="" />
                         <label for="">Available until:</label>
-                        <input type="time"
-                               required
-                               name="time_end"
-                               value="{{ doctor_sched.time_avail_end }}" />
+                        <input type="time" required name="time_end" value="" />
                         <button type="submit">Confirm</button>
                         <button type="button" class="js_update_sched_close_btn">Close</button>
                     </form>
                 </div>
                 <button class="js_update_sched_btn">Update</button>
+            </div>
+            <div class="RIGHT">
+                <h1>IIMAGE HERE ON THIS DIV</h1>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati sapiente magnam nesciunt. Cumque sequi iusto fugiat tempora, consequuntur porro nemo doloremque obcaecati minima nobis unde officia blanditiis quod quibusdam necessitatibus similique ea quas totam saepe dicta! Dolorem ad vero numquam cumque repellat eligendi dicta quae adipisci est sint eum voluptatem, molestias, fuga aut hic pariatur minima reprehenderit quibusdam repudiandae, nobis alias. Iure aliquid excepturi nam qui soluta velit rem ducimus eaque perferendis, exercitationem ad aperiam consequatur vel praesentium debitis voluptate. Ipsa aliquam cum quod sunt totam odio ipsam iure consectetur ab rerum consequuntur nesciunt error assumenda animi ullam, deleniti voluptatibus.
+                </p>
+            </div>
+        </div>
+        <div class="BOTTOM">
+            <div class="LEFT">
+                <h1>IMAGE HERE</h1>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nostrum voluptates deserunt earum vel possimus corporis eligendi ducimus maxime repudiandae optio quasi fuga alias odio eaque soluta, esse error necessitatibus impedit temporibus, voluptas id eos! At eos omnis accusamus similique quam officiis ut corporis corrupti autem vel. Facilis magni odio nesciunt rerum obcaecati neque voluptas at quod pariatur ducimus, nobis officiis ad magnam eius tenetur tempore commodi sint similique optio fugiat vel veniam nam. Impedit optio officiis sunt nemo, deserunt ducimus suscipit illum voluptates sapiente exercitationem alias veniam repellendus fugiat, provident sit voluptatem. Dolor cumque, inventore odio aliquam officiis architecto earum.
+                </p>
+            </div>
+            <div class="RIGHT">
+                <h1>Your Real Availability</h1>
+                <h3>Mark the box so that patients may know if you are available</h3>
+                <form action="{% url 'post_update_doctor_avail' %}"
+                      method="POST"
+                      class="js_avail_form">
+                    {% csrf_token %}
+                    <label for="">Available?</label>
+                    <input type="checkbox" value="" name="is_avail" />
+                </form>
             </div>
         </div>
     </div>
@@ -96,14 +115,45 @@
     <script>
     const doctor_sched = JSON.parse(document.getElementById('doctor_sched').textContent)
     /** MAIN */
-    console.log(doctor_sched)
+    console.log(doctor_sched.avail)
     update_init_date_data()
+    update_init_avail_data()
+
+    handle_oncheck_avail()
 
     handle_onclick_update_sched()
     handle_onclick_close_update()
     /** MAIN */
 
     /** FUNCTIONS */
+    function handle_oncheck_avail() {
+      // Select input element
+      const input_element = document.querySelector('input[name="is_avail"]')
+      input_element.addEventListener('change', () => {
+        // if value is true, set to false. vice versa
+        if (input_element.value == 'true') {
+          input_element.value = 'false'
+        } else if (input_element.value == 'false') {
+          input_element.value = 'true'
+        }
+
+        // Manually submit form
+        const form = document.querySelector('.js_avail_form')
+        form.submit()
+      })
+    }
+
+    function update_init_avail_data() {
+      const input_element = document.querySelector('input[name="is_avail"]')
+      if (doctor_sched.avail) {
+        input_element.checked = true
+        input_element.value = 'true'
+      } else {
+        input_element.checked = false
+        input_element.value = 'false'
+      }
+    }
+
     function update_init_date_data() {
       const start_input_element = document.querySelector('input[name="time_start"]')
       const end_input_element = document.querySelector('input[name="time_end"]')
