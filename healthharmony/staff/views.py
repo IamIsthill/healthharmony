@@ -492,6 +492,7 @@ def patients_and_accounts(request):
                 "departmentData": list(departments),
                 "employees": employees,
                 "employeeData": list(employees),
+                "page": "accounts",
             }
         )
 
