@@ -74,7 +74,6 @@ def get_weather(context, env):
     - env (environ.Env): The environment object for reading environment variables.
     """
     try:
-        train_model()
         df, model, le_season, le_sickness, le_weather = load_data_and_model()
         request_url = f"https://api.openweathermap.org/data/2.5/weather?appid={env.str('WEATHER')}&q=Bacolor,PH&units=metric"
         weatherData = requests.get(request_url).json()

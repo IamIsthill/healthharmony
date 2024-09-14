@@ -27,10 +27,6 @@ def overview_view(request):
     check_models()
     access_checker(request)
 
-    # set session data
-    if "email" not in request.session:
-        request.session["email"] = request.user.email
-
     context = {}
 
     # Start the weather thread
