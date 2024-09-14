@@ -132,6 +132,18 @@
             </div>
             <div>
                 <h1>Medical Certificates</h1>
+                <h3>
+                    Requested Total:
+                    {% if certificates_data %}{{ certificates_data.all }}{% endif %}
+                </h3>
+                <h3>
+                    Pending:
+                    {% if certificates_data %}{{ certificates_data.pending }}{% endif %}
+                </h3>
+                <h3>
+                    Completed:
+                    {% if certificates_data %}{{ certificates_data.completed }}{% endif %}
+                </h3>
                 <button class="js_request_medcert_btn">Request Medical Certificate</button>
             </div>
         </div>
