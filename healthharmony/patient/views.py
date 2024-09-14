@@ -3,12 +3,11 @@ from django.contrib import messages
 from django.db.models import Prefetch
 import threading
 import logging
-from django.http import HttpResponseRedirect
-
+from django.contrib.auth.decorators import login_required
 
 from healthharmony.models.treatment.models import Illness, IllnessTreatment
 from healthharmony.users.models import User
-from healthharmony.patient.forms import UpdateProfileInfo
+from healthharmony.patient.forms import UpdateProfileInfo, CreateCertificateForm
 
 from healthharmony.patient.functions import (
     update_patient_view_context,
@@ -23,6 +22,7 @@ logger = logging.getLogger(__name__)
 
 
 # Create your views here.
+@login_required(login_url="account_login")
 def overview_view(request):
     check_models()
     access_checker(request)
@@ -50,13 +50,10 @@ def overview_view(request):
     return render(request, "patient/overview.html", context)
 
 
+@login_required(login_url="account_login")
 def records_view(request, pk):
     access_checker(request)
-    user = get_user(request, pk)
-    if isinstance(user, HttpResponseRedirect):
-        return user
-    if "email" not in request.session:
-        request.session["email"] = request.user.email
+    user = request.user
     context = {}
     try:
         treatments = Illness.objects.filter(patient=user).prefetch_related(
@@ -83,12 +80,21 @@ def records_view(request, pk):
     return render(request, "patient/records.html", context)
 
 
+@login_required(login_url="account_login")
+def post_create_certificate_request(request):
+    access_checker(request)
+    if request.method == "POST":
+        form = CreateCertificateForm(request.POST)
+        if form.is_valid():
+            form.save(request)
+        else:
+            messages.error(request, "Form is invalid. Please try again")
+    return redirect("patient-records", request.user.id)
+
+
+@login_required(login_url="account_login")
 def patient_view(request, pk):
     access_checker(request)
-    if (request.user.access < 1) or (request.user.id == int(pk)):
-        return redirect(request.META.get("HTTP_REFERER", "home"))
-    if "email" not in request.session:
-        request.session["email"] = request.user.email
     context = {}
 
     if request.method.lower == "post":

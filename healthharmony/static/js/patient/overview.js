@@ -1,3 +1,8 @@
+import {
+  openModal,
+  closeModal
+} from '/static/js/utils.js'
+
 const user_email = JSON.parse(document.getElementById('user_email').textContent)
 
 main()
@@ -22,12 +27,31 @@ console.log(treatmentData)
   // Date Filter for Visit Records
   handle_onclick_visit_filters(visitData)
 
-
   // Date Filter for treatments
   handle_onclick_treatment_filters(treatmentData, treatmentDataLabels)
 
+  // request a medcert
+  handle_onclick_request_medcert()
+
 }
 //======================================================
+
+// Show modal when user requests a medcert
+function handle_onclick_request_medcert() {
+  const btn = document.querySelector('.js_request_medcert_btn')
+
+  btn.addEventListener('click', () => {
+    const modal = document.querySelector('.js_request_medcert_modal')
+    const close_btns = document.querySelectorAll('.js_close_medcert_modal')
+
+    openModal(modal)
+
+    for (const close of close_btns) {
+      closeModal(modal, close)
+    }
+
+  })
+}
 
 // User clicks the date filters for the visit history
 function handle_onclick_visit_filters(visitData) {

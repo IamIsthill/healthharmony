@@ -1,6 +1,12 @@
 from django import forms
 from healthharmony.administrator.models import Log
 from healthharmony.users.models import User
+from healthharmony.models.treatment.models import Certificate
+import logging
+from django.contrib import messages
+
+
+logger = logging.getLogger(__name__)
 
 
 class UpdateProfileInfo(forms.Form):
@@ -35,8 +41,41 @@ class UpdateProfileInfo(forms.Form):
 
             # Log the update
             Log.objects.create(user=user, action="Updated profile information")
+            logger.info(f"{request.user.email} successfully updated patient profile")
         except Exception as e:
             # Handle any errors that occur during the save process
+            logger.warning(
+                f"{request.user.email} failed to update patient profile: {str(e)}"
+            )
+
             raise ValueError(f"Failed to update profile: {e}")
 
         return user
+
+
+class CreateCertificateForm(forms.Form):
+    purpose = forms.CharField(max_length=500)
+
+    def save(self, request):
+        patient = request.user
+        purpose = self.cleaned_data.get("purpose")
+
+        try:
+
+            medcert = Certificate.objects.create(patient=patient, purpose=purpose)
+
+            Log.objects.create(
+                user=patient,
+                action=f"{request.user.email} issued a medical certificate request[{medcert.id}]",
+            )
+
+            logger.info(
+                f"{request.user.email} has issued a new medical certificate request[{medcert.id}]"
+            )
+            messages.success(request, "Successfully issued a request!")
+
+        except Exception as e:
+            logger.warning(
+                f"{request.user.email} failed to create medical certificate request: {(e)}"
+            )
+            messages.error(request, "Failed to issue the request. Please try again")
