@@ -16,8 +16,8 @@ console.log(treatmentData)
 
 
   updateVisitCanvas(visitData.year)
-  // createTreatmentBarsCanvas(Object.entries(treatmentData.week), treatmentDataLabels)
-  // updateTreatmentBars(Object.entries(treatmentData.week), treatmentDataLabels)
+  createTreatmentBarsCanvas(treatmentData, 'week', treatmentDataLabels)
+  updateTreatmentBars(treatmentData, 'week', treatmentDataLabels)
 
   // Date Filter for Visit Records
   handle_onclick_visit_filters(visitData)
@@ -46,48 +46,57 @@ function handle_onclick_treatment_filters(treatmentData, treatmentDataLabels) {
   treatmentFilterBtns.forEach( (btn) => {
     btn.addEventListener('click', () => {
       const text = btn.getAttribute('data-category').toLowerCase()
-      updateTreatmentBars(Object.entries(treatmentData[text]), treatmentDataLabels)
+      updateTreatmentBars(treatmentData, text,  treatmentDataLabels)
     })
   })
 
 }
 
 //Update the treatment bars
-function updateTreatmentBars(data, labels){
-  let maxCount = 0
+function updateTreatmentBars(data, filter, labels){
+  try {
+    data = Object.entries(data[filter])
 
-  for( const [key,value] of data){
-    maxCount += parseInt(value)
-  }
+    let maxCount = 0
 
-
-  for( const [key, value] of data){
-
-    const treatment_name = (getTreatmentName(labels, key))
-    const canvasId = `${key}-${treatment_name}`;
-    const canvas = document.getElementById(canvasId);
-    if (!canvas) {
-      console.error(`Canvas with ID ${treatment_name}-${key} not found`);
-      continue;
+    for( const [key,value] of data){
+      maxCount += parseInt(value)
     }
-    const ctx = canvas.getContext('2d')
-    // Clear and reset the canvas dimensions
-    canvas.width = 0
-    canvas.height = 0
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    canvas.width = canvas.parentElement.clientWidth;
-    canvas.height = canvas.parentElement.clientHeight;
 
-    //background bar
-    ctx.fillStyle = '#E4E7EC'
-    ctx.fillRect(0,0,parseInt(canvas.width),parseInt(canvas.height))
+    for( const [key, value] of data){
 
-    //foreground bar
-    ctx.fillStyle = '#FFDA80'
-    let width = ((parseInt(canvas.width))/maxCount)*(parseInt(value))
-    ctx.fillRect(0,0,width,parseInt(canvas.height))
+      const treatment_name = (getTreatmentName(labels, key))
+      const canvasId = `${key}-${treatment_name}`;
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) {
+        console.error(`Canvas with ID ${treatment_name}-${key} not found`);
+        continue;
+      }
+      const ctx = canvas.getContext('2d')
+      // Clear and reset the canvas dimensions
+      canvas.width = 0
+      canvas.height = 0
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+
+      //background bar
+      ctx.fillStyle = '#E4E7EC'
+      ctx.fillRect(0,0,parseInt(canvas.width),parseInt(canvas.height))
+
+      //foreground bar
+      ctx.fillStyle = '#FFDA80'
+      let width = ((parseInt(canvas.width))/maxCount)*(parseInt(value))
+      ctx.fillRect(0,0,width,parseInt(canvas.height))
+    }
+
+
+  } catch (error) {
+    console.error(error.message)
   }
+
 }
 //======================================================
 
@@ -102,22 +111,28 @@ function getTreatmentName(labels, id){
 //======================================================
 
 // Create the canvas for the bars based on treatment data
-function createTreatmentBarsCanvas(data, labels){
-  const treatmentBarSpace = document.getElementById('treatment-bar-space')
-  let mainHTML = ''
-  for(const [key, value] of data){
-    let treatment_name = (getTreatmentName(labels, key))
-    let html = `
-    <div>
-      <h6> ${treatment_name} </h6>
+function createTreatmentBarsCanvas(data, filter, labels){
+  try {
+    data = Object.entries(data[filter])
+    const treatmentBarSpace = document.getElementById('treatment-bar-space')
+    let mainHTML = ''
+    for(const [key, value] of data){
+      let treatment_name = (getTreatmentName(labels, key))
+      let html = `
       <div>
-        <canvas id="${key}-${treatment_name}"></canvas>
+        <h6> ${treatment_name} </h6>
+        <div>
+          <canvas id="${key}-${treatment_name}"></canvas>
+        </div>
       </div>
-    </div>
-    `
-    mainHTML += html
+      `
+      mainHTML += html
+    }
+    treatmentBarSpace.innerHTML = mainHTML
+
+  } catch (error) {
+    console.error(error.message)
   }
-  treatmentBarSpace.innerHTML = mainHTML
 }
 //======================================================
 
@@ -233,10 +248,16 @@ function updateVisitCanvas(data) {
     },
   }
 
-  window.myChart = new Chart(ctx, {
-    type: chart_type,
-    data: chart_data,
-    options: chart_options,
-  });
+  try {
+    window.myChart = new Chart(ctx, {
+      type: chart_type,
+      data: chart_data,
+      options: chart_options,
+    });
+
+  } catch (error) {
+    console.error(error.message)
+  }
+
 }
 //======================================================
