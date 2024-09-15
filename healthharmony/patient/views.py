@@ -9,6 +9,10 @@ from healthharmony.models.treatment.models import Illness, IllnessTreatment, Cer
 from healthharmony.users.models import User
 from healthharmony.patient.forms import UpdateProfileInfo, CreateCertificateForm
 from healthharmony.patient.serializers import CertificateSerializer
+from healthharmony.doctor.serializer import (
+    IllnessSerializer,
+    IllnessTreatmentSerializer,
+)
 
 from healthharmony.patient.functions import (
     update_patient_view_context,
@@ -32,7 +36,7 @@ def overview_view(request):
             tp.submit(check_models)
             tp.submit(get_weather, context, env)
             tp.submit(fetch_overview_data, context, request)
-            tp.submit(fetch_medcert_data, request, context)
+            tp.submit(fetch_medcert_data, request, context, request.user)
     except Exception as e:
         logger.warning(f"Something went wrong in patient/records: {(e)}")
         messages.error(request, "Something went wrong.")
@@ -49,23 +53,31 @@ def overview_view(request):
 @login_required(login_url="account_login")
 def records_view(request, pk):
     access_checker(request)
-    user = request.user
     context = {}
     try:
-        treatments = Illness.objects.filter(patient=user).prefetch_related(
-            Prefetch(
-                "illnesstreatment_set",
-                queryset=IllnessTreatment.objects.select_related("inventory_detail"),
-            )
+        user = User.objects.get(id=int(pk))
+    except Exception as e:
+        logger.info(
+            f"{request.user.email} tried to fetch a user with invalid id[{pk}] : {str(e)}"
         )
+        messages.error(request, "Cannot find a user with that id. Please try again.")
+        return redirect(request.META.get("HTTP_REFERER", "patient-overview"))
 
-        for illness in treatments:
+    try:
+        fetch_medcert_data(request, context, user)
+        illnesses = []
+        treatments = []
+        illness_query = Illness.objects.filter(patient=user)
+        illness_category = get_illness_categories(illness_query)
+        for illness in illness_query:
+            illnesses.append(IllnessSerializer(illness).data)
             for treatment in illness.illnesstreatment_set.all():
-                treatment.quantity = treatment.quantity or 0
-
+                treatments.append(IllnessTreatmentSerializer(treatment).data)
         context.update(
             {
+                "illnesses": illnesses,
                 "treatments": treatments,
+                "illness_category": illness_category,
             }
         )
 
@@ -131,8 +143,7 @@ def get_user(request, pk):
         return redirect(request.META.get("HTTP_REFERER", "home"))
 
 
-def fetch_medcert_data(request, context):
-    user = request.user
+def fetch_medcert_data(request, context, user):
 
     try:
         certificate_requests = Certificate.objects.filter(patient=user)
@@ -159,3 +170,47 @@ def fetch_medcert_data(request, context):
         logger.info(
             f"No certificate request was fetched with id[{request.user.id}]: {str(e)}"
         )
+
+
+def get_illness_categories(illnesses_query):
+    illness_category_data = []
+    for case in illnesses_query:
+        # Check if there is an illness_Category on the case
+        if case.illness_category:
+            category_found = False
+            # Check if there is an existing department in department data
+            for category in illness_category_data:
+                # If found, add another cases count then break
+                if (
+                    category["category_name"]
+                    and category["category_id"] == case.illness_category.id
+                ):
+                    category["cases_count"] += 1
+                    category_found = True
+                    break
+
+            if not category_found:
+                illness_category_data.append(
+                    {
+                        "category_id": case.illness_category.id,
+                        "category_name": case.illness_category.category,
+                        "cases_count": 1,
+                    }
+                )
+
+        # If patient has no department
+        else:
+            category_found = False
+            for category in illness_category_data:
+                # Check if 'Others' was already in illness data, then add cases
+                if category["category_name"] and category["category_name"] == "Others":
+                    category["cases_count"] += 1
+                    category_found = True
+                    break
+
+                # if not, then create the 'others category
+            if not category_found:
+                illness_category_data.append(
+                    {"category_id": 0, "category_name": "Others", "cases_count": 1}
+                )
+    return illness_category_data
