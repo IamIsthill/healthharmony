@@ -65,8 +65,8 @@
                 <h1>Your Schedule</h1>
                 <h3>Set your schedule so that patients may know</h3>
                 <div class="js_sched_details">
-                    <h4>Available from: {{ doctor_sched.time_avail_start }}</h4>
-                    <h4>Available until: {{ doctor_sched.time_avail_end }}</h4>
+                    <h4>Available from: {{ doctor_sched.time_avail_start|default_if_none:'' }}</h4>
+                    <h4>Available until: {{ doctor_sched.time_avail_end|default_if_none:'' }}</h4>
                 </div>
                 <div style="display: none" class="js_sched_form">
                     <form action="{% url 'post_update_doctor_time' %}" method="POST">
@@ -97,13 +97,43 @@
             </div>
             <div class="RIGHT">
                 <h1>Your Real Availability</h1>
-                <h3>Mark the box so that patients may know if you are available</h3>
+                <h3>Pick the best option so that patients may know if you are available</h3>
                 <form action="{% url 'post_update_doctor_avail' %}"
                       method="POST"
                       class="js_avail_form">
                     {% csrf_token %}
-                    <label for="">Available?</label>
-                    <input type="checkbox" value="" name="is_avail" />
+                    <label>Available?</label>
+                    <label for="yes">Yes</label>
+                    {% if doctor_sched and not doctor_sched.avail %}
+                        <input type="radio"
+                               name="is_avail"
+                               id="yes"
+                               value="yes"
+                               class="js_avail_options" />
+                    {% else %}
+                        <input type="radio"
+                               name="is_avail"
+                               id="yes"
+                               value="yes"
+                               checked
+                               class="js_avail_options" />
+                    {% endif %}
+                    <label for="no">No</label>
+                    {% if doctor_sched and not doctor_sched.avail %}
+                        <input type="radio"
+                               name="is_avail"
+                               id="no"
+                               value="no"
+                               checked
+                               class="js_avail_options" />
+                    {% else %}
+                        <input type="radio"
+                               name="is_avail"
+                               id="no"
+                               value="no"
+                               class="js_avail_options" />
+                    {% endif %}
+                    <button type="submit" style="display:none" class="js_avail_confirm_btn">Confirm</button>
                 </form>
             </div>
         </div>
@@ -115,42 +145,35 @@
     <script>
     const doctor_sched = JSON.parse(document.getElementById('doctor_sched').textContent)
     /** MAIN */
-    console.log(doctor_sched.avail)
+    console.log(doctor_sched)
     update_init_date_data()
     update_init_avail_data()
 
-    handle_oncheck_avail()
+    handle_onchange_avail()
 
     handle_onclick_update_sched()
     handle_onclick_close_update()
     /** MAIN */
 
     /** FUNCTIONS */
-    function handle_oncheck_avail() {
+    function handle_onchange_avail() {
       // Select input element
-      const input_element = document.querySelector('input[name="is_avail"]')
-      input_element.addEventListener('change', () => {
-        // if value is true, set to false. vice versa
-        if (input_element.value == 'true') {
-          input_element.value = 'false'
-        } else if (input_element.value == 'false') {
-          input_element.value = 'true'
-        }
+      const input_elements = document.querySelectorAll('.js_avail_options')
 
-        // Manually submit form
-        const form = document.querySelector('.js_avail_form')
-        form.submit()
-      })
+      for (const input_element of input_elements) {
+        input_element.addEventListener('change', () => {
+          const btn = document.querySelector('.js_avail_confirm_btn')
+          btn.setAttribute('style', '')
+        })
+      }
     }
 
     function update_init_avail_data() {
       const input_element = document.querySelector('input[name="is_avail"]')
       if (doctor_sched.avail) {
         input_element.checked = true
-        input_element.value = 'true'
       } else {
         input_element.checked = false
-        input_element.value = 'false'
       }
     }
 
@@ -158,8 +181,10 @@
       const start_input_element = document.querySelector('input[name="time_start"]')
       const end_input_element = document.querySelector('input[name="time_end"]')
 
-      start_input_element.value = doctor_sched.time_avail_start
-      end_input_element.value = doctor_sched.time_avail_end
+      if (doctor_sched.time_avail_start && doctor_sched.time_avail_end) {
+        start_input_element.value = doctor_sched.time_avail_start ? doctor_sched.time_avail_start : ''
+        end_input_element.value = doctor_sched.time_avail_end ? doctor_sched.time_avail_end : ''
+      }
     }
 
     function handle_onclick_update_sched() {

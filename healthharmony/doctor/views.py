@@ -219,8 +219,7 @@ def schedule(request):
         doctor_sched = DoctorDetail.objects.filter(doctor=request.user).values()
         context.update({"doctor_sched": doctor_sched[0]})
     except Exception as e:
-        logger.info(f"{request.user.email} has failed to fetch the schedule: {str(e)}")
-        messages.error(request, "Failed to fetch required data. Please reload page.")
+        logger.info(f"{request.user.email} has no schedule: {str(e)}")
 
     return render(request, "doctor/sched.html", context)
 
@@ -231,8 +230,8 @@ def post_update_doctor_time(request):
         form = UpdateDoctorSched(request.POST)
 
         if form.is_valid():
-            request = form.save(request)
-        return redirect("doctor-schedule")
+            form.save(request)
+    return redirect("doctor-schedule")
 
 
 @login_required(login_url="account_login")
@@ -241,8 +240,8 @@ def post_update_doctor_avail(request):
         form = UpdateDoctorAvail(request.POST)
 
         if form.is_valid():
-            request = form.save(request)
-        return redirect("doctor-schedule")
+            form.save(request)
+    return redirect("doctor-schedule")
 
 
 @api_view(["GET"])

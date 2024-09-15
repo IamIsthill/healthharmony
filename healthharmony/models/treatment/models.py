@@ -8,7 +8,7 @@ class DoctorDetail(models.Model):
     doctor = models.ForeignKey(User, on_delete=models.CASCADE)
     time_avail_start = models.TimeField(null=True)
     time_avail_end = models.TimeField(null=True)
-    avail = models.BooleanField()
+    avail = models.BooleanField(default=True)
 
     def is_avail(self, check_time):
         if self.avail and self.time_avail_start <= check_time <= self.time_avail_end:
