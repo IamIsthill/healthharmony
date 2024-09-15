@@ -763,6 +763,7 @@ def fetch_certificates(Certificate, F):
             "patient",
             "purpose",
             "requested",
+            "is_ready",
             "released",
             "email",
             "first_name",

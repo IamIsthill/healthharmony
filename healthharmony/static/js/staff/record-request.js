@@ -21,12 +21,31 @@ export function createRequestBody(certificates) {
         if (purpose.length > 60) {
             purpose = `${purpose.slice(0, 59)}...`
         }
+        let status = ''
+        let action = ''
+
+        if ((!certificate.is_ready) && (!certificate.released)) {
+            status = '<td class="table-data">Request to be processed</td>'
+            action = `<td class="table-data"><button>Mark as Ready</button></td>`
+        }
+        else if ((certificate.is_ready )&&  (!certificate.released)) {
+            status = '<td class="table-data">Ready, waiting to be collected</td>'
+            action = `<td class="table-data"><button>Mark as Collected</button></td>`
+        }
+        else if ((certificate.is_ready) && (certificate.released)) {
+            status = `<td class="table-data">Medical certificate was collected</td>`
+            action = `<td class="table-data">No actions to be taken</td>`
+        }
+
+
         html += `
             <tr>
                 <td>${certificate.email}</td>
-                <td>${certificate.first_name} ${certificate.last_name}</td>
+                <td>${certificate.first_name ? certificate.first_name : ''} ${certificate.last_name ? certificate.last_name : ''}</td>
                 <td>${purpose}</td>
                 <td class="js-cert-date">${certificate.requested}</td>
+                ${status}
+                ${action}
             </tr>
         `
     }
