@@ -301,6 +301,7 @@ def records(request):
                     fetch_certificate_chart, timezone, Certificate, relativedelta
                 ): "fetch_certificate_chart",
                 tp.submit(fetch_certificates, Certificate, F): "fetch_certificates",
+                tp.submit(fetch_patient_list, request): "fetch_patient_list",
             }
             results = {}
 
@@ -315,6 +316,7 @@ def records(request):
         history = results["fetch_history"]
         certificate_chart = results["fetch_certificate_chart"]
         certificates = results["fetch_certificates"]
+        patient_list = results["fetch_patient_list"]
         # certificate_chart = fetch_certificate_chart(timezone, Certificate, relativedelta)
 
         paginator = Paginator(history, 10)
@@ -342,6 +344,7 @@ def records(request):
                 "history": history_page,
                 "history_data": list(history),
                 "certificates": list(certificates),
+                "patient_list": patient_list,
             }
         )
 
@@ -379,6 +382,15 @@ def records(request):
         return redirect("staff-records")
 
     return render(request, "staff/records.html", context)
+
+
+def fetch_patient_list(request):
+    try:
+        patient_list = User.objects.filter(access=1)
+    except Exception as e:
+        logger.info(f"{request.user.email} failed to fetch patient list: {str(e)}")
+
+    return patient_list or None
 
 
 def create_patient_add_issue(request):

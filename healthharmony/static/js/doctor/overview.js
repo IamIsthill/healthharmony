@@ -114,12 +114,12 @@ function update_illness_table(filtered_illness_data) {
         const case_status = illness.diagnosis ? 'Completed' : 'Pending'
         illness_body_element.innerHTML += `
             <tr>
-              <td>
+              <td class = "table-data">
                 <span class="patient btn" data-patient-id="${illness.patient}">${illness.patient_first_name} ${illness.patient_last_name}</span>
               </td>
-              <td>${illness.issue}</td>
-              <td>${case_status}</td>
-              <td class="js-view-illness btn" data-patient-id="${illness.patient}">Review</td>
+              <td class = "table-data">${illness.issue}</td>
+              <td class = "table-data">${case_status}</td>
+              <td class="js-view-illness btn table-data" data-patient-id="${illness.patient}">Review</td>
             </tr>
         `
     }

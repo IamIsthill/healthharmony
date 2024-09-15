@@ -235,8 +235,12 @@
                 <form action="{% url 'create-patient-add-issue' %}" method="post">
                     {% csrf_token %}
                     <label for="">Patient Email</label>
-                    <input class="patient-input" type="text" name="email" list="patients" />
-                    <datalist id="patients"></datalist>
+                    <select name="email" class="patient-input" required>
+                        {{ patient_list }}
+                        {% if patient_list %}
+                            {% for patient in patient_list %}<option value="{{ patient.email }}">{{ patient.email }}</option>{% endfor %}
+                        {% endif %}
+                    </select>
                     <label for="">Issue</label>
                     <input class="issue-input" type="text" name="issue" />
                     <div class="form-buttons">
