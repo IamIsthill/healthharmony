@@ -11,425 +11,214 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
+    <style>
+                .modal {
+                    display: none; /* Hidden by default */
+                    position: fixed; /* Stay in place */
+                    z-index: 1; /* Sit on top */
+                    left: 0;
+                    top: 0;
+                    width: 100%; /* Full width */
+                    height: 100%; /* Full height */
+                    overflow: auto; /* Enable scroll if needed */
+                    background-color: rgb(0,0,0); /* Fallback color */
+                    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+                  }
+
+                  /* Modal Content/Box */
+                  .modal-content {
+                    background-color: #fefefe;
+                    margin: 15% auto; /* 15% from the top and centered */
+                    padding: 20px;
+                    border: 1px solid #888;
+                    width: 80%; /* Could be more or less, depending on screen size */
+                  }
+
+                  /* The Close Button */
+                  .close {
+                    color: #aaa;
+                    float: right;
+                    font-size: 28px;
+                    font-weight: bold;
+                  }
+
+                  .close:hover,
+                  .close:focus {
+                    color: black;
+                    text-decoration: none;
+                    cursor: pointer;
+                  }
+    </style>
 {% endblock %}
 {% block message %}
-    {% comment %} {% if
-messages|has_error_message %}
-<div>
-  <p>Failure to fetch data. Reload page</p>
-</div>
-    {% endif %} {% endcomment %}
-    {% if messages %}
-        <div>
-            {% for m in messages %}<p>{{ m }}</p>{% endfor %}
-        </div>
+    {% if messages|has_error_message %}
+        {% for message in messages %}
+            {% if message.tags == 'error' %}<p>{{ message }}</p>{% endif %}
+        {% endfor %}
+    {% endif %}
+    {% if messages|has_success_message %}
+        {% for message in messages %}
+            {% if message.tags == 'success' %}<p>{{ message }}</p>{% endif %}
+        {% endfor %}
     {% endif %}
 {% endblock %}
 {% block main %}
-    {% cache 600 spinner %}
-    <div class="spinner-border" role="status" id="loading-spinner">
-        <span class="visually-hidden text-success">Loading...</span>
-    </div>
-{% endcache %}
-<div class="container">
     {% include 'patient/nav.html' %}
-    <div class="upper">
-        <div class="details">
-            <h3>Clinic Visits</h3>
-            <div>
+    <div class="container">
+        <div class="upper">
+            <div class="details">
+                <h3>Clinic Visits</h3>
                 <div>
-                    <h5>Total Clinic Visits</h5>
-                    <p>{{ visits }}</p>
-                </div>
-                <div>
-                    <h5>Total Treatment</h5>
-                    <p>{{ treatments }}</p>
-                </div>
-            </div>
-            <div class="doctors">
-                {% for doc in doctors %}
-                    <div class="doc">
-                        <h6>{{ doc.doctor.first_name }} {{ doc.doctor.last_name }}</h6>
-                        <h6>
-                            {% with avail='Available' no_avail='Unavailable' %}
-                                {% if doc.true_avail %}
-                                    {{ avail }}
-                                {% else %}
-                                    {{ no_avail }}
-                                {% endif %}
-                            {% endwith %}
-                        </h6>
-                        {% load tz %}
-                        <h6>Available from: {% localtime on %} {{ doc.time_avail_start|time:"g:i A" }}{% endlocaltime %}</h6>
-                        <h6>Available until: {% localtime on %} {{ doc.time_avail_end|time:"g:i A" }}{% endlocaltime %}</h6>
+                    <div>
+                        <h5>Total Clinic Visits</h5>
+                        <p>{{ visits }}</p>
                     </div>
-                {% endfor %}
+                    <div>
+                        <h5>Total Treatment</h5>
+                        <p>{{ treatments }}</p>
+                    </div>
+                </div>
+                <div class="doctors">
+                    {% for doc in doctors %}
+                        <div class="doc">
+                            <h6>{{ doc.doctor.first_name }} {{ doc.doctor.last_name }}</h6>
+                            <h6>
+                                {% with avail='Available' no_avail='Unavailable' %}
+                                    {% if doc.true_avail %}
+                                        {{ avail }}
+                                    {% else %}
+                                        {{ no_avail }}
+                                    {% endif %}
+                                {% endwith %}
+                            </h6>
+                            {% load tz %}
+                            <h6>Available from: {% localtime on %} {{ doc.time_avail_start|time:"g:i A" }}{% endlocaltime %}</h6>
+                            <h6>Available until: {% localtime on %} {{ doc.time_avail_end|time:"g:i A" }}{% endlocaltime %}</h6>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
-        </div>
-        {% cache 600 patient_weather %}
-        <div class="current_weather">
-            <div class="weather-header">
-                <h1>Current Weather</h1>
-            </div>
-            <div class="weather-container">
-                <div class="temp-part">
-                    <img src="https://openweathermap.org/img/wn/{{ icon }}@2x.png" />
-                    <div class="temp-heatwave">
-                        <h1 class="span-normal">{{ temp }}°C</h1>
-                        <div class="heatwave">
-                            <span class="span-lightgray">Heat Wave</span>
-                            <span class="span-lightgray">{{ feels }}°C</span>
+            <div class="current_weather">
+                <div class="weather-header">
+                    <h1>Current Weather</h1>
+                </div>
+                <div class="weather-container">
+                    <div class="temp-part">
+                        <img src="https://openweathermap.org/img/wn/{{ icon }}@2x.png" />
+                        <div class="temp-heatwave">
+                            <h1 class="span-normal">{{ temp }}°C</h1>
+                            <div class="heatwave">
+                                <span class="span-lightgray">Heat Wave</span>
+                                <span class="span-lightgray">{{ feels }}°C</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="location-part">
+                        <img src="{% static 'assets/images/landing-page/loc.svg' %}" />
+                        <div class="location">
+                            <h3>Bacolor, Dhvsu</h3>
+                            <span class="span-lightgray">Main Campus</span>
+                        </div>
+                    </div>
+                    <div class="sickness-part">
+                        <img src="{% static 'assets/images/landing-page/sick.svg' %}" />
+                        <div class="sickness">
+                            <ul>
+                                {% for sick in predict %}<li>{{ sick.title }}</li>{% endfor %}
+                            </ul>
                         </div>
                     </div>
                 </div>
-                <div class="location-part">
-                    <img src="{% static 'assets/images/landing-page/loc.svg' %}" />
-                    <div class="location">
-                        <h3>Bacolor, Dhvsu</h3>
-                        <span class="span-lightgray">Main Campus</span>
-                    </div>
-                </div>
-                <div class="sickness-part">
-                    <img src="{% static 'assets/images/landing-page/sick.svg' %}" />
-                    <div class="sickness">
-                        <ul>
-                            {% for sick in predict %}<li>{{ sick.title }}</li>{% endfor %}
-                        </ul>
-                    </div>
-                </div>
             </div>
+            <div>
+                <h1>Medical Certificates</h1>
+                <h3>
+                    Requested Total:
+                    {% if certificates_data %}{{ certificates_data.all }}{% endif %}
+                </h3>
+                <h3>
+                    Pending:
+                    {% if certificates_data %}{{ certificates_data.pending }}{% endif %}
+                </h3>
+                <h3>
+                    Completed:
+                    {% if certificates_data %}{{ certificates_data.completed }}{% endif %}
+                </h3>
+                <button class="js_request_medcert_btn">Request Medical Certificate</button>
+            </div>
+        </div>
+        {% cache 30 bed_monitor %}
+        <div class="bed-monitor">
+            {% if beds %}
+                <div class="beds">
+                    {% for bed in beds %}
+                        {% if bed.status == False %}
+                            <div class="bed-container" data-bed-id="{{ bed.id }}">
+                                <span class="span-green">Available</span>
+                                <img src="{% static 'assets/images/landing-page/available-bed.svg' %}" />
+                                <span class="span-lightgray">Bed {{ forloop.counter }}</span>
+                            </div>
+                        {% elif bed.status == True %}
+                            <div class="bed-container" data-bed-id="{{ bed.id }}">
+                                <span class="span-lightred">Occupied</span>
+                                <img src="{% static 'assets/images/landing-page/occupied-bed.svg' %}" />
+                                <span class="span-lightgray">Bed {{ forloop.counter }}</span>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="beds2">
+                    <img src="{% static 'assets/images/landing-page/no-bed-illus.svg' %}" />
+                    <h1>There are no beds available</h1>
+                    <p>We apologize for the inconvenience</p>
+                </div>
+            {% endif %}
         </div>
     {% endcache %}
-    {% cache 30 bed_monitor %}
-    <div class="bed-monitor">
-        {% if beds %}
-            <div class="beds">
-                {% for bed in beds %}
-                    {% if bed.status == False %}
-                        <div class="bed-container" data-bed-id="{{ bed.id }}">
-                            <span class="span-green">Available</span>
-                            <img src="{% static 'assets/images/landing-page/available-bed.svg' %}" />
-                            <span class="span-lightgray">Bed {{ forloop.counter }}</span>
-                        </div>
-                    {% elif bed.status == True %}
-                        <div class="bed-container" data-bed-id="{{ bed.id }}">
-                            <span class="span-lightred">Occupied</span>
-                            <img src="{% static 'assets/images/landing-page/occupied-bed.svg' %}" />
-                            <span class="span-lightgray">Bed {{ forloop.counter }}</span>
-                        </div>
-                    {% endif %}
-                {% endfor %}
+    <div class="lower">
+        <div class="left">
+            <div>
+                <h3>Visit Over Time</h3>
+                <button class="visit-filter" data-category="year">12 Months</button>
+                <button class="visit-filter" data-category="month">30 Days</button>
+                <button class="visit-filter" data-category="week">7 Days</button>
             </div>
-        {% else %}
-            <div class="beds2">
-                <img src="{% static 'assets/images/landing-page/no-bed-illus.svg' %}" />
-                <h1>There are no beds available</h1>
-                <p>We apologize for the inconvenience</p>
+            <div>
+                <canvas id="visitCanvas"></canvas>
             </div>
-        {% endif %}
-    </div>
-{% endcache %}
-</div>
-<div class="lower">
-    <div class="left">
-        <div>
-            <h3>Visit Over Time</h3>
-            <button class="visit-filter" data-category="year">12 Months</button>
-            <button class="visit-filter" data-category="month">30 Days</button>
-            <button class="visit-filter" data-category="week">7 Days</button>
         </div>
-        <div>
-            <canvas id="visitCanvas"></canvas>
+        <div class="right">
+            <h3>Recent Treatments</h3>
+            <div>
+                <button class="treatment-filter" data-category="week">7 days</button>
+                <button class="treatment-filter" data-category="month">30 days</button>
+                <button class="treatment-filter" data-category="year">12 months</button>
+            </div>
+            <div id="treatment-bar-space"></div>
         </div>
-    </div>
-    <div class="right">
-        <h3>Recent Treatments</h3>
-        <div>
-            <button class="treatment-filter" data-category="week">7 days</button>
-            <button class="treatment-filter" data-category="month">30 days</button>
-            <button class="treatment-filter" data-category="year">12 months</button>
-        </div>
-        <div id="treatment-bar-space"></div>
     </div>
 </div>
+<div class="js_request_medcert_modal modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close js_close_medcert_modal">&times;</span>
+        <form action="{% url "post_create_certificate_request" %}" method="POST">
+            {% csrf_token %}
+            <label for="">Why are you requesting a medical certificate?</label>
+            <input type="textarea"
+                   placeholder="Type your reason here..."
+                   name="purpose"
+                   maxlength="500"
+                   required>
+            <button type="submit">Issue a Request</button>
+            <button class="js_close_medcert_modal" type="button">Cancel</button>
+        </form>
+    </div>
 </div>
 {% endblock %}
 {% block script %}
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-  const loadingSpinner = document.getElementById("loading-spinner");
-  const mainContainer = document.querySelector(".container");
-  const visitCanvas = document.getElementById("visitCanvas");
-
-  main()
-
-  //Grouping the main logic
-  async function main() {
-
-    // Temporary, uncomment later
-    mainContainer.style.display = 'none'
-    await getDashboard()
-
-    //Fetch session email first
-    const session = await fetchSessionEmail();
-    let email = session.email;
-
-    /*****************************************/
-    email = 'bercasiocharles14@gmail.com'
-    /*****************************************/
-    let visitData = await fetchVisitData(email);
-    visitData = visitData.visit_data;
-    let treatmentData = await fetchTreatmentData(email);
-    const treatmentDataLabels = Object.entries(treatmentData.labels)
-    treatmentData = (treatmentData.illness_count)
-
-    updateVisitCanvas(visitData.year)
-    createTreatmentBarsCanvas(Object.entries(treatmentData.week), treatmentDataLabels)
-    updateTreatmentBars(Object.entries(treatmentData.week), treatmentDataLabels)
-
-    // Date Filter for Visit Records
-    const visitFilterBtns = document.querySelectorAll(".visit-filter");
-    visitFilterBtns.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const text = btn.getAttribute("data-category").toLowerCase();
-        updateVisitCanvas(visitData[text]);
-      });
-    });
-
-    // Date Filter for treatments
-    const treatmentFilterBtns = document.querySelectorAll('.treatment-filter')
-    treatmentFilterBtns.forEach( (btn) => {
-      btn.addEventListener('click', () => {
-        const text = btn.getAttribute('data-category').toLowerCase()
-        updateTreatmentBars(Object.entries(treatmentData[text]), treatmentDataLabels)
-      })
-    })
-  }
-  //======================================================
-
-  //Update the treatment bars
-  function updateTreatmentBars(data, labels){
-    let maxCount = 0
-
-    for( const [key,value] of data){
-      maxCount += parseInt(value)
-    }
-
-
-    for( const [key, value] of data){
-
-      const treatment_name = (getTreatmentName(labels, key))
-      const canvasId = `${key}-${treatment_name}`;
-      const canvas = document.getElementById(canvasId);
-      if (!canvas) {
-        console.error(`Canvas with ID ${treatment_name}-${key} not found`);
-        continue;
-      }
-      const ctx = canvas.getContext('2d')
-      // Clear and reset the canvas dimensions
-      canvas.width = 0
-      canvas.height = 0
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      canvas.width = canvas.parentElement.clientWidth;
-      canvas.height = canvas.parentElement.clientHeight;
-
-      //background bar
-      ctx.fillStyle = '#E4E7EC'
-      ctx.fillRect(0,0,parseInt(canvas.width),parseInt(canvas.height))
-
-      //foreground bar
-      ctx.fillStyle = '#FFDA80'
-      let width = ((parseInt(canvas.width))/maxCount)*(parseInt(value))
-      ctx.fillRect(0,0,width,parseInt(canvas.height))
-    }
-  }
-  //======================================================
-
-  // Return treatment name using treatment id
-  function getTreatmentName(labels, id){
-    for(const [key, value] of labels){
-      if(key == id) {
-        return value
-      }
-    }
-  }
-  //======================================================
-
-  // Create the canvas for the bars based on treatment data
-  function createTreatmentBarsCanvas(data, labels){
-    const treatmentBarSpace = document.getElementById('treatment-bar-space')
-    let mainHTML = ''
-    for(const [key, value] of data){
-      let treatment_name = (getTreatmentName(labels, key))
-      let html = `
-      <div>
-        <h6> ${treatment_name} </h6>
-        <div>
-          <canvas id="${key}-${treatment_name}"></canvas>
-        </div>
-      </div>
-      `
-      mainHTML += html
-    }
-    treatmentBarSpace.innerHTML = mainHTML
-  }
-  //======================================================
-
-  // get visit data using email
-  async function fetchTreatmentData(email) {
-    try {
-      let baseUrl = window.location.origin;
-      let url = new URL(`${baseUrl}/api/patient/treatment-data/`);
-
-      if (email) {
-        url.searchParams.append("email", email);
-      }
-      const options = {
-        method: "GET",
-      };
-
-      const response = await fetch(url, options);
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    } catch (err) {
-      console.log(`Failed to fetch session: ${err.message}`);
-      return null;
-    }
-  }
-  //======================================================
-
-  // get visit data using email
-  async function fetchVisitData(email) {
-    try {
-      let baseUrl = window.location.origin;
-      let url = new URL(`${baseUrl}/api/patient/visit-data/`);
-
-      if (email) {
-        url.searchParams.append("email", email);
-      }
-      const options = {
-        method: "GET",
-      };
-
-      const response = await fetch(url, options);
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    } catch (err) {
-      console.log(`Failed to fetch session: ${err.message}`);
-      return null;
-    }
-  }
-  //======================================================
-
-  // get current session email
-  async function fetchSessionEmail() {
-    try {
-      let baseUrl = window.location.origin;
-      let url = new URL(`${baseUrl}/api/session-email/`);
-      const options = {
-        method: "GET",
-      };
-
-      const response = await fetch(url, options);
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    } catch (err) {
-      console.log(`Failed to fetch session: ${err.message}`);
-      return null;
-    }
-  }
-  //======================================================
-
-  // getting the same page in the server to add loading spinner
-  async function getDashboard() {
-    try {
-      let baseUrl = window.location.origin;
-      let url = new URL(`${baseUrl}/patient/`);
-      const options = {
-        method: "GET",
-      };
-      const response = await fetch(url, options);
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      setTimeout(() => {
-        loadingSpinner.style.display = "none";
-        mainContainer.style.display = "block";
-      }, 400);
-    } catch (err) {
-      console.log(`System faced some error: ${err.message}`);
-    }
-  }
-  //======================================================
-
-  // Function for updating the visit canvas
-  function updateVisitCanvas(data) {
-    data = Object.entries(data)
-    let xLabels = [];
-    let dataPoints = [];
-    for( const [key, value] of data){
-      xLabels.push(key);
-      dataPoints.push(value);
-    };
-
-    const ctx = visitCanvas.getContext("2d");
-
-    let existingChart = Chart.getChart(ctx);
-    if (existingChart) {
-      existingChart.destroy(); // Destroy if it exists
-    }
-    window.myChart = new Chart(ctx, {
-      type: "line",
-      data: {
-        labels: xLabels,
-        datasets: [
-          {
-            label: "Visit Count",
-            data: dataPoints,
-            backgroundColor: "rgba(204, 144, 0, 1)",
-            borderColor: "rgba(255, 99, 132, 1)",
-            borderWidth: 1,
-          },
-        ],
-      },
-      options: {
-        scales: {
-          x: {
-            stacked: true,
-            grid: {
-              display: false,
-            },
-          },
-          y: {
-            beginAtZero: false,
-            stacked: true,
-            min: 0,
-            ticks: {
-              display: false,
-            },
-            grid: {
-              display: false,
-            },
-          },
-        },
-        responsive: true,
-        plugins: {
-          legend: {
-            display: false,
-          },
-        },
-      },
-    });
-  }
-  //======================================================
-    </script>
+    {{ request.user.email|json_script:'user_email' }}
+    <script src="{% static 'chart.js/dist/chart.umd.js' %}"></script>
+    <script src="{% static "js/patient/overview.js" %}" type="module"></script>
 {% endblock %}

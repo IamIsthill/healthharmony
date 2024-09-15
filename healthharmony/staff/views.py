@@ -352,6 +352,35 @@ def records(request):
         logger.error(f"Failed to fetch necessary data: {e}")
         messages.error(request, "Error fetching data")
 
+    if request.method == "POST":
+        certificate_id = request.POST.get("certificate_id")
+        try:
+            certificate = Certificate.objects.get(id=int(certificate_id))
+        except Exception as e:
+            logger.info(
+                f"{request.user.email} failed to find certificate[id{certificate_id}]: {str(e)}"
+            )
+            messages.error(
+                request,
+                "Failed to find the certificate to be updated. Please try again",
+            )
+            return redirect("staff-records")
+
+        if not certificate.is_ready:
+            certificate.is_ready = True
+        elif not certificate.released:
+            certificate.released = True
+
+        certificate.save()
+
+        Log.objects.create(
+            user=request.user,
+            action=f"{request.user.email} updated certificate[{certificate.id}]",
+        )
+        logger.info(f"{request.user.email} updated certificate[{certificate.id}]")
+        messages.success(request, "Successfully updated certificate request status")
+        return redirect("staff-records")
+
     return render(request, "staff/records.html", context)
 
 
@@ -504,6 +533,7 @@ def patients_and_accounts(request):
                 "departmentData": list(departments),
                 "employees": employees,
                 "employeeData": list(employees),
+                "page": "accounts",
             }
         )
 

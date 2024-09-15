@@ -760,9 +760,11 @@ def fetch_certificates(Certificate, F):
             last_name=F("patient__last_name"),
         )
         .values(
+            "id",
             "patient",
             "purpose",
             "requested",
+            "is_ready",
             "released",
             "email",
             "first_name",

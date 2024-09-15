@@ -23,10 +23,15 @@
 {% endblock %}
 {% block title %}Patient Information | HealthHarmony{% endblock %}
 {% block message %}
-    {% if messages %}
-        <div>
-            {% for m in messages %}<p>{{ m }}</p>{% endfor %}
-        </div>
+    {% if messages|has_error_message %}
+        {% for message in messages %}
+            {% if message.tags == 'error' %}<p>{{ message }}</p>{% endif %}
+        {% endfor %}
+    {% endif %}
+    {% if messages|has_success_message %}
+        {% for message in messages %}
+            {% if message.tags == 'success' %}<p>{{ message }}</p>{% endif %}
+        {% endfor %}
     {% endif %}
 {% endblock %}
 {% block main %}

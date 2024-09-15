@@ -79,6 +79,7 @@ class Certificate(models.Model):
     patient = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     purpose = models.TextField()
     requested = models.DateTimeField(auto_now_add=True)
+    is_ready = models.BooleanField(default=False)
     released = models.BooleanField(default=False)
 
     def __str__(self):
