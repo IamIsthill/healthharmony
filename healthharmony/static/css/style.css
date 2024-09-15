@@ -216,3 +216,54 @@ button{
   background: rgba(0, 0, 0, 0.559);
 }
 /* PAGINATION TINGS */
+
+/* table */
+.header-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0.2rem 0;
+  text-align: left;
+    justify-content: space-between;
+}
+.header-content h1 {
+  /* border: 1px solid orange; */
+  font-size: var(--size-lg);
+  color: var(--normal-fontcolor);
+  font-weight: bold;
+  margin-top: 1rem;
+}
+.category-buttons {
+  display: flex;
+  gap: 0.2rem;
+}
+.category-buttons button{
+  font-size: var(--size-xs);
+  padding: 0.4rem 0.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+.category-buttons .button_cat-active, .button_cat{
+  color: var(--light_gray);
+  border: 1px solid rgba(255, 255, 255, 0);
+}
+.category-buttons .button_cat-active{
+  border: 1px solid var(--light_gray);
+}
+.category-buttons .button_cat:hover{
+  border: 1px solid var(--light_gray);
+}
+
+.mod-table .table-head{
+  color: var(--light_gray);
+  font-weight: 500;
+  opacity: 70%;
+  /* border: 1px solid red; */
+}
+.mod-table .table-head, .mod-table .table-data{
+  padding-right: 1rem;
+  text-align: left;
+  font-size: var(--size-sm);
+}
+
+/* TABLE */

@@ -75,7 +75,7 @@
 
 
  /* NURSE UTILS */
- .nurse-container, .nurse-container2, .doctor-profile-container{
+ .nurse-container, .nurse-container2, .doctor-profile-container, .doctor-container{
    width: 98%;
    display: grid;
    gap: 1rem;
@@ -90,9 +90,11 @@
   top: 5.5rem; /* This makes the third column stick to the top when scrolling */
   align-self: start; /* Ensure it aligns properly within the grid */
 }
-
+.doctor-container{
+  grid-template-columns: 13rem auto 26rem;
+}
 .doctor-profile-container{
-  grid-template-columns: 12rem auto 53rem;
+  grid-template-columns: 13rem auto 53rem;
 }
 
  .nurse-container2{
