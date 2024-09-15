@@ -8,7 +8,8 @@ import {
     removeItem,
     getItem,
     formatDate,
-    paginateArray
+    paginateArray,
+    getToken,
 } from '/static/js/utils.js'
 
 import {
@@ -67,10 +68,56 @@ function main() {
     //requests
     formatDatesInRequestHistory(format_date)
     listenRequestStatusBtns()
+    handle_onclick_certificate_action()
 
     //pagination links
     listenToLinks()
 
+}
+
+// user clicks the action
+function handle_onclick_certificate_action() {
+    const btns = document.querySelectorAll('.js_certificate_action')
+    if (btns.length <= 0) {
+        return
+
+    }
+    for (const btn of btns) {
+        btn.addEventListener('click', () => {
+            const certificate_id = btn.getAttribute('data-certificate-id')
+            const form = document.createElement('form')
+            form.setAttribute('method', 'POST')
+            form.setAttribute('action', '')
+            form.setAttribute('style', 'display : none')
+
+            const certificate_input_element = document.createElement('input')
+            certificate_input_element.setAttribute('value', certificate_id)
+            certificate_input_element.setAttribute('type', 'number')
+            certificate_input_element.setAttribute('name', 'certificate_id')
+
+            const token_value = getToken()
+            const csrf_input_element = document.createElement('input')
+            csrf_input_element.setAttribute('type', 'hidden')
+            csrf_input_element.setAttribute('value', token_value)
+            csrf_input_element.setAttribute('name', 'csrfmiddlewaretoken')
+
+            form.append(certificate_input_element, csrf_input_element)
+            document.body.appendChild(form)
+
+            form.submit()
+
+        })
+    }
+}
+
+// get certificate data using id
+function get_certificate_data(id) {
+    for (const certificate of certificates) {
+        if (parseInt(certificate.id) == parseInt(id)) {
+            return certificate
+        }
+    }
+    return null
 }
 
 
@@ -98,6 +145,7 @@ function listenRequestStatusBtns() {
             const filteredCertificates = getFilteredCertificateData(certificates, status, certPage)
             createRequestBody(filteredCertificates)
             formatDatesInRequestHistory(format_date)
+            handle_onclick_certificate_action()
         })
     }
 }
