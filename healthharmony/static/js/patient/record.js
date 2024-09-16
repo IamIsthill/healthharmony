@@ -7,7 +7,8 @@ import {
 const illness_data = JSON.parse(document.getElementById('illness_data').textContent)
 const treatment_data = JSON.parse(document.getElementById('treatment_data').textContent)
 const illness_category = JSON.parse(document.getElementById('illness_category').textContent)
-console.log(treatment_data)
+const certificate_data = JSON.parse(document.getElementById('certificate_data').textContent)
+console.log(certificate_data)
 /**MEDCERT */
 handle_onclick_request_medcert()
 
