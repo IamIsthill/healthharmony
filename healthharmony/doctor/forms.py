@@ -161,7 +161,7 @@ class UpdateDoctorSched(forms.Form):
 
         try:
             # Find the related instance first
-            updated_sched = DoctorDetail.objects.get(doctor=doctor)
+            updated_sched, created = DoctorDetail.objects.get_or_create(doctor=doctor)
 
             # If start and end is avail, update them
             if time_start and time_end:
@@ -180,8 +180,6 @@ class UpdateDoctorSched(forms.Form):
             )
             messages.error(request, "Failed to update date")
 
-        return request
-
 
 class UpdateDoctorAvail(forms.Form):
     is_avail = forms.BooleanField(required=True)
@@ -189,16 +187,16 @@ class UpdateDoctorAvail(forms.Form):
     def save(self, request):
         doctor = request.user
         is_avail = request.POST.get("is_avail")
+        logger.info(is_avail)
 
         try:
-            updated_sched = DoctorDetail.objects.get(doctor=doctor)
+            updated_sched, created = DoctorDetail.objects.get_or_create(doctor=doctor)
 
-            if is_avail:
-                is_avail = True
-            else:
-                is_avail = False
+            if is_avail == "yes":
+                updated_sched.avail = True
+            elif is_avail == "no":
+                updated_sched.avail = False
 
-            updated_sched.avail = is_avail
             updated_sched.save()
 
             logger.info(
@@ -211,5 +209,3 @@ class UpdateDoctorAvail(forms.Form):
                 f"{request.user.email} failed to update the doctor instance: ${str(e)}"
             )
             messages.error(request, "Failed to update date")
-
-        return request
