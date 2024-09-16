@@ -51,7 +51,7 @@ logger = logging.getLogger(__name__)
 def view_patient_profile(request, pk):
     if request.user.access < 2:
         return redirect(request.META.get("HTTP_REFERER", "doctor-overview"))
-    context = {}
+    context = {"page": "Patient Profile"}
     update_patient_view_context(request, context, pk)
 
     try:
@@ -143,6 +143,7 @@ def overview_view(request):
         "department_data": department_data,
         "sorted_illness_category": sorted_illness_category,
         "categories": categories,
+        "page": "Overview",
     }
 
     return render(request, "doctor/overview.html", context)
@@ -205,6 +206,7 @@ def handled_cases(request):
         "illness_page": illness_page,
         "department_data": department_data,
         "illness_category_data": illness_category_data,
+        "page": "Handled Cases",
     }
 
     return render(request, "doctor/handled.html", context)
@@ -213,7 +215,7 @@ def handled_cases(request):
 @login_required(login_url="account_login")
 def schedule(request):
     access_checker(request)
-    context = {}
+    context = {"page": "Schedule"}
 
     try:
         doctor_sched = DoctorDetail.objects.filter(doctor=request.user).values()
