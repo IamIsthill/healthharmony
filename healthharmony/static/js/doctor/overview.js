@@ -48,9 +48,11 @@ function handle_onclick_illness_status() {
         btn.addEventListener('click', () => {
             for (const btn of btns) {
                 btn.classList.remove('js-illness-filter-active')
+                btn.classList.remove('button_cat-active')
             }
 
             btn.classList.add('js-illness-filter-active')
+            btn.classList.add('button_cat-active')
             const filtered_illness_data = get_filtered_illness_data()
             update_illness_table(filtered_illness_data)
             handle_onclick_review_illness()
@@ -149,8 +151,10 @@ function handle_onclick_illness_dates() {
         btn.addEventListener('click', () => {
             for (const btn of btns) {
                 btn.classList.remove('js_category_filter_active')
+                btn.classList.remove('active-cat')
             }
             btn.classList.add('js_category_filter_active')
+            btn.classList.add('active-cat')
             get_init_params_create_morbidity_chart()
         })
     }
@@ -178,8 +182,10 @@ function handle_onclick_department_filters() {
         btn.addEventListener('click', () => {
             for (const btn of btns) {
                 btn.classList.remove('.js-department-bar-btn-active')
+                btn.classList.remove('bar-btn-active')
             }
             btn.classList.add('.js-department-bar-btn-active')
+            btn.classList.add('bar-btn-active')
             create_department_bars_based_active_params()
             add_border_then_remove_to_bars()
 
