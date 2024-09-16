@@ -2,19 +2,17 @@
 {% load static %}
 {% block title %}Overview | HealthHarmony{% endblock %}
 {% block header %}
-
-        <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
-        <link rel="stylesheet" href="{% static 'css/doctor/nav.css' %}" />
-        <link rel="stylesheet" href="{% static 'css/doctor/overview-main.css' %}" />
-        <link rel="stylesheet" href="{% static 'css/doctor/overview-graph.css' %}" />
-        <link rel="stylesheet" href="{% static 'css/doctor/overview-right.css' %}" />
-        <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-        <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
-            rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-            rel="stylesheet" />
-
+    <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/doctor/nav.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/doctor/overview-main.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/doctor/overview-graph.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/doctor/overview-right.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
+          rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+          rel="stylesheet" />
     <style>
     .border {
       border-style: solid;
@@ -71,32 +69,30 @@
     </div>
 {% endblock %}
 {% block main %}
-{% include 'doctor/nav-top.html' %}
+    {% include 'doctor/nav-top.html' %}
     <div class="doctor-container">
         {% include 'doctor/nav.html' %}
         <main>
             <div class="illness-space">
-                <!-- <h1>Illnesses</h1>
+                <!--   <h1>Illnesses</h1>
                 <div>
-                    <button class="js-illness-filter-active js-illness-filter"
-                            data-category="all">All</button>
+                    <button class="js-illness-filter-active js-illness-filter" data-category="all">All</button>
                     <button class="js-illness-filter" data-category="not">Pending</button>
                     <button class="js-illness-filter" data-category="done">Completed</button>
-                </div> -->
+                </div>   -->
                 <table class="mod-table">
                     <thead>
                         <tr>
                             <th colspan="5">
                                 <div class="header-content">
                                     <h1>Illnesses</h1>
-                                        <div class="category-buttons">
-                                            <button class="js-illness-filter-active js-illness-filter button_cat-active button_cat"
-                                            data-category="all">All</button>
-                                            <button class="js-illness-filter button_cat" data-category="not">Pending</button>
-                                            <button class="js-illness-filter button_cat" data-category="done">Completed</button>
-                                        </div>     
+                                    <div class="category-buttons">
+                                        <button class="js-illness-filter-active js-illness-filter button_cat-active button_cat"
+                                                data-category="all">All</button>
+                                        <button class="js-illness-filter button_cat" data-category="not">Pending</button>
+                                        <button class="js-illness-filter button_cat" data-category="done">Completed</button>
+                                    </div>
                                 </div>
-                                
                             </th>
                         </tr>
                         <tr>
@@ -110,7 +106,7 @@
                         {% for illness in illness_page %}
                             <tr>
                                 <td class="table-data name-column">
-                                    <span class="patient btn" data-patient-id="{{ illness.patient.id }}">{{ illness.patient.first_name }} {{ illness.patient.last_name }}</span>
+                                    <span class="patient btn" data-patient-id="{{ illness.patient.id }}">{{ illness.patient.first_name|default_if_none:'' }} {{ illness.patient.last_name|default_if_none:'' }}</span>
                                 </td>
                                 <td class="table-data issue-column">{{ illness.issue }}</td>
                                 {% if illness.diagnosis %}
@@ -142,7 +138,6 @@
                     </span>
                 </div>
             </div>
-            
             <div class="illness-category-chart-space lineChart">
                 <div class="top-chart">
                     <h4>Morbidity Cases</h4>
@@ -189,7 +184,6 @@
                 </div>
             </div>
         </div>
-
     </div>
     <div class="modals">
         <div id="illness_modal" class="modal">
