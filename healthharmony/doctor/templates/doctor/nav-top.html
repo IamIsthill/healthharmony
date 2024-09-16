@@ -1,13 +1,12 @@
 {% load static %}
 <div class="nav-top">
-    <!-- <h2>{{ page|capfirst }}</h2> -->
     <h2 class="page-title">{{ page|capfirst }}</h2>
     <div class="profile-container">
         <img src="{{ request.user.profile.url }}"
              alt="Profile Picture"
              class="profile-pic" />
         <div class="profile-info">
-            {% if request.user.first_name is None or request.user.last_name is None %}
+            {% if request.user.first_name is None or request.user.last_name is None or request.user.first_name == '' or request.user.last_name == '' %}
                 <h3>{{ request.user.email }}</h3>
             {% else %}
                 <h3>{{ request.user.first_name }} {{ request.user.last_name }}</h3>
