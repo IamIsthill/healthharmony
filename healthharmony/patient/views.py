@@ -107,7 +107,7 @@ def patient_view(request, pk):
     access_checker(request)
     context = {}
 
-    if request.method.lower == "post":
+    if request.method == "POST":
         form = UpdateProfileInfo(request.POST, files=request.FILES)
         if form.is_valid():
             try:
