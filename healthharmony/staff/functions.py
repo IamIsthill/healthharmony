@@ -670,6 +670,8 @@ def fetch_history(Illness, Coalesce, F, Value, IllnessTreatment):
         .annotate(
             first_name=Coalesce(F("patient__first_name"), Value("")),
             last_name=Coalesce(F("patient__last_name"), Value("")),
+            staff_first_name=Coalesce(F("staff__first_name"), Value("")),
+            staff_last_name=Coalesce(F("staff__last_name"), Value("")),
             category=Coalesce(F("illness_category__category"), Value("")),
         )
         .values(
@@ -684,6 +686,8 @@ def fetch_history(Illness, Coalesce, F, Value, IllnessTreatment):
             "id",
             "added",
             "patient",
+            "staff_first_name",
+            "staff_last_name",
         )
     )
 

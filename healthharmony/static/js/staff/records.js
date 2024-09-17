@@ -41,13 +41,6 @@ const certificates = JSON.parse(document.getElementById('certificates').textCont
 main()
 
 function main() {
-    /**TEST AREA */
-    console.log(historyData)
-    console.log(certficateChartData)
-    console.log(certificates)
-    console.log(formatDate(historyData[0].added))
-    /*************/
-
     //SET PARAMS
     setSavedParams()
 

@@ -117,7 +117,7 @@ function update_illness_table(filtered_illness_data) {
         illness_body_element.innerHTML += `
             <tr>
               <td class = "table-data">
-                <span class="patient btn" data-patient-id="${illness.patient}">${illness.patient_first_name} ${illness.patient_last_name}</span>
+                <span class="patient btn" data-patient-id="${illness.patient}">${illness.patient_first_name ? illness.patient_first_name : ''} ${illness.patient_last_name ? illness.patient_last_name : ''}</span>
               </td>
               <td class = "table-data">${illness.issue}</td>
               <td class = "table-data">${case_status}</td>

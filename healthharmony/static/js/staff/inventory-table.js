@@ -125,9 +125,9 @@ export function createUpdateInventoryForm(item, token) {
         <div class="form-bottom">
             <div class="form-group">
                 <label for="category">Category</label>
-                <select name="category" value="${item.category}"required>
-                    <option value="Medicine">Medicine</option>
-                    <option value="Supply">Supply</option>
+                <select name="category"  required>
+                    <option value="Medicine" ${item.category == 'Medicine' ? "selected" : ''}>Medicine</option>
+                    <option value="Supply" ${item.category == 'Supply' ? "selected" : ''}>Supply</option>
                 </select>
             </div>
             <div class="form-group">

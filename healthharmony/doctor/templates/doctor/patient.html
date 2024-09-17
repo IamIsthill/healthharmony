@@ -3,17 +3,15 @@
 {% load static %}
 {% load tags %}
 {% block header %}
-
     <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
     <link rel="stylesheet" href="{% static 'css/doctor/nav.css' %}" />
     <link rel="stylesheet" href="{% static 'css/doctor/patient-account.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
-        rel="stylesheet" />
+          rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-        rel="stylesheet" />
-
+          rel="stylesheet" />
     <style>
     #inventory_list {
       max-height: 20px;
@@ -79,85 +77,87 @@
     {% endif %}
 {% endblock %}
 {% block main %}
-{% include 'doctor/nav-top.html' %}
+    {% include 'doctor/nav-top.html' %}
     <div class="doctor-profile-container">
         {% include 'doctor/nav.html' %}
         <main>
             <div class="patient-profile">
-                    {% if user.profile != 'user_profiles/fallback.png' %}
-                        <div class="dp-container"><img src="{{ user.profile.url }}" alt="user_uploaded" /></div>
-                    {% elif picture.picture is not None %}
-                    <div class="dp-container"> <img src="{{ picture.picture }}" alt="google_pic" /> </div>
-                    {% else %}
-                    <div class="dp-container">  <img src="{{ user.profile.url }}" alt="fallback" /> </div>
-                    {% endif %}
-                    {% if user.first_name and user.last_name %}
-                        <h3 class="patient-profile-name">{{ user.first_name }} {{ user.last_name }}</h3>
-                    {% endif %}
-                    {% if user.email %}<h3 class="patient-profile-data">Email: {{ user.email }}</h3>{% endif %}
-                    {% if user.contact %}<h3 class="patient-profile-data">Contact Number: {{ user.contact }}</h3>{% endif %}
-                </div>
-
-                <div class="vital-statistic">
-                    <h3>Vital Statistics</h3>
-                    <div class="vital-data">
-                        <div class="vital-left">
-                            <span>Blood Type</span>
-                            <span>Height</span>
-                            <span>Weight</span>
-                        </div>
-                        <div class="vital-right">
-                            {% if user.blood_type is not None %}<p> {{ user.blood_type }}</p>{% endif %}
-                            {% if blood_pressure %}<p>{{ blood_pressure }}</p>{% endif %}
-                            {% if user.height is not None %}<p> {{ user.height }}</p>{% endif %}
-                            {% if user.weight is not None %}<p> {{ user.weight }}</p>{% endif %}
-                        </div>
+                {% if user.profile != 'user_profiles/fallback.png' %}
+                    <div class="dp-container">
+                        <img src="{{ user.profile.url }}" alt="user_uploaded" />
+                    </div>
+                {% elif picture.picture is not None %}
+                    <div class="dp-container">
+                        <img src="{{ picture.picture }}" alt="google_pic" />
+                    </div>
+                {% else %}
+                    <div class="dp-container">
+                        <img src="{{ user.profile.url }}" alt="fallback" />
+                    </div>
+                {% endif %}
+                {% if user.first_name and user.last_name %}
+                    <h3 class="patient-profile-name">{{ user.first_name }} {{ user.last_name }}</h3>
+                {% endif %}
+                {% if user.email %}<h3 class="patient-profile-data">Email: {{ user.email }}</h3>{% endif %}
+                {% if user.contact %}<h3 class="patient-profile-data">Contact Number: {{ user.contact }}</h3>{% endif %}
+            </div>
+            <div class="vital-statistic">
+                <h3>Vital Statistics</h3>
+                <div class="vital-data">
+                    <div class="vital-left">
+                        <span>Blood Type</span>
+                        <span>Height</span>
+                        <span>Weight</span>
+                    </div>
+                    <div class="vital-right">
+                        {% if user.blood_type is not None %}<p>{{ user.blood_type }}</p>{% endif %}
+                        {% if blood_pressure %}<p>{{ blood_pressure }}</p>{% endif %}
+                        {% if user.height is not None %}<p>{{ user.height }}</p>{% endif %}
+                        {% if user.weight is not None %}<p>{{ user.weight }}</p>{% endif %}
                     </div>
                 </div>
+            </div>
         </main>
-            <div class="right-part-profile">
-                
-                <div class="detailed-info">
-                    <div class="detailed-top">
-                        <h3>Detailed Information</h3>
-                        <button> Edit </button>
+        <div class="right-part-profile">
+            <div class="detailed-info">
+                <div class="detailed-top">
+                    <h3>Detailed Information</h3>
+                    <button>Edit</button>
+                </div>
+                <div class="info-cont">
+                    <div class="detailed-left">
+                        <span>Age</span>
+                        <span>Sex</span>
+                        <span>Contact</span>
+                        <span>Year and Section</span>
+                        <span>Program</span>
+                        <span>Department</span>
                     </div>
-                    
-                    <div class="info-cont">
-                        <div class="detailed-left">
-                            <span>Age</span>
-                            <span>Sex</span>
-                            <span>Contact</span>
-                            <span>Year and Section</span>
-                            <span>Program</span>
-                            <span>Department</span>
-                        </div>
-                        <div class="detailed-right">
-                            {% if age %}<p>{{ age }}</p>{% endif %}
-                            {% if user.sex %}<p>{{ user.sex }}</p>{% endif %}
-                            {% if user.contact %}<p>{{ user.contact }}</p>{% endif %}
-                            {% if user.year and user.section %}
-                                <p> {{ user.year }} - {{ user.section }}</p>
-                            {% elif user.year %}
-                                <p>{{ user.year }}</p>
-                            {% elif user.section %}
-                                <p>{{ user.section }}</p>
-                            {% endif %}
-                            {% if user.program %}<p> {{ user.program }}</p>{% endif %}
-                            {% if user.department %}<p> {{ user.department }}</p>{% endif %}
-                        </div>
+                    <div class="detailed-right">
+                        {% if age %}<p>{{ age }}</p>{% endif %}
+                        {% if user.sex %}<p>{{ user.sex }}</p>{% endif %}
+                        {% if user.contact %}<p>{{ user.contact }}</p>{% endif %}
+                        {% if user.year and user.section %}
+                            <p>{{ user.year }} - {{ user.section }}</p>
+                        {% elif user.year %}
+                            <p>{{ user.year }}</p>
+                        {% elif user.section %}
+                            <p>{{ user.section }}</p>
+                        {% endif %}
+                        {% if user.program %}<p>{{ user.program }}</p>{% endif %}
+                        {% if user.department %}<p>{{ user.department }}</p>{% endif %}
                     </div>
                 </div>
-
-                <div class="illnesses visit-history">
-                    <h2>Visit History</h2>
-                    <div>
-                        <button class="js-illness-filter" data-category="all">All</button>
-                        <button class="js-illness-filter" data-category="not">Pending</button>
-                        <button class="js-illness-filter" data-category="done">Released</button>
-                    </div>
-                    <div class="illness_body">
-                        {% for illness in illnesses %}
+            </div>
+            <div class="illnesses visit-history">
+                <h2>Visit History</h2>
+                <div>
+                    <button class="js-illness-filter" data-category="all">All</button>
+                    <button class="js-illness-filter" data-category="not">Pending</button>
+                    <button class="js-illness-filter" data-category="done">Released</button>
+                </div>
+                <div class="illness_body">
+                    {% for illness in illnesses %}
                         <div data-illness-id="{{ illness.id }}" class="js-illness">
                             <p>
                                 Date and Time: <span class="js-dates">{{ illness.added }}</span>
@@ -191,13 +191,9 @@
                         <h5>No visit history</h5>
                     {% endfor %}
                 </div>
-            </div>     
-                
             </div>
-            
-        
+        </div>
     </div>
-
     <div class="modal js-edit-illness-modal">
         <div class="modal-content">
             <span class="close js-close-btn">&times;</span>

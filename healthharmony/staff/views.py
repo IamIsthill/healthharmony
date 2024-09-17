@@ -312,12 +312,11 @@ def records(request):
                 except Exception as e:
                     logger.error(f"{key} generated an exception: {e}")
                     results[key] = 0
-        # history = fetch_history(Illness, Coalesce, F, Value, IllnessTreatment)
+
         history = results["fetch_history"]
         certificate_chart = results["fetch_certificate_chart"]
         certificates = results["fetch_certificates"]
         patient_list = results["fetch_patient_list"]
-        # certificate_chart = fetch_certificate_chart(timezone, Certificate, relativedelta)
 
         paginator = Paginator(history, 10)
         page = request.GET.get("page")

@@ -114,47 +114,76 @@
             </h3>
             <button class="js_request_medcert_btn">Request Medical Certificate</button>
         </div>
-        {% cache 100 records %}
-        <ul>
-            {% for illness in illnesses %}
-                <li>
-                    <div class="visible">
-                        <h2>
-                            {{ illness.issue }} (Added: <span class="js_dates">{{ illness.added }}</span>)
-                        </h2>
-                        {% if illness.treatment %}
-                            <div class="hide js_details_space"></div>
-                            <button class="js_show_illness_details" data-illness-id="{{ illness.id }}">Show More</button>
-                        {% endif %}
-                    </div>
-                </li>
-            {% empty %}
-                <li>No illnesses found.</li>
-            {% endfor %}
-        </ul>
-    {% endcache %}
-</div>
-<div class="js_request_medcert_modal modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-        <span class="close js_close_medcert_modal">&times;</span>
-        <form action="{% url 'post_create_certificate_request' %}" method="POST">
-            {% csrf_token %}
-            <label for="">Why are you requesting a medical certificate?</label>
-            <input type="textarea"
-                   placeholder="Type your reason here..."
-                   name="purpose"
-                   maxlength="500"
-                   required />
-            <button type="submit">Issue a Request</button>
-            <button class="js_close_medcert_modal" type="button">Cancel</button>
-        </form>
+        <div>
+            <ul>
+                {% for illness in illnesses %}
+                    <li>
+                        <div class="visible">
+                            <h2>
+                                {{ illness.issue }} (Added: <span class="js_dates">{{ illness.added }}</span>)
+                            </h2>
+                            {% if illness.treatment %}
+                                <div class="hide js_details_space"></div>
+                                <button class="js_show_illness_details" data-illness-id="{{ illness.id }}">Show More</button>
+                            {% endif %}
+                        </div>
+                    </li>
+                {% empty %}
+                    <li>No illnesses found.</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="for-the-request">
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="3">Your Medical Certificate History</th>
+                    </tr>
+                    <tr>
+                        <th class="table-head">Purpose</th>
+                        <th class="table-head">Date Requested</th>
+                        <th class="table-head">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for certificate in certificate_data %}
+                        <tr>
+                            <td class="table-data">{{ certificate.purpose|truncatechars:60 }}</td>
+                            <td class="table-data js_dates">{{ certificate.requested }}</td>
+                            {% if not certificate.is_ready and not certificate.released %}
+                                <td class="table-data">Request to be processed</td>
+                            {% elif certificate.is_ready and not certificate.released %}
+                                <td class="table-data">Ready, waiting to be collected</td>
+                            {% elif certificate.is_ready and certificate.released %}
+                                <td class="table-data">Medical certificate was collected</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+    <div class="js_request_medcert_modal modal">
+        <div class="modal-content">
+            <span class="close js_close_medcert_modal">&times;</span>
+            <form action="{% url 'post_create_certificate_request' %}" method="POST">
+                {% csrf_token %}
+                <label for="">Why are you requesting a medical certificate?</label>
+                <input type="textarea"
+                       placeholder="Type your reason here..."
+                       name="purpose"
+                       maxlength="500"
+                       required />
+                <button type="submit">Issue a Request</button>
+                <button class="js_close_medcert_modal" type="button">Cancel</button>
+            </form>
+        </div>
+    </div>
 {% endblock %}
 {% block script %}
     {{ illnesses|json_script:'illness_data' }}
     {{ treatments|json_script:'treatment_data' }}
     {{ illness_category|json_script:'illness_category' }}
+    {{ certificate_data|json_script:'certificate_data' }}
     <script type="module" src="{% static 'js/patient/record.js' %}"></script>
 {% endblock %}

@@ -2,16 +2,15 @@
 {% load static %}
 {% block title %}Handled Cases | HealthHarmony{% endblock %}
 {% block header %}
-            <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
-            <link rel="stylesheet" href="{% static 'css/doctor/nav.css' %}" />
-            <link rel="stylesheet" href="{% static 'css/doctor/handled.css' %}" />
-            <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-            <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
-            <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
-                rel="stylesheet" />
-            <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-                rel="stylesheet" />
-
+    <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/doctor/nav.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/doctor/handled.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
+          rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+          rel="stylesheet" />
     <style>
     .border {
       border-style: solid;
@@ -68,7 +67,7 @@
     </div>
 {% endblock %}
 {% block main %}
-{% include 'doctor/nav-top.html' %}
+    {% include 'doctor/nav-top.html' %}
     <div class="doctor-container">
         {% include 'doctor/nav.html' %}
         <main>
@@ -81,11 +80,14 @@
                                     <h1>Your Handled Cases</h1>
                                     <div class="search-container">
                                         <form action="" method="GET">
-                                            <input type="text" class="js_illness_case_field" placeholder="Search" name="search" />
+                                            <input type="text"
+                                                   class="js_illness_case_field"
+                                                   placeholder="Search"
+                                                   name="search" />
                                             <button>
                                                 <span class="material-symbols-outlined">search</span>
                                             </button>
-                                        </form>   
+                                        </form>
                                     </div>
                                 </div>
                             </th>
@@ -133,23 +135,22 @@
                     </span>
                 </div>
             </div>
-
         </main>
         <div class="doctor-right-part">
             <div class="most-illness-categories">
                 <h1>Illness Categories</h1>
                 <p>Cases you have handled per category</p>
-                <div class=" canvas-cont">
+                <div class="canvas-cont">
                     <canvas id="js_illness_categories_bar"></canvas>
                 </div>
             </div>
             <div class="most-cases-per-department">
                 <h1>Colleges</h1>
                 <p>Cases you have handled per college</p>
-                <div class=" canvas-cont">
+                <div class="canvas-cont">
                     <canvas id="js_college_bar"></canvas>
                 </div>
-        </div>
+            </div>
         </div>
     </div>
 {% endblock %}

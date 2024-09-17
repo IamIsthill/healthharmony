@@ -64,11 +64,14 @@ def records_view(request, pk):
         return redirect(request.META.get("HTTP_REFERER", "patient-overview"))
 
     try:
-        fetch_medcert_data(request, context, user)
         illnesses = []
         treatments = []
         illness_query = Illness.objects.filter(patient=user)
-        illness_category = get_illness_categories(illness_query)
+
+        with ThreadPoolExecutor() as tp:
+            tp.submit(get_illness_categories, illness_query, context)
+            tp.submit(fetch_medcert_data, request, context, user)
+            tp.submit(fetch_user_certificates, user, context)
         for illness in illness_query:
             illnesses.append(IllnessSerializer(illness).data)
             for treatment in illness.illnesstreatment_set.all():
@@ -77,7 +80,6 @@ def records_view(request, pk):
             {
                 "illnesses": illnesses,
                 "treatments": treatments,
-                "illness_category": illness_category,
             }
         )
 
@@ -105,7 +107,7 @@ def patient_view(request, pk):
     access_checker(request)
     context = {}
 
-    if request.method.lower == "post":
+    if request.method == "POST":
         form = UpdateProfileInfo(request.POST, files=request.FILES)
         if form.is_valid():
             try:
@@ -172,7 +174,7 @@ def fetch_medcert_data(request, context, user):
         )
 
 
-def get_illness_categories(illnesses_query):
+def get_illness_categories(illnesses_query, context):
     illness_category_data = []
     for case in illnesses_query:
         # Check if there is an illness_Category on the case
@@ -213,4 +215,18 @@ def get_illness_categories(illnesses_query):
                 illness_category_data.append(
                     {"category_id": 0, "category_name": "Others", "cases_count": 1}
                 )
-    return illness_category_data
+    context.update(
+        {
+            "illness_category": illness_category_data,
+        }
+    )
+
+
+def fetch_user_certificates(user, context):
+    certificates = Certificate.objects.filter(patient=user)
+    certificate_data = []
+    for certificate in certificates:
+        data = CertificateSerializer(certificate)
+        certificate_data.append(data.data)
+
+    context.update({"certificate_data": certificate_data})

@@ -82,6 +82,9 @@ class Certificate(models.Model):
     is_ready = models.BooleanField(default=False)
     released = models.BooleanField(default=False)
 
+    class Meta:
+        ordering = ["-requested"]
+
     def __str__(self):
         return f"{self.patient} on {self.requested}"
 

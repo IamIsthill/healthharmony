@@ -17,7 +17,7 @@ export function createViewIllnessBody(data) {
         <h4>Illness Category: ${data.category}</h4>
         <h4>Patient Name: ${data.first_name} ${data.last_name}</h4>
         <h4>Patient's Claim: ${data.issue}</h4>
-        <h4>Added by: ${data.staff}</h4>
+        <h4>Added by: ${data.staff_first_name ? data.staff_first_name : ''}  ${data.staff_last_name ? data.staff_last_name: ''}</h4>
     </div>
     `
     if (data.doctor) {
@@ -85,15 +85,20 @@ export function filterHistoryData(historyData, filter, search) {
     let filteredHistoryData = []
     for (const data of historyData) {
         if (filter == 1) {
-            if ((data.diagnosis == '') && (data.first_name.toLowerCase().includes(search.toLowerCase()) || data.last_name.toLowerCase().includes(search.toLowerCase()) || data.issue.toLowerCase().includes(search.toLowerCase()))) {
+            if ((data.diagnosis == '') && (data.first_name.toLowerCase().includes(search.toLowerCase()) || data
+                    .last_name.toLowerCase().includes(search.toLowerCase()) || data.issue.toLowerCase().includes(search
+                        .toLowerCase()))) {
                 filteredHistoryData.push(data)
             }
         } else if (filter == 2) {
-            if ((data.diagnosis != '') && (data.first_name.toLowerCase().includes(search.toLowerCase()) || data.last_name.toLowerCase().includes(search.toLowerCase()) || data.issue.toLowerCase().includes(search.toLowerCase()))) {
+            if ((data.diagnosis != '') && (data.first_name.toLowerCase().includes(search.toLowerCase()) || data
+                    .last_name.toLowerCase().includes(search.toLowerCase()) || data.issue.toLowerCase().includes(search
+                        .toLowerCase()))) {
                 filteredHistoryData.push(data)
             }
         } else {
-            if (data.first_name.toLowerCase().includes(search.toLowerCase()) || data.last_name.toLowerCase().includes(search.toLowerCase()) || data.issue.toLowerCase().includes(search.toLowerCase())) {
+            if (data.first_name.toLowerCase().includes(search.toLowerCase()) || data.last_name.toLowerCase().includes(
+                    search.toLowerCase()) || data.issue.toLowerCase().includes(search.toLowerCase())) {
                 filteredHistoryData.push(data)
             }
         }
