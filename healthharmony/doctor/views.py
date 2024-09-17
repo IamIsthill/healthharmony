@@ -22,6 +22,7 @@ from healthharmony.doctor.forms import (
     UpdateDoctorSched,
     UpdateDoctorAvail,
     UpdateUserDetails,
+    UpdateUserVital,
 )
 from healthharmony.patient.functions import update_patient_view_context
 
@@ -247,6 +248,20 @@ def post_update_user_details(request):
 
     if request.method == "POST":
         form = UpdateUserDetails(request.POST)
+        if form.is_valid():
+            form.save(request)
+        else:
+            logger.info("Form is invalid")
+            messages.error(request, "Form is invalid. Please try again.")
+    return redirect("doctor-view-patient", patient_id)
+
+
+@login_required(login_url="account_login")
+def post_update_user_vitals(request):
+    patient_id = request.POST.get("patient_id")
+
+    if request.method == "POST":
+        form = UpdateUserVital(request.POST)
         if form.is_valid():
             form.save(request)
         else:

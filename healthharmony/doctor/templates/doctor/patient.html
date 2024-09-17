@@ -107,14 +107,13 @@
                 <div class="vital-data">
                     <div class="vital-left js_patient_vital_labels">
                         <span>Blood Type</span>
-                        <span>Height</span>
-                        <span>Weight</span>
+                        <span>Height(cm)</span>
+                        <span>Weight(kg)</span>
                     </div>
                     <div class="vital-right">
-                        {% if user.blood_type is not None %}<p>{{ user.blood_type }}</p>{% endif %}
-                        {% if blood_pressure %}<p>{{ blood_pressure }}</p>{% endif %}
-                        {% if user.height is not None %}<p>{{ user.height }}</p>{% endif %}
-                        {% if user.weight is not None %}<p>{{ user.weight }}</p>{% endif %}
+                        <p>{{ user.blood_type|default_if_none:'' }}</p>
+                        <p>{{ user.height|default_if_none:'' }}</p>
+                        <p>{{ user.weight|default_if_none:'' }}</p>
                     </div>
                 </div>
             </div>

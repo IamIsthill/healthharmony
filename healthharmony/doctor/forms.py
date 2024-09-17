@@ -280,3 +280,49 @@ class UpdateUserDetails(forms.Form):
             messages.error(
                 request, "Failed to update patient information. Please try again."
             )
+
+
+class UpdateUserVital(forms.Form):
+    patient_id = forms.IntegerField(required=True)
+    blood_type = forms.CharField(required=True)
+    height = forms.IntegerField(required=True)
+    weight = forms.IntegerField(required=True)
+
+    def save(self, request):
+        patient_id = self.cleaned_data.get("patient_id")
+        blood_type = self.cleaned_data.get("blood_type")
+        height = self.cleaned_data.get("height")
+        weight = self.cleaned_data.get("weight")
+
+        try:
+            user = User.objects.get(id=int(patient_id))
+
+            if user:
+                user.blood_type = blood_type
+                user.height = height
+                user.weight = weight
+
+                user.save()
+
+                Log.objects.create(
+                    user=request.user,
+                    action=f"{request.user.email} updated user information.",
+                )
+                logger.info(f"{request.user.email} updated user information.")
+                messages.success(request, "Successfully updated patient information")
+
+            else:
+                logger.info(
+                    f"{request.user.email} failed to find patient[{patient_id}]"
+                )
+                messages.error(
+                    request, "Failed to find the correct patient. Please try again"
+                )
+
+        except Exception as e:
+            logger.info(
+                f"{request.user.email} failed to update patient information: {str(e)}"
+            )
+            messages.error(
+                request, "Failed to update patient information. Please try again."
+            )

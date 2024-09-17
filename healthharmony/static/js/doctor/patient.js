@@ -425,7 +425,7 @@ function handle_onclick_edit_vital() {
 function get_form_element_for_patient_vital() {
     const form_element = document.createElement('form')
     form_element.setAttribute('method', "POST")
-    // form_element.setAttribute('method', "POST")
+    form_element.setAttribute('action', "/doctor/patient/post_update_user_vitals/")
     form_element.classList.add('vital-right')
 
     form_element.innerHTML = `

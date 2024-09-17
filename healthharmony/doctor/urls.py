@@ -26,4 +26,9 @@ urlpatterns = [
         views.post_update_user_details,
         name="post_update_user_details",
     ),
+    path(
+        "patient/post_update_user_vitals/",
+        views.post_update_user_vitals,
+        name="post_update_user_vitals",
+    ),
 ]
