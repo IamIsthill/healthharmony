@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Log and Records | HealthHarmony{% endblock %}
 {% block header %}{% endblock %}
 {% block message %}{% endblock %}
@@ -121,4 +122,6 @@
         </div>
     </div>
 {% endblock %}
-{% block script %}{% endblock %}
+{% block script %}
+    <script src="{% static 'js/administrator/records.js' %}" type="module"></script>
+{% endblock %}
