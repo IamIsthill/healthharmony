@@ -54,6 +54,9 @@ async function main() {
     /** Detailed info */
     handle_onclick_edit_patient()
 
+    /** Vital Info */
+    handle_onclick_edit_vital()
+
 }
 
 function click_edit_show_form() {
@@ -350,35 +353,6 @@ function handle_onclick_edit_patient() {
     })
 }
 
-// get the age of the patient
-function get_patient_age(){
-    if (!patient_data.DOB) {
-        return ''
-    }
-    const birth_date = new Date(patient_data.DOB)
-    const current_date = new Date()
-
-    let age = current_date.getFullYear() - birth_date.getFullYear()
-
-
-
-    if((current_date.getMonth() == birth_date.getMonth())) {
-        if (current_date.getDay() > birth_date.getDay()) {
-            age--
-        }
-    }
-
-    else if((current_date.getMonth() > birth_date.getMonth())) {
-        age--
-    }
-
-    else {
-        age--
-    }
-
-    return age
-}
-
 // get the form for updating patient detailss
 function get_form_element_for_patient_details() {
     // creaet the form
@@ -418,4 +392,55 @@ function get_form_element_for_patient_details() {
     `
 
     return form_element
+}
+
+// user clicks the edit button for the vital statistics
+function handle_onclick_edit_vital() {
+    const btn = document.querySelector('.js_edit_vital_btn')
+
+    btn.addEventListener('click', () => {
+        const vital_labels = document.querySelector('.js_patient_vital_labels')
+        btn.setAttribute('style', 'display:none')
+
+
+        const info_vitals_element = vital_labels.nextElementSibling
+
+        vital_labels.nextElementSibling.remove()
+
+        const form_element = get_form_element_for_patient_vital()
+
+        vital_labels.insertAdjacentElement('afterend', form_element)
+
+        const cancel_btn = document.querySelector('.js_cancel_pattient_btn')
+
+        cancel_btn.addEventListener('click', () => {
+            vital_labels.nextElementSibling.remove()
+            vital_labels.insertAdjacentElement('afterend', info_vitals_element)
+            btn.setAttribute('style', '')
+        })
+    })
+}
+
+// Create the form for editing vital patietn info
+function get_form_element_for_patient_vital() {
+    const form_element = document.createElement('form')
+    form_element.setAttribute('method', "POST")
+    // form_element.setAttribute('method', "POST")
+    form_element.classList.add('vital-right')
+
+    form_element.innerHTML = `
+    <input name="csrfmiddlewaretoken" value="${getToken()}" type="hidden" />
+    <input name="patient_id" value="${patient_data.id}" type="hidden" />
+    <input name="blood_type" value="${patient_data.blood_type}" type="text" required placeholder="Patient's blood type..." />
+    <input name="height" value="${patient_data.height}" type="number" required placeholder="Patient's height..."  />
+    <input name="weight" value="${patient_data.weight}" type="number" required placeholder="Patient's weight..." />
+    <div>
+        <button type="submit">Update</button>
+        <button type="button" class="js_cancel_pattient_btn">Cancel</button>
+    </div>
+    `
+
+    return form_element
+
+
 }
