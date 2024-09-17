@@ -43,6 +43,19 @@
                     {% endif %}
                 </tbody>
             </table>
+            <div class="pagination pagination-design">
+                <span class="step-links">
+                    {% if logs.has_previous %}
+                        <a href="?logs_page=1" class="js-links">&laquo; First</a>
+                        <a class="js-links" href="?logs_page={{ logs.previous_page_number }}">Previous</a>
+                    {% endif %}
+                    <span class="current">Page {{ logs.number }} of {{ logs.paginator.num_pages }}.</span>
+                    {% if logs.has_next %}
+                        <a class="js-links" href="?logs_page={{ logs.next_page_number }}">Next</a>
+                        <a class="js-links" href="?logs_page={{ logs.paginator.num_pages }}">Last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
         </div>
         <div class="lower">
             <h3>Data Change Trail</h3>
@@ -90,6 +103,21 @@
                     {% endif %}
                 </tbody>
             </table>
+            <div class="pagination pagination-design">
+                <span class="step-links">
+                    {% if data_logs.has_previous %}
+                        <a href="?data_page=1" class="js-links">&laquo; First</a>
+                        <a class="js-links"
+                           href="?data_page={{ data_logs.previous_page_number }}">Previous</a>
+                    {% endif %}
+                    <span class="current">Page {{ data_logs.number }} of {{ data_logs.paginator.num_pages }}.</span>
+                    {% if data_logs.has_next %}
+                        <a class="js-links" href="?data_page={{ data_logs.next_page_number }}">Next</a>
+                        <a class="js-links"
+                           href="?data_page={{ data_logs.paginator.num_pages }}">Last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
         </div>
     </div>
 {% endblock %}
