@@ -156,24 +156,7 @@ def handled_cases(request):
     if request.method.lower() == "get":
         try:
             search = request.GET.get("search")
-            if search:
-                illness_cases = Illness.objects.filter(
-                    (Q(doctor=request.user) | Q(staff=request.user))
-                    & (  # Filter by doctor or staff
-                        Q(patient__first_name__icontains=search)
-                        | Q(  # Case-insensitive search on first name
-                            patient__last_name__icontains=search
-                        )
-                        | Q(issue__icontains=search)
-                        | Q(diagnosis__icontains=search)
-                    )
-                )
-
-            # If search query is empty, show all illness cases for the user
-            else:
-                illness_cases = Illness.objects.filter(
-                    Q(doctor=request.user) | Q(staff=request.user)
-                )
+            illness_cases = get_illness_case(search, request)
         except Exception as e:
             logger.info(f"Failed to fetch the illness cases: {str(e)}")
             messages.error(request, "Failed to fetch required data. Please reload page")
@@ -189,18 +172,19 @@ def handled_cases(request):
             messages.error(request, "Failed to fetch required data. Please reload page")
             return redirect(request.META.get("HTTP_REFERER", "doctor-overview"))
 
-    department_data = get_doctors_cases_per_department(illness_cases)
-    illness_category_data = get_doctors_cases_per_category(illness_cases)
-
-    illness_paginator = Paginator(illness_cases, 20)
-    page = request.GET.get("page")
-
     try:
-        illness_page = illness_paginator.page(page)
-    except PageNotAnInteger:
-        illness_page = illness_paginator.page(1)
-    except EmptyPage:
-        illness_page = illness_paginator.page(illness_paginator.num_pages)
+        unfiltered_illness_case = Illness.objects.filter(
+            Q(doctor=request.user) | Q(staff=request.user)
+        )
+    except Exception as e:
+        logger.info(f"Failed to fetch the unfiltered illness cases: {str(e)}")
+        messages.error(request, "Failed to fetch required data. Please reload page")
+        return redirect(request.META.get("HTTP_REFERER", "doctor-overview"))
+
+    department_data = get_doctors_cases_per_department(unfiltered_illness_case)
+    illness_category_data = get_doctors_cases_per_category(unfiltered_illness_case)
+
+    illness_page = get_illness_page(request, illness_cases)
 
     context = {
         "illness_page": illness_page,
@@ -388,3 +372,41 @@ def get_doctors_cases_per_category(illness_cases):
                     {"category_id": 0, "category_name": "Others", "cases_count": 1}
                 )
     return illness_category_data
+
+
+# Changed params based on the 'search'
+def get_illness_case(search, request):
+    if search:
+        illness_cases = Illness.objects.filter(
+            (Q(doctor=request.user) | Q(staff=request.user))
+            & (  # Filter by doctor or staff
+                Q(patient__first_name__icontains=search)
+                | Q(  # Case-insensitive search on first name
+                    patient__last_name__icontains=search
+                )
+                | Q(issue__icontains=search)
+                | Q(diagnosis__icontains=search)
+            )
+        )
+
+        # If search query is empty, show all illness cases for the user
+    else:
+        illness_cases = Illness.objects.filter(
+            Q(doctor=request.user) | Q(staff=request.user)
+        )
+
+    return illness_cases
+
+
+# Refactored for the handled case
+def get_illness_page(request, illness_cases):
+    illness_paginator = Paginator(illness_cases, 20)
+    page = request.GET.get("page")
+    try:
+        illness_page = illness_paginator.page(page)
+    except PageNotAnInteger:
+        illness_page = illness_paginator.page(1)
+    except EmptyPage:
+        illness_page = illness_paginator.page(illness_paginator.num_pages)
+
+    return illness_page
