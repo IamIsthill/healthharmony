@@ -1,0 +1,63 @@
+
+table{
+    margin-top: 1rem;
+    background-color: white;
+    width: 98%;
+    padding: 0.5rem 1.5rem;
+    text-align: center;
+    box-shadow: var(--box-shadow2);
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+    border-collapse: separate; /* Allows spacing between rows */
+    border-spacing: 4px 4px;
+}
+table tbody{
+    display: block;
+    overflow-y: auto;
+    max-height: 380px;
+    width: 100%;
+}
+table thead{
+    position: sticky;
+}
+table tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+.table-head, .table-data{
+    padding-right: 1rem;
+}
+
+/* RIGHT-PART */
+
+.doctor-right-part{
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.most-illness-categories, .most-cases-per-department{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem 1rem;
+    border-radius: 2rem;
+    background: white;
+    box-shadow: var( --box-shadow2);
+}
+.most-illness-categories h1, .most-cases-per-department h1{
+    font-size: var(--size-lg);
+    align-self: flex-start;
+}
+.canvas-cont{
+    width: 250px;
+}
+.most-illness-categories:hover{
+    box-shadow: var(--box-shadowlight); 
+}
+.most-illness-categories h3{
+    margin-top: 0.5rem;
+}

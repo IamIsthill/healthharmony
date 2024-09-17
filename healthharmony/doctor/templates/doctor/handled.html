@@ -2,6 +2,16 @@
 {% load static %}
 {% block title %}Handled Cases | HealthHarmony{% endblock %}
 {% block header %}
+            <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
+            <link rel="stylesheet" href="{% static 'css/doctor/nav.css' %}" />
+            <link rel="stylesheet" href="{% static 'css/doctor/handled.css' %}" />
+            <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+            <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
+            <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
+                rel="stylesheet" />
+            <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+                rel="stylesheet" />
+
     <style>
     .border {
       border-style: solid;
@@ -58,74 +68,88 @@
     </div>
 {% endblock %}
 {% block main %}
-    {% include 'doctor/nav.html' %}
-    <div class="container">
-        <div class="most-illness-categories">
-            <h1>Illness Categories</h1>
-            <p>Cases you have handled per category</p>
+{% include 'doctor/nav-top.html' %}
+    <div class="doctor-container">
+        {% include 'doctor/nav.html' %}
+        <main>
             <div>
-                <canvas id="js_illness_categories_bar"></canvas>
-            </div>
-        </div>
-        <div class="most-cases-per-department">
-            <h1>Colleges</h1>
-            <p>Cases you have handled per college</p>
-            <div>
-                <canvas id="js_college_bar"></canvas>
-            </div>
-        </div>
-        <div>
-            <h1>Your Handled Cases</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <form action="" method="GET">
-                            <input type="text" class="js_illness_case_field" name="search" />
-                            <button>Search</button>
-                        </form>
-                    </tr>
-                    <tr>
-                        <th>Patient Name</th>
-                        <th>Issue</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="illness_body">
-                    {% for illness in illness_page %}
+                <table class="mod-table">
+                    <thead>
                         <tr>
-                            <td>
-                                <span class="patient btn" data-patient-id="{{ illness.patient.id }}">{{ illness.patient.first_name }} {{ illness.patient.last_name }}</span>
-                            </td>
-                            <td>{{ illness.issue }}</td>
-                            {% if illness.diagnosis %}
-                                <td>Completed</td>
-                            {% else %}
-                                <td>Pending</td>
-                            {% endif %}
-                            <td class="js-view-illness btn"
-                                data-patient-id="{{ illness.patient.id }}">Review</td>
+                            <th colspan="5">
+                                <div class="header-content">
+                                    <h1>Your Handled Cases</h1>
+                                    <div class="search-container">
+                                        <form action="" method="GET">
+                                            <input type="text" class="js_illness_case_field" placeholder="Search" name="search" />
+                                            <button>
+                                                <span class="material-symbols-outlined">search</span>
+                                            </button>
+                                        </form>   
+                                    </div>
+                                </div>
+                            </th>
                         </tr>
-                    {% empty %}
                         <tr>
-                            <td colspan="4">No cases found.</td>
+                            <th class="table-head">Patient Name</th>
+                            <th class="table-head">Issue</th>
+                            <th class="table-head">Status</th>
+                            <th class="table-head">Action</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <div class="pagination">
-                <span class="step-links">
-                    {% if illness_page.has_previous %}
-                        <a href="?page=1" class="js-links">&laquo; First</a>
-                        <a class="js-links" href="?page={{ illness_page.previous_page_number }}">Previous</a>
-                    {% endif %}
-                    <span class="current">Page {{ illness_page.number }} of {{ illness_page.paginator.num_pages }}.</span>
-                    {% if illness_page.has_next %}
-                        <a class="js-links" href="?page={{ illness_page.next_page_number }}">Next</a>
-                        <a class="js-links" href="?page={{ illness_page.paginator.num_pages }}">Last &raquo;</a>
-                    {% endif %}
-                </span>
+                    </thead>
+                    <tbody id="illness_body">
+                        {% for illness in illness_page %}
+                            <tr>
+                                <td class="table-data">
+                                    <span class="patient btn" data-patient-id="{{ illness.patient.id }}">{{ illness.patient.first_name }} {{ illness.patient.last_name }}</span>
+                                </td>
+                                <td class="table-data">{{ illness.issue }}</td>
+                                {% if illness.diagnosis %}
+                                    <td class="table-data">Completed</td>
+                                {% else %}
+                                    <td class="table-data">Pending</td>
+                                {% endif %}
+                                <td class="js-view-illness btn table-data"
+                                    data-patient-id="{{ illness.patient.id }}">Review</td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="4">No cases found.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="pagination pagination-design">
+                    <span class="step-links">
+                        {% if illness_page.has_previous %}
+                            <a href="?page=1" class="js-links">&laquo; First</a>
+                            <a class="js-links" href="?page={{ illness_page.previous_page_number }}">Previous</a>
+                        {% endif %}
+                        <span class="current">Page {{ illness_page.number }} of {{ illness_page.paginator.num_pages }}.</span>
+                        {% if illness_page.has_next %}
+                            <a class="js-links" href="?page={{ illness_page.next_page_number }}">Next</a>
+                            <a class="js-links" href="?page={{ illness_page.paginator.num_pages }}">Last &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
             </div>
+
+        </main>
+        <div class="doctor-right-part">
+            <div class="most-illness-categories">
+                <h1>Illness Categories</h1>
+                <p>Cases you have handled per category</p>
+                <div class=" canvas-cont">
+                    <canvas id="js_illness_categories_bar"></canvas>
+                </div>
+            </div>
+            <div class="most-cases-per-department">
+                <h1>Colleges</h1>
+                <p>Cases you have handled per college</p>
+                <div class=" canvas-cont">
+                    <canvas id="js_college_bar"></canvas>
+                </div>
+        </div>
         </div>
     </div>
 {% endblock %}
