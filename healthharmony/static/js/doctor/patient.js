@@ -332,7 +332,11 @@ function handle_onclick_edit_patient() {
         // creaet the form
         const form_element = get_form_element_for_patient_details()
 
+        const age_label = document.querySelector('.js_form_age_label')
+        age_label.innerText = 'Date of Birth'
+
         labels_element.insertAdjacentElement('afterend', form_element)
+
 
         const cancel_btn = document.querySelector('.js_cancel_pattient_btn')
 
@@ -340,6 +344,8 @@ function handle_onclick_edit_patient() {
             labels_element.nextElementSibling.remove()
             labels_element.insertAdjacentElement('afterend', info_element)
             btn.setAttribute('style', '')
+            age_label.innerText = 'Age'
+
         })
     })
 }
@@ -378,6 +384,7 @@ function get_form_element_for_patient_details() {
     // creaet the form
     const form_element = document.createElement('form')
     form_element.setAttribute('method', 'POST')
+    form_element.setAttribute('action', '/doctor/patient/post_update_user_details/')
     form_element.classList.add('detailed-right')
 
     const department_list_element = document.createElement('datalist')
@@ -392,9 +399,9 @@ function get_form_element_for_patient_details() {
     form_element.innerHTML = `
         <input name="csrfmiddlewaretoken" value="${getToken()}" type="hidden" />
         <input name="patient_id" value="${patient_data.id}" type="hidden" />
-        <input name="age" value="${get_patient_age()}" type="number" />
+        <input name="DOB" value="${patient_data.DOB}" type="date" />
         <input name="sex" value="${patient_data.sex}" type="text" />
-        <input name="contact" value="${patient_data.contact}" type="number" placeholder="contact" />
+        <input name="contact" value="${patient_data.contact}" type="text" placeholder="contact" />
         <div>
         <input name="year" value="${patient_data.year}" type="number" placeholder="year" />
         <input name="section" value="${patient_data.section}" type="text" placeholder="section"/>
