@@ -33,25 +33,15 @@ const userId = JSON.parse(document.getElementById('userId').textContent)
 const userAccess = JSON.parse(document.getElementById('userAccess').textContent)
 const illnessesData = JSON.parse(document.getElementById('illnessData').textContent)
 const treatmentData = JSON.parse(document.getElementById('treatmentData').textContent)
+const patient_data = JSON.parse(document.getElementById('patient_data').textContent)
+const department_data = JSON.parse(document.getElementById('department_data').textContent)
 const illness_categories = await fetch_illness_categories()
 const inventory_list = await fetch_inventory_list()
 
 main()
 
 async function main() {
-    // const mainContainer = document.querySelector('.container')
-    // const spinner = document.getElementById('loading-spinner')
-    // const pageUrl = `/doctor/patient/${userId}/`
-
-    // setSpinner(mainContainer, spinner, pageUrl)
-
-    /** TEST AREA */
-    // console.log(illness_categories)
-    console.log(illnessesData)
-    // console.log(userAccess)
-    console.log(inventory_list)
-    // console.log(treatmentData)
-
+    console.log(patient_data)
     /** MAKE HTML PRESENTABLE AND DATA PREPATION*/
     update_existing_dates_to_readable()
     append_category_list(illness_categories)
@@ -60,6 +50,9 @@ async function main() {
     filter_visit_history()
     click_expand_show_treatments()
     click_edit_show_form()
+
+    /** Detailed info */
+    handle_onclick_edit_patient()
 
 }
 
@@ -171,43 +164,6 @@ async function create_illness_edit_form(illness_data) {
     add_more_prescription(inventory_list)
     // send_updated_illness_case()
 }
-
-// function send_updated_illness_case() {
-//     const btn = document.querySelector('.js_illness_edit_btn')
-//     btn.addEventListener('click', (event) => {
-//         event.preventDefault()
-//         const form_body = document.querySelector('.js-edit-illness-modal form')
-//         if (form_body.reportValidity()) {
-//             const illness_form_data = form_body.elements
-
-//             const packaged_illness_data = {
-//                 'illness_id' : illness_form_data.illness_id.value,
-//                 'csrfmiddlewaretoken' : getToken(),
-//                 'issue' : illness_form_data.issue.value,
-//                 'category' : illness_form_data.category.value,
-//                 'diagnosis' : illness_form_data.diagnosis.value
-//             }
-
-//             const inventory_item_elements = document.querySelectorAll('select[name="inventory_item"]')
-//             const inventory_quantity_elements = document.querySelectorAll('input[name="inventory_quantity"]')
-
-//             const inventory_item_data = Array.from(inventory_item_elements).map(item => item.value)
-//             const inventory_quantity_data = Array.from(inventory_quantity_elements).map(item => item.value)
-
-//             const packaged_inventory_data = {
-//                 'illness_id' : illness_form_data.illness_id.value,
-//                 'csrfmiddlewaretoken' : getToken(),
-//                 'inventory_items' : inventory_item_data,
-//                 'inventory_quantity' : inventory_quantity_data
-//             }
-
-//             console.log(packaged_illness_data)
-//             console.log(packaged_inventory_data)
-
-//         }
-
-//     })
-// }
 
 function append_category_list(illness_categories) {
     const form_body = document.querySelector('.js-edit-illness-modal form')
@@ -360,22 +316,99 @@ async function fetch_inventory_list() {
     }
 }
 
-// async function actual_sending_updated_illness() {
-//     try {
-//         const baseUrl = window.location.origin
-//         const url = new URL(`${baseUrl}/doctor/get_inventory_list/`)
-//         const options = {
-//             method: "GET"
-//         }
-//         const response = await fetch(url, options)
-//         if (!response.ok) {
-//             throw new Error("Network response was not ok");
-//         }
-//         return true;
+// when user click the edit patient info btn, create the form
+function handle_onclick_edit_patient() {
+    const btn = document.querySelector('.js_edit_patient_btn')
 
-//     } catch (error) {
-//         console.error(`Illness : ${error.message}`)
-//         return false
-//     }
+    btn.addEventListener('click', () => {
+        btn.setAttribute('style', 'display: none')
+        const labels_element = document.querySelector('.js_patient_labels')
+        // Save the info element
+        const info_element =  labels_element.nextElementSibling
 
-// }
+        // remove it
+        labels_element.nextElementSibling.remove()
+
+        // creaet the form
+        const form_element = get_form_element_for_patient_details()
+
+        labels_element.insertAdjacentElement('afterend', form_element)
+
+        const cancel_btn = document.querySelector('.js_cancel_pattient_btn')
+
+        cancel_btn.addEventListener('click', () => {
+            labels_element.nextElementSibling.remove()
+            labels_element.insertAdjacentElement('afterend', info_element)
+            btn.setAttribute('style', '')
+        })
+    })
+}
+
+// get the age of the patient
+function get_patient_age(){
+    if (!patient_data.DOB) {
+        return ''
+    }
+    const birth_date = new Date(patient_data.DOB)
+    const current_date = new Date()
+
+    let age = current_date.getFullYear() - birth_date.getFullYear()
+
+
+
+    if((current_date.getMonth() == birth_date.getMonth())) {
+        if (current_date.getDay() > birth_date.getDay()) {
+            age--
+        }
+    }
+
+    else if((current_date.getMonth() > birth_date.getMonth())) {
+        age--
+    }
+
+    else {
+        age--
+    }
+
+    return age
+}
+
+// get the form for updating patient detailss
+function get_form_element_for_patient_details() {
+    // creaet the form
+    const form_element = document.createElement('form')
+    form_element.setAttribute('method', 'POST')
+    form_element.classList.add('detailed-right')
+
+    const department_list_element = document.createElement('datalist')
+    department_list_element.setAttribute('id', 'department_list')
+
+    for (const department of department_data) {
+        department_list_element.innerHTML += `
+            <option value="${department.department}">${department.department}</option>
+        `
+    }
+
+    form_element.innerHTML = `
+        <input name="csrfmiddlewaretoken" value="${getToken()}" type="hidden" />
+        <input name="patient_id" value="${patient_data.id}" type="hidden" />
+        <input name="age" value="${get_patient_age()}" type="number" />
+        <input name="sex" value="${patient_data.sex}" type="text" />
+        <input name="contact" value="${patient_data.contact}" type="number" placeholder="contact" />
+        <div>
+        <input name="year" value="${patient_data.year}" type="number" placeholder="year" />
+        <input name="section" value="${patient_data.section}" type="text" placeholder="section"/>
+        </div>
+        <input name="program" value="${patient_data.program}" type="text" placeholder="Program..."/>
+        <input name="department" value="${patient_data.department_name}" type="text" placeholder="Department..." list="department_list" />
+    `
+    form_element.appendChild(department_list_element)
+    form_element.innerHTML += `
+        <div>
+            <button type="submit">Update</button>
+            <button type="button" class="js_cancel_pattient_btn">Cancel</button>
+        </div>
+    `
+
+    return form_element
+}

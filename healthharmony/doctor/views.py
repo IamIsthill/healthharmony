@@ -15,7 +15,7 @@ from concurrent.futures import as_completed, ThreadPoolExecutor
 
 from healthharmony.models.treatment.models import Illness, Category, DoctorDetail
 from healthharmony.models.inventory.models import InventoryDetail
-from healthharmony.users.models import User
+from healthharmony.users.models import User, Department
 from healthharmony.doctor.forms import (
     UpdateIllness,
     UpdateTreatmentForIllness,
@@ -37,6 +37,8 @@ from healthharmony.doctor.serializer import (
     IllnessTreatmentSerializer,
     IllnessCategorySerializer,
     InventorySerializer,
+    UserSerializer,
+    DepartmentSerializer,
 )
 
 from healthharmony.base.functions import check_models
@@ -56,6 +58,7 @@ def view_patient_profile(request, pk):
 
     try:
         user = User.objects.get(id=int(pk))
+        patient = UserSerializer(user).data
         illnesses = []
         treatments = []
         illness_query = Illness.objects.filter(patient=user)
@@ -63,12 +66,16 @@ def view_patient_profile(request, pk):
             illnesses.append(IllnessSerializer(illness).data)
             for treatment in illness.illnesstreatment_set.all():
                 treatments.append(IllnessTreatmentSerializer(treatment).data)
-        context.update({"illnesses": illnesses, "treatments": treatments})
+        context.update(
+            {"illnesses": illnesses, "treatments": treatments, "patient": patient}
+        )
     except Exception as e:
         logger.error(f"Failed to fetched user data[id: {pk}]: {str(e)}")
         messages.error(
             request, "Failed to fetch the required data. Please reload the page"
         )
+
+    get_department_data(request, context)
 
     if request.method == "POST":
         illness_form = UpdateIllness(request.POST)
@@ -410,3 +417,19 @@ def get_illness_page(request, illness_cases):
         illness_page = illness_paginator.page(illness_paginator.num_pages)
 
     return illness_page
+
+
+def get_department_data(request, context):
+    try:
+        departments = Department.objects.all()
+        department_data = []
+        for department in departments:
+            data = DepartmentSerializer(department)
+            department_data.append(data.data)
+        context.update({"department_data": department_data})
+
+    except Exception as e:
+        logger.info(f"{request.user.email} failed to fetch department data: {str(e)}")
+        messages.error(
+            request, "Failed to fetch the required data. Please reload the page"
+        )

@@ -122,10 +122,10 @@
             <div class="detailed-info">
                 <div class="detailed-top">
                     <h3>Detailed Information</h3>
-                    <button>Edit</button>
+                    <button class="js_edit_patient_btn">Edit</button>
                 </div>
                 <div class="info-cont">
-                    <div class="detailed-left">
+                    <div class="detailed-left js_patient_labels">
                         <span>Age</span>
                         <span>Sex</span>
                         <span>Contact</span>
@@ -134,18 +134,12 @@
                         <span>Department</span>
                     </div>
                     <div class="detailed-right">
-                        {% if age %}<p>{{ age }}</p>{% endif %}
-                        {% if user.sex %}<p>{{ user.sex }}</p>{% endif %}
-                        {% if user.contact %}<p>{{ user.contact }}</p>{% endif %}
-                        {% if user.year and user.section %}
-                            <p>{{ user.year }} - {{ user.section }}</p>
-                        {% elif user.year %}
-                            <p>{{ user.year }}</p>
-                        {% elif user.section %}
-                            <p>{{ user.section }}</p>
-                        {% endif %}
-                        {% if user.program %}<p>{{ user.program }}</p>{% endif %}
-                        {% if user.department %}<p>{{ user.department }}</p>{% endif %}
+                        <p>{{ age }}</p>
+                        <p>{{ user.sex }}</p>
+                        <p>{{ user.contact }}</p>
+                        <p>{{ user.year }} - {{ user.section }}</p>
+                        <p>{{ user.program }}</p>
+                        <p>{{ user.department }}</p>
                     </div>
                 </div>
             </div>
@@ -209,5 +203,7 @@
     {{ illnesses|json_script:'illnessData' }}
     {{ treatments|json_script:'treatmentData' }}
     {{ illness_data|json_script:'illness_data' }}
+    {{ patient|json_script:'patient_data' }}
+    {{ department_data|json_script:'department_data' }}
     <script src="{% static 'js/doctor/patient.js' %}" type="module"></script>
 {% endblock %}

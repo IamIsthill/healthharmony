@@ -1,4 +1,5 @@
 from django.utils import timezone
+from dateutil.relativedelta import relativedelta
 from django.contrib import messages
 import logging
 import requests
@@ -33,7 +34,16 @@ def calculate_age(DOB):
     """Calculate the age from the date of birth"""
     now = timezone.now()
     if DOB:
-        return now.year - DOB.year
+        age = now.year - DOB.year
+        if now.month == DOB.month:
+            if now.day > DOB.day:
+                age = age - 1
+        elif now.month > DOB.month:
+            age = age - 1
+        else:
+            age = age - 1
+
+        return age
     return None
 
 

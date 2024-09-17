@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from healthharmony.models.treatment.models import Illness, IllnessTreatment, Category
 from healthharmony.models.inventory.models import InventoryDetail
+from healthharmony.users.models import User, Department
 
 
 class IllnessSerializer(serializers.ModelSerializer):
@@ -55,3 +56,29 @@ class InventorySerializer(serializers.ModelSerializer):
     class Meta:
         model = InventoryDetail
         fields = ["item_name"]
+
+
+class UserSerializer(serializers.ModelSerializer):
+
+    department_name = serializers.CharField(
+        source="department.department", read_only=True
+    )
+
+    class Meta:
+        model = User
+        exclude = [
+            "password",
+            "user_permissions",
+            "is_active",
+            "is_staff",
+            "is_superuser",
+            "last_login",
+            "groups",
+            "access",
+        ]
+
+
+class DepartmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = "__all__"
+        model = Department
