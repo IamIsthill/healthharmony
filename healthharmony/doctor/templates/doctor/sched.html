@@ -2,6 +2,17 @@
 {% load static %}
 {% block title %}Schedule | HealthHarmony{% endblock %}
 {% block header %}
+
+      <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
+      <link rel="stylesheet" href="{% static 'css/doctor/nav.css' %}" />
+      <link rel="stylesheet" href="{% static 'css/doctor/sched.css' %}" />
+      <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+      <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
+      <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
+            rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+            rel="stylesheet" />
+
     <style>
     .border {
       border-style: solid;
@@ -59,84 +70,89 @@
 {% endblock %}
 {% block main %}
     {% include 'doctor/nav-top.html' %}
-    {% include 'doctor/nav.html' %}
-    <div class="container">
-        <div class="TOP">
-            <div class="LEFT">
+    
+    <div class="doctor-sched-container">
+      {% include 'doctor/nav.html' %}
+      <main>
+
+            <div class="sched-part">
                 <h1>Your Schedule</h1>
                 <h3>Set your schedule so that patients may know</h3>
                 <div class="js_sched_details">
-                    <h4>Available from: {{ doctor_sched.time_avail_start|default_if_none:'' }}</h4>
-                    <h4>Available until: {{ doctor_sched.time_avail_end|default_if_none:'' }}</h4>
+                    <div class="h4-cont">
+                        <h4 class="avail-h4">Available from:</h4> <div class="time-cont"> <h4> {{ doctor_sched.time_avail_start|default_if_none:'' }}</h4> </div>
+                    </div>
+                    <div class="h4-cont">
+                        <h4 class="avail-h4">Available until:</h4>  <div class="time-cont"> <h4> {{ doctor_sched.time_avail_end|default_if_none:'' }}</h4> </div>
+                    </div>
                 </div>
                 <div style="display: none" class="js_sched_form">
                     <form action="{% url 'post_update_doctor_time' %}" method="POST">
                         {% csrf_token %}
-                        <label for="">Available from:</label>
-                        <input type="time" required name="time_start" value="" />
-                        <label for="">Available until:</label>
-                        <input type="time" required name="time_end" value="" />
-                        <button type="submit">Confirm</button>
-                        <button type="button" class="js_update_sched_close_btn">Close</button>
+                        <div class="form-avail">
+                          <label for="">Available from:</label>
+                          <input type="time" required name="time_start" value="" />
+                        </div>
+                        <div class="form-avail">
+                          <label for="">Available until:</label>
+                          <input type="time" required name="time_end" value="" />
+                        </div>
+                        <div class="form-buttons">
+                            <button class="form-button" type="submit">Confirm</button>
+                            <button type="button" class="js_update_sched_close_btn cancel-button">Close</button>
+                        </div>
                     </form>
                 </div>
                 <button class="js_update_sched_btn">Update</button>
             </div>
-            <div class="RIGHT">
-                <h1>IIMAGE HERE ON THIS DIV</h1>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati sapiente magnam nesciunt. Cumque sequi iusto fugiat tempora, consequuntur porro nemo doloremque obcaecati minima nobis unde officia blanditiis quod quibusdam necessitatibus similique ea quas totam saepe dicta! Dolorem ad vero numquam cumque repellat eligendi dicta quae adipisci est sint eum voluptatem, molestias, fuga aut hic pariatur minima reprehenderit quibusdam repudiandae, nobis alias. Iure aliquid excepturi nam qui soluta velit rem ducimus eaque perferendis, exercitationem ad aperiam consequatur vel praesentium debitis voluptate. Ipsa aliquam cum quod sunt totam odio ipsam iure consectetur ab rerum consequuntur nesciunt error assumenda animi ullam, deleniti voluptatibus.
-                </p>
-            </div>
-        </div>
-        <div class="BOTTOM">
-            <div class="LEFT">
-                <h1>IMAGE HERE</h1>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nostrum voluptates deserunt earum vel possimus corporis eligendi ducimus maxime repudiandae optio quasi fuga alias odio eaque soluta, esse error necessitatibus impedit temporibus, voluptas id eos! At eos omnis accusamus similique quam officiis ut corporis corrupti autem vel. Facilis magni odio nesciunt rerum obcaecati neque voluptas at quod pariatur ducimus, nobis officiis ad magnam eius tenetur tempore commodi sint similique optio fugiat vel veniam nam. Impedit optio officiis sunt nemo, deserunt ducimus suscipit illum voluptates sapiente exercitationem alias veniam repellendus fugiat, provident sit voluptatem. Dolor cumque, inventore odio aliquam officiis architecto earum.
-                </p>
-            </div>
-            <div class="RIGHT">
-                <h1>Your Real Availability</h1>
-                <h3>Pick the best option so that patients may know if you are available</h3>
-                <form action="{% url 'post_update_doctor_avail' %}"
-                      method="POST"
-                      class="js_avail_form">
-                    {% csrf_token %}
-                    <label>Available?</label>
-                    <label for="yes">Yes</label>
-                    {% if doctor_sched and not doctor_sched.avail %}
-                        <input type="radio"
-                               name="is_avail"
-                               id="yes"
-                               value="yes"
-                               class="js_avail_options" />
-                    {% else %}
-                        <input type="radio"
-                               name="is_avail"
-                               id="yes"
-                               value="yes"
-                               checked
-                               class="js_avail_options" />
-                    {% endif %}
-                    <label for="no">No</label>
-                    {% if doctor_sched and not doctor_sched.avail %}
-                        <input type="radio"
-                               name="is_avail"
-                               id="no"
-                               value="no"
-                               checked
-                               class="js_avail_options" />
-                    {% else %}
-                        <input type="radio"
-                               name="is_avail"
-                               id="no"
-                               value="no"
-                               class="js_avail_options" />
-                    {% endif %}
-                    <button type="submit" style="display:none" class="js_avail_confirm_btn">Confirm</button>
-                </form>
-            </div>
+      </main>
+        <div class="doctor-right-part">
+            
+            <div class="real-avail">
+              <h1>Your Real Availability</h1>
+              <h3>Pick the best option so that patients may know if you are available</h3>
+              <form action="{% url 'post_update_doctor_avail' %}"
+                    method="POST"
+                    class="js_avail_form">
+                  {% csrf_token %}
+                  <div>
+                  <label>Available?</label>
+                  <label for="yes">Yes</label>
+                  {% if doctor_sched and not doctor_sched.avail %}
+                      <input type="radio"
+                             name="is_avail"
+                             id="yes"
+                             value="yes"
+                             class="js_avail_options" />
+                  {% else %}
+                      <input type="radio"
+                             name="is_avail"
+                             id="yes"
+                             value="yes"
+                             checked
+                             class="js_avail_options" />
+                  {% endif %}
+                  <label for="no">No</label>
+                  {% if doctor_sched and not doctor_sched.avail %}
+                      <input type="radio"
+                             name="is_avail"
+                             id="no"
+                             value="no"
+                             checked
+                             class="js_avail_options" />
+                  {% else %}
+                      <input type="radio"
+                             name="is_avail"
+                             id="no"
+                             value="no"
+                             class="js_avail_options" />
+                  {% endif %}
+                  </div>
+                  <button type="submit" style="display:none" class="js_avail_confirm_btn form-button">Confirm</button>
+                  
+            </form>
+          </div>
+            
         </div>
     </div>
 {% endblock %}
@@ -193,7 +209,7 @@
 
       btn.addEventListener('click', () => {
         const form_element = document.querySelector('.js_sched_form')
-        form_element.setAttribute('style', 'display: block')
+        form_element.setAttribute('style', 'display: flex')
         const sched_element = document.querySelector('.js_sched_details')
         sched_element.setAttribute('style', 'display: none')
         btn.setAttribute('style', 'display: none')
@@ -206,11 +222,11 @@
       btn.addEventListener('click', (event) => {
         event.preventDefault()
         const btn = document.querySelector('.js_update_sched_btn')
-        btn.setAttribute('style', 'display: block')
+        btn.setAttribute('style', 'display: flex')
         const form_element = document.querySelector('.js_sched_form')
         form_element.setAttribute('style', 'display: none')
         const sched_element = document.querySelector('.js_sched_details')
-        sched_element.setAttribute('style', 'display: block')
+        sched_element.setAttribute('style', 'display: flex')
       })
     }
     </script>

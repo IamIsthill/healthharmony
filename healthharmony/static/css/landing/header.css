@@ -8,7 +8,7 @@
     position: sticky;
     top: 0;
     margin-top: 0rem;
-    background: white;
+    background: var(--Background-color);
     z-index: 100;
 }
 
