@@ -35,18 +35,19 @@ const illnessesData = JSON.parse(document.getElementById('illnessData').textCont
 const treatmentData = JSON.parse(document.getElementById('treatmentData').textContent)
 const patient_data = JSON.parse(document.getElementById('patient_data').textContent)
 const department_data = JSON.parse(document.getElementById('department_data').textContent)
+const illness_notes_data = JSON.parse(document.getElementById('illness_notes_data').textContent)
 const illness_categories = await fetch_illness_categories()
 const inventory_list = await fetch_inventory_list()
 
 main()
 
 async function main() {
-    console.log(patient_data)
+    console.log(illness_notes_data)
     /** MAKE HTML PRESENTABLE AND DATA PREPATION*/
     update_existing_dates_to_readable()
     append_category_list(illness_categories)
 
-
+    /** Visit History */
     filter_visit_history()
     click_expand_show_treatments()
     click_edit_show_form()
@@ -58,6 +59,8 @@ async function main() {
     handle_onclick_edit_vital()
 
 }
+
+// Handle when user clicks leave notes
 
 function click_edit_show_form() {
     const edit_btns = document.querySelectorAll('.js-edit-illness-btn')
@@ -348,8 +351,8 @@ function handle_onclick_edit_patient() {
             labels_element.insertAdjacentElement('afterend', info_element)
             btn.setAttribute('style', '')
             age_label.innerText = 'Age'
-
         })
+        filter_inputs_number_field()
     })
 }
 
@@ -418,6 +421,9 @@ function handle_onclick_edit_vital() {
             vital_labels.insertAdjacentElement('afterend', info_vitals_element)
             btn.setAttribute('style', '')
         })
+
+        filter_inputs_number_field()
+
     })
 }
 
@@ -432,7 +438,7 @@ function get_form_element_for_patient_vital() {
     <input name="csrfmiddlewaretoken" value="${getToken()}" type="hidden" />
     <input name="patient_id" value="${patient_data.id}" type="hidden" />
     <input name="blood_type" value="${patient_data.blood_type}" type="text" required placeholder="Patient's blood type..." />
-    <input name="height" value="${patient_data.height}" type="number" required placeholder="Patient's height..."  />
+    <input name="height" value="${patient_data.height}" type="number" required placeholder="Patient's height..." pattern="[0-2]$" />
     <input name="weight" value="${patient_data.weight}" type="number" required placeholder="Patient's weight..." />
     <div>
         <button type="submit">Update</button>
@@ -443,4 +449,30 @@ function get_form_element_for_patient_vital() {
     return form_element
 
 
+}
+
+function filter_inputs_number_field() {
+    const input_elements = document.querySelectorAll('input[type="number"]')
+
+    if (input_elements.length == 0) {
+        return
+    }
+
+    for (const input_element of input_elements) {
+        input_element.addEventListener('keydown', (event) => {
+            if (event.key == 'e' || event.key == 'E') {
+                event.preventDefault()
+            }
+        })
+
+        input_element.addEventListener('input', () => {
+            const input = input_element.value
+            const number_pattern = /([1-9][.][0-9])|([1-9])/
+            const number_pattern2 = /^[0-9]*\.?[0-9]*$/
+            const  test = number_pattern2.test(input)
+            if(!test) {
+                input_element.value = input.slice(0,input.length-1)
+            }
+        })
+    }
 }
