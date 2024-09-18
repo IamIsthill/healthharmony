@@ -21,4 +21,14 @@ urlpatterns = [
     ),
     path("get_illness_categories/", views.get_illness_categories),
     path("get_inventory_list/", views.get_inventory_list),
+    path(
+        "patient/post_update_user_details/",
+        views.post_update_user_details,
+        name="post_update_user_details",
+    ),
+    path(
+        "patient/post_update_user_vitals/",
+        views.post_update_user_vitals,
+        name="post_update_user_vitals",
+    ),
 ]

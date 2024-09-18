@@ -13,7 +13,7 @@ from healthharmony.models.treatment.models import (
     IllnessTreatment,
     DoctorDetail,
 )
-from healthharmony.users.models import User
+from healthharmony.users.models import User, Department
 
 logger = logging.getLogger(__name__)
 
@@ -209,3 +209,120 @@ class UpdateDoctorAvail(forms.Form):
                 f"{request.user.email} failed to update the doctor instance: ${str(e)}"
             )
             messages.error(request, "Failed to update date")
+
+
+class UpdateUserDetails(forms.Form):
+    patient_id = forms.IntegerField(required=True)
+    DOB = forms.DateField(required=True)
+    sex = forms.CharField(required=True)
+    contact = forms.CharField(required=True)
+    year = forms.IntegerField(required=True)
+    section = forms.CharField(required=True)
+    program = forms.CharField(required=True)
+    department = forms.CharField(required=True)
+
+    def save(self, request):
+        patient_id = self.cleaned_data.get("patient_id")
+        DOB = self.cleaned_data.get("DOB")
+        sex = self.cleaned_data.get("sex")
+        contact = self.cleaned_data.get("contact")
+        year = self.cleaned_data.get("year")
+        section = self.cleaned_data.get("section")
+        program = self.cleaned_data.get("program")
+        department = self.cleaned_data.get("department")
+
+        try:
+            user = User.objects.get(id=int(patient_id))
+
+            if user:
+                department, created = Department.objects.get_or_create(
+                    department=department
+                )
+
+                if created:
+                    Log.objects.create(
+                        user=request.user,
+                        action=f"{request.user.email} created a new department instance[{department.id}]",
+                    )
+                    logger.info(
+                        f"{request.user.email} created a new department instance[{department.id}]"
+                    )
+
+                user.DOB = DOB
+                user.sex = sex
+                user.contact = contact
+                user.year = year
+                user.section = section
+                user.program = program
+                user.department = department
+
+                user.save()
+
+                Log.objects.create(
+                    user=request.user,
+                    action=f"{request.user.email} updated user information.",
+                )
+                logger.info(f"{request.user.email} updated user information.")
+                messages.success(request, "Successfully updated patient information")
+
+            else:
+                logger.info(
+                    f"{request.user.email} failed to find patient[{patient_id}]"
+                )
+                messages.error(
+                    request, "Failed to find the correct patient. Please try again"
+                )
+
+        except Exception as e:
+            logger.info(
+                f"{request.user.email} failed to update patient information: {str(e)}"
+            )
+            messages.error(
+                request, "Failed to update patient information. Please try again."
+            )
+
+
+class UpdateUserVital(forms.Form):
+    patient_id = forms.IntegerField(required=True)
+    blood_type = forms.CharField(required=True)
+    height = forms.IntegerField(required=True)
+    weight = forms.IntegerField(required=True)
+
+    def save(self, request):
+        patient_id = self.cleaned_data.get("patient_id")
+        blood_type = self.cleaned_data.get("blood_type")
+        height = self.cleaned_data.get("height")
+        weight = self.cleaned_data.get("weight")
+
+        try:
+            user = User.objects.get(id=int(patient_id))
+
+            if user:
+                user.blood_type = blood_type
+                user.height = height
+                user.weight = weight
+
+                user.save()
+
+                Log.objects.create(
+                    user=request.user,
+                    action=f"{request.user.email} updated user information.",
+                )
+                logger.info(f"{request.user.email} updated user information.")
+                messages.success(request, "Successfully updated patient information")
+
+            else:
+                logger.info(
+                    f"{request.user.email} failed to find patient[{patient_id}]"
+                )
+                messages.error(
+                    request, "Failed to find the correct patient. Please try again"
+                )
+
+        except Exception as e:
+            logger.info(
+                f"{request.user.email} failed to update patient information: {str(e)}"
+            )
+            messages.error(
+                request, "Failed to update patient information. Please try again."
+            )

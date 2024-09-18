@@ -9,6 +9,7 @@ from healthharmony.models.treatment.models import Illness, IllnessTreatment, Cer
 from healthharmony.users.models import User
 from healthharmony.patient.forms import UpdateProfileInfo, CreateCertificateForm
 from healthharmony.patient.serializers import CertificateSerializer
+from healthharmony.doctor.serializer import UserSerializer
 from healthharmony.doctor.serializer import (
     IllnessSerializer,
     IllnessTreatmentSerializer,
@@ -119,6 +120,14 @@ def patient_view(request, pk):
                 messages.error(request, str(e))
 
     update_patient_view_context(request, context, pk)
+
+    try:
+        user = User.objects.get(id=int(pk))
+        user = UserSerializer(user).data
+        context.update({"user_data": user})
+    except Exception as e:
+        logger.info(f"Problem serializing user information: {str(e)}")
+        messages.error(request, "Failed to fetch necessary data. Please try again")
 
     return render(request, "patient/patient.html", context)
 

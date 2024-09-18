@@ -30,7 +30,7 @@ class User(AbstractUser):
         max_length=200, null=True, blank=True, default="Last Name"
     )
     email = models.EmailField(unique=True)
-    contact = models.IntegerField(null=True, blank=True)
+    contact = models.CharField(null=True, blank=True, max_length=100)
     profile = models.ImageField(
         upload_to=user_profile_path, default="user_profiles/fallback.png", blank=True
     )
