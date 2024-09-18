@@ -75,7 +75,7 @@
 
 
  /* NURSE UTILS */
- .nurse-container, .nurse-container2, .doctor-profile-container, .doctor-container{
+ .nurse-container, .nurse-container2, .doctor-profile-container, .doctor-container, .doctor-sched-container{
    width: 98%;
    display: grid;
    gap: 1rem;
