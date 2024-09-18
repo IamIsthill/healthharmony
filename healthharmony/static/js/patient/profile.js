@@ -5,8 +5,21 @@ console.log(user_data)
 /** EDIT PROFILE */
 handle_onclick_edit_profile()
 
+/** RESET PASSWORD */
+handle_onclick_reset_pass()
 
 
+// redirect user to reset view when he wants to reset password
+function handle_onclick_reset_pass() {
+    const btn = document.querySelector('.js_reset_password')
+
+    btn.addEventListener('click', () =>{
+        const url = new URL(window.location.href)
+        url.pathname = '/accounts/password/reset/'
+
+        window.location.href = url
+    })
+}
 
 // user click the edit button, show the form
 function handle_onclick_edit_profile() {
@@ -33,8 +46,6 @@ function handle_onclick_edit_profile() {
 
             // Hide form
             form.setAttribute('style', 'display:none')
-
-
         })
     })
 }
