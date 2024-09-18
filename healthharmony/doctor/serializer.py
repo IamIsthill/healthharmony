@@ -1,5 +1,10 @@
 from rest_framework import serializers
-from healthharmony.models.treatment.models import Illness, IllnessTreatment, Category
+from healthharmony.models.treatment.models import (
+    Illness,
+    IllnessTreatment,
+    Category,
+    IllnessNote,
+)
 from healthharmony.models.inventory.models import InventoryDetail
 from healthharmony.users.models import User, Department
 
@@ -82,3 +87,17 @@ class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         fields = "__all__"
         model = Department
+
+
+class IllnessNoteSerializer(serializers.ModelSerializer):
+    doctor_first_name = serializers.CharField(
+        source="noted_by.first_name", read_only=True
+    )
+    doctor_last_name = serializers.CharField(
+        source="noted_by.last_name", read_only=True
+    )
+    doctor_email = serializers.CharField(source="noted_by.email", read_only=True)
+
+    class Meta:
+        fields = "__all__"
+        model = IllnessNote

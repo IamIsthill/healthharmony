@@ -205,5 +205,6 @@
     {{ illness_data|json_script:'illness_data' }}
     {{ patient|json_script:'patient_data' }}
     {{ department_data|json_script:'department_data' }}
+    {{ illness_notes_data|json_script:'illness_notes_data' }}
     <script src="{% static 'js/doctor/patient.js' %}" type="module"></script>
 {% endblock %}

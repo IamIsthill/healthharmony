@@ -13,7 +13,12 @@ from dateutil.relativedelta import relativedelta
 from concurrent.futures import as_completed, ThreadPoolExecutor
 
 
-from healthharmony.models.treatment.models import Illness, Category, DoctorDetail
+from healthharmony.models.treatment.models import (
+    Illness,
+    Category,
+    DoctorDetail,
+    IllnessNote,
+)
 from healthharmony.models.inventory.models import InventoryDetail
 from healthharmony.users.models import User, Department
 from healthharmony.doctor.forms import (
@@ -41,6 +46,7 @@ from healthharmony.doctor.serializer import (
     InventorySerializer,
     UserSerializer,
     DepartmentSerializer,
+    IllnessNoteSerializer,
 )
 
 from healthharmony.base.functions import check_models
@@ -78,6 +84,7 @@ def view_patient_profile(request, pk):
         )
 
     get_department_data(request, context)
+    get_related_illness_notes(request, context, user)
 
     if request.method == "POST":
         illness_form = UpdateIllness(request.POST)
@@ -463,6 +470,25 @@ def get_department_data(request, context):
 
     except Exception as e:
         logger.info(f"{request.user.email} failed to fetch department data: {str(e)}")
+        messages.error(
+            request, "Failed to fetch the required data. Please reload the page"
+        )
+
+
+def get_related_illness_notes(request, context, user):
+    try:
+        illness_notes = IllnessNote.objects.filter(patient=user)
+        illness_notes_data = []
+
+        if illness_notes:
+            for notes in illness_notes:
+                data = IllnessNoteSerializer(notes)
+                illness_notes_data.append(data.data)
+
+        context.update({"illness_notes_data": illness_notes_data})
+
+    except Exception as e:
+        logger.info(f"{request.user.email} failed to fetch notes data: {str(e)}")
         messages.error(
             request, "Failed to fetch the required data. Please reload the page"
         )

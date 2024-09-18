@@ -90,6 +90,9 @@ class Certificate(models.Model):
 
 
 class IllnessNote(models.Model):
+    patient = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, related_name="illness_notes"
+    )
     attached_to = models.ForeignKey(Illness, on_delete=models.SET_NULL, null=True)
     notes = models.TextField()
     noted_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)

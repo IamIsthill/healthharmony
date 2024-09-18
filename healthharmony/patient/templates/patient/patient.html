@@ -35,22 +35,40 @@
     {% endif %}
 {% endblock %}
 {% block main %}
-    <div class="spinner-border" role="status" id="loading-spinner">
-        <span class="visually-hidden text-success">Loading...</span>
-    </div>
     <div class="container">
         {% include 'patient/nav.html' %}
         <hr />
         <div>
             <h2>Patient Profile</h2>
-            {% if user.profile != 'user_profiles/fallback.png' %}
-                <img src="{{ user.profile.url }}" alt="user_uploaded" />
-            {% elif picture.picture is not None %}
-                <img src="{{ picture.picture }}" alt="google_pic" />
-            {% else %}
-                <img src="{{ user.profile.url }}" alt="fallback" />
-            {% endif %}
-            <form action="" method="post" enctype="multipart/form-data">
+            <div class="patient-profile">
+                {% if user.profile != 'user_profiles/fallback.png' %}
+                    <div class="dp-container">
+                        <img src="{{ user.profile.url }}" alt="user_uploaded" />
+                    </div>
+                {% elif picture.picture is not None %}
+                    <div class="dp-container">
+                        <img src="{{ picture.picture }}" alt="google_pic" />
+                    </div>
+                {% else %}
+                    <div class="dp-container">
+                        <img src="{{ user.profile.url }}" alt="fallback" />
+                    </div>
+                {% endif %}
+                <div class="js_patient_info">
+                    <h3 class="patient-profile-name">{{ user.first_name|default_if_none:'' }} {{ user.last_name|default_if_none:'' }}</h3>
+                    <h3 class="patient-profile-data">Email: {{ user.email }}</h3>
+                    <h3 class="patient-profile-data">Contact Number: {{ user.contact|default_if_none:'' }}</h3>
+                </div>
+            </div>
+            <div class="js_profile_actions">
+                <button class="js_edit_profile">Edit Profile</button>
+                <button class="js_reset_password">Reset Password</button>
+            </div>
+            <form action=""
+                  method="post"
+                  enctype="multipart/form-data"
+                  style="display:none"
+                  class="js_profile_form">
                 {% csrf_token %}
                 <label for="">Profile:</label>
                 <input type="file"
@@ -65,54 +83,51 @@
                 <input type="text"
                        value="{% if user.last_name is not None %}{{ user.last_name }}{% endif %}"
                        name="last_name" />
-                <label for="">Year:</label>
-                <input type="number" value="{{ user.year }}" name="year" />
-                <label for="">Section:</label>
-                <input type="number" value="{{ user.section }}" name="section" />
-                <label for="">Program:</label>
-                <input type="text"
-                       value="{% if user.program is not None %}{{ user.program }}{% endif %}"
-                       name="program" />
-                <label for="">Department:</label>
-                <input type="text"
-                       value="{% if user.department is not None %}{{ user.department }}{% endif %}"
-                       name="department" />
-                <br />
-                <label for="sex">Sex:</label>
-                <select name="sex" id="sex">
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                </select>
-                <label for="">Date of Birth:</label>
-                <input type="date" name="DOB" value="{{ user.DOB|date:'Y-m-d' }}" />
-                <label for="">Contct Number:</label>
+                <label for="">Contact Number:</label>
                 <input type="number" value="{{ user.contact }}" name="contact" />
                 <button type="submit">Update</button>
+                <button type="button" class="js_close_profile_form">Cancel</button>
             </form>
+        </div>
+        <div class="vital-statistic">
+            <h3>Vital Statistics</h3>
+            <div class="vital-data">
+                <div class="vital-left js_patient_vital_labels">
+                    <span>Blood Type</span>
+                    <span>Height(cm)</span>
+                    <span>Weight(kg)</span>
+                </div>
+                <div class="vital-right">
+                    <p>{{ user.blood_type|default_if_none:'' }}</p>
+                    <p>{{ user.height|default_if_none:'' }}</p>
+                    <p>{{ user.weight|default_if_none:'' }}</p>
+                </div>
+            </div>
         </div>
         <hr />
         <div>
-            <div>
-                <h3>Detailed Information</h3>
-                {% if age %}<p>Age:{{ age }}</p>{% endif %}
-                {% if user.sex is not None %}<p>Sex:{{ user.sex }}</p>{% endif %}
-                {% if user.contact is not None %}<p>Contact:{{ user.contact }}</p>{% endif %}
-                {% if user.year and user.section is not None %}
-                    <p>Year and Section: {{ user.year }} - {{ user.section }}</p>
-                {% elif user.year is not None %}
-                    <p>Year:{{ user.year }}</p>
-                {% elif user.section %}
-                    <p>Section:{{ user.section }}</p>
-                {% endif %}
-                {% if user.program is not None %}<p>Program: {{ user.program }}</p>{% endif %}
-                {% if user.department is not None %}<p>Department: {{ user.department }}</p>{% endif %}
-            </div>
-            <div>
-                <h3>Vital Statistics</h3>
-                {% if user.blood_type is not None %}<p>Blood Type: {{ user.blood_type }}</p>{% endif %}
-                {% if blood_pressure %}<p>Blood Pressure:{{ blood_pressure }}</p>{% endif %}
-                {% if user.height is not None %}<p>Height: {{ user.height }}</p>{% endif %}
-                {% if user.weight is not None %}<p>Weight: {{ user.weight }}</p>{% endif %}
+            <div class="detailed-info">
+                <div class="detailed-top">
+                    <h3>Detailed Information</h3>
+                </div>
+                <div class="info-cont">
+                    <div class="detailed-left js_patient_labels">
+                        <span class="js_form_age_label">Age</span>
+                        <span>Sex</span>
+                        <span>Contact</span>
+                        <span>Year and Section</span>
+                        <span>Program</span>
+                        <span>Department</span>
+                    </div>
+                    <div class="detailed-right">
+                        <p>{{ age|default_if_none:'' }}</p>
+                        <p>{{ user.sex|default_if_none:'' }}</p>
+                        <p>{{ user.contact|default_if_none:'' }}</p>
+                        <p>{{ user.year|default_if_none:'' }} - {{ user.section|default_if_none:'' }}</p>
+                        <p>{{ user.program|default_if_none:'' }}</p>
+                        <p>{{ user.department|default_if_none:'' }}</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -123,19 +138,6 @@
 {% endblock %}
 {% block script %}
     {{ request.user.id|json_script:'userId' }}
-    <script type="module">
-    import { setSpinner } from '/static/js/spinner.js'
-
-    main()
-
-    async function main() {
-      const userId = JSON.parse(document.getElementById('userId').textContent)
-      const mainContainer = document.querySelector('.container')
-      const spinner = document.getElementById('loading-spinner')
-      const pageUrl = `/patient/patient-profile/${userId}/`
-
-      setSpinner(mainContainer, spinner, pageUrl)
-    }
-    </script>
+    {{ user_data|json_script:'user_data' }}
     <script type="module" src="{% static 'js/patient/profile.js' %}"></script>
 {% endblock %}

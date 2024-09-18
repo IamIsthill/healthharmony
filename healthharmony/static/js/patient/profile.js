@@ -1,30 +1,40 @@
+const user_data = JSON.parse(document.getElementById('user_data').textContent)
 
-main()
+console.log(user_data)
 
-function main() {
-    getPatientIdFromUrl()
-    changeUrlBasedOnIdFromUrl()
-}
+/** EDIT PROFILE */
+handle_onclick_edit_profile()
 
-function getPatientIdFromUrl() {
-    const url = window.location.pathname
-    const splitUrl = url.split("/")
-    const id = splitUrl[splitUrl.length - 2]
-    return id
-}
 
-function changeUrlBasedOnIdFromUrl() {
-    const links = document.querySelectorAll('.js-nav-links')
-    for (const link of links) {
-        const containedLink = link.getAttribute('href')
-        let arrayedLink = containedLink.split("/")
-        if (arrayedLink.length > 3){
-            const patientId = getPatientIdFromUrl()
-            arrayedLink[arrayedLink.length - 2] = patientId
-            let stringLink = arrayedLink.toString()
-            stringLink = stringLink.replace(/,/g, "/")
-            link.setAttribute('href', stringLink)
-        }
 
-    }
+
+// user click the edit button, show the form
+function handle_onclick_edit_profile() {
+    const btn = document.querySelector('.js_edit_profile')
+
+    btn.addEventListener('click', () => {
+        const form = document.querySelector('.js_profile_form')
+        form.setAttribute('style', '')
+
+        const patient_info_element = document.querySelector('.js_patient_info')
+        patient_info_element.setAttribute('style', 'display:none')
+
+        const profile_actions_element = document.querySelector('.js_profile_actions')
+        profile_actions_element.setAttribute('style', 'display:none')
+
+        // Close the form when user clicks the close button
+        const close_btn = document.querySelector('.js_close_profile_form')
+        close_btn.addEventListener('click', (event) => {
+            event.preventDefault()
+
+            // Display previosly removed elements
+            patient_info_element.setAttribute('style', '')
+            profile_actions_element.setAttribute('style', '')
+
+            // Hide form
+            form.setAttribute('style', 'display:none')
+
+
+        })
+    })
 }
