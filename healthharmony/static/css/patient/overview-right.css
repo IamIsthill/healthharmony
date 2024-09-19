@@ -14,8 +14,8 @@
     display: flex;
     flex-direction: column;
     padding: 1rem 3rem;
-    max-width: 400px;
-    min-height: 350px;
+    width: 400px;
+    height: 350px;
     border-radius: 15px;
     gap: 1rem;
     box-shadow: var(--box-shadow2)
@@ -74,14 +74,7 @@
 /* BED SECTION */
 /* BED SPACE */
 
-.bedSpace{  /* THE WHOLE SECTION */
-    max-width: 1200px;
-    margin: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 6rem;
-}
+
 .beds{  /* 4 BEDS AT WHOLE */
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -89,17 +82,7 @@
     max-width: 350px;
     padding: 2rem 2rem;
 }
-.bed-space2{  /* THE WHOLE SECTION */
-    position: relative;
-    max-width: 1200px;
-    height: 500px;
-    margin: auto;
-    padding: 0rem 1rem;
-    display: grid;
-    gap: 5rem;
-    grid-template-columns: repeat(2, 1fr);
-    align-items: center;
-}
+
 .beds2{  /* 4 BEDS AT WHOLE */
     display: flex;
     flex-direction: column;
@@ -121,6 +104,9 @@
 .beds2 h1{
     font-size: x-large;
     margin-bottom: 4px;
+}
+.bed2 p{
+    font-size: var(--size-lg);
 }
 .bed-container{     /* SINGLE BEDS */
     display: flex;
@@ -182,3 +168,122 @@
 .med-cert-cont button:hover{
     background: rgba(0, 0, 0, 0.597);
 }
+
+/* RESPONSIVENESS */
+  /* CONTAINER */
+
+ /* 2xl */
+ @media (max-width: 1536px) {
+    
+ }
+
+@media (max-width: 1380px) {
+    .patient-right-part{
+        border: 1px solid green;
+    }
+    
+   
+}
+
+@media (max-width: 1320px){
+    .weather-container{ /* WHOLE CONTAINER */
+        width: 350px;
+        height: 340px;
+    }
+    .beds2{  /* 4 BEDS AT WHOLE */
+        width: 350px;
+        height: 380px;
+    }
+    .med-cert-cont{
+        width: 350px;
+    }
+}
+
+ /* xl */
+ @media (max-width: 1280px) {
+    .weather-container{ /* WHOLE CONTAINER */
+        width: 320px;
+        height: 340px;
+    }
+    .temp-heatwave h1{
+        font-size:var(--size-4xl);
+    }
+
+    .beds2{  /* 4 BEDS AT WHOLE */
+        width: 320px;
+        height: 360px;
+    }
+    .beds2 img{
+        margin-left: 25px;
+        width: 260px;
+        height: auto;
+        margin-bottom: 10px;
+    }
+    .beds2 h1{
+        font-size: var(--size-xl);
+        margin-bottom: 4px;
+    }
+    .no-avail{
+        font-size: var(--size-base);
+    }
+    .med-cert-cont{
+        width: 320px;
+    }
+ }
+
+ @media (max-width: 1149px){
+    .weather-container{ /* WHOLE CONTAINER */
+        width: 300px;
+        height: 320px;
+    }
+    .temp-heatwave h1{
+        font-size:var(--size-4xl);
+    }
+
+    .location{
+        margin-top: 0px;
+    }
+
+
+    .beds2{  /* 4 BEDS AT WHOLE */
+        width: 320px;
+        height: 360px;
+    }
+    .beds2 img{
+        margin-left: 25px;
+        width: 260px;
+        height: auto;
+        margin-bottom: 10px;
+    }
+    .beds2 h1{
+        font-size: var(--size-xl);
+        margin-bottom: 4px;
+    }
+    .no-avail{
+        font-size: var(--size-base);
+    }
+    .med-cert-cont{
+        width: 320px;
+    }
+ }
+
+
+ /* lg */
+ @media (max-width: 1024px) {
+
+ }
+
+ /* md */
+ @media (max-width: 768px) {
+
+ }
+
+ /* sm */
+ @media (max-width: 640px) {
+
+ }
+
+ /* xs */
+ @media (max-width: 475px) {
+
+ }

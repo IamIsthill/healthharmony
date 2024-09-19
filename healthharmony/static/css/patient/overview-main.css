@@ -94,3 +94,93 @@ main{
     font-weight: 500;
     color: var(--light_gray);
 }
+
+
+/* RESPONSIVENESS */
+  /* CONTAINER */
+
+ /* 2xl */
+ @media (max-width: 1536px) {
+    main{
+        border: 1px solid blue;
+    }
+    .doc-cont{
+        gap: 1rem;
+    }
+    .doc{
+        width: 22rem;
+        height: 13rem;
+    }
+ }
+
+@media (max-width: 1380px) {
+    main{
+        border: 1px solid salmon ;
+    }
+
+}
+
+ /* xl */
+ @media (max-width: 1280px) {
+    main{
+        border: 1px solid black;
+    }
+ }
+ @media (max-width: 1216px){
+    main{
+        border: 1px solid skyblue;
+    }
+    .top-card h5{
+        font-size: var(--size-base);
+    }
+    .top-card p{
+        font-size: var(--size-2xl);
+        margin-top: 1rem;
+    }
+
+    .doc{ /* doctor card */
+        width: 20rem;
+        height: 13rem;
+    }
+ }
+ @media (max-width: 1149px){
+    main{
+        border: 1px solid orange;
+    }
+    .top-card{
+        height: 7rem;
+        width: 19rem;
+    }
+    .top-card h5{
+        font-size: var(--size-base);
+    }
+    .top-card p{
+        font-size: var(--size-2xl);
+        margin-top: 1rem;
+    }
+    .doc{ /* doctor card */
+        width: 19rem;
+        height: 12rem;
+    }
+ }
+ /* lg */
+ @media (max-width: 1024px) {
+    main{
+        border: 1px solid red;
+    }
+ }
+
+ /* md */
+ @media (max-width: 768px) { /* IPAD */
+
+ }
+
+ /* sm */
+ @media (max-width: 640px) {
+
+ }
+
+ /* xs */
+ @media (max-width: 475px) {
+
+ }
