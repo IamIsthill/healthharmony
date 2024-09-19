@@ -16,6 +16,9 @@ from healthharmony.base.functions import (
 
 # Models
 from healthharmony.models.bed.models import BedStat
+from healthharmony.models.treatment.models import DoctorDetail
+from healthharmony.base.serializers import DoctorSerializer
+from healthharmony.users.models import User
 from healthharmony.app.settings import env
 
 
@@ -66,6 +69,7 @@ def home(request):
                     messages,
                 ): "get_prediction",
                 tp.submit(get_beds, BedStat, messages, request): "get_beds",
+                tp.submit(get_doctors_sched, request): "get_doctors_sched",
             }
             results = {}
             for future in as_completed(futures):
@@ -77,15 +81,32 @@ def home(request):
                     results[key] = 0
         request, predict = results["get_prediction"]
         request, beds = results["get_beds"]
+        doctor_data = results["get_doctors_sched"]
         context = {
             "temp": temp,
             "feels": feels,
             "predict": predict,
             "icon": icon,
             "beds": beds,
+            "doctor_data": doctor_data,
         }
     except Exception as e:
         logger.error(f"Error in loading data and model: {e}")
         messages.error(request, f"Error in loading data and model: {e}")
 
     return render(request, "landingpage.html", context)
+
+
+def get_doctors_sched(request):
+    try:
+        doctors = User.objects.filter(access=3)
+        doctor_data = []
+        if doctors:
+            for doctor in doctors:
+                data = DoctorSerializer(doctor)
+                doctor_data.append(data.data)
+        return doctor_data
+    except Exception as e:
+        logger.info(f"Failed to fetch the doctor schedule: {str(e)}")
+        messages.error(request, "Failed to fetch required data. Please try again.")
+        return []
