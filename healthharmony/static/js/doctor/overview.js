@@ -84,15 +84,11 @@ function get_filtered_illness_data() {
     let filtered_data = []
     if (filter == 'all') {
         filtered_data = illness_data
-    }
-
-    else {
+    } else {
         for (const illness of illness_data) {
             if (filter == 'not' && (illness.diagnosis == '' || !illness.diagnosis)) {
                 filtered_data.push(illness)
-            }
-
-            else if (filter == 'done' && (illness.diagnosis != '' || illness.diagnosis)) {
+            } else if (filter == 'done' && (illness.diagnosis != '' || illness.diagnosis)) {
                 filtered_data.push(illness)
             }
         }
@@ -107,14 +103,12 @@ function update_illness_table(filtered_illness_data) {
     illness_body_element.innerHTML = ''
     if (filtered_illness_data.length <= 0) {
         illness_body_element.innerHTML = '<td colspan="4">Congratulations! No case as of this moment.</td>'
-    }
-
-    else {
+    } else {
 
 
-    for (const illness of filtered_illness_data) {
-        const case_status = illness.diagnosis ? 'Completed' : 'Pending'
-        illness_body_element.innerHTML += `
+        for (const illness of filtered_illness_data) {
+            const case_status = illness.diagnosis ? 'Completed' : 'Pending'
+            illness_body_element.innerHTML += `
             <tr>
               <td class = "table-data">
                 <span class="patient btn" data-patient-id="${illness.patient}">${illness.patient_first_name ? illness.patient_first_name : ''} ${illness.patient_last_name ? illness.patient_last_name : ''}</span>
@@ -124,8 +118,8 @@ function update_illness_table(filtered_illness_data) {
               <td class="js-view-illness btn table-data" data-patient-id="${illness.patient}">Review</td>
             </tr>
         `
+        }
     }
-}
 
 
 }
@@ -162,13 +156,19 @@ function handle_onclick_illness_dates() {
 
 // Gets params and create the morbidity chart
 function get_init_params_create_morbidity_chart() {
-    const filter = get_active_illness_category_filter()
-    const illness_id = get_active_illness()
-    const illness_chart_data = get_illness_chart_data(filter, illness_id, sorted_illness_category)
-    const illness_category_name = illness_chart_data[0]
-    const [labels, counts] = getCountsAndLabelsForChart(illness_chart_data[1])
+    try {
 
-    create_morbidity_chart(labels, counts, illness_category_name, createChart)
+        const filter = get_active_illness_category_filter()
+        const illness_id = get_active_illness()
+        const illness_chart_data = get_illness_chart_data(filter, illness_id, sorted_illness_category)
+        const illness_category_name = illness_chart_data[0]
+        const [labels, counts] = getCountsAndLabelsForChart(illness_chart_data[1])
+
+        create_morbidity_chart(labels, counts, illness_category_name, createChart)
+
+    } catch (error) {
+        console.error(error.message)
+    }
 }
 
 

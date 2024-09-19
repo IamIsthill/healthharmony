@@ -4,8 +4,8 @@
     <div class="profile-container">
         <img src="{{ request.user.profile.url }}"
              alt="Profile Picture"
-             class="profile-pic" />
-        <div class="profile-info">
+             class="profile-pic js_profile_info" />
+        <div class="profile-info js_profile_info">
             {% if request.user.first_name is None or request.user.last_name is None or request.user.first_name == '' or request.user.last_name == '' %}
                 <h3>{{ request.user.email }}</h3>
             {% else %}

@@ -25,4 +25,5 @@ urlpatterns = [
     ),
     path("accounts/", include("allauth.urls")),
     path("login/", views.normal_login_view, name="normal-login"),
+    path("user_profile/", views.user_profile, name="user_profile"),
 ]

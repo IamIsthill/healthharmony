@@ -8,9 +8,17 @@ from django.contrib.auth.backends import ModelBackend
 import logging
 
 from healthharmony.administrator.models import Log
+from healthharmony.patient.functions import get_social_picture
 
 
 logger = logging.getLogger(__name__)
+
+
+@login_required(login_url="account_login")
+def user_profile(request):
+    picture = get_social_picture(request.user)
+    context = {"picture": picture}
+    return render(request, "profile.html", context)
 
 
 # Create your views here.
