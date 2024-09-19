@@ -24,6 +24,7 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    /* border: 1px solid red; */
 
 }
 .temp-part img{
@@ -46,6 +47,7 @@
     font-weight: 500;
 }
 .heatwave{
+    display: flex;
     margin:0;
     /* border:1px solid black; */
 }
@@ -235,6 +237,7 @@
     .weather-container{ /* WHOLE CONTAINER */
         width: 300px;
         height: 320px;
+        padding: 1rem 2rem;
     }
     .temp-heatwave h1{
         font-size:var(--size-4xl);
@@ -266,7 +269,50 @@
         width: 320px;
     }
  }
+ @media (max-width: 1090px){
+  
+    .weather-container{ /* WHOLE CONTAINER */
+        width: 280px;   
+        height: 320px;
+    }
+    .weather-container h1{
+        font-size: var(--size-lg);
+    }
+    .temp-heatwave h1{
+        font-size:var(--size-4xl);
+    }
+    .heatwave span{
+        font-size: var(--size-sm);
+        margin-left: 3px;
+        font-weight: 500;
+    }
+    .location{
+        margin-top: 0px;
+    }
 
+
+    .beds2{  /* 4 BEDS AT WHOLE */
+        width: 280px;
+        height: 330px;
+    }
+    .beds2 img{
+        margin-left: 25px;
+        width: 230px;
+        height: auto;
+        margin-bottom: 10px;
+    }
+    .beds2 h1{
+        font-size: var(--size-xl);
+        margin-bottom: 4px;
+    }
+    .no-avail{
+        font-size: var(--size-sm);
+    }
+    .med-cert-cont{
+        width: 280px;
+    }
+
+ }
 
  /* lg */
  @media (max-width: 1024px) {
