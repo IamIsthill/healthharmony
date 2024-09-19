@@ -9,6 +9,7 @@ import logging
 
 from healthharmony.administrator.models import Log
 from healthharmony.patient.functions import get_social_picture
+from healthharmony.patient.forms import UpdateProfileInfo
 
 
 logger = logging.getLogger(__name__)
@@ -18,6 +19,16 @@ logger = logging.getLogger(__name__)
 def user_profile(request):
     picture = get_social_picture(request.user)
     context = {"picture": picture}
+    if request.method == "POST":
+        form = UpdateProfileInfo(request.POST, files=request.FILES)
+        if form.is_valid():
+            try:
+                user = form.save(request, request.user.id)
+                messages.success(request, "Profile updated successfully!")
+                context.update({"user": user})
+                return redirect("patient-profile", request.user.id)
+            except ValueError as e:
+                messages.error(request, str(e))
     return render(request, "profile.html", context)
 
 

@@ -2,26 +2,28 @@
 <div class="nav-top">
     <h2 class="page-title">{{ page|capfirst }}sample</h2>
     <div class="profile-container">
-        <img src="{{ request.user.profile.url }}"
-             alt="Profile Picture"
-             class="profile-pic js_profile_info" />
-        <div class="profile-info js_profile_info">
-            {% if request.user.first_name is None or request.user.last_name is None or request.user.first_name == '' or request.user.last_name == '' %}
-                <h3>{{ request.user.email }}</h3>
-            {% else %}
-                <h3>{{ request.user.first_name }} {{ request.user.last_name }}</h3>
-            {% endif %}
-            {% if request.user.access == 1 %}
-                <span>Patient</span>
-            {% elif request.user.access == 2 %}
-                <span>Nurse</span>
-            {% elif request.user.access == 3 %}
-                <span>Doctor</span>
-            {% elif request.user.access == 4 %}
-                <span>Admin</span>
-            {% elif request.user.is_superuser %}
-                <span>SuperAdmin</span>
-            {% endif %}
+        <div class="js_profile_info">
+            <img src="{{ request.user.profile.url }}"
+                 alt="Profile Picture"
+                 class="profile-pic" />
+            <div class="profile-info">
+                {% if request.user.first_name is None or request.user.last_name is None or request.user.first_name == '' or request.user.last_name == '' %}
+                    <h3>{{ request.user.email }}</h3>
+                {% else %}
+                    <h3>{{ request.user.first_name }} {{ request.user.last_name }}</h3>
+                {% endif %}
+                {% if request.user.access == 1 %}
+                    <span>Patient</span>
+                {% elif request.user.access == 2 %}
+                    <span>Nurse</span>
+                {% elif request.user.access == 3 %}
+                    <span>Doctor</span>
+                {% elif request.user.access == 4 %}
+                    <span>Admin</span>
+                {% elif request.user.is_superuser %}
+                    <span>SuperAdmin</span>
+                {% endif %}
+            </div>
         </div>
         <a href="{% url 'logout' %}">
             <div class="logout-container">
