@@ -82,7 +82,7 @@ export function createDepartmentBarCanvas(departments) {
     let html = ''
     for (const department of departments) {
         html += `
-            <div class="barsTop">
+            <div class="barsTop">   
                 <h5>${department.name}</h5>
                 <h2>${department.count}</h2>
             </div>

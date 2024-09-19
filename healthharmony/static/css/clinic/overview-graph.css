@@ -1,4 +1,6 @@
-
+.lineChart{
+    margin-bottom: 1rem;
+}
 .top-chart{
     display: flex;
     width: 100%;
