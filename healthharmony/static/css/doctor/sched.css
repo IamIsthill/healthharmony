@@ -45,7 +45,7 @@ main{
     width: 10rem;
     margin-left: 0.5rem;
     border-radius: 4px;
-    background: rgba(128, 128, 128, 0.667);
+    background: rgba(128, 128, 128, 0.423);
     transition: all 0.3s ease;
 }
 .time-cont:hover{
