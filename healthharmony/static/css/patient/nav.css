@@ -72,6 +72,7 @@ aside{
     align-items: center;
     height: 3rem;
     gap: 4px;
+    /* border: 1px solid blue; */
 }
 .profile-pic {
     width: 40px; /* Adjust size as necessary */
@@ -125,9 +126,11 @@ aside{
     color: white;
 }
 .nav-top{
+    /* border: 1px solid red; */
     background: var(--Background-color);
     position: sticky;
     top:0px;
+    right: 0px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -167,6 +170,7 @@ aside{
     }
     .nav-top{
         height: 4rem;
+        right: 0px;
     }
 
     .profile-pic {
@@ -213,7 +217,18 @@ aside{
 
 /* lg */
 @media (max-width: 1024px) {
-
+    .sidebar a{
+        font-size: var(--size-sm);
+        gap: 0.3rem;
+    }
+    .logo{
+        width: 6rem;
+        margin-left: 3rem;
+    }
+    .nav-top h2{
+        margin-left: 11rem;
+        font-size: var(--size-2xl);
+    }
 }
 
 /* md */
