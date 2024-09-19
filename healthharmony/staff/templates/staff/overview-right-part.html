@@ -54,8 +54,9 @@
                             {% endif %}
                         </button>
                     </form>
-                    <form action="" method="POST">
-                        Remove Bed
+                    <form action="{% url 'post_delete_bed' bed.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit">Remove Bed</button>
                     </form>
                 {% empty %}
                 {% endfor %}

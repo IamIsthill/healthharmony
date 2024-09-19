@@ -296,6 +296,26 @@ def bed_handler(request, pk):
 @login_required(login_url="account_login")
 def post_delete_bed(request, pk):
     access_checker(request)
+    if request.method.lower() == "post":
+        try:
+            bed = BedStat.objects.get(id=int(pk))
+        except Exception as e:
+            logger.info(
+                f"{request.user.email} failed to fetch the corresponding bed[{int(pk)}] : {str(e)}"
+            )
+            messages.error(
+                request, "Failed to find the corresponding bed. Please try again."
+            )
+            return redirect("staff-overview")
+
+        bed.delete()
+        Log.objects.create(
+            user=request.user,
+            action=f"{request.user.email} successfuly deleted bed instance[{bed.id}]",
+        )
+        logger.info(f"{request.user.email} successfuly deleted bed instance[{bed.id}]")
+        messages.success(request, "Successfully deleted bed!")
+    return redirect("staff-overview")
 
 
 @login_required(login_url="account_login")
