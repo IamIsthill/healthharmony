@@ -8,11 +8,11 @@ try {
 
 // When user clicks the profile
 function handle_onclick_profile() {
-    const profile_containers = document.querySelectorAll('.js_profile_info')
+    const profile_container = document.querySelector('.js_profile_info')
 
-    for (const profile_container of profile_containers) {
-        profile_container.addEventListener('click', () => {
-            console.log('navigation bar was clicked')
-        })
-    }
+    profile_container.addEventListener('click', () => {
+        const url = new URL(window.location.href)
+        url.pathname = '/user_profile/'
+        window.location.href = url
+    })
 }

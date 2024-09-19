@@ -65,7 +65,7 @@
 {% endif %}
 <a title="Google" href="/accounts/google/login/?process=login" class="">Login Via Google</a>
 <p>
-    Don't have an account yet? Please <a href="#">Sign Up here</a>
+    Don't have an account yet? Please <a href="{% url 'account_signup' %}">Sign Up here</a>
 </p>
 </section>
 <img src="{% static 'assets/images/svgs/loginillus.svg' %}" class="illus" />

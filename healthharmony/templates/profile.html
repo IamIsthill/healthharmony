@@ -72,9 +72,39 @@
                         <h3 class="patient-profile-data">Email: {{ user.email }}</h3>
                         <h3 class="patient-profile-data">Contact Number: {{ user.contact|default_if_none:'' }}</h3>
                     </div>
+                    <div class="js_profile_actions">
+                        <button class="js_edit_profile">Edit Profile</button>
+                        <button class="js_reset_password">Reset Password</button>
+                    </div>
+                    <form action=""
+                          method="post"
+                          enctype="multipart/form-data"
+                          style="display:none"
+                          class="js_profile_form">
+                        {% csrf_token %}
+                        <label for="">Profile:</label>
+                        <input type="file"
+                               name="profile"
+                               id="profile-picture"
+                               accept=".png, .jpeg, .jpg" />
+                        <label for="">First Name:</label>
+                        <input type="text"
+                               value="{% if user.first_name is not None %}{{ user.first_name }}{% endif %}"
+                               name="first_name" />
+                        <label for="">Last Name:</label>
+                        <input type="text"
+                               value="{% if user.last_name is not None %}{{ user.last_name }}{% endif %}"
+                               name="last_name" />
+                        <label for="">Contact Number:</label>
+                        <input type="number" value="{{ user.contact }}" name="contact" />
+                        <button type="submit">Update</button>
+                        <button type="button" class="js_close_profile_form">Cancel</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 {% endblock %}
-{% block script %}{% endblock %}
+{% block script %}
+    <script src="{% static 'js/general/profile.js' %}" type="module"></script>
+{% endblock %}
