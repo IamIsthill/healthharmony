@@ -17,10 +17,10 @@ from django.utils import timezone
 from django.contrib import messages
 from dateutil.relativedelta import relativedelta
 from django.core.mail import EmailMessage
-import environ
 import logging
 from concurrent.futures import as_completed, ThreadPoolExecutor
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.contrib.auth.decorators import login_required
 
 from healthharmony.models.bed.models import BedStat
 from healthharmony.users.models import User, Department
@@ -60,11 +60,13 @@ from healthharmony.app.settings import env
 logger = logging.getLogger(__name__)
 
 
+@login_required(login_url="account_login")
 def generate_password(length=12):
     characters = string.ascii_letters + string.digits + string.punctuation
     return "".join(secrets.choice(characters) for i in range(length))
 
 
+@login_required(login_url="account_login")
 def add_patient(request):
     if request.method == "POST":
         form = PatientForm(request.POST)
@@ -90,6 +92,7 @@ def add_patient(request):
     return render(request, "staff/add-patient.html", {"form": form})
 
 
+@login_required(login_url="account_login")
 def overview(request):
     check_models()
     access_checker(request)
@@ -175,6 +178,7 @@ def overview(request):
     return render(request, "staff/overview.html", context)
 
 
+@login_required(login_url="account_login")
 def add_issue(request):
     patients = User.objects.filter(access=1)
     if request.method == "POST":
@@ -191,6 +195,7 @@ def add_issue(request):
     return render(request, "staff/add-issue.html", context)
 
 
+@login_required(login_url="account_login")
 def inventory(request):
     access_checker(request)
     with ThreadPoolExecutor(max_workers=2) as tp:
@@ -212,9 +217,6 @@ def inventory(request):
     request, inventory = results["inventory"]
     request, sorted_inventory = results["sorted_inventory"]
     request, counted_inventory = results["counted_inventory"]
-    # request, inventory = fetch_inventory(InventoryDetail, Sum, request)
-    # request, sorted_inventory = get_sorted_inventory_list(request)
-    # request, counted_inventory = get_counted_inventory(request)
     context = {
         "page": "inventory",
         "inventory": list(inventory),
@@ -224,6 +226,7 @@ def inventory(request):
     return render(request, "staff/inventory.html", context)
 
 
+@login_required(login_url="account_login")
 def add_inventory(request):
     access_checker(request)
     if request.method == "POST":
@@ -233,6 +236,7 @@ def add_inventory(request):
     return redirect("staff-inventory")
 
 
+@login_required(login_url="account_login")
 def delete_inventory(request, pk):
     access_checker(request)
     if request.method == "POST":
@@ -245,6 +249,7 @@ def delete_inventory(request, pk):
     return redirect("staff-inventory")
 
 
+@login_required(login_url="account_login")
 def update_inventory(request, pk):
     access_checker(request)
     if request.method == "POST":
@@ -257,6 +262,7 @@ def update_inventory(request, pk):
     return redirect("staff-inventory")
 
 
+@login_required(login_url="account_login")
 def bed(request):
     access_checker(request)
     if request.method == "POST":
@@ -287,6 +293,12 @@ def bed_handler(request, pk):
     return redirect("staff-overview")
 
 
+@login_required(login_url="account_login")
+def post_delete_bed(request, pk):
+    access_checker(request)
+
+
+@login_required(login_url="account_login")
 def records(request):
     access_checker(request)
     email = env("EMAIL_ADD")
@@ -392,6 +404,7 @@ def fetch_patient_list(request):
     return patient_list or None
 
 
+@login_required(login_url="account_login")
 def create_patient_add_issue(request):
     access_checker(request)
     if request.method == "POST":
@@ -452,6 +465,7 @@ def access_checker(request):
         return redirect("home")
 
 
+@login_required(login_url="account_login")
 def patients_and_accounts(request):
     context = {}
     try:
@@ -542,6 +556,7 @@ def patients_and_accounts(request):
     return render(request, "staff/accounts.html", context)
 
 
+@login_required(login_url="account_login")
 def add_department(request):
     access_checker(request)
     if request.method == "POST":
@@ -573,6 +588,7 @@ def add_department(request):
     return redirect("staff-accounts")
 
 
+@login_required(login_url="account_login")
 def delete_department(request, pk):
     access_checker(request)
     if request.method == "POST":
@@ -587,6 +603,7 @@ def delete_department(request, pk):
     return redirect("staff-accounts")
 
 
+@login_required(login_url="account_login")
 def edit_department(request, pk):
     access_checker(request)
     if request.method == "POST":
