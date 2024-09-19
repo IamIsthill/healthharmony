@@ -105,7 +105,7 @@
                                 <td class="table-data">
                                     <span class="patient btn" data-patient-id="{{ illness.patient.id }}">{{ illness.patient.first_name }} {{ illness.patient.last_name }}</span>
                                 </td>
-                                <td class="table-data">{{ illness.issue }}</td>
+                                <td class="table-data">{{ illness.issue|truncatewords:'10' }}</td>
                                 {% if illness.diagnosis %}
                                     <td class="table-data">Completed</td>
                                 {% else %}
