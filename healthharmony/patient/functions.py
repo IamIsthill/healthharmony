@@ -123,7 +123,7 @@ def fetch_overview_data(context, request):
             Illness.objects.filter(patient=request.user, diagnosis__gt="").count() or 0
         )
         beds = BedStat.objects.all()
-        doctors = DoctorDetail.objects.select_related("doctor")
+        doctors = DoctorDetail.objects.filter(doctor__access=3).select_related("doctor")
 
         for doc in doctors:
             now = timezone.localtime().time()
