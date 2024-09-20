@@ -143,6 +143,9 @@
                 <div class="illness_body">
                     {% for illness in illnesses %}
                         <div data-illness-id="{{ illness.id }}" class="js-illness">
+                            {% if request.user.access > 2 and illness.diagnosis is None %}
+                            <button class="js-edit-illness-btn">Edit</button>
+                            {% endif %}
                             <div class="info-cont">
                                 <div class="visit-left">
                                     <span>Date and Time:</span>
@@ -175,14 +178,12 @@
                                 
                                 <button class="js-expand-illness-btn">Expand</button>
                             {% endif %}
-                            {% if request.user.access > 2 and illness.diagnosis is None %}
-                                <div class="edit-buttons">
-                            <button class="js-edit-illness-btn">Edit</button>
-                            {% endif %}
+                            
+                            
                             <button class="js-illness-note-btn"> <span class="material-symbols-outlined">
                                 edit_note
                                 </span> Leave Notes</button>
-                            </div>
+                            
                         </div>
                     {% empty %}
                         <h5>No visit history</h5>
@@ -193,7 +194,8 @@
     </div>
     <div class="modal js-edit-illness-modal">
         <div class="modal-content">
-            <span class="close js-close-btn">&times;</span>
+            <h1>Edit Patient Illness Data</h1>
+            <span class="material-symbols-outlined close js-close-btn">cancel</span>
             <form action="" method="POST" class="js-edit-illness-form">
             </form>
         </div>
