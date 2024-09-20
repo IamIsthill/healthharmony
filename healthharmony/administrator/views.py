@@ -80,7 +80,7 @@ def account_view(request):
     if request.method == "POST":
         form = AdminUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save(request)
+            form.save(request)
             return redirect("admin-accounts")
         else:
             messages.error(request, "Please correct the errors.")

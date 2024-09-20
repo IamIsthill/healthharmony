@@ -38,6 +38,7 @@ import {
 const historyData = JSON.parse(document.getElementById('history-data').textContent)
 const certficateChartData = JSON.parse(document.getElementById('certificate-chart').textContent)
 const certificates = JSON.parse(document.getElementById('certificates').textContent)
+
 main()
 
 function main() {

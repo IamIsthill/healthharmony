@@ -90,7 +90,7 @@
             <div class="account-list-container">
                 <div class="account-header">
                     <h1>Account List</h1>
-                    <button id="add-account-btn">Add Account</button>
+                    <button class="js_add_account_btn">Add Account</button>
                     <div>
                         <button class="js-account-filter js-account-filter-active" data-filter="0">All</button>
                         <button class="js-account-filter" data-filter="1">Patients</button>
@@ -149,11 +149,11 @@
             </div>
         </div>
     </div>
-    <div id="add-account-modal" class="modal">
+    <div id="js_add_account_modal" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <form action="" method="POST">
+            <span class="close js_close_account_form">&times;</span>
+            <form action="" method="POST" class="js_account_form">
                 {% csrf_token %}
                 <label for="">First Name:</label>
                 <input type="text" name="first_name" required />
@@ -177,6 +177,7 @@
                 </datalist>
                 <input type="hidden" id="department-id" />
                 <button type="submit">Add Account</button>
+                <button type="button" class="js_close_account_form">Close</button>
             </form>
         </div>
     </div>

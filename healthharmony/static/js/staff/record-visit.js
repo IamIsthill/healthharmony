@@ -85,7 +85,8 @@ export function filterHistoryData(historyData, filter, search) {
     let filteredHistoryData = []
     for (const data of historyData) {
         if (filter == 1) {
-            if ((data.diagnosis == '') && (data.first_name.toLowerCase().includes(search.toLowerCase()) || data
+            if ((data.diagnosis == '' || !data.diagnosis) && (data.first_name.toLowerCase().includes(search
+                        .toLowerCase()) || data
                     .last_name.toLowerCase().includes(search.toLowerCase()) || data.issue.toLowerCase().includes(search
                         .toLowerCase()))) {
                 filteredHistoryData.push(data)
@@ -115,7 +116,7 @@ export function createVisitHtml(historyData, formatDate) {
             issue += '...'
         }
         let status = 'Finished'
-        if (data.diagnosis == '') {
+        if (!data.diagnosis || data.diagnosis == '') {
             status = 'Ongoing'
         }
         html += `
