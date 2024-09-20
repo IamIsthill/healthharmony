@@ -172,7 +172,7 @@ async function create_illness_edit_form(illness_data) {
         form_body.appendChild(get_diagnosis_element(illness_data.diagnosis))
     }
     form_body.appendChild(get_treatments_element(illness_data.treatment, inventory_list, treatmentData))
-    form_body.innerHTML += '<button type="submit" class="js_illness_edit_btn">Update Case</button>'
+    form_body.innerHTML += '<button type="submit" class="js_illness_edit_btn update-case">Update Case</button>'
 
     add_more_prescription(inventory_list)
     // send_updated_illness_case()

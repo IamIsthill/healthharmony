@@ -2,6 +2,7 @@ main{
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    border: 1px solid red;
 }
 .last-table{
     margin-bottom: 2rem;
@@ -53,7 +54,8 @@ main{
     border-spacing: 4px 4px;
 }
 .total-patient-table{
-    width: 50rem;
+    width: 52rem;
+    height: 24rem;
 }
 .header-content2{
     height: 1.2rem;
@@ -172,3 +174,63 @@ table .table-head, table .table-data{
 .js-hover-patient .hover-dep p{
     font-size: var(--size-lg);
 }
+
+
+   /* CONTAINER */
+
+
+
+
+ /* 2xl */
+ @media (max-width: 1536px) {
+    .total-patient-table{
+        width: 46rem;
+        height: 22rem;
+    }
+    .dep-bar{
+        width: 28rem;
+        height: 22rem;
+    }
+    .total-bar{
+        gap: 1.5rem;
+    }
+ }
+
+@media (max-width: 1380px) {
+    .total-patient-table{
+        width: 42rem;
+        height: 20rem;
+    }
+    .dep-bar{
+        width: 24rem;
+        height: 20rem;
+    }
+    .total-bar{
+        gap: 1rem;
+    }
+}
+
+ /* xl */
+ @media (max-width: 1280px) {
+
+ }
+
+ /* lg */
+ @media (max-width: 1024px) {
+
+ }
+
+ /* md */
+ @media (max-width: 768px) {
+
+ }
+
+ /* sm */
+ @media (max-width: 640px) {
+
+ }
+
+ /* xs */
+ @media (max-width: 475px) {
+
+ }

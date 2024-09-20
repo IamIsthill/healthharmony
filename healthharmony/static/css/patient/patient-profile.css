@@ -1,3 +1,6 @@
+.hide{
+    display: none;
+}
 main, .right-part-profile{
     margin-top: 1rem;
     display: flex;
@@ -48,6 +51,12 @@ form input{
   object-fit: cover;
   margin-bottom: 8px;
   box-shadow: var(--box-shadowlight);
+}
+.js_patient_info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
 }
 .patient-profile-name{
     font-size: var(--size-3xl);
@@ -117,14 +126,14 @@ form input{
 .detailed-top h3{
     margin-top: 4px;
 }
-.detailed-top button, .js-edit-illness-btn{
+.detailed-top button, .js-edit-illness-btn, .js_profile_actions button{
     padding: 0.5rem 1rem;
     background:black;
     border-radius: 0.5rem;
     color: white;
     transition: all 0.3s ease ;
 }
-.detailed-top button:hover, .js-edit-illness-btn:hover, .update-case:hover{
+.detailed-top button:hover, .js-edit-illness-btn:hover, .update-case:hover, .js_profile_actions button:hover{
     background:rgba(0, 0, 0, 0.647);
 }
 .year-section{
@@ -133,145 +142,50 @@ form input{
 .year-section input{
     width: 50%;
 }
-.visit-history{
-    background-color:rgb(255, 255, 255);
-    width: 90%;
-    padding: 1rem 1rem;
-    border-radius: 1rem;
-
-}
-.illness_body{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-auto-flow: dense;
-    gap: 1rem;
-}
-.visit-top{
-    padding: 1rem 0rem;
-}
-/* category btns */
-
-.category-buttons {
-    display: flex;
-    gap: 0.2rem;
-}
-.category-buttons button{
-    font-size: var(--size-base);
-    padding: 0.4rem 0.5rem;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-}
-.category-buttons .visit_cat-active, .visit_cat{
-    color: var(--light_gray);
-    border: 1px solid rgba(255, 255, 255, 0);
-}
-.category-buttons .visit_cat-active{
-    border: 1px solid var(--light_gray);
-}
-.category-buttons .visit_cat:hover{
-    border: 1px solid var(--light_gray);
-}
-
-/* category btns */
-
-
-.js-illness{
-    position: relative;
-    margin-bottom: 1rem;
-    width: 38rem;
-    display: flex;
-    gap: 1rem;
-    flex-direction: column;
-    justify-content: start;
-    align-items: start;
-    background: white;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    box-shadow: var(--box-shadow2);
-}
-.js-edit-illness-btn{
-    position: absolute;
-    bottom: 0.5rem;
-    right: 1rem;
-    width: 6rem;
-}
-.js-illness-note-btn,  .js_add_more_btn{
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    border: 1px solid black;
-    border-radius: 0.5rem;
-    padding: 8px 8px;
-    transition: all 0.2s ease;
-}
-.js-illness-note-btn:hover, .js_add_more_btn:hover{
-    color: white;
-    background: black;
-}
-.update-case{
-    padding: 8px 8px;
-    background: black;
-    color: white;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-    width: 15rem;
-    align-self: center;
-}
-
 
 /* form */
-.edit-buttons{
+.js_profile_form{
     display: flex;
-    gap: 8px;
+    flex-direction: column;
+    width: 48%;
+    background: white;
+    box-shadow: var(--box-shadow2);
+    padding: 1rem 1rem;
+    border-radius: 1rem;
 }
-.edit-buttons button{
+.form-group{
+    display: flex;
+    margin-bottom: 8px;
+}
+.form-group>:last-child{
+    margin-bottom: 0;
+}
+.form-group label{
+    width: 30%;
+}
+.form-group input{
+    margin-left: 1rem;
+}
+.form-buttons button{
     padding: 8px 8px;
     border-radius: 4px;
     transition: all 0.2s ease;
 }
-.edit-buttons .update-btn{
+.form-buttons .update-btn{
     background: rgb(0, 138, 0);
     color: white;
 }
-.edit-buttons .update-btn:hover{
+.form-buttons .update-btn:hover{
     background: rgb(0, 97, 0);
 }
-.edit-buttons .cancel-btn{
+.form-buttons .cancel-btn{
     border: 1px solid var(--Red);
     color: red;
 }
-.edit-buttons .cancel-btn:hover{
+.form-buttons .cancel-btn:hover{
     background: var(--Red);
     color: white;
 }
-
-/* MODAL */
-
-    .modal-content{
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            min-height: 60%;
-            width: 40%;
-            border-radius: 1rem;
-            background: white;
-            margin: 5% auto;
-            gap: 1rem;
-            padding: 1rem 1rem;
-    }
-    .modal-content h1{
-        font-size: var(--size-lg);
-        align-self: flex-start;
-    }
-    .js-edit-illness-form{
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-    }
-/* MODAL */
-
 
    /* CONTAINER */
  /* 2xl */
@@ -336,16 +250,6 @@ form input{
     .detailed-top button, .js-edit-illness-btn, .js-illness-note-btn{
         font-size: var(--size-sm);
     }
-    .js-illness{
-        width: 29rem;
-    }
-    .visit-right{
-        width: 70%;
-    }
-    .visit-left span, .visit-right p{
-        font-size: var(--size-sm);
-    }
-
 }
  /* xl */
  @media (max-width: 1280px) {
