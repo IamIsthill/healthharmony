@@ -1,154 +1,217 @@
-let illnessData = JSON.parse(document.getElementById('illnessData').textContent)
-const illnessModal = document.getElementById('illness_modal')
-const modals = document.querySelectorAll('.modal')
-const illnessForm = document.getElementById('illness_form')
+import {
+    create_department_bar_canvas,
+    create_department_bars,
+    get_department_bar_data,
+    get_department_names_and_counts
+} from '/static/js/doctor/overview-bar.js'
+import {
+    create_morbidity_chart,
+    get_active_illness,
+    get_active_illness_category_filter,
+    get_illness_chart_data
+} from '/static/js/doctor/overview-chart.js'
+import {
+    getCountsAndLabelsForChart,
+    createChart,
+    getBarCounts,
+    createBars,
+    openModal,
+    closeModal
+} from '/static/js/utils.js'
 
-main()
+const illness_data = JSON.parse(document.getElementById('illness_data').textContent)
+const department_names = JSON.parse(document.getElementById('department_names').textContent)
+const department_data = JSON.parse(document.getElementById('department_data').textContent)
+const sorted_illness_category = JSON.parse(document.getElementById('sorted_illness_category').textContent)
 
-function createIllnessBody(data) {
-    let html = ''
-    if (data.length <= 0) {
-        html = `
-        <tr>
-            <td colspan="4">Congratulations! No pending issue as of this moment.</td>
-        </tr>
-        `
-    } else {
-        for (const illness of data) {
-            if (illness.diagnosis != '') {
-                status = 'Released'
-            } else {
-                status = 'Pending'
-            }
-            html += `
-            <tr>
-                <td><span class="patient btn" data-patient-id="${illness.patient_id}">${illness.patient}</span></td>
-                <td>${illness.issue}</td>
-                <td>${status}</td>
-                <td class="view-illness btn" data-issue-id="${illness.id}">View</td>
-            </tr>
-            `
-        }
-    }
+/** Illness Table */
+handle_onclick_review_illness()
+handle_onclick_illness_status()
 
 
-    document.getElementById('illness_body').innerHTML = html
-}
+/** Illness Category Chart */
+get_init_params_create_morbidity_chart()
+handle_onclick_illness_dates()
+handle_onchange_illness_category()
 
-function filterIllnessData(filter) {
-    let data = illnessData[filter]
-    return data
-}
+/** Department Bars */
+create_department_bars_based_active_params()
+handle_onclick_department_filters()
 
-async function fetchPredictedDiagnosis(issue) {
-    try {
-        let baseUrl = window.location.origin;
-        let url = new URL(`${baseUrl}/doctor/get-diagnosis/`);
+/** Illness Table */
 
-        if (issue) {
-            url.searchParams.append("issue", issue);
-        }
-        const options = {
-            method: "GET",
-        };
+// Update table when user clicks the different illness status
+function handle_onclick_illness_status() {
+    const btns = document.querySelectorAll('.js-illness-filter')
 
-        const response = await fetch(url, options);
-        if (!response.ok) {
-            throw new Error("Network response was not ok");
-        }
-        return response.json();
-    } catch (err) {
-        console.log(`Failed to fetch session: ${err.message}`);
-        return null;
-    }
-}
-
-async function createIllnessForm(illness) {
-    const illnessFormContent = document.getElementById('illness_form_content')
-    let diagnosis = await fetchPredictedDiagnosis(illness.issue)
-    let html = `
-
-        <h3>Patient Name: ${illness.patient}</h3>
-        <label>Illness:</label>
-        <textarea type="text" name="issue" required>${illness.issue}</textarea>
-        <label>Illness Category:</label>
-        <input type="text" name="category" value="${illness.category}" required />
-        <input type="hidden" value="${illness.id}" name="id" />
-        <label>Diagnosis:</label>
-        <textarea type="text" name="diagnosis" value="" required>${diagnosis}</textarea>
-        <button type="submit">Update</button>
-    `
-    illnessFormContent.innerHTML = html
-}
-
-function getIllness(id) {
-    for (const data of illnessData['all']) {
-        if (data.id == id) {
-            return data
-        }
-    }
-}
-
-async function main() {
-    const closeBtns = document.querySelectorAll('.close')
-    for (const btn of closeBtns) {
+    for (const btn of btns) {
         btn.addEventListener('click', () => {
-            for (const modal of modals) {
-                modal.style.display = 'none'
+            for (const btn of btns) {
+                btn.classList.remove('js-illness-filter-active')
+                btn.classList.remove('button_cat-active')
             }
-        })
-    }
 
-    window.onclick = function(event) {
-        if (event.target == illnessModal) {
-            for (const modal of modals) {
-                modal.style.display = 'none'
-            }
-        }
-    }
-
-    listenIllnessBtns()
-    listenPatientBtns()
-
-}
-
-function listenIllnessBtns() {
-    const illnessBtns = document.querySelectorAll('.illness-filter')
-    illnessBtns.forEach((btn) => {
-        btn.addEventListener('click', () => {
-            illnessBtns.forEach((btn) => {
-                btn.classList.remove('active')
-            })
-            btn.classList.add('active')
-            const text = btn.getAttribute('data-category').toLowerCase()
-            const data = filterIllnessData(text)
-            createIllnessBody(data)
-            listenViewIllnessBtns()
-            listenPatientBtns()
-        })
-    })
-}
-
-function listenViewIllnessBtns() {
-    const viewIllnessBtns = document.querySelectorAll('.view-illness')
-    for (const btn of viewIllnessBtns) {
-        btn.addEventListener('click', () => {
-            const illnessId = parseInt(btn.getAttribute('data-issue-id'))
-            const illness = getIllness(illnessId)
-            createIllnessForm(illness)
-            illnessModal.style.display = 'block'
+            btn.classList.add('js-illness-filter-active')
+            btn.classList.add('button_cat-active')
+            const filtered_illness_data = get_filtered_illness_data()
+            update_illness_table(filtered_illness_data)
+            handle_onclick_review_illness()
         })
     }
 }
 
-function listenPatientBtns() {
-    const patientBtns = document.querySelectorAll('.patient')
-    for (const btn of patientBtns) {
+
+//When user clicks review on illness, redirect to patient-profile
+function handle_onclick_review_illness() {
+    const btns = document.querySelectorAll('.js-view-illness')
+
+    for (const btn of btns) {
         btn.addEventListener('click', () => {
-            const patientId = parseInt(btn.getAttribute('data-patient-id'))
-            let baseUrl = window.location.origin;
-            let url = new URL(`${baseUrl}/doctor/patient/${patientId}/`);
+            const patient_id = btn.getAttribute('data-patient-id')
+            const go_to = `/doctor/patient/${patient_id}/`
+            const url = new URL(window.location.href)
+            url.pathname = go_to
             window.location.href = url
         })
     }
+}
+
+// get filtered data based on current illness status
+function get_filtered_illness_data() {
+    const btn = document.querySelector('.js-illness-filter-active')
+    const filter = btn.getAttribute('data-category').toLowerCase()
+
+    let filtered_data = []
+    if (filter == 'all') {
+        filtered_data = illness_data
+    } else {
+        for (const illness of illness_data) {
+            if (filter == 'not' && (illness.diagnosis == '' || !illness.diagnosis)) {
+                filtered_data.push(illness)
+            } else if (filter == 'done' && (illness.diagnosis != '' || illness.diagnosis)) {
+                filtered_data.push(illness)
+            }
+        }
+    }
+
+    return filtered_data
+}
+
+// Update the illness table
+function update_illness_table(filtered_illness_data) {
+    const illness_body_element = document.getElementById('illness_body')
+    illness_body_element.innerHTML = ''
+    if (filtered_illness_data.length <= 0) {
+        illness_body_element.innerHTML = '<td colspan="4">Congratulations! No case as of this moment.</td>'
+    } else {
+
+
+        for (const illness of filtered_illness_data) {
+            const case_status = illness.diagnosis ? 'Completed' : 'Pending'
+            illness_body_element.innerHTML += `
+            <tr>
+              <td class = "table-data">
+                <span class="patient btn" data-patient-id="${illness.patient}">${illness.patient_first_name ? illness.patient_first_name : ''} ${illness.patient_last_name ? illness.patient_last_name : ''}</span>
+              </td>
+              <td class = "table-data">${illness.issue}</td>
+              <td class = "table-data">${case_status}</td>
+              <td class="js-view-illness btn table-data" data-patient-id="${illness.patient}">Review</td>
+            </tr>
+        `
+        }
+    }
+
+
+}
+
+
+/** Illness Category Chart */
+
+
+// When user changes the illness category
+function handle_onchange_illness_category() {
+    const select_element = document.querySelector('.js_illness_category')
+
+    select_element.addEventListener('change', () => {
+        get_init_params_create_morbidity_chart()
+    })
+}
+
+// Update chart when clicking on the illness date filters
+function handle_onclick_illness_dates() {
+    const btns = document.querySelectorAll('.js_category_filter')
+
+    for (const btn of btns) {
+        btn.addEventListener('click', () => {
+            for (const btn of btns) {
+                btn.classList.remove('js_category_filter_active')
+                btn.classList.remove('active-cat')
+            }
+            btn.classList.add('js_category_filter_active')
+            btn.classList.add('active-cat')
+            get_init_params_create_morbidity_chart()
+        })
+    }
+}
+
+// Gets params and create the morbidity chart
+function get_init_params_create_morbidity_chart() {
+    try {
+
+        const filter = get_active_illness_category_filter()
+        const illness_id = get_active_illness()
+        const illness_chart_data = get_illness_chart_data(filter, illness_id, sorted_illness_category)
+        const illness_category_name = illness_chart_data[0]
+        const [labels, counts] = getCountsAndLabelsForChart(illness_chart_data[1])
+
+        create_morbidity_chart(labels, counts, illness_category_name, createChart)
+
+    } catch (error) {
+        console.error(error.message)
+    }
+}
+
+
+/** Department Bars */
+
+// When user clicks the date filters in departments
+function handle_onclick_department_filters() {
+    const btns = document.querySelectorAll('.js-department-bar-btn')
+
+    for (const btn of btns) {
+        btn.addEventListener('click', () => {
+            for (const btn of btns) {
+                btn.classList.remove('.js-department-bar-btn-active')
+                btn.classList.remove('bar-btn-active')
+            }
+            btn.classList.add('.js-department-bar-btn-active')
+            btn.classList.add('bar-btn-active')
+            create_department_bars_based_active_params()
+            add_border_then_remove_to_bars()
+
+        })
+    }
+}
+
+// Add border thingy to indicate change
+function add_border_then_remove_to_bars() {
+    const bar_elements = document.querySelectorAll('.js-department-bars-border')
+
+    for (const bar_element of bar_elements) {
+        bar_element.classList.add('border')
+    }
+    setTimeout(() => {
+        for (const bar_element of bar_elements) {
+            bar_element.classList.remove('border');
+        }
+    }, 1000);
+
+}
+
+// Get the current params then create the department bars
+function create_department_bars_based_active_params() {
+    const filtered_department_data = get_department_bar_data(department_data)
+    const department_name_with_count = get_department_names_and_counts(filtered_department_data, department_names)
+    create_department_bar_canvas(department_name_with_count)
+    create_department_bars(department_name_with_count, createBars)
 }

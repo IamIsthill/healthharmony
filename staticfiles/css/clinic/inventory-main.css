@@ -172,13 +172,14 @@ main table th, td{
     border-radius: 1rem;
     padding: 0rem 3rem;
     width: 50%;
-    height: 90%;
+    height: 80%;
   }
   .modal-content h1{
     align-self: flex-start;
     font-size: var(--size-2xl);
     font-weight: 500;
-    margin-bottom: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
   /* The Close Button */
   .close {
@@ -195,7 +196,7 @@ main table th, td{
     justify-content: start;
     gap: 2rem;
     width: 100%;
-    height: 80%;
+    height: 90%;
 }
 .form-group label,.form-top label, .form-last label {
     display: block;
@@ -236,7 +237,6 @@ main table th, td{
 }
 
 .form-buttons {
-    margin-top: 1.5rem;
     display: flex;
     gap: 2rem;
     box-sizing: border-box;
@@ -303,6 +303,9 @@ main table th, td{
 
 /* 2xl */
 @media (max-width: 1536px) {
+    .modal-content form{
+        gap: 1rem;
+    }
     .form-group input,
     .form-group select {
         background: #E3E5E6;
@@ -326,6 +329,7 @@ main table th, td{
 @media (max-width: 1380px) {
 
     .modal-content {
+        height: 85%;
         padding: 0rem 2rem;
       }
 
@@ -338,7 +342,7 @@ main table th, td{
     }
 
     .modal-content form{
-        gap: 1rem;
+        gap: 0.5rem;
     }
 
 }

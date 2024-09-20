@@ -4,19 +4,28 @@
     margin: 10% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 40%; /* Could be more or less, depending on screen size */
+    width: 35%; /* Could be more or less, depending on screen size */
     border-radius: 10px;
 }
 .modal-content h1{
     align-self: flex-start;
     font-size: var(--size-2xl);
     font-weight: 500;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
   }
 .modal-content form{
     display: flex;
     flex-direction: column;
 }
+.modal-content form input, form select{
+    background: #E3E5E6;
+    width: 95%;
+    border: none;
+    border-radius: 5px;
+    padding: 0rem 1rem;
+    margin-bottom: 0.5rem;
+}
+
 main{
     margin-top: 1.5rem;
     color: var(--normal-fontcolor);

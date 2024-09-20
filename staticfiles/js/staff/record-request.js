@@ -21,14 +21,36 @@ export function createRequestBody(certificates) {
         if (purpose.length > 60) {
             purpose = `${purpose.slice(0, 59)}...`
         }
+        let status = ''
+        let action = ''
+
+        if ((!certificate.is_ready) && (!certificate.released)) {
+            status = '<td class="table-data">Request to be processed</td>'
+            action =
+                `<td class="table-data"><button class="js_certificate_action" data-certificate-id="${certificate.id}">Mark as Ready</button></td>`
+        } else if ((certificate.is_ready) && (!certificate.released)) {
+            status = '<td class="table-data">Ready, waiting to be collected</td>'
+            action =
+                `<td class="table-data"><button class="js_certificate_action" data-certificate-id="${certificate.id}">Mark as Collected</button></td>`
+        } else if ((certificate.is_ready) && (certificate.released)) {
+            status = `<td class="table-data">Medical certificate was collected</td>`
+            action = `<td class="table-data">No actions to be taken</td>`
+        }
+
+
         html += `
             <tr>
                 <td>${certificate.email}</td>
-                <td>${certificate.first_name} ${certificate.last_name}</td>
+                <td>${certificate.first_name ? certificate.first_name : ''} ${certificate.last_name ? certificate.last_name : ''}</td>
                 <td>${purpose}</td>
                 <td class="js-cert-date">${certificate.requested}</td>
+                ${status}
+                ${action}
             </tr>
         `
+    }
+    if (certificates.length == 0) {
+        html = '<td class="table-data" colspan="6">No data available.</td>'
     }
     requestBody.innerHTML = html
 }
@@ -58,7 +80,7 @@ export function getFilteredCertificateData(certificates, status, certPage) {
     certificates = []
     for (let key in data) {
         key = parseInt(key)
-        if (key + 1 >= itemStart && key + 1 <= itemEnd) (
+        if (key + 1 >= itemStart && key + 1 <= itemEnd)(
             certificates.push(data[key])
         )
     }
