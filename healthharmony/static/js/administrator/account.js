@@ -8,6 +8,28 @@ const user_data = JSON.parse(document.getElementById('user_data').textContent)
 
 handle_user_filters()
 handle_change_user_access()
+handle_onclick_add_account()
+
+//when user clicks the add account button
+function handle_onclick_add_account() {
+  const btn = document.querySelector('.js_add_account_btn')
+
+  btn.addEventListener('click', () => {
+    const modal = document.getElementById('js_add_account_modal')
+    const close_btns = document.querySelectorAll('.js_close_account_form')
+    const form = document.querySelector('.js_account_form')
+
+    openModal(modal)
+
+    for (const btn of close_btns) {
+      closeModal(modal, btn)
+      btn.addEventListener('click', () => {
+        form.reset()
+      })
+    }
+
+  })
+}
 
 // when user change the access
 function handle_change_user_access() {
