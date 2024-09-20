@@ -110,12 +110,14 @@
 /* BED SECTION */
 /* BED SPACE */
 
-
+.bed-monitor h1{
+    font-size: var(--size-lg);
+}
 .beds{  /* 4 BEDS AT WHOLE */
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1.4rem;
-    max-width: 350px;
+    max-width: 300px;
     padding: 2rem 2rem;
 }
 
@@ -214,9 +216,7 @@
  }
 
 @media (max-width: 1380px) {
-    .patient-right-part{
-        border: 1px solid green;
-    }
+
     
    
 }

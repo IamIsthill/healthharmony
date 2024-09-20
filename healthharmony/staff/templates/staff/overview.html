@@ -83,8 +83,8 @@
             </form>
         </div>
     </div>
-    <div class="modal" id="js_add_patient_modal">
-        <div class="modal-content">
+    <div class="modal add-new" id="js_add_patient_modal">
+        <div class="modal-content add-new-content">
             <span class="material-symbols-outlined close js_close_add_patient_modal">cancel</span>
             <form action="{% url 'post_add_patient' %}"
                   method="POST"
@@ -103,8 +103,10 @@
                 <input type="text" name="contact" required placeholder="Contact details..." />
                 <label for="">Date of Birth</label>
                 <input type="date" name="DOB" required placeholder="Date of Birth" />
-                <button type="submit">Add Patient</button>
-                <button type="button" class="js_close_add_patient_modal">Close</button>
+                <div class="form-buttons">
+                <button class="form-button" type="submit">Add Patient</button>
+                <button type="button" class="js_close_add_patient_modal cancel-button">Close</button>
+                </div>
             </form>
         </div>
     </div>
