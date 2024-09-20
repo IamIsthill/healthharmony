@@ -132,6 +132,13 @@ function filter_visit_history() {
     for (const btn of filterBtns) {
         btn.addEventListener('click', () => {
             const filter = btn.getAttribute('data-category')
+
+            //CSS
+            for (const btn of filterBtns) {
+                btn.classList.remove('visit_cat-active')
+            }
+            btn.classList.add('visit_cat-active')
+
             const filtered_illness_data = get_filtered_illnesses_data(illnessesData, filter)
 
             update_visit_html_after_filter(filtered_illness_data)
