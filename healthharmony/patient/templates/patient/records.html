@@ -3,18 +3,15 @@
 {% load static %}
 {% load tags %}
 {% block header %}
-
-        <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
-        <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
-        <link rel="stylesheet" href="{% static 'css/patient/record.css' %}" />
-        <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-        <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
-            rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-            rel="stylesheet" />
-
-    
+    <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/patient/record.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
+          rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+          rel="stylesheet" />
     <style>
     .hide {
       display: none;
@@ -22,7 +19,7 @@
     .show {
       display: block;
     }
- 
+
     </style>
 {% endblock %}
 {% block title %}Health Records | HealthHarmony{% endblock %}
@@ -39,114 +36,110 @@
     {% endif %}
 {% endblock %}
 {% block main %}
-{% include 'doctor/nav-top.html' %}
+    {% include 'doctor/nav-top.html' %}
     <div class="doctor-profile-container">
-    {% include 'patient/nav.html' %} 
-    <main>
-        <div class="top-part">
-            <div class="top-card ill-cat">
-                <h1>Your Usual Illness Categories</h1>
-                {% if illness_category %}
-                <div class="usual-page">
-                    {% for category in illness_category %}
-                    
-                        <div class="usual-cont">
-                            <h2>{{ category.category_name }}</h2>
-                            <h3>Number of Cases: {{ category.cases_count }}</h3>
-                        </div>
-                    
-                    {% endfor %}
-                {% else %}
-                    <h3>No available data</h3>
-                {% endif %}
-                </div>
-            </div>
-            <div class="top-card med-cert">
-                <h1>Medical Certificates</h1>
-                <h3>
-                    You have requested:
-                    {% if certificates_data %}
-                        {{ certificates_data.all }}
-                    {% else %}
-                        0
-                    {% endif %}
-                    times
-                </h3>
-                <h3>
-                    Pending Request:
-                    {% if certificates_data %}
-                        {{ certificates_data.pending }}
-                    {% else %}
-                        0
-                    {% endif %}
-                </h3>
-                <h3>
-                    Completed Request:
-                    {% if certificates_data %}
-                        {{ certificates_data.completed }}
-                    {% else %}
-                        0
-                    {% endif %}
-                </h3>
-                <button class="js_request_medcert_btn req-btn">Request Medical Certificate</button>
-            </div>
-        </div>
-        <div class="bottom-part">
-            <div class="for-the-request">
-                <table>
-                    <thead>
-                        <tr>
-                            <th colspan="3" class="med-header">Your Medical Certificate History</th>
-                        </tr>
-                        <tr>
-                            <th class="table-head">Purpose</th>
-                            <th class="table-head">Date Requested</th>
-                            <th class="table-head">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for certificate in certificate_data %}
-                            <tr>
-                                <td class="table-data">{{ certificate.purpose|truncatechars:60 }}</td>
-                                <td class="table-data js_dates">{{ certificate.requested }}</td>
-                                {% if not certificate.is_ready and not certificate.released %}
-                                    <td class="table-data">Request to be processed</td>
-                                {% elif certificate.is_ready and not certificate.released %}
-                                    <td class="table-data">Ready, waiting to be collected</td>
-                                {% elif certificate.is_ready and certificate.released %}
-                                    <td class="table-data">Medical certificate was collected</td>
-                                {% endif %}
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="recent-illness">
-                <h1>Recent Illness</h1>
-                <div class="recent-cont">
-                    <ul>
-                        {% for illness in illnesses %}
-                            <li>
-                                <div class="visible">
-                                    <h2>
-                                        {{ illness.issue }} (Added: <span class="js_dates">{{ illness.added }}</span>)
-                                    </h2>
-                                    {% if illness.treatment %}
-                                        <div class="hide js_details_space"></div>
-                                        <button class="js_show_illness_details" data-illness-id="{{ illness.id }}">Show More</button>
-                                    {% endif %}
+        {% include 'patient/nav.html' %}
+        <main>
+            <div class="top-part">
+                <div class="top-card ill-cat">
+                    <h1>Your Usual Illness Categories</h1>
+                    {% if illness_category %}
+                        <div class="usual-page">
+                            {% for category in illness_category %}
+                                <div class="usual-cont">
+                                    <h2>{{ category.category_name }}</h2>
+                                    <h3>Number of Cases: {{ category.cases_count }}</h3>
                                 </div>
-                            </li>
-                        {% empty %}
-                            <li>No illnesses found.</li>
-                        {% endfor %}
-                    </ul>
+                            {% endfor %}
+                        {% else %}
+                            <h3>No available data</h3>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="top-card med-cert">
+                    <h1>Medical Certificates</h1>
+                    <h3>
+                        You have requested:
+                        {% if certificates_data %}
+                            {{ certificates_data.all }}
+                        {% else %}
+                            0
+                        {% endif %}
+                        times
+                    </h3>
+                    <h3>
+                        Pending Request:
+                        {% if certificates_data %}
+                            {{ certificates_data.pending }}
+                        {% else %}
+                            0
+                        {% endif %}
+                    </h3>
+                    <h3>
+                        Completed Request:
+                        {% if certificates_data %}
+                            {{ certificates_data.completed }}
+                        {% else %}
+                            0
+                        {% endif %}
+                    </h3>
+                    <button class="js_request_medcert_btn req-btn">Request Medical Certificate</button>
                 </div>
             </div>
-    </div>
-    </main>
-        
+            <div class="bottom-part">
+                <div class="for-the-request">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th colspan="3" class="med-header">Your Medical Certificate History</th>
+                            </tr>
+                            <tr>
+                                <th class="table-head">Purpose</th>
+                                <th class="table-head">Date Requested</th>
+                                <th class="table-head">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for certificate in certificate_data %}
+                                <tr>
+                                    <td class="table-data">{{ certificate.purpose|truncatechars:60 }}</td>
+                                    <td class="table-data js_dates">{{ certificate.requested }}</td>
+                                    {% if not certificate.is_ready and not certificate.released %}
+                                        <td class="table-data">Request to be processed</td>
+                                    {% elif certificate.is_ready and not certificate.released %}
+                                        <td class="table-data">Ready, waiting to be collected</td>
+                                    {% elif certificate.is_ready and certificate.released %}
+                                        <td class="table-data">Medical certificate was collected</td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="recent-illness">
+                    <h1>Recent Illness</h1>
+                    <div class="recent-cont">
+                        <ul>
+                            {% for illness in illnesses %}
+                                <li>
+                                    <div class="visible">
+                                        <h2>
+                                            {{ illness.issue }} (Added: <span class="js_dates">{{ illness.added }}</span>)
+                                        </h2>
+                                        {% if illness.treatment %}
+                                            <div class="hide js_details_space"></div>
+                                            <button class="js_show_illness_details" data-illness-id="{{ illness.id }}">Show More</button>
+                                        {% endif %}
+                                    </div>
+                                </li>
+                            {% empty %}
+                                <li>No illnesses found.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
     <div class="js_request_medcert_modal modal">
         <div class="modal-content">

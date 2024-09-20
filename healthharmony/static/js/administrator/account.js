@@ -1,7 +1,8 @@
 import {
   formatDate,
   openModal,
-  closeModal
+  closeModal,
+  getToken
 } from '/static/js/utils.js'
 
 const user_data = JSON.parse(document.getElementById('user_data').textContent)
@@ -9,6 +10,45 @@ const user_data = JSON.parse(document.getElementById('user_data').textContent)
 handle_user_filters()
 handle_change_user_access()
 handle_onclick_add_account()
+handle_onclick_delete_user()
+
+//create the form to delete user
+function handle_onclick_delete_user() {
+  const btns = document.querySelectorAll('.js_delete_user')
+
+  for (const btn of btns) {
+    btn.addEventListener('click', () => {
+      const user_id = btn.getAttribute('data-user-id')
+      const user = get_user_data(user_id)
+
+      const modal = document.querySelector('.js_delete_user_modal')
+
+      const form_element = document.createElement('form')
+      form_element.innerHTML = `
+          <span class="close js_close_delete_user_form">&times;</span>
+          <label>Delete user with email ${user.email}?</label
+          <input type="hidden" name="csrfmiddlewaretoken" value="${getToken()}" required />
+          <input type="hidden" name="user_id" value="${user_id}" required />
+          <button type="submit">Delete</button>
+          <button type="button" class="js_close_delete_user_form">Cancel</button>
+      `
+      form_element.setAttribute('method', 'POST')
+      form_element.setAttribute('action', '/administrator/accounts/post_delete_user/')
+
+      modal.querySelector('.modal-content').innerHTML = ''
+      modal.querySelector('.modal-content').appendChild(form_element)
+
+      openModal(modal)
+
+      const close_btns = document.querySelectorAll('.js_close_delete_user_form')
+
+      for (const btn of close_btns) {
+        closeModal(modal, btn)
+      }
+    })
+  }
+
+}
 
 //when user clicks the add account button
 function handle_onclick_add_account() {
@@ -98,6 +138,7 @@ function handle_user_filters() {
       const paginated_user_data = get_filtered_user_data()
       update_account_table(paginated_user_data)
       handle_change_user_access()
+      handle_onclick_delete_user()
 
     })
   }
@@ -169,6 +210,8 @@ function update_account_table(paginated_user_data) {
             </select>
           </div>
         </td>
+        <td><button class="js_delete_user" data-user-id="${user.id}">Delete</button></td>
+
       </tr>
       `
     }
