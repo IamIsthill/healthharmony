@@ -68,6 +68,7 @@ aside{
 
 .profile-container {
     display: flex;
+    flex-direction: row;
     justify-content: end;
     align-items: center;
     height: 3rem;
@@ -100,7 +101,10 @@ aside{
     opacity: 75%;
     font-size: var(--size-sm);
 }
-
+.js_profile_info{
+    display: flex;
+    gap: 4px;
+}
 .logout-container{
     display: flex;              /* Enable flexbox */
     justify-content: center;    /* Center horizontally */
