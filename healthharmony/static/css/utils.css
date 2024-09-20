@@ -94,7 +94,7 @@
   grid-template-columns: 12.5rem auto 22rem;
 }
 .doctor-profile-container{
-  grid-template-columns: 13rem auto 53rem;
+  grid-template-columns: 13rem auto;
 }
 
  .nurse-container2{

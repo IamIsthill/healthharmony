@@ -238,7 +238,7 @@ button{
   gap: 0.2rem;
 }
 .category-buttons button{
-  font-size: var(--size-xs);
+  /* font-size: var(--size-xs); */
   padding: 0.4rem 0.5rem;
   border-radius: 8px;
   transition: all 0.3s ease;
