@@ -3,13 +3,15 @@
 {% load static %}
 {% load tags %}
 {% block header %}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-          crossorigin="anonymous" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/patient/record.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
+          rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+          rel="stylesheet" />
     <style>
     .hide {
       display: none;
@@ -17,42 +19,7 @@
     .show {
       display: block;
     }
-    .modal {
-      display: none; /* Hidden by default */
-      position: fixed; /* Stay in place */
-      z-index: 1; /* Sit on top */
-      left: 0;
-      top: 0;
-      width: 100%; /* Full width */
-      height: 100%; /* Full height */
-      overflow: auto; /* Enable scroll if needed */
-      background-color: rgb(0, 0, 0); /* Fallback color */
-      background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-    }
 
-    /* Modal Content/Box */
-    .modal-content {
-      background-color: #fefefe;
-      margin: 15% auto; /* 15% from the top and centered */
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%; /* Could be more or less, depending on screen size */
-    }
-
-    /* The Close Button */
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
     </style>
 {% endblock %}
 {% block title %}Health Records | HealthHarmony{% endblock %}
@@ -69,103 +36,114 @@
     {% endif %}
 {% endblock %}
 {% block main %}
-    {% include 'patient/nav.html' %}
-    <div class="container">
-        <h3>Health Records</h3>
-        <div>
-            <h1>Your Usual Illness Categories</h1>
-            {% if illness_category %}
-                {% for category in illness_category %}
-                    <div>
-                        <h3>{{ category.category_name }}</h3>
-                        <h4>Number of Cases: {{ category.cases_count }}</h4>
+    {% include 'doctor/nav-top.html' %}
+    <div class="doctor-profile-container">
+        {% include 'patient/nav.html' %}
+        <main>
+            <div class="top-part">
+                <div class="top-card ill-cat">
+                    <h1>Your Usual Illness Categories</h1>
+                    {% if illness_category %}
+                        <div class="usual-page">
+                            {% for category in illness_category %}
+                                <div class="usual-cont">
+                                    <h2>{{ category.category_name }}</h2>
+                                    <h3>Number of Cases: {{ category.cases_count }}</h3>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <h3>No available data</h3>
+                        {% endif %}
                     </div>
-                {% endfor %}
-            {% else %}
-                <h3>No available data</h3>
-            {% endif %}
-        </div>
-        <div>
-            <h1>Medical Certificates</h1>
-            <h3>
-                You have requested:
-                {% if certificates_data %}
-                    {{ certificates_data.all }}
-                {% else %}
-                    0
-                {% endif %}
-                times
-            </h3>
-            <h3>
-                Pending Request:
-                {% if certificates_data %}
-                    {{ certificates_data.pending }}
-                {% else %}
-                    0
-                {% endif %}
-            </h3>
-            <h3>
-                Completed Request:
-                {% if certificates_data %}
-                    {{ certificates_data.completed }}
-                {% else %}
-                    0
-                {% endif %}
-            </h3>
-            <button class="js_request_medcert_btn">Request Medical Certificate</button>
-        </div>
-        <div>
-            <ul>
-                {% for illness in illnesses %}
-                    <li>
-                        <div class="visible">
-                            <h2>
-                                {{ illness.issue }} (Visited clinic on: <span class="js_dates">{{ illness.added }}</span>)
-                            </h2>
-                            {% if illness.treatment %}
-                                <div class="hide js_details_space"></div>
-                                <button class="js_show_illness_details" data-illness-id="{{ illness.id }}">Show More</button>
-                            {% endif %}
-                        </div>
-                    </li>
-                {% empty %}
-                    <li>No illnesses found.</li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="for-the-request">
-            <table>
-                <thead>
-                    <tr>
-                        <th colspan="3">Your Medical Certificate History</th>
-                    </tr>
-                    <tr>
-                        <th class="table-head">Purpose</th>
-                        <th class="table-head">Date Requested</th>
-                        <th class="table-head">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for certificate in certificate_data %}
-                        <tr>
-                            <td class="table-data">{{ certificate.purpose|truncatechars:60 }}</td>
-                            <td class="table-data js_dates">{{ certificate.requested }}</td>
-                            {% if not certificate.is_ready and not certificate.released %}
-                                <td class="table-data">Request to be processed</td>
-                            {% elif certificate.is_ready and not certificate.released %}
-                                <td class="table-data">Ready, waiting to be collected</td>
-                            {% elif certificate.is_ready and certificate.released %}
-                                <td class="table-data">Medical certificate was collected</td>
-                            {% endif %}
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                </div>
+                <div class="top-card med-cert">
+                    <h1>Medical Certificates</h1>
+                    <h3>
+                        You have requested:
+                        {% if certificates_data %}
+                            {{ certificates_data.all }}
+                        {% else %}
+                            0
+                        {% endif %}
+                        times
+                    </h3>
+                    <h3>
+                        Pending Request:
+                        {% if certificates_data %}
+                            {{ certificates_data.pending }}
+                        {% else %}
+                            0
+                        {% endif %}
+                    </h3>
+                    <h3>
+                        Completed Request:
+                        {% if certificates_data %}
+                            {{ certificates_data.completed }}
+                        {% else %}
+                            0
+                        {% endif %}
+                    </h3>
+                    <button class="js_request_medcert_btn req-btn">Request Medical Certificate</button>
+                </div>
+            </div>
+            <div class="bottom-part">
+                <div class="for-the-request">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th colspan="3" class="med-header">Your Medical Certificate History</th>
+                            </tr>
+                            <tr>
+                                <th class="table-head">Purpose</th>
+                                <th class="table-head">Date Requested</th>
+                                <th class="table-head">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for certificate in certificate_data %}
+                                <tr>
+                                    <td class="table-data">{{ certificate.purpose|truncatechars:60 }}</td>
+                                    <td class="table-data js_dates">{{ certificate.requested }}</td>
+                                    {% if not certificate.is_ready and not certificate.released %}
+                                        <td class="table-data">Request to be processed</td>
+                                    {% elif certificate.is_ready and not certificate.released %}
+                                        <td class="table-data">Ready, waiting to be collected</td>
+                                    {% elif certificate.is_ready and certificate.released %}
+                                        <td class="table-data">Medical certificate was collected</td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="recent-illness">
+                    <h1>Recent Illness</h1>
+                    <div class="recent-cont">
+                        <ul>
+                            {% for illness in illnesses %}
+                                <li>
+                                    <div class="visible">
+                                        <h2>
+                                            {{ illness.issue }} (Added: <span class="js_dates">{{ illness.added }}</span>)
+                                        </h2>
+                                        {% if illness.treatment %}
+                                            <div class="hide js_details_space"></div>
+                                            <button class="js_show_illness_details" data-illness-id="{{ illness.id }}">Show More</button>
+                                        {% endif %}
+                                    </div>
+                                </li>
+                            {% empty %}
+                                <li>No illnesses found.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
     <div class="js_request_medcert_modal modal">
         <div class="modal-content">
-            <span class="close js_close_medcert_modal">&times;</span>
+            <span class="material-symbols-outlined close js_close_medcert_modal">cancel</span>
             <form action="{% url 'post_create_certificate_request' %}" method="POST">
                 {% csrf_token %}
                 <label for="">Why are you requesting a medical certificate?</label>
@@ -174,8 +152,10 @@
                        name="purpose"
                        maxlength="500"
                        required />
-                <button type="submit">Issue a Request</button>
-                <button class="js_close_medcert_modal" type="button">Cancel</button>
+                <div class="form-buttons">
+                    <button class="form-button" type="submit">Issue a Request</button>
+                    <button class="js_close_medcert_modal cancel-button" type="button">Cancel</button>
+                </div>
             </form>
         </div>
     </div>
