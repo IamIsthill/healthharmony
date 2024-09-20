@@ -93,13 +93,13 @@ class AddInventoryForm(forms.Form):
 
 
 class EditInventoryForm(forms.Form):
-    item_no = forms.IntegerField(required=False)
-    unit = forms.CharField(required=False, max_length=15)
-    item_name = forms.CharField(max_length=100, required=True)
-    category = forms.CharField(max_length=20, required=False)
-    description = forms.CharField(required=False)
-    expiration_date = forms.DateField(required=False)
+    item_name = forms.CharField(required=True)
     quantity = forms.IntegerField(required=False)
+    item_no = forms.IntegerField(required=False)
+    unit = forms.CharField(required=False)
+    category = forms.CharField(required=False)
+    expiration_date = forms.DateField(required=False)
+    description = forms.CharField(required=False)
 
     def save(self, request, pk):
         try:
