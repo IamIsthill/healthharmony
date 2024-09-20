@@ -1,6 +1,8 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
+from rest_framework import serializers
 from healthharmony.models.bed.models import BedStat
 from healthharmony.models.treatment.models import Certificate
+from healthharmony.users.models import User
 
 
 class BedStatSerializer(ModelSerializer):
@@ -26,3 +28,22 @@ class CertificateSerializer(ModelSerializer):
     class Meta:
         model = Certificate
         fields = "__all__"
+
+
+class UserSerializer(serializers.ModelSerializer):
+
+    department_name = serializers.CharField(
+        source="department.department", read_only=True
+    )
+
+    class Meta:
+        model = User
+        exclude = [
+            "password",
+            "user_permissions",
+            "is_active",
+            "is_staff",
+            "is_superuser",
+            "last_login",
+            "groups",
+        ]

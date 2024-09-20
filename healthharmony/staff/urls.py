@@ -19,6 +19,9 @@ urlpatterns = [
     ),
     path("bed/", views.bed, name="staff-bed"),
     path("bed/update/<int:pk>/", views.bed_handler, name="staff-bed-handler"),
+    path(
+        "bed/post_delete_bed/<int:pk>/", views.post_delete_bed, name="post_delete_bed"
+    ),
     path("records/", views.records, name="staff-records"),
     path("patient-and-accounts/", views.patients_and_accounts, name="staff-accounts"),
     path(

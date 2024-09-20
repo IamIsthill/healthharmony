@@ -8,9 +8,11 @@ from healthharmony.users.models import User, Department
 from healthharmony.administrator.models import Log, DataChangeLog
 from django.contrib import messages
 
-
 # forms
 from healthharmony.administrator.forms import AdminUserCreationForm
+
+# serializers
+from healthharmony.api.serializers import UserSerializer
 
 
 logger = logging.getLogger(__name__)
@@ -84,15 +86,31 @@ def account_view(request):
             messages.error(request, "Please correct the errors.")
 
     try:
-        users = User.objects.all()
+        users = User.objects.filter(access__lte=4)
         departments = Department.objects.all()
 
-        for user in users:
-            if user.first_name is None:
-                user.first_name = " "
-            if user.last_name is None:
-                user.last_name = " "
-        context = {"users": users, "departments": departments}
+        # serialize users
+        user_data = []
+        if users:
+            for user in users:
+                data = UserSerializer(user)
+                user_data.append(data.data)
+
+        user_paginator = Paginator(users, 20)
+        page = request.GET.get("page")
+
+        try:
+            user_page = user_paginator.page(page)
+        except PageNotAnInteger:
+            user_page = user_paginator.page(1)
+        except EmptyPage:
+            user_page = user_paginator.page(user_paginator.num_pages)
+
+        context = {
+            "users": user_page,
+            "departments": departments,
+            "user_data": user_data,
+        }
     except Exception as e:
         logger.info(
             f"{request.user.email} failed to fetched necessary data to load administrator accounts view : {str(e)}"
@@ -114,3 +132,31 @@ def get_prepared_data_logs(data_logs):
             log.new_value = "No data"
 
     return data_logs
+
+
+@login_required(login_url="account_login")
+def post_update_user_access(request):
+    account_checker(request)
+    if request.method.lower() == "post":
+        user_id = request.POST.get("user_id")
+        access = request.POST.get("access")
+
+        try:
+            user = User.objects.get(id=int(user_id))
+        except Exception as e:
+            logger.info(
+                f"{request.user.email} tried to search for a user with a non-existen id: {str(e)}"
+            )
+            messages.error(request, "Failed to find the user. Please try again.")
+            return redirect("admin-accounts")
+
+        user.access = int(access)
+        user.save()
+
+        Log.objects.create(
+            user=request.user,
+            action=f"{request.user.email} has changed the access for user[{user.id}]",
+        )
+        logger.info(f"{request.user.email} has changed the access for user[{user.id}]")
+        messages.success(request, f"Successfully update the access for {user.email}")
+    return redirect("admin-accounts")

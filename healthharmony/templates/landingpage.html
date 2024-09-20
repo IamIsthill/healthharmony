@@ -77,6 +77,8 @@
 {% endblock %}
 {% block script %}
     <!-- Swiper JS -->
+    {{ doctor_data|json_script:'doctor_data' }}
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="{% static 'js/landingpage/swiper.js' %}"></script>
+    <script src="{% static 'js/landingpage/landing.js' %}"></script>
 {% endblock %}

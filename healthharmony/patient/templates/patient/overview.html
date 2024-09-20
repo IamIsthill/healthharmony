@@ -4,20 +4,16 @@
 {% load cache %}
 {% block title %}Dashboard | HealthHarmony{% endblock %}
 {% block header %}
-    
-        <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
-        <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
-        <link rel="stylesheet" href="{% static 'css/patient/overview-main.css' %}" />
-        <link rel="stylesheet" href="{% static 'css/patient/overview-right.css' %}" />
-        <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-        <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
-            rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-            rel="stylesheet" />
-
-    
-
+    <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/patient/overview-main.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/patient/overview-right.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
+          rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+          rel="stylesheet" />
 {% endblock %}
 {% block message %}
     {% if messages|has_error_message %}
@@ -32,181 +28,166 @@
     {% endif %}
 {% endblock %}
 {% block main %}
-{% include 'doctor/nav-top.html' %}
+    {% include 'doctor/nav-top.html' %}
     <div class="patient-container">
-    {% include 'patient/nav.html' %}
-    <main>
-                <div class="top-part">
-                    <div class="top-card">
-                        <h5>Total Clinic Visits</h5>
-                        <p>{{ visits }}</p>
-                    </div>
-                    <div class="top-card">
-                        <h5>Total Treatment</h5>
-                        <p>{{ treatments }}</p>
-                    </div>
+        {% include 'patient/nav.html' %}
+        <main>
+            <div class="top-part">
+                <div class="top-card">
+                    <h5>Total Clinic Visits</h5>
+                    <p>{{ visits }}</p>
                 </div>
-            
-                    <div class="doctors">
-                        <h1>Doctors</h1>
-                        <div class="doc-cont">
-                            {% for doc in doctors %}
-                                <div class="doc">
-                                    <h2>{{ doc.doctor.first_name }} {{ doc.doctor.last_name }}</h2>
-                                    <h5>
-                                        {% with avail='Available' no_avail='Unavailable' %}
-                                            {% if doc.true_avail %}
-                                                {{ avail }}
-                                            {% else %}
-                                                {{ no_avail }}
-                                            {% endif %}
-                                        {% endwith %}
-                                    </h5>
-                                                        
-                                        {% load tz %}
-                                        <div class="h4-cont">
-                                            <h4 class="avail-h4">Available from:</h4> <div class="time-cont"> <h4> {% localtime on %} {{ doc.time_avail_start|time:"g:i A" }}{% endlocaltime %}</h4></div>
-                                        </div>
-                                        <div class="h4-cont">
-                                            <h4 class="avail-h4">Available until:</h4> <div class="time-cont"> <h4>{% localtime on %} {{ doc.time_avail_end|time:"g:i A" }}{% endlocaltime %}</h4></div> 
-                                        </div>
-                                        
-                                    </div>
-                                {% endfor %}
+                <div class="top-card">
+                    <h5>Total Treatment</h5>
+                    <p>{{ treatments }}</p>
+                </div>
+            </div>
+            <div class="doctors">
+                <h1>Doctors</h1>
+                <div class="doc-cont">
+                    {% for doc in doctors %}
+                        <div class="doc">
+                            <h2>{{ doc.doctor.first_name }} {{ doc.doctor.last_name }}</h2>
+                            <h5>
+                                {% with avail='Available' no_avail='Unavailable' %}
+                                    {% if doc.avail %}
+                                        {{ avail }}
+                                    {% else %}
+                                        {{ no_avail }}
+                                    {% endif %}
+                                {% endwith %}
+                            </h5>
+                            {% load tz %}
+                            <div class="h4-cont">
+                                <h4 class="avail-h4">Available from:</h4>
+                                <div class="time-cont">
+                                    <h4>{% localtime on %} {{ doc.time_avail_start|time:'g:i A' }}{% endlocaltime %}</h4>
+                                </div>
                             </div>
-                        </div>
-
-
-                <div class="visit-chart lineChart">
-                    <div>
-                        <h3>Visit Over Time</h3>
-                        <button class="visit-filter" data-category="year">12 Months</button>
-                        <button class="visit-filter" data-category="month">30 Days</button>
-                        <button class="visit-filter" data-category="week">7 Days</button>
-                    </div>
-                    <div>
-                        <canvas id="visitCanvas"></canvas>
-                    </div>
-                </div>
-                <div class="treatment-chart lineChart">
-                    <h3>Recent Treatments</h3>
-                    <div>
-                        <button class="treatment-filter" data-category="week">7 days</button>
-                        <button class="treatment-filter" data-category="month">30 days</button>
-                        <button class="treatment-filter" data-category="year">12 months</button>
-                    </div>
-                    <div id="treatment-bar-space"></div>
-                </div>
-
-            
-            
-
-        
-    </main>
-    <div class="patient-right-part">
-
-
-                    <div class="weather-container">
-                        <div class="weather-header">
-                            <h1>Current Weather</h1>
-                        </div>
-                        <div class="temp-part">
-                            <img src="https://openweathermap.org/img/wn/{{ icon }}@2x.png" />
-                            <div class="temp-heatwave">
-                                <h1 class="span-normal">{{ temp }}°C</h1>
-                                <div class="heatwave">
-                                    <span class="span-lightgray">Heat Wave</span>
-                                    <span class="span-lightgray">{{ feels }}°C</span>
+                            <div class="h4-cont">
+                                <h4 class="avail-h4">Available until:</h4>
+                                <div class="time-cont">
+                                    <h4>{% localtime on %} {{ doc.time_avail_end|time:'g:i A' }}{% endlocaltime %}</h4>
                                 </div>
                             </div>
                         </div>
-                        <div class="location-part">
-                            <img src="{% static 'assets/images/landing-page/loc.svg' %}" />
-                            <div class="location">
-                                <h3>Bacolor, Dhvsu</h3>
-                                <span class="span-lightgray">Main Campus</span>
-                            </div>
-                        </div>
-                        <div class="sickness-part">
-                            <img src="{% static 'assets/images/landing-page/sick.svg' %}" />
-                            <div class="sickness">
-                                <ul>
-                                    {% for sick in predict %}<li>{{ sick.title }}</li>{% endfor %}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-
-                {% cache 30 bed_monitor %}
-                    <div class="bed-monitor">
-                        {% if beds %}
-                            <div class="beds">
-                                {% for bed in beds %}
-                                    {% if bed.status == False %}
-                                        <div class="bed-container" data-bed-id="{{ bed.id }}">
-                                            <span class="span-green">Available</span>
-                                            <img src="{% static 'assets/images/landing-page/available-bed.svg' %}" />
-                                            <span class="span-lightgray">Bed {{ forloop.counter }}</span>
-                                        </div>
-                                    {% elif bed.status == True %}
-                                        <div class="bed-container" data-bed-id="{{ bed.id }}">
-                                            <span class="span-lightred">Occupied</span>
-                                            <img src="{% static 'assets/images/landing-page/occupied-bed.svg' %}" />
-                                            <span class="span-lightgray">Bed {{ forloop.counter }}</span>
-                                        </div>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            <div class="beds2">
-                                <img src="{% static 'assets/images/landing-page/no-bed-illus.svg' %}" />
-                                <h1>There are no beds available</h1>
-                                <p class="no-avail">We apologize for the inconvenience</p>
-                            </div>
-                        {% endif %}
-                    </div>
-                {% endcache %}
-
-
-            <div class="med-cert-cont">
-                <h1>Medical Certificates</h1>
-                <h3>
-                    Requested Total:
-                    {% if certificates_data %}{{ certificates_data.all }}{% endif %}
-                </h3>
-                <h3>
-                    Pending:
-                    {% if certificates_data %}{{ certificates_data.pending }}{% endif %}
-                </h3>
-                <h3>
-                    Completed:
-                    {% if certificates_data %}{{ certificates_data.completed }}{% endif %}
-                </h3>
-                <button class="js_request_medcert_btn">Request Medical Certificate</button>
+                    {% endfor %}
+                </div>
             </div>
-            
-            
-
-
+            <div class="visit-chart lineChart">
+                <div>
+                    <h3>Visit Over Time</h3>
+                    <button class="visit-filter" data-category="year">12 Months</button>
+                    <button class="visit-filter" data-category="month">30 Days</button>
+                    <button class="visit-filter" data-category="week">7 Days</button>
+                </div>
+                <div>
+                    <canvas id="visitCanvas"></canvas>
+                </div>
+            </div>
+            <div class="treatment-chart lineChart">
+                <h3>Recent Treatments</h3>
+                <div>
+                    <button class="treatment-filter" data-category="week">7 days</button>
+                    <button class="treatment-filter" data-category="month">30 days</button>
+                    <button class="treatment-filter" data-category="year">12 months</button>
+                </div>
+                <div id="treatment-bar-space"></div>
+            </div>
+        </main>
+        <div class="patient-right-part">
+            <div class="weather-container">
+                <div class="weather-header">
+                    <h1>Current Weather</h1>
+                </div>
+                <div class="temp-part">
+                    <img src="https://openweathermap.org/img/wn/{{ icon }}@2x.png" />
+                    <div class="temp-heatwave">
+                        <h1 class="span-normal">{{ temp }}°C</h1>
+                        <div class="heatwave">
+                            <span class="span-lightgray">Heat Wave</span>
+                            <span class="span-lightgray">{{ feels }}°C</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="location-part">
+                    <img src="{% static 'assets/images/landing-page/loc.svg' %}" />
+                    <div class="location">
+                        <h3>Bacolor, Dhvsu</h3>
+                        <span class="span-lightgray">Main Campus</span>
+                    </div>
+                </div>
+                <div class="sickness-part">
+                    <img src="{% static 'assets/images/landing-page/sick.svg' %}" />
+                    <div class="sickness">
+                        <ul>
+                            {% for sick in predict %}<li>{{ sick.title }}</li>{% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% cache 30 bed_monitor %}
+            <div class="bed-monitor">
+                {% if beds %}
+                    <div class="beds">
+                        {% for bed in beds %}
+                            {% if bed.status == False %}
+                                <div class="bed-container" data-bed-id="{{ bed.id }}">
+                                    <span class="span-green">Available</span>
+                                    <img src="{% static 'assets/images/landing-page/available-bed.svg' %}" />
+                                    <span class="span-lightgray">Bed {{ forloop.counter }}</span>
+                                </div>
+                            {% elif bed.status == True %}
+                                <div class="bed-container" data-bed-id="{{ bed.id }}">
+                                    <span class="span-lightred">Occupied</span>
+                                    <img src="{% static 'assets/images/landing-page/occupied-bed.svg' %}" />
+                                    <span class="span-lightgray">Bed {{ forloop.counter }}</span>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="beds2">
+                        <img src="{% static 'assets/images/landing-page/no-bed-illus.svg' %}" />
+                        <h1>There are no beds available</h1>
+                        <p class="no-avail">We apologize for the inconvenience</p>
+                    </div>
+                {% endif %}
+            </div>
+        {% endcache %}
+        <div class="med-cert-cont">
+            <h1>Medical Certificates</h1>
+            <h3>
+                Requested Total:
+                {% if certificates_data %}{{ certificates_data.all }}{% endif %}
+            </h3>
+            <h3>
+                Pending:
+                {% if certificates_data %}{{ certificates_data.pending }}{% endif %}
+            </h3>
+            <h3>
+                Completed:
+                {% if certificates_data %}{{ certificates_data.completed }}{% endif %}
+            </h3>
+            <button class="js_request_medcert_btn">Request Medical Certificate</button>
+        </div>
     </div>
-    
 </div>
 <div class="js_request_medcert_modal modal">
     <!-- Modal content -->
     <div class="modal-content">
         <span class="material-symbols-outlined close js_close_medcert_modal">cancel</span>
-        <form action="{% url "post_create_certificate_request" %}" method="POST">
+        <form action="{% url 'post_create_certificate_request' %}" method="POST">
             {% csrf_token %}
             <label for="">Why are you requesting a medical certificate?</label>
             <input type="textarea"
                    placeholder="Type your reason here..."
                    name="purpose"
                    maxlength="500"
-                   required>
+                   required />
             <div class="form-buttons">
-            <button class="form-button" type="submit">Issue a Request</button>
-            <button class="js_close_medcert_modal cancel-button" type="button">Cancel</button>
+                <button class="form-button" type="submit">Issue a Request</button>
+                <button class="js_close_medcert_modal cancel-button" type="button">Cancel</button>
             </div>
         </form>
     </div>
@@ -215,5 +196,5 @@
 {% block script %}
     {{ request.user.email|json_script:'user_email' }}
     <script src="{% static 'chart.js/dist/chart.umd.js' %}"></script>
-    <script src="{% static "js/patient/overview.js" %}" type="module"></script>
+    <script src="{% static 'js/patient/overview.js' %}" type="module"></script>
 {% endblock %}

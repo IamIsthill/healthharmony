@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 @login_required(login_url="account_login")
 def overview_view(request):
     access_checker(request)
-    context = {}
+    context = {"page": "Dashboard"}
     try:
         with ThreadPoolExecutor() as tp:
             tp.submit(check_models)
@@ -54,7 +54,7 @@ def overview_view(request):
 @login_required(login_url="account_login")
 def records_view(request, pk):
     access_checker(request)
-    context = {}
+    context = {"page": "Health Records"}
     try:
         user = User.objects.get(id=int(pk))
     except Exception as e:
@@ -106,7 +106,7 @@ def post_create_certificate_request(request):
 @login_required(login_url="account_login")
 def patient_view(request, pk):
     access_checker(request)
-    context = {}
+    context = {"page": "Patient Profile"}
 
     if request.method == "POST":
         form = UpdateProfileInfo(request.POST, files=request.FILES)
