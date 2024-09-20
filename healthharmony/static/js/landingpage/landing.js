@@ -13,10 +13,10 @@ function handle_making_readable_time() {
     }
 
     for (const time_element of time_elements) {
-        console.log(time_element)
-        const time = formatTime(time_element.innerText)
-        time_element.innerText = time
-
+        if (time_element.innerText != '') {
+            const time = formatTime(time_element.innerText)
+            time_element.innerText = time
+        }
     }
 
 }

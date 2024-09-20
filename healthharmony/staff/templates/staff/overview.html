@@ -83,6 +83,31 @@
             </form>
         </div>
     </div>
+    <div class="modal" id="js_add_patient_modal">
+        <div class="modal-content">
+            <span class="material-symbols-outlined close js_close_add_patient_modal">cancel</span>
+            <form action="{% url 'post_add_patient' %}"
+                  method="POST"
+                  class="js_add_patient_form">
+                {% csrf_token %}
+                <label for="">First Name</label>
+                <input type="text" name="first_name" required placeholder="First Name..." />
+                <label for="">Last Name</label>
+                <input type="text" name="last_name" required placeholder="Last Name..." />
+                <label for="">Email</label>
+                <input type="text"
+                       name="email"
+                       required
+                       placeholder="Email(must be unique)..." />
+                <label for="">Contact Details</label>
+                <input type="text" name="contact" required placeholder="Contact details..." />
+                <label for="">Date of Birth</label>
+                <input type="date" name="DOB" required placeholder="Date of Birth" />
+                <button type="submit">Add Patient</button>
+                <button type="button" class="js_close_add_patient_modal">Close</button>
+            </form>
+        </div>
+    </div>
 {% endblock %}
 {% block script %}
     {% include 'staff/overview-script.html' %}

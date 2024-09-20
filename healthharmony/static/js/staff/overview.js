@@ -37,7 +37,7 @@ function main() {
     listenToModalOk()
 
     listenToAddVisitBtn()
-    // handle_add_new_patient_btn()
+    handle_add_new_patient_btn()
 
     listenToCategoryFilterBtns()
     listenToCategorySelector()
@@ -57,13 +57,24 @@ function main() {
 }
 
 function handle_add_new_patient_btn() {
-    const btn = document.querySelector('.js_add_new_patient')
+    const btn = document.querySelector('.js-add-patient')
 
-    btn.addEventListener('click', (event) => {
-        event.preventDefault()
-        // const addVisitModal = document.getElementById('js-add-visit-modal')
+    btn.addEventListener('click', () => {
+        const modal = document.getElementById('js_add_patient_modal')
+        const close_btns = document.querySelectorAll('.js_close_add_patient_modal')
 
-        // addVisitModal.style.display = 'none'
+        openModal(modal)
+
+        for(const btn of close_btns) {
+            closeModal(modal, btn)
+
+            // Reset the form when closed
+            btn.addEventListener('click', () => {
+                const form = document.querySelector('.js_add_patient_form')
+                form.reset()
+            })
+        }
+
     })
 }
 

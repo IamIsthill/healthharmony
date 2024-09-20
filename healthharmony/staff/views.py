@@ -60,7 +60,6 @@ from healthharmony.app.settings import env
 logger = logging.getLogger(__name__)
 
 
-@login_required(login_url="account_login")
 def generate_password(length=12):
     characters = string.ascii_letters + string.digits + string.punctuation
     return "".join(secrets.choice(characters) for i in range(length))
@@ -422,6 +421,52 @@ def fetch_patient_list(request):
         logger.info(f"{request.user.email} failed to fetch patient list: {str(e)}")
 
     return patient_list or None
+
+
+@login_required(login_url="account_login")
+def post_add_patient(request):
+    access_checker(request)
+    if request.method.lower() == "post":
+        try:
+            patient, created = User.objects.get_or_create(
+                email=request.POST.get("email")
+            )
+        except Exception as e:
+            logger.info(f"Failed to create new patient: {str(e)}")
+            messages.error(request, "Failed to add new patient")
+            return redirect("staff-overview")
+
+        if created:
+            patient.access = 1
+            patient.first_name = request.POST.get("first_name")
+            patient.last_name = request.POST.get("last_name")
+            patient.DOB = request.POST.get("DOB")
+            patient.contact = request.POST.get("contact")
+
+            password = generate_password()
+            patient.set_password(password)
+
+            patient.save()
+
+            logger.info(f"Created new user {patient.email} with id [{patient.id}]")
+
+            Log.objects.create(
+                user=request.user,
+                action=f"Created new user {patient.email} with id [{patient.id}]",
+            )
+            subject = "Welcome to HealthHarmony!"
+            body = f"<h1>This is your password {password}</h1><p>With HTML content</p>"
+            from_email = env("EMAIL_ADD")
+            recipient_list = [patient.email]
+            email = EmailMessage(subject, body, from_email, recipient_list)
+            email.content_subtype = "html"
+            email.send()
+            logger.info(f"Email was sent to: {patient.email}")
+            messages.success(request, "Patient has been added to the system.")
+        else:
+            logger.info(f"User {patient.email} already exists.")
+            messages.error(request, f"User {patient.email} already exists.")
+    return redirect("staff-overview")
 
 
 @login_required(login_url="account_login")
