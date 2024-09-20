@@ -13,7 +13,11 @@ from healthharmony.models.bed.models import BedStat
 from healthharmony.models.treatment.models import Certificate, Illness, Category
 from healthharmony.users.models import User, Department
 
-from healthharmony.api.serializers import BedStatSerializer, CertificateSerializer
+from healthharmony.api.serializers import (
+    BedStatSerializer,
+    CertificateSerializer,
+    UserSerializer,
+)
 
 from healthharmony.api.functions import (
     update_context_visit_data,
@@ -247,8 +251,6 @@ def filtered_account_list(request):
 
     access_map = {"patient": 1, "staff": 2, "doctor": 3}
 
-    reverse_access_map = {v: k for k, v in access_map.items()}
-
     if access == "all":
         users = User.objects.values(
             "first_name", "last_name", "email", "date_joined", "access"
@@ -262,12 +264,10 @@ def filtered_account_list(request):
         else:
             return JsonResponse({"error": "Invalid access type"}, status=400)
 
-    users_list = list(users)  # Convert ValuesQuerySet to a list
-    for user in users_list:
-        if user["first_name"] is None:
-            user["first_name"] = " "
-        if user["last_name"] is None:
-            user["last_name"] = " "
-        user["access"] = reverse_access_map.get(user["access"], "unknown")
+    user_data = []
+    if users:
+        for user in users:
+            data = UserSerializer(user)
+            user_data.append(data.data)
 
-    return JsonResponse(users_list, safe=False)
+    return JsonResponse(user_data, safe=False)
