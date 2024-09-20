@@ -31,12 +31,14 @@
     </div>
 </section>
 <div class="bed-section modal js-check-bed-modal">
-    <div class="modal-content">
-        <h3>Bed Monitor</h3>
-        <form action="{% url 'staff-bed' %}" method="post">
-            {% csrf_token %}
-            <button class="newBed-btn" type="submit">Add New Bed</button>
-        </form>
+    <div class="modal-content bed-modal">
+        <div class="bed-top">
+            <h3>Bed Monitor</h3>
+            <form action="{% url 'staff-bed' %}" method="post">
+                {% csrf_token %}
+                <button class="newBed-btn" type="submit">Add New Bed</button>
+            </form>
+        </div>
         <div class="bedSpace">
             {% if beds %}
                 {% for bed in beds %}
@@ -45,14 +47,17 @@
                           method="post">
                         {% csrf_token %}
                         <input type="hidden" name="status" value="{{ bed.status }}" />
-                        <h4>Bed {{ forloop.counter }}</h4>
-                        <button type="submit">
-                            {% if bed.status == True %}
-                                Occupied
-                            {% else %}
-                                Available
-                            {% endif %}
-                        </button>
+                        <div class="bed-cont">
+                           <div class="h4-cont"> <h4>Bed {{ forloop.counter }}</h4></div>
+                              <button type="submit">
+                                {% if bed.status == True %}
+                                    Occupied
+                                {% else %}
+                                    Available
+                                {% endif %}
+                            </button>
+                           
+                        </div>
                     </form>
                 {% empty %}
                 {% endfor %}
