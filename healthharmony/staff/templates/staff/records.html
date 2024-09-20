@@ -109,10 +109,10 @@
                                     <td class="table-data patient-column">{{ data.first_name }} {{ data.last_name }}</td>
                                     <td class="table-data concern-column">{{ data.issue|truncatechars:60 }}</td>
                                     <td class="table-data status-column">
-                                        {% if data.diagnosis %}
-                                            Finished
-                                        {% else %}
+                                        {% if data.diagnosis == '' %}
                                             Ongoing
+                                        {% else %}
+                                            Finished
                                         {% endif %}
                                     </td>
                                     <td class="table-data view-column js-view-illness-btn"
