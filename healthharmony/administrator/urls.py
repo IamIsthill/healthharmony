@@ -10,4 +10,5 @@ urlpatterns = [
         views.post_update_user_access,
         name="post_update_user_access",
     ),
+    path("accounts/post_delete_user/", views.post_delete_user, name="post_delete_user"),
 ]

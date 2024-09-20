@@ -145,7 +145,7 @@ def post_update_user_access(request):
             user = User.objects.get(id=int(user_id))
         except Exception as e:
             logger.info(
-                f"{request.user.email} tried to search for a user with a non-existen id: {str(e)}"
+                f"{request.user.email} tried to search for a user with a non-existing id: {str(e)}"
             )
             messages.error(request, "Failed to find the user. Please try again.")
             return redirect("admin-accounts")
@@ -159,4 +159,30 @@ def post_update_user_access(request):
         )
         logger.info(f"{request.user.email} has changed the access for user[{user.id}]")
         messages.success(request, f"Successfully update the access for {user.email}")
+    return redirect("admin-accounts")
+
+
+@login_required(login_url="account_login")
+def post_delete_user(request):
+    account_checker(request)
+    if request.method.lower() == "post":
+        user_id = request.POST.get("user_id")
+
+        try:
+            user = User.objects.get(id=int(user_id))
+        except Exception as e:
+            logger.info(
+                f"{request.user.email} tried to search for a user with a non-existing id: {str(e)}"
+            )
+            messages.error(request, "Failed to find user. Please try again")
+            return redirect("admin-accounts")
+
+        user.delete()
+
+        logger.info(f"{request.user.email} has deleted user[{user.id}]")
+        Log.objects.create(
+            user=request.user,
+            action=f"{request.user.email} has deleted user[{user.id}]",
+        )
+        messages.success(request, f"Successfully deleted user with email {user.email}")
     return redirect("admin-accounts")

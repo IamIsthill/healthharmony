@@ -105,6 +105,7 @@
                             <th>Email</th>
                             <th>Date Joined</th>
                             <th>Access</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody class="js_account_body">
@@ -123,6 +124,9 @@
                                                 <option value="4" {% if user.access == 4 %}selected{% endif %}>Admin</option>
                                             </select>
                                         </div>
+                                    </td>
+                                    <td>
+                                        <button class="js_delete_user" data-user-id="{{ user.id }}">Delete</button>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -191,6 +195,9 @@
                 <button type="button" class="js_close_access_form">Close</button>
             </form>
         </div>
+    </div>
+    <div class="modal js_delete_user_modal">
+        <div class="modal-content"></div>
     </div>
 {% endblock %}
 {% block script %}
