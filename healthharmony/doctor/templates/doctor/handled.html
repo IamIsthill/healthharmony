@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load tags %}
 {% block title %}Handled Cases | HealthHarmony{% endblock %}
 {% block header %}
     <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
@@ -62,9 +63,43 @@
     </style>
 {% endblock %}
 {% block message %}
-    <div class="messages">
-        {% for m in messages %}<div>{{ m }}</div>{% endfor %}
-    </div>
+    {% if messages|has_error_message %}
+        {% comment %} {% include 'error.html' %} {% endcomment %}
+        <div class="containerPage js-error-modal" id="popupError">
+            <div class="popUp-visit">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     height="70px"
+                     viewBox="0 -960 960 960"
+                     width="70px"
+                     fill="#FF2D19">
+                    <path d="M479.98-280q14.02 0 23.52-9.48t9.5-23.5q0-14.02-9.48-23.52t-23.5-9.5q-14.02 0-23.52 9.48t-9.5 23.5q0 14.02 9.48 23.52t23.5 9.5ZM453-433h60v-253h-60v253Zm27.27 353q-82.74 0-155.5-31.5Q252-143 197.5-197.5t-86-127.34Q80-397.68 80-480.5t31.5-155.66Q143-709 197.5-763t127.34-85.5Q397.68-880 480.5-880t155.66 31.5Q709-817 763-763t85.5 127Q880-563 880-480.27q0 82.74-31.5 155.5Q817-252 763-197.68q-54 54.31-127 86Q563-80 480.27-80Zm.23-60Q622-140 721-239.5t99-241Q820-622 721.19-721T480-820q-141 0-240.5 98.81T140-480q0 141 99.5 240.5t241 99.5Zm-.5-340Z" />
+                </svg>
+                <span>Unexpected Error</span>
+                {% for message in messages %}
+                    {% if message.tags == 'error' %}<p>{{ message }}</p>{% endif %}
+                {% endfor %}
+                <button class="js-modal-btn-ok">OK</button>
+            </div>
+        </div>
+    {% endif %}
+    {% if messages|has_success_message %}
+        <div class="containerPage js-success-modal" id="popupSuccess">
+            <div class="popUp-visit js-modal-content">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     height="70px"
+                     viewBox="0 -960 960 960"
+                     width="70px"
+                     fill="#2FC32C">
+                    <path d="m421-298 283-283-46-45-237 237-120-120-45 45 165 166Zm59 218q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-83 31.5-156t86-127Q252-817 325-848.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 82-31.5 155T763-197.5q-54 54.5-127 86T480-80Zm0-60q142 0 241-99.5T820-480q0-142-99-241t-241-99q-141 0-240.5 99T140-480q0 141 99.5 240.5T480-140Zm0-340Z" />
+                </svg>
+                <span>Success!</span>
+                {% for message in messages %}
+                    {% if message.tags == 'success' %}<p>{{ message }}</p>{% endif %}
+                {% endfor %}
+                <button class="btn js-modal-btn-ok">OK</button>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
 {% block main %}
     {% include 'doctor/nav-top.html' %}
@@ -157,6 +192,7 @@
 {% block script %}
     {{ department_data|json_script:'department_data' }}
     {{ illness_category_data|json_script:'illness_category_data' }}
+    <script src="{% static 'js/general/messages.js' %}" type="module"></script>
     <script src="{% static 'chart.js/dist/chart.umd.js' %}"></script>
     <script src="{% static 'js/doctor/handled.js' %}" type="module"></script>
 {% endblock %}
