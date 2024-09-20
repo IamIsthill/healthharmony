@@ -70,6 +70,7 @@
 .bars canvas{
     border-radius: 2rem;
     width: 100%;
+    height: 1rem;
 }
 .barsTop{
     display: flex;
@@ -108,9 +109,66 @@
     border:1px solid var(--light_gray);
 }
 
-
-
-
+/* BED SECTION */
+    .bed-modal{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: 50%;
+        margin: 5% auto;
+        gap: 1rem;
+    }
+    .bed-top{
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .bed-top h3{
+        font-size: var(--size-xl);
+        font-weight: 600;
+    }
+    .bed-top button{
+        padding: 0.4rem 1rem;
+        background-color: black;
+        color: white;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+    }
+    .bed-top button:hover{
+        background-color: rgba(0, 0, 0, 0.616);
+    }
+    .bedSpace{
+        width: 20rem;
+    }
+    .bed-cont{
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+    .bed-cont .h4-cont, .bed-cont button{
+        width: 50%;
+        height: 3rem;
+        margin-bottom: 4px;
+    }
+    .h4-cont{
+        border: 1px solid black;
+        border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .h4-cont h4{
+        font-weight: 500;
+        font-size: var(--size-xl);
+    }
+    .bed-cont button{
+        background: rgb(1, 119, 1);
+        border-radius: 8px;
+        color: white;
+    }
+/* BED SECTION */
 
 
 

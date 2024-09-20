@@ -63,12 +63,18 @@ aside{
 
 .profile-container {
     display: flex;
+    flex-direction: row;
     justify-content: end;
     align-items: center;
     height: 3rem;
     gap: 4px;
 }
+.js_profile_info{
+    display: flex;
+    gap: 4px;
+}
 .profile-pic {
+    cursor: pointer;
     width: 40px; /* Adjust size as necessary */
     height: 40px; /* Ensure width and height are equal */
     border-radius: 8px; /* Makes the image circular */
@@ -81,6 +87,7 @@ aside{
     margin-top: 4px;
 }
 .profile-info h3{
+    cursor: pointer;
     display: inline-block;
     color: var(--normal-fontcolor);
     font-weight: 500;
