@@ -4,7 +4,7 @@
 {% load tags %}
 {% block header %}
     <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/doctor/nav.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
     <link rel="stylesheet" href="{% static 'css/doctor/patient-account.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
@@ -13,59 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
           rel="stylesheet" />
     <style>
-    #inventory_list {
-      max-height: 20px;
-      overflow-y: auto;
-    }
-    img {
-      width: 500px;
-      height: 500px;
-    }
-
-    .btn {
-      cursor: pointer;
-    }
-
-    .hide {
-      display: none;
-    }
-    /* The Modal (background) */
-    .modal {
-      display: none; /* Hidden by default */
-      position: fixed; /* Stay in place */
-      z-index: 1; /* Sit on top */
-      left: 0;
-      top: 0;
-      width: 100%; /* Full width */
-      height: 100%; /* Full height */
-      overflow: auto; /* Enable scroll if needed */
-      background-color: rgb(0, 0, 0); /* Fallback color */
-      background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-    }
-
-    /* Modal Content/Box */
-    .modal-content {
-      background-color: #fefefe;
-      margin: 15% auto; /* 15% from the top and centered */
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%; /* Could be more or less, depending on screen size */
-    }
-
-    /* The Close Button */
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
+    
     </style>
 {% endblock %}
 {% block title %}Patient Information | HealthHarmony{% endblock %}
@@ -113,84 +61,102 @@
     <div class="doctor-profile-container">
         {% include 'doctor/nav.html' %}
         <main>
-            <div class="patient-profile">
-                {% if user.profile != 'user_profiles/fallback.png' %}
-                    <div class="dp-container">
-                        <img src="{{ user.profile.url }}" alt="user_uploaded" />
-                    </div>
-                {% elif picture.picture is not None %}
-                    <div class="dp-container">
-                        <img src="{{ picture.picture }}" alt="google_pic" />
-                    </div>
-                {% else %}
-                    <div class="dp-container">
-                        <img src="{{ user.profile.url }}" alt="fallback" />
-                    </div>
-                {% endif %}
-                {% if user.first_name and user.last_name %}
-                    <h3 class="patient-profile-name">{{ user.first_name }} {{ user.last_name }}</h3>
-                {% endif %}
-                {% if user.email %}<h3 class="patient-profile-data">Email: {{ user.email }}</h3>{% endif %}
-                {% if user.contact %}<h3 class="patient-profile-data">Contact Number: {{ user.contact }}</h3>{% endif %}
-            </div>
-            <div class="vital-statistic">
-                <h3>Vital Statistics</h3>
-                <button class="js_edit_vital_btn">Edit</button>
-                <div class="vital-data">
-                    <div class="vital-left js_patient_vital_labels">
-                        <span>Blood Type</span>
-                        <span>Height(cm)</span>
-                        <span>Weight(kg)</span>
-                    </div>
-                    <div class="vital-right">
-                        <p>{{ user.blood_type|default_if_none:'' }}</p>
-                        <p>{{ user.height|default_if_none:'' }}</p>
-                        <p>{{ user.weight|default_if_none:'' }}</p>
-                    </div>
+            <div class="top-part">
+                <div class="patient-profile">
+                    <div class="profile-main">
+                    {% if user.profile != 'user_profiles/fallback.png' %}
+                        <div class="dp-container">
+                            <img class="dp-pic" src="{{ user.profile.url }}" alt="user_uploaded" />
+                        </div>
+                    {% elif picture.picture is not None %}
+                        <div class="dp-container">
+                            <img class="dp-pic" src="{{ picture.picture }}" alt="google_pic" />
+                        </div>
+                    {% else %}
+                        <div class="dp-container">
+                            <img class="dp-pic" src="{{ user.profile.url }}" alt="fallback" />
+                        </div>
+                    {% endif %}
+                    {% if user.first_name and user.last_name %}
+                        <h3 class="patient-profile-name">{{ user.first_name }} {{ user.last_name }}</h3>
+                    {% endif %}
+                    {% if user.email %}<h3 class="patient-profile-data">Email: {{ user.email }}</h3>{% endif %}
+                    {% if user.contact %}<h3 class="patient-profile-data">Contact Number: {{ user.contact }}</h3>{% endif %}
                 </div>
-            </div>
-        </main>
-        <div class="right-part-profile">
-            <div class="detailed-info">
-                <div class="detailed-top">
-                    <h3>Detailed Information</h3>
-                    <button class="js_edit_patient_btn">Edit</button>
+                <div class="vital-statistic">
+                            <div class="detailed-top">
+                                <h3>Vital Statistics</h3>
+                                <button class="js_edit_vital_btn">Edit</button>
+                            </div>   
+                            <div class="vital-data">
+                                <div class="vital-left js_patient_vital_labels">
+                                    <span>Blood Type</span>
+                                    <span>Height(cm)</span>
+                                    <span>Weight(kg)</span>
+                                </div>
+                                <div class="vital-right">
+                                    <p>{{ user.blood_type|default_if_none:'' }}</p>
+                                    <p>{{ user.height|default_if_none:'' }}</p>
+                                    <p>{{ user.weight|default_if_none:'' }}</p>
+                                </div>
+                            </div>
+                        </div>
                 </div>
-                <div class="info-cont">
-                    <div class="detailed-left js_patient_labels">
-                        <span class="js_form_age_label">Age</span>
-                        <span>Sex</span>
-                        <span>Contact</span>
-                        <span>Year and Section</span>
-                        <span>Program</span>
-                        <span>Department</span>
+
+               
+                        
+                        <div class="detailed-info">
+                        <div class="detailed-top">
+                            <h3>Detailed Information</h3>
+                            <button class="js_edit_patient_btn">Edit</button>
+                        </div>
+                        <div class="info-cont">
+                            <div class="detailed-left js_patient_labels">
+                                <span class="js_form_age_label">Age</span>
+                                <span>Sex</span>
+                                <span>Contact</span>
+                                <span>Year and Section</span>
+                                <span>Program</span>
+                                <span>Department</span>
+                            </div>
+                            <div class="detailed-right">
+                                <p>{{ age }}</p>
+                                <p>{{ user.sex }}</p>
+                                <p>{{ user.contact }}</p>
+                                <p>{{ user.year }} - {{ user.section }}</p>
+                                <p>{{ user.program }}</p>
+                                <p>{{ user.department }}</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="detailed-right">
-                        <p>{{ age }}</p>
-                        <p>{{ user.sex }}</p>
-                        <p>{{ user.contact }}</p>
-                        <p>{{ user.year }} - {{ user.section }}</p>
-                        <p>{{ user.program }}</p>
-                        <p>{{ user.department }}</p>
-                    </div>
-                </div>
+              
             </div>
             <div class="illnesses visit-history">
-                <h2>Visit History</h2>
-                <div>
-                    <button class="js-illness-filter" data-category="all">All</button>
-                    <button class="js-illness-filter" data-category="not">Pending</button>
-                    <button class="js-illness-filter" data-category="done">Released</button>
+                <div class="visit-top">
+                    <h2>Visit History</h2>
+                    <div class="category-buttons">
+                        <button class="js-illness-filter visit_cat-active" data-category="all">All</button>
+                        <button class="js-illness-filter visit_cat " data-category="not">Pending</button>
+                        <button class="js-illness-filter visit_cat" data-category="done">Released</button>
+                    </div>
                 </div>
                 <div class="illness_body">
                     {% for illness in illnesses %}
                         <div data-illness-id="{{ illness.id }}" class="js-illness">
-                            <p>
-                                Date and Time: <span class="js-dates">{{ illness.added }}</span>
-                            </p>
-                            <p>Symptoms: {{ illness.issue }}</p>
-                            <p>Category of Symptom: {{ illness.category_name|default_if_none:'' }}</p>
-                            <p>Diagnosis: {{ illness.diagnosis|default_if_none:'' }}</p>
+                            <div class="info-cont">
+                                <div class="visit-left">
+                                    <span>Date and Time:</span>
+                                    <span>Symptoms:</span>
+                                    <span>Category of Symptom:</span>
+                                    <span>Diagnosis:</span>
+                                </div>
+                                <div class="visit-right">
+                                    <p class="js-dates">{{ illness.added }}</p>
+                                    <p>{{ illness.issue }}</p>
+                                    <p>{{ illness.category_name|default_if_none:'' }}</p>
+                                    <p>{{ illness.diagnosis|default_if_none:'' }}</p>
+                                </div>
+                            </div>
                             {% if illness.treatment %}
                                 <div class="js-treatment-list hide">
                                     <p>Treatments:</p>
@@ -206,19 +172,24 @@
                                         {% endfor %}
                                     </ul>
                                 </div>
+                                
                                 <button class="js-expand-illness-btn">Expand</button>
                             {% endif %}
                             {% if request.user.access > 2 and illness.diagnosis is None %}
-                                <button class="js-edit-illness-btn">Edit</button>
+                                <div class="edit-buttons">
+                            <button class="js-edit-illness-btn">Edit</button>
                             {% endif %}
-                            <button class="js-illness-note-btn">Leave Notes</button>
+                            <button class="js-illness-note-btn"> <span class="material-symbols-outlined">
+                                edit_note
+                                </span> Leave Notes</button>
+                            </div>
                         </div>
                     {% empty %}
                         <h5>No visit history</h5>
                     {% endfor %}
                 </div>
-            </div>
-        </div>
+
+        </main>
     </div>
     <div class="modal js-edit-illness-modal">
         <div class="modal-content">

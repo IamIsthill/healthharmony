@@ -374,23 +374,25 @@ function get_form_element_for_patient_details() {
     }
 
     form_element.innerHTML = `
+    
         <input name="csrfmiddlewaretoken" value="${getToken()}" type="hidden" />
         <input name="patient_id" value="${patient_data.id}" type="hidden" />
         <input name="DOB" value="${patient_data.DOB}" type="date" />
         <input name="sex" value="${patient_data.sex}" type="text" />
         <input name="contact" value="${patient_data.contact}" type="text" placeholder="contact" />
-        <div>
+        <div class = "year-section">
         <input name="year" value="${patient_data.year}" type="number" placeholder="year" />
         <input name="section" value="${patient_data.section}" type="text" placeholder="section"/>
         </div>
         <input name="program" value="${patient_data.program}" type="text" placeholder="Program..."/>
         <input name="department" value="${patient_data.department_name}" type="text" placeholder="Department..." list="department_list" />
+    
     `
     form_element.appendChild(department_list_element)
     form_element.innerHTML += `
-        <div>
-            <button type="submit">Update</button>
-            <button type="button" class="js_cancel_pattient_btn">Cancel</button>
+        <div class = "edit-buttons">
+            <button class ="update-btn" type="submit">Update</button>
+            <button type="button" class="js_cancel_pattient_btn cancel-btn">Cancel</button>
         </div>
     `
 
@@ -435,15 +437,17 @@ function get_form_element_for_patient_vital() {
     form_element.classList.add('vital-right')
 
     form_element.innerHTML = `
-    <input name="csrfmiddlewaretoken" value="${getToken()}" type="hidden" />
-    <input name="patient_id" value="${patient_data.id}" type="hidden" />
-    <input name="blood_type" value="${patient_data.blood_type}" type="text" required placeholder="Patient's blood type..." />
-    <input name="height" value="${patient_data.height}" type="number" required placeholder="Patient's height..." pattern="[0-2]$" />
-    <input name="weight" value="${patient_data.weight}" type="number" required placeholder="Patient's weight..." />
-    <div>
-        <button type="submit">Update</button>
-        <button type="button" class="js_cancel_pattient_btn">Cancel</button>
-    </div>
+    
+        <input name="csrfmiddlewaretoken" value="${getToken()}" type="hidden" />
+        <input name="patient_id" value="${patient_data.id}" type="hidden" />
+        <input name="blood_type" value="${patient_data.blood_type}" type="text" required placeholder="Patient's blood type..." />
+        <input name="height" value="${patient_data.height}" type="number" required placeholder="Patient's height..." pattern="[0-2]$" />
+        <input name="weight" value="${patient_data.weight}" type="number" required placeholder="Patient's weight..." />
+        <div class = "edit-buttons">
+            <button class ="update-btn" type="submit">Update</button>
+            <button type="button" class="js_cancel_pattient_btn cancel-btn">Cancel</button>
+        </div>
+    
     `
 
     return form_element
