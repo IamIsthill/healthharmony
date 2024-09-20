@@ -1,7 +1,7 @@
 
 .action-part{
     margin-top: 0.7rem;
-    height: 7rem;
+    height: 10rem;
     padding: 1rem 1.2rem;
     width: 100%;
     border-radius: 1.2rem;
@@ -17,6 +17,9 @@
 }
 .action-button-container{
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 1rem;
 }
 .action-button{
@@ -25,6 +28,10 @@
     height: 2.5rem;
     border-radius: 8px;
     transition: all 0.3s ease;
+}
+.button-top{
+    display: flex;
+    gap: 8px;
 }
 .action-button:hover{
     background: rgba(255, 255, 255, 0.596);
@@ -108,7 +115,9 @@
 .bar-btn:hover{
     border:1px solid var(--light_gray);
 }
-
+.add-new-content{
+    margin: 3% auto;
+}
 /* BED SECTION */
     .bed-modal{
         display: flex;
@@ -169,14 +178,16 @@
         color: white;
     }
 /* BED SECTION */
-
+.add-new form input{
+    height: 3rem;
+}
 
 
 /* 2xl */
 @media (max-width: 1536px) {
     .action-part{
         margin-top: 1rem;
-        height: 7rem;
+        height: 9rem;
         padding: 1rem 1.2rem;
     }
     .action-part h1{
@@ -206,7 +217,7 @@
     }
     .action-part{
         margin-top: 0rem;
-        height: 7rem;
+        height: 9rem;
         padding: 1rem 1.2rem;
     }
     .action-part h1{
