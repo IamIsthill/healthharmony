@@ -5,7 +5,7 @@ import {
     createChart,
     createBars,
     // getDateBasedOnFilter
-} from '/static/js/utils.js'
+} from '../utils.js'
 import {
     compareItemNames,
     compareStock,
@@ -14,19 +14,19 @@ import {
     searchInventory,
     getInventoryUsingId,
     createUpdateInventoryForm
-} from '/static/js/staff/inventory-table.js'
+} from './inventory-table.js'
 import {
     getCountsAndLabelsForInventoryChart,
     getChartParams,
     createInventoryChart,
     getTrendsParams,
     getInventoryItem,
-} from '/static/js/staff/inventory-chart.js'
+} from './inventory-chart.js'
 import {
     sortInventoryData,
     countCurrentStocksAndExpiredItems,
     createInventoryBar
-} from '/static/js/staff/inventory-stock.js'
+} from './inventory-stock.js'
 
 const sortedInventory = JSON.parse(document.getElementById('sorted-inventory').textContent)
 const countedInventory = JSON.parse(document.getElementById('counted-inventory').textContent)

@@ -1,6 +1,6 @@
 import {
     get_treatment_data_using_id
-} from '/static/js/doctor/patient-history.js'
+} from './patient-history.js'
 
 export function get_add_more_btn() {
     const add_more_btn = document.createElement('button');

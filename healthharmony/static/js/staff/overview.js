@@ -2,12 +2,12 @@ import {
     getParamsThenCreateMorbidityChart,
     createMorbidityBarCanvas,
     selectEachMorbidityBarThenCreateBars
-} from '/static/js/staff/overview-morbidity.js'
+} from './overview-morbidity.js'
 import {
     getParamsThenCreateDepartmentChart,
     createDepartmentBarCanvas,
     selectEachDepartmentBarThenCreateBars
-} from '/static/js/staff/overview-department.js'
+} from './overview-department.js'
 import {
     getCountsAndLabelsForChart,
     createChart,
@@ -15,7 +15,7 @@ import {
     createBars,
     openModal,
     closeModal
-} from '/static/js/utils.js'
+} from '../utils.js'
 const categoryData = JSON.parse(document.getElementById('categoryS').textContent)
 const departmentData = JSON.parse(document.getElementById('sorted-department').textContent)
 const departments = JSON.parse(document.getElementById('departments').textContent)
@@ -65,7 +65,7 @@ function handle_add_new_patient_btn() {
 
         openModal(modal)
 
-        for(const btn of close_btns) {
+        for (const btn of close_btns) {
             closeModal(modal, btn)
 
             // Reset the form when closed
@@ -166,7 +166,8 @@ function listenToDepartmentsFilterBtns() {
             }
             btn.classList.add('active-department-filter')
             btn.classList.add('active-pat')
-            getParamsThenCreateDepartmentChart(departments, departmentData, getCountsAndLabelsForChart, createChart)
+            getParamsThenCreateDepartmentChart(departments, departmentData, getCountsAndLabelsForChart,
+                createChart)
         })
     }
 }

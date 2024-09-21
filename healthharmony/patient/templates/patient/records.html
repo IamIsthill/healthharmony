@@ -169,5 +169,5 @@
     {{ treatments|json_script:'treatment_data' }}
     {{ illness_category|json_script:'illness_category' }}
     {{ certificate_data|json_script:'certificate_data' }}
-    <script type="module" src="{% static 'js/patient/record.js' %}"></script>
+    <script type="module" src="{% static 'js/dist/patient_record.js' %}"></script>
 {% endblock %}

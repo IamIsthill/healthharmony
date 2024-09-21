@@ -94,7 +94,8 @@ def add_patient(request):
 @login_required(login_url="account_login")
 def overview(request):
     check_models()
-    access_checker(request)
+    if request.user.access < 2:
+        return redirect("patient-overview")
     now = timezone.now()
     previous_day = now - relativedelta(days=1)
     previous_month = now - relativedelta(months=1)
@@ -196,7 +197,8 @@ def add_issue(request):
 
 @login_required(login_url="account_login")
 def inventory(request):
-    access_checker(request)
+    if request.user.access < 2:
+        return redirect("patient-overview")
     with ThreadPoolExecutor(max_workers=2) as tp:
         futures = {
             tp.submit(fetch_inventory, InventoryDetail, Sum, request): "inventory",
@@ -227,7 +229,8 @@ def inventory(request):
 
 @login_required(login_url="account_login")
 def add_inventory(request):
-    access_checker(request)
+    if request.user.access < 2:
+        return redirect("patient-overview")
     if request.method == "POST":
         form = AddInventoryForm(request.POST)
         if form.is_valid():
@@ -237,7 +240,8 @@ def add_inventory(request):
 
 @login_required(login_url="account_login")
 def delete_inventory(request, pk):
-    access_checker(request)
+    if request.user.access < 2:
+        return redirect("patient-overview")
     if request.method == "POST":
         form = DeleteInventoryForm(request.POST)
         if form.is_valid():
@@ -250,7 +254,8 @@ def delete_inventory(request, pk):
 
 @login_required(login_url="account_login")
 def update_inventory(request, pk):
-    access_checker(request)
+    if request.user.access < 2:
+        return redirect("patient-overview")
     if request.method == "POST":
         form = EditInventoryForm(request.POST)
         if form.is_valid():
@@ -263,7 +268,8 @@ def update_inventory(request, pk):
 
 @login_required(login_url="account_login")
 def bed(request):
-    access_checker(request)
+    if request.user.access < 2:
+        return redirect("patient-overview")
     if request.method == "POST":
         try:
             BedStat.objects.create()
@@ -276,7 +282,8 @@ def bed(request):
 
 
 def bed_handler(request, pk):
-    access_checker(request)
+    if request.user.access < 2:
+        return redirect("patient-overview")
     if request.method == "POST":
         try:
             bed = BedStat.objects.get(id=pk)
@@ -294,7 +301,8 @@ def bed_handler(request, pk):
 
 @login_required(login_url="account_login")
 def post_delete_bed(request, pk):
-    access_checker(request)
+    if request.user.access < 2:
+        return redirect("patient-overview")
     if request.method.lower() == "post":
         try:
             bed = BedStat.objects.get(id=int(pk))
@@ -319,7 +327,8 @@ def post_delete_bed(request, pk):
 
 @login_required(login_url="account_login")
 def records(request):
-    access_checker(request)
+    if request.user.access < 2:
+        return redirect("patient-overview")
     email = env("EMAIL_ADD")
     context = {"page": "records", "email": email}
     try:
@@ -425,7 +434,8 @@ def fetch_patient_list(request):
 
 @login_required(login_url="account_login")
 def post_add_patient(request):
-    access_checker(request)
+    if request.user.access < 2:
+        return redirect("patient-overview")
     if request.method.lower() == "post":
         try:
             patient, created = User.objects.get_or_create(
@@ -471,7 +481,8 @@ def post_add_patient(request):
 
 @login_required(login_url="account_login")
 def create_patient_add_issue(request):
-    access_checker(request)
+    if request.user.access < 2:
+        return redirect("patient-overview")
     if request.method == "POST":
         try:
             patient, created = User.objects.get_or_create(
@@ -532,6 +543,8 @@ def access_checker(request):
 
 @login_required(login_url="account_login")
 def patients_and_accounts(request):
+    if request.user.access < 2:
+        return redirect("patient-overview")
     context = {}
     try:
         last_visit = Illness.objects.filter(patient=OuterRef("pk")).values("added")
@@ -623,7 +636,8 @@ def patients_and_accounts(request):
 
 @login_required(login_url="account_login")
 def add_department(request):
-    access_checker(request)
+    if request.user.access < 2:
+        return redirect("patient-overview")
     if request.method == "POST":
         department_name = request.POST.get("department_name")
         try:
@@ -655,7 +669,8 @@ def add_department(request):
 
 @login_required(login_url="account_login")
 def delete_department(request, pk):
-    access_checker(request)
+    if request.user.access < 2:
+        return redirect("patient-overview")
     if request.method == "POST":
         form = DeleteDepartmentForm(request.POST)
         if form.is_valid():
@@ -670,7 +685,8 @@ def delete_department(request, pk):
 
 @login_required(login_url="account_login")
 def edit_department(request, pk):
-    access_checker(request)
+    if request.user.access < 2:
+        return redirect("patient-overview")
     if request.method == "POST":
         form = EditDepartmentForm(request.POST)
         if form.is_valid():

@@ -10,7 +10,7 @@ import {
     listenToEnter,
     createChart,
     getElapsedTime
-} from '/static/js/utils.js'
+} from '../utils.js'
 
 import {
     getPatientDataUsingId,
@@ -22,7 +22,7 @@ import {
     updatePatientHTML,
     formatDepartmentNames,
     formatDatesInPatientsPage
-} from '/static/js/staff/account-patients.js'
+} from './account-patients.js'
 
 import {
     getPatientList,
@@ -32,24 +32,24 @@ import {
     createViewDepartmentModal,
     getDepartmentLabelsAndCounts,
     update_department_table
-} from '/static/js/staff/account-department.js'
+} from './account-department.js'
 
 import {
     getEmployeeFilter,
     getEmployeeSearchValue,
     filterEmployeeData
-} from '/static/js/staff/account-clinic.js'
+} from './account-clinic.js'
 
 import {
     get_sorted_patient_data_based_on_current_params,
     update_patient_table,
     create_hover_patient_information,
     get_patient_data
-} from '/static/js/staff/account-patients.js'
+} from './account-patients.js'
 
 import {
     get_sorted_department_data_using_current_params,
-} from '/static/js/staff/account-department.js'
+} from './account-department.js'
 
 const patientData = JSON.parse(document.getElementById('patientData').textContent)
 const departmentData = JSON.parse(document.getElementById('departmentData').textContent)
