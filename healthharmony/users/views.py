@@ -51,6 +51,9 @@ def login_redirect(request):
 
 
 def register_view(request):
+    if request.user.is_authenticated:
+        return redirect("login-redirect")
+
     if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -58,7 +61,7 @@ def register_view(request):
             user.backend = "django.contrib.auth.backends.ModelBackend"
             login(request, user)
             messages.success(request, "Sucessful registration")
-            return render(request, "users/register.html")
+            return redirect("login-redirect")
         else:
             for field, errors in form.errors.items():
                 for error in errors:

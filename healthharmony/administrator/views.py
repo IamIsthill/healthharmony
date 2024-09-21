@@ -21,7 +21,8 @@ logger = logging.getLogger(__name__)
 # Create your views here
 @login_required(login_url="account_login")
 def admin_dashboard(request):
-    account_checker(request)
+    if request.user.access < 4:
+        return redirect("doctor-overview")
     context = {}
     try:
         users = User.objects.filter(is_active=True)
@@ -37,7 +38,8 @@ def admin_dashboard(request):
 
 @login_required(login_url="account_login")
 def log_and_records(request):
-    account_checker(request)
+    if request.user.access < 4:
+        return redirect("doctor-overview")
     context = {}
     try:
         logs = Log.objects.select_related("user").all()
@@ -75,7 +77,9 @@ def log_and_records(request):
 
 @login_required(login_url="account_login")
 def account_view(request):
-    account_checker(request)
+    if request.user.access < 4:
+        return redirect("doctor-overview")
+
     context = {}
     if request.method == "POST":
         form = AdminUserCreationForm(request.POST)
@@ -96,15 +100,7 @@ def account_view(request):
                 data = UserSerializer(user)
                 user_data.append(data.data)
 
-        user_paginator = Paginator(users, 20)
-        page = request.GET.get("page")
-
-        try:
-            user_page = user_paginator.page(page)
-        except PageNotAnInteger:
-            user_page = user_paginator.page(1)
-        except EmptyPage:
-            user_page = user_paginator.page(user_paginator.num_pages)
+        user_page = account_paginate_user(request, users)
 
         context = {
             "users": user_page,
@@ -136,7 +132,8 @@ def get_prepared_data_logs(data_logs):
 
 @login_required(login_url="account_login")
 def post_update_user_access(request):
-    account_checker(request)
+    if request.user.access < 4:
+        return redirect("doctor-overview")
     if request.method.lower() == "post":
         user_id = request.POST.get("user_id")
         access = request.POST.get("access")
@@ -164,7 +161,8 @@ def post_update_user_access(request):
 
 @login_required(login_url="account_login")
 def post_delete_user(request):
-    account_checker(request)
+    if request.user.access < 4:
+        return redirect("doctor-overview")
     if request.method.lower() == "post":
         user_id = request.POST.get("user_id")
 
@@ -186,3 +184,16 @@ def post_delete_user(request):
         )
         messages.success(request, f"Successfully deleted user with email {user.email}")
     return redirect("admin-accounts")
+
+
+def account_paginate_user(request, users):
+    user_paginator = Paginator(users, 20)
+    page = request.GET.get("page")
+
+    try:
+        user_page = user_paginator.page(page)
+    except PageNotAnInteger:
+        user_page = user_paginator.page(1)
+    except EmptyPage:
+        user_page = user_paginator.page(user_paginator.num_pages)
+    return user_page
