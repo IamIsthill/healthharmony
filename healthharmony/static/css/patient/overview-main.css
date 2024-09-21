@@ -132,7 +132,7 @@ main{
         grid-template-columns: 13rem auto 23rem;
     }
     main{
-        border: 1px solid black;
+        /* border: 1px solid black; */
     }
  }
  @media (max-width: 1216px){

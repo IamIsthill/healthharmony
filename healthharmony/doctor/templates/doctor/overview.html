@@ -129,12 +129,12 @@
                 </div>
             </div>
             <div class="illness-space">
-                <!--        <h1>Illnesses</h1>
+                <!--           <h1>Illnesses</h1>
                 <div>
                     <button class="js-illness-filter-active js-illness-filter" data-category="all">All</button>
                     <button class="js-illness-filter" data-category="not">Pending</button>
                     <button class="js-illness-filter" data-category="done">Completed</button>
-                </div>        -->
+                </div>           -->
                 <table class="mod-table">
                     <thead>
                         <tr>
@@ -197,11 +197,11 @@
         <div class="doctor-right-part">
             <div class="illness-categories-space">
                 <h1>Usual Illness Categories This Month</h1>
-                <div>
+                <div class="cat-card-cont">
                     {% for categories in illness_categories %}
-                        <div>
-                            <h4>{{ categories.category }}</h4>
-                            <h4>Cases: {{ categories.count }}</h4>
+                        <div class="cat-card">
+                            <h4 class="cat-card-title">{{ categories.category }}</h4>
+                            <h4 class="cat-card-data">Cases: {{ categories.count }}</h4>
                         </div>
                     {% endfor %}
                 </div>
@@ -248,5 +248,5 @@
     {{ sorted_illness_category|json_script:'sorted_illness_category' }}
     <script src="{% static 'chart.js/dist/chart.umd.js' %}"></script>
     <script src="{% static 'js/general/messages.js' %}" type="module"></script>
-    <script src="{% static 'js/doctor/overview.js' %}" type="module"></script>
+    <script src="{% static 'js/dist/doctor_overview.js' %}" type="module"></script>
 {% endblock %}

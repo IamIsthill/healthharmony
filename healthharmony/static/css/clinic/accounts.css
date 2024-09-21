@@ -2,7 +2,6 @@ main{
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    border: 1px solid red;
 }
 .last-table{
     margin-bottom: 2rem;

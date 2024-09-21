@@ -10,7 +10,7 @@ main{
     box-shadow: var(--box-shadow2);
     padding: 1rem 1rem;
     border-radius: 1rem;
-    height: 18rem;
+    height: 19rem;
     display: flex;
     flex-direction: column;
 }

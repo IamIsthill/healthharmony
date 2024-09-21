@@ -126,25 +126,22 @@
                     </div>
                 </div>
             </div>
-
             <div class="med-cert-cont">
-            <h1>Medical Certificates</h1>
-            <h3>
-                Requested Total:
-                {% if certificates_data %}{{ certificates_data.all }}{% endif %}
-            </h3>
-            <h3>
-                Pending:
-                {% if certificates_data %}{{ certificates_data.pending }}{% endif %}
-            </h3>
-            <h3>
-                Completed:
-                {% if certificates_data %}{{ certificates_data.completed }}{% endif %}
-            </h3>
-            <button class="js_request_medcert_btn">Request Medical Certificate</button>
-        </div>
-    
-
+                <h1>Medical Certificates</h1>
+                <h3>
+                    Requested Total:
+                    {% if certificates_data %}{{ certificates_data.all }}{% endif %}
+                </h3>
+                <h3>
+                    Pending:
+                    {% if certificates_data %}{{ certificates_data.pending }}{% endif %}
+                </h3>
+                <h3>
+                    Completed:
+                    {% if certificates_data %}{{ certificates_data.completed }}{% endif %}
+                </h3>
+                <button class="js_request_medcert_btn">Request Medical Certificate</button>
+            </div>
             {% cache 30 bed_monitor %}
             <div class="bed-monitor">
                 <h1>Bed Section</h1>
@@ -175,8 +172,7 @@
                 {% endif %}
             </div>
         {% endcache %}
-
-        
+    </div>
 </div>
 <div class="js_request_medcert_modal modal">
     <!-- Modal content -->
@@ -201,5 +197,5 @@
 {% block script %}
     {{ request.user.email|json_script:'user_email' }}
     <script src="{% static 'chart.js/dist/chart.umd.js' %}"></script>
-    <script src="{% static 'js/patient/overview.js' %}" type="module"></script>
+    <script src="{% static 'js/dist/patient_overview.js' %}" type="module"></script>
 {% endblock %}

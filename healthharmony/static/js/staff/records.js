@@ -10,7 +10,7 @@ import {
     formatDate,
     paginateArray,
     getToken,
-} from '/static/js/utils.js'
+} from '../utils.js'
 
 import {
     createViewIllnessBody,
@@ -21,19 +21,19 @@ import {
     getVisitSearchValue,
     filterHistoryData,
     createVisitHtml
-} from '/static/js/staff/record-visit.js'
+} from './record-visit.js'
 
 import {
     formatDatesInRequestHistory,
     parseBoolean,
     createRequestBody,
     getFilteredCertificateData
-} from '/static/js/staff/record-request.js'
+} from './record-request.js'
 
 import {
     createRequestBarChart,
     getCountsAndLabelForRequestBar
-} from '/static/js/staff/record-bar.js'
+} from './record-bar.js'
 
 const historyData = JSON.parse(document.getElementById('history-data').textContent)
 const certficateChartData = JSON.parse(document.getElementById('certificate-chart').textContent)

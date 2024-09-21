@@ -106,13 +106,16 @@ main .today-patient .info span{
 
 @media (max-width: 1380px) {
     main .today-patient{
-        width: 16rem;
-        height: 7rem;
+        width: 14rem;
+        height: 6rem;
     }
     main .today-patient .info span{
         font-size: var(--size-xs);
         font-weight: 500;
         opacity: 80%;
+    }
+    .info-bottom{
+        margin-top: 0.4rem;
     }
 }
 /* xl */

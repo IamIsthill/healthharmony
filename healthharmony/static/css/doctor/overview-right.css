@@ -6,15 +6,38 @@
 }
 
 .illness-categories-space{
-    background: white;
+    background: rgb(189, 189, 189);
     display: flex;
     flex-direction: column;
     padding: 1rem 1rem;
     border-radius: 1rem;
-    box-shadow: var(--box-shadow2);
 }
 .illness-categories-space h1{
     font-size: var(--size-lg);
+    font-weight: 600;
+}
+.cat-card-cont{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-flow: dense;
+    gap: 8px;
+}
+.cat-card{
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+    background: white;
+    box-shadow: var(--box-shadow2);
+    padding: 1rem 1rem;
+    border-radius: 4px;
+    min-height: 6rem;
+}
+.cat-card-title{
+    font-size: var(--size-base);
+}
+.cat-card-data{
+    font-size: var(--size-sm);
+    color: var(--light_gray);
 }
 .Bar{
     display: flex;

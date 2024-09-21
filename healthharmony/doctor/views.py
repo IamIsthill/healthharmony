@@ -101,7 +101,8 @@ def view_patient_profile(request, pk):
 @login_required(login_url="account_login")
 def overview_view(request):
     # Check the access level of the user, return to home if not sufficient
-    access_checker(request)
+    if request.user.access < 3:
+        return redirect("staff-overview")
 
     illness_cases = Illness.objects.all()
     illness_data = []
@@ -167,7 +168,8 @@ def overview_view(request):
 
 @login_required(login_url="account_login")
 def handled_cases(request):
-    access_checker(request)
+    if request.user.access < 3:
+        return redirect("staff-overview")
 
     if request.method.lower() == "get":
         try:
@@ -214,7 +216,8 @@ def handled_cases(request):
 
 @login_required(login_url="account_login")
 def schedule(request):
-    access_checker(request)
+    if request.user.access < 3:
+        return redirect("staff-overview")
     context = {"page": "Schedule"}
 
     try:
