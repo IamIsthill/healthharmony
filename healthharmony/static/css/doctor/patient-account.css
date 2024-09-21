@@ -138,7 +138,9 @@ form input{
     width: 90%;
     padding: 1rem 1rem;
     border-radius: 1rem;
-
+}
+.visit-history span, .visit-history p{
+    height: 2rem;
 }
 .illness_body{
     display: grid;
@@ -344,6 +346,7 @@ form input{
     }
     .visit-left span, .visit-right p{
         font-size: var(--size-sm);
+        height: auto;
     }
 
 }
