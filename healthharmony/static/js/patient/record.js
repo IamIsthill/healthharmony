@@ -2,7 +2,7 @@ import {
     openModal,
     closeModal,
     formatDate
-  } from '/static/js/utils.js'
+} from '../utils.js'
 
 const illness_data = JSON.parse(document.getElementById('illness_data').textContent)
 const treatment_data = JSON.parse(document.getElementById('treatment_data').textContent)
@@ -25,14 +25,14 @@ function handle_onclick_request_medcert() {
     const btn = document.querySelector('.js_request_medcert_btn')
 
     btn.addEventListener('click', () => {
-      const modal = document.querySelector('.js_request_medcert_modal')
-      const close_btns = document.querySelectorAll('.js_close_medcert_modal')
+        const modal = document.querySelector('.js_request_medcert_modal')
+        const close_btns = document.querySelectorAll('.js_close_medcert_modal')
 
-      openModal(modal)
+        openModal(modal)
 
-      for (const close of close_btns) {
-        closeModal(modal, close)
-      }
+        for (const close of close_btns) {
+            closeModal(modal, close)
+        }
 
     })
 }
@@ -74,8 +74,7 @@ function handle_onclick_show_more_illness() {
                 btn.innerText = 'Show More'
                 btn.classList.remove('js_active')
                 illness_space_element.classList.add('hide')
-            }
-            else {
+            } else {
                 btn.innerText = 'Close'
                 btn.classList.add('js_active')
                 illness_space_element.classList.remove('hide')
@@ -85,7 +84,7 @@ function handle_onclick_show_more_illness() {
         })
     }
 }
-  // Make dates more readable
+// Make dates more readable
 function update_dates(formatDate) {
     const dates = document.querySelectorAll('.js_dates')
 
@@ -107,7 +106,7 @@ function get_illness_data(illness_id, illness_data) {
 // Get the treatment details for illness
 function get_treatment_data(inventory_detail, treatment_data) {
     for (const inventory of treatment_data) {
-        if(parseInt(inventory.inventory_detail) == parseInt(inventory_detail)) {
+        if (parseInt(inventory.inventory_detail) == parseInt(inventory_detail)) {
             return inventory
         }
     }

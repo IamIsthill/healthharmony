@@ -7,5 +7,8 @@ module.exports = {
         staff_inventory: './staff/inventory.js',
         staff_overview: './staff/overview.js',
         staff_records: './staff/records.js',
+        patient_overview: './patient/overview.js',
+        patient_profile: './patient/profile.js',
+        patient_record: './patient/record.js',
     },
 };
