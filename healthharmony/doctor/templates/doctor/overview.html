@@ -197,11 +197,11 @@
         <div class="doctor-right-part">
             <div class="illness-categories-space">
                 <h1>Usual Illness Categories This Month</h1>
-                <div>
+                <div class="cat-card-cont">
                     {% for categories in illness_categories %}
-                        <div>
-                            <h4>{{ categories.category }}</h4>
-                            <h4>Cases: {{ categories.count }}</h4>
+                        <div class="cat-card">
+                            <h4 class="cat-card-title">{{ categories.category }}</h4>
+                            <h4 class="cat-card-data">Cases: {{ categories.count }}</h4>
                         </div>
                     {% endfor %}
                 </div>

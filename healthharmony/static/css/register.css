@@ -5,18 +5,21 @@ body{
     max-height: 100vh;
 }
 form{
+    z-index: 2;
     display: flex;
     justify-self: center;
     align-items: center;
     flex-direction: column;
     margin: 4% auto;
     gap: 0.5rem;
-    background: white;
+    background: rgba(255, 255, 255, 0.61);
+    box-shadow: var(--box-shadow2);
     width: 37rem;
     padding: 2rem 1.5rem;
     border-radius: 1rem;
 }
 form h1{
+    color: var(--Dark-Yellow);
     font-weight: 600;
     margin-bottom: 0.5rem;
 }
@@ -28,32 +31,36 @@ form h1{
 }
 form label{
     font-size: var(--size-lg);
+    font-weight: 600;
 }
 .form-group input{
     width: 100%;
-    background: #E3E5E6;
+    background: rgba(190, 192, 194, 0.753);
     border: none;
     border-radius: 8px;
     height: 2.8rem;
 }
+.form-group input:focus{
+    background-color: rgb(190, 192, 194);
+}
 form button{
     margin-top: 0.5rem;
-    background: black;
+    background: var(--Maroon);
     color: white;
     padding: 0.7rem 0;
     border-radius: 8px;
     transition: all 0.2s ease;
 }
 form button:hover{
-    background: rgba(0, 0, 0, 0.697);
+    background: rgb(110, 1, 1);
 }
 form a{
-    color: rgb(125, 125, 125);
+    color: var(--Maroon);
     font-weight: 600;
     transition: all 0.2s ease;
 }
 form a:hover{
-    color: rgb(0, 0, 0);
+    color: rgb(110, 1, 1);
 }
 .form a, form h5{
     font-size: var(--size-sm);
@@ -64,9 +71,15 @@ form a:hover{
     align-items: center;
     justify-content: space-between;
 }
+
+.image-cont{
+    position: absolute;
+
+}
+
 @media (max-width: 1380px) {
     form h1{
-        font-size: var(--size-xl);
+        font-size: var(--size-2xl);
     }
     .form-group label{
         font-size: var(--size-sm);

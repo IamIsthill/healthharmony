@@ -18,7 +18,9 @@
 {% endblock %}
 {% block content %}
     <section class="left-side">
-        <img src="{% static 'assets/images/svgs/logo.svg' %}" class="logo" />
+        <a href="{% url 'home' %}">
+            <img src="{% static 'assets/images/svgs/logo.svg' %}" class="logo" />
+        </a>
         {% comment %} {% element h1 %}
     {% trans 'Sign In' %}
         {% endelement %} {% endcomment %}
