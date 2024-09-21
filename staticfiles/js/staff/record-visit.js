@@ -12,11 +12,13 @@ export function createViewIllnessBody(data) {
     }
 
     let html = `
+    <div class ="view-data">
         <h4>Date and Time of Visit: ${format_date(data.added)}</h4>
         <h4>Illness Category: ${data.category}</h4>
         <h4>Patient Name: ${data.first_name} ${data.last_name}</h4>
         <h4>Patient's Claim: ${data.issue}</h4>
-        <h4>Added by: ${data.staff}</h4>
+        <h4>Added by: ${data.staff_first_name ? data.staff_first_name : ''}  ${data.staff_last_name ? data.staff_last_name: ''}</h4>
+    </div>
     `
     if (data.doctor) {
         html += `
@@ -26,7 +28,7 @@ export function createViewIllnessBody(data) {
         `
     }
 
-    html += '<button class="js-close-view-illness-modal">Close</button>'
+    html += '<button class="js-close-view-illness-modal view-cancel-button cancel-button">Close</button>'
     modalBody.innerHTML = html
 }
 
@@ -64,6 +66,74 @@ export function formatDatesInVisitHistory(format_date) {
     const dateStrings = document.querySelectorAll('.date')
     for (const date of dateStrings) {
         const newDate = format_date(date.textContent)
+        console.log(date.textContent)
         date.innerText = newDate
     }
+}
+
+export function getVisitFilter() {
+    const visitFilter = document.querySelector('.js-inventory-category-active')
+    return parseInt(visitFilter.getAttribute('data-sorter'))
+}
+
+export function getVisitSearchValue() {
+    const visitField = document.querySelector('.js-inventory-search-container')
+    return visitField.value
+}
+
+export function filterHistoryData(historyData, filter, search) {
+    let filteredHistoryData = []
+    for (const data of historyData) {
+        if (filter == 1) {
+            if ((data.diagnosis == '' || !data.diagnosis) && (data.first_name.toLowerCase().includes(search
+                        .toLowerCase()) || data
+                    .last_name.toLowerCase().includes(search.toLowerCase()) || data.issue.toLowerCase().includes(search
+                        .toLowerCase()))) {
+                filteredHistoryData.push(data)
+            }
+        } else if (filter == 2) {
+            if ((data.diagnosis != '') && (data.first_name.toLowerCase().includes(search.toLowerCase()) || data
+                    .last_name.toLowerCase().includes(search.toLowerCase()) || data.issue.toLowerCase().includes(search
+                        .toLowerCase()))) {
+                filteredHistoryData.push(data)
+            }
+        } else {
+            if (data.first_name.toLowerCase().includes(search.toLowerCase()) || data.last_name.toLowerCase().includes(
+                    search.toLowerCase()) || data.issue.toLowerCase().includes(search.toLowerCase())) {
+                filteredHistoryData.push(data)
+            }
+        }
+    }
+    return filteredHistoryData
+}
+
+export function createVisitHtml(historyData, formatDate) {
+    let html = ''
+    for (const data of historyData) {
+        let issue = data.issue
+        if (issue.length > 60) {
+            issue = issue.slice(0, 60)
+            issue += '...'
+        }
+        let status = 'Finished'
+        if (!data.diagnosis || data.diagnosis == '') {
+            status = 'Ongoing'
+        }
+        html += `
+            <tr>
+                <td class="table-data date date-column" data="date-${data.id}">${formatDate(data.added)}</td>
+                <td class="table-data patient-column">${data.first_name} ${data.last_name}</td>
+                <td class="table-data concern-column">${issue}</td>
+                <td class="table-data status-column">${status}</td>
+                <td class="table-data view-column js-view-illness-btn"
+                    data-illness-id="${data.id}">View Illness</td>
+                <td class="table-data profile-column js-view-patient"
+                    data-patient-id="${data.patient}">Visit Profile</td>
+            </tr>
+        `
+    }
+    if (historyData.length <= 0) {
+        html = '<tr><td colspan="6">No available data</td></tr>'
+    }
+    document.querySelector('.js-visit-history-body').innerHTML = html
 }

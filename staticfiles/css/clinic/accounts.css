@@ -1,0 +1,236 @@
+main{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border: 1px solid red;
+}
+.last-table{
+    margin-bottom: 2rem;
+}
+.total-bar{
+    display: flex;
+    gap: 2rem;
+}
+.dep-bar{
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--box-shadow2);
+    background: white;
+    width: 31rem;
+    height: 24rem;
+    border-radius: 1rem;
+    padding: 1rem 1rem;
+}
+.dep-bar h1{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    align-self: flex-start;
+    font-size: var(--size-lg);
+    color: var(--normal-fontcolor);
+    font-weight: bold;
+}
+.js-control-canvas-size{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+
+.table-design{
+    margin-top: 1rem;
+    width: 95%;
+    background-color: white;
+    padding: 0.5rem 1.5rem;
+    text-align: center;
+    box-shadow: var(--box-shadow2);
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+    border-collapse: separate; /* Allows spacing between rows */
+    border-spacing: 4px 4px;
+}
+.total-patient-table{
+    width: 52rem;
+    height: 24rem;
+}
+.header-content2{
+    height: 1.2rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0.2rem 0;
+    text-align: left;
+    justify-content: flex-end;
+}
+.header-content {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0.2rem 0;
+    text-align: left;
+    justify-content: space-between;
+}
+.header-content h1 {
+    /* border: 1px solid orange; */
+    font-size: var(--size-lg);
+    color: var(--normal-fontcolor);
+    font-weight: bold;
+}
+.sort-by {
+    font-size: var(--size-sm);
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    color: var(--light_gray);
+}
+.sort-by select {
+    padding: 0.3rem 0.2rem;
+    font-size: var(--size-xs);
+    border: none;
+    border-radius: 5px;
+    background-color: white;
+}
+.search-main-container{
+    display: flex;
+    gap: 4px;
+    padding: 0 4px;
+    align-items: center;
+}
+table .table-head{
+    color: var(--light_gray);
+    font-weight: 500;
+    opacity: 70%;
+    /* border: 1px solid red; */
+}
+table .table-head, table .table-data{
+    padding-right: 1rem;
+    text-align: left;
+    font-size: var(--size-sm);
+}
+.dept-h1{
+    margin-top: 1rem;
+}
+.add-department button{
+    background: black;
+    border-radius: 1rem;
+    padding: 4px 1rem;
+    color: white;
+    font-size: var(--size-sm);
+}
+.add-department button:hover{
+    background: rgba(0, 0, 0, 0.555);
+}
+
+.js-hover-patient{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1002;
+    background: white;
+    box-shadow: var(--box-shadowlight);
+    width: 250px;
+    height: 300px;
+    border-radius: 4px;
+}
+.js-hover-patient img{
+    width: 100px;    /* Adjust the size as needed */
+    height: 100px;   /* Ensure it's a square */
+    border-radius: 8px;
+    object-fit: cover;
+    margin-bottom: 8px;
+    box-shadow: var(--box-shadowlight);
+    margin-top: 1rem;
+}
+.js-hover-patient .hover-name{
+    font-size: var(--size-xl);
+}
+.js-hover-patient .hover-email{
+    font-weight: 400;
+    margin-bottom: 8px;
+    color: var(--light_gray);
+}
+.js-hover-patient hr{
+    width: 100%;
+    color: rgba(223, 223, 223, 0.756);
+}
+.js-hover-patient .hover-dep, .hover-date{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0 8px;
+}
+.js-hover-patient .hover-dep{
+    margin-top: 4px;
+    margin-bottom: 6px;
+}
+.js-hover-patient span{
+    color: var(--light_gray);
+}
+.js-hover-patient .hover-dep p{
+    font-size: var(--size-lg);
+}
+
+
+   /* CONTAINER */
+
+
+
+
+ /* 2xl */
+ @media (max-width: 1536px) {
+    .total-patient-table{
+        width: 46rem;
+        height: 22rem;
+    }
+    .dep-bar{
+        width: 28rem;
+        height: 22rem;
+    }
+    .total-bar{
+        gap: 1.5rem;
+    }
+ }
+
+@media (max-width: 1380px) {
+    .total-patient-table{
+        width: 42rem;
+        height: 20rem;
+    }
+    .dep-bar{
+        width: 24rem;
+        height: 20rem;
+    }
+    .total-bar{
+        gap: 1rem;
+    }
+}
+
+ /* xl */
+ @media (max-width: 1280px) {
+
+ }
+
+ /* lg */
+ @media (max-width: 1024px) {
+
+ }
+
+ /* md */
+ @media (max-width: 768px) {
+
+ }
+
+ /* sm */
+ @media (max-width: 640px) {
+
+ }
+
+ /* xs */
+ @media (max-width: 475px) {
+
+ }

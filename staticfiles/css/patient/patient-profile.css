@@ -1,0 +1,277 @@
+.hide{
+    display: none;
+}
+main, .right-part-profile{
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.top-part{
+    display: flex;
+    gap: 1.5rem;
+}
+.profile-data{
+    display: flex;
+}
+a, span{
+    text-decoration: none;
+}
+.patient-profile, .detailed-info{
+    height: 26rem;
+}
+form input{
+    height: 2rem;
+    border-radius: 4px;
+    padding: 4px 8px;
+}
+.patient-profile, .profile-main{
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0rem 1rem;
+    background: white;
+    box-shadow: var(--box-shadowlight);
+    width: 50%;
+    border-radius: 1rem;
+}
+.profile-main{
+    flex-direction: column;
+    box-shadow: none;
+    padding: 1rem 0;
+    height: 100%;
+    border-radius: 0;
+    border-right: 1px solid #97a1af;
+}
+.dp-pic{
+    width: 230px;    /* Adjust the size as needed */
+  height: 230px;   /* Ensure it's a square */
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 8px;
+  box-shadow: var(--box-shadowlight);
+}
+.js_patient_info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+.patient-profile-name{
+    font-size: var(--size-3xl);
+    font-weight: 600;
+}
+.patient-profile-data{
+    font-size: var(--size-lg);
+    font-weight: 400;
+    color: #97a1af;;
+}
+
+.vital-statistic{
+    background: white;
+    width: 20rem;
+    height: 100%;
+    border-radius: 1rem;
+    padding: 2rem 0rem;
+    padding-left: 0.5rem;
+}
+.vital-statistic h3, .detailed-info h3{
+    font-size: var(--size-2xl);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+.vital-data, .info-cont{
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+.vital-left, .vital-right, .detailed-left, .detailed-right, .visit-left, .visit-right{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+.detailed-right, .visit-right{
+    width: 60%;
+}
+.vital-left, .vital-right{
+    gap: 2rem;
+}
+.vital-left span , .vital-right p {
+    font-size: var(--size-xl);
+}
+.detailed-left span, .detailed-right p{
+    font-size: var(--size-lg);
+}
+.vital-right p, .detailed-right p{
+    color: #7f8894;
+}
+/* END OF MAIN */
+
+/* START OF RIGHT SECTION */
+
+.detailed-info{
+    background-color: white;
+    width: 38%;
+    padding: 2rem 1rem;
+    border-radius: 1rem;
+    box-shadow: var(--box-shadowlight);
+}
+.detailed-top, .visit-top{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.detailed-top h3{
+    margin-top: 4px;
+}
+.detailed-top button, .js-edit-illness-btn, .js_profile_actions button{
+    padding: 0.5rem 1rem;
+    background:black;
+    border-radius: 0.5rem;
+    color: white;
+    transition: all 0.3s ease ;
+}
+.detailed-top button:hover, .js-edit-illness-btn:hover, .update-case:hover, .js_profile_actions button:hover{
+    background:rgba(0, 0, 0, 0.647);
+}
+.year-section{
+    display: flex;
+}
+.year-section input{
+    width: 50%;
+}
+
+/* form */
+.js_profile_form{
+    display: flex;
+    flex-direction: column;
+    width: 48%;
+    background: white;
+    box-shadow: var(--box-shadow2);
+    padding: 1rem 1rem;
+    border-radius: 1rem;
+}
+.form-group{
+    display: flex;
+    margin-bottom: 8px;
+}
+.form-group>:last-child{
+    margin-bottom: 0;
+}
+.form-group label{
+    width: 30%;
+}
+.form-group input{
+    margin-left: 1rem;
+}
+.form-buttons button{
+    padding: 8px 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+.form-buttons .update-btn{
+    background: rgb(0, 138, 0);
+    color: white;
+}
+.form-buttons .update-btn:hover{
+    background: rgb(0, 97, 0);
+}
+.form-buttons .cancel-btn{
+    border: 1px solid var(--Red);
+    color: red;
+}
+.form-buttons .cancel-btn:hover{
+    background: var(--Red);
+    color: white;
+}
+
+   /* CONTAINER */
+ /* 2xl */
+ @media (max-width: 1536px) {
+    .top-part{
+        display: flex;
+        gap: 1.5rem;
+    }
+    .patient-profile, .detailed-info{
+        height: 26rem;
+    }
+    .patient-profile, .profile-main{
+        width: 50%;
+    }
+    .profile-main{
+        height: 100%;
+    }
+    .detailed-info{
+        width: 38%;
+    }
+    .js-illness{
+        width: 33rem;
+    }
+ }
+ @media (max-width: 1380px) {
+    .top-part{
+        display: flex;
+        gap: 1.5rem;
+    }
+    .patient-profile, .detailed-info{
+        height: 24rem;
+    }
+    .patient-profile{
+        width: 48%;
+    }
+    .dp-pic{
+        width: 200px;    /* Adjust the size as needed */
+      height: 200px;
+    }
+    .patient-profile-name{
+        font-size: var(--size-xl);
+    }
+    .patient-profile-data{
+        font-size: var(--size-sm);
+    }
+    .profile-main{
+        width: 70%;
+        height: 100%;
+    }
+    .detailed-info{
+        width: 38%;
+    }
+    .vital-statistic h3, .detailed-info h3{
+        font-size: var(--size-xl);
+    }
+    .vital-left span , .vital-right p {
+        font-size: var(--size-base);
+    }
+    .detailed-left span, .detailed-right p{
+        font-size: var(--size-sm);
+    }
+    .detailed-top button, .js-edit-illness-btn, .js-illness-note-btn{
+        font-size: var(--size-sm);
+    }
+}
+ /* xl */
+ @media (max-width: 1280px) {
+
+ }
+
+ /* lg */
+ @media (max-width: 1024px) {
+
+ }
+
+ /* md */
+ @media (max-width: 768px) {
+
+ }
+
+ /* sm */
+ @media (max-width: 640px) {
+
+ }
+
+ /* xs */
+ @media (max-width: 475px) {
+
+ }

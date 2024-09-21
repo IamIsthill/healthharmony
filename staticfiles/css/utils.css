@@ -75,7 +75,7 @@
 
 
  /* NURSE UTILS */
- .nurse-container, .nurse-container2{
+ .nurse-container, .nurse-container2, .doctor-profile-container, .doctor-container, .doctor-sched-container, .patient-container{
    width: 98%;
    display: grid;
    gap: 1rem;
@@ -90,7 +90,12 @@
   top: 5.5rem; /* This makes the third column stick to the top when scrolling */
   align-self: start; /* Ensure it aligns properly within the grid */
 }
-
+.doctor-container{
+  grid-template-columns: 12.5rem auto 22rem;
+}
+.doctor-profile-container{
+  grid-template-columns: 13rem auto;
+}
 
  .nurse-container2{
   grid-template-columns: 12rem auto;
@@ -139,7 +144,8 @@
 
 /* SEARCH UTIL */
 .search-container {
-  position: relative; /* Set the max width of the search box */
+  position: relative;
+  width: 11rem;
 }
 
 .search-container input {
@@ -174,6 +180,18 @@
 }
 .search-container button:hover {
   background-color: rgba(255, 255, 255, 0.438); /* Darker green on hover */
+}
+
+.clr-btn{
+  padding: 0 8px;
+  height: 2rem;
+  border-radius: 8px;
+  background:rgba(59, 59, 59, 0.479);
+  color: white;
+  transition: all 0.3s ease;
+}
+.clr-btn:hover{
+  background:rgba(29, 29, 29, 0.541);
 }
 /* SEARCH UTIL */
 
@@ -237,7 +255,13 @@
   color: white;
 }
 /* POP UP ERROR */
-
+.close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: var(--Red);
+  cursor: pointer;
+}
 /* POP UP SUCCESS AND ERROR ADDING VISIT RECORD */
 .popUp-visit{
   border: 1px solid black;
@@ -373,6 +397,9 @@
     font-size: var(--size-xs);
     width: 6.5rem;
     height: 2.2rem;
+  }
+  .clr-btn{
+    font-size: var(--size-sm);
   }
 }
 

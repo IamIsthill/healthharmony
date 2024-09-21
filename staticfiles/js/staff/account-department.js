@@ -1,7 +1,7 @@
 export function getPatientList(patientData, departmentId) {
     let data = []
     for (const patient of patientData) {
-        if(parseInt(patient.department) == parseInt(departmentId)) {
+        if (parseInt(patient.department) == parseInt(departmentId)) {
             data.push(patient)
         }
     }
@@ -49,7 +49,6 @@ export function createEditDepartmentModal(department, getToken) {
 }
 
 export function createViewDepartmentModal(department, patients, format_date) {
-    console.log(department)
     const modalContent = document.querySelector('.js-view-department-modal .modal-content')
     let html = `
         <span class="js-close-view-department-modal">&times;</span>
@@ -62,7 +61,7 @@ export function createViewDepartmentModal(department, patients, format_date) {
             html += `
                 <div>
                     <img src="/media/${patient.profile}">
-                    <a href="/patient/patient-profile/${patient.id}/">Go to Profile</a>
+                    <a href="/doctor/patient/${patient.id}/">Go to Profile</a>
                     <p>Name: ${patient.first_name} ${patient.last_name}</p>
                     <p>Email: ${patient.email}</p>
                     <p class="js-dates">Joined On: ${format_date(patient.date_joined)}</p>
@@ -87,4 +86,133 @@ export function getDepartmentLabelsAndCounts(departmentData) {
         labels,
         counts
     }
+}
+
+// Updated functions
+export function update_department_table(filtered_department_data, format_date) {
+    const department_body_element = document.querySelector('.js_department_body')
+    department_body_element.innerHTML = ''
+
+    for (const department_data of filtered_department_data) {
+        const department_tr_element = document.createElement('tr')
+        department_tr_element.setAttribute('data-department-id', department_data.id)
+
+        department_tr_element.innerHTML = `
+            <td class="table-data">${department_data.department}</td>
+            <td class="table-data js-department-counts">${department_data.count}</td>
+            <td class="table-data js-dates">${format_date(department_data.last_department_visit)}</td>
+            <td class="table-data js-edit-department btn">Edit</td>
+            <td class="table-data js-delete-department btn">Delete</td>
+            <td class="table-data js-view-department btn">View</td>
+        `
+
+        department_body_element.appendChild(department_tr_element)
+    }
+}
+
+export function get_sorted_department_data_using_current_params(departmentData) {
+    const filter = get_current_department_sort()
+    const search_text = get_department_search_text()
+    const direction = get_current_department_direction()
+    const filtered_department_data = get_filtered_department_data(filter, search_text, departmentData)
+    const sorted_department_data = get_sorted_patient_data(filter, direction, filtered_department_data)
+    return sorted_department_data
+}
+
+function get_current_department_sort() {
+    const btn = document.querySelector('.js-department-filter-inputs')
+    return btn.value
+}
+
+function get_department_search_text() {
+    const search_field = document.querySelector('.js-department-search-container')
+    return search_field.value
+}
+
+function get_current_department_direction() {
+    const btn = document.querySelector('.js_department_direction')
+    const direction = btn.getAttribute('data-sort')
+    return direction
+}
+
+function get_filtered_department_data(filter, search_text, departmentData) {
+    let filtered_data = []
+
+    if (filter == '') {
+        for (const department of departmentData) {
+            if (String(department.department).toLowerCase().includes(search_text) ||
+                String(department.count).toLowerCase().includes(search_text)) {
+                filtered_data.push(department)
+            }
+        }
+    } else if (filter == 'department') {
+        for (const department of departmentData) {
+            if (
+                String(department.department).toLowerCase().includes(search_text)
+            ) {
+                filtered_data.push(department)
+            }
+        }
+    } else if (filter == 'users') {
+        for (const department of departmentData) {
+            if (String(department.count).toLowerCase().includes(search_text)) {
+                filtered_data.push(department)
+            }
+        }
+    }
+    return filtered_data
+}
+
+function get_sorted_patient_data(filter, direction, department_data) {
+    if (direction == 'asc') {
+        if (filter == '' || filter == 'department') {
+            department_data.sort(
+                (a, b) => {
+                    let nameA = String(a.department).toLowerCase()
+                    let nameB = String(b.department).toLowerCase()
+
+                    if (nameA < nameB) return -1
+                    if (nameA > nameB) return 1
+                    return 0
+                }
+            )
+        } else if (filter == 'users') {
+            department_data.sort(
+                (a, b) => {
+                    let nameA = parseInt(a.count)
+                    let nameB = parseInt(b.count)
+
+                    if (nameA < nameB) return -1
+                    if (nameA > nameB) return 1
+                    return 0
+                }
+            )
+        }
+    } else if (direction == 'desc') {
+        if (filter == '' || filter == 'department') {
+            department_data.sort(
+                (a, b) => {
+                    let nameA = String(a.department).toLowerCase()
+                    let nameB = String(b.department).toLowerCase()
+
+                    if (nameA > nameB) return -1
+                    if (nameA < nameB) return 1
+                    return 0
+                }
+            )
+        } else if (filter == 'users') {
+            department_data.sort(
+                (a, b) => {
+                    let nameA = parseInt(a.count)
+                    let nameB = parseInt(b.count)
+
+                    if (nameA > nameB) return -1
+                    if (nameA < nameB) return 1
+                    return 0
+                }
+            )
+        }
+    }
+
+    return department_data
 }

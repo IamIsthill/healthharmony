@@ -97,11 +97,20 @@ export function getInventoryUsingId(sortedInventory, id) {
 export function createUpdateInventoryForm(item, token) {
     const url = `/staff/inventory/update/${item.id}/`
     const updateInventoryForm = document.querySelector('#updatedInventoryModal .modal-content .form-body')
+    const form_item_name = document.querySelector('.js_update_modal_item_name')
+    form_item_name.innerText = item.item_name
+
     let html = `
         <input type="hidden" name="csrfmiddlewaretoken" value="${token}" />
         <div class="form-top">
-            <label for="item_name">Item Name</label>
-            <input type="text" placeholder="name.." name="item_name" value="${item.item_name}" required />
+            <div class="form-group">
+                <label for="item_name">Item Name</label>
+                <input type="text" placeholder="name.." name="item_name" maxlength="100" value="${item.item_name}" required />
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantity</label>
+                <input type="number" name="quantity" value="${item.total_quantity}" />
+            </div>
         </div>
         <div class="form-middle">
             <div class="form-group">
@@ -116,23 +125,20 @@ export function createUpdateInventoryForm(item, token) {
         <div class="form-bottom">
             <div class="form-group">
                 <label for="category">Category</label>
-                <select name="category" value="${item.category}"required>
-                    <option value="Medicine">Medicine</option>
-                    <option value="Supply">Supply</option>
+                <select name="category" required>
+                    <option value="Medicine" ${item.category == 'Medicine' ? "selected" : ''}>Medicine</option>
+                    <option value="Supply" ${item.category == 'Supply' ? "selected" : ''}>Supply</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="expiration_date">Expiration Date</label>
                 <input type="date" name="expiration_date" value="${item.expiration_date}"/>
             </div>
-            <div class="form-group">
-                <label for="quantity">Quantity</label>
-                <input type="number" name="quantity" value="${item.total_quantity}" />
-            </div>
+
         </div>
         <div class="form-last">
             <label for="description">Item Description</label>
-            <input type="search" placeholder="description.." name="description" value="${item.description}" />
+            <input type="text" placeholder="description.." name="description" value="${item.description}" />
         </div>
         <div class="form-buttons">
             <button type="submit" class="add-btn">Update</button>

@@ -1,8 +1,12 @@
 .logo{
     position: fixed;
     top: 0;
-    margin-top: 1rem;
-    margin-left: 2.1rem;
+    margin-top: 0.3rem;
+    margin-left: 2.5rem;
+    display: flex;
+    align-items: center;
+    width: 7rem;
+    height: 7rem;
 }
 aside{
     height: 100%;
@@ -29,6 +33,7 @@ aside{
     height: 3.7rem;
     gap: 0.5rem;
     position: relative;
+    text-decoration: none;
     margin-left: 2rem;
     transition: all 0.3s ease;
 }
@@ -69,12 +74,7 @@ aside{
     height: 3rem;
     gap: 4px;
 }
-.js_profile_info{
-    display: flex;
-    gap: 4px;
-}
 .profile-pic {
-    cursor: pointer;
     width: 40px; /* Adjust size as necessary */
     height: 40px; /* Ensure width and height are equal */
     border-radius: 8px; /* Makes the image circular */
@@ -86,8 +86,10 @@ aside{
     flex-direction: column;
     margin-top: 4px;
 }
+.profile-container a{
+    text-decoration: none;
+}
 .profile-info h3{
-    cursor: pointer;
     display: inline-block;
     color: var(--normal-fontcolor);
     font-weight: 500;
@@ -99,7 +101,10 @@ aside{
     opacity: 75%;
     font-size: var(--size-sm);
 }
-
+.js_profile_info{
+    display: flex;
+    gap: 4px;
+}
 .logout-container{
     display: flex;              /* Enable flexbox */
     justify-content: center;    /* Center horizontally */
@@ -135,8 +140,8 @@ aside{
     padding: 0 1rem;
     z-index: 500;
 }
-.nav-top h2{
-    margin-left: 13rem;
+.nav-top .page-title{
+    margin-left: 14rem;
     font-weight: 600;
     color: var(--normal-fontcolor);
 }
@@ -144,7 +149,7 @@ aside{
 @media (max-width: 1536px) {
 
     .logo{
-        margin-left: 1rem;
+        margin-left: 2.5rem;
     }
     .nav-top h2{
         margin-left: 11rem;
