@@ -55,8 +55,17 @@
     {% endif %}
 {% endblock %}
 {% block main %}
-    {% include 'doctor/nav-top.html' %}
+    {% if request.user.access >= 3 %}
+        {% include 'doctor/nav-top.html' %}
+    {% else %}
+        {% include 'staff/nav-top.html' %}
+    {% endif %}
     <div class="doctor-profile-container">
+        {% if request.user.access >= 3 %}
+            {% include 'doctor/nav.html' %}
+        {% else %}
+            {% include 'staff/navbar.html' %}
+        {% endif %}
         {% include 'doctor/nav.html' %}
         <main>
             <div class="top-part">
@@ -203,5 +212,5 @@
     {{ department_data|json_script:'department_data' }}
     {{ illness_notes_data|json_script:'illness_notes_data' }}
     <script src="{% static 'js/general/messages.js' %}" type="module"></script>
-    <script src="{% static 'js/doctor/patient.js' %}" type="module"></script>
+    <script src="{% static 'js/dist/doctor_patient.js' %}" type="module"></script>
 {% endblock %}

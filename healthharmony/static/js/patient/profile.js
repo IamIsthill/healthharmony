@@ -1,7 +1,5 @@
 const user_data = JSON.parse(document.getElementById('user_data').textContent)
 
-console.log(user_data)
-
 /** EDIT PROFILE */
 handle_onclick_edit_profile()
 

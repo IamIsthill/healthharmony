@@ -129,12 +129,12 @@
                 </div>
             </div>
             <div class="illness-space">
-                <!--        <h1>Illnesses</h1>
+                <!--           <h1>Illnesses</h1>
                 <div>
                     <button class="js-illness-filter-active js-illness-filter" data-category="all">All</button>
                     <button class="js-illness-filter" data-category="not">Pending</button>
                     <button class="js-illness-filter" data-category="done">Completed</button>
-                </div>        -->
+                </div>           -->
                 <table class="mod-table">
                     <thead>
                         <tr>
@@ -248,5 +248,5 @@
     {{ sorted_illness_category|json_script:'sorted_illness_category' }}
     <script src="{% static 'chart.js/dist/chart.umd.js' %}"></script>
     <script src="{% static 'js/general/messages.js' %}" type="module"></script>
-    <script src="{% static 'js/doctor/overview.js' %}" type="module"></script>
+    <script src="{% static 'js/dist/doctor_overview.js' %}" type="module"></script>
 {% endblock %}

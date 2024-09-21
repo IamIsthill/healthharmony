@@ -1,13 +1,9 @@
 import {
-    setSpinner
-} from '/static/js/spinner.js'
-
-import {
     formatDate,
     openModal,
     closeModal,
     getToken
-} from '/static/js/utils.js'
+} from '../utils.js'
 
 import {
     get_filtered_illnesses_data,
@@ -16,7 +12,7 @@ import {
     get_leave_notes_btn,
     get_treatment_data_using_id,
     get_illness_data,
-} from '/static/js/doctor/patient-history.js'
+} from './patient-history.js'
 
 import {
     get_category_element,
@@ -337,7 +333,7 @@ function handle_onclick_edit_patient() {
         btn.setAttribute('style', 'display: none')
         const labels_element = document.querySelector('.js_patient_labels')
         // Save the info element
-        const info_element =  labels_element.nextElementSibling
+        const info_element = labels_element.nextElementSibling
 
         // remove it
         labels_element.nextElementSibling.remove()
@@ -480,9 +476,9 @@ function filter_inputs_number_field() {
             const input = input_element.value
             const number_pattern = /([1-9][.][0-9])|([1-9])/
             const number_pattern2 = /^[0-9]*\.?[0-9]*$/
-            const  test = number_pattern2.test(input)
-            if(!test) {
-                input_element.value = input.slice(0,input.length-1)
+            const test = number_pattern2.test(input)
+            if (!test) {
+                input_element.value = input.slice(0, input.length - 1)
             }
         })
     }
