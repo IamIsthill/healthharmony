@@ -10,5 +10,7 @@ module.exports = {
         patient_overview: './patient/overview.js',
         patient_profile: './patient/profile.js',
         patient_record: './patient/record.js',
+        admin_records: './administrator/records.js',
+        admin_account: './administrator/account.js',
     },
 };
