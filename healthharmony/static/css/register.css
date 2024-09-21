@@ -64,3 +64,14 @@ form a:hover{
     align-items: center;
     justify-content: space-between;
 }
+@media (max-width: 1380px) {
+    form h1{
+        font-size: var(--size-xl);
+    }
+    .form-group label{
+        font-size: var(--size-sm);
+    }
+    .form-group input{
+        height: 2.3rem;
+    }
+}
