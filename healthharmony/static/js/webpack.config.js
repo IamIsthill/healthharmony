@@ -1,0 +1,11 @@
+module.exports = {
+    entry: {
+        doctor_overview: './doctor/overview.js',
+        doctor_patient: './doctor/patient.js',
+        doctor_handled: './doctor/handled.js',
+        staff_account: './staff/account.js',
+        staff_inventory: './staff/inventory.js',
+        staff_overview: './staff/overview.js',
+        staff_records: './staff/records.js',
+    },
+};

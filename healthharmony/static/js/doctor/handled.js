@@ -1,6 +1,6 @@
 import {
     createChart,
-} from '/static/js/utils.js'
+} from '../utils.js'
 
 const department_data = JSON.parse(document.getElementById('department_data').textContent)
 const illness_category_data = JSON.parse(document.getElementById('illness_category_data').textContent)
@@ -50,7 +50,10 @@ function create_illness_category_bar_chart() {
     const ctx = canvas.getContext('2d')
 
     // Get the labels and counts
-    const {labels, counts} = get_labels_and_counts_category_bar(illness_category_data)
+    const {
+        labels,
+        counts
+    } = get_labels_and_counts_category_bar(illness_category_data)
 
     const chartType = 'bar'
     const chartData = {
@@ -125,8 +128,8 @@ function get_labels_and_counts_category_bar(illness_category_data) {
     }
 
     return {
-        'labels' : labels,
-        'counts' : counts
+        'labels': labels,
+        'counts': counts
     }
 }
 
@@ -140,8 +143,8 @@ function get_labels_and_counts_college_bar(department_data) {
     }
 
     return {
-        'labels' : labels,
-        'counts' : counts
+        'labels': labels,
+        'counts': counts
     }
 }
 
@@ -152,7 +155,10 @@ function create_colleges_bar_chart() {
     const ctx = canvas.getContext('2d')
 
     // Get the labels and counts
-    const {labels, counts} = get_labels_and_counts_college_bar(department_data)
+    const {
+        labels,
+        counts
+    } = get_labels_and_counts_college_bar(department_data)
 
     const chartType = 'bar'
     const chartData = {

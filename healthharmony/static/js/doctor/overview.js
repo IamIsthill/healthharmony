@@ -1,23 +1,28 @@
-import {
-    create_department_bar_canvas,
-    create_department_bars,
-    get_department_bar_data,
-    get_department_names_and_counts
-} from '/static/js/doctor/overview-bar.js'
+// import {
+//     create_department_bar_canvas,
+//     create_department_bars,
+//     get_department_bar_data,
+//     get_department_names_and_counts
+// } from '/static/js/doctor/overview-bar.js'
 import {
     create_morbidity_chart,
     get_active_illness,
     get_active_illness_category_filter,
     get_illness_chart_data
-} from '/static/js/doctor/overview-chart.js'
+} from './overview-chart.js'
 import {
     getCountsAndLabelsForChart,
     createChart,
-    getBarCounts,
     createBars,
-    openModal,
-    closeModal
-} from '/static/js/utils.js'
+} from '../utils.js'
+
+import * as overview_module from './overview-bar.js';
+
+const create_department_bar_canvas = overview_module.create_department_bar_canvas
+const create_department_bars = overview_module.create_department_bars
+const get_department_bar_data = overview_module.get_department_bar_data
+const get_department_names_and_counts = overview_module.get_department_names_and_counts
+
 
 const illness_data = JSON.parse(document.getElementById('illness_data').textContent)
 const department_names = JSON.parse(document.getElementById('department_names').textContent)
