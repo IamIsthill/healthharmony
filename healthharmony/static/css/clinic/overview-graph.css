@@ -18,9 +18,13 @@
     font-weight: 600;
 }
 
-.cat-button{
+.cat-button, .pat-button{
     color: var(--light_gray);
     border: 1px solid white;
+}
+.pat-button:hover{
+    border: 1px solid var(--Dark-Yellow);
+    color: var(--Dark-Yellow);
 }
 .cat-button:hover{
     border: 1px solid var(--Red);
@@ -30,6 +34,11 @@
     border: 1px solid var(--Red);
     color: var(--Red);
 }
+.active-pat{
+    border: 1px solid var(--Dark-Yellow);
+    color: var(--Dark-Yellow);
+}
+
 
 .label-container{
     align-self: center;
