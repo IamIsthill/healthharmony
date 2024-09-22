@@ -86,10 +86,10 @@ staff-test:
 .PHONY: flush
 flush:
 	poetry run python -m healthharmony.manage flush --noinput
-	make seed a=users
-	make seed a=inventory &
-	make seed a=treatment
-	make import-user
+
+.PHONY: sqlflush
+sqlflush:
+	poetry run python -m healthharmony.manage sqlflush
 
 .PHONY: test-doctor
 test-doctor:
@@ -114,3 +114,11 @@ deploy:
 .PHONY: js
 js:
 	cd healthharmony/static/js
+
+.PHONY: export
+export:
+	poetry run python -m healthharmony.manage dumpdata > temp.json
+
+.PHONY: import
+import:
+	poetry run python -m healthharmony.manage loaddata temp.json
