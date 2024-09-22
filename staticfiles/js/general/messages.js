@@ -1,16 +1,21 @@
-const btns = document.querySelectorAll('.js-modal-btn-ok')
+handle_onclick_ok_modal()
 
-for (const btn of btns) {
-    btn.addEventListener('click', () => {
-        const error_modal = document.getElementById('popupError')
-        const sucess_modal = document.getElementById('popupSuccess')
-        if (error_modal) {
-            error_modal.style.display = 'none'
+function handle_onclick_ok_modal() {
+    const btns = document.querySelectorAll('.js-modal-btn-ok')
 
-        }
-        if (sucess_modal) {
-            sucess_modal.style.display = 'none'
+    for (const btn of btns) {
+        btn.addEventListener('click', () => {
+            const error_modal = document.getElementById('popupError')
+            const sucess_modal = document.getElementById('popupSuccess')
+            if (error_modal) {
+                error_modal.style.display = 'none'
 
-        }
-    })
+            }
+            if (sucess_modal) {
+                sucess_modal.style.display = 'none'
+
+            }
+        })
+    }
+
 }
