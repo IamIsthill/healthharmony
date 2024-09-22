@@ -1,22 +1,37 @@
-# from healthharmony.app.settings import env
+from healthharmony.app.settings import env
 
 
 SITE_ID = 1
-SOCIALACCOUNT_PROVIDERS = {
-    "google": {
-        "SCOPE": ["profile", "email"],
-        "AUTH_PARAMS": {"access_type": "online"},
-        "APP": {
-            "client_id": env("CLIENT_ID"),  # type: ignore # noqa: F821
-            "secret": env("CLIENT_SECRET"),  # type: ignore # noqa: F821
-            "key": "",
-        },
-        "OAUTH_PKCE_ENABLED": True,
-        "REDIRECT_URI": "http://127.0.0.1:8000/accounts/google/login/callback/",
+if env.bool("PROD", True):
+    SOCIALACCOUNT_PROVIDERS = {
+        "google": {
+            "SCOPE": ["profile", "email"],
+            "AUTH_PARAMS": {"access_type": "online"},
+            "APP": {
+                "client_id": env("CLIENT_ID"),  # type: ignore # noqa: F821
+                "secret": env("CLIENT_SECRET"),  # type: ignore # noqa: F821
+                "key": "",
+            },
+            "OAUTH_PKCE_ENABLED": True,
+            "REDIRECT_URI": "https://healthharmony.duckdns.org/accounts/google/login/callback/",
+        }
     }
-}
+else:
+    SOCIALACCOUNT_PROVIDERS = {
+        "google": {
+            "SCOPE": ["profile", "email"],
+            "AUTH_PARAMS": {"access_type": "online"},
+            "APP": {
+                "client_id": env("CLIENT_ID"),  # type: ignore # noqa: F821
+                "secret": env("CLIENT_SECRET"),  # type: ignore # noqa: F821
+                "key": "",
+            },
+            "OAUTH_PKCE_ENABLED": True,
+            "REDIRECT_URI": "http://127.0.0.1:8000/accounts/google/login/callback/",
+        }
+    }
 
-# LOGIN_REDIRECT_URL = "patient/"
+LOGIN_REDIRECT_URL = "accounts/profile/"
 LOGOUT_REDIRECT_URL = "/"
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
