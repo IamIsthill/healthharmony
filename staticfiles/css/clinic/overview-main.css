@@ -1,0 +1,144 @@
+.modal-content {
+    position: relative  ;
+    background-color: #fefefe;
+    margin: 10% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 35%; /* Could be more or less, depending on screen size */
+    border-radius: 10px;
+}
+.modal-content h1{
+    align-self: flex-start;
+    font-size: var(--size-2xl);
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+.modal-content form{
+    display: flex;
+    flex-direction: column;
+}
+.modal-content form input, form select{
+    background: #E3E5E6;
+    width: 95%;
+    border: none;
+    border-radius: 5px;
+    padding: 0rem 1rem;
+    margin-bottom: 0.5rem;
+}
+
+main{
+    margin-top: 1.5rem;
+    color: var(--normal-fontcolor);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    /* border: 1px solid red; */
+}
+main .top-part{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    align-items: center;
+}
+
+main .today-patient{
+    padding: 0.8rem 1rem;
+    justify-items: right;
+    display: flex; /* Ensure .today-patient is also flex container */
+    align-items: start; /* Center vertically */
+    transition: all 0.3s ease;
+    width: 21rem;
+    height: 7.25rem;
+    border-radius: 10px;
+    background: white;
+    box-shadow: var(--box-shadow2);
+}
+main .today-patient:hover{
+    box-shadow: var(--box-shadowlight);
+}
+main .today-patient .info{
+    width: 100%;
+}
+main .today-patient .info h1{
+    font-weight: 500;
+}
+main .today-patient .info span{
+    font-size: var(--size-lg);
+    color: var(--normal-fontcolor);
+}
+
+.info-bottom{
+    margin-top: 1.4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.department-btn-section{
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+.department-btn{
+    padding: 0.2rem 0rem;
+    width: 3.5rem;
+    border: 1px solid var(--normal-fontcolor);
+    color: var(--normal-fontcolor);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+.department-btn:hover{
+    background: var(--normal-fontcolor);
+    color: white;
+}
+
+
+/* 2xl */
+@media (max-width: 1536px) {
+    main .today-patient{
+        width: 17.5rem;
+    }
+    main .today-patient .info span{
+        font-size: var(--size-sm);
+    }
+}
+
+@media (max-width: 1380px) {
+    main .today-patient{
+        width: 14rem;
+        height: 6rem;
+    }
+    main .today-patient .info span{
+        font-size: var(--size-xs);
+        font-weight: 500;
+        opacity: 80%;
+    }
+    .info-bottom{
+        margin-top: 0.4rem;
+    }
+}
+/* xl */
+@media (max-width: 1280px) {
+
+}
+
+/* lg */
+@media (max-width: 1024px) {
+
+}
+
+/* md */
+@media (max-width: 768px) {
+
+}
+
+/* sm */
+@media (max-width: 640px) {
+
+}
+
+/* xs */
+@media (max-width: 475px) {
+
+}
