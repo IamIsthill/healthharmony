@@ -2,10 +2,10 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from healthharmony.app.settings import env
 
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
     path("", include("healthharmony.base.urls")),
 ]
 
@@ -18,3 +18,6 @@ if settings.DEBUG:
     urlpatterns = [
         path("__debug__/", include(debug_toolbar.urls)),
     ] + urlpatterns
+
+if env.bool("INCLUDE_ADMIN", False):
+    urlpatterns.append(path("admin/", admin.site.urls))

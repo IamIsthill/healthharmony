@@ -1,0 +1,134 @@
+main{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+.top-part, .bottom-part{
+    width: 95%;
+    display: flex;
+    gap: 1rem;
+}
+.top-card{
+    background: white;
+    box-shadow: var(--box-shadow2);
+    padding: 1rem 1rem;
+    border-radius: 1rem;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+
+}
+.usual-page{
+    max-height: 12rem;
+    overflow-y: scroll;
+}
+.usual-cont{
+    background: rgb(199, 199, 199);
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+}
+.usual-cont h2{
+    font-size: var(--size-xl);
+    font-weight: 600;
+}
+.top-card h1{
+    font-size: var(--size-2xl);
+    margin-bottom: 0.5rem;
+}
+.top-card h3{
+    font-size: var(--size-base);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+.req-btn{
+    background: black;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+}
+.req-btn:hover{
+    background: rgba(0, 0, 0, 0.597);
+}
+
+/* modal */
+.modal-content{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 30%;
+    width: 40%;
+    border-radius: 1rem;
+    background: white;
+    margin: 5% auto;
+    gap: 1rem;
+    padding: 1rem 1rem;
+}
+.modal-content h1{
+    font-size: var(--size-lg);
+    align-self: flex-start;
+}
+.modal-content form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.modal-content form label{
+    font-size: var(--size-lg);
+}
+.modal-content form input{
+    background: #E3E5E6;
+    height: 5rem;
+    border: none;
+    border-radius: 8px;
+    width: 20rem;
+}
+.modal-content form label, .modal-content form input{
+    margin-bottom: 8px;
+}
+
+/* bottom part */
+
+.for-the-request{
+    background: white;
+    box-shadow: var(--box-shadow2);
+    padding: 1rem 1rem;
+    border-radius: 1rem;
+    width: 55%;
+    height:20rem;
+}
+.med-header{
+    font-size: var(--size-xl);
+}
+.for-the-request table th, .for-the-request table td{
+    text-align: start;
+}
+.for-the-request .table-head{
+    color: var(--light_gray);
+}
+
+.recent-illness{
+    width: 45%;
+    background: white;
+    box-shadow: var(--box-shadow2);
+    padding: 1rem 1rem;
+    border-radius: 1rem;
+}
+
+.visible h2{
+    font-weight: 600;
+    font-size: var(--size-lg);
+}
+.recent-cont{
+    max-height: 15rem;
+    overflow-y: scroll;
+}
+.bottom-part{
+    margin-bottom: 1rem;
+}
