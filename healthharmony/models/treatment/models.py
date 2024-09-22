@@ -20,7 +20,7 @@ class DoctorDetail(models.Model):
 
 
 class Category(models.Model):
-    category = models.CharField(max_length=50, null=True, blank=True)
+    category = models.TextField(max_length=50, null=True, blank=True)
     added = models.DateTimeField(auto_now=True)
     updated = models.DateTimeField(auto_now_add=True)
 
