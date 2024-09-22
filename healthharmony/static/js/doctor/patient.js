@@ -193,12 +193,10 @@ function click_expand_show_treatments() {
         for (const btn of expand_btns) {
             btn.addEventListener('click', () => {
                 if (btn.innerText == 'Expand') {
-                    const treatment_list = document.querySelector('.js-treatment-list')
-                    treatment_list.classList.remove('hide')
+                    btn.previousElementSibling.classList.remove('hide')
                     btn.innerText = 'Close'
                 } else if (btn.innerText == 'Close') {
-                    const treatment_list = document.querySelector('.js-treatment-list')
-                    treatment_list.classList.add('hide')
+                    btn.previousElementSibling.classList.add('hide')
                     btn.innerText = 'Expand'
                 }
             })
@@ -218,13 +216,30 @@ function update_visit_html_after_filter(filtered_illness_data) {
             illness_div.setAttribute('data-illness-id', illness.id)
             illness_div.classList.add('js-illness')
 
-            const illness_div_body = `
-                <p>Date of Visit: ${formatDate(illness.added)}</p>
-                <p>Symptoms: ${illness.issue}</p>
-                <p>Category of Symptoms: ${illness.category_name ? illness.category_name : ''}
-                <p>Diagnosis: ${illness.diagnosis ? illness.diagnosis : ''}</p>
+            const info_cont = document.createElement('div')
+            info_cont.classList.add('info_cont')
+
+            const visit_left = document.createElement('div')
+            visit_left.classList.add('visit-left')
+            visit_left.innerHTML = `
+                <span>Date and Time:</span>
+                <span>Symptoms:</span>
+                <span>Category of Symptom:</span>
+                <span>Diagnosis:</span>
             `
-            illness_div.innerHTML = illness_div_body
+
+            const visit_right = document.createElement('div')
+            visit_right.classList.add('visit-right')
+            visit_right.innerHTML = `
+            <p>${formatDate(illness.added)}</p>
+            <p>${illness.issue}</p>
+            <p>${illness.category_name ? illness.category_name : ''}</p>
+            <p> ${illness.diagnosis ? illness.diagnosis : ''}</p>
+            `
+
+            info_cont.append(visit_left, visit_right)
+
+            illness_div.appendChild(info_cont)
 
             if (illness.treatment.length > 0) {
                 const treatment_div = create_treatment_list(illness.treatment, treatmentData)
@@ -382,7 +397,7 @@ function get_form_element_for_patient_details() {
         <input name="patient_id" value="${patient_data.id}" type="hidden" />
         <input name="DOB" value="${patient_data.DOB ? patient_data.DOB : ''}" type="date" required />
         <input name="sex" value="${patient_data.sex ? patient_data.sex: ''}" type="text" required />
-        <input name="contact" value="${patient_data.contact ? patient_data.contact : ''}" type="text" placeholder="contact" required />
+        <input name="contact" value="${patient_data.contact ? patient_data.contact : ''}" type="number" placeholder="contact" required />
         <div class = "year-section">
         <input name="year" value="${patient_data.year ? patient_data.year : ''}" type="number" placeholder="year" required />
         <input name="section" value="${patient_data.section ? patient_data.section : ''}" type="text" placeholder="section" required />
@@ -481,5 +496,15 @@ function filter_inputs_number_field() {
                 input_element.value = input.slice(0, input.length - 1)
             }
         })
+
+        input_element.addEventListener('input', () => {
+            let number = input_element.value
+            if (number.length > 11) {
+                number = number.slice(0, 11)
+            }
+            input_element.value = number
+        })
+
+
     }
 }

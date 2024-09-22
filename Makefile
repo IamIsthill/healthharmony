@@ -110,3 +110,7 @@ static:
 .PHONY: deploy
 deploy:
 	poetry run daphne -p 80 -b 0.0.0.0 healthharmony.app.asgi:application
+
+.PHONY: js
+js:
+	cd healthharmony/static/js

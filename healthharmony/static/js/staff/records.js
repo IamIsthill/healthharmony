@@ -39,6 +39,10 @@ const historyData = JSON.parse(document.getElementById('history-data').textConte
 const certficateChartData = JSON.parse(document.getElementById('certificate-chart').textContent)
 const certificates = JSON.parse(document.getElementById('certificates').textContent)
 
+console.log(historyData)
+console.log(certficateChartData)
+console.log(certificates)
+
 main()
 
 function main() {

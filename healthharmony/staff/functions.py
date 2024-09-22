@@ -691,38 +691,41 @@ def fetch_history(Illness, Coalesce, F, Value, IllnessTreatment):
         )
     )
 
-    for data in history:
-        data["updated"] = data["updated"].isoformat()
-        data["added"] = data["added"].isoformat()
-        data["treatment"] = []
+    if history:
 
-        try:
-            staff = User.objects.get(id=data["staff"])
-            doctor = User.objects.get(id=data["doctor"])
-            data["staff"] = (
-                f"{staff.first_name} {staff.last_name}"
-                if staff
-                else "First Name Last Name"
-            )
-            data["doctor"] = (
-                f"{doctor.first_name} {doctor.last_name}" if doctor else " "
-            )
-        except Exception as e:
-            logger.error(f"Cannot find id: {str(e)}")
-            data["doctor"] = None
+        for data in history:
+            data["updated"] = data["updated"].isoformat()
+            data["added"] = data["added"].isoformat()
+            data["treatment"] = []
 
-        # Get the related IllnessTreatment instances
-        illness_treatments = IllnessTreatment.objects.filter(
-            illness_id=data["id"]
-        ).select_related("inventory_detail")
+            try:
+                staff = User.objects.get(id=data["staff"])
+                doctor = User.objects.get(id=data["doctor"])
+                data["staff"] = (
+                    f"{staff.first_name} {staff.last_name}"
+                    if staff
+                    else "First Name Last Name"
+                )
+                data["doctor"] = (
+                    f"{doctor.first_name} {doctor.last_name}" if doctor else " "
+                )
+            except Exception as e:
+                logger.error(f"Cannot find id: {str(e)}")
+                data["doctor"] = None
 
-        for treatment in illness_treatments:
-            data["treatment"].append(
-                {
-                    "quantity": treatment.quantity or 0,
-                    "medicine": treatment.inventory_detail.item_name,
-                }
-            )
+            # Get the related IllnessTreatment instances
+            illness_treatments = IllnessTreatment.objects.filter(
+                illness_id=data["id"]
+            ).select_related("inventory_detail")
+
+            if illness_treatments:
+                for treatment in illness_treatments:
+                    data["treatment"].append(
+                        {
+                            "quantity": treatment.quantity or 0,
+                            "medicine": treatment.inventory_detail.item_name,
+                        }
+                    )
     return history
 
 
