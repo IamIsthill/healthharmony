@@ -26,7 +26,7 @@ def user_profile(request):
                 user = form.save(request, request.user.id)
                 messages.success(request, "Profile updated successfully!")
                 context.update({"user": user})
-                return redirect("patient-profile", request.user.id)
+                return redirect("user_profile")
             except ValueError as e:
                 messages.error(request, str(e))
     return render(request, "profile.html", context)
