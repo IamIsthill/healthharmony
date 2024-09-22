@@ -12,7 +12,11 @@
           rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
           rel="stylesheet" />
-    <style></style>
+    <style>
+    .hide {
+      display: none;
+    }
+    </style>
 {% endblock %}
 {% block title %}Patient Information | HealthHarmony{% endblock %}
 {% block message %}
@@ -66,7 +70,6 @@
         {% else %}
             {% include 'staff/navbar.html' %}
         {% endif %}
-        
         <main>
             <div class="top-part">
                 <div class="patient-profile">
@@ -181,9 +184,7 @@
                                 </div>
                                 <button class="js-expand-illness-btn">Expand</button>
                             {% endif %}
-                            <button class="js-illness-note-btn">
-                                <span class="material-symbols-outlined">edit_note</span> Leave Notes
-                            </button>
+                            {% comment %} <button class="js-illness-note-btn"><span class="material-symbols-outlined">edit_note</span> Leave Notes</button> {% endcomment %}
                         </div>
                     {% empty %}
                         <h5>No visit history</h5>

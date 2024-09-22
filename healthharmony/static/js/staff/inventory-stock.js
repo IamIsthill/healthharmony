@@ -34,7 +34,10 @@ export function countCurrentStocksAndExpiredItems(categorizedData) {
         for (const item of Object.values(categorizedData[category])) {
             const expiratioDate = new Date(item.expiration_date)
             const now = new Date()
-            if (expiratioDate < now) {
+            if(!item.expiration_date) {
+                goodStocks += item.quantity
+            }
+            else if (expiratioDate < now) {
                 badStock += item.quantity
             } else {
                 goodStocks += item.quantity

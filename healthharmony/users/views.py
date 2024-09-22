@@ -47,7 +47,8 @@ def login_redirect(request):
         else:
             next_url = reverse("home")
         return redirect(next_url)
-    return redirect("account_login")
+    else:
+        return redirect("account_login")
 
 
 def register_view(request):

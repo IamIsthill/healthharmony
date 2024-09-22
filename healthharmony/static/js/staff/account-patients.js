@@ -26,14 +26,14 @@ export function createPatientInformation(data, x, y, format_date) {
         console.log(error)
     }
     const content = `
-    
+
         <img src="/media/${data.profile}">
         <p>${data.first_name} ${data.last_name}</p>
         <p>${data.email}</p>
         <hr>
         <p>${data.department_name}</p>
         <p>${date}</p>
-    
+
     `
     hoverHTML.style.top = `${y+5}px`
     hoverHTML.style.left = `${x+5}px`
@@ -201,7 +201,7 @@ export function create_hover_patient_information(patient_data, x, y, format_date
         <hr>
         <div class = "hover-dep">
         <span> Department </span>
-        <p>${patient_data.department_name}</p>
+        <p>${patient_data.department_name ? patient_data.department_name : ''}</p>
         </div>
         <div class = "hover-date">
         <span> Date Joined </span>

@@ -13,7 +13,7 @@ if env.bool("PROD", True):
                 "key": "",
             },
             "OAUTH_PKCE_ENABLED": True,
-            "REDIRECT_URI": "https://healthharmony.duckdns.org/accounts/google/login/callback/",
+            "REDIRECT_URI": "http://healthharmony.duckdns.org/accounts/google/login/callback/",
         }
     }
 else:
@@ -31,7 +31,7 @@ else:
         }
     }
 
-LOGIN_REDIRECT_URL = "accounts/profile/"
+# LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
