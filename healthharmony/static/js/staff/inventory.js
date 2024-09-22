@@ -314,7 +314,7 @@ function listenInventorySortDirectionBtn() {
             sortDirection
         } = getInitParamsForInventorySorter(getActiveFilter)
         const inventory = getSortedInventoryData(filter, inventorySort, sortDirection)
-        updateInventoryTable(inventory)
+        createLogicInventoryTable()
     })
 }
 
@@ -388,7 +388,7 @@ function listenToSearchBtn() {
         } = getInitParamsForInventorySorter(getActiveFilter)
         const inventory = getSortedInventoryData(filter, inventorySort, sortDirection)
         const filteredInventory = searchInventory(inventory)
-        updateInventoryTable(filteredInventory)
+        createLogicInventoryTable()
     })
 }
 
@@ -424,6 +424,6 @@ function handleKeyPressOnInventorySearchContainer(event) {
         } = getInitParamsForInventorySorter(getActiveFilter)
         const inventory = getSortedInventoryData(filter, inventorySort, sortDirection)
         const filteredInventory = searchInventory(inventory)
-        updateInventoryTable(filteredInventory)
+        createLogicInventoryTable()
     }
 }

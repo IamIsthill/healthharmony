@@ -216,6 +216,11 @@ function update_visit_html_after_filter(filtered_illness_data) {
             illness_div.setAttribute('data-illness-id', illness.id)
             illness_div.classList.add('js-illness')
 
+            if (parseInt(userAccess) >= 3) {
+                const edit_btn = get_edit_btn()
+                illness_div.appendChild(edit_btn)
+            }
+
             const info_cont = document.createElement('div')
             info_cont.classList.add('info_cont')
 
@@ -236,8 +241,8 @@ function update_visit_html_after_filter(filtered_illness_data) {
             <p>${illness.category_name ? illness.category_name : ''}</p>
             <p> ${illness.diagnosis ? illness.diagnosis : ''}</p>
             `
-
-            info_cont.append(visit_left, visit_right)
+            info_cont.appendChild(visit_left)
+            info_cont.appendChild(visit_right)
 
             illness_div.appendChild(info_cont)
 
@@ -247,11 +252,6 @@ function update_visit_html_after_filter(filtered_illness_data) {
 
                 const expand_btn = get_expand_btn()
                 illness_div.appendChild(expand_btn)
-            }
-
-            if (userAccess >= 3) {
-                const edit_btn = get_edit_btn()
-                illness_div.appendChild(edit_btn)
             }
 
             const note_btn = get_leave_notes_btn()
