@@ -31,7 +31,7 @@ else:
         }
     }
 
-LOGIN_REDIRECT_URL = "accounts/profile/"
+# LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True

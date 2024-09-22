@@ -775,11 +775,12 @@ def fetch_certificates(Certificate, F):
             "last_name",
         )
     )
-
-    for cert in certificates:
-        cert["requested"] = cert["requested"].isoformat()
-
-    return certificates
+    if certificates:
+        for cert in certificates:
+            cert["requested"] = cert["requested"].isoformat()
+        return certificates
+    else:
+        return None
 
 
 def fetch_employees(
