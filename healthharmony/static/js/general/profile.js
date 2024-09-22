@@ -43,5 +43,20 @@ function handle_onclick_edit_profile() {
             // Hide form
             form.setAttribute('style', 'display:none')
         })
+
+        // Limit the number to be typed
+        limit_contact_number()
+    })
+}
+
+function limit_contact_number() {
+    const number_input_element = document.querySelector('input[type="number"]')
+
+    number_input_element.addEventListener('input', () => {
+        let number = number_input_element.value
+        if (number.length > 11) {
+            number = number.slice(0, 11)
+        }
+        number_input_element.value = number
     })
 }

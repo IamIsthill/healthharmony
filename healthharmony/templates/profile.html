@@ -96,7 +96,10 @@
                                value="{% if user.last_name is not None %}{{ user.last_name }}{% endif %}"
                                name="last_name" />
                         <label for="">Contact Number:</label>
-                        <input type="number" value="{{ user.contact }}" name="contact" />
+                        <input type="number"
+                               value="{{ user.contact|default_if_none:'' }}"
+                               name="contact"
+                               max="99999999999" />
                         <button type="submit">Update</button>
                         <button type="button" class="js_close_profile_form">Cancel</button>
                     </form>
