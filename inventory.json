@@ -1,158 +1,158 @@
 [
-    {
-      "model": "inventory.inventorydetail",
-      "pk": 1,
-      "fields": {
-        "item_no": 1111,
-        "unit": "pcs.",
-        "item_name": "Mefenamic",
-        "category": "Medicine",
-        "description": "",
-        "expiration_date": "2027-10-22",
-        "added_by": 2
-      }
-    },
-    {
-      "model": "inventory.inventorydetail",
-      "pk": 2,
-      "fields": {
-        "item_no": 1212,
-        "unit": "pcs.",
-        "item_name": "Bandages",
-        "category": "Supply",
-        "description": "",
-        "expiration_date": "2024-09-22",
-        "added_by": 2
-      }
-    },
-    {
-      "model": "inventory.inventorydetail",
-      "pk": 3,
-      "fields": {
-        "item_no": -15170,
-        "unit": "Air mind soldier easy take information.",
-        "item_name": "A perhaps growth game hard.",
-        "category": "Medicine",
-        "description": "Carry great strong commercial garden. Job family agree fine off behavior item.",
-        "expiration_date": "2013-06-11",
-        "added_by": null
-      }
-    },
-    {
-      "model": "inventory.inventorydetail",
-      "pk": 4,
-      "fields": {
-        "item_no": -17107,
-        "unit": "Social idea wind. Long least poor site will.",
-        "item_name": "Red write will act scene.",
-        "category": "Medicine",
-        "description": "Sign computer address hard country spend west. Save region side attack. Assume those with choose picture doctor.",
-        "expiration_date": "1984-10-04",
-        "added_by": null
-      }
-    },
-    {
-      "model": "inventory.inventorydetail",
-      "pk": 5,
-      "fields": {
-        "item_no": 6913,
-        "unit": "Prove image care social he perhaps ask.",
-        "item_name": "Common simply others director majority investment network. Team it Mr true benefit.",
-        "category": "Medicine",
-        "description": "Above ok organization public career. Hold learn development message education kid series. Bed first none politics production board.",
-        "expiration_date": "1999-12-20",
-        "added_by": null
-      }
-    },
-    {
-      "model": "inventory.inventorydetail",
-      "pk": 6,
-      "fields": {
-        "item_no": -23024,
-        "unit": "Produce yes collection about.",
-        "item_name": "Beautiful new condition a soon.",
-        "category": "Medicine",
-        "description": "Surface professional where specific seven movement. Us power across outside little measure Mrs.\nMusic current church growth. Pressure degree little member recent debate first trade.",
-        "expiration_date": "1980-07-28",
-        "added_by": null
-      }
-    },
-    {
-      "model": "inventory.inventorydetail",
-      "pk": 7,
-      "fields": {
-        "item_no": -20235,
-        "unit": "Film present power blood recent school.",
-        "item_name": "When late model personal well but film. Toward must size high item be coach.",
-        "category": "Medicine",
-        "description": "Light may nor officer. Party ever Democrat apply meet. Find young no pretty test across.\nCamera full time bit either step. Suggest have help available wide.",
-        "expiration_date": "1973-01-05",
-        "added_by": null
-      }
-    },
-    {
-      "model": "inventory.inventorydetail",
-      "pk": 8,
-      "fields": {
-        "item_no": 29384,
-        "unit": "Win career several million couple room.",
-        "item_name": "Her house close gas. Test mean clear allow million type. System see bit no.",
-        "category": "Medicine",
-        "description": "Key treat per which.\nSomebody test change statement tough. East almost radio fly increase understand already night.\nEnd south then increase dog for. Follow medical stop budget. Able law above most.",
-        "expiration_date": "1996-05-16",
-        "added_by": null
-      }
-    },
-    {
-      "model": "inventory.inventorydetail",
-      "pk": 9,
-      "fields": {
-        "item_no": 25904,
-        "unit": "Face follow attorney why specific.",
-        "item_name": "Aspirin",
-        "category": "Medicine",
-        "description": "Record something house. Open manager sell that. Walk produce including table according imagine word.\r\nTough away street that. Measure experience player key executive power drive.",
-        "expiration_date": "2025-05-16",
-        "added_by": null
-      }
-    },
-    {
-      "model": "inventory.inventorydetail",
-      "pk": 10,
-      "fields": {
-        "item_no": 1233,
-        "unit": "Pay budget he outside body model.",
-        "item_name": "Paracetamol",
-        "category": "Medicine",
-        "description": "Experience research size. Rule cover eat my under.\r\nMeasure maybe food them. Its address role table rise speak issue.",
-        "expiration_date": "2011-02-15",
-        "added_by": null
-      }
-    },
-    {
-      "model": "inventory.inventorydetail",
-      "pk": 11,
-      "fields": {
-        "item_no": 28787,
-        "unit": "Allow material carry attack.",
-        "item_name": "Bandages",
-        "category": "Supply",
-        "description": "What no sing difference sister size. Energy herself like doctor. Statement let occur view individual rather than. Represent themselves tough door century sing baby.",
-        "expiration_date": "2008-01-31",
-        "added_by": null
-      }
-    },
-    {
-      "model": "inventory.inventorydetail",
-      "pk": 12,
-      "fields": {
-        "item_no": 2193,
-        "unit": "Information interview smile quality.",
-        "item_name": "Mefenamic",
-        "category": "Medicine",
-        "description": "Help three investment Democrat many. Fear sport executive all some rock. Election allow official into part security perform reduce.",
-        "expiration_date": "1986-08-17",
-        "added_by": null
-      }
+  {
+    "model": "inventory.inventorydetail",
+    "pk": 1,
+    "fields": {
+      "item_no": 1111,
+      "unit": "tablets",
+      "item_name": "Mefenamic Acid",
+      "category": "Medicine",
+      "description": "Non-steroidal anti-inflammatory drug (NSAID) for pain relief and fever reduction.",
+      "expiration_date": "2027-10-22",
+      "added_by": 2
     }
-  ]
+  },
+  {
+    "model": "inventory.inventorydetail",
+    "pk": 2,
+    "fields": {
+      "item_no": 1212,
+      "unit": "rolls",
+      "item_name": "Medical Adhesive Tape",
+      "category": "Supply",
+      "description": "Adhesive tape for wound dressing and securing medical equipment.",
+      "expiration_date": "2024-09-22",
+      "added_by": 2
+    }
+  },
+  {
+    "model": "inventory.inventorydetail",
+    "pk": 3,
+    "fields": {
+      "item_no": 1231,
+      "unit": "boxes",
+      "item_name": "Acetaminophen",
+      "category": "Medicine",
+      "description": "Over-the-counter pain reliever and fever reducer.",
+      "expiration_date": "2013-06-11",
+      "added_by": null
+    }
+  },
+  {
+    "model": "inventory.inventorydetail",
+    "pk": 4,
+    "fields": {
+      "item_no": 5567,
+      "unit": "bottles",
+      "item_name": "Aspirin",
+      "category": "Medicine",
+      "description": "Blood thinner and pain reliever.",
+      "expiration_date": "1984-10-04",
+      "added_by": null
+    }
+  },
+  {
+    "model": "inventory.inventorydetail",
+    "pk": 5,
+    "fields": {
+      "item_no": 6913,
+      "unit": "syringes",
+      "item_name": "Insulin Syringes",
+      "category": "Supply",
+      "description": "Used for administering insulin injections.",
+      "expiration_date": "1999-12-20",
+      "added_by": null
+    }
+  },
+  {
+    "model": "inventory.inventorydetail",
+    "pk": 6,
+    "fields": {
+      "item_no": 5675,
+      "unit": "strips",
+      "item_name": "Glucose Test Strips",
+      "category": "Supply",
+      "description": "Used for measuring blood sugar levels.",
+      "expiration_date": "1980-07-28",
+      "added_by": null
+    }
+  },
+  {
+    "model": "inventory.inventorydetail",
+    "pk": 7,
+    "fields": {
+      "item_no": 4564,
+      "unit": "vials",
+      "item_name": "Vitamin B12",
+      "category": "Medicine",
+      "description": "Vitamin supplement used for treating vitamin B12 deficiency.",
+      "expiration_date": "1973-01-05",
+      "added_by": null
+    }
+  },
+  {
+    "model": "inventory.inventorydetail",
+    "pk": 8,
+    "fields": {
+      "item_no": 4456,
+      "unit": "tubes",
+      "item_name": "Neosporin",
+      "category": "Medicine",
+      "description": "Topical antibiotic ointment for treating minor cuts and scrapes.",
+      "expiration_date": "1996-05-16",
+      "added_by": null
+    }
+  },
+  {
+    "model": "inventory.inventorydetail",
+    "pk": 9,
+    "fields": {
+      "item_no": 25904,
+      "unit": "tablets",
+      "item_name": "Aspirin",
+      "category": "Medicine",
+      "description": "Blood thinner and pain reliever.",
+      "expiration_date": "2025-05-16",
+      "added_by": null
+    }
+  },
+  {
+    "model": "inventory.inventorydetail",
+    "pk": 10,
+    "fields": {
+      "item_no": 1233,
+      "unit": "tablets",
+      "item_name": "Acetaminophen",
+      "category": "Medicine",
+      "description": "Over-the-counter pain reliever and fever reducer.",
+      "expiration_date": "2011-02-15",
+      "added_by": null
+    }
+  },
+  {
+    "model": "inventory.inventorydetail",
+    "pk": 11,
+    "fields": {
+      "item_no": 5676,
+      "unit": "rolls",
+      "item_name": "Medical Adhesive Tape",
+      "category": "Supply",
+      "description": "Adhesive tape for wound dressing and securing medical equipment.",
+      "expiration_date": "2008-01-31",
+      "added_by": null
+    }
+  },
+  {
+    "model": "inventory.inventorydetail",
+    "pk": 12,
+    "fields": {
+      "item_no": 2193,
+      "unit": "tablets",
+      "item_name": "Mefenamic Acid",
+      "category": "Medicine",
+      "description": "Non-steroidal anti-inflammatory drug (NSAID) for pain relief and fever reduction.",
+      "expiration_date": "1986-08-17",
+      "added_by": null
+    }
+  }
+]

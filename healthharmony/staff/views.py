@@ -55,6 +55,7 @@ from healthharmony.staff.forms import (
     DeleteDepartmentForm,
     EditDepartmentForm,
 )
+from healthharmony.staff.serializer import IllnessSerializer
 from healthharmony.app.settings import env
 
 logger = logging.getLogger(__name__)
@@ -334,9 +335,7 @@ def records(request):
     try:
         with ThreadPoolExecutor() as tp:
             futures = {
-                tp.submit(
-                    fetch_history, Illness, Coalesce, F, Value, IllnessTreatment
-                ): "fetch_history",
+                tp.submit(fetch_history, Illness, IllnessSerializer): "fetch_history",
                 tp.submit(
                     fetch_certificate_chart, timezone, Certificate, relativedelta
                 ): "fetch_certificate_chart",
@@ -353,7 +352,7 @@ def records(request):
                     logger.error(f"{key} generated an exception: {e}")
                     results[key] = 0
 
-        history = results["fetch_history"]
+        history, history_data = results["fetch_history"]
         certificate_chart = results["fetch_certificate_chart"]
         certificates = results["fetch_certificates"]
         patient_list = results["fetch_patient_list"]
@@ -381,7 +380,7 @@ def records(request):
                 "certificates_page": certificates_page,
                 "certificate_chart": certificate_chart,
                 "history": history_page,
-                "history_data": list(history),
+                "history_data": history_data,
                 "certificates": list(certificates),
                 "patient_list": patient_list,
             }

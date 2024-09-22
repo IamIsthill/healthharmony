@@ -106,7 +106,7 @@
                             {% for data in history %}
                                 <tr>
                                     <td class="table-data date date-column" data="date-{{ data.id }}">{{ data.added }}</td>
-                                    <td class="table-data patient-column">{{ data.first_name }} {{ data.last_name }}</td>
+                                    <td class="table-data patient-column">{{ data.patient.first_name }} {{ data.patient.last_name }}</td>
                                     <td class="table-data concern-column">{{ data.issue|truncatechars:60 }}</td>
                                     <td class="table-data status-column">
                                         {% if data.diagnosis == '' %}
