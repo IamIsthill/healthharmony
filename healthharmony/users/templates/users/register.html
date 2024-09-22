@@ -4,16 +4,14 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
         <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
         <link rel="stylesheet" href="{% static 'css/register.css' %}" />
         <link rel="stylesheet" href="{% static 'css/style.css' %}" />
         <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
-            rel="stylesheet" />
+              rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-            rel="stylesheet" />
-
+              rel="stylesheet" />
         <title>Health Harmony</title>
     </head>
     <body>
@@ -47,10 +45,12 @@
             <div class="form-group">
                 <button type="submit">Submit</button>
             </div>
-                <div class="form-group form-bottom">
-                    <h5>Have an account? <a href="{% url 'account_login' %}"> Sign in </a></h5>
-                    <a href="{% provider_login_url 'google' %}?process=login">Register with Google</a>
-                </div>
+            <div class="form-group form-bottom">
+                <h5>
+                    Have an account? <a href="{% url 'account_login' %}">Sign in</a>
+                </h5>
+                {% comment %} <a href="{% provider_login_url 'google' %}?process=login">Register with Google</a> {% endcomment %}
+            </div>
         </form>
         <div class="image-cont">
             <img src="{% static 'assets/images/svgs/loginillus.svg' %}" class="illus" />

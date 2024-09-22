@@ -119,6 +119,19 @@ js:
 export:
 	poetry run python -m healthharmony.manage dumpdata > temp.json
 
+.PHONY: export-users
+export-users:
+	poetry run python -m healthharmony.manage dumpdata users > users.json
+
+.PHONY: export-treatment
+export-treatment:
+	poetry run python -m healthharmony.manage dumpdata treatment > treatment.json
+
+.PHONY: export-inventory
+export-inventory:
+	poetry run python -m healthharmony.manage dumpdata inventory > inventory.json
+
 .PHONY: import
 import:
-	poetry run python -m healthharmony.manage loaddata temp.json
+	poetry run python -m healthharmony.manage loaddata users.json
+	poetry run python -m healthharmony.manage loaddata treatment.json
