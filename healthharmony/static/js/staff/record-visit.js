@@ -14,8 +14,8 @@ export function createViewIllnessBody(data) {
     let html = `
     <div class ="view-data">
         <h4>Date and Time of Visit: ${format_date(data.added)}</h4>
-        <h4>Illness Category: ${data.category}</h4>
-        <h4>Patient Name: ${data.first_name} ${data.last_name}</h4>
+        <h4>Illness Category: ${data.category_name ? data.category_name : ''}</h4>
+        <h4>Patient Name: ${data.patient_first_name} ${data.patient_last_name}</h4>
         <h4>Patient's Claim: ${data.issue}</h4>
         <h4>Added by: ${data.staff_first_name ? data.staff_first_name : ''}  ${data.staff_last_name ? data.staff_last_name: ''}</h4>
     </div>
@@ -85,20 +85,23 @@ export function filterHistoryData(historyData, filter, search) {
     let filteredHistoryData = []
     for (const data of historyData) {
         if (filter == 1) {
-            if ((data.diagnosis == '' || !data.diagnosis) && (data.first_name.toLowerCase().includes(search
+            if ((data.diagnosis == '' || !data.diagnosis) && (data.patient_first_name.toLowerCase().includes(search
                         .toLowerCase()) || data
-                    .last_name.toLowerCase().includes(search.toLowerCase()) || data.issue.toLowerCase().includes(search
+                    .patient_last_name.toLowerCase().includes(search.toLowerCase()) || data.issue.toLowerCase()
+                    .includes(search
                         .toLowerCase()))) {
                 filteredHistoryData.push(data)
             }
         } else if (filter == 2) {
-            if ((data.diagnosis != '') && (data.first_name.toLowerCase().includes(search.toLowerCase()) || data
-                    .last_name.toLowerCase().includes(search.toLowerCase()) || data.issue.toLowerCase().includes(search
+            if ((data.diagnosis != '') && (data.patient_first_name.toLowerCase().includes(search.toLowerCase()) || data
+                    .patient_last_name.toLowerCase().includes(search.toLowerCase()) || data.issue.toLowerCase()
+                    .includes(search
                         .toLowerCase()))) {
                 filteredHistoryData.push(data)
             }
         } else {
-            if (data.first_name.toLowerCase().includes(search.toLowerCase()) || data.last_name.toLowerCase().includes(
+            if (data.patient_first_name.toLowerCase().includes(search.toLowerCase()) || data.patient_last_name
+                .toLowerCase().includes(
                     search.toLowerCase()) || data.issue.toLowerCase().includes(search.toLowerCase())) {
                 filteredHistoryData.push(data)
             }
@@ -122,7 +125,7 @@ export function createVisitHtml(historyData, formatDate) {
         html += `
             <tr>
                 <td class="table-data date date-column" data="date-${data.id}">${formatDate(data.added)}</td>
-                <td class="table-data patient-column">${data.first_name} ${data.last_name}</td>
+                <td class="table-data patient-column">${data.patient_first_name} ${data.patient_last_name}</td>
                 <td class="table-data concern-column">${issue}</td>
                 <td class="table-data status-column">${status}</td>
                 <td class="table-data view-column js-view-illness-btn"

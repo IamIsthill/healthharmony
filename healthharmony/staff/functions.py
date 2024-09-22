@@ -664,69 +664,13 @@ def fetch_inventory(InventoryDetail, Sum, request):
     return request, inventory
 
 
-def fetch_history(Illness, Coalesce, F, Value, IllnessTreatment):
-    history = (
-        Illness.objects.all()
-        .annotate(
-            first_name=Coalesce(F("patient__first_name"), Value("")),
-            last_name=Coalesce(F("patient__last_name"), Value("")),
-            staff_first_name=Coalesce(F("staff__first_name"), Value("")),
-            staff_last_name=Coalesce(F("staff__last_name"), Value("")),
-            category=Coalesce(F("illness_category__category"), Value("")),
-        )
-        .values(
-            "first_name",
-            "last_name",
-            "issue",
-            "updated",
-            "diagnosis",
-            "category",
-            "staff",
-            "doctor",
-            "id",
-            "added",
-            "patient",
-            "staff_first_name",
-            "staff_last_name",
-        )
-    )
-
-    if history:
-
-        for data in history:
-            data["updated"] = data["updated"].isoformat()
-            data["added"] = data["added"].isoformat()
-            data["treatment"] = []
-
-            try:
-                staff = User.objects.get(id=data["staff"])
-                doctor = User.objects.get(id=data["doctor"])
-                data["staff"] = (
-                    f"{staff.first_name} {staff.last_name}"
-                    if staff
-                    else "First Name Last Name"
-                )
-                data["doctor"] = (
-                    f"{doctor.first_name} {doctor.last_name}" if doctor else " "
-                )
-            except Exception as e:
-                logger.error(f"Cannot find id: {str(e)}")
-                data["doctor"] = None
-
-            # Get the related IllnessTreatment instances
-            illness_treatments = IllnessTreatment.objects.filter(
-                illness_id=data["id"]
-            ).select_related("inventory_detail")
-
-            if illness_treatments:
-                for treatment in illness_treatments:
-                    data["treatment"].append(
-                        {
-                            "quantity": treatment.quantity or 0,
-                            "medicine": treatment.inventory_detail.item_name,
-                        }
-                    )
-    return history
+def fetch_history(Illness, IllnessSerializer):
+    history = Illness.objects.all()
+    history_data = []
+    for hist in history:
+        data = IllnessSerializer(hist)
+        history_data.append(data.data)
+    return history, history_data
 
 
 def fetch_certificate_chart(timezone, Certificate, relativedelta):
