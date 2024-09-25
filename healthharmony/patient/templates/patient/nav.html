@@ -1,12 +1,12 @@
 {% load cache %}
 {% load static %}
 {% cache 600 patient_nav %}
-<!--   <nav>
+{% comment %} <!--    <nav>
     <a href="{% url 'patient-overview' %}" class="js-nav-links">Dashboard</a>
     <a href="{% url 'patient-records' request.user.id %}" class="js-nav-links">Health Records</a>
     <a href="{% url 'patient-profile' request.user.id %}" class="js-nav-links">Patient Profile</a>
     <a href="{% url 'logout' %}">Logout</a>
-</nav>   -->
+</nav>    --> {% endcomment %}
 <aside>
     <div class="logo">
         <a href="{% url 'patient-overview' %}">

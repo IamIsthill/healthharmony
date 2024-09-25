@@ -1,74 +1,61 @@
-{% extends 'account/base_entrance.html' %}
+{% extends "account/base_entrance.html" %}
 {% load i18n %}
 {% load allauth account %}
-{% load static %}
 {% block head_title %}
-    {% trans 'Login' %}
-{% endblock %}
-{% block extra_head %}
-    <link rel="stylesheet" href="{% static 'css/login.css' %}" />
-    <link rel="icon"
-          type="image/png"
-          href="{% static 'assets/images/svgs/logotitle.svg' %}" />
-    <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-          rel="stylesheet" />
-{% endblock %}
+    {% trans "Sign In" %}
+{% endblock head_title %}
 {% block content %}
-    <section class="left-side">
-        <a href="{% url 'home' %}">
-            <img src="{% static 'assets/images/svgs/logo.svg' %}" class="logo" />
-        </a>
-        {% comment %} {% element h1 %}
-    {% trans 'Sign In' %}
-        {% endelement %} {% endcomment %}
-        {% if not SOCIALACCOUNT_ONLY %}
-            {% setvar link %}
-            <a href="{{ signup_url }}">
-            {% endsetvar %}
-            {% setvar end_link %}
-        </a>
+    {% element h1 %}
+    {% trans "Sign In" %}
+{% endelement %}
+{% if not SOCIALACCOUNT_ONLY %}
+    {% setvar link %}
+    <a href="{{ signup_url }}">
     {% endsetvar %}
-    <span class="header">Welcome</span>
-    {% comment %} {% element p tags='smalltext' %}
-      {% blocktranslate %}If you have not created an account yet, then please {{ link }}sign up{{ end_link }} first.{% endblocktranslate %}
-    {% endelement %} {% endcomment %}
-    <form action="{% url 'normal-login' %}" method="post">
-        {% csrf_token %}
-        <div class="input-container">
-            <input type="email"
-                   name="email"
-                   placeholder="Email address"
-                   autocomplete="email"
-                   maxlength="320"
-                   required
-                   id="id_login" />
-            <span class="material-symbols-outlined input-logo">person</span>
-        </div>
-        <div class="input-container">
-            <input type="password"
-                   name="password"
-                   placeholder="Password"
-                   autocomplete="current-password"
-                   required
-                   aria-describedby="id_password_helptext"
-                   id="id_password" />
-            <span class="material-symbols-outlined input-logo">lock</span>
-        </div>
-        <div class="remember-forgot">
-            <span class="helptext" id="id_password_helptext"><a href="/accounts/password/reset/">Forgot your password?</a></span>
-        </div>
-        {% element button type='submit' tags='prominent,login' %}
-        {% trans 'Login' %}
-    {% endelement %}
-</form>
+    {% setvar end_link %}
+</a>
+{% endsetvar %}
+{% element p %}
+{% blocktranslate %}If you have not created an account yet, then please {{ link }}sign up{{ end_link }} first.{% endblocktranslate %}
+{% endelement %}
+{% url 'account_login' as login_url %}
+{% element form form=form method="post" action=login_url tags="entrance,login" %}
+{% slot body %}
+{% csrf_token %}
+{% element fields form=form unlabeled=True %}
+{% endelement %}
+{{ redirect_field }}
+{% endslot %}
+{% slot actions %}
+{% element button type="submit" tags="prominent,login" %}
+{% trans "Sign In" %}
+{% endelement %}
+{% endslot %}
+{% endelement %}
 {% endif %}
-{% comment %} <a title="Google" href="/accounts/google/login/?process=login" class="">Login Via Google</a> {% endcomment %}
-<p>
-    Don't have an account yet? Please <a href="{% url 'account_signup' %}">Sign Up here</a>
-</p>
-</section>
-<img src="{% static 'assets/images/svgs/loginillus.svg' %}" class="illus" />
+{% if LOGIN_BY_CODE_ENABLED or PASSKEY_LOGIN_ENABLED %}
+    {% element hr %}
+{% endelement %}
+{% element button_group vertical=True %}
+{% if PASSKEY_LOGIN_ENABLED %}
+    {% element button type="submit" form="mfa_login" id="passkey_login" tags="prominent,login,outline,primary" %}
+    {% trans "Sign in with a passkey" %}
+{% endelement %}
+{% endif %}
+{% if LOGIN_BY_CODE_ENABLED %}
+    {% element button href=request_login_code_url tags="prominent,login,outline,primary" %}
+    {% trans "Mail me a sign-in code" %}
+{% endelement %}
+{% endif %}
+{% endelement %}
+{% endif %}
+{% if SOCIALACCOUNT_ENABLED %}
+    {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
+{% endif %}
+{% endblock content %}
+{% block extra_body %}
+    {{ block.super }}
+    {% if PASSKEY_LOGIN_ENABLED %}
+        {% include "mfa/webauthn/snippets/login_script.html" with button_id="passkey_login" %}
+    {% endif %}
 {% endblock %}

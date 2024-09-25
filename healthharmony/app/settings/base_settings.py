@@ -9,6 +9,7 @@ ALLOWED_HOSTS = []
 
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
+    # For allauth
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
@@ -41,8 +42,8 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "allauth",
     "allauth.account",
-    "allauth.socialaccount",
-    "allauth.socialaccount.providers.google",
+    # "allauth.socialaccount",
+    # "allauth.socialaccount.providers.google",
     "storages",  # django-storages
 ]
 

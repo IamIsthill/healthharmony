@@ -11,7 +11,7 @@ from healthharmony.base.functions import (
     load_data_and_model,
 )
 
-from allauth.socialaccount.models import SocialAccount
+# from allauth.socialaccount.models import SocialAccount
 from healthharmony.users.models import User
 from healthharmony.models.treatment.models import Illness, DoctorDetail
 from healthharmony.models.bed.models import BedStat
@@ -21,13 +21,13 @@ from healthharmony.administrator.models import Log
 logger = logging.getLogger(__name__)
 
 
-def get_social_picture(user):
-    """get picture from the email metadata"""
-    try:
-        social = SocialAccount.objects.get(user=user, provider="google")
-        return social.extra_data.get("picture")
-    except SocialAccount.DoesNotExist:
-        return None
+# def get_social_picture(user):
+#     """get picture from the email metadata"""
+#     try:
+#         social = SocialAccount.objects.get(user=user, provider="google")
+#         return social.extra_data.get("picture")
+#     except SocialAccount.DoesNotExist:
+#         return None
 
 
 def calculate_age(DOB):
@@ -67,7 +67,8 @@ def update_patient_view_context(request, context, pk):
     context["age"] = calculate_age(user.DOB)
     context["blood_pressure"] = get_latest_blood_pressure(user)
 
-    picture = get_social_picture(user)
+    # picture = get_social_picture(user)
+    picture = None
     if picture:
         context["picture"] = picture
 

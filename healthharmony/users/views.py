@@ -8,7 +8,8 @@ from django.contrib.auth.backends import ModelBackend
 import logging
 
 from healthharmony.administrator.models import Log
-from healthharmony.patient.functions import get_social_picture
+
+# from healthharmony.patient.functions import get_social_picture
 from healthharmony.patient.forms import UpdateProfileInfo
 
 
@@ -17,8 +18,9 @@ logger = logging.getLogger(__name__)
 
 @login_required(login_url="account_login")
 def user_profile(request):
-    picture = get_social_picture(request.user)
-    context = {"picture": picture}
+
+    # picture = get_social_picture(request.user)
+    context = {"picture": None}
     if request.method == "POST":
         form = UpdateProfileInfo(request.POST, files=request.FILES)
         if form.is_valid():
@@ -233,3 +235,31 @@ class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
         "please make sure you've entered the address you registered with, and check your spam folder."
     )
     success_url = reverse_lazy("login-redirect")
+
+
+# UPDATED CONFIG
+from allauth.account.views import LogoutView
+from allauth.account.mixins import _ajax_response
+
+
+class CustomLogoutView(LogoutView):
+    def get(self, *args, **kwargs):
+        # Always trigger logout when a GET request is made
+        return self.post(*args, **kwargs)
+
+    def post(self, *args, **kwargs):
+        # Log the logout action before actually logging out
+        try:
+            if self.request.user.is_authenticated:
+                Log.objects.create(
+                    user=self.request.user, action="User has logged out."
+                )
+                logger.info(f"{self.request.user.email} has been logged out")
+        except Exception as e:
+            logger.info(f"Failed to logged out {self.request.user.email} : {str(e)}")
+
+        # Call the original post method to handle the logout
+        url = self.get_redirect_url()  # Get the URL to redirect to after logout
+        self.logout()  # Perform the logout operation
+        response = redirect(url)  # Redirect to the chosen URL
+        return _ajax_response(self.request, response)
