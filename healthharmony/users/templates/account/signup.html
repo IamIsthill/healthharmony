@@ -1,45 +1,148 @@
-{% extends "account/base_entrance.html" %}
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Register | HealthHarmony{% endblock %}
+{% block header %}
+    <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/register.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
+          rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+          rel="stylesheet" />
+{% endblock %}
+{% if messages %}
+    {% block message %}
+        {% for message in messages %}{{ message }}{% endfor %}
+    {% endblock %}
+{% endif %}
+{% block main %}
+    <form action="" method="POST">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}<li class="{{ message.tags }}">{{ message }}</li>{% endfor %}
+            </ul>
+        {% endif %}
+        {% if form.field_errors %}
+            <ul class="errorlist">
+                {% for error in form.field_errors %}<li>{{ error }}</li>{% endfor %}
+            </ul>
+        {% endif %}
+        {% csrf_token %}
+        <h1>Create Account</h1>
+        <div class="form-group">
+            <label for="id_first_name">First Name</label>
+            <input type="text"
+                   name="first_name"
+                   class="custom-class"
+                   value="{{ form.first_name.value|default_if_none:'' }}" />
+            {% if form.first_name.errors %}
+                <ul class="errorlist">
+                    {% for error in form.first_name.errors %}<li>{{ error }}</li>{% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="id_last_name">Last Name</label>
+            <input type="text"
+                   name="last_name"
+                   class="custom-class"
+                   value="{{ form.last_name.value|default_if_none:'' }}" />
+            {% if form.last_name.errors %}
+                <ul class="errorlist">
+                    {% for error in form.last_name.errors %}<li>{{ error }}</li>{% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="id_email">Email</label>
+            <input type="email"
+                   name="email"
+                   class="custom-class"
+                   value="{{ form.email.value|default_if_none:'' }}" />
+            {% if form.email.errors %}
+                <ul class="errorlist">
+                    {% for error in form.email.errors %}<li>{{ error }}</li>{% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="id_password1">Password</label>
+            <input type="password" name="password1" class="custom-class" />
+            {% if form.password1.errors %}
+                <ul class="errorlist">
+                    {% for error in form.password1.errors %}<li>{{ error }}</li>{% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="id_password2">Password Confirmation</label>
+            <input type="password" name="password2" class="custom-class" />
+            {% if form.password2.errors %}
+                <ul class="errorlist">
+                    {% for error in form.password2.errors %}<li>{{ error }}</li>{% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <button type="submit">Submit</button>
+        </div>
+        <div class="form-group form-bottom">
+            <h5>
+                Have an account? <a href="{% url 'account_login' %}">Log in</a>
+            </h5>
+            {% comment %} <a href="{% provider_login_url 'google' %}?process=login">Register with Google</a> {% endcomment %}
+        </div>
+    </form>
+    <div class="image-cont">
+        <img src="{% static 'assets/images/svgs/loginillus.svg' %}" class="illus" />
+    </div>
+{% endblock %}
+{% block script %}
+    <script type="module" src="{% static 'js/general/messages.js' %}"></script>
+{% endblock %}
+{% comment %} {% extends 'account/base_entrance.html' %}
 {% load allauth i18n %}
 {% block head_title %}
-    {% trans "Signup" %}
-{% endblock head_title %}
+  {% trans 'Signup' %}
+{% endblock %}
 {% block content %}
-    {% element h1 %}
-    {% trans "Sign Up" %}
-{% endelement %}
-{% setvar link %}
-<a href="{{ login_url }}">
-{% endsetvar %}
-{% setvar end_link %}
-</a>
-{% endsetvar %}
-{% element p %}
-{% blocktranslate %}Already have an account? Then please {{ link }}sign in{{ end_link }}.{% endblocktranslate %}
-{% endelement %}
-{% if not SOCIALACCOUNT_ONLY %}
+  {% element h1 %}
+  {% trans 'Sign Up' %}
+  {% endelement %}
+  {% setvar link %}
+  <a href="{{ login_url }}">
+    {% endsetvar %}
+    {% setvar end_link %}
+  </a>
+  {% endsetvar %}
+  {% element p %}
+  {% blocktranslate %}Already have an account? Then please {{ link }}sign in{{ end_link }}.{% endblocktranslate %}
+  {% endelement %}
+  {% if not SOCIALACCOUNT_ONLY %}
     {% url 'account_signup' as action_url %}
-    {% element form form=form method="post" action=action_url tags="entrance,signup" %}
+    {% element form form=form method='post' action=action_url tags='entrance,signup' %}
     {% slot body %}
     {% csrf_token %}
     {% element fields form=form unlabeled=True %}
-{% endelement %}
-{{ redirect_field }}
-{% endslot %}
-{% slot actions %}
-{% element button tags="prominent,signup" type="submit" %}
-{% trans "Sign Up" %}
-{% endelement %}
-{% endslot %}
-{% endelement %}
-{% endif %}
-{% if PASSKEY_SIGNUP_ENABLED %}
+    {% endelement %}
+    {{ redirect_field }}
+    {% endslot %}
+    {% slot actions %}
+    {% element button tags='prominent,signup' type='submit' %}
+    {% trans 'Sign Up' %}
+    {% endelement %}
+    {% endslot %}
+    {% endelement %}
+  {% endif %}
+  {% if PASSKEY_SIGNUP_ENABLED %}
     {% element hr %}
-{% endelement %}
-{% element button href=signup_by_passkey_url tags="prominent,signup,outline,primary" %}
-{% trans "Sign up using a passkey" %}
-{% endelement %}
-{% endif %}
-{% if SOCIALACCOUNT_ENABLED %}
-    {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
-{% endif %}
-{% endblock content %}
+    {% endelement %}
+    {% element button href=signup_by_passkey_url tags='prominent,signup,outline,primary' %}
+    {% trans 'Sign up using a passkey' %}
+    {% endelement %}
+  {% endif %}
+  {% if SOCIALACCOUNT_ENABLED %}
+    {% include 'socialaccount/snippets/login.html' with page_layout='entrance' %}
+  {% endif %}
+{% endblock %} {% endcomment %}

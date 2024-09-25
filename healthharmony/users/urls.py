@@ -5,8 +5,10 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     path("accounts/logout/", views.CustomLogoutView.as_view(), name="account_logout"),
+    path(
+        "accounts/profile/", views.login_redirect, name="login-redirect"
+    ),  # Dito una papasok si user, then redirect natin
     path("accounts/", include("allauth.urls")),
-    # path("accounts/profile/", views.login_redirect, name="login-redirect"),
     # path("accounts/signup/", views.register_view, name="account_signup"),
     # path("logout/", views.logout_view, name="logout"),
     # path("reset_password/", views.ResetPasswordView.as_view(), name="password_reset"),
