@@ -21,9 +21,12 @@
         <li>
             <a href="#" class="header_link">Contact</a>
         </li>
-    </ul>
-    <button class="logout yellow_button"
+        <li>
+            <button class="logout yellow_button"
             onclick="window.location.href='{% url 'account_login' %}'">LOGIN</button>
+        </li>
+    </ul>
+
     <button class="header_hamburger">
         <img src="{% static 'assets/images/landing-page/header/hamburger.svg' %}"
              alt="" />

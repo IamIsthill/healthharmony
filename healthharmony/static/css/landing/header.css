@@ -11,12 +11,15 @@
     background: var(--Background-color);
     z-index: 100;
 }
-
+.nav-logo{
+    width: 230px;
+}
 .header_menu{
     display: flex;
+    align-items: center;
     gap: 2rem;
     list-style:none;
-    margin-right: 8rem;
+
     }
 .header_link{
     font-size: var(--size-base);
@@ -47,6 +50,7 @@
 
 /* 2xl */
 @media (max-width: 1536px) {
+
 
   }
 
