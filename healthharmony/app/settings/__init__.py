@@ -11,8 +11,10 @@ env = environ.Env()
 environ.Env.read_env(env_file=".env")
 
 try:
-    PROD = env.bool("PROD", default=False)
+    PROD = env.bool("PROD", default=True)
+    LOCAL_DEBUG = env.bool("DEBUG", default=False)
     logger.info(f"PROD environment variable is set to: {PROD}")
+    logger.info(f"DEBUG environment variable is set to: {LOCAL_DEBUG}")
 
     SETTINGS_PATH = (
         BASE_DIR / "local/settings.prod.py"
