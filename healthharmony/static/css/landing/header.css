@@ -22,7 +22,7 @@
 
     }
 .header_link{
-    font-size: var(--size-base);
+    font-size: var(--size-lg);
     color: var(--light_gray);
     font-weight: 300;
 }
@@ -38,6 +38,7 @@
 .logout{
     transition: all 0.3s ease;
     padding: 0.5rem 1rem;
+    font-size: var(--size-lg);
 }
 .logout:hover{
     background: var(--Yellow);
@@ -48,15 +49,13 @@
 }
 /* HEADER */
 
-/* 2xl */
-@media (max-width: 1536px) {
-
-
-  }
+@media (max-width: 1380px){
+    
+}
 
   /* xl */
   @media (max-width: 1280px) {
-
+    
   }
 
   /* lg */
