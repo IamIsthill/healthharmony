@@ -4,6 +4,9 @@ from datetime import timedelta
 from dateutil.relativedelta import relativedelta
 from django.db.models import Sum, Min, Count
 import logging
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+from django.conf import settings
 
 from healthharmony.models.treatment.models import Category, Illness, Certificate
 from healthharmony.models.inventory.models import InventoryDetail
@@ -766,3 +769,17 @@ def fetch_employees(
             f"{request.user.email} failed to fetched employee instances in staff/accounts: {str(e)}"
         )
     return users
+
+
+def send_welcome_email(patient, password):
+    subject = "Welcome to HealthHarmony!"
+    from_email = settings.EMAIL_HOST_USER
+
+    body = render_to_string(
+        "email/welcome_email.html", {"patient": patient, "password": password}
+    )
+
+    recipient_list = [patient.email]
+    email = EmailMessage(subject, body, from_email, recipient_list)
+    email.content_subtype = "html"
+    email.send()

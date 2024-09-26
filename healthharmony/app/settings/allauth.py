@@ -41,6 +41,12 @@ ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_LOGIN_ON_PASSWORD_RESET = True  # Log in agad user once na reset
 ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
 ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "[HealthHarmony]"
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+
+if env.bool("PROD", True):
+    ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
+
 
 ACCOUNT_FORMS = {
     "signup": "healthharmony.users.forms.CustomSignUpForm",
