@@ -38,8 +38,9 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-# SOCIALACCOUNT_AUTO_SIGNUP = True
-# SOCIALACCOUNT_ADAPTER = "healthharmony.users.adapters.MySocialAccountAdapter"
+ACCOUNT_LOGIN_ON_PASSWORD_RESET = True  # Log in agad user once na reset
+ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
+ACCOUNT_SESSION_REMEMBER = True
 
 ACCOUNT_FORMS = {
     "signup": "healthharmony.users.forms.CustomSignUpForm",
