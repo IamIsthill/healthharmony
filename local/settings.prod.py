@@ -6,12 +6,18 @@ SECRET_KEY = env.str("APP_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["*", "healthharmony.duckdns.org", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = [
+    "healthharmony.duckdns.org",
+    "localhost",
+    "127.0.0.1",
+    "34.127.99.78",  # Change the IP everytime
+]
 
 if not DEBUG:
     CSRF_TRUSTED_ORIGINS = [
         "https://healthharmony.duckdns.org",
         "http://healthharmony.duckdns.org",
+        "34.127.99.78",  # Change the IP everytime
     ]
 
 else:
@@ -20,6 +26,7 @@ else:
         "http://127.0.0.1",
         "http://localhost",
         "http://localhost:8000",
+        "34.127.99.78",  # Change the IP everytime
     ]
 
 CSRF_COOKIE_SECURE = True
