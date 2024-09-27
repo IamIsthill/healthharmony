@@ -5,9 +5,17 @@
 {% block header %}
     <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
     <link rel="stylesheet" href="{% static 'css/landing/header.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/landing/section.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/landing/hero.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/landing/bed-weath.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/landing/doctor.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/landing/footer.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
+          rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+          rel="stylesheet" />
+    
     <!-- link for swiper -->
     <link rel="stylesheet"
           href="https://unpkg.com/swiper/swiper-bundle.min.css" />
@@ -30,50 +38,49 @@
         {% include 'bed.html' %}
         {% include 'weather.html' %}
         {% include 'doctors.html' %}
-        <hr />
-        <section class="aboutUs containers section">
-            <div class="container-aboutUs">
-                <h1>About us</h1>
-                <p>
-                    Here at Health Harmony, we believe in empowering students to take an active role in their health and wellness journey. We understand the importance of efficient communication between students, parents, and healthcare professionals at school.
-                </p>
-            </div>
-            <div class="mission-container">
-                <h3>Mission</h3>
-                <p>
-                    Our goal is to create a healthier school community by providing students with the resources they need to take charge of their well-being. We believe that accessible medical records combined with clear communication are key to fostering a positive approach to student health.
-                </p>
-            </div>
-        </section>
+
     </main>
-    <footer class="contactUs section">
-        <h1>Contact</h1>
-        <div class="contact-info">
-            <a href="https://maps.app.goo.gl/HNc8SfR3dTgpyV3p8" target="_blank">
-                <div class="dhvsu-loc">
-                    <img src="{% static 'assets/images/landing-page/location.svg' %}" />
-                </div>
-            </a>
-            <div class="right-info">
-                <div class="email-info">
-                    <h3>Email</h3>
-                    <a href="#"><span>dhvsumainclinic@gdhvsu.edu.ph</span></a>
-                </div>
-                <div class="telephone-info">
-                    <h3>Telephone no.</h3>
-                    <span>000-0000-00</span>
-                </div>
-                <div class="social-info">
-                    <h3>Social</h3>
-                    <div class="social-logo">
-                        <i class="fab fa-facebook"></i>
-                        <i class="fab fa-twitter"></i>
+    <footer class="contactUs containers section">
+        <div class="contact">
+        <div class="footer-data">
+            <div class="container-aboutUs">
+                    <h1>About us</h1>
+                    <p>
+                        Here at Health Harmony, we believe in empowering students to take an active role in their health and wellness journey. We understand the importance of efficient communication between students and healthcare professionals at school.
+                    </p>
+            </div>
+            <div class="contact-info">
+                <h1>Contact</h1>
+                <div class="contact-bottom">
+                    
+                    <div class="right-info">
+                        <div class="email-info">
+                            <h3>Email</h3>
+                            <a href="#"><span>dhvsumainclinic@dhvsu.edu.ph</span></a>
+                        </div>
+                        <div class="location-info">
+                            <a href="https://maps.app.goo.gl/HNc8SfR3dTgpyV3p8" target="_blank">
+                                <div class="social-logo">
+                                    <h3>Location</h3>
+                                    <i class="fa-solid fa-map-location-dot"></i>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="social-info">
+                            <h3>Social</h3>
+                            <div class="social-logo">
+                                <i class="fab fa-facebook"></i>
+                                <i class="fab fa-twitter"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+    </div>
+        
+            <p>&copy; 2024 HealthHarmony. All rights reserved.</p>
         </div>
-        <p>&copy; 2024 HealthHarmony. All rights reserved.</p>
-    </footer>
+        </footer>
 {% endblock %}
 {% block script %}
     <!-- Swiper JS -->
