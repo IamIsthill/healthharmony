@@ -15,6 +15,10 @@ export function get_medicine_element(inventory_list) {
     medicine_element.setAttribute('required', '')
     medicine_element.setAttribute('name', 'inventory_item')
 
+    if (inventory_list.length == 0) {
+        return ''
+    }
+
     for (const option of inventory_list) {
         medicine_element.innerHTML += `<option value="${option.item_name}">${option.item_name}</option>`
     }
@@ -77,14 +81,21 @@ export function get_illnesss_id_element(id) {
 }
 export function get_treatments_element(treatments, inventory_list, treatmentData) {
     const treatment_div_element = document.createElement('div')
-    treatment_div_element.classList.add('js_treatment_fields')
-    treatment_div_element.innerHTML += `<label>Prescriptions: </label>`
+    if (inventory_list.length > 0) {
+        treatment_div_element.classList.add('js_treatment_fields')
+        treatment_div_element.innerHTML += `<label>Prescriptions: </label>`
+
+    }
+    // treatment_div_element.classList.add('js_treatment_fields')
+    // treatment_div_element.innerHTML += `<label>Prescriptions: </label>`
     if (treatments.length == 0) {
         const container = document.createElement('div')
         const medicine_element = get_medicine_element(inventory_list)
         const quantity_element = get_quantity_element()
 
-        container.append(medicine_element, quantity_element)
+        if (medicine_element != '') {
+            container.append(medicine_element, quantity_element)
+        }
         treatment_div_element.appendChild(container)
 
     } else {
@@ -95,15 +106,22 @@ export function get_treatments_element(treatments, inventory_list, treatmentData
             medicine_element.setAttribute('value', (get_treatment_data_using_id(id, treatmentData))
                 .inventory_detail_name)
 
-            const quantity_element = get_quantity_element()
-            quantity_element.setAttribute('value', (get_treatment_data_using_id(id, treatmentData)).quantity)
+            if (medicine_element != '') {
+                const quantity_element = get_quantity_element()
+                quantity_element.setAttribute('value', (get_treatment_data_using_id(id, treatmentData)).quantity)
+            }
+
 
             container.append(medicine_element, quantity_element)
             treatment_div_element.appendChild(container)
         }
     }
-    const add_more_btn = get_add_more_btn()
-    treatment_div_element.appendChild(add_more_btn)
+    if (inventory_list.length > 0) {
+        const add_more_btn = get_add_more_btn()
+        treatment_div_element.appendChild(add_more_btn)
+    }
+    // const add_more_btn = get_add_more_btn()
+    // treatment_div_element.appendChild(add_more_btn)
 
     return treatment_div_element
 }
