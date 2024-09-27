@@ -1,6 +1,15 @@
 {% load static %}
 <section class="bedSpace containers section">
+    <div class="bed-header">
+        <h1 class="h1_hero">Beds and Ambulance</h1>
+        <p>
+            Observe, monitor, and identify if there are available clinic beds and ambulance
+        </p>
+    </div>
     <!-- BED PART -->
+     <div class="bed-ambu">
+        <div class="bed-cont">
+            <h1>Beds</h1>
     {% if beds %}
         <div class="beds">
             {% for bed in beds %}
@@ -26,10 +35,17 @@
             <p>We apologize for the inconvenience</p>
         </div>
     {% endif %}
-    <div class="bed-header">
-        <h1 class="h1_hero">Bed Space</h1>
-        <p>
-            Observe, monitor, and identify if there are available clinic <span class="span-lightred">beds</span>
-        </p>
+</div>
+        <div class="ambu-cont">
+            <h1>Ambulance</h1>
+            <div class="ambulance">
+                <div class="bed-container" data-bed-id="ambulance">
+                    <span class="span-green">Available</span>
+                    <img src="{% static 'assets/images/landing-page/ambulances/avail-ambu.svg' %}" />
+                    <span class="span-lightgray">Ambulance {{ forloop.counter }}</span>
+                </div>
+            </div>
+        </div>
+
     </div>
 </section>
