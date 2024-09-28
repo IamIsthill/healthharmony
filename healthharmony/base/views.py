@@ -15,7 +15,7 @@ from healthharmony.base.functions import (
 )
 
 # Models
-from healthharmony.models.bed.models import BedStat
+from healthharmony.models.bed.models import BedStat, Ambulansya
 from healthharmony.models.treatment.models import DoctorDetail
 from healthharmony.base.serializers import DoctorSerializer
 from healthharmony.users.models import User
@@ -27,13 +27,6 @@ logger = logging.getLogger(__name__)
 
 
 def home(request):
-    """
-    Home view function to display the landing page with weather data, bed statistics,
-    and model predictions.
-
-    Fetches weather data from OpenWeatherMap API, loads the prediction model and related data,
-    makes predictions, and retrieves bed statistics from the database.
-    """
     context = {}
     try:
         # Fetch weather data from OpenWeatherMap API
@@ -70,6 +63,7 @@ def home(request):
                 ): "get_prediction",
                 tp.submit(get_beds, BedStat, messages, request): "get_beds",
                 tp.submit(get_doctors_sched, request): "get_doctors_sched",
+                tp.submit(get_ambulance, request): "get_ambulance",
             }
             results = {}
             for future in as_completed(futures):
@@ -81,6 +75,7 @@ def home(request):
                     results[key] = 0
         request, predict = results["get_prediction"]
         request, beds = results["get_beds"]
+        request, ambulances = results["get_ambulance"]
         doctor_data = results["get_doctors_sched"]
         context = {
             "temp": temp,
@@ -89,6 +84,7 @@ def home(request):
             "icon": icon,
             "beds": beds,
             "doctor_data": doctor_data,
+            "ambulances": ambulances,
         }
     except Exception as e:
         logger.error(f"Error in loading data and model: {e}")
@@ -110,3 +106,16 @@ def get_doctors_sched(request):
         logger.info(f"Failed to fetch the doctor schedule: {str(e)}")
         messages.error(request, "Failed to fetch required data. Please try again.")
         return []
+
+
+def get_ambulance(request):
+    try:
+        ambulance = Ambulansya.objects.all()
+    except Exception as e:
+        logger.warning(f"Failure to fetch ambulance data: {str(e)}")
+        messages.error(request, "Failed to fetch required data. Please try again.")
+
+    if ambulance:
+        return request, ambulance
+    else:
+        return request, None

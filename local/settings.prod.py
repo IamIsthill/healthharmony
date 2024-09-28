@@ -17,7 +17,6 @@ if not DEBUG:
     CSRF_TRUSTED_ORIGINS = [
         "https://healthharmony.duckdns.org",
         "http://healthharmony.duckdns.org",
-        "34.127.99.78",  # Change the IP everytime
     ]
 
 else:
@@ -26,7 +25,6 @@ else:
         "http://127.0.0.1",
         "http://localhost",
         "http://localhost:8000",
-        "34.127.99.78",  # Change the IP everytime
     ]
 
 CSRF_COOKIE_SECURE = True
