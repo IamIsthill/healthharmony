@@ -1,0 +1,263 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+/* UTILITY CLASS */
+:root {
+    --Background-color:#F5F5F5;
+    --Yellow: #FFBA14;
+    --Dark-Yellow: #eeac13;
+    --Light-Yellow: #FFCB4C;
+    --Maroon: #97180c;
+    --Red: #FF2D19;
+    --Green: #2FC32C;
+    --normal-fontcolor:#202B37;
+    --shadow-color:rgb(32, 43, 55,0.3);
+    --light_gray: #97A1AF;
+    --navbuttons: #7D7D7D;
+    --mainfont: 'Poppins', 'sans-serif';
+    --secondfont: 'Inter', 'san-serif';
+
+    --card-padding: 1rem 3rem;
+
+    --right-card-padding:1rem 2rem;
+
+    --box-shadow: 0 2rem 3rem var(--shadow-color);
+    --box-shadow2: 0 0rem 1.2rem var(--shadow-color);
+    --box-shadowlight: 0 0rem 1rem rgb(32, 43, 55,0.2);
+    /* SIZES */
+
+    --size-xxs: 0.5rem;
+    --size-xs: 0.75rem;
+    --size-sm: 0.875rem;
+    --size-base: 1rem;
+    --size-lg: 1.125rem;
+    --size-xl: 1.25rem;
+    --size-2xl: 1.5rem;
+    --size-3xl: 1.875rem;
+    --size-4xl: 2.25rem;
+    --size-5xl: 3rem;
+    --size-6xl: 3.75rem;
+    --size-7xl: 4.5rem;
+    --size-8xl: 6rem;
+
+
+  }
+/* UTILITY CLASS */
+
+/* COLORS */
+.span-normal{
+    color: var(--normal-fontcolor);
+  }
+  .span-red{
+  color: var(--Maroon);
+  }
+  .span-yellow{
+  color: var(--Yellow);
+  }
+  .span-green{
+    color: var(--Green);
+  }
+  .span-lightred{
+    color: var(--Red)
+  }
+  .span-lightgray{
+    color: var(--light_gray);
+  }
+  .NA{
+    color: var(--light_gray);
+  }
+  /* COLORS */
+
+
+
+* {
+    margin: 0;
+    line-height: calc(1em + 0.5rem);
+}
+html{
+    scroll-behavior: smooth;
+}
+body{
+    font-family: var(--mainfont);
+    height: 100%;
+    background: var(--Background-color);
+}
+img, picture, video, canvas, svg{
+    display: block;
+    max-width: 100%;
+    user-select: none;
+}
+a{
+    text-decoration: none;
+}
+button{
+    display: inline-block;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1002; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+.small-modal{
+    position: relative;
+    margin: 2% auto; /* 15% from the top and centered */
+    border: 1px solid #888;
+    border-radius: 1rem;
+    padding: 0rem 3rem;
+    width: 33%;
+    height: 30%;
+}
+.small-modal form{
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+    height: 100%;
+}
+.small-modal .form-buttons button {
+  font-size: var(--size-sm);
+  width: 6rem;
+  padding: 0.6rem 0rem;
+  border-radius: 3rem;
+}
+
+.form-button, .cancel-button {
+  width: 8rem;
+  padding: 0.6rem 0.5rem;
+  border-radius: 3rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0);
+}
+.form-button{
+  background:black;
+  color: white;
+}
+.cancel-button{
+  background:rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  border: 1px solid black;
+}
+.cancel-button:hover{
+  background: rgba(0, 0, 0, 0.548);
+  border: 1px solid rgba(146, 146, 146, 0.548);
+  color: white;
+}
+.form-button:hover{
+  background:rgba(0, 0, 0, 0.521);
+}
+.form-buttons {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 1.5rem;
+  box-sizing: border-box;
+}
+.delete-btn{
+  color: var(--Red);
+  cursor: pointer;
+}
+
+
+.patient-input{
+  height: 3.5rem;
+}
+.issue-input{
+  height: 6rem;
+}
+
+/* PAGINATION TINGS */
+.pagination-design{
+  width: 95%;
+  margin-top: 8px;
+
+}
+.step-links{
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+.previous-next-page, .page-shortcut{
+  display: flex;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.464);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+.previous-next-page .page-icon{
+  font-size: var(--size-lg);
+}
+.previous-next-page:hover, .page-shortcut:hover{
+  background: rgba(0, 0, 0, 0.559);
+}
+/* PAGINATION TINGS */
+
+/* table */
+.header-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0.2rem 0;
+  text-align: left;
+    justify-content: space-between;
+}
+.header-content h1 {
+  /* border: 1px solid orange; */
+  font-size: var(--size-lg);
+  color: var(--normal-fontcolor);
+  font-weight: bold;
+  margin-top: 1rem;
+}
+.category-buttons {
+  display: flex;
+  gap: 0.2rem;
+}
+.category-buttons button{
+  /* font-size: var(--size-xs); */
+  padding: 0.4rem 0.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+.category-buttons .button_cat-active, .button_cat{
+  color: var(--light_gray);
+  border: 1px solid rgba(255, 255, 255, 0);
+}
+.category-buttons .button_cat-active{
+  border: 1px solid var(--light_gray);
+}
+.category-buttons .button_cat:hover{
+  border: 1px solid var(--light_gray);
+}
+
+.mod-table .table-head{
+  color: var(--light_gray);
+  font-weight: 500;
+  opacity: 70%;
+  /* border: 1px solid red; */
+}
+.mod-table .table-head, .mod-table .table-data{
+  padding-right: 1rem;
+  text-align: left;
+  font-size: var(--size-sm);
+}
+
+/* TABLE */
+
+/* LINE CHARRRRRT */
+
+
+
+/* LINE CHARRRRRT */
