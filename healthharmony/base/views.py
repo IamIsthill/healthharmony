@@ -15,7 +15,7 @@ from healthharmony.base.functions import (
 )
 
 # Models
-from healthharmony.models.bed.models import BedStat, Ambulansya
+from healthharmony.models.bed.models import BedStat, Ambulansya, WheelChair
 from healthharmony.models.treatment.models import DoctorDetail
 from healthharmony.base.serializers import DoctorSerializer
 from healthharmony.users.models import User
@@ -64,6 +64,7 @@ def home(request):
                 tp.submit(get_beds, BedStat, messages, request): "get_beds",
                 tp.submit(get_doctors_sched, request): "get_doctors_sched",
                 tp.submit(get_ambulance, request): "get_ambulance",
+                tp.submit(get_wheelchairs, request): "get_wheelchairs",
             }
             results = {}
             for future in as_completed(futures):
@@ -76,6 +77,7 @@ def home(request):
         request, predict = results["get_prediction"]
         request, beds = results["get_beds"]
         request, ambulances = results["get_ambulance"]
+        request, wheelchair_quantity = results["get_wheelchairs"]
         doctor_data = results["get_doctors_sched"]
         context = {
             "temp": temp,
@@ -85,6 +87,7 @@ def home(request):
             "beds": beds,
             "doctor_data": doctor_data,
             "ambulances": ambulances,
+            "wheelchair_quantity": wheelchair_quantity,
         }
     except Exception as e:
         logger.error(f"Error in loading data and model: {e}")
@@ -119,3 +122,17 @@ def get_ambulance(request):
         return request, ambulance
     else:
         return request, None
+
+
+def get_wheelchairs(request):
+    try:
+        wheelchairs = WheelChair.objects.all()
+    except Exception as e:
+        logger.warning(f"Failure to fetch wheelchair data: {str(e)}")
+        messages.error(request, "Failed to fetch required data. Please try again.")
+
+    wheelchair_quantity = 0
+    if wheelchairs:
+        for wheelchair in wheelchairs:
+            wheelchair_quantity += wheelchair.quantity
+    return request, wheelchair_quantity

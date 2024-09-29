@@ -56,5 +56,18 @@
                 {% endif %}
             </div>
         </div>
+        <div class="ambu-cont">
+            <h1>Wheelchairs</h1>
+            <div class="ambulance">
+                <div class="bed-container" data-bed-id="ambulance">
+                    {% if wheelchair_quantity == 0 %}
+                        <span class="span-lightred">No available wheelchairs</span>
+                    {% elif wheelchair_quantity == 1 %}
+                    {% else %}
+                        <span class="span-green">{{ wheelchair_quantity }}Available</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     </div>
 </section>

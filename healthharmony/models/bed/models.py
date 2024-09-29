@@ -14,3 +14,10 @@ class Ambulansya(models.Model):
 
     def __str__(self):
         return f'Ambulance {self.id} - Status {"Available" if self.is_avail else "Occupied"}'
+
+
+class WheelChair(models.Model):
+    quantity = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return f"Current Wheelchairs - {self.quantity}"
