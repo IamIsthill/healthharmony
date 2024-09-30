@@ -1,5 +1,5 @@
 {% load static %}
-<nav class="header containers-header">
+<nav class="header containers">
     <!-- TOP PART NAVIGATION BAR -->
     <a href="{% url 'home' %}">
         <img src="{% static 'assets/images/landing-page/logo/logo.svg' %}"
@@ -7,26 +7,25 @@
     </a>
     <ul class="header_menu">
         <li>
-            <a href="#" class="header_link">Medical Record</a>
+            <a href="#home" class="header_link">Home</a>
         </li>
         <li>
-            <a href="#" class="header_link">Available Equipments</a>
+            <a href="#beds-and-ambulance" class="header_link">Beds and Ambulance</a>
         </li>
         <li>
-            <a href="#" class="header_link">Weather Check</a>
+            <a href="#weather" class="header_link">Weather Check</a>
         </li>
         <li>
-            <a href="#" class="header_link">Doctors</a>
+            <a href="#doctors" class="header_link">Doctors</a>
         </li>
         <li>
-            <a href="#" class="header_link">About us</a>
+            <a href="#about-us" class="header_link">About us</a>
         </li>
         <li>
             <button class="logout yellow_button"
-            onclick="window.location.href='{% url 'account_login' %}'">LOGIN</button>
+                    onclick="window.location.href='{% url 'account_login' %}'">LOGIN</button>
         </li>
     </ul>
-
     <button class="header_hamburger">
         <img src="{% static 'assets/images/landing-page/header/hamburger.svg' %}"
              alt="" />

@@ -38,7 +38,6 @@ const inventory_list = await fetch_inventory_list()
 main()
 
 async function main() {
-    console.log(illness_notes_data)
     /** MAKE HTML PRESENTABLE AND DATA PREPATION*/
     update_existing_dates_to_readable()
     append_category_list(illness_categories)
@@ -82,6 +81,10 @@ function click_edit_show_form() {
 
 function add_more_prescription(inventory_list) {
     const add_more_btn = document.querySelector('.js_add_more_btn')
+
+    if (!add_more_btn) {
+        return
+    }
 
     add_more_btn.addEventListener('click', (event) => {
         event.preventDefault()
@@ -162,8 +165,6 @@ async function create_illness_edit_form(illness_data) {
             <span class="close js-clear-diagnosis-field">&times;</span>
             <p>This is system generated and may be inaccurate. Please ensure that they are correct.</p>
         `
-    } else if (!diagnosis) {
-        form_body.appendChild(get_diagnosis_element(''))
     } else {
         form_body.appendChild(get_diagnosis_element(illness_data.diagnosis))
     }

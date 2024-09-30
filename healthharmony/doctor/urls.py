@@ -31,4 +31,9 @@ urlpatterns = [
         views.post_update_user_vitals,
         name="post_update_user_vitals",
     ),
+    path(
+        "patient/post_update_patient_illness/<int:pk>/",
+        views.post_update_patient_illness,
+        name="post_update_patient_illness",
+    ),
 ]

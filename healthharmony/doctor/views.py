@@ -86,16 +86,52 @@ def view_patient_profile(request, pk):
     get_department_data(request, context)
     get_related_illness_notes(request, context, user)
 
+    # if request.method == "POST":
+    #     illness_form = UpdateIllness(request.POST)
+    #     prescription_form = UpdateTreatmentForIllness(request.POST)
+
+    #     illness_form.save(request)
+
+    #     if illness_form.is_valid():
+    #         illness_form.save(request)
+    #     if prescription_form.is_valid():
+    #         prescription_form.save(request)
+    #     else:
+    #         messages.error(request, "Failed to update patient's case.")
+
+    #     return redirect("doctor-view-patient", pk)
+
+    return render(request, "doctor/patient.html", context)
+
+
+@login_required(login_url="account_login")
+def post_update_patient_illness(request, pk):
+    if request.user.access < 3:
+        messages.error(
+            request,
+            "Only doctors are allowed to add further information about this case.",
+        )
+        return redirect("doctor-view-patient", pk)
+
     if request.method == "POST":
         illness_form = UpdateIllness(request.POST)
         prescription_form = UpdateTreatmentForIllness(request.POST)
-        if illness_form.is_valid() and prescription_form.is_valid():
+
+        if illness_form.is_valid():
             illness_form.save(request)
-            prescription_form.save(request)
+
         else:
             messages.error(request, "Failed to update patient's case.")
+            logger.warning("Illness form is invalid")
 
-    return render(request, "doctor/patient.html", context)
+        if prescription_form.is_valid():
+            prescription_form.save(request)
+
+        else:
+            messages.error(request, "Failed to update patient's case.")
+            logger.warning("Prescription form is invalid")
+
+        return redirect("doctor-view-patient", pk)
 
 
 @login_required(login_url="account_login")

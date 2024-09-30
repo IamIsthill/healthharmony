@@ -46,6 +46,7 @@ from healthharmony.staff.functions import (
     fetch_certificate_chart,
     fetch_certificates,
     fetch_employees,
+    send_welcome_email,
 )
 from healthharmony.staff.forms import (
     PatientForm,
@@ -463,13 +464,10 @@ def post_add_patient(request):
                 user=request.user,
                 action=f"Created new user {patient.email} with id [{patient.id}]",
             )
-            subject = "Welcome to HealthHarmony!"
-            body = f"<h1>This is your password {password}</h1><p>With HTML content</p>"
-            from_email = env("EMAIL_ADD")
-            recipient_list = [patient.email]
-            email = EmailMessage(subject, body, from_email, recipient_list)
-            email.content_subtype = "html"
-            email.send()
+
+            # Send an email with password to user
+            send_welcome_email(patient, password)
+
             logger.info(f"Email was sent to: {patient.email}")
             messages.success(request, "Patient has been added to the system.")
         else:
