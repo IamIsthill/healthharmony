@@ -1,5 +1,5 @@
 {% load static %}
-<section class="doctor containers section" id="doctors">
+<section class="doctor containers" id="doctors">
     <h1>Doctors</h1>
     <div class="swiper mySwiper container">
         <div class="swiper-wrapper content">
@@ -13,7 +13,9 @@
                             {% if doctor.first_name and doctor.last_name %}
                                 <span class="name">{{ doctor.first_name }} {{ doctor.last_name }}</span>
                             {% endif %}
-                            <span class="sched-span">Schedule: <span class="js_time">{{ doctor.time_avail_start|default_if_none:'' }}</span> - <span class="js_time">{{ doctor.time_avail_end|default_if_none:'' }}</span></span>
+                            <div class="sched-title">
+                            <span class="sched-span" style="color: rgb(163, 163, 163);">Schedule: </span><div><span class="js_time">{{ doctor.time_avail_start|default_if_none:'' }}</span> - <span class="js_time">{{ doctor.time_avail_end|default_if_none:'' }}</span> </div> 
+                            </div>
                             {% if doctor.avail %}
                                 <span class="sched-span">Available</span>
                             {% else %}

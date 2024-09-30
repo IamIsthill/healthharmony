@@ -93,7 +93,24 @@
  }
  /* md */
  @media (max-width: 768px) {
-   
+    .hero{
+        gap: 0;
+    }
+    .hero-content h1{
+        font-size: var(--size-3xl);
+        width: 250px;
+    }
+    .hero img{
+        width: 280px;
+    }
+    .hero-content p{
+        font-size: var(--size-xs);
+        width: 370px;
+    }
+    .hero_button{
+        font-size: var(--size-sm);
+        padding: 0.5rem 1rem;
+    }
  }
 
  /* sm */
