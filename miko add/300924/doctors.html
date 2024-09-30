@@ -1,0 +1,55 @@
+{% load static %}
+<<<<<<< HEAD
+{% if doctor_data %}
+    <section class="doctor containers section">
+        <h1>Doctors</h1>
+        <div class="swiper mySwiper container">
+            <div class="swiper-wrapper content">
+                {% for doctor in doctor_data %}
+                    <div class="swiper-slide card">
+                        <div class="card-content">
+                            <div class="image">
+                                <img src="{{ doctor.profile }}" alt="" />
+                            </div>
+                            <div class="name-profession">
+                                {% if doctor.first_name and doctor.last_name %}
+                                    <span class="name">{{ doctor.first_name }} {{ doctor.last_name }}</span>
+                                {% endif %}
+                                <span class="sched-span">Schedule: <span class="js_time">{{ doctor.time_avail_start|default_if_none:'' }}</span> - <span class="js_time">{{ doctor.time_avail_end|default_if_none:'' }}</span></span>
+                                {% if doctor.avail %}
+                                    <span class="sched-span">Real Availability: Available</span>
+                                {% else %}
+                                    <span class="sched-span">Real Availability: Unavailable</span>
+                                {% endif %}
+                            </div>
+=======
+<section class="doctor containers section" id="doctors">
+    <h1>Doctors</h1>
+    <div class="swiper mySwiper container">
+        <div class="swiper-wrapper content">
+            {% for doctor in doctor_data %}
+                <div class="swiper-slide card">
+                    <div class="card-content">
+                        <div class="image">
+                            <img src="{{ doctor.profile }}" alt="" />
+                        </div>
+                        <div class="name-profession">
+                            {% if doctor.first_name and doctor.last_name %}
+                                <span class="name">{{ doctor.first_name }} {{ doctor.last_name }}</span>
+                            {% endif %}
+                            <span>Schedule: <span class="js_time">{{ doctor.time_avail_start|default_if_none:'' }}</span> - <span class="js_time">{{ doctor.time_avail_end|default_if_none:'' }}</span></span>
+                            {% if doctor.avail %}
+                                <span>Available</span>
+                            {% else %}
+                                <span>Not Available</span>
+                            {% endif %}
+>>>>>>> main
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+</section>
