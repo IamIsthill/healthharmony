@@ -182,7 +182,9 @@
                                 </div>
                                 <button class="js-expand-illness-btn">Expand</button>
                             {% endif %}
-                            {% comment %} <button class="js-illness-note-btn"><span class="material-symbols-outlined">edit_note</span> Leave Notes</button> {% endcomment %}
+                            <button class="js-illness-note-btn">
+                                <span class="material-symbols-outlined">edit_note</span>Send a Note
+                            </button>
                         </div>
                     {% empty %}
                         <h5>No visit history</h5>
@@ -198,6 +200,16 @@
             <form action="{% url 'post_update_patient_illness' user.id %}"
                   method="POST"
                   class="js-edit-illness-form">
+            </form>
+        </div>
+    </div>
+    <div class="modal js_send_notes_modal">
+        <div class="modal-content">
+            <h1>Submit Case Note</h1>
+            <span class="material-symbols-outlined close js-close-btn">cancel</span>
+            <form action="{% url 'post_create_illness_note' user.id %}"
+                  method="POST"
+                  class="js_send_notes_form">
             </form>
         </div>
     </div>

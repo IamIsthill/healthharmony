@@ -12,6 +12,7 @@ from healthharmony.models.treatment.models import (
     Category,
     IllnessTreatment,
     DoctorDetail,
+    IllnessNote,
 )
 from healthharmony.users.models import User, Department
 
@@ -326,3 +327,37 @@ class UpdateUserVital(forms.Form):
             messages.error(
                 request, "Failed to update patient information. Please try again."
             )
+
+
+class CreateNotesToCase(forms.Form):
+    illness_id = forms.IntegerField(required=True)
+    message = forms.CharField(required=True)
+
+    def save(self, request):
+        illness_id = self.cleaned_data.get("illness_id")
+        message = self.cleaned_data.get("message")
+
+        try:
+            illness = Illness.objects.get(id=int(illness_id))
+        except Exception as e:
+            logger.info(f"Failure to find illness: {str(e)}")
+            messages.error(request, "Failed to related case.")
+            return
+
+        try:
+            created_note = IllnessNote.objects.create(
+                patient=illness.patient,
+                attached_to=illness,
+                notes=message,
+                noted_by=request.user,
+            )
+        except Exception as e:
+            logger.info(f"Failure to create case note: {str(e)}")
+            messages.error(request, "Failed to create case note.")
+            return
+
+        Log.objects.create(
+            user=request.user, action=f"Created a new case note[{created_note.id}]"
+        )
+        logger.info(f"Created a new case note[{created_note.id}]")
+        messages.success(request, "Successfully sent a case note!")

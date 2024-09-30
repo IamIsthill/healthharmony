@@ -19,7 +19,6 @@
     .show {
       display: block;
     }
-
     </style>
 {% endblock %}
 {% block title %}Health Records | HealthHarmony{% endblock %}
@@ -51,14 +50,10 @@
                                     <h3>Number of Cases: {{ category.cases_count }}</h3>
                                 </div>
                             {% endfor %}
-                            </div>
-                        {% else %}
-                        
-                    
-                            <h3>No available data</h3>
-                        
-                        {% endif %}
-                    
+                        </div>
+                    {% else %}
+                        <h3>No available data</h3>
+                    {% endif %}
                 </div>
                 <div class="top-card med-cert">
                     <h1>Medical Certificates</h1>
@@ -91,6 +86,28 @@
                 </div>
             </div>
             <div class="bottom-part">
+                <div class="recent-illness">
+                    <h1>Recent Illness</h1>
+                    <div class="recent-cont">
+                        <ul>
+                            {% for illness in illnesses %}
+                                <li>
+                                    <div class="visible">
+                                        <h2>
+                                            {{ illness.issue }} (Added: <span class="js_dates">{{ illness.added }}</span>)
+                                        </h2>
+                                        {% if illness.treatment %}
+                                            <div class="hide js_details_space"></div>
+                                            <button class="js_show_illness_details" data-illness-id="{{ illness.id }}">Show More</button>
+                                        {% endif %}
+                                    </div>
+                                </li>
+                            {% empty %}
+                                <li>No illnesses found.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
                 <div class="for-the-request">
                     <table>
                         <thead>
@@ -119,28 +136,6 @@
                             {% endfor %}
                         </tbody>
                     </table>
-                </div>
-                <div class="recent-illness">
-                    <h1>Recent Illness</h1>
-                    <div class="recent-cont">
-                        <ul>
-                            {% for illness in illnesses %}
-                                <li>
-                                    <div class="visible">
-                                        <h2>
-                                            {{ illness.issue }} (Added: <span class="js_dates">{{ illness.added }}</span>)
-                                        </h2>
-                                        {% if illness.treatment %}
-                                            <div class="hide js_details_space"></div>
-                                            <button class="js_show_illness_details" data-illness-id="{{ illness.id }}">Show More</button>
-                                        {% endif %}
-                                    </div>
-                                </li>
-                            {% empty %}
-                                <li>No illnesses found.</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
                 </div>
             </div>
         </main>

@@ -39,6 +39,7 @@ main()
 
 async function main() {
     /** MAKE HTML PRESENTABLE AND DATA PREPATION*/
+    console.log(illnessesData)
     update_existing_dates_to_readable()
     append_category_list(illness_categories)
 
@@ -46,6 +47,7 @@ async function main() {
     filter_visit_history()
     click_expand_show_treatments()
     click_edit_show_form()
+    handle_onclick_send_notes()
 
     /** Detailed info */
     handle_onclick_edit_patient()
@@ -55,7 +57,70 @@ async function main() {
 
 }
 
-// Handle when user clicks leave notes
+// Handle when user clicks send notes
+function handle_onclick_send_notes() {
+    const btns = document.querySelectorAll('.js-illness-note-btn')
+
+    for (const btn of btns) {
+        btn.addEventListener('click', () => {
+            const illness_id = btn.parentElement.getAttribute('data-illness-id')
+            const illness_data = get_illness_data(illness_id, illnessesData)
+            console.log(illness_data)
+
+            const form = document.querySelector('.js_send_notes_form')
+            form.innerHTML = ''
+
+            form.innerHTML = `
+                <div>
+                    <h2>Symptoms</h2>
+                    <h3>Symptoms: ${illness_data.issue}</h3>
+                    <hr />
+                    <h2>Case Details</h2>
+                    <h3>Symptom Category: ${illness_data.category_name}</h3>
+                    <h3>Diagnosis: ${illness_data.diagnosis}</h3>
+                </div>
+            `
+
+            //Attach the hidden csrf element
+            form.appendChild(get_csrf_element(getToken()))
+
+            const illness_id_element = document.createElement('input')
+            illness_id_element.setAttribute('type', 'hidden')
+            illness_id_element.setAttribute('name', 'illness_id')
+            illness_id_element.setAttribute('required', '')
+            illness_id_element.value = illness_id
+
+            form.appendChild(illness_id_element)
+
+            const label_element = document.createElement('label')
+            label_element.innerText = 'Message: '
+
+            form.appendChild(label_element)
+
+            const textarea_element = document.createElement('textarea')
+            textarea_element.setAttribute('name', 'message')
+
+            form.appendChild(textarea_element)
+
+            form.innerHTML += `
+                <button type='button' class='js-close-btn'>Cancel</button>
+                <button type='submit'>Send</button>
+
+            `
+
+            const modal = document.querySelector('.js_send_notes_modal')
+            const close_btns = document.querySelectorAll('.js-close-btn')
+
+            openModal(modal)
+
+            for (const close of close_btns) {
+                closeModal(modal, close)
+
+            }
+        })
+    }
+}
+
 
 function click_edit_show_form() {
     const edit_btns = document.querySelectorAll('.js-edit-illness-btn')
