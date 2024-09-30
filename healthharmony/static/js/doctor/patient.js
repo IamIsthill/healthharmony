@@ -223,7 +223,7 @@ function update_visit_html_after_filter(filtered_illness_data) {
             }
 
             const info_cont = document.createElement('div')
-            info_cont.classList.add('info_cont')
+            info_cont.classList.add('info-cont')
 
             const visit_left = document.createElement('div')
             visit_left.classList.add('visit-left')
