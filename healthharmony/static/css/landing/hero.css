@@ -12,7 +12,7 @@
 }
 .hero-content h1{
     font-size: var(--size-5xl);
-    width: 480px;
+    width: 450px;
     /* border: 1px solid red; */
     color: var(--normal-fontcolor);
     font-weight: 400;
@@ -31,7 +31,6 @@
 }
 .hero_button{
     font-size: var(--size-lg);
-    height: 2.8rem;
     transition: all 0.3s ease;
     padding: 0.5rem 1rem;
 }
@@ -42,12 +41,24 @@
 /* CONTAINER */
 
 @media (max-width: 1380px){
+    .hero-content{
+        gap: 0.5rem;
+        /* border: 1px solid black; */
+    }
     .hero-content h1{
-        font-size: var(--size-5xl);
-        width: 350px;
-        color: var(--normal-fontcolor);
-        font-weight: 400;
-        letter-spacing: -1px;
+        font-size: var(--size-4xl);
+        width: 330px;
+    }
+    .hero img{
+        width: 380px;
+    }
+    .hero-content p{
+        font-size: var(--size-sm);
+        width: 480px;
+    }
+    .hero_button{
+        font-size: var(--size-base);
+        padding: 0.5rem 1rem;
     }
 }
  /* xl */
@@ -59,7 +70,27 @@
  @media (max-width: 1024px) {
 
  }
+ @media (max-width: 900px){
+    .hero{
+        gap: 0.5rem;
+    }
+    .hero-content h1{
+        font-size: var(--size-4xl);
+        width: 330px;
+    }
+    .hero img{
+        width: 320px;
+    }
+    .hero-content p{
+        font-size: var(--size-xs);
+        width: 440px;
+    }
+    .hero_button{
+        font-size: var(--size-sm);
+        padding: 0.5rem 1rem;
+    }
 
+ }
  /* md */
  @media (max-width: 768px) {
    

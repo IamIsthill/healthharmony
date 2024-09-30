@@ -1,0 +1,37 @@
+{% load static %}
+<nav class="header containers-header">
+    <!-- TOP PART NAVIGATION BAR -->
+    <a href="{% url 'home' %}">
+        <img src="{% static 'assets/images/landing-page/logo/logo.svg' %}"
+             class="nav-logo" />
+    </a>
+    <ul class="header_menu">
+        <li>
+            <a href="#home" class="header_link">Home</a>
+        </li>
+        <li>
+<<<<<<< HEAD
+            <a href="#" class="header_link">Available Equipments</a>
+=======
+            <a href="#beds-and-ambulance" class="header_link">Beds and Ambulance</a>
+>>>>>>> main
+        </li>
+        <li>
+            <a href="#weather" class="header_link">Weather Check</a>
+        </li>
+        <li>
+            <a href="#doctors" class="header_link">Doctors</a>
+        </li>
+        <li>
+            <a href="#about-us" class="header_link">About us</a>
+        </li>
+        <li>
+            <button class="logout yellow_button"
+                    onclick="window.location.href='{% url 'account_login' %}'">LOGIN</button>
+        </li>
+    </ul>
+    <button class="header_hamburger">
+        <img src="{% static 'assets/images/landing-page/header/hamburger.svg' %}"
+             alt="" />
+    </button>
+</nav>
