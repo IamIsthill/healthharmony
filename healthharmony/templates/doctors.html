@@ -13,11 +13,11 @@
                             {% if doctor.first_name and doctor.last_name %}
                                 <span class="name">{{ doctor.first_name }} {{ doctor.last_name }}</span>
                             {% endif %}
-                            <span>Schedule: <span class="js_time">{{ doctor.time_avail_start|default_if_none:'' }}</span> - <span class="js_time">{{ doctor.time_avail_end|default_if_none:'' }}</span></span>
+                            <span class="sched-span">Schedule: <span class="js_time">{{ doctor.time_avail_start|default_if_none:'' }}</span> - <span class="js_time">{{ doctor.time_avail_end|default_if_none:'' }}</span></span>
                             {% if doctor.avail %}
-                                <span>Available</span>
+                                <span class="sched-span">Available</span>
                             {% else %}
-                                <span>Not Available</span>
+                                <span class="sched-span">Not Available</span>
                             {% endif %}
                         </div>
                     </div>
