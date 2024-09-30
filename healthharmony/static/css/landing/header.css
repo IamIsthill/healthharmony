@@ -50,7 +50,19 @@
 /* HEADER */
 
 @media (max-width: 1380px){
-    
+    .header{
+        /* border: 1px solid green; */
+    }
+    .nav-logo{
+        width: 180px;
+    }
+    .header_link{
+        font-size: var(--size-sm);
+    }
+    .logout{
+        padding: 0.5rem 1rem;
+        font-size: var(--size-sm);
+    }
 }
 
   /* xl */
@@ -60,7 +72,19 @@
 
   /* lg */
   @media (max-width: 1024px) {
-
+    .header_menu{
+        gap: 1rem;
+        }
+    .nav-logo{
+        width: 160px;
+    }
+    .header_link{
+        font-size: var(--size-xs);
+    }
+    .logout{
+        padding: 0.5rem 1rem;
+        font-size: var(--size-xs);
+    }
   }
 
   /* md */

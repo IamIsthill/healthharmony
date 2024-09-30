@@ -56,10 +56,6 @@
     color: white;
 }
 /* POP UP ERROR */
-      hr{
-        margin: 0 auto;
-        width: 50%;
-      }
 
       .container-aboutUs{
         display: flex;
@@ -70,12 +66,12 @@
 
     .container-aboutUs p{
         width: 550px;
-        font-size: var(--size-lg);
+        font-size: var(--size-base);
         text-align: start;
         color: black;
     }
      .container-aboutUs h1, .contact-info h1{
-        font-size: var(--size-2xl);
+        font-size: var(--size-xl);
         font-weight: 600;
     }
 
@@ -83,15 +79,13 @@
     .footer-data{
         display: flex;
         gap: 5rem;
-        margin-bottom: 1rem;
     }
+
     footer{
         color: var(--normal-fontcolor);
         display: flex;
         flex-direction: column;
         align-items: center;
-        height: 300px;
-        gap: 1rem;
     }
     .contact-info{
         align-items: start;
@@ -113,13 +107,13 @@
         color: var(--normal-fontcolor);
     }
     .right-info h3{
-        font-size: var(--size-xl);
+        font-size: var(--size-lg);
         color: rgb(155, 155, 155);
         font-weight: 500;
         line-height: 1;
     }
     .right-info span{
-       font-size: var(--size-base);
+       font-size: var(--size-sm);
     }
     a{
         text-decoration: none;
@@ -127,3 +121,46 @@
     .social-logo, .right-info span{
         color: black;
     }
+
+
+    @media (max-width: 1380px){
+        .container-aboutUs p{
+            width: 400px;
+            font-size: var(--size-sm);
+        }
+        .copyright{
+            font-size: var(--size-sm);
+        }
+        .right-info h3{
+            font-size: var(--size-base);
+        }
+        .email-info span{
+           font-size: var(--size-xs);
+        }
+    }
+    
+      /* xl */
+      @media (max-width: 1280px) {
+        
+      }
+    
+      /* lg */
+      @media (max-width: 1024px) {
+    
+      }
+    
+      /* md */
+      @media (max-width: 768px) {
+       
+      }
+    
+      /* sm */
+      @media (max-width: 640px) {
+    
+      }
+    
+      /* xs */
+      @media (max-width: 475px) {
+    
+      }
+    
