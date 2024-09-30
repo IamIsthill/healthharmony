@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/404page.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+              rel="stylesheet" />
+        <link rel="icon"
+              type="image/png"
+              href="{% static 'assets/images/svgs/logotitle.svg' %}" />
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Error | HealthHarmony</title>
+    </head>
+    <body>
+        <div class="unavailable-container">
+            <a href="{% url 'home' %}">
+                <img src="{% static 'assets/images/svgs/logo.svg' %}" alt="" />
+                <!-- MAKE THIS CLICKABLE INTO HOMEPAGE TOO -->
+            </a>
+            <h1>500</h1>
+            <h3>Oops, the page doesn't exist...</h3>
+            <button class="js_home">Homepage</button>
+        </div>
+    </body>
+    <script>
+    const home_btn = document.querySelector('.js_home')
+
+    home_btn.addEventListener('click', () => {
+      const url = new URL(window.location.href)
+      url.pathname = '/'
+      window.location.href = url
+    })
+    </script>
+</html>

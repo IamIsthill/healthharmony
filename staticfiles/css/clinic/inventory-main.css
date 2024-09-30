@@ -1,0 +1,372 @@
+.inventory{
+    color: var(--normal-fontcolor);
+}
+
+.inventory table tbody{
+    display: block;
+    max-height: 300px; /* Set the height of the tbody */
+    overflow-y: auto; /* Enable scrolling for the tbody */
+    width: 100%;
+}
+.inventory table thead{
+    position: sticky;
+}
+.inventory table tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed; /* Ensures that cells align properly */
+}
+.inventory table{
+    background-color: white;
+    width: 98%;
+    padding: 0.5rem 1.5rem;
+    text-align: center;
+    box-shadow: var(--box-shadow2);
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+    border-collapse: separate; /* Allows spacing between rows */
+    border-spacing: 0px 4px;
+}
+.inventory table:hover{
+    box-shadow: var(--box-shadowlight);
+}
+main table tbody td{
+    height: 2.8rem;
+    color: var(--normal-fontcolor);
+}
+main table th, td{
+    text-align: left;
+}
+.header-content {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.2rem 0;
+}
+.header-content{
+    /* border: 1px solid rebeccapurple; */
+    text-align: left;
+}
+.header-content h1 {
+    /* border: 1px solid orange; */
+    font-size: var(--size-lg);
+    color: var(--normal-fontcolor);
+    font-weight: bold;
+}
+/* CATEGORY */
+.category-buttons {
+    display: flex;
+    gap: 0.2rem;
+}
+.category-buttons button{
+    font-size: var(--size-xs);
+    padding: 0.4rem 0.5rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+.category-buttons .inventory_cat-active, .inventory_cat{
+    color: var(--light_gray);
+    border: 1px solid rgba(255, 255, 255, 0);
+}
+.category-buttons .inventory_cat-active{
+    border: 1px solid var(--light_gray);
+}
+.category-buttons .inventory_cat:hover{
+    border: 1px solid var(--light_gray);
+}
+
+
+.add-inventory{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--Green);
+    border-radius: 2rem;
+    padding: 0.3rem 0.4rem;
+    color: white;
+    font-size: var(--size-base);
+}
+.add-inventory span{
+    display: inline;
+    line-height: 0.9;
+    font-size: var(--size-xl);
+}
+.sort-by {
+    font-size: var(--size-sm);
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    color: var(--light_gray);
+}
+.sort-by select {
+    padding: 0.3rem 0.2rem;
+    font-size: var(--size-xs);
+    border: none;
+    border-radius: 5px;
+    background-color: white;
+}
+.table-head{
+    font-size: var(--size-sm);
+    opacity: 70%;
+    font-weight: 500;
+    color: var(--light_gray);
+    /* border: 1px solid green; */
+}
+.table-data{
+    font-size: var(--size-sm);
+    color: var(--normal-fontcolor);
+}
+.table-head, .table-data{
+    padding-right: 1rem;
+}
+/* Apply consistent column widths */
+.item-column-head, .item-column {
+    width: 13%;
+}
+
+.cat-column-head, .cat-column {
+    width: 7%;
+}
+
+.total-column-head, .total-column {
+    width: 5%;
+}
+
+.exp-column-head, .exp-column {
+    width: 8%;
+}
+
+.action-column{
+    width: 7%;
+}
+.view-column, .delete-column{
+    width: 3%;
+}
+.view-column{
+    opacity: 70%;
+    cursor: pointer;
+}
+.view-column:hover{
+    opacity: 100%;
+    font-weight: 600;
+}
+.delete-column span{
+    margin-top: 4px;
+}
+
+/* The Modal (background) */
+
+
+  /* Modal Content/Box */
+  .modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #fefefe;
+    margin: 2% auto; /* 15% from the top and centered */
+    border: 1px solid #888;
+    border-radius: 1rem;
+    padding: 0rem 3rem;
+    width: 50%;
+    height: 80%;
+  }
+  .modal-content h1{
+    align-self: flex-start;
+    font-size: var(--size-2xl);
+    font-weight: 500;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  /* The Close Button */
+  .close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: var(--Red);
+    cursor: pointer;
+}
+.modal-content form{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    gap: 2rem;
+    width: 100%;
+    height: 90%;
+}
+.form-group label,.form-top label, .form-last label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--normal-fontcolor);
+    font-weight: 500;
+}
+
+.form-middle, .form-bottom, .form-top{
+    display: flex;
+    gap: 4rem;
+    text-align: start;
+}
+
+.form-group input,
+.form-group select {
+    background: #E3E5E6;
+    width: 21rem;
+    height: 3.5rem;
+    border: none;
+    border-radius: 5px;
+    padding: 0rem 1rem;
+}
+.form-last{
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    width: 100%;
+    padding: 0;
+}
+ .form-last input{
+    width: 100%;
+    background: #E3E5E6;
+    height: 3.5rem;
+    border: none;
+    border-radius: 5px;
+    padding: 0rem 1rem;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 2rem;
+    box-sizing: border-box;
+}
+
+.form-buttons button {
+    font-size: var(--size-lg);
+    width: 10rem;
+    padding: 0.8rem 0rem;
+    border-radius: 3rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.add-btn{
+    background: var(--Green);
+    color: white;
+}
+.add-btn:hover{
+    background: #1d771c;
+}
+.cancel-btn{
+    background: white;
+    border: 1px solid var(--Red);
+    color: var(--Red);
+}
+.cancel-btn:hover{
+    background: var(--Red);
+    color: white;
+}
+.cat-button{
+    color: var(--light_gray);
+    border: 1px solid white;
+}
+.cat-button:hover{
+    border: 1px solid var(--normal-fontcolor);
+    color: var(--normal-fontcolor);
+}
+.active-cat{
+    border: 1px solid var(--normal-fontcolor);
+    color: var(--normal-fontcolor);
+}
+.line-chart-bottom{
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+.bottom-cat-btn{
+    padding: 0.3rem 0rem;
+    width: 6rem;
+    border: 1px solid var(--normal-fontcolor);
+    color: var(--normal-fontcolor);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+.bottom-cat-btn:hover{
+    background: var(--normal-fontcolor);
+    color: white;
+}
+.bottom-cat-btn-active{
+    background-color: var(--normal-fontcolor);
+    color: white;
+}
+
+
+/* 2xl */
+@media (max-width: 1536px) {
+    .modal-content form{
+        gap: 1rem;
+    }
+    .form-group input,
+    .form-group select {
+        background: #E3E5E6;
+        width: 19rem;
+        height: 3.5rem;
+        /* border: 1px solid rgb(27, 156, 59); */
+    }
+    .form-buttons {
+        margin-top: 0rem;
+    }
+    .form-buttons button {
+        font-size: var(--size-lg);
+        width: 9rem;
+        padding: 0.7rem 0rem;
+        border-radius: 3rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+}
+
+@media (max-width: 1380px) {
+
+    .modal-content {
+        height: 85%;
+        padding: 0rem 2rem;
+      }
+
+    .form-group input,
+    .form-group select {
+        background: #E3E5E6;
+        width: 17rem;
+        height: 3.5rem;
+        /* border: 1px solid orange; */
+    }
+
+    .modal-content form{
+        gap: 0.5rem;
+    }
+
+}
+/* xl */
+@media (max-width: 1280px) {
+
+}
+
+/* lg */
+@media (max-width: 1024px) {
+
+}
+
+/* md */
+@media (max-width: 768px) {
+
+}
+
+/* sm */
+@media (max-width: 640px) {
+
+}
+
+/* xs */
+@media (max-width: 475px) {
+
+}

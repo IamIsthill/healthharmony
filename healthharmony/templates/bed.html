@@ -1,51 +1,73 @@
 {% load static %}
-<section class="bedSpace containers section">
+<section class="bedSpace containers section" id="beds-and-ambulance">
     <div class="bed-header">
         <h1 class="h1_hero">Beds and Ambulance</h1>
-        <p>
-            Observe, monitor, and identify if there are available clinic beds and ambulance
-        </p>
+        <p>Observe, monitor, and identify if there are available clinic beds and ambulance</p>
     </div>
     <!-- BED PART -->
-     <div class="bed-ambu">
+    <div class="bed-ambu">
         <div class="bed-cont">
             <h1>Beds</h1>
-    {% if beds %}
-        <div class="beds">
-            {% for bed in beds %}
-                {% if bed.status == False %}
-                    <div class="bed-container" data-bed-id="{{ bed.id }}">
-                        <span class="span-green">Available</span>
-                        <img src="{% static 'assets/images/landing-page/available-bed.svg' %}" />
-                        <span class="span-lightgray">Bed {{ forloop.counter }}</span>
-                    </div>
-                {% elif bed.status == True %}
-                    <div class="bed-container" data-bed-id="{{ bed.id }}">
-                        <span class="span-lightred">Occupied</span>
-                        <img src="{% static 'assets/images/landing-page/occupied-bed.svg' %}" />
-                        <span class="span-lightgray sq">Bed {{ forloop.counter }}</span>
-                    </div>
-                {% endif %}
-            {% endfor %}
+            {% if beds %}
+                <div class="beds">
+                    {% for bed in beds %}
+                        {% if bed.status == False %}
+                            <div class="bed-container" data-bed-id="{{ bed.id }}">
+                                <span class="span-green">Available</span>
+                                <img src="{% static 'assets/images/landing-page/available-bed.svg' %}" />
+                                <span class="span-lightgray">Bed {{ forloop.counter }}</span>
+                            </div>
+                        {% elif bed.status == True %}
+                            <div class="bed-container" data-bed-id="{{ bed.id }}">
+                                <span class="span-lightred">Occupied</span>
+                                <img src="{% static 'assets/images/landing-page/occupied-bed.svg' %}" />
+                                <span class="span-lightgray sq">Bed {{ forloop.counter }}</span>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="beds2">
+                    <img src="{% static 'assets/images/landing-page/no-bed-illus.svg' %}" />
+                    <h1>There are no beds available</h1>
+                    <p>We apologize for the inconvenience</p>
+                </div>
+            {% endif %}
         </div>
-    {% else %}
-        <div class="beds2">
-            <img src="{% static 'assets/images/landing-page/no-bed-illus.svg' %}" />
-            <h1>There are no beds available</h1>
-            <p>We apologize for the inconvenience</p>
-        </div>
-    {% endif %}
-</div>
         <div class="ambu-cont">
             <h1>Ambulance</h1>
             <div class="ambulance">
+                {% if ambulances %}
+                    {% for ambulance in ambulances %}
+                        {% if ambulance.is_avail %}
+                            <div class="bed-container" data-bed-id="ambulance">
+                                <span class="span-green">Available</span>
+                                <img src="{% static 'assets/images/landing-page/ambulances/avail-ambu.svg' %}" />
+                                <span class="span-lightgray">Ambulance</span>
+                            </div>
+                        {% else %}
+                            <div class="bed-container" data-bed-id="ambulance">
+                                <span class="span-lightred">Not Available</span>
+                                <img src="{% static 'assets/images/landing-page/ambulances/avail-ambu.svg' %}" />
+                                <span class="span-lightgray">Ambulance</span>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="ambu-cont">
+            <h1>Wheelchairs</h1>
+            <div class="ambulance">
                 <div class="bed-container" data-bed-id="ambulance">
-                    <span class="span-green">Available</span>
-                    <img src="{% static 'assets/images/landing-page/ambulances/avail-ambu.svg' %}" />
-                    <span class="span-lightgray">Ambulance {{ forloop.counter }}</span>
+                    {% if wheelchair_quantity == 0 %}
+                        <span class="span-lightred">No available wheelchairs</span>
+                    {% elif wheelchair_quantity == 1 %}
+                    {% else %}
+                        <span class="span-green">{{ wheelchair_quantity }}Available</span>
+                    {% endif %}
                 </div>
             </div>
         </div>
-
     </div>
 </section>

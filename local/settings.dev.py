@@ -7,9 +7,14 @@ import os
 SECRET_KEY = "django-insecure-s(5zc6(qerhzjavz+s-2t=2e*sud4*)8_5g74b#dw(um4%np2+"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["*", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = [
+    "localhost",
+    "localhost:8000",
+    "127.0.0.1",
+    "127.0.0.1:8000",
+]
 
 LOGGING["formatters"]["colored"] = {  # type: ignore noqa: F821
     "()": "colorlog.ColoredFormatter",

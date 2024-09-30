@@ -1,74 +1,52 @@
-{% extends 'account/base_entrance.html' %}
-{% load i18n %}
-{% load allauth account %}
+{% extends 'base.html' %}
 {% load static %}
-{% block head_title %}
-    {% trans 'Login' %}
-{% endblock %}
-{% block extra_head %}
+{% block title %}Log In | HealthHarmony{% endblock %}
+{% block header %}
     <link rel="stylesheet" href="{% static 'css/login.css' %}" />
-    <link rel="icon"
-          type="image/png"
-          href="{% static 'assets/images/svgs/logotitle.svg' %}" />
     <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
           rel="stylesheet" />
 {% endblock %}
-{% block content %}
+{% block main %}
     <section class="left-side">
         <a href="{% url 'home' %}">
             <img src="{% static 'assets/images/svgs/logo.svg' %}" class="logo" />
         </a>
-        {% comment %} {% element h1 %}
-    {% trans 'Sign In' %}
-        {% endelement %} {% endcomment %}
-        {% if not SOCIALACCOUNT_ONLY %}
-            {% setvar link %}
-            <a href="{{ signup_url }}">
-            {% endsetvar %}
-            {% setvar end_link %}
-        </a>
-    {% endsetvar %}
-    <span class="header">Welcome</span>
-    {% comment %} {% element p tags='smalltext' %}
-      {% blocktranslate %}If you have not created an account yet, then please {{ link }}sign up{{ end_link }} first.{% endblocktranslate %}
-    {% endelement %} {% endcomment %}
-    <form action="{% url 'normal-login' %}" method="post">
-        {% csrf_token %}
-        <div class="input-container">
-            <input type="email"
-                   name="email"
-                   placeholder="Email address"
-                   autocomplete="email"
-                   maxlength="320"
-                   required
-                   id="id_login" />
-            <span class="material-symbols-outlined input-logo">person</span>
-        </div>
-        <div class="input-container">
-            <input type="password"
-                   name="password"
-                   placeholder="Password"
-                   autocomplete="current-password"
-                   required
-                   aria-describedby="id_password_helptext"
-                   id="id_password" />
-            <span class="material-symbols-outlined input-logo">lock</span>
-        </div>
-        <div class="remember-forgot">
-            <span class="helptext" id="id_password_helptext"><a href="/accounts/password/reset/">Forgot your password?</a></span>
-        </div>
-        {% element button type='submit' tags='prominent,login' %}
-        {% trans 'Login' %}
-    {% endelement %}
-</form>
-{% endif %}
-{% comment %} <a title="Google" href="/accounts/google/login/?process=login" class="">Login Via Google</a> {% endcomment %}
-<p>
-    Don't have an account yet? Please <a href="{% url 'account_signup' %}">Sign Up here</a>
-</p>
-</section>
-<img src="{% static 'assets/images/svgs/loginillus.svg' %}" class="illus" />
+        <span class="header">Welcome</span>
+        <form action="{% url 'account_login' %}" method="post">
+            {% csrf_token %}
+            <div class="input-container">
+                <input type="email"
+                       name="login"
+                       placeholder="Your email address"
+                       autocomplete="email"
+                       maxlength="320"
+                       required
+                       id="id_login" />
+                <span class="material-symbols-outlined input-logo">person</span>
+            </div>
+            <div class="input-container">
+                <input type="password"
+                       name="password"
+                       placeholder="Your password"
+                       autocomplete="current-password"
+                       required
+                       aria-describedby="id_password_helptext"
+                       id="id_password" />
+                <span class="material-symbols-outlined input-logo">lock</span>
+            </div>
+            <div class="remember-forgot">
+                <label for="">Remember me</label>
+                <input type="checkbox" name="remember" id="id_remember" />
+                <span class="helptext" id="id_password_helptext"><a href="{% url 'account_reset_password' %}">Forgot your password?</a></span>
+            </div>
+            <button type="submit" class="login">Login</button>
+        </form>
+        <p>
+            Don't have an account yet? Please <a href="{% url 'account_signup' %}">Sign Up here</a>
+        </p>
+    </section>
+    <img src="{% static 'assets/images/svgs/loginillus.svg' %}" class="illus" />
 {% endblock %}

@@ -30,7 +30,8 @@ logger = logging.getLogger(__name__)
 # Create your views here.
 @login_required(login_url="account_login")
 def overview_view(request):
-    access_checker(request)
+    if request.user.access < 1:
+        return redirect("home")
     context = {"page": "Dashboard"}
     try:
         with ThreadPoolExecutor() as tp:
@@ -53,7 +54,11 @@ def overview_view(request):
 
 @login_required(login_url="account_login")
 def records_view(request, pk):
-    access_checker(request)
+    if request.user.access < 1:
+        return redirect("home")
+    if request.user.id != int(pk):
+        return redirect(request.META.get("HTTP_REFERER", "patient-overview"))
+
     context = {"page": "Health Records"}
     try:
         user = User.objects.get(id=int(pk))
@@ -105,7 +110,10 @@ def post_create_certificate_request(request):
 
 @login_required(login_url="account_login")
 def patient_view(request, pk):
-    access_checker(request)
+    if request.user.access < 1:
+        return redirect("home")
+    if request.user.id != int(pk):
+        return redirect(request.META.get("HTTP_REFERER", "patient-overview"))
     context = {"page": "Patient Profile"}
 
     if request.method == "POST":
