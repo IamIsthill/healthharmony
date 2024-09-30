@@ -149,6 +149,9 @@
   .swiper{
     width: 600px;
   }
+  .card{
+    max-width: 280px;
+  }
   section .card .image{
     height: 80px;
     width: 80px;
@@ -165,7 +168,23 @@
 
  /* sm */
  @media (max-width: 640px) {
-
+  .mySwiper{
+    width: 350px;
+  }
+  .card{
+    margin-left: 1.2rem;
+  }
+  section .card .image{
+    height: 60px;
+    width: 60px;
+  }
+  .name-profession .name{
+    font-size: var(--size-sm);
+    font-weight: 600;
+  }
+  .js_time{
+    font-size: var(--size-sm);
+  }
  }
 
  /* xs */

@@ -132,7 +132,9 @@
 
   /* sm */
   @media (max-width: 640px) {
-
+    .nav-logo{
+        width: 130px;
+    }
   }
 
   /* xs */

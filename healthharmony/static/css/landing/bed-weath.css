@@ -8,6 +8,7 @@
     justify-content: center;
     align-items: center;
     gap: 1rem;
+
 }
 .bed-ambu{
     display: flex;
@@ -32,13 +33,11 @@
 
 .beds{  /* 4 BEDS AT WHOLE */
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    grid-auto-flow: column;
+    grid-template-columns: repeat(1, 1fr);
+    max-height: 24rem;
     gap: 1.4rem;
-    padding: 1rem 0.3rem;
-    max-width: 28.5rem;
-    overflow-y: auto;
+    padding: 1rem 1rem;
+    overflow-x: auto;
 }
 .bed-space2{  /* THE WHOLE SECTION */
     position: relative;
@@ -56,6 +55,7 @@
     flex-direction: column;
     align-items: center;
    justify-content: center;
+   text-align: center;
     width: 350px;
     height: 350px;
     background:rgb(240, 240, 240);
@@ -447,7 +447,84 @@
 
  /* sm */
  @media (max-width: 640px) {
+    .bed-ambu{
+        gap: 1rem;
+    }
+    .beds{  /* 4 BEDS AT WHOLE */
+        gap: 1rem;
+        padding: 0.5rem 0.3rem;
+    }
+    .beds2{  /* 4 BEDS AT WHOLE */
+        width: 220px;
+        height: 220px;
+    }
+    .beds2 img{
+        width: 130px;
 
+    }
+    .beds2 h1{
+        font-size: var(--size-base);
+        margin-right: 4px;
+    }
+    .beds2 p{
+        font-size: var(--size-xs);
+    }
+    .bed-container{     /* SINGLE BEDS */
+        gap: 0.7rem;
+        width: 130px;
+        padding: 1rem 2.5rem;
+    }
+    .bed-container img{
+        max-width: 55px;
+    }
+    .bed-container span{
+        font-size: var(--size-sm);
+    }
+    .ambu-cont{
+        gap: 0.5rem;
+    }
+
+    /* WEATHER PART */
+    .weather-header{
+        text-align: center;
+    }
+    
+    .weather{
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    .weather-container{ /* WHOLE CONTAINER */
+        padding: 1.5rem 2.5rem;
+        max-width: 320px;
+        min-height:290px; 
+        gap: 0.5rem;
+    }
+
+    .temp-part img{
+        width: 70px;
+        height: auto;
+    }
+    .temp-heatwave h1{
+        font-size:var(--size-3xl);
+    }
+    .heatwave span{
+        font-size: var(--size-xs);
+    }
+    .location span{
+        font-size: var(--size-xs);
+    }
+    .sickness-part{ /* BOTTOM PART */
+        display: flex;
+        align-items: start;
+        margin-left:7px;
+    }
+    .sickness-part img{
+        margin-top: 5px;
+    }
+    .sickness li{
+        font-size: var(--size-sm);
+    }
  }
 
  /* xs */

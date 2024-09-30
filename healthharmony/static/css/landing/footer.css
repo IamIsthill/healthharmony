@@ -182,7 +182,32 @@
     
       /* sm */
       @media (max-width: 640px) {
-    
+        .footer-data{
+            flex-direction: column;
+            width: 90%;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }    
+        .container-aboutUs p{
+            width: 400px;
+            font-size: var(--size-xs);
+        }
+        .copyright{
+            font-size: var(--size-sm);
+            align-self: flex-start;
+            margin-left: 2rem;
+        }
+        .right-info{
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            column-gap: 7rem;
+        }
+        .right-info h3{
+            font-size: var(--size-base);
+        }
+        .email-info span{
+           font-size: var(--size-xs);
+        }
       }
     
       /* xs */
