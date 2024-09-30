@@ -4,6 +4,25 @@ handle_onclick_edit_profile()
 /** RESET PASSWORD */
 handle_onclick_reset_pass()
 
+handle_user_upload()
+
+function handle_user_upload() {
+    const profile_picture = document.getElementById('profile-picture')
+
+    profile_picture.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.querySelector('.dp-pic').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    })
+
+}
+
+
 
 // redirect user to reset view when he wants to reset password
 function handle_onclick_reset_pass() {
