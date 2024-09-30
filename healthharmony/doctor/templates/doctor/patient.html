@@ -197,7 +197,9 @@
         <div class="modal-content">
             <h1>Edit Patient Illness Data</h1>
             <span class="material-symbols-outlined close js-close-btn">cancel</span>
-            <form action="" method="POST" class="js-edit-illness-form">
+            <form action="{% url 'post_update_patient_illness' user.id %}"
+                  method="POST"
+                  class="js-edit-illness-form">
             </form>
         </div>
     </div>

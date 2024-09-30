@@ -20,9 +20,9 @@ logger = logging.getLogger(__name__)
 
 class UpdateIllness(forms.Form):
     illness_id = forms.IntegerField(required=True)
-    issue = forms.CharField(max_length=500, required=True)
-    diagnosis = forms.CharField(max_length=500, required=True)
-    category = forms.CharField(max_length=100, required=True)
+    issue = forms.CharField(required=True)
+    diagnosis = forms.CharField(required=True)
+    category = forms.CharField(required=True)
 
     def save(self, request):
         illness_id = self.cleaned_data.get("illness_id")

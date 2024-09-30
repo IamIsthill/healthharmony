@@ -44,11 +44,12 @@ export function get_csrf_element(token) {
     return element
 }
 export function get_diagnosis_element(diagnosis) {
-    const element = document.createElement('input')
+    const element = document.createElement('textarea')
     element.setAttribute('name', 'diagnosis')
     element.setAttribute('value', diagnosis)
     element.setAttribute('required', '')
     element.setAttribute('type', 'text')
+    element.innerText = diagnosis
     return element
 }
 export function get_category_element(category) {
