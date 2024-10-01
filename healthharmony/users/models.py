@@ -24,10 +24,14 @@ class Department(models.Model):
 
 class User(AbstractUser):
     first_name = models.CharField(
-        max_length=200, null=True, blank=True, default="First Name"
+        max_length=200,
+        null=True,
+        blank=True,
     )
     last_name = models.CharField(
-        max_length=200, null=True, blank=True, default="Last Name"
+        max_length=200,
+        null=True,
+        blank=True,
     )
     email = models.EmailField(unique=True)
     contact = models.CharField(null=True, blank=True, max_length=100)

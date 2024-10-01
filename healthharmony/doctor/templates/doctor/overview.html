@@ -129,12 +129,12 @@
                 </div>
             </div>
             <div class="illness-space">
-                <!--           <h1>Illnesses</h1>
+                <!--                  <h1>Illnesses</h1>
                 <div>
                     <button class="js-illness-filter-active js-illness-filter" data-category="all">All</button>
                     <button class="js-illness-filter" data-category="not">Pending</button>
                     <button class="js-illness-filter" data-category="done">Completed</button>
-                </div>           -->
+                </div>                  -->
                 <table class="mod-table">
                     <thead>
                         <tr>
@@ -151,7 +151,7 @@
                             </th>
                         </tr>
                         <tr>
-                            <th class="table-head name-column-head">Patient Name</th>
+                            <th class="table-head name-column-head">Patient</th>
                             <th class="table-head issue-column-head">Issue</th>
                             <th class="table-head status-column-head">Status</th>
                             <th class="table-head view-column-head">Action</th>
@@ -161,7 +161,11 @@
                         {% for illness in illness_page %}
                             <tr>
                                 <td class="table-data name-column">
-                                    <span class="patient btn" data-patient-id="{{ illness.patient.id }}">{{ illness.patient.first_name|default_if_none:'' }} {{ illness.patient.last_name|default_if_none:'' }}</span>
+                                    {% if illness.patient.first_name and illness.patient.last_name %}
+                                        <span class="patient btn" data-patient-id="{{ illness.patient.id }}">{{ illness.patient.first_name|default_if_none:'' }} {{ illness.patient.last_name|default_if_none:'' }}</span>
+                                    {% else %}
+                                        <span class="patient btn" data-patient-id="{{ illness.patient.id }}">{{ illness.patient.email|default_if_none:'' }}</span>
+                                    {% endif %}
                                 </td>
                                 <td class="table-data issue-column">{{ illness.issue }}</td>
                                 {% if illness.diagnosis %}

@@ -150,9 +150,7 @@
                 <div class="illness_body">
                     {% for illness in illnesses %}
                         <div data-illness-id="{{ illness.id }}" class="js-illness">
-                            {% if request.user.access > 2 and illness.diagnosis is None %}
-                                <button class="js-edit-illness-btn">Edit</button>
-                            {% endif %}
+                            {% if request.user.access > 2 %}<button class="js-edit-illness-btn">Edit</button>{% endif %}
                             <div class="info-cont">
                                 <div class="visit-left">
                                     <span>Date and Time:</span>
@@ -171,20 +169,20 @@
                                 <div class="js-treatment-list hide">
                                     <p>Treatments:</p>
                                     <ul>
-                                        {% for key in illness.treatment %}
-                                            {% for treatment in treatments %}
-                                                {% if key == treatment.inventory_detail %}
-                                                    <li>
-                                                        {{ treatment.inventory_detail_category }}: {{ treatment.inventory_detail_name }} {{ treatment.quantity }} {{ treatment.inventory_detail_unit }}
-                                                    </li>
-                                                {% endif %}
-                                            {% endfor %}
+                                        {% for treatment in treatments %}
+                                            {% if illness.id == treatment.illness_id %}
+                                                <li>
+                                                    {{ treatment.inventory_detail_category }}: {{ treatment.inventory_detail_name }} {{ treatment.quantity }} {{ treatment.inventory_detail_unit }}
+                                                </li>
+                                            {% endif %}
                                         {% endfor %}
                                     </ul>
                                 </div>
                                 <button class="js-expand-illness-btn">Expand</button>
                             {% endif %}
-                            {% comment %} <button class="js-illness-note-btn"><span class="material-symbols-outlined">edit_note</span> Leave Notes</button> {% endcomment %}
+                            <button class="js-illness-note-btn">
+                                <span class="material-symbols-outlined">edit_note</span>Send a Note
+                            </button>
                         </div>
                     {% empty %}
                         <h5>No visit history</h5>
@@ -200,6 +198,16 @@
             <form action="{% url 'post_update_patient_illness' user.id %}"
                   method="POST"
                   class="js-edit-illness-form">
+            </form>
+        </div>
+    </div>
+    <div class="modal js_send_notes_modal">
+        <div class="modal-content">
+            <h1>Submit Case Note</h1>
+            <span class="material-symbols-outlined close js-close-btn">cancel</span>
+            <form action="{% url 'post_create_illness_note' user.id %}"
+                  method="POST"
+                  class="js_send_notes_form">
             </form>
         </div>
     </div>

@@ -80,7 +80,7 @@ export function get_illnesss_id_element(id) {
     return element
 
 }
-export function get_treatments_element(treatments, inventory_list, treatmentData) {
+export function get_treatments_element(illness_data, inventory_list, treatmentData) {
     const treatment_div_element = document.createElement('div')
     if (inventory_list.length > 0) {
         treatment_div_element.classList.add('js_treatment_fields')
@@ -89,10 +89,12 @@ export function get_treatments_element(treatments, inventory_list, treatmentData
     }
     // treatment_div_element.classList.add('js_treatment_fields')
     // treatment_div_element.innerHTML += `<label>Prescriptions: </label>`
-    if (treatments.length == 0) {
+
+    if (illness_data.treatment.length == 0) {
         const container = document.createElement('div')
         const medicine_element = get_medicine_element(inventory_list)
         const quantity_element = get_quantity_element()
+
 
         if (medicine_element != '') {
             container.append(medicine_element, quantity_element)
@@ -100,17 +102,17 @@ export function get_treatments_element(treatments, inventory_list, treatmentData
         treatment_div_element.appendChild(container)
 
     } else {
-        for (const id of treatments) {
+        // Get the related treatments of the illness based on the id
+        const treatments = get_treatment_using_illness_id(illness_data.id, treatmentData)
+
+        for (const treatment of treatments) {
             const container = document.createElement('div')
+            const quantity_element = get_quantity_element()
 
             const medicine_element = get_medicine_element(inventory_list)
-            medicine_element.setAttribute('value', (get_treatment_data_using_id(id, treatmentData))
-                .inventory_detail_name)
+            medicine_element.setAttribute('value', treatment.inventory_detail_name)
 
-            if (medicine_element != '') {
-                const quantity_element = get_quantity_element()
-                quantity_element.setAttribute('value', (get_treatment_data_using_id(id, treatmentData)).quantity)
-            }
+            quantity_element.setAttribute('value', treatment.quantity)
 
 
             container.append(medicine_element, quantity_element)
@@ -121,8 +123,16 @@ export function get_treatments_element(treatments, inventory_list, treatmentData
         const add_more_btn = get_add_more_btn()
         treatment_div_element.appendChild(add_more_btn)
     }
-    // const add_more_btn = get_add_more_btn()
-    // treatment_div_element.appendChild(add_more_btn)
 
     return treatment_div_element
+}
+
+function get_treatment_using_illness_id(id, treatmentData) {
+    let treatments = []
+    for (const treatment of treatmentData) {
+        if (parseInt(treatment.illness_id) == parseInt(id)) {
+            treatments.push(treatment)
+        }
+    }
+    return treatments
 }

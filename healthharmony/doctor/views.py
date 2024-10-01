@@ -28,6 +28,7 @@ from healthharmony.doctor.forms import (
     UpdateDoctorAvail,
     UpdateUserDetails,
     UpdateUserVital,
+    CreateNotesToCase,
 )
 from healthharmony.patient.functions import update_patient_view_context
 
@@ -74,6 +75,10 @@ def view_patient_profile(request, pk):
             illnesses.append(IllnessSerializer(illness).data)
             for treatment in illness.illnesstreatment_set.all():
                 treatments.append(IllnessTreatmentSerializer(treatment).data)
+
+        if treatments:
+            for treatment in treatments:
+                treatment["quantity"] = treatment["quantity"] * -1
         context.update(
             {"illnesses": illnesses, "treatments": treatments, "patient": patient}
         )
@@ -85,21 +90,6 @@ def view_patient_profile(request, pk):
 
     get_department_data(request, context)
     get_related_illness_notes(request, context, user)
-
-    # if request.method == "POST":
-    #     illness_form = UpdateIllness(request.POST)
-    #     prescription_form = UpdateTreatmentForIllness(request.POST)
-
-    #     illness_form.save(request)
-
-    #     if illness_form.is_valid():
-    #         illness_form.save(request)
-    #     if prescription_form.is_valid():
-    #         prescription_form.save(request)
-    #     else:
-    #         messages.error(request, "Failed to update patient's case.")
-
-    #     return redirect("doctor-view-patient", pk)
 
     return render(request, "doctor/patient.html", context)
 
@@ -132,6 +122,22 @@ def post_update_patient_illness(request, pk):
             logger.warning("Prescription form is invalid")
 
         return redirect("doctor-view-patient", pk)
+
+
+@login_required(login_url="account_login")
+def post_create_illness_note(request, pk):
+    if request.user.access < 3:
+        return redirect("staff-overview")
+
+    form = CreateNotesToCase(request.POST)
+
+    if form.is_valid():
+        form.save(request)
+    else:
+        messages.error(request, "The request is invalid")
+        logger.warning("The request is invalid")
+
+    return redirect("doctor-view-patient", pk)
 
 
 @login_required(login_url="account_login")
