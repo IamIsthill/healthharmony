@@ -207,6 +207,8 @@ function filter_visit_history() {
 
             update_visit_html_after_filter(filtered_illness_data)
             click_expand_show_treatments()
+            handle_onclick_send_notes()
+
         })
     }
 }
@@ -324,7 +326,7 @@ function update_visit_html_after_filter(filtered_illness_data) {
             }
 
             const note_btn = get_leave_notes_btn()
-            // illness_div.appendChild(note_btn)
+            illness_div.appendChild(note_btn)
 
             illness_history_html.appendChild(illness_div)
         }

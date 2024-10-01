@@ -30,8 +30,10 @@ export function get_expand_btn() {
 
 export function get_leave_notes_btn() {
     const btn = document.createElement('button')
-    btn.classList.add('js-leave-note-btn')
-    btn.innerText = 'Leave Notes'
+    btn.innerHTML = `
+        <span class="material-symbols-outlined">edit_note</span>Send a Note
+    `
+    btn.classList.add('js-illness-note-btn')
     return btn
 }
 
