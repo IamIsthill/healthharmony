@@ -80,7 +80,11 @@
   .sched-span{
     text-align: center;
   }
-
+  .sched-title{
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+  }
   .swiper-button-next, .swiper-button-prev{
     opacity: 0.7;
     color: rgb(104, 99, 99);
@@ -99,6 +103,10 @@
       height: 120px;
       width: 120px;
       margin-top: 8px;
+    } 
+    .sched-title{
+      flex-direction: column;
+      gap: 0;
     }
   }
   @media (max-width: 900px){
@@ -129,7 +137,7 @@
       font-size: 20px;
       font-weight: 600;
     }
-  
+   
     .sched-span{
       font-size: var(--size-sm);
       text-align: center;
@@ -138,12 +146,45 @@
  }
  /* md */
  @media (max-width: 768px) {
-   
+  .swiper{
+    width: 600px;
+  }
+  .card{
+    max-width: 280px;
+  }
+  section .card .image{
+    height: 80px;
+    width: 80px;
+    margin-top: 0px;
+  }
+  .name-profession .name{
+    font-size: var(--size-base);
+    font-weight: 600;
+  }
+  .js_time{
+    font-size: var(--size-sm);
+  }
  }
 
  /* sm */
  @media (max-width: 640px) {
-
+  .mySwiper{
+    width: 350px;
+  }
+  .card{
+    margin-left: 1.2rem;
+  }
+  section .card .image{
+    height: 60px;
+    width: 60px;
+  }
+  .name-profession .name{
+    font-size: var(--size-sm);
+    font-weight: 600;
+  }
+  .js_time{
+    font-size: var(--size-sm);
+  }
  }
 
  /* xs */

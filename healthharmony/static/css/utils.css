@@ -359,8 +359,11 @@
 /* RESPONSIVE CODES */
 /* 2xl */
 @media (max-width: 1536px) {
-  .containers, .containers-header {
+  .containers{
     max-width: 1280px;
+  }
+  .containers-header {
+    max-width: 1370px;
   }
 
   .nurse-container{
