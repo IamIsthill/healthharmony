@@ -75,6 +75,10 @@ def view_patient_profile(request, pk):
             illnesses.append(IllnessSerializer(illness).data)
             for treatment in illness.illnesstreatment_set.all():
                 treatments.append(IllnessTreatmentSerializer(treatment).data)
+
+        if treatments:
+            for treatment in treatments:
+                treatment["quantity"] = treatment["quantity"] * -1
         context.update(
             {"illnesses": illnesses, "treatments": treatments, "patient": patient}
         )

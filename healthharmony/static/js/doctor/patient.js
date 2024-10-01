@@ -233,7 +233,7 @@ async function create_illness_edit_form(illness_data) {
     } else {
         form_body.appendChild(get_diagnosis_element(illness_data.diagnosis))
     }
-    const treatment_element = get_treatments_element(illness_data.treatment, inventory_list, treatmentData)
+    const treatment_element = get_treatments_element(illness_data, inventory_list, treatmentData)
     if (treatment_element) {
         form_body.appendChild(treatment_element)
     }
