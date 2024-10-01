@@ -22,7 +22,7 @@
     font-size: var(--size-base);
     width: 550px;
     color: var(--navbuttons);
-    line-height: 1.3rem;
+    line-height: 1.5;
 }
 .hero img{
     width: 450px;
@@ -93,15 +93,62 @@
  }
  /* md */
  @media (max-width: 768px) {
-   
+    .hero{
+        gap: 0;
+    }
+    .hero-content h1{
+        font-size: var(--size-3xl);
+        width: 250px;
+    }
+    .hero img{
+        width: 280px;
+    }
+    .hero-content p{
+        font-size: var(--size-xs);
+        width: 370px;
+    }
+    .hero_button{
+        font-size: var(--size-sm);
+        padding: 0.5rem 1rem;
+    }
  }
 
  /* sm */
  @media (max-width: 640px) {
 
+    .hero-content h1{
+        font-size: var(--size-2xl);
+        width: 200px;
+    }
+    .hero img{
+        width: 230px;
+    }
+    .hero-content p{
+        font-size: var(--size-xs);
+        width: 330px;
+    }
+    .hero_button{
+        font-size: var(--size-sm);
+        padding: 0.5rem 1rem;
+    }
  }
 
  /* xs */
- @media (max-width: 475px) {
-
+ @media (max-width: 560px) {
+    .hero-content h1{
+        font-size: var(--size-2xl);
+        width: 200px;
+    }
+    .hero img{
+        width: 200px;
+    }
+    .hero-content p{
+        font-size: var(--size-xxs);
+        width: 260px;
+        line-height: 1.8;
+    }
+    .hero_button{
+        font-size: var(--size-sm);
+        padding: 0.5rem 1rem;
+    }
  }
