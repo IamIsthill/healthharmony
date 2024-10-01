@@ -89,6 +89,9 @@ class UpdateTreatmentForIllness(forms.Form):
             messages.error(request, "Illness case was not found.")
             return
 
+        # remove old treatments
+        delete_old_treatments(request, illness)
+
         # Join the two list then update the db heheh
         for item_name, item_quantity in zip(inventory_items, inventory_quantities):
             # Hanapin muna ang inventory item
@@ -106,6 +109,7 @@ class UpdateTreatmentForIllness(forms.Form):
 
             # With inventory item, now create yung treatments
             try:
+
                 IllnessTreatment.objects.create(
                     illness=illness,
                     inventory_detail=inventory_instance,
@@ -135,6 +139,19 @@ class UpdateTreatmentForIllness(forms.Form):
             action=f"Added prescriptions to illness instance[id={illness_id}]",
         )
 
+        return
+
+
+def delete_old_treatments(request, illness):
+    try:
+        treatments = IllnessTreatment.objects.filter(illness=illness)
+        for treatment in treatments:
+            treatment.delete()
+    except Exception as e:
+        logger.warning(
+            f"Failed to deleted related treatment records for illness case[{illness.id}]: {str(e)}"
+        )
+        messages.error(request, "Failed to update treatments")
         return
 
 
