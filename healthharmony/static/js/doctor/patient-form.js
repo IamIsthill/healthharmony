@@ -89,10 +89,11 @@ export function get_treatments_element(treatments, inventory_list, treatmentData
     }
     // treatment_div_element.classList.add('js_treatment_fields')
     // treatment_div_element.innerHTML += `<label>Prescriptions: </label>`
+    const quantity_element = get_quantity_element()
+
     if (treatments.length == 0) {
         const container = document.createElement('div')
         const medicine_element = get_medicine_element(inventory_list)
-        const quantity_element = get_quantity_element()
 
         if (medicine_element != '') {
             container.append(medicine_element, quantity_element)
@@ -108,7 +109,6 @@ export function get_treatments_element(treatments, inventory_list, treatmentData
                 .inventory_detail_name)
 
             if (medicine_element != '') {
-                const quantity_element = get_quantity_element()
                 quantity_element.setAttribute('value', (get_treatment_data_using_id(id, treatmentData)).quantity)
             }
 
@@ -121,8 +121,6 @@ export function get_treatments_element(treatments, inventory_list, treatmentData
         const add_more_btn = get_add_more_btn()
         treatment_div_element.appendChild(add_more_btn)
     }
-    // const add_more_btn = get_add_more_btn()
-    // treatment_div_element.appendChild(add_more_btn)
 
     return treatment_div_element
 }

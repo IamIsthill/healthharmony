@@ -35,11 +35,12 @@ const illness_notes_data = JSON.parse(document.getElementById('illness_notes_dat
 const illness_categories = await fetch_illness_categories()
 const inventory_list = await fetch_inventory_list()
 
+
 main()
 
 async function main() {
     /** MAKE HTML PRESENTABLE AND DATA PREPATION*/
-    console.log(illnessesData)
+    console.log(treatmentData)
     update_existing_dates_to_readable()
     append_category_list(illness_categories)
 
@@ -65,7 +66,6 @@ function handle_onclick_send_notes() {
         btn.addEventListener('click', () => {
             const illness_id = btn.parentElement.getAttribute('data-illness-id')
             const illness_data = get_illness_data(illness_id, illnessesData)
-            console.log(illness_data)
 
             const form = document.querySelector('.js_send_notes_form')
             form.innerHTML = ''
@@ -233,7 +233,10 @@ async function create_illness_edit_form(illness_data) {
     } else {
         form_body.appendChild(get_diagnosis_element(illness_data.diagnosis))
     }
-    form_body.appendChild(get_treatments_element(illness_data.treatment, inventory_list, treatmentData))
+    const treatment_element = get_treatments_element(illness_data.treatment, inventory_list, treatmentData)
+    if (treatment_element) {
+        form_body.appendChild(treatment_element)
+    }
     form_body.innerHTML += '<button type="submit" class="js_illness_edit_btn update-case">Update Case</button>'
 
     add_more_prescription(inventory_list)
