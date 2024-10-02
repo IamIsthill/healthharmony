@@ -51,6 +51,7 @@ django-storages = "^1.14.4"
 boto3 = "^1.35.10"
 twisted = {extras = ["http2", "tls"], version = "^24.7.0"}
 django-allauth = "^65.0.1"
+coloredlogs = "^15.0.1"
 
 
 [tool.poetry.group.dev.dependencies]
