@@ -53,6 +53,12 @@
                             </div>
                         {% endif %}
                     {% endfor %}
+                {% else %}
+                    <div class="bed-container" data-bed-id="ambulance">
+                        <span class="span-lightred">Not Available</span>
+                        <img src="{% static 'assets/images/landing-page/ambulances/no-ambu.svg' %}" />
+                        <span class="span-lightgray">Ambulance</span>
+                    </div>
                 {% endif %}
             </div>
         </div>

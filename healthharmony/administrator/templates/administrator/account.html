@@ -197,8 +197,16 @@
         </div>
     </div>
     <div class="modal js_delete_user_modal">
-        <div class="modal-content"></div>
+        <div class="modal-content">
+            <form action="{% url "post_delete_user" %}" method="POST">
+                {% csrf_token %}
+                <div class="js_delete_user_form_body"></div>
+                <button type="submit">Delete</button>
+                <button type="button" class="js_close_delete_user_form">Cancel</button>
+            </form>
+        </div>
     </div>
+    {% csrf_token %}
 {% endblock %}
 {% block script %}
     {{ user_data|json_script:'user_data' }}
