@@ -1,29 +1,38 @@
-{% extends "account/base_entrance.html" %}
+{% extends 'account/base_entrance.html' %}
 {% load i18n %}
 {% load account %}
+{% load static %}
 {% load allauth %}
 {% block head_title %}
-    {% trans "Confirm Email Address" %}
-{% endblock head_title %}
+    {% trans 'Confirm Email Address | HealthHarmony' %}
+{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/auth/verify-email.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+{% endblock %}
 {% block content %}
-    {% element h1 %}
-    {% trans "Confirm Email Address" %}
-{% endelement %}
-{% if confirmation %}
-    {% user_display confirmation.email_address.user as user_display %}
-    {% if can_confirm %}
-        {% element p %}
-        {% blocktrans with confirmation.email_address.email as email %}Please confirm that <a href="mailto:{{ email }}">{{ email }}</a> is an email address for user {{ user_display }}.{% endblocktrans %}
+    <div class="top-1st">
+        <img src="{% static 'assets/images/landing-page/logo/adminlogo.svg' %}"
+             alt="" />
+    </div>
+    <div class="header-2nd">
+        {% element h1 %}
+        {% trans 'Confirm Email Address' %}
     {% endelement %}
-    {% url 'account_confirm_email' confirmation.key as action_url %}
-    {% element form method="post" action=action_url %}
-    {% slot actions %}
-    {% csrf_token %}
-    {{ redirect_field }}
-    {% element button type="submit" %}
-    {% trans 'Confirm' %}
-{% endelement %}
-{% endslot %}
+    {% if confirmation %}
+        {% user_display confirmation.email_address as user_display %}
+        {% if can_confirm %}
+            {% element p %}
+            {% blocktrans with confirmation.email_address.email as email %}Please confirm that <a href="mailto:{{ email }}">{{ email }}</a> is an email address for user {{ user_display }}.{% endblocktrans %}
+        {% endelement %}
+        {% url 'account_confirm_email' confirmation.key as action_url %}
+        {% element form method='post' action=action_url class='email-confirm-btn' %}
+        {% slot actions %}
+        {% csrf_token %}
+        {{ redirect_field }}
+        <button class="email-confirm-btn" type="submit">Confirm</button>
+    {% endslot %}
 {% endelement %}
 {% else %}
 {% element p %}
@@ -36,4 +45,5 @@
 {% blocktrans %}This email confirmation link expired or is invalid. Please <a href="{{ email_url }}">issue a new email confirmation request</a>.{% endblocktrans %}
 {% endelement %}
 {% endif %}
-{% endblock content %}
+</div>
+{% endblock %}
