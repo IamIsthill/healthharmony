@@ -23,20 +23,28 @@ function handle_onclick_delete_user() {
 
             const modal = document.querySelector('.js_delete_user_modal')
 
-            const form_element = document.createElement('form')
-            form_element.innerHTML = `
-          <span class="close js_close_delete_user_form">&times;</span>
-          <label>Delete user with email ${user.email}?</label
-          <input type="hidden" name="csrfmiddlewaretoken" value="${getToken()}" required />
-          <input type="hidden" name="user_id" value="${user_id}" required />
-          <button type="submit">Delete</button>
-          <button type="button" class="js_close_delete_user_form">Cancel</button>
-      `
-            form_element.setAttribute('method', 'POST')
-            form_element.setAttribute('action', '/administrator/accounts/post_delete_user/')
+            const form_body = document.querySelector('.js_delete_user_form_body')
 
-            modal.querySelector('.modal-content').innerHTML = ''
-            modal.querySelector('.modal-content').appendChild(form_element)
+            form_body.innerHTML = `
+                <span class="close js_close_delete_user_form">&times;</span>
+                <label>Delete user with email ${user.email}?</label>
+                <input type="hidden" name="user_id" value="${user_id}" required />
+            `
+
+            // const form_element = document.createElement('form')
+            // form_element.innerHTML = `
+            //     <span class="close js_close_delete_user_form">&times;</span>
+            //     <label>Delete user with email ${user.email}?</label
+            //     <input type="hidden" name="csrfmiddlewaretoken" value="${token}" required />
+            //     <input type="hidden" name="user_id" value="${user_id}" required />
+            //     <button type="submit">Delete</button>
+            //     <button type="button" class="js_close_delete_user_form">Cancel</button>
+            // `
+            // form_element.setAttribute('method', 'POST')
+            // form_element.setAttribute('action', '/administrator/accounts/post_delete_user/')
+
+            // modal.querySelector('.modal-content').innerHTML = ''
+            // modal.querySelector('.modal-content').appendChild(form_element)
 
             openModal(modal)
 
