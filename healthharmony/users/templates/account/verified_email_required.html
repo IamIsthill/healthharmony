@@ -1,25 +1,66 @@
-{% extends "account/base_manage.html" %}
+{% extends 'base.html' %}
+{% load static %}
+{% block header %}
+    <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
+    <link rel="stylesheet" href="{% static 'auth/verify-email.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+{% endblock %}
+{% block title %}Verify Email | HealthHarmony{% endblock %}
+{% block message %}{% endblock %}
+{% block main %}
+    <div class="top-1st">
+        <img src="{% static 'assets/images/landing-page/logo/adminlogo.svg' %}"
+             alt="" />
+    </div>
+    <div class="header-1st">
+        <h1>Verify Your Email Address</h1>
+        <p>
+            We have sent an email to you for verification. Follow the link provided to finalize the signup process. If you do not see the verification email in your main inbox, check your spam folder. Please contact us if you do not receive the verification email within a few minutes.
+        </p>
+        <button>Back to Homepage</button>
+    </div>
+{% endblock %}
+{% block script %}{% endblock %}
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="../updated css/css/modern-normalize.css" />
+    <link rel="stylesheet" href="verify-email.css" />
+    <link rel="stylesheet" href="../updated css/css/style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="top-1st">
+      <img src="adminlogo.svg" alt="" />
+    </div>
+    <div class="header-1st">
+      <h1>Verify Your Email Address</h1>
+
+      <p>We have sent an email to you for verification. Follow the link provided to finalize the signup process. If you do not see the verification email in your main inbox, check your spam folder. Please contact us if you do not receive the verification email within a few minutes.</p>
+      <button>< Back to Homepage</button>
+    </div>
+  </body>
+</html> {% endcomment %}
+{% comment %} {% extends 'account/base_manage.html' %}
 {% load i18n %}
 {% load allauth %}
 {% block head_title %}
-    {% trans "Verify Your Email Address" %}
-{% endblock head_title %}
+  {% trans 'Verify Your Email Address' %}
+{% endblock %}
 {% block content %}
-    {% element h1 %}
-    {% trans "Verify Your Email Address" %}
-{% endelement %}
-{% url 'account_email' as email_url %}
-{% element p %}
-{% blocktrans %}This part of the site requires us to verify that
-you are who you claim to be. For this purpose, we require that you
-verify ownership of your email address. {% endblocktrans %}
-{% endelement %}
-{% element p %}
-{% blocktrans %}We have sent an email to you for
-verification. Please click on the link inside that email. If you do not see the verification email in your main inbox, check your spam folder. Otherwise
-contact us if you do not receive it within a few minutes.{% endblocktrans %}
-{% endelement %}
-{% element p %}
-{% blocktrans %}<strong>Note:</strong> you can still <a href="{{ email_url }}">change your email address</a>.{% endblocktrans %}
-{% endelement %}
-{% endblock content %}
+  {% element h1 %}
+  {% trans 'Verify Your Email Address' %}
+  {% endelement %}
+  {% url 'account_email' as email_url %}
+  {% element p %}
+  {% blocktrans %}This part of the site requires us to verify that you are who you claim to be. For this purpose, we require that you verify ownership of your email address.{% endblocktrans %}
+  {% endelement %}
+  {% element p %}
+  {% blocktrans %}We have sent an email to you for verification. Please click on the link inside that email. If you do not see the verification email in your main inbox, check your spam folder. Otherwise contact us if you do not receive it within a few minutes.{% endblocktrans %}
+  {% endelement %}
+  {% element p %}
+  {% blocktrans %}<strong>Note:</strong> you can still <a href="{{ email_url }}">change your email address</a>.{% endblocktrans %}
+  {% endelement %}
+{% endblock %} {% endcomment %}
