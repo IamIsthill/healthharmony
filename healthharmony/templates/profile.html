@@ -2,18 +2,15 @@
 {% load static %}
 {% load tags %}
 {% block header %}
-
-        <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
-        <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
-        <link rel="stylesheet" href="{% static 'css/user-profile.css' %}" />
-        <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-        <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
-            rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-            rel="stylesheet" />
-
-
+    <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/user-profile.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
+          rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+          rel="stylesheet" />
 {% endblock %}
 {% block title %}Profile | HealthHarmony{% endblock %}
 {% block message %}
@@ -29,9 +26,8 @@
     {% endif %}
 {% endblock %}
 {% block main %}
-
+    {% include 'doctor/nav-top.html' %}
     <div class="doctor-profile-container">
-
         {% if request.user.access == 1 %}
             {% include 'patient/nav.html' %}
         {% elif request.user.access == 2 %}
@@ -41,14 +37,15 @@
         {% elif request.user.access >= 4 %}
             {% include 'administrator/nav.html' %}
         {% endif %}
-
         <main>
             <h2>Account Profile</h2>
             <div>
                 <div class="patient-profile">
                     {% if request.user.profile != 'user_profiles/fallback.png' %}
                         <div class="dp-container">
-                            <img class="dp-pic" src="{{ request.user.profile.url }}" alt="user_uploaded" />
+                            <img class="dp-pic"
+                                 src="{{ request.user.profile.url }}"
+                                 alt="user_uploaded" />
                         </div>
                     {% elif picture.picture is not None %}
                         <div class="dp-container">
@@ -86,37 +83,40 @@
                         <div class="form-group">
                             <label for="">Profile:</label>
                             <input type="file"
-                                name="profile"
-                                id="profile-picture"
-                                accept=".png, .jpeg, .jpg" />
+                                   name="profile"
+                                   id="profile-picture"
+                                   accept=".png, .jpeg, .jpg" />
                         </div>
                         <div class="form-group">
                             <label for="">First Name:</label>
                             <input type="text"
-                                value="{% if user.first_name is not None %}{{ user.first_name }}{% endif %}"
-                                name="first_name" />
+                                   value="{% if user.first_name is not None %}{{ user.first_name }}{% endif %}"
+                                   name="first_name"
+                                   required />
                         </div>
                         <div class="form-group">
                             <label for="">Last Name:</label>
                             <input type="text"
-                                value="{% if user.last_name is not None %}{{ user.last_name }}{% endif %}"
-                                name="last_name" />
+                                   value="{% if user.last_name is not None %}{{ user.last_name }}{% endif %}"
+                                   name="last_name"
+                                   required />
                         </div>
                         <div class="form-group">
                             <label for="">Contact Number:</label>
                             <input type="number"
-                                value="{{ user.contact|default_if_none:'' }}"
-                                name="contact"
-                                max="99999999999" />
+                                   value="{{ user.contact|default_if_none:'' }}"
+                                   name="contact"
+                                   max="99999999999"
+                                   required />
                         </div>
                         <div class="edit-buttons">
-                        <button type="submit" class="update-btn">Update</button>
-                        <button type="button" class="js_close_profile_form cancel-btn">Cancel</button>
+                            <button type="submit" class="update-btn">Update</button>
+                            <button type="button" class="js_close_profile_form cancel-btn">Cancel</button>
                         </div>
                     </form>
                 </div>
             </div>
-       </main>
+        </main>
     </div>
 {% endblock %}
 {% block script %}

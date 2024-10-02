@@ -126,13 +126,17 @@
                 <div style="display: none" class="js_sched_form">
                     <form action="{% url 'post_update_doctor_time' %}" method="POST">
                         {% csrf_token %}
-                        <div class="form-avail">
-                            <label for="">Available from:</label>
-                            <input type="time" required name="time_start" value="" />
+                        <div class="h4-cont">
+                            <label for="" class="avail-h4">Available from:</label>
+                            <div class="time-cont">
+                                <input type="time" required name="time_start" value="" />
+                            </div>
                         </div>
-                        <div class="form-avail">
-                            <label for="">Available until:</label>
-                            <input type="time" required name="time_end" value="" />
+                        <div class="h4-cont">
+                            <label for="" class="avail-h4">Available until:</label>
+                            <div class="time-cont">
+                                <input type="time" required name="time_end" value="" />
+                            </div>
                         </div>
                         <div class="form-buttons">
                             <button class="form-button" type="submit">Confirm</button>

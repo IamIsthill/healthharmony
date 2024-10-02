@@ -138,7 +138,11 @@
                         {% for illness in illness_page %}
                             <tr>
                                 <td class="table-data">
-                                    <span class="patient btn" data-patient-id="{{ illness.patient.id }}">{{ illness.patient.first_name }} {{ illness.patient.last_name }}</span>
+                                    {% if illness.patient.first_name and illness.patient.last_name %}
+                                        <span class="patient btn" data-patient-id="{{ illness.patient.id }}">{{ illness.patient.first_name }} {{ illness.patient.last_name }}</span>
+                                    {% else %}
+                                        <span class="patient btn" data-patient-id="{{ illness.patient.id }}">{{ illness.patient.email }}</span>
+                                    {% endif %}
                                 </td>
                                 <td class="table-data">{{ illness.issue|truncatewords:'10' }}</td>
                                 {% if illness.diagnosis %}

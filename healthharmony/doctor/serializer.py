@@ -10,6 +10,7 @@ from healthharmony.users.models import User, Department
 
 
 class IllnessSerializer(serializers.ModelSerializer):
+    patient_email = serializers.CharField(source="patient.email", read_only=True)
     patient_first_name = serializers.CharField(
         source="patient.first_name", read_only=True
     )

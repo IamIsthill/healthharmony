@@ -113,10 +113,21 @@ function update_illness_table(filtered_illness_data) {
 
         for (const illness of filtered_illness_data) {
             const case_status = illness.diagnosis ? 'Completed' : 'Pending'
+
+
+            let patient = ''
+
+            if(illness.patient_first_name && illness.patient_last_name) {
+                patient = `${illness.patient_first_name} ${illness.patient_first_name}`
+
+            }
+            else {
+                patient = `${illness.patient_email}`
+            }
             illness_body_element.innerHTML += `
             <tr>
               <td class = "table-data">
-                <span class="patient btn" data-patient-id="${illness.patient}">${illness.patient_first_name ? illness.patient_first_name : ''} ${illness.patient_last_name ? illness.patient_last_name : ''}</span>
+                <span class="patient btn" data-patient-id="${illness.patient}">${patient}</span>
               </td>
               <td class = "table-data">${illness.issue}</td>
               <td class = "table-data">${case_status}</td>

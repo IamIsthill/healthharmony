@@ -12,6 +12,7 @@ from healthharmony.models.treatment.models import (
     Category,
     IllnessTreatment,
     DoctorDetail,
+    IllnessNote,
 )
 from healthharmony.users.models import User, Department
 
@@ -88,6 +89,9 @@ class UpdateTreatmentForIllness(forms.Form):
             messages.error(request, "Illness case was not found.")
             return
 
+        # remove old treatments
+        delete_old_treatments(request, illness)
+
         # Join the two list then update the db heheh
         for item_name, item_quantity in zip(inventory_items, inventory_quantities):
             # Hanapin muna ang inventory item
@@ -105,6 +109,7 @@ class UpdateTreatmentForIllness(forms.Form):
 
             # With inventory item, now create yung treatments
             try:
+
                 IllnessTreatment.objects.create(
                     illness=illness,
                     inventory_detail=inventory_instance,
@@ -134,6 +139,19 @@ class UpdateTreatmentForIllness(forms.Form):
             action=f"Added prescriptions to illness instance[id={illness_id}]",
         )
 
+        return
+
+
+def delete_old_treatments(request, illness):
+    try:
+        treatments = IllnessTreatment.objects.filter(illness=illness)
+        for treatment in treatments:
+            treatment.delete()
+    except Exception as e:
+        logger.warning(
+            f"Failed to deleted related treatment records for illness case[{illness.id}]: {str(e)}"
+        )
+        messages.error(request, "Failed to update treatments")
         return
 
 
@@ -326,3 +344,37 @@ class UpdateUserVital(forms.Form):
             messages.error(
                 request, "Failed to update patient information. Please try again."
             )
+
+
+class CreateNotesToCase(forms.Form):
+    illness_id = forms.IntegerField(required=True)
+    message = forms.CharField(required=True)
+
+    def save(self, request):
+        illness_id = self.cleaned_data.get("illness_id")
+        message = self.cleaned_data.get("message")
+
+        try:
+            illness = Illness.objects.get(id=int(illness_id))
+        except Exception as e:
+            logger.info(f"Failure to find illness: {str(e)}")
+            messages.error(request, "Failed to related case.")
+            return
+
+        try:
+            created_note = IllnessNote.objects.create(
+                patient=illness.patient,
+                attached_to=illness,
+                notes=message,
+                noted_by=request.user,
+            )
+        except Exception as e:
+            logger.info(f"Failure to create case note: {str(e)}")
+            messages.error(request, "Failed to create case note.")
+            return
+
+        Log.objects.create(
+            user=request.user, action=f"Created a new case note[{created_note.id}]"
+        )
+        logger.info(f"Created a new case note[{created_note.id}]")
+        messages.success(request, "Successfully sent a case note!")
