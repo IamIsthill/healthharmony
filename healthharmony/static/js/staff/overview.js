@@ -36,8 +36,10 @@ function main() {
     listenToSuccess()
     listenToModalOk()
 
+    // SHORTCUTS
     listenToAddVisitBtn()
     handle_add_new_patient_btn()
+    handle_onclick_ambulance()
 
     listenToCategoryFilterBtns()
     listenToCategorySelector()
@@ -54,6 +56,22 @@ function main() {
     listenToDepartmentBarFilters()
     createDepartmentBarCanvas(getBarCounts(departmentData['yearly']))
     selectEachDepartmentBarThenCreateBars(getBarCounts(departmentData['yearly']), createBars)
+}
+
+// Staff clicks the check ambulance
+function handle_onclick_ambulance() {
+    const btn = document.querySelector('.js-check-ambulance')
+
+    btn.addEventListener('click', () => {
+        const modal = document.querySelector('.js_check_ambulance_modal')
+        const close_btns = document.querySelectorAll('.js_close_check_ambulance_modal')
+        openModal(modal)
+
+        for (const close of close_btns) {
+            closeModal(modal, close)
+        }
+
+    })
 }
 
 function handle_add_new_patient_btn() {

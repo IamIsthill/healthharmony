@@ -30,7 +30,7 @@ class Category(models.Model):
 
 class Illness(models.Model):
     patient = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, related_name="patient_illness"
+        User, on_delete=models.CASCADE, null=True, related_name="patient_illness"
     )
     issue = models.TextField()
     illness_category = models.ForeignKey(
@@ -76,7 +76,7 @@ class IllnessTreatment(models.Model):
 
 
 class Certificate(models.Model):
-    patient = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    patient = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     purpose = models.TextField()
     requested = models.DateTimeField(auto_now_add=True)
     is_ready = models.BooleanField(default=False)
@@ -91,7 +91,7 @@ class Certificate(models.Model):
 
 class IllnessNote(models.Model):
     patient = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, related_name="illness_notes"
+        User, on_delete=models.CASCADE, null=True, related_name="illness_notes"
     )
     attached_to = models.ForeignKey(Illness, on_delete=models.SET_NULL, null=True)
     notes = models.TextField()

@@ -22,7 +22,7 @@ from concurrent.futures import as_completed, ThreadPoolExecutor
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.contrib.auth.decorators import login_required
 
-from healthharmony.models.bed.models import BedStat
+from healthharmony.models.bed.models import BedStat, Ambulansya, WheelChair
 from healthharmony.users.models import User, Department
 from healthharmony.administrator.models import Log, DataChangeLog
 from healthharmony.models.treatment.models import Illness, IllnessTreatment, Certificate
@@ -55,6 +55,7 @@ from healthharmony.staff.forms import (
     DeleteInventoryForm,
     DeleteDepartmentForm,
     EditDepartmentForm,
+    CreateUpdateAmbulance,
 )
 from healthharmony.staff.serializer import IllnessSerializer
 from healthharmony.app.settings import env
@@ -115,6 +116,7 @@ def overview(request):
                 tp.submit(get_sorted_category, request): "sorted_category",
                 tp.submit(get_sorted_department, request): "sorted_department",
                 tp.submit(get_departments, request): "department_names",
+                tp.submit(get_ambulances, request): "get_ambulances",
             }
             results = {}
             for future in as_completed(futures):
@@ -135,6 +137,7 @@ def overview(request):
         request, sorted_category = results["sorted_category"]
         request, sorted_department = results["sorted_department"]
         request, department_names = results["department_names"]
+        request, ambulances = results["get_ambulances"]
 
         # Calculate percentages
         patient_percent = (
@@ -169,6 +172,7 @@ def overview(request):
                 "sorted_department": sorted_department,
                 "department_names": department_names,
                 "beds": beds,
+                "ambulances": ambulances,
             }
         )
     except Exception as e:
@@ -694,3 +698,27 @@ def edit_department(request, pk):
                 f"{request.user.email} has passed an invalid Edit Department Form"
             )
     return redirect("staff-accounts")
+
+
+@login_required(login_url="account_login")
+def post_create_update_ambulance(request):
+    if request.user.access < 2:
+        return redirect("patient-overview")
+    if request.method.lower() == "post":
+        form = CreateUpdateAmbulance(request.POST)
+        if form.is_valid():
+            form.save(request)
+        else:
+            logger.info("CreateUpdateAmbulance is invalid")
+            messages.error("Submitted data is invalid. Please try again")
+    return redirect("staff-overview")
+
+
+def get_ambulances(request):
+    ambulances = None
+    try:
+        ambulances = Ambulansya.objects.all()
+    except Exception as e:
+        logger.warning(f"Failed to fetch the ambulances: {str(e)}")
+        messages.error(request, "Failed to fetch necessary data. Please reload page.")
+    return request, ambulances
