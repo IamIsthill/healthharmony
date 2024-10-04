@@ -125,6 +125,8 @@ class EditInventoryForm(forms.Form):
             quantity = self.cleaned_data.get("quantity")
             category = self.cleaned_data.get("category")
 
+            logger.warning(f"{total_quantity} {quantity}")
+
             inventory_item.expiration_date = (
                 expiration_date if expiration_date else None
             )
@@ -137,10 +139,13 @@ class EditInventoryForm(forms.Form):
                 # Get the difference between total and posted quantity
                 quantity = quantity if quantity else 0
                 diff_quantity = 0
+
                 if total_quantity > quantity:
+                    # diff_quantity = -(total_quantity - quantity)
                     diff_quantity = -(total_quantity - quantity)
                 else:
                     diff_quantity = quantity - total_quantity
+
                 item_quantity = QuantityHistory.objects.create(
                     inventory=inventory_item,
                     changed_by=request.user,
