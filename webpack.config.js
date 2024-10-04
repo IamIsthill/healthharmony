@@ -14,6 +14,7 @@ module.exports = {
         patient_record: './healthharmony/static/js/patient/record.js',
         admin_records: './healthharmony/static/js/administrator/records.js',
         admin_account: './healthharmony/static/js/administrator/account.js',
+        main: './healthharmony/static/js/general/main.js',
     },
     output: {
         path: path.resolve(__dirname, './healthharmony/static/js/dist')
