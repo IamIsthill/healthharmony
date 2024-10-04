@@ -26,7 +26,6 @@ function main() {
     /**
      * TEST AREA
      */
-    listenCheckBed()
 
 
     /**
@@ -37,9 +36,11 @@ function main() {
     listenToModalOk()
 
     // SHORTCUTS
+    listenCheckBed()
     listenToAddVisitBtn()
     handle_add_new_patient_btn()
     handle_onclick_ambulance()
+    handle_onclick_wheelchairs()
 
     listenToCategoryFilterBtns()
     listenToCategorySelector()
@@ -56,6 +57,56 @@ function main() {
     listenToDepartmentBarFilters()
     createDepartmentBarCanvas(getBarCounts(departmentData['yearly']))
     selectEachDepartmentBarThenCreateBars(getBarCounts(departmentData['yearly']), createBars)
+}
+
+//Staff clicks checks wheelchairs
+function handle_onclick_wheelchairs() {
+    const btn = document.querySelector('.js-check-wheel')
+
+    btn.addEventListener('click', () => {
+        const modal = document.querySelector('.js_check_wheelchair_modal')
+        const close_btns = document.querySelectorAll('.js_close_check_wheelchair_modal')
+
+        // Open the modal
+        openModal(modal)
+
+        //Iterate close btn, add event listener to close modal
+        for (const close of close_btns) {
+            closeModal(modal, close)
+
+            // reset the form if close was clicked
+            close.addEventListener('click', () => {
+                const form = document.querySelector('.js_wheelchair_form')
+                form.reset()
+            })
+        }
+
+        //
+        prevent_invalid_number_wheelchair_field()
+    })
+}
+
+// Prevent invalid input in the wheelchair number field
+function prevent_invalid_number_wheelchair_field() {
+    const wheelchairInputs = document.querySelectorAll('#available_wheelchairs, #unavailable_wheelchairs');
+
+    wheelchairInputs.forEach(input => {
+      // Prevent 'e', '-', and other invalid characters from being typed in the field
+      input.addEventListener('keydown', function(e) {
+        if (['e', 'E', '-'].includes(e.key)) {
+          e.preventDefault();
+        }
+      });
+
+      // Prevent pasting invalid characters
+      input.addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+
+        if (parseInt(this.value) > parseInt(this.getAttribute('max'))) {
+            this.value = parseInt(this.getAttribute('max'))
+        }
+      });
+    });
 }
 
 // Staff clicks the check ambulance

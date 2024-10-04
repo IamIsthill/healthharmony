@@ -56,6 +56,7 @@ from healthharmony.staff.forms import (
     DeleteDepartmentForm,
     EditDepartmentForm,
     CreateUpdateAmbulance,
+    CreateWheelChairQuantity,
 )
 from healthharmony.staff.serializer import IllnessSerializer
 from healthharmony.app.settings import env
@@ -705,12 +706,30 @@ def post_create_update_ambulance(request):
     if request.user.access < 2:
         return redirect("patient-overview")
     if request.method.lower() == "post":
+        print(request.POST)
         form = CreateUpdateAmbulance(request.POST)
         if form.is_valid():
             form.save(request)
         else:
             logger.info("CreateUpdateAmbulance is invalid")
-            messages.error("Submitted data is invalid. Please try again")
+            messages.error(request, "Submitted data is invalid. Please try again")
+    return redirect("staff-overview")
+
+
+@login_required(login_url="account_login")
+def post_create_wheelchair(request):
+    if request.user.access < 2:
+        return redirect("patient-overview")
+
+    if request.method.lower() == "post":
+        form = CreateWheelChairQuantity(request.POST)
+        logger.info(request.POST)
+
+        if form.is_valid():
+            form.save(request)
+        else:
+            logger.info("CreateWheelChairQuantity is invalid")
+            messages.error(request, "Submitted data is invalid. Please try again")
     return redirect("staff-overview")
 
 
