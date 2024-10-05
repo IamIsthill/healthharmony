@@ -4,6 +4,16 @@ from . import views
 urlpatterns = [
     path("add-patient/", views.add_patient, name="add-patient"),
     path("post_add_patient/", views.post_add_patient, name="post_add_patient"),
+    path(
+        "post_create_update_ambulance/",
+        views.post_create_update_ambulance,
+        name="post_create_update_ambulance",
+    ),
+    path(
+        "post_create_wheelchair/",
+        views.post_create_wheelchair,
+        name="post_create_wheelchair",
+    ),
     path("issue/add/", views.create_patient_add_issue, name="create-patient-add-issue"),
     path("", views.overview, name="staff-overview"),
     path("inventory/", views.inventory, name="staff-inventory"),

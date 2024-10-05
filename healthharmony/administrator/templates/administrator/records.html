@@ -105,8 +105,8 @@
                         <th>Table</th>
                         <th>Related Id</th>
                         <th>Action</th>
-                        <th>Old Value</th>
-                        <th>New Value</th>
+                        {% comment %} <th>Old Value</th>
+                        <th>New Value</th> {% endcomment %}
                         <th>Changed By</th>
                         <th>Timestamp</th>
                     </tr>
@@ -118,20 +118,20 @@
                                 <td>{{ log.table }}</td>
                                 <td>{{ log.record_id }}</td>
                                 <td>{{ log.action }}</td>
-                                <td>
-                                    {% if log.old_value == 'No data' %}
-                                        <em>No Data</em>
-                                    {% else %}
-                                        {{ log.old_value }}
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if log.new_value == 'No data' %}
-                                        <em>No Data</em>
-                                    {% else %}
-                                        {{ log.new_value }}
-                                    {% endif %}
-                                </td>
+                                {% comment %} <td>
+                  {% if log.old_value == 'No data' %}
+                    <em>No Data</em>
+                  {% else %}
+                    {{ log.old_value }}
+                  {% endif %}
+                </td>
+                <td>
+                  {% if log.new_value == 'No data' %}
+                    <em>No Data</em>
+                  {% else %}
+                    {{ log.new_value }}
+                  {% endif %}
+                                </td> {% endcomment %}
                                 <td>{{ log.changed_by }}</td>
                                 <td>{{ log.timestamp|date:'F j, Y' }} at {{ log.timestamp|date:'g:i A' }}</td>
                             </tr>

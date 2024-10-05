@@ -236,7 +236,7 @@ async function create_illness_edit_form(illness_data) {
         form_body.appendChild(get_diagnosis_element(illness_data.diagnosis))
     }
     const treatment_element = get_treatments_element(illness_data, inventory_list, treatmentData)
-    if (treatment_element) {
+    if (illness_data.treatment.length == 0) {
         form_body.appendChild(treatment_element)
     }
     form_body.innerHTML += '<button type="submit" class="js_illness_edit_btn update-case">Update Case</button>'

@@ -126,7 +126,7 @@ def get_ambulance(request):
 
 def get_wheelchairs(request):
     try:
-        wheelchairs = WheelChair.objects.all()
+        wheelchairs = WheelChair.objects.filter(is_avail=True)
     except Exception as e:
         logger.warning(f"Failure to fetch wheelchair data: {str(e)}")
         messages.error(request, "Failed to fetch required data. Please try again.")

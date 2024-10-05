@@ -60,9 +60,6 @@ main()
 
 function main() {
     /**TEST AREA */
-    console.log(patientData)
-    console.log(departmentData)
-    console.log(employeeData)
 
     /**PATIENT TABLE */
     formatDatesInPatientsPage(format_date)
@@ -97,44 +94,10 @@ function main() {
 
     /** CLINIC TABLE */
     updateEmployeeHTMl(employeeData)
+    handle_onclick_search_employee()
+    listenEmployeeFilter()
+    listenEmployeeClearBtn()
 
-
-
-
-
-
-
-
-
-    //patients
-    // listenToHoverOnPatientName()
-    // formatDepartmentNames()
-    // listenToHoverOnPatientName()
-    // clickToRemovePatientFilter()
-
-    // setDefault()
-    // updatePatientCount()
-    // checkPatientPagination()
-    // updatePatientSearchField()
-    // updatePatientFiltersFromMemory(getItem, updatePatientFilters)
-    // updatePatientBasedOnSearchFieldAndFilters()
-    // listenToPatientClearBtn()
-    // listenToHoverOnPatientSearchField()
-    // listenPatientFilter()
-    // listenPatientSearchBtn()
-
-    // //departments
-    // formatDepartmentUserCounts()
-
-    // listenAddDepartmentBtn()
-    // createDepartmentBarGraph()
-
-    // //employee
-    // setEmployeeFilters()
-    // listenEmployeeSearchBtn()
-    // listenEmployeeFilter()
-    // listenEmployeeSearchField()
-    // listenEmployeeClearBtn()
 }
 
 /** MAIN PATIENT FUNCTIONS */
@@ -403,27 +366,39 @@ function updateEmployeeHTMl(employeeData) {
     const employeeBody = document.querySelector('.js-employee-body')
     let html = ''
 
-    for (const employee of employeeData) {
-        let count = 0
-        let position = ''
-        if (employee.access == 2) {
-            count = employee.staff_count
-            position = 'Staff'
-        }
+    if (employeeData.length == 0) {
+        html = `
+        <tr>
+            <td colspan="4">No Data Found</td>
+        </tr>
 
-        if (employee.access == 3) {
-            count = employee.doctor_count
-            position = 'Doctor'
-        }
+        `
 
-        let last_case = ''
-        if (employee.last_case) {
-            last_case = getElapsedTime(employee.last_case)
-        }
+    } else {
 
-        const name = employee.first_name && employee.last_name ? `${employee.first_name} ${employee.last_name}` :
-            employee.email
-        html += `
+
+
+        for (const employee of employeeData) {
+            let count = 0
+            let position = ''
+            if (employee.access == 2) {
+                count = employee.staff_count
+                position = 'Staff'
+            }
+
+            if (employee.access == 3) {
+                count = employee.doctor_count
+                position = 'Doctor'
+            }
+
+            let last_case = ''
+            if (employee.last_case) {
+                last_case = getElapsedTime(employee.last_case)
+            }
+
+            const name = employee.first_name && employee.last_name ? `${employee.first_name} ${employee.last_name}` :
+                employee.email
+            html += `
             <tr>
                 <td>${employee.first_name ? employee.first_name : ''} ${employee.last_name ? employee.last_name : ''}</td>
                 <td>${position}</td>
@@ -431,8 +406,33 @@ function updateEmployeeHTMl(employeeData) {
                 <td>${count}</td>
             </tr>
         `
+        }
     }
     employeeBody.innerHTML = html
+}
+
+function handle_onclick_search_employee() {
+    const btn = document.querySelector('.js-employee-search-btn')
+
+    btn.addEventListener('click', () => {
+        const search_field = document.querySelector('.js-employee-search-field')
+        const search_value = search_field.value.toLowerCase()
+        const filter = getEmployeeFilter()
+        const filtered_employee_data = filterEmployeeData(employeeData, filter, search_value)
+        updateEmployeeHTMl(filtered_employee_data)
+    })
+
+}
+
+function listenEmployeeFilter() {
+    const employeeFilter = document.querySelector('.js-employee-filters')
+    employeeFilter.addEventListener('change', () => {
+        const filter = getEmployeeFilter()
+        const search_field = document.querySelector('.js-employee-search-field')
+        const search_value = search_field.value.toLowerCase()
+        const searchedEmployees = filterEmployeeData(employeeData, filter, search_value)
+        updateEmployeeHTMl(searchedEmployees)
+    })
 }
 
 
@@ -461,8 +461,6 @@ function click() {
 function listenEmployeeClearBtn() {
     const employeeClearBtn = document.querySelector('.js-employee-clear-btn')
     employeeClearBtn.addEventListener('click', () => {
-        removeItem('employeeFilter')
-        removeItem('employeeSearchValue')
         document.querySelector('.js-employee-filters').value = ''
         document.querySelector('.js-employee-search-field').value = ''
         updateEmployeeHTMl(employeeData)
@@ -493,16 +491,6 @@ function listenEmployeeSearchField() {
     employeeSearchField.addEventListener('mouseenter', () => listenToEnter(enterKeyOnEmployeeSearchField))
 }
 
-function listenEmployeeFilter() {
-    const employeeFilter = document.querySelector('.js-employee-filters')
-    employeeFilter.addEventListener('change', () => {
-        const filter = getEmployeeFilter()
-        saveItem('employeeFilter', filter)
-        const searchValue = getItem('employeeSearchValue') ? getItem('employeeSearchValue') : ''
-        const searchedEmployees = filterEmployeeData(employeeData, filter, searchValue)
-        updateEmployeeHTMl(searchedEmployees)
-    })
-}
 
 function listenEmployeeSearchBtn() {
     const employeeSearchBtn = document.querySelector('.js-employee-search-btn')

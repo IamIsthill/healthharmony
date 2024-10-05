@@ -108,6 +108,7 @@ export function get_treatments_element(illness_data, inventory_list, treatmentDa
         for (const treatment of treatments) {
             const container = document.createElement('div')
             const quantity_element = get_quantity_element()
+            quantity_element.setAttribute('readonly', '')
 
             const medicine_element = get_medicine_element(inventory_list)
             medicine_element.setAttribute('value', treatment.inventory_detail_name)

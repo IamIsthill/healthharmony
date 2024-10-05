@@ -93,6 +93,15 @@ export function update_department_table(filtered_department_data, format_date) {
     const department_body_element = document.querySelector('.js_department_body')
     department_body_element.innerHTML = ''
 
+    if (filtered_department_data.length == 0) {
+        const department_tr_element = document.createElement('tr')
+        department_tr_element.innerHTML = `
+            <td class="table-data" colspan="3">No data found</td>
+        `
+        department_body_element.appendChild(department_tr_element)
+        return
+    }
+
     for (const department_data of filtered_department_data) {
         const department_tr_element = document.createElement('tr')
         department_tr_element.setAttribute('data-department-id', department_data.id)
