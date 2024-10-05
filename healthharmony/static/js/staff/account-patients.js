@@ -173,6 +173,15 @@ export function update_patient_table(filtered_patient_data, format_date) {
     const patient_table_body = document.querySelector('.js-patients-body')
     patient_table_body.innerHTML = ''
 
+    if (filtered_patient_data.length == 0) {
+        const tr_element = document.createElement('tr')
+        tr_element.innerHTML = `
+        <td class="table-data" colspan="3">No data found</td>
+        `
+        patient_table_body.appendChild(tr_element)
+        return
+    }
+
     for (const patient of filtered_patient_data) {
         const tr_element = document.createElement('tr')
         tr_element.innerHTML = `
