@@ -3,6 +3,7 @@ import json
 import logging
 from django.core.serializers import serialize
 from django.contrib import messages
+from django.db.models import Sum
 
 
 from healthharmony.administrator.models import Log, DataChangeLog
@@ -106,6 +107,31 @@ class UpdateTreatmentForIllness(forms.Form):
                     "Failed to find the related inventory item for prescription",
                 )
                 return
+            # check first the quantity if it is greater than the one in stock
+            try:
+                total_quantity = inventory_instance.quantities.aggregate(
+                    total_quantity=Sum("updated_quantity")
+                )
+
+                total_quantity = (
+                    total_quantity["total_quantity"]
+                    if total_quantity["total_quantity"] is not None
+                    else 0
+                )
+                if total_quantity < int(item_quantity):
+                    messages.error(
+                        request, "Inventory stock is lesser than the inputted quantity."
+                    )
+                    return
+
+            except Exception as e:
+                logger.error(
+                    f"Inventory stock is lesser than the inputted quantity: {str(e)}"
+                )
+                messages.error(
+                    request, "System faced an unexpected error. Please reload page."
+                )
+                return
 
             # With inventory item, now create yung treatments
             try:
@@ -126,7 +152,16 @@ class UpdateTreatmentForIllness(forms.Form):
                 return
 
             # Now update your inventory table
-            update_inventory(inventory_instance, item_quantity, request)
+            if total_quantity != item_quantity:
+                item_quantity = item_quantity if item_quantity else 0
+                diff_quantity = 0
+
+                if total_quantity > int(item_quantity):
+                    # diff_quantity = -(total_quantity - quantity)
+                    diff_quantity = -(total_quantity - int(item_quantity))
+                else:
+                    diff_quantity = int(item_quantity) - total_quantity
+                update_inventory(inventory_instance, diff_quantity, request)
 
         # If everything is okay, log the event and add message
         logger.info(
@@ -160,7 +195,7 @@ def update_inventory(inventory_instance, item_quantity, request):
     try:
         QuantityHistory.objects.create(
             inventory=inventory_instance,
-            updated_quantity=-(int(item_quantity)),
+            updated_quantity=item_quantity,
             changed_by=request.user,
         )
     except Exception as e:

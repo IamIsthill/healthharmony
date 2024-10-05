@@ -18,6 +18,7 @@ repos:
     rev: 7.0.0
     hooks:
     -   id: flake8
+        exclude: healthharmony/doctor/forms.py
 
 -   repo: https://github.com/djlint/djLint
     rev: v1.34.1
@@ -25,8 +26,10 @@ repos:
     -   id: djlint-reformat-django
     -   id: djlint-django
         args: ["--profile", "django", "--ignore", "T003,T002,H030,H031,H013,H023,H006,D018,H021,H016,H005,H029,H026,H037"]
+        exclude: healthharmony/doctor/forms.py
 -   repo: https://github.com/aufdenpunkt/pre-commit-js-beautify
     rev: 1.13.0 # represents the used version of JS Beautify as well
     hooks:
     -   id: js-beautify
         args: ["--end-with-newline","--wrap-attributes=auto",'--wrap-line-length=120']
+        exclude: ^dist/

@@ -78,7 +78,7 @@
                     {% for patient in patients %}<option value="{{ patient.email }}">{{ patient.email }}</option>{% endfor %}
                 </select>
                 <label for="">Issue</label>
-                <input class="issue-input" type="text" name="issue" />
+                <textarea name="issue" id="" class="issue-input"></textarea>
                 <button class="form-button" type="submit">Confirm</button>
             </form>
         </div>
@@ -104,8 +104,8 @@
                 <label for="">Date of Birth</label>
                 <input type="date" name="DOB" required placeholder="Date of Birth" />
                 <div class="form-buttons">
-                <button class="form-button" type="submit">Add Patient</button>
-                <button type="button" class="js_close_add_patient_modal cancel-button">Close</button>
+                    <button class="form-button" type="submit">Add Patient</button>
+                    <button type="button" class="js_close_add_patient_modal cancel-button">Close</button>
                 </div>
             </form>
         </div>

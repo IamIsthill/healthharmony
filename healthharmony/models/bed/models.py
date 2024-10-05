@@ -1,4 +1,5 @@
 from django.db import models
+from healthharmony.users.models import User
 
 
 # Create your models here.
@@ -17,7 +18,11 @@ class Ambulansya(models.Model):
 
 
 class WheelChair(models.Model):
+    is_avail = models.BooleanField(default=False)
     quantity = models.PositiveIntegerField(default=0)
+    updated = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return f"Current Wheelchairs - {self.quantity}"
+        status = "Available" if self.is_avail else "Not Available"
+        return f"Wheelchairs - {self.quantity} {status}"

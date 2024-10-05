@@ -7,6 +7,7 @@ import logging
 from django.db.models import Sum
 
 from healthharmony.users.models import User, Department
+from healthharmony.models.bed.models import Ambulansya, WheelChair
 from healthharmony.models.inventory.models import QuantityHistory, InventoryDetail
 from healthharmony.administrator.models import Log
 
@@ -124,6 +125,8 @@ class EditInventoryForm(forms.Form):
             quantity = self.cleaned_data.get("quantity")
             category = self.cleaned_data.get("category")
 
+            logger.warning(f"{total_quantity} {quantity}")
+
             inventory_item.expiration_date = (
                 expiration_date if expiration_date else None
             )
@@ -136,10 +139,13 @@ class EditInventoryForm(forms.Form):
                 # Get the difference between total and posted quantity
                 quantity = quantity if quantity else 0
                 diff_quantity = 0
+
                 if total_quantity > quantity:
+                    # diff_quantity = -(total_quantity - quantity)
                     diff_quantity = -(total_quantity - quantity)
                 else:
                     diff_quantity = quantity - total_quantity
+
                 item_quantity = QuantityHistory.objects.create(
                     inventory=inventory_item,
                     changed_by=request.user,
@@ -234,9 +240,99 @@ class EditDepartmentForm(forms.Form):
                 )
             else:
                 messages.error(request, "Failed to update. Department not found")
-                logger.error(f"{request.user.email} failed to find department instance")
+                logger.info(f"{request.user.email} failed to find department instance")
         except Exception as e:
             messages.error("Failed to update department")
-            logger.error(
+            logger.info(
                 f"{request.user.email} faield to update department instance: {str(e)}"
             )
+
+
+class CreateUpdateAmbulance(forms.Form):
+    ambulance = forms.CharField(required=True)
+
+    def save(self, request):
+        status = self.cleaned_data.get("ambulance")
+
+        # Set status to TRUE if 'available' else to FALSE if not
+        status = True if status == "available" else False
+
+        # Get all ambulance instance and delete them
+        try:
+            ambulances = Ambulansya.objects.all()
+            for ambulance in ambulances:
+                ambulance.delete()
+        except Exception as e:
+            logger.info(f"Failed to fetch ambulances and delete them: {str(e)}")
+            messages.error(
+                request, "System faced an unexpected issue. Please reload page."
+            )
+
+        # Create the ambulance instance
+        try:
+            ambulance = Ambulansya.objects.create(
+                is_avail=status  # The status set earlier
+            )
+
+            # Log and inform user
+            Log.objects.create(
+                user=request.user,
+                action=f"Updated ambulance instance[{str(ambulance.id)}]",
+            )
+            messages.success(request, "Successfully updated ambulance availability!")
+        except Exception as e:
+            logger.info(f"Failed to create ambulance instance: {str(e)}")
+            messages.error(
+                request, "System faced an unexpected issue. Please reload page."
+            )
+
+
+class CreateWheelChairQuantity(forms.Form):
+    avail = forms.IntegerField(required=False)
+    unavail = forms.IntegerField(required=False)
+
+    def save(self, request):
+        # Fetch data from form
+        avail_wheelchair = self.cleaned_data.get("avail")
+        not_avail_wheelchair = self.cleaned_data.get("unavail")
+
+        # Create the wheelchaur
+        try:
+            logger.warning(f"{avail_wheelchair} {not_avail_wheelchair}")
+            if avail_wheelchair != 0:
+                avail_wheelchair_instance = WheelChair.objects.create(
+                    is_avail=True,
+                    quantity=avail_wheelchair or 0,
+                    created_by=request.user,
+                )
+
+                Log.objects.create(
+                    user=request.user,
+                    action=f"Created available wheelchairs[{str(avail_wheelchair_instance.id)}]",
+                )
+                logger.info(
+                    f"{request.user} created available wheelchairs[{str(avail_wheelchair_instance.id)}]"
+                )
+
+            if not_avail_wheelchair != 0:
+                not_avail_wheelchair_instance = WheelChair.objects.create(
+                    is_avail=False,
+                    quantity=not_avail_wheelchair or 0,
+                    created_by=request.user,
+                )
+
+                Log.objects.create(
+                    user=request.user,
+                    action=f"Created unavailable wheelchairs[{str(not_avail_wheelchair_instance.id)}]",
+                )
+                logger.info(
+                    f"{request.user} created unavailable wheelchairs[{str(not_avail_wheelchair_instance.id)}]"
+                )
+
+            messages.success(request, "Successfully updated wheelchair availability!")
+
+        except Exception as e:
+            messages.error(
+                request, "System faced an unexpected issue. Please reload page."
+            )
+            logger.info(f"Failed to create new wheelchair instance: {str(e)}")

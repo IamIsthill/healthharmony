@@ -146,11 +146,7 @@
             <form action="{% url 'post_create_certificate_request' %}" method="POST">
                 {% csrf_token %}
                 <label for="">Why are you requesting a medical certificate?</label>
-                <input type="textarea"
-                       placeholder="Type your reason here..."
-                       name="purpose"
-                       maxlength="500"
-                       required />
+                <textarea name="purpose" id="" placeholder="Type your reason here..." required></textarea>
                 <div class="form-buttons">
                     <button class="form-button" type="submit">Issue a Request</button>
                     <button class="js_close_medcert_modal cancel-button" type="button">Cancel</button>

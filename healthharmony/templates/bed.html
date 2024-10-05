@@ -69,8 +69,9 @@
                     {% if wheelchair_quantity == 0 %}
                         <span class="span-lightred">No available wheelchairs</span>
                     {% elif wheelchair_quantity == 1 %}
+                        <span class="span-green">{{ wheelchair_quantity }} available wheelchair</span>
                     {% else %}
-                        <span class="span-green">{{ wheelchair_quantity }}Available</span>
+                        <span class="span-green">{{ wheelchair_quantity }} available wheelchairs</span>
                     {% endif %}
                 </div>
             </div>

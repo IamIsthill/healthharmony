@@ -569,12 +569,13 @@ def get_counted_inventory(request):
                     ] = []
                     if inventory:
                         for data in inventory:
+                            data.total_quantity = data.total_quantity or 0
                             inventory_data[category][filter][
                                 main_start.strftime(date_format)
                             ].append(
                                 {
                                     "id": data.id,
-                                    "total_quantity": data.total_quantity or 0,
+                                    "total_quantity": data.total_quantity,
                                     "expiration_date": data.expiration_date.isoformat()
                                     if data.expiration_date
                                     else "",
