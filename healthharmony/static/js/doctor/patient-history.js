@@ -28,8 +28,9 @@ export function get_expand_btn() {
     return btn
 }
 
-export function get_leave_notes_btn() {
+export function get_leave_notes_btn(id) {
     const btn = document.createElement('button')
+    btn.setAttribute('illness-id', id)
     btn.innerHTML = `
         <span class="material-symbols-outlined">edit_note</span>Send a Note
     `

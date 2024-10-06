@@ -40,7 +40,7 @@ main()
 
 async function main() {
     /** MAKE HTML PRESENTABLE AND DATA PREPATION*/
-    console.log(treatmentData)
+    console.log(illness_notes_data)
     update_existing_dates_to_readable()
     append_category_list(illness_categories)
 
@@ -48,7 +48,11 @@ async function main() {
     filter_visit_history()
     click_expand_show_treatments()
     click_edit_show_form()
+
+    //Notes related
     handle_onclick_send_notes()
+    attach_btn_if_illness_has_notes()
+    handle_onclick_view_notes()
 
     /** Detailed info */
     handle_onclick_edit_patient()
@@ -58,13 +62,115 @@ async function main() {
 
 }
 
+// Add event listener to the view notes
+function handle_onclick_view_notes() {
+    const btns = document.querySelectorAll('.js_view_notes')
+
+    if (btns.length == 0) {
+        return
+    }
+
+    for (const btn of btns) {
+        btn.addEventListener('click', () => {
+            // Get the illness id in the html
+            const illness_id = parseInt(btn.getAttribute('illness-id'))
+
+            const notes_div = document.querySelector('.js_notes_body')
+            notes_div.innerHTML = ''
+
+            for (const notes of Object.values(illness_notes_data)) {
+                if (parseInt(notes.attached_to) == illness_id) {
+                    const sender = notes.doctor_first_name != '' || notes.doctor_first_name || notes
+                        .doctor_last_name != '' || notes.doctor_last_name ?
+                        `${notes.doctor_first_name} ${notes.doctor_last_name}` : `${notes.doctor_email}`
+                    notes_div.innerHTML += `
+                        <div>
+                            <p>Message: ${notes.notes}</p>
+                            <p>Sent by: ${sender}</p>
+                            <p>Sent on ${formatDate(notes.timestamp)}</p>
+                        </div>
+                    `
+
+                }
+            }
+            notes_div.innerHTML += `
+              <button class="js-illness-note-btn" illness-id="${illness_id}"><span class="material-symbols-outlined">edit_note</span>Send a Note</button>
+
+            `
+
+            let modal = document.querySelector('.js_view_notes_modal')
+            const close_btns = document.querySelectorAll('.js-close-btn')
+
+            openModal(modal)
+
+            for (const close of close_btns) {
+                closeModal(modal, close)
+            }
+
+
+            const send_notes_btns = document.querySelectorAll('.js-illness-note-btn')
+
+            for (const send_notes_btn of send_notes_btns) {
+                send_notes_btn.addEventListener('click', () => {
+                    modal = document.querySelector('.js_view_notes_modal')
+                    modal.style.display = 'none'
+                })
+            }
+
+
+
+            handle_onclick_send_notes()
+
+
+
+        })
+
+    }
+
+
+
+
+}
+
+// Attach view notes button in illnesses
+function attach_btn_if_illness_has_notes() {
+    if (illness_notes_data.length == 0) {
+        return
+    }
+
+    const illness_cases = document.querySelectorAll('.js-illness')
+
+    if (illness_cases.length == 0) {
+        return
+    }
+
+    for (const illness_case of illness_cases) {
+        const illness_id = parseInt(illness_case.getAttribute('data-illness-id'))
+
+        // Check if the illness has notes related to it
+        for (const notes of Object.values(illness_notes_data)) {
+            if (parseInt(notes.attached_to) == illness_id) {
+                const btn = document.createElement('button')
+                btn.setAttribute('illness-id', illness_id)
+                btn.innerText = 'View Notes'
+                btn.classList.add('js_view_notes')
+
+                // Add a button to the illness case
+                illness_case.appendChild(btn)
+                break
+            }
+        }
+    }
+
+}
+
 // Handle when user clicks send notes
 function handle_onclick_send_notes() {
     const btns = document.querySelectorAll('.js-illness-note-btn')
 
     for (const btn of btns) {
         btn.addEventListener('click', () => {
-            const illness_id = btn.parentElement.getAttribute('data-illness-id')
+            const illness_id = btn.getAttribute('illness-id')
             const illness_data = get_illness_data(illness_id, illnessesData)
 
             const form = document.querySelector('.js_send_notes_form')
@@ -117,6 +223,8 @@ function handle_onclick_send_notes() {
                 closeModal(modal, close)
 
             }
+
+
         })
     }
 }
@@ -325,7 +433,7 @@ function update_visit_html_after_filter(filtered_illness_data) {
                 illness_div.appendChild(expand_btn)
             }
 
-            const note_btn = get_leave_notes_btn()
+            const note_btn = get_leave_notes_btn(illness.id)
             illness_div.appendChild(note_btn)
 
             illness_history_html.appendChild(illness_div)

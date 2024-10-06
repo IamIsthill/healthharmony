@@ -180,7 +180,7 @@
                                 </div>
                                 <button class="js-expand-illness-btn">Expand</button>
                             {% endif %}
-                            <button class="js-illness-note-btn">
+                            <button class="js-illness-note-btn" illness-id="{{ illness.id }}">
                                 <span class="material-symbols-outlined">edit_note</span>Send a Note
                             </button>
                         </div>
@@ -209,6 +209,13 @@
                   method="POST"
                   class="js_send_notes_form">
             </form>
+        </div>
+    </div>
+    <div class="modal js_view_notes_modal">
+        <div class="modal-content">
+            <span class="material-symbols-outlined close js-close-btn">cancel</span>
+            <h1>Case Notes</h1>
+            <div class="js_notes_body"></div>
         </div>
     </div>
     {% csrf_token %}
