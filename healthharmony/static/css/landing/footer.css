@@ -211,7 +211,16 @@
       }
     
       /* xs */
-      @media (max-width: 475px) {
-    
+      @media (max-width: 400px) {
+        .container-aboutUs p{
+            width: 300px;
+            font-size: var(--size-xxs);
+        }
+        .right-info{
+            column-gap: 2.5rem;
+        }
+        .copyright{
+            font-size: var(--size-xs);
+        }
       }
     

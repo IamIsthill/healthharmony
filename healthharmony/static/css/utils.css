@@ -449,4 +449,7 @@
   .containers {
     width: 100%;
   }
+  .section{
+    margin-top: 0rem;
+}
 }
