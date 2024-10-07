@@ -61,7 +61,7 @@ logger = logging.getLogger(__name__)
 @login_required(login_url="account_login")
 def view_patient_profile(request, pk):
     if request.user.access < 2:
-        return redirect(request.META.get("HTTP_REFERER", "doctor-overview"))
+        return redirect(request.META.get("HTTP_REFERER", "patient-overview"))
     context = {"page": "Patient Profile"}
     update_patient_view_context(request, context, pk)
 

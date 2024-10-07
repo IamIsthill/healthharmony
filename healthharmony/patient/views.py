@@ -57,7 +57,7 @@ def records_view(request, pk):
     if request.user.access < 1:
         return redirect("home")
     if request.user.id != int(pk):
-        return redirect(request.META.get("HTTP_REFERER", "patient-overview"))
+        return redirect("patient-records", request.user.id)
 
     context = {"page": "Health Records"}
     try:
@@ -113,7 +113,7 @@ def patient_view(request, pk):
     if request.user.access < 1:
         return redirect("home")
     if request.user.id != int(pk):
-        return redirect(request.META.get("HTTP_REFERER", "patient-overview"))
+        return redirect("patient-profile", request.user.id)
     context = {"page": "Patient Profile"}
 
     if request.method == "POST":
