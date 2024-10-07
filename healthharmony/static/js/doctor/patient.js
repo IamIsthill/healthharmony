@@ -40,7 +40,7 @@ main()
 
 async function main() {
     /** MAKE HTML PRESENTABLE AND DATA PREPATION*/
-    console.log(illness_notes_data)
+    console.log(illness_categories)
     update_existing_dates_to_readable()
     append_category_list(illness_categories)
 
@@ -239,7 +239,7 @@ function click_edit_show_form() {
                 const illness_id = btn.parentElement.getAttribute('data-illness-id')
                 const illness_data = get_illness_data(illness_id, illnessesData)
 
-                create_illness_edit_form(illness_data)
+                create_illness_edit_form(illness_data, illness_categories)
 
                 const modal = document.querySelector('.js-edit-illness-modal')
                 const close_btns = document.querySelectorAll('.js-close-btn')
@@ -321,7 +321,7 @@ function filter_visit_history() {
     }
 }
 
-async function create_illness_edit_form(illness_data) {
+async function create_illness_edit_form(illness_data, illness_categories) {
     const form_body = document.querySelector('.js-edit-illness-modal form')
     form_body.innerHTML = ''
     const token = getToken()
@@ -329,7 +329,7 @@ async function create_illness_edit_form(illness_data) {
     form_body.innerHTML += '<label>Symptoms: </label>'
     form_body.appendChild(get_issue_element(illness_data.issue))
     form_body.innerHTML += '<label>Category of Symptoms: </label>'
-    form_body.appendChild(get_category_element(illness_data.category_name))
+    form_body.appendChild(get_category_element(illness_data.category_name, illness_categories))
 
     form_body.innerHTML += '<label>Diagnosis: </label>'
     const diagnosis = await fetchPredictedDiagnosis(illness_data.issue)

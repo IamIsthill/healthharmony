@@ -42,13 +42,13 @@ def overview_view(request):
             tp.submit(fetch_medcert_data, request, context, request.user)
     except Exception as e:
         logger.warning(f"Something went wrong in patient/records: {(e)}")
-        messages.error(request, "Something went wrong.")
+        messages.error(request, "Please reload page.")
 
     # Check for any errors and add messages if necessary
     if "weather_error" in context:
-        messages.error(request, context["weather_error"])
+        messages.error(request, "Please reload page.")
     if "data_error" in context:
-        messages.error(request, context["data_error"])
+        messages.error(request, "Please reload page.")
 
     return render(request, "patient/overview.html", context)
 
