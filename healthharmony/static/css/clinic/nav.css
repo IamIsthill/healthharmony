@@ -136,7 +136,7 @@ aside{
     z-index: 500;
 }
 .nav-top h2{
-    margin-left: 13rem;
+    margin-left: 14rem;
     font-weight: 600;
     color: var(--normal-fontcolor);
 }
@@ -147,7 +147,7 @@ aside{
         margin-left: 1rem;
     }
     .nav-top h2{
-        margin-left: 11rem;
+        margin-left: 14rem;
     }
 }
 
@@ -161,7 +161,7 @@ aside{
         margin-left: 2.5rem;
     }
     .nav-top h2{
-        margin-left: 11rem;
+        margin-left: 13rem;
         font-size: var(--size-2xl);
     }
     .nav-top{
