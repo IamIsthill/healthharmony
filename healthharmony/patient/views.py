@@ -5,7 +5,8 @@ import logging
 from django.contrib.auth.decorators import login_required
 from concurrent.futures import as_completed, ThreadPoolExecutor
 
-from healthharmony.models.treatment.models import Illness, IllnessTreatment, Certificate
+from healthharmony.models.treatment.models import Illness, Certificate, IllnessNote
+from healthharmony.doctor.serializer import IllnessNoteSerializer
 from healthharmony.users.models import User
 from healthharmony.patient.forms import UpdateProfileInfo, CreateCertificateForm
 from healthharmony.patient.serializers import CertificateSerializer
@@ -41,13 +42,13 @@ def overview_view(request):
             tp.submit(fetch_medcert_data, request, context, request.user)
     except Exception as e:
         logger.warning(f"Something went wrong in patient/records: {(e)}")
-        messages.error(request, "Something went wrong.")
+        messages.error(request, "Please reload page.")
 
     # Check for any errors and add messages if necessary
     if "weather_error" in context:
-        messages.error(request, context["weather_error"])
+        messages.error(request, "Please reload page.")
     if "data_error" in context:
-        messages.error(request, context["data_error"])
+        messages.error(request, "Please reload page.")
 
     return render(request, "patient/overview.html", context)
 
@@ -57,7 +58,7 @@ def records_view(request, pk):
     if request.user.access < 1:
         return redirect("home")
     if request.user.id != int(pk):
-        return redirect(request.META.get("HTTP_REFERER", "patient-overview"))
+        return redirect("patient-records", request.user.id)
 
     context = {"page": "Health Records"}
     try:
@@ -78,6 +79,7 @@ def records_view(request, pk):
             tp.submit(get_illness_categories, illness_query, context)
             tp.submit(fetch_medcert_data, request, context, user)
             tp.submit(fetch_user_certificates, user, context)
+            tp.submit(get_illness_notes, request, context, user)
         for illness in illness_query:
             illnesses.append(IllnessSerializer(illness).data)
             for treatment in illness.illnesstreatment_set.all():
@@ -113,7 +115,7 @@ def patient_view(request, pk):
     if request.user.access < 1:
         return redirect("home")
     if request.user.id != int(pk):
-        return redirect(request.META.get("HTTP_REFERER", "patient-overview"))
+        return redirect("patient-profile", request.user.id)
     context = {"page": "Patient Profile"}
 
     if request.method == "POST":
@@ -247,3 +249,13 @@ def fetch_user_certificates(user, context):
         certificate_data.append(data.data)
 
     context.update({"certificate_data": certificate_data})
+
+
+def get_illness_notes(request, context, user):
+    notes = IllnessNote.objects.filter(patient=user)
+    notes_data = []
+    if notes:
+        for note in notes:
+            data = IllnessNoteSerializer(note)
+            notes_data.append(data.data)
+    context.update({"notes_data": notes_data})

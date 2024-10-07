@@ -5,10 +5,14 @@ import {
 } from '../utils.js'
 
 const illness_data = JSON.parse(document.getElementById('illness_data').textContent)
+const notes_data = JSON.parse(document.getElementById('notes_data').textContent)
 const treatment_data = JSON.parse(document.getElementById('treatment_data').textContent)
 const illness_category = JSON.parse(document.getElementById('illness_category').textContent)
 const certificate_data = JSON.parse(document.getElementById('certificate_data').textContent)
-console.log(certificate_data)
+
+
+console.log(notes_data)
+console.log(illness_data)
 /**MEDCERT */
 handle_onclick_request_medcert()
 
@@ -17,6 +21,92 @@ update_dates(formatDate)
 
 /** VISIT HISTROY */
 handle_onclick_show_more_illness()
+attach_view_btn_if_has_notes()
+handle_onclick_view_doctor_notes()
+
+
+
+// when user clicks the view doctor's notes
+function handle_onclick_view_doctor_notes() {
+    const btns = document.querySelectorAll('.js_view_notes')
+
+    if (btns.length == 0) {
+        return
+    }
+
+    for (const btn of btns) {
+        btn.addEventListener('click', () => {
+            const illness_id = parseInt(btn.getAttribute('illness-id'))
+
+            // Select notes body then reset it
+            const notes_body = document.querySelector('.js_view_notes_body')
+            notes_body.innerHTML = ''
+
+
+            for (const note of notes_data) {
+                if (note.attached_to == illness_id) {
+                    const sender = note.doctor_first_name != '' || note.doctor_first_name || note.doctor_last_name != '' || note.doctor_last_name ? `${note.doctor_first_name} ${note.doctor_last_name}` : `${note.doctor_email}`
+                    notes_body.innerHTML += `
+                        <div>
+                            <p>Message: ${note.notes}</p>
+                            <p>Sent By: ${sender}</p>
+                            <p>Sent on ${formatDate(note.timestamp)} </p>
+                        </div>
+                    `
+                }
+            }
+
+            // Select modal and close buttons
+            const modal = document.querySelector('.js_view_notes_modal')
+            const close_btns = document.querySelectorAll('.js_close_btn')
+
+            openModal(modal)
+
+            for (const close of close_btns) {
+                closeModal(modal, close)
+            }
+        })
+    }
+}
+
+
+// check if illnesses has notes, then attach button if true
+function attach_view_btn_if_has_notes() {
+    if (notes_data.length == 0) {
+        return
+    }
+
+    if (illness_data.length == 0) {
+        return
+    }
+
+    // query select all illness buttons div
+    const illness_btn_divs = document.querySelectorAll('.js_illness_buttons')
+
+    for (const div of illness_btn_divs) {
+
+        // Loop sa notes
+        for (const note of notes_data) {
+            // Get the illness id tapos compare sa current note.attached_to
+            const illness_id = parseInt(div.getAttribute('illness-id'))
+
+            if (illness_id == note.attached_to) {
+                // Create the button and attach to div
+                const view_note = document.createElement('button')
+                view_note.classList.add('js_view_notes')
+                view_note.setAttribute('illness-id', illness_id)
+                view_note.innerText = "View Doctor's Notes"
+
+                div.appendChild(view_note)
+                break
+            }
+        }
+    }
+
+    // // Attach the event listener
+    // handle_onclick_view_doctor_notes()
+
+}
 
 
 
@@ -61,8 +151,8 @@ function handle_onclick_show_more_illness() {
             }
 
 
-
-            const illness_space_element = btn.previousElementSibling
+            // Navigate to the parent div then select the previous element near the parent divs
+            const illness_space_element = btn.parentElement.previousElementSibling
             illness_space_element.innerHTML = `
                 <h4>Diagnosis : ${illness.diagnosis}
                 <h5> Treatments: </h5>

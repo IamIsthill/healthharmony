@@ -39,10 +39,10 @@ def home(request):
         icon = weather_info["icon"]
     except Exception as e:
         logger.error(f"Error in fetching weather data: {e}")
-        messages.error(request, f"Error in fetching weather data: {e}")
-        return render(
-            request, "landingpage.html", {"error": "Error in fetching weather data."}
+        messages.error(
+            request, "Please check your internet connection and reload page."
         )
+        return render(request, "landingpage.html", context)
 
     try:
         df, model, le_season, le_sickness, le_weather = load_data_and_model()
@@ -91,7 +91,9 @@ def home(request):
         }
     except Exception as e:
         logger.error(f"Error in loading data and model: {e}")
-        messages.error(request, f"Error in loading data and model: {e}")
+        messages.error(
+            request, "Please check your internet connection and reload page."
+        )
 
     return render(request, "landingpage.html", context)
 

@@ -98,7 +98,11 @@
                                         </h2>
                                         {% if illness.treatment %}
                                             <div class="hide js_details_space"></div>
-                                            <button class="js_show_illness_details" data-illness-id="{{ illness.id }}">Show More</button>
+                                            <div class="js_illness_buttons" illness-id="{{ illness.id }}">
+                                                <button class="js_show_illness_details" data-illness-id="{{ illness.id }}">Show More</button>
+                                            </div>
+                                        {% else %}
+                                            <div class="js_illness_buttons" illness-id="{{ illness.id }}"></div>
                                         {% endif %}
                                     </div>
                                 </li>
@@ -154,9 +158,16 @@
             </form>
         </div>
     </div>
+    <div class="modal js_view_notes_modal">
+        <div class="modal-content">
+            <span class="material-symbols-outlined close js_close_btn">cancel</span>
+            <div class="js_view_notes_body"></div>
+        </div>
+    </div>
 {% endblock %}
 {% block script %}
     {{ illnesses|json_script:'illness_data' }}
+    {{ notes_data|json_script:'notes_data' }}
     {{ treatments|json_script:'treatment_data' }}
     {{ illness_category|json_script:'illness_category' }}
     {{ certificate_data|json_script:'certificate_data' }}

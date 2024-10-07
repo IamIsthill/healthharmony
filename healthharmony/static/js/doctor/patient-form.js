@@ -52,14 +52,30 @@ export function get_diagnosis_element(diagnosis) {
     element.innerText = diagnosis
     return element
 }
-export function get_category_element(category) {
+export function get_category_element(category, illness_categories) {
     category = category ? category : ''
-    const element = document.createElement('input')
+    const element = document.createElement('select')
     element.setAttribute('name', 'category')
     element.setAttribute('value', category)
     element.setAttribute('required', '')
     element.setAttribute('type', 'text')
     element.setAttribute('list', 'js_categories_list')
+    for (const catego of illness_categories) {
+        if (category == catego.category) {
+
+            element.innerHTML += `
+            <option value="${catego.category}" selected>${catego.category}</option>
+        `
+        } else {
+            element.innerHTML += `
+            <option value="${catego.category}">${catego.category}</option>
+        `
+
+        }
+        element.innerHTML += `
+            <option value="${catego.category}">${catego.category}</option>
+        `
+    }
     return element
 }
 export function get_issue_element(issue) {
