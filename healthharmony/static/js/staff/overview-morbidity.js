@@ -101,9 +101,14 @@ export function createMorbidityBarCanvas(categories) {
     try {
         for (const category of categories) {
             html += `
-                <div class>
+                <div>
                     <div class="barsTop">
+                        <div class="info-bar">
                         <h5>${category.name}</h5>
+                        <span class="material-symbols-outlined">
+                            info
+                            </span>
+                        </div>
                         <h2>${category.count}</h2>
                     </div>
                     <div class="bars">

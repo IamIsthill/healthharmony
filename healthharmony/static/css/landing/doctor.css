@@ -188,6 +188,25 @@
  }
 
  /* xs */
- @media (max-width: 475px) {
+ @media (max-width: 400px) {
+
+  .mySwiper{
+    width: 300px;
+  }
+  .card{
+    margin-left: 0.5rem;
+    max-width:250px;
+  }
+  section .card .image{
+    height: 60px;
+    width: 60px;
+  }
+  .name-profession .name{
+    font-size: var(--size-sm);
+    font-weight: 600;
+  }
+  .js_time{
+    font-size: var(--size-sm);
+  }
 
  }

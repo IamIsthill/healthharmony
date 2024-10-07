@@ -84,6 +84,16 @@
     justify-content: space-between;
     align-items: center;
 }
+.info-bar{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+}
+.info-bar span{
+    font-size: var(--size-lg);
+    cursor: pointer;
+}
 .bar-data{
     display: flex;
     flex-direction: column;

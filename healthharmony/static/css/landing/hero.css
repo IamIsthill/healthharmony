@@ -152,3 +152,22 @@
         padding: 0.5rem 1rem;
     }
  }
+ @media (max-width: 400px) {
+    .hero-content h1{
+        font-size: var(--size-lg);
+        width: 170px;
+    }
+    .hero img{
+        width: 130px;
+    }
+    .hero-content p{
+        font-size: var(--size-xxs);
+        width: 200px;
+        line-height: 1.8;
+    }
+    .hero_button{
+        font-size: var(--size-xs);
+        padding: 0.5rem 0.5rem;
+    }
+
+ }
