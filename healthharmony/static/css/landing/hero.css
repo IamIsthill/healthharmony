@@ -152,6 +152,19 @@
         padding: 0.5rem 1rem;
     }
  }
+ @media (max-width: 430px){
+    .hero-content h1{
+        font-size: var(--size-xl);
+        width: 180px;
+    }
+    .hero img{
+        width: 150px;
+    }
+    .hero-content p{
+        width: 230px;
+    }
+    
+ }
  @media (max-width: 400px) {
     .hero-content h1{
         font-size: var(--size-lg);
