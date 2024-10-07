@@ -2,7 +2,6 @@
 
  .bedSpace{  /* THE WHOLE SECTION */
     max-width: 1200px;
-    margin: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -528,6 +527,20 @@
  }
 
  /* xs */
- @media (max-width: 475px) {
-
+ @media (max-width: 400px) {
+    .beds{  /* 4 BEDS AT WHOLE */
+        gap: 1rem;
+        padding: 0.5rem 0.2rem;
+    }
+    .bed-container{     /* SINGLE BEDS */
+        gap: 0.3rem;
+        width: 90px;
+        padding: 1rem 2.5rem;
+    }
+    .bed-container img{
+        max-width: 40px;
+    }
+    .bed-container span{
+        font-size: var(--size-xs);
+    }
  }
