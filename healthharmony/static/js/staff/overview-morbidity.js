@@ -103,7 +103,12 @@ export function createMorbidityBarCanvas(categories) {
             html += `
                 <div class>
                     <div class="barsTop">
+                        <div>
                         <h5>${category.name}</h5>
+                        <span class="material-symbols-outlined">
+                            info
+                            </span>
+                        </div>
                         <h2>${category.count}</h2>
                     </div>
                     <div class="bars">
