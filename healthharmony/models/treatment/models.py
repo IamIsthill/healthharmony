@@ -21,6 +21,7 @@ class DoctorDetail(models.Model):
 
 class Category(models.Model):
     category = models.TextField(max_length=50, null=True, blank=True)
+    description = models.TextField(max_length=1000, null=True, blank=True)
     added = models.DateTimeField(auto_now=True)
     updated = models.DateTimeField(auto_now_add=True)
 

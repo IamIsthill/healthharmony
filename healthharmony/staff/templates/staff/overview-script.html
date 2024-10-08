@@ -3,4 +3,5 @@
 {{ department_names|json_script:'departments' }}
 {{ sorted_category|json_script:'categoryS' }}
 {{ sorted_department|json_script:'sorted-department' }}
+{{ category_data|json_script:'category_data' }}
 <script src="{% static 'js/dist/staff_overview.js' %}" type="module"></script>

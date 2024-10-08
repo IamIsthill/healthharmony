@@ -25,7 +25,12 @@ from django.contrib.auth.decorators import login_required
 from healthharmony.models.bed.models import BedStat, Ambulansya, WheelChair
 from healthharmony.users.models import User, Department
 from healthharmony.administrator.models import Log, DataChangeLog
-from healthharmony.models.treatment.models import Illness, IllnessTreatment, Certificate
+from healthharmony.models.treatment.models import (
+    Illness,
+    IllnessTreatment,
+    Certificate,
+    Category,
+)
 from healthharmony.models.inventory.models import InventoryDetail
 from healthharmony.base.functions import check_models
 from healthharmony.staff.functions import (
@@ -58,7 +63,7 @@ from healthharmony.staff.forms import (
     CreateUpdateAmbulance,
     CreateWheelChairQuantity,
 )
-from healthharmony.staff.serializer import IllnessSerializer
+from healthharmony.staff.serializer import IllnessSerializer, CategorySerializer
 from healthharmony.app.settings import env
 
 logger = logging.getLogger(__name__)
@@ -118,6 +123,7 @@ def overview(request):
                 tp.submit(get_sorted_department, request): "sorted_department",
                 tp.submit(get_departments, request): "department_names",
                 tp.submit(get_ambulances, request): "get_ambulances",
+                tp.submit(get_category_data, request): "get_category_data",
             }
             results = {}
             for future in as_completed(futures):
@@ -139,6 +145,7 @@ def overview(request):
         request, sorted_department = results["sorted_department"]
         request, department_names = results["department_names"]
         request, ambulances = results["get_ambulances"]
+        request, category_data = results["get_category_data"]
 
         # Calculate percentages
         patient_percent = (
@@ -174,6 +181,7 @@ def overview(request):
                 "department_names": department_names,
                 "beds": beds,
                 "ambulances": ambulances,
+                "category_data": category_data,
             }
         )
     except Exception as e:
@@ -741,3 +749,17 @@ def get_ambulances(request):
         logger.warning(f"Failed to fetch the ambulances: {str(e)}")
         messages.error(request, "Failed to fetch necessary data. Please reload page.")
     return request, ambulances
+
+
+def get_category_data(request):
+    category_data = []
+    try:
+        categories = Category.objects.all()
+        if categories:
+            for category in categories:
+                data = CategorySerializer(category)
+                category_data.append(data.data)
+    except Exception as e:
+        messages.error(request, "Failed to fetch necessary data. Please reload page.")
+        logger.warning(f"Failed to fetch the category data: {str(e)}")
+    return request, category_data
