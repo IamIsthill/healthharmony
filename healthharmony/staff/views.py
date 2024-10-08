@@ -124,6 +124,7 @@ def overview(request):
                 tp.submit(get_departments, request): "department_names",
                 tp.submit(get_ambulances, request): "get_ambulances",
                 tp.submit(get_category_data, request): "get_category_data",
+                tp.submit(get_wheelchairs, request): "get_wheelchairs",
             }
             results = {}
             for future in as_completed(futures):
@@ -146,6 +147,7 @@ def overview(request):
         request, department_names = results["department_names"]
         request, ambulances = results["get_ambulances"]
         request, category_data = results["get_category_data"]
+        request, wheelchair_data = results["get_wheelchairs"]
 
         # Calculate percentages
         patient_percent = (
@@ -182,6 +184,7 @@ def overview(request):
                 "beds": beds,
                 "ambulances": ambulances,
                 "category_data": category_data,
+                "wheelchair_data": wheelchair_data,
             }
         )
     except Exception as e:
@@ -763,3 +766,23 @@ def get_category_data(request):
         messages.error(request, "Failed to fetch necessary data. Please reload page.")
         logger.warning(f"Failed to fetch the category data: {str(e)}")
     return request, category_data
+
+
+def get_wheelchairs(request):
+    wheelchair_data = {}
+    try:
+        avail_wheelchairs = WheelChair.objects.filter(is_avail=True)[:1]
+        unavail_wheelchairs = WheelChair.objects.filter(is_avail=False)[:1]
+        for wheel in avail_wheelchairs:
+            wheelchair_data.update(
+                {
+                    "avail": wheel.quantity or 0,
+                }
+            )
+        for wheel in unavail_wheelchairs:
+            wheelchair_data.update({"unavail": wheel.quantity or 0})
+    except Exception as e:
+        logger.warning(f"Failed to fetch wheelchair data: {str(e)}")
+        messages.error(request, "Failed to fetch necessary data. Please reload page.")
+
+    return request, wheelchair_data

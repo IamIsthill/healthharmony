@@ -26,3 +26,6 @@ class WheelChair(models.Model):
     def __str__(self):
         status = "Available" if self.is_avail else "Not Available"
         return f"Wheelchairs - {self.quantity} {status}"
+
+    class Meta:
+        ordering = ["-updated"]
