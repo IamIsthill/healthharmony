@@ -91,7 +91,7 @@ class UpdateTreatmentForIllness(forms.Form):
             return
 
         # remove old treatments
-        delete_old_treatments(request, illness)
+        # delete_old_treatments(request, illness)
 
         # Join the two list then update the db heheh
         for item_name, item_quantity in zip(inventory_items, inventory_quantities):
@@ -118,7 +118,8 @@ class UpdateTreatmentForIllness(forms.Form):
                     if total_quantity["total_quantity"] is not None
                     else 0
                 )
-                if total_quantity < int(item_quantity):
+
+                if int(total_quantity) < int(item_quantity):
                     messages.error(
                         request, "Inventory stock is lesser than the inputted quantity."
                     )
@@ -153,15 +154,9 @@ class UpdateTreatmentForIllness(forms.Form):
 
             # Now update your inventory table
             if total_quantity != item_quantity:
-                item_quantity = item_quantity if item_quantity else 0
-                diff_quantity = 0
+                item_quantity = int(item_quantity) if item_quantity else 0
 
-                if total_quantity > int(item_quantity):
-                    # diff_quantity = -(total_quantity - quantity)
-                    diff_quantity = -(total_quantity - int(item_quantity))
-                else:
-                    diff_quantity = int(item_quantity) - total_quantity
-                update_inventory(inventory_instance, diff_quantity, request)
+                update_inventory(inventory_instance, -(item_quantity), request)
 
         # If everything is okay, log the event and add message
         logger.info(
