@@ -59,7 +59,6 @@
     align-items: center;
     gap: 0.5rem;
     /* border: 1px solid red; */
-
 }
 .temp-part img{
     width: 70px;
@@ -70,7 +69,7 @@
     flex-direction: column;
 }
 .temp-heatwave h1{
-    font-size:xxx-large;
+    font-size: var(--size-5xl);
     font-weight: 400;
     margin-top: 10px;
     line-height: 0.7;
@@ -87,8 +86,13 @@
 }
 .location-part{ /* MIDDLE PART */
     display: flex;
+    align-items: center;
+    justify-content: start;
     gap: 1rem;
-    margin-left:10px;
+    width: 100%;
+}
+.location-part, .sickness-part{
+    margin-left: 1.5rem;
 }
 .location{
     margin-top: 12px;
@@ -100,7 +104,8 @@
 .sickness-part{ /* BOTTOM PART */
     display: flex;
     align-items: start;
-    margin-left:7px;
+    justify-content: start;
+    width: 100%;
 }
 .sickness-part img{
     margin-top: 5px;
@@ -125,7 +130,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-   justify-content: center;
+    justify-content: center;
+    text-align: center;
     width: 400px;
     height: 400px;
     background:rgb(240, 240, 240);
@@ -194,6 +200,10 @@
     border-radius: 1rem;
     margin-bottom: 1rem;
 }
+.med-cert-cont h3{
+    font-size: var(--size-lg);
+    font-weight: 500;
+}
 .med-cert-cont button{
     background: black;
     color: white;
@@ -220,7 +230,7 @@
         border: 1px solid red;
     }
     .weather-container{ /* WHOLE CONTAINER */
-        width: 90%;
+        width: 95%;
         height: 350px;
     }
     .beds2{  /* 4 BEDS AT WHOLE */
@@ -228,10 +238,10 @@
         height: 380px;
     }
     .med-cert-cont{
-        width: 90%;
+        width: 95%;
     }
     .beds2{  /* 4 BEDS AT WHOLE */
-        width: 90%;
+        width: 95%;
         height: 300px;
     }
     .beds2 img{
@@ -253,17 +263,19 @@
 
  /* xl */
  @media (max-width: 1280px) {
-   
+    .temp-heatwave h1{
+        font-size:var(--size-4xl);
+    }
+    .med-cert-cont h1{
+        font-size: var(--size-2xl);
+    }
  }
 
  @media (max-width: 1149px){
     .weather-container{ /* WHOLE CONTAINER */
-        width: 300px;
-        height: 320px;
+        width: 90%;
+        height: 325 px;
         padding: 1rem 2rem;
-    }
-    .temp-heatwave h1{
-        font-size:var(--size-4xl);
     }
 
     .location{
@@ -272,12 +284,12 @@
 
 
     .beds2{  /* 4 BEDS AT WHOLE */
-        width: 320px;
-        height: 360px;
+        width: 90%;
+        height: 300px;
     }
     .beds2 img{
         margin-left: 25px;
-        width: 260px;
+        width: 200px;
         height: auto;
         margin-bottom: 10px;
     }
@@ -289,56 +301,78 @@
         font-size: var(--size-base);
     }
     .med-cert-cont{
-        width: 320px;
+        width: 90%;
     }
  }
  @media (max-width: 1090px){
-  
     .weather-container{ /* WHOLE CONTAINER */
-        width: 280px;   
+        width: 90%;
         height: 320px;
+        padding: 1rem 2rem;
     }
-    .weather-container h1{
-        font-size: var(--size-lg);
+    .heatwave span, .location span{
+        font-size: var(--size-sm);
+    }
+    
+    .no-avail{
+        font-size: var(--size-base);
+    }
+    /* med part */
+    
+ }
+
+
+ /* lg */
+ @media (max-width: 987px) {
+    .weather-header h1, .med-cert-cont h1{
+        font-size: var(--size-xl);
+    }
+    .weather-container{
+        padding: 1rem 1rem;
+        height: 300px;
+        gap: 0.8rem;
+    }
+    .temp-part img{
+        width: 50px;
     }
     .temp-heatwave h1{
-        font-size:var(--size-4xl);
+        font-size: var(--size-3xl);
+        margin-top: 5px;
     }
     .heatwave span{
-        font-size: var(--size-sm);
         margin-left: 3px;
-        font-weight: 500;
     }
-    .location{
-        margin-top: 0px;
-    }
-
-
-    .beds2{  /* 4 BEDS AT WHOLE */
-        width: 280px;
-        height: 330px;
-    }
-    .beds2 img{
-        margin-left: 25px;
-        width: 230px;
-        height: auto;
-        margin-bottom: 10px;
-    }
-    .beds2 h1{
-        font-size: var(--size-xl);
-        margin-bottom: 4px;
-    }
-    .no-avail{
+    .sickness ul{
         font-size: var(--size-sm);
     }
     .med-cert-cont{
-        width: 280px;
+        padding: 0.5rem 1rem;
+    }
+    .med-cert-cont h3{
+        font-size: var(--size-base);
+    }
+    .med-cert-cont button{
+        font-size: var(--size-sm);
     }
 
- }
+    /* bed sec */
 
- /* lg */
- @media (max-width: 1024px) {
+    .beds2{  /* 4 BEDS AT WHOLE */
+        height: 260px;
+    }
+    .beds2 img{
+        margin-left: 25px;
+        width: 160px;
+        height: auto;
+        margin-bottom: 10px; 
+    }
+    .beds2 h1{
+        font-size: var(--size-base);
+        margin-bottom: 4px;
+    }
+    .beds2 p{
+        font-size: var(--size-);
+    }
 
  }
 

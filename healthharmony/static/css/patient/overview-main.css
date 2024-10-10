@@ -126,10 +126,10 @@ main{
 
 }
 
- /* xl */
+ /* xl  SCREEN POINT */
  @media (max-width: 1280px) {
     .patient-container{
-        grid-template-columns: 13rem auto 25rem;
+        grid-template-columns: 13rem auto 22rem;
     }
     main{
         /* border: 1px solid black; */
@@ -156,69 +156,49 @@ main{
     }
  }
  @media (max-width: 1149px){
-    main{
-        /* border: 1px solid orange; */
-    }
     .top-card{
-        height: 7rem;
-        width: 19rem;
-    }
-    .top-card h5{
-        font-size: var(--size-base);
-    }
-    .top-card p{
-        font-size: var(--size-2xl);
-        margin-top: 1rem;
-    }
-    .doc{ /* doctor card */
-        width: 19rem;
-        height: 12rem;
+        width: 16rem;
     }
  }
- @media (max-width: 1090px){
-    .patient-container{
-        grid-template-columns: 11.5rem auto 19rem;
-    }
-
+ @media (max-width: 1111px){
     .top-card{
-        height: 7rem;
-        width: 17.5rem;
-    }
-    .top-card h5{
-        font-size: var(--size-base);
-    }
-    .top-card p{
-        font-size: var(--size-2xl);
-        margin-top: 1rem;
-    }
-    .doc{ /* doctor card */
-        width: 17.5rem;
-        height: 12rem;
+        width: 15rem;
     }
 
  }
 
- /* lg */
- @media (max-width: 1024px) {
+ /* lg  SCREEN POINT  */
+ @media (max-width: 1079px) { 
     main{
         border: 1px solid red;
     }
     .top-card{
-        height: 7rem;
-        width: 16rem;
-    }
-    .top-card h5{
-        font-size: var(--size-base);
-    }
-    .top-card p{
-        font-size: var(--size-2xl);
-        margin-top: 1rem;
-    }
-    .doc{ /* doctor card */
-        width: 16rem;
-        height: 12rem;
+        width: 14rem;
+        height: 6rem;
     }
 
+ }
+ @media (max-width: 1079px) { 
+    .patient-container{
+        grid-template-columns: 13rem auto 20rem;
+    }
+ }
+ @media (max-width: 1010px) { 
+    .top-card{
+        width: 13rem;
+    }
+    .top-card h5{
+        font-size: var(--size-sm);
+    }
+    .top-card p{
+        font-size: var(--size-xl);
+        margin-top: 1rem;
+    }
+ }
+ @media (max-width: 987px) {
+    .patient-container{
+        grid-template-columns: 13rem auto 18rem;
+    }
  }
 
  /* md */
