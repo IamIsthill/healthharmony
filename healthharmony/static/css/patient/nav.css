@@ -212,7 +212,10 @@ aside{
 
 /* xl */
 @media (max-width: 1280px) {
-
+    .nav-top h2{
+        margin-left: 10rem;
+        font-size: var(--size-2xl);
+    }
 }
 
 /* lg */
@@ -225,10 +228,7 @@ aside{
         width: 6rem;
         margin-left: 3rem;
     }
-    .nav-top h2{
-        margin-left: 11rem;
-        font-size: var(--size-2xl);
-    }
+
 }
 
 /* md */

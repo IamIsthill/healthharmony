@@ -207,7 +207,9 @@ aside{
 
 /* xl */
 @media (max-width: 1280px) {
-
+    .nav-top h2{
+        margin-left: 12rem;
+    }
 }
 
 /* lg */

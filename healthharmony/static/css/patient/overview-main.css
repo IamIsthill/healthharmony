@@ -129,7 +129,7 @@ main{
  /* xl  SCREEN POINT */
  @media (max-width: 1280px) {
     .patient-container{
-        grid-template-columns: 13rem auto 22rem;
+        grid-template-columns: 11rem auto 22rem;
     }
     main{
         /* border: 1px solid black; */
@@ -178,11 +178,7 @@ main{
     }
 
  }
- @media (max-width: 1079px) { 
-    .patient-container{
-        grid-template-columns: 13rem auto 20rem;
-    }
- }
+
  @media (max-width: 1010px) { 
     .top-card{
         width: 13rem;
@@ -196,9 +192,7 @@ main{
     }
  }
  @media (max-width: 987px) {
-    .patient-container{
-        grid-template-columns: 13rem auto 18rem;
-    }
+
  }
 
  /* md */
