@@ -72,9 +72,6 @@ export function get_category_element(category, illness_categories) {
         `
 
         }
-        element.innerHTML += `
-            <option value="${catego.category}">${catego.category}</option>
-        `
     }
     return element
 }

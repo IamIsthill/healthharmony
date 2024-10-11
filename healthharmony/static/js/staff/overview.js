@@ -19,6 +19,7 @@ import {
 const categoryData = JSON.parse(document.getElementById('categoryS').textContent)
 const departmentData = JSON.parse(document.getElementById('sorted-department').textContent)
 const departments = JSON.parse(document.getElementById('departments').textContent)
+const category_data = JSON.parse(document.getElementById('category_data').textContent)
 
 main()
 
@@ -26,6 +27,10 @@ function main() {
     /**
      * TEST AREA
      */
+
+    console.log(category_data)
+
+
 
 
     /**
@@ -53,10 +58,77 @@ function main() {
     listenToCategoryBarFilters()
     createMorbidityBarCanvas(getBarCounts(categoryData['yearly']))
     selectEachMorbidityBarThenCreateBars(getBarCounts(categoryData['yearly']), createBars)
+    handle_hover_illness_info()
 
     listenToDepartmentBarFilters()
     createDepartmentBarCanvas(getBarCounts(departmentData['yearly']))
     selectEachDepartmentBarThenCreateBars(getBarCounts(departmentData['yearly']), createBars)
+}
+
+// when user hovers on the info icon on the morbidity bars
+function handle_hover_illness_info() {
+    const icons = document.querySelectorAll('.js_view_categories')
+
+    // Exit early if there are no icons
+    if (icons.length == 0) {
+        return
+    }
+
+
+
+    for (const icon of icons) {
+        icon.addEventListener('mouseenter', (event) => {
+            const category_id = parseInt(icon.getAttribute('category-id'))
+
+            const category = get_category(category_id)
+
+            // Get cursor location
+            const x = event.clientX,
+                y = event.clientY
+
+            //Create the hover thingy
+            const hover_div = document.createElement('div')
+            hover_div.classList.add('js_hover_illness_info')
+            hover_div.innerHTML = `
+                <p>${category.category}</p>
+                <p>${category.description}</p>
+            `
+
+            // Set design then append to the html
+            hover_div.style = `
+                position: absolute;
+                top: ${y + 5}px;
+                left: ${x + 5}px;
+                zIndex: 100;
+                background: white;
+            `
+            document.body.append(hover_div)
+
+            // Remove all hovers when mouse leaves
+            icon.addEventListener('mouseleave', () => {
+                const hovers = document.querySelectorAll('.js_hover_illness_info')
+
+                for (const hover of hovers) {
+                    hover.remove()
+                }
+            })
+        })
+    }
+}
+
+function get_category(id) {
+    if (category_data.length == 0) {
+        return null
+    }
+
+    for (const category of category_data) {
+        if (parseInt(id) == category.id) {
+            return category
+        }
+    }
+
+    return null
+
 }
 
 //Staff clicks checks wheelchairs
@@ -91,21 +163,21 @@ function prevent_invalid_number_wheelchair_field() {
     const wheelchairInputs = document.querySelectorAll('#available_wheelchairs, #unavailable_wheelchairs');
 
     wheelchairInputs.forEach(input => {
-      // Prevent 'e', '-', and other invalid characters from being typed in the field
-      input.addEventListener('keydown', function(e) {
-        if (['e', 'E', '-'].includes(e.key)) {
-          e.preventDefault();
-        }
-      });
+        // Prevent 'e', '-', and other invalid characters from being typed in the field
+        input.addEventListener('keydown', function(e) {
+            if (['e', 'E', '-'].includes(e.key)) {
+                e.preventDefault();
+            }
+        });
 
-      // Prevent pasting invalid characters
-      input.addEventListener('input', function() {
-        this.value = this.value.replace(/[^0-9]/g, '');
+        // Prevent pasting invalid characters
+        input.addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
 
-        if (parseInt(this.value) > parseInt(this.getAttribute('max'))) {
-            this.value = parseInt(this.getAttribute('max'))
-        }
-      });
+            if (parseInt(this.value) > parseInt(this.getAttribute('max'))) {
+                this.value = parseInt(this.getAttribute('max'))
+            }
+        });
     });
 }
 

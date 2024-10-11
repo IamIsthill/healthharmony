@@ -15,6 +15,7 @@
     <body>
         {% block message %}{% endblock %}
         {% block main %}{% endblock %}
+        {{ request.user.profile.url|json_script:'pathname' }}
         <script src="{% static 'js/dist/main.js' %}" type="module"></script>
         <script src="{% static 'js/general/nav.js' %}" type="module"></script>
         {% block script %}{% endblock %}

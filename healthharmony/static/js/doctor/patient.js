@@ -40,7 +40,6 @@ main()
 
 async function main() {
     /** MAKE HTML PRESENTABLE AND DATA PREPATION*/
-    console.log(illness_categories)
     update_existing_dates_to_readable()
     append_category_list(illness_categories)
 

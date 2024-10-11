@@ -122,7 +122,7 @@
                    id="available_wheelchairs"
                    name="avail"
                    placeholder="Enter number of available wheelchairs"
-                   value="0"
+                   value="{{ wheelchair_data.avail|default:'0' }}"
                    max="1000"
                    required />
             <label for="unavailable_wheelchairs">Unavailable Wheelchairs</label>
@@ -130,7 +130,7 @@
                    id="unavailable_wheelchairs"
                    name="unavail"
                    placeholder="Enter number of unavailable wheelchairs"
-                   value="0"
+                   value="{{ wheelchair_data.unavail|default:'0' }}"
                    max="1000"
                    required />
             <div class="modal-buttons">
