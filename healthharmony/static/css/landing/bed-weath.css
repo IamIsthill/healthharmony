@@ -61,7 +61,6 @@
     box-shadow: var(--box-shadow2);
     border-radius: 20px;
     margin-top: 8px;
-    margin-right: 40px;
 }
 .beds2 img{
     margin-left: 25px;
@@ -447,26 +446,27 @@
  /* sm */
  @media (max-width: 640px) {
     .bed-ambu{
-        gap: 1rem;
+        gap: 0.5rem;
     }
     .beds{  /* 4 BEDS AT WHOLE */
         gap: 1rem;
         padding: 0.5rem 0.3rem;
     }
     .beds2{  /* 4 BEDS AT WHOLE */
-        width: 220px;
-        height: 220px;
+        width: 130px;
+        height: 150px;
     }
     .beds2 img{
-        width: 130px;
+        width: 80px;
 
     }
     .beds2 h1{
-        font-size: var(--size-base);
+        font-size: var(--size-sm);
         margin-right: 4px;
     }
     .beds2 p{
         font-size: var(--size-xs);
+        display: none;
     }
     .bed-container{     /* SINGLE BEDS */
         gap: 0.7rem;
@@ -526,8 +526,23 @@
     }
  }
 
+ @media (max-width: 430px){
+    .bed-cont, .ambu-cont{
+        align-items: center;
+    }
+    .bed-ambu{
+        gap: 0.5rem;
+    }
+    .ambulance span{
+        text-align: center;
+    }
+ }
+
  /* xs */
  @media (max-width: 400px) {
+    .bed-header p{
+        width: 330px;
+    }
     .beds{  /* 4 BEDS AT WHOLE */
         gap: 1rem;
         padding: 0.5rem 0.2rem;
@@ -542,5 +557,20 @@
     }
     .bed-container span{
         font-size: var(--size-xs);
+    }
+    .beds2{  /* 4 BEDS AT WHOLE */
+        width: 100px;
+        height: 140px;
+    }
+    .beds2 img{
+        width: 50px;
+
+    }
+    .beds2 h1{
+        font-size: var(--size-xs);
+        margin-right: 4px;
+    }
+    .beds2 p{
+        font-size: var(--size-xxs);
     }
  }
