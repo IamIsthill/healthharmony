@@ -105,7 +105,7 @@ export function createMorbidityBarCanvas(categories) {
                     <div class="barsTop">
                         <div class="info-bar">
                         <h5>${category.name}</h5>
-                        <span class="material-symbols-outlined">
+                        <span class="material-symbols-outlined js_view_categories" category-id="${category.id}">
                             info
                             </span>
                         </div>
@@ -117,7 +117,7 @@ export function createMorbidityBarCanvas(categories) {
                 </div>
             `
         }
-    } catch(error) {
+    } catch (error) {
         console.error(error)
     }
 
@@ -126,7 +126,7 @@ export function createMorbidityBarCanvas(categories) {
 
 export function selectEachMorbidityBarThenCreateBars(categories, createBars) {
     let maxCount = 0
-    try{
+    try {
         for (const category of categories) {
             maxCount += category.count
         }
@@ -134,7 +134,7 @@ export function selectEachMorbidityBarThenCreateBars(categories, createBars) {
             const morbidityBar = document.getElementById(`category-bar-${category.id}`)
             createBars(morbidityBar, maxCount, category.count)
         }
-    } catch(error) {
+    } catch (error) {
         console.error(error)
     }
 
