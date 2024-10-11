@@ -1,3 +1,5 @@
+const profile_path = JSON.parse(document.getElementById('pathname').textContent)
+
 /** EDIT PROFILE */
 handle_onclick_edit_profile()
 
@@ -58,6 +60,8 @@ function handle_onclick_edit_profile() {
             // Display previosly removed elements
             patient_info_element.setAttribute('style', '')
             profile_actions_element.setAttribute('style', '')
+
+            document.querySelector('.dp-pic').src = `${profile_path}`
 
             // Hide form
             form.setAttribute('style', 'display:none')
