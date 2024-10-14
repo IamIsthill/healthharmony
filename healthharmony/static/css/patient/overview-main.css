@@ -112,9 +112,7 @@ main{
  }
 
 @media (max-width: 1380px) {
-    main{
-        border: 1px solid salmon ;
-    }
+
     .patient-container{
         grid-template-columns: 12rem auto 24rem;
     }
@@ -139,9 +137,7 @@ main{
     .patient-container{
         /* grid-template-columns: 13rem auto 20rem; */
     }
-    main{
-        border: 1px solid skyblue;
-    }
+
     .top-card h5{
         font-size: var(--size-base);
     }
@@ -169,9 +165,7 @@ main{
 
  /* lg  SCREEN POINT  */
  @media (max-width: 1079px) { 
-    main{
-        border: 1px solid red;
-    }
+
     .top-card{
         width: 14rem;
         height: 6rem;
@@ -192,13 +186,33 @@ main{
     }
  }
  @media (max-width: 987px) {
-
+    .top-card{
+        width: 12rem;
+    }
  }
-
+ @media (max-width: 950px) {
+    .patient-container{
+        grid-template-columns: 10rem auto 19rem;
+    }
+ }
+ @media (max-width: 870px) {
+    .patient-container{
+        grid-template-columns: 10rem auto 16rem;
+    }
+ }
+ @media (max-width: 830px) {
+    .top-card{
+        width: 10rem;
+    }
+ }
  /* md */
  @media (max-width: 768px) { /* IPAD */
-    main{
-        border: 1px solid black;
+
+    .top-card{
+        width: 12rem;
+    }
+    .patient-container{
+        grid-template-columns:  auto 18rem;
     }
  }
 

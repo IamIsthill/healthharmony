@@ -118,9 +118,15 @@
 .bed-monitor h1{
     font-size: var(--size-lg);
 }
+.bed-monitor{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .beds{  /* 4 BEDS AT WHOLE */
     display: grid;
     grid-template-columns: repeat(1, 1fr);
+    width: 60%;
     max-height: 24rem;
     gap: 1.4rem;
     padding: 1rem 1rem;
@@ -171,22 +177,7 @@
 .bed-container span{
     font-size: medium;
 }
-.bed-header{
-    display: flex;
-    flex-direction: column;
-    align-items: end;
-    max-width: 350px;
-}
-.bed-header h1{
-    font-weight: bold;
-    background: linear-gradient(to right, var(--Yellow), #bd890f);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-.bed-header p{
-    max-width: 300px;
-    text-align: right;
-}
+
 
 /* BED SPACE */
 /* BED SECTION */
@@ -199,7 +190,6 @@
     width: 400px;
     padding: 1rem 1rem;
     border-radius: 1rem;
-    margin-bottom: 1rem;
 }
 .med-cert-cont h3{
     font-size: var(--size-lg);
@@ -227,9 +217,6 @@
  }
 
 @media (max-width: 1380px) {
-    .patient-right-part{
-        border: 1px solid red;
-    }
     .weather-container{ /* WHOLE CONTAINER */
         width: 95%;
         height: 350px;
@@ -310,6 +297,7 @@
         width: 90%;
         height: 320px;
         padding: 1rem 2rem;
+        gap: 0.8rem;
     }
     .heatwave span, .location span{
         font-size: var(--size-sm);
@@ -319,7 +307,7 @@
         font-size: var(--size-base);
     }
     /* med part */
-    
+
  }
 
  /* lg */
@@ -328,7 +316,6 @@
         font-size: var(--size-xl);
     }
     .weather-container{
-        border: 1px solid red;
         padding: 1rem 1rem;
         padding-left: 2rem;
         height: 300px;
@@ -376,6 +363,41 @@
         font-size: var(--size-);
     }
 
+ }
+ @media (max-width: 950px) {
+    .beds{  /* 4 BEDS AT WHOLE */
+        width: 60%;
+        max-height: 24rem;
+        gap: 1.4rem;
+        padding: 1rem 1rem;
+    }
+    .bed-container{     /* SINGLE BEDS */
+        gap: 0.7rem;
+        width: 130px;
+        padding: 1.2rem 2.5rem;
+    }
+    .bed-container img{
+        max-width: 60px;
+    }
+    .bed-container span{
+        font-size: var(--size-sm);
+    }
+ }
+ @media (max-width: 870px) {
+    .weather-container{
+        padding-left: 0.5rem;
+        height: 280px;
+        gap: 0.6rem;
+    }
+    .location h3{
+        font-size: var(--size-base);
+    }
+    .weather-header h1, .med-cert-cont h1{
+        font-size: var(--size-lg);
+    }
+    .weather-header h1{
+        margin-left: 0.5rem;
+    }
  }
 
  /* md */

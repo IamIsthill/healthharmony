@@ -195,4 +195,26 @@
     {{ request.user.email|json_script:'user_email' }}
     <script src="{% static 'chart.js/dist/chart.umd.js' %}"></script>
     <script src="{% static 'js/dist/patient_overview.js' %}" type="module"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const toggleButton = document.querySelector(".header_hamburger"); // Assuming the logo is used as the toggle button
+            const sidebar = document.querySelector(".sidebar-container");
+    
+            // Toggle sidebar visibility when the toggle button is clicked
+            toggleButton.addEventListener("click", function() {
+                if (sidebar.classList.contains("open")) {
+                    sidebar.classList.remove("open"); // Hide the sidebar
+                } else {
+                    sidebar.classList.add("open"); // Show the sidebar
+                }
+            });
+    
+            // Optional: Close sidebar when clicking outside
+            document.addEventListener("click", function(event) {
+                if (!sidebar.contains(event.target) && !toggleButton.contains(event.target)) {
+                    sidebar.classList.remove("open"); // Hide the sidebar if clicked outside
+                }
+            });
+        });
+    </script>
 {% endblock %}

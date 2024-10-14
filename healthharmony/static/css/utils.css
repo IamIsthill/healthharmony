@@ -428,12 +428,18 @@
   .section{
     margin-top: 2rem;
 }
+.patient-container{
+  width: 100%;
+}
 }
 
 /* md */
 @media (max-width: 768px) {
   .containers {
     max-width: 640px;
+  }
+  .patient-container{
+    width: 97%;
   }
 }
 
