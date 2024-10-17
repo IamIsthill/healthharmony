@@ -216,11 +216,29 @@ main{
     }
  }
 
- /* sm */
- @media (max-width: 640px) {
-
+ @media (max-width: 768px) {
+    .top-card{
+        width: 11rem;
+    }
  }
 
+ /* sm */
+ @media (max-width: 640px) {
+    .top-card{
+        width: 10rem;
+    }
+    .patient-container{
+        grid-template-columns:  auto 16rem;
+    }
+ }
+ @media (max-width: 600px) {
+    .top-card{
+        width: 12rem;
+    }
+    .patient-container{
+        grid-template-columns:  auto;
+    }
+ }
  /* xs */
  @media (max-width: 475px) {
 

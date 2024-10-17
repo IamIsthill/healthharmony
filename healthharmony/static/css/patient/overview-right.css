@@ -409,8 +409,45 @@
  @media (max-width: 640px) {
 
  }
-
+ @media (max-width: 600px) {
+    .patient-right-part{
+        align-items: center;
+    }
+    .weather-container, .bed2, .med-cert-cont{
+        width: 55%;
+    }
+    .weather-container{
+        padding-left: 0.5rem;
+        height: 300px;
+        gap: 1rem;
+    }
+    .temp-heatwave h1{
+        font-size: var(--size-4xl);
+        margin-top: 5px;
+    }
+    .location-part, .sickness-part{
+        margin-left: 3.5rem;
+    }
+    .temp-part{
+        margin-left: 2.5rem;
+    }
+    .beds{  /* 4 BEDS AT WHOLE */
+        width: 100%;
+    }
+ }
+ @media (max-width: 550px){
+    .weather-container, .bed2, .med-cert-cont{
+        width: 60%;
+    }
+ }
+ @media (max-width: 500px){
+    .weather-container, .bed2, .med-cert-cont{
+        width: 65%;
+    }
+ }
  /* xs */
  @media (max-width: 475px) {
-
+    .weather-container, .bed2, .med-cert-cont{
+        width: 70%;
+    }
  }

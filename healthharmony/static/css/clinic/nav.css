@@ -263,11 +263,16 @@ aside{
 }
 
 /* sm */
-@media (max-width: 640px) {
-
+@media (max-width: 600px) {
+    .nav-top h2{
+        margin-left: 3rem;
+        font-size: var(--size-xl);
+    }
 }
 
 /* xs */
 @media (max-width: 475px) {
-
+    .nav-top h2{
+        margin-left: 2rem;
+    }
 }
