@@ -17,7 +17,6 @@ main{
     width: 50%;
     display: flex;
     flex-direction: column;
-
 }
 .usual-page{
     max-height: 12rem;
@@ -132,3 +131,49 @@ main{
 .bottom-part{
     margin-bottom: 1rem;
 }
+
+
+   /* CONTAINER */
+ /* 2xl */
+ @media (max-width: 1536px) {
+
+ }
+
+ /* xl */
+ @media (max-width: 1280px) {
+
+ }
+
+ /* lg */
+ @media (max-width: 1024px) {
+
+ }
+
+ /* md */
+ @media (max-width: 768px) {
+    .doctor-profile-container{
+        grid-template-columns: auto;
+        border: 1px solid red;
+    }
+    main{
+        border: 1px solid blue;
+    }
+ }
+
+ /* sm */
+ @media (max-width: 640px) {
+    .top-part, .bottom-part{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .top-card, .for-the-request, .recent-illness{
+        width: 95%;
+    }
+    
+ }
+
+ /* xs */
+ @media (max-width: 475px) {
+
+ }
