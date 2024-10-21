@@ -577,7 +577,13 @@ function get_form_element_for_patient_details() {
         <input name="sex" value="${patient_data.sex ? patient_data.sex: ''}" type="text" required />
         <input name="contact" value="${patient_data.contact ? patient_data.contact : ''}" type="number" placeholder="contact" required />
         <div class = "year-section">
-        <input name="year" value="${patient_data.year ? patient_data.year : ''}" type="number" placeholder="year" required />
+        <select name="year">
+            <option value="1" ${patient_data.year==1 ? 'selected' : ''}>1</option>
+            <option value="2" ${patient_data.year==2 ? 'selected' : ''}>2</option>
+            <option value="3" ${patient_data.year==3 ? 'selected' : ''}>3</option>
+            <option value="4" ${patient_data.year==4 ? 'selected' : ''}>4</option>
+            <option value="5" ${patient_data.year==5 ? 'selected' : ''}>5</option>
+        </select>
         <input name="section" value="${patient_data.section ? patient_data.section : ''}" type="text" placeholder="section" required />
         </div>
         <input name="program" value="${patient_data.program ? patient_data.program : ''}" type="text" placeholder="Program..." required/>
@@ -636,7 +642,17 @@ function get_form_element_for_patient_vital() {
 
         <input name="csrfmiddlewaretoken" value="${getToken()}" type="hidden" />
         <input name="patient_id" value="${patient_data.id}" type="hidden" />
-        <input name="blood_type" value="${patient_data.blood_type ? patient_data.blood_type : '' }" type="text" required placeholder="Patient's blood type..." />
+        <input name="blood_type" value="${patient_data.blood_type ? patient_data.blood_type : '' }" type="text" required placeholder="Patient's blood type..." list="blood_list"/>
+        <datalist id="blood_list">
+            <option value="A+">
+            <option value="A-">
+            <option value="B+">
+            <option value="B-">
+            <option value="AB+">
+            <option value="AB-">
+            <option value="O+">
+            <option value="O-">
+        </datalist>
         <input name="height" value="${patient_data.height ? patient_data.height : ''}" type="number" required placeholder="Patient's height..." pattern="[0-2]$" />
         <input name="weight" value="${patient_data.weight ? patient_data.weight : ''}" type="number" required placeholder="Patient's weight..." />
         <div class = "edit-buttons">
