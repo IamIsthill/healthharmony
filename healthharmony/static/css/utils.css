@@ -431,6 +431,9 @@
 .patient-container{
   width: 100%;
 }
+.doctor-profile-container{
+  grid-template-columns: 10rem auto;
+}
 }
 
 /* md */

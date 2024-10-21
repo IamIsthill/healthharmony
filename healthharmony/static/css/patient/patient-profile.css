@@ -33,8 +33,14 @@ form input{
     padding: 0rem 1rem;
     background: white;
     box-shadow: var(--box-shadowlight);
-    width: 50%;   
+    width: 100%;   
     border-radius: 1rem;
+}
+.profile-edit{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 .profile-main{
     flex-direction: column;
@@ -70,7 +76,7 @@ form input{
 
 .vital-statistic{
     background: white;
-    width: 20rem;
+    width: 19rem;
     height: 100%;
     border-radius: 1rem;
     padding: 2rem 0rem;
@@ -190,25 +196,7 @@ form input{
    /* CONTAINER */
  /* 2xl */
  @media (max-width: 1536px) {
-    .top-part{
-        display: flex;
-        gap: 1.5rem;
-    }
-    .patient-profile, .detailed-info{
-        height: 26rem;
-    }
-    .patient-profile, .profile-main{
-        width: 50%;   
-    }
-    .profile-main{
-        height: 100%;
-    }
-    .detailed-info{
-        width: 38%;
-    }
-    .js-illness{
-        width: 33rem;
-    }
+    
  }
  @media (max-width: 1380px) {
     .top-part{
@@ -218,9 +206,7 @@ form input{
     .patient-profile, .detailed-info{
         height: 24rem;
     }
-    .patient-profile{
-        width: 48%;   
-    }
+
     .dp-pic{
         width: 200px;    /* Adjust the size as needed */
       height: 200px;
@@ -231,14 +217,7 @@ form input{
     .patient-profile-data{
         font-size: var(--size-sm);
     }
-    .profile-main{
-        width: 70%;
-        height: 100%;
-    }
-    .detailed-info{
-        width: 38%;
-    }
-    .vital-statistic h3, .detailed-info h3{
+.vital-statistic h3, .detailed-info h3{
         font-size: var(--size-xl);
     }
     .vital-left span , .vital-right p {
@@ -253,25 +232,66 @@ form input{
 }
  /* xl */
  @media (max-width: 1280px) {
-
+    .dp-pic{
+        width: 150px;    /* Adjust the size as needed */
+      height: 150px;
+    }
  }
 
  /* lg */
  @media (max-width: 1024px) {
 
  }
-
+ @media (max-width: 868px) {
+    .top-part{
+        flex-direction: column;
+    }
+    .dp-pic{
+        width: 200px;    /* Adjust the size as needed */
+        height: 200px;
+    }
+    .profile-edit{
+        width: 90%;
+    }
+    .detailed-info{
+        width: 90%;
+    }
+ }
  /* md */
  @media (max-width: 768px) {
-
+    
  }
 
  /* sm */
  @media (max-width: 640px) {
-
+.dp-pic{
+        width: 180px;    /* Adjust the size as needed */
+        height: 180px;
+    }
  }
 
  /* xs */
  @media (max-width: 475px) {
 
+    .vital-statistic{
+        width: 13rem;
+    }
+    .patient-profile-name{
+        font-size: var(--size-lg);
+    }
+    .patient-profile-data{
+        font-size: var(--size-xs);
+    }
+.vital-statistic h3, .detailed-info h3{
+        font-size: var(--size-lg);
+    }
+    .vital-left span , .vital-right p {
+        font-size: var(--size-sm);
+    }  
+    .detailed-left span, .detailed-right p{
+        font-size: var(--size-sm);
+    }
+    .detailed-top button, .js-edit-illness-btn, .js-illness-note-btn{
+        font-size: var(--size-sm);
+    }   
  }

@@ -223,6 +223,9 @@ aside{
     .sidebar a{
         margin-left: 1rem;
     }
+    .nav-top h2{
+        margin-left: 10rem;
+    }
 }
 
 /* md */

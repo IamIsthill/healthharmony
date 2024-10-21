@@ -153,11 +153,8 @@ main{
  @media (max-width: 768px) {
     .doctor-profile-container{
         grid-template-columns: auto;
-        border: 1px solid red;
     }
-    main{
-        border: 1px solid blue;
-    }
+  
  }
 
  /* sm */
