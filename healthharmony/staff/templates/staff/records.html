@@ -288,6 +288,7 @@
     {{ certificates|json_script:'certificates' }}
     {{ certificate_chart|json_script:'certificate-chart' }}
     <script src="{% static 'chart.js/dist/chart.umd.js' %}"></script>
+    <script src="{% static 'chartjs-plugin-zoom/dist/chartjs-plugin-zoom.min.js' %}"></script>
     <script src="{% static 'js/error.js' %}" type="module"></script>
     <script src="{% static 'js/dist/staff_records.js' %}" type="module"></script>
 {% endblock %}

@@ -32,24 +32,62 @@ export function createRequestBarChart(labels, counts, createChart) {
             legend: {
                 display: false,
                 labels: {
-                    display: false,
-                    // font: {
-                    //     family: 'Poppins', // Your custom font family
-                    //     size: 14, // Font size
-                    //     weight: 'normal', // Font weight
-                    //     style: 'normal' // Font style
-                    // }
+                    font: {
+                        family: 'Poppins',
+                        size: 14,
+                        weight: 'normal',
+                        style: 'normal'
+                    }
                 }
+            },
+            zoom: {
+                pan: {
+                    enabled: true,
+                    mode: 'x',
+                    scaleMode: 'x',
+
+                },
+                limits: {
+                    x: {
+                        min: 0,
+                        max: 10000
+                    }
+                },
+                zoom: {
+                    mode: 'x',
+                    pinch: {
+                        enabled: true
+                    },
+                    drag: {
+                        enabled: true,
+                        threshold: 50
+                    },
+                    wheel: {
+                        enabled: true,
+                        speed: 0.000001
+                    }
+
+                    // zoom options and/or events
+                }
+            }
+        },
+        // chart js zoom plugin
+        transitions: {
+            zoom: {
+              animation: {
+                duration: 1000,
+                easing: 'easeInOutCubic'
+              }
             }
         },
         scales: {
             x: {
                 grid: {
-                    display: false // This removes the grid lines on the x-axis
+                    display: false
                 },
                 ticks: {
                     font: {
-                        family: 'Arial', // Web-safe font
+                        family: 'Arial',
                         size: 10,
                         weight: 'bold',
                         style: 'normal'
@@ -57,7 +95,7 @@ export function createRequestBarChart(labels, counts, createChart) {
                 }
             },
             y: {
-                beginAtZero: true, // Ensure y-axis starts from 0
+                beginAtZero: true,
                 display: false
             }
         }
