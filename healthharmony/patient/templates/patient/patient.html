@@ -33,45 +33,86 @@
         {% include 'patient/nav.html' %}
         <main>
             <div class="top-part">
-                <div class="patient-profile">
-                    <div class="profile-main">
-                        {% if user.profile != 'user_profiles/fallback.png' %}
-                            <div class="dp-container">
-                                <img class="dp-pic" src="{{ user.profile.url }}" alt="user_uploaded" />
+                <div class="profile-edit">
+                    <div class="patient-profile">
+                        <div class="profile-main">
+                            {% if user.profile != 'user_profiles/fallback.png' %}
+                                <div class="dp-container">
+                                    <img class="dp-pic" src="{{ user.profile.url }}" alt="user_uploaded" />
+                                </div>
+                            {% elif picture.picture is not None %}
+                                <div class="dp-container">
+                                    <img class="dp-pic" src="{{ picture.picture }}" alt="google_pic" />
+                                </div>
+                            {% else %}
+                                <div class="dp-container">
+                                    <img class="dp-pic" src="{{ user.profile.url }}" alt="fallback" />
+                                </div>
+                            {% endif %}
+                            <div class="js_patient_info">
+                                <h3 class="patient-profile-name">{{ user.first_name|default_if_none:'' }} {{ user.last_name|default_if_none:'' }}</h3>
+                                <h3 class="patient-profile-data">Email: {{ user.email }}</h3>
+                                <h3 class="patient-profile-data">Contact Number: {{ user.contact|default_if_none:'' }}</h3>
                             </div>
-                        {% elif picture.picture is not None %}
-                            <div class="dp-container">
-                                <img class="dp-pic" src="{{ picture.picture }}" alt="google_pic" />
+                        </div>
+                        <div class="vital-statistic">
+                            <div class="detailed-top">
+                                <h3>Vital Statistics</h3>
                             </div>
-                        {% else %}
-                            <div class="dp-container">
-                                <img class="dp-pic" src="{{ user.profile.url }}" alt="fallback" />
+                            <div class="vital-data">
+                                <div class="vital-left js_patient_vital_labels">
+                                    <span>Blood Type</span>
+                                    <span>Height(cm)</span>
+                                    <span>Weight(kg)</span>
+                                </div>
+                                <div class="vital-right">
+                                    <p>{{ user.blood_type|default_if_none:'' }}</p>
+                                    <p>{{ user.height|default_if_none:'' }}</p>
+                                    <p>{{ user.weight|default_if_none:'' }}</p>
+                                </div>
                             </div>
-                        {% endif %}
-                        <div class="js_patient_info">
-                            <h3 class="patient-profile-name">{{ user.first_name|default_if_none:'' }} {{ user.last_name|default_if_none:'' }}</h3>
-                            <h3 class="patient-profile-data">Email: {{ user.email }}</h3>
-                            <h3 class="patient-profile-data">Contact Number: {{ user.contact|default_if_none:'' }}</h3>
                         </div>
                     </div>
-                    <div class="vital-statistic">
-                        <div class="detailed-top">
-                            <h3>Vital Statistics</h3>
-                        </div>
-                        <div class="vital-data">
-                            <div class="vital-left js_patient_vital_labels">
-                                <span>Blood Type</span>
-                                <span>Height(cm)</span>
-                                <span>Weight(kg)</span>
-                            </div>
-                            <div class="vital-right">
-                                <p>{{ user.blood_type|default_if_none:'' }}</p>
-                                <p>{{ user.height|default_if_none:'' }}</p>
-                                <p>{{ user.weight|default_if_none:'' }}</p>
-                            </div>
-                        </div>
+                    <div class="js_profile_actions">
+                        <button class="js_edit_profile">Edit Profile</button>
+                        <button class="js_reset_password">Reset Password</button>
                     </div>
+                    <form action=""
+                        method="post"
+                        enctype="multipart/form-data"
+                        style="display:none"
+                        class="js_profile_form">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="">Profile Picture:</label>
+                            <input type="file"
+                                name="profile"
+                                id="profile-picture"
+                                accept=".png, .jpeg, .jpg" />
+                        </div>
+                        <div class="form-group">
+                            <label for="">First Name:</label>
+                            <input type="text"
+                                value="{% if user.first_name is not None %}{{ user.first_name }}{% endif %}"
+                                name="first_name" />
+                        </div>
+                        <div class="form-group">
+                            <label for="">Last Name:</label>
+                            <input type="text"
+                                value="{% if user.last_name is not None %}{{ user.last_name }}{% endif %}"
+                                name="last_name" />
+                        </div>
+                        <div class="form-group">
+                            <label for="">Contact Number:</label>
+                            <input type="number" value="{{ user.contact }}" name="contact" />
+                        </div>
+                        <div class="form-buttons">
+                            <button type="submit" class="update-btn">Update</button>
+                            <button type="button" class="js_close_profile_form cancel-btn">Cancel</button>
+                        </div>
+                    </form>
                 </div>
+                
                 <div class="detailed-info">
                     <div class="detailed-top">
                         <h3>Detailed Information</h3>
@@ -96,44 +137,7 @@
                     </div>
                 </div>
             </div>
-            <div class="js_profile_actions">
-                <button class="js_edit_profile">Edit Profile</button>
-                <button class="js_reset_password">Reset Password</button>
-            </div>
-            <form action=""
-                  method="post"
-                  enctype="multipart/form-data"
-                  style="display:none"
-                  class="js_profile_form">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="">Profile Picture:</label>
-                    <input type="file"
-                           name="profile"
-                           id="profile-picture"
-                           accept=".png, .jpeg, .jpg" />
-                </div>
-                <div class="form-group">
-                    <label for="">First Name:</label>
-                    <input type="text"
-                           value="{% if user.first_name is not None %}{{ user.first_name }}{% endif %}"
-                           name="first_name" />
-                </div>
-                <div class="form-group">
-                    <label for="">Last Name:</label>
-                    <input type="text"
-                           value="{% if user.last_name is not None %}{{ user.last_name }}{% endif %}"
-                           name="last_name" />
-                </div>
-                <div class="form-group">
-                    <label for="">Contact Number:</label>
-                    <input type="number" value="{{ user.contact }}" name="contact" />
-                </div>
-                <div class="form-buttons">
-                    <button type="submit" class="update-btn">Update</button>
-                    <button type="button" class="js_close_profile_form cancel-btn">Cancel</button>
-                </div>
-            </form>
+            
         </main>
     </div>
     <div id="profileModal" class="hide">
