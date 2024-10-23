@@ -2,7 +2,18 @@
 {% load static %}
 {% load tags %}
 {% block title %}Dashboard | HealthHarmony{% endblock %}
-{% block header %}{% endblock %}
+{% block header %}
+<link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/admin/dashboard.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
+          rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+          rel="stylesheet" />
+
+{% endblock %}
 {% block message %}
     {% if messages|has_error_message %}
         {% comment %} {% include 'error.html' %} {% endcomment %}
@@ -43,42 +54,43 @@
     {% endif %}
 {% endblock %}
 {% block main %}
-    <div class="container">
+    <div class="admin-container">
         {% include 'administrator/nav.html' %}
-        <hr />
-        <h2>Active User</h2>
-        <h3>{{ count_users }}</h3>
-        <div class="upper">
-            <h3>User Reports</h3>
-            <div>
-                <button class="user-filter-btn" data-category="year">12 Months</button>
-                <button class="user-filter-btn" data-category="month">30 Days</button>
-                <button class="user-filter-btn" data-category="week">7 Days</button>
-            </div>
-            <div>
-                <div>
-                    <canvas id="user-canvas"></canvas>
-                </div>
-            </div>
-        </div>
-        <div class="lower">
-            <div class="left">
-                <h3>Account Roles</h3>
-                <div>
-                    <div>
-                        <canvas id="account-roles"></canvas>
+       <main>
+          <div class="small-card">
+            <h2>Active User</h2>
+            <h3>{{ count_users }}</h3>
+          </div>
+            <div class="Chart user-chart">
+                  <div class="top-chart">
+                    <h3>User Reports</h3>
+                    <div class="date-buttons">
+                        <button class="user-filter-btn" data-category="year">12 Months</button>
+                        <button class="user-filter-btn" data-category="month">30 Days</button>
+                        <button class="user-filter-btn" data-category="week">7 Days</button>
                     </div>
-                </div>
-            </div>
-            <div class="right">
-                <h3>User Demographics</h3>
-                <div>
-                    <div>
-                        <canvas id="user-demo"></canvas>
+                  </div>
+                    <div class="canvas-size">
+                        <canvas id="user-canvas"></canvas>
                     </div>
-                </div>
             </div>
-        </div>
+          <div class="lower">
+              <div class="account-roles">
+                  <h3>Account Roles</h3>
+                  <div>
+                      <div>
+                          <canvas id="account-roles"></canvas>
+                      </div>
+                  </div>
+              </div>
+              <div class="Chart demo-chart">
+                  <h3>User Demographics</h3>
+                      <div class="canvas-size">
+                          <canvas id="user-demo"></canvas>
+                      </div>
+              </div>
+          </div>
+      </main>
     </div>
 {% endblock %}
 {% block script %}
@@ -348,5 +360,34 @@
       })
     }
     //====================================================
+    </script>
+    <script>
+        function resizeCanvas(canvasId, containerClass) {
+    const canvas = document.getElementById(canvasId);
+    const container = document.querySelector(containerClass);
+    canvas.width = container.clientWidth;
+    canvas.height = container.clientHeight;
+}
+
+// Resize the user-canvas
+function resizeUserCanvas() {
+    resizeCanvas('user-canvas', '.canvas-size');
+}
+
+// Resize the user-demo canvas
+function resizeUserDemoCanvas() {
+    resizeCanvas('user-demo', '.demo-chart .canvas-size');
+}
+
+// Add event listeners for resizing
+window.addEventListener('resize', () => {
+    resizeUserCanvas();
+    resizeUserDemoCanvas();
+});
+
+// Call the functions initially to set the canvas sizes
+resizeUserCanvas();
+resizeUserDemoCanvas();
+
     </script>
 {% endblock %}
