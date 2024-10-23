@@ -1,8 +1,8 @@
 .logo{
     position: fixed;
     top: 0;
-    margin-top: 1rem;
-    margin-left: 2.1rem;
+    margin-top: 2rem;
+    margin-left: 2.8rem;
 }
 aside{
     height: 100%;
@@ -146,9 +146,6 @@ aside{
 /* 2xl */
 @media (max-width: 1536px) {
 
-    .logo{
-        margin-left: 1rem;
-    }
     .nav-top h2{
         margin-left: 14rem;
     }
