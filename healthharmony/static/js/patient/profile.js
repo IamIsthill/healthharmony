@@ -1,4 +1,5 @@
 const user_data = JSON.parse(document.getElementById('user_data').textContent)
+const main_profile_picture =  JSON.parse(document.getElementById('pathname').textContent)
 
 /** EDIT PROFILE */
 handle_onclick_edit_profile()
@@ -44,6 +45,26 @@ function handle_onclick_edit_profile() {
 
             // Hide form
             form.setAttribute('style', 'display:none')
+            const profile_picture = document.getElementById('patient_profile_picture')
+            profile_picture.setAttribute('src', main_profile_picture)
+
         })
+
+        function handle_user_upload() {
+            const profile_picture = document.getElementById('profile-picture')
+
+            profile_picture.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.querySelector('.dp-pic').src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            })
+
+        }
+        handle_user_upload()
     })
 }
