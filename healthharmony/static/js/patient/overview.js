@@ -151,7 +151,8 @@ function createTreatmentBarsCanvas(data, filter, labels) {
         treatmentBarSpace.innerHTML = mainHTML
 
     } catch (error) {
-        console.error(error.message)
+        const treatmentBarSpace = document.getElementById('treatment-bar-space')
+        treatmentBarSpace.parentElement.style.display = 'none'
     }
 }
 //======================================================
