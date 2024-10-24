@@ -1,0 +1,86 @@
+main{
+    margin-top: 1rem;
+}
+.account-list-container{
+    width: 95%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: white;
+    box-shadow: var( --box-shadow2);
+    border-radius: 2rem;
+    padding: 2rem 3rem;
+    transition: all 0.3s ease;
+}
+.account-list-container:hover{
+    box-shadow: var( --box-shadowlight);
+}
+table .table-head{
+    color: var(--light_gray);
+    font-weight: 500;
+    opacity: 70%;
+    /* border: 1px solid red; */
+}
+table .table-head, table .table-data{
+    padding-right: 1rem;
+    text-align: left;
+    font-size: var(--size-base);
+}
+.account-header{
+    display: flex;
+    justify-content: space-between;
+}
+.add-acc{
+    background: black;
+    border-radius: 1rem;
+    padding: 4px 1rem;
+    color: white;
+    font-size: var(--size-base);
+    transition: all 0.2s ease;
+}
+.add-acc:hover{
+    background: rgba(0, 0, 0, 0.555);
+}
+.cat-btn, .cat-btn-active{
+    font-size: var(--size-base);
+    padding: 0.3rem 0;
+    width: 4.7rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+.cat-btn, .cat-btn-active{
+    color: var(--light_gray);
+    border: 1px solid rgba(255, 255, 255, 0);
+}
+.cat-btn-active{
+    border: 1px solid var(--light_gray);
+}
+.cat-btn:hover{
+    border:1px solid var(--light_gray);
+}
+
+.modal-content{
+    position: relative;
+    background-color: #fefefe;
+    margin: 7% auto; /* 15% from the top and centered */
+    border: 1px solid #888;
+    padding: 1rem 2rem;
+    width: 33%;
+    border-radius: 10px;
+}
+.modal-content form{
+    display: flex;
+    flex-direction: column;
+}
+.modal-content form input, form select{
+    background: #E3E5E6;
+    width: 95%;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.5rem;
+}
+.last-inp{
+    margin-bottom:0rem;
+}

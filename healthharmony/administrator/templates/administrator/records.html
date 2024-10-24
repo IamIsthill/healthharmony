@@ -2,7 +2,18 @@
 {% load static %}
 {% load tags %}
 {% block title %}Log and Records | HealthHarmony{% endblock %}
-{% block header %}{% endblock %}
+{% block header %}
+    <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/admin/record.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+        rel="stylesheet" />
+
+{% endblock %}
 {% block message %}
     {% if messages|has_error_message %}
         {% comment %} {% include 'error.html' %} {% endcomment %}
@@ -43,123 +54,125 @@
     {% endif %}
 {% endblock %}
 {% block main %}
-    <div class="container">
         {% include 'doctor/nav-top.html' %}
+    <div class="admin-container">
         {% include 'administrator/nav.html' %}
-        <div class="upper">
-            <h3>User Activity Trail</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Email</th>
-                        <th>Timestamp</th>
-                        <th>Action</th>
-                        <th>Access</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% if logs %}
-                        {% for log in logs %}
-                            <tr>
-                                <td>{{ log.user }}</td>
-                                <td>{{ log.timestamp }}</td>
-                                <td>{{ log.action }}</td>
-                                <td>
-                                    {% if log.user.access == 1 %}
-                                        Patient
-                                    {% elif log.user.access == 2 %}
-                                        Clinic Staff
-                                    {% elif log.user.access == 3 %}
-                                        Doctor
-                                    {% else %}
-                                        Admin
-                                    {% endif %}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    {% else %}
+        <main>
+            <div class="upper record-table">
+                <h2>User Activity Trail</h2>
+                <table>
+                    <thead>
                         <tr>
-                            <td cols="4">No Data Available</td>
+                            <th class="table-head">Email</th>
+                            <th class="table-head">Timestamp</th>
+                            <th class="table-head">Action</th>
+                            <th class="table-head">Access</th>
                         </tr>
-                    {% endif %}
-                </tbody>
-            </table>
-            <div class="pagination pagination-design">
-                <span class="step-links">
-                    {% if logs.has_previous %}
-                        <a href="?logs_page=1" class="js-links">&laquo; First</a>
-                        <a class="js-links" href="?logs_page={{ logs.previous_page_number }}">Previous</a>
-                    {% endif %}
-                    <span class="current">Page {{ logs.number }} of {{ logs.paginator.num_pages }}.</span>
-                    {% if logs.has_next %}
-                        <a class="js-links" href="?logs_page={{ logs.next_page_number }}">Next</a>
-                        <a class="js-links" href="?logs_page={{ logs.paginator.num_pages }}">Last &raquo;</a>
-                    {% endif %}
-                </span>
-            </div>
-        </div>
-        <div class="lower">
-            <h3>Data Change Trail</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Table</th>
-                        <th>Related Id</th>
-                        <th>Action</th>
-                        {% comment %} <th>Old Value</th>
-                        <th>New Value</th> {% endcomment %}
-                        <th>Changed By</th>
-                        <th>Timestamp</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% if data_logs %}
-                        {% for log in data_logs %}
+                    </thead>
+                    <tbody>
+                        {% if logs %}
+                            {% for log in logs %}
+                                <tr>
+                                    <td class="table-data">{{ log.user }}</td>
+                                    <td class="table-data">{{ log.timestamp }}</td>
+                                    <td class="table-data">{{ log.action }}</td>
+                                    <td class="table-data">
+                                        {% if log.user.access == 1 %}
+                                            Patient
+                                        {% elif log.user.access == 2 %}
+                                            Clinic Staff
+                                        {% elif log.user.access == 3 %}
+                                            Doctor
+                                        {% else %}
+                                            Admin
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
                             <tr>
-                                <td>{{ log.table }}</td>
-                                <td>{{ log.record_id }}</td>
-                                <td>{{ log.action }}</td>
-                                {% comment %} <td>
-                  {% if log.old_value == 'No data' %}
-                    <em>No Data</em>
-                  {% else %}
-                    {{ log.old_value }}
-                  {% endif %}
-                </td>
-                <td>
-                  {% if log.new_value == 'No data' %}
-                    <em>No Data</em>
-                  {% else %}
-                    {{ log.new_value }}
-                  {% endif %}
-                                </td> {% endcomment %}
-                                <td>{{ log.changed_by }}</td>
-                                <td>{{ log.timestamp|date:'F j, Y' }} at {{ log.timestamp|date:'g:i A' }}</td>
+                                <td cols="4">No Data Available</td>
                             </tr>
-                        {% endfor %}
-                    {% else %}
-                        <tr>
-                            <td cols="6">No data available</td>
-                        </tr>
-                    {% endif %}
-                </tbody>
-            </table>
-            <div class="pagination pagination-design">
-                <span class="step-links">
-                    {% if data_logs.has_previous %}
-                        <a href="?data_page=1" class="js-links">&laquo; First</a>
-                        <a class="js-links"
-                           href="?data_page={{ data_logs.previous_page_number }}">Previous</a>
-                    {% endif %}
-                    <span class="current">Page {{ data_logs.number }} of {{ data_logs.paginator.num_pages }}.</span>
-                    {% if data_logs.has_next %}
-                        <a class="js-links" href="?data_page={{ data_logs.next_page_number }}">Next</a>
-                        <a class="js-links"
-                           href="?data_page={{ data_logs.paginator.num_pages }}">Last &raquo;</a>
-                    {% endif %}
-                </span>
+                        {% endif %}
+                    </tbody>
+                </table>
+                <div class="pagination pagination-design">
+                    <span class="step-links">
+                        {% if logs.has_previous %}
+                            <a href="?logs_page=1" class="js-links">&laquo; First</a>
+                            <a class="js-links" href="?logs_page={{ logs.previous_page_number }}">Previous</a>
+                        {% endif %}
+                        <span class="current">Page {{ logs.number }} of {{ logs.paginator.num_pages }}.</span>
+                        {% if logs.has_next %}
+                            <a class="js-links" href="?logs_page={{ logs.next_page_number }}">Next</a>
+                            <a class="js-links" href="?logs_page={{ logs.paginator.num_pages }}">Last &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
             </div>
-        </div>
+            <div class="lower record-table">
+                <h2>Data Change Trail</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="table-head">Table</th>
+                            <th class="table-head">Related Id</th>
+                            <th class="table-head">Action</th>
+                            {% comment %} <th class="table-head">Old Value</th>
+                            <th class="table-head">New Value</th> {% endcomment %}
+                            <th class="table-head">Changed By</th>
+                            <th class="table-head">Timestamp</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if data_logs %}
+                            {% for log in data_logs %}
+                                <tr>
+                                    <td class="table-data">{{ log.table }}</td>
+                                    <td class="table-data">{{ log.record_id }}</td>
+                                    <td class="table-data">{{ log.action }}</td>
+                                    {% comment %} <td class="table-data">
+                    {% if log.old_value == 'No data' %}
+                        <em>No Data</em>
+                    {% else %}
+                        {{ log.old_value }}
+                    {% endif %}
+                    </td>
+                    <td>
+                    {% if log.new_value == 'No data' %}
+                        <em>No Data</em>
+                    {% else %}
+                        {{ log.new_value }}
+                    {% endif %}
+                                    </td> {% endcomment %}
+                                    <td>{{ log.changed_by }}</td>
+                                    <td>{{ log.timestamp|date:'F j, Y' }} at {{ log.timestamp|date:'g:i A' }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td cols="6">No data available</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+                <div class="pagination pagination-design">
+                    <span class="step-links">
+                        {% if data_logs.has_previous %}
+                            <a href="?data_page=1" class="js-links">&laquo; First</a>
+                            <a class="js-links"
+                            href="?data_page={{ data_logs.previous_page_number }}">Previous</a>
+                        {% endif %}
+                        <span class="current">Page {{ data_logs.number }} of {{ data_logs.paginator.num_pages }}.</span>
+                        {% if data_logs.has_next %}
+                            <a class="js-links" href="?data_page={{ data_logs.next_page_number }}">Next</a>
+                            <a class="js-links"
+                            href="?data_page={{ data_logs.paginator.num_pages }}">Last &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </main>
     </div>
 {% endblock %}
 {% block script %}
