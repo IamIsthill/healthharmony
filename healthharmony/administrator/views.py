@@ -33,6 +33,7 @@ def admin_dashboard(request):
             f"{request.user.email} failed to fetched necessary data to load administrator overview : {str(e)}"
         )
         messages.error(request, "Failed to fetched necessary data. Please reload page.")
+    context.update({"page": "Dashboard"})
     return render(request, "administrator/dashboard.html", context)
 
 
@@ -72,6 +73,7 @@ def log_and_records(request):
             f"{request.user.email} failed to fetched necessary data to load administrator logs : {str(e)}"
         )
         messages.error(request, "Failed to fetched necessary data. Please reload page.")
+    context.update({"page": "Log Records"})
     return render(request, "administrator/records.html", context)
 
 
@@ -112,6 +114,7 @@ def account_view(request):
             f"{request.user.email} failed to fetched necessary data to load administrator accounts view : {str(e)}"
         )
         messages.error(request, "Failed to fetched necessary data. Please reload page.")
+    context.update({"page": "Account Management"})
     return render(request, "administrator/account.html", context)
 
 
