@@ -3,45 +3,18 @@
 {% load tags %}
 {% block title %}Accounts | HealthHarmony{% endblock %}
 {% block header %}
-    <style>
-    /* The Modal (background) */
-    .modal {
-      display: none; /* Hidden by default */
-      position: fixed; /* Stay in place */
-      z-index: 1; /* Sit on top */
-      left: 0;
-      top: 0;
-      width: 100%; /* Full width */
-      height: 100%; /* Full height */
-      overflow: auto; /* Enable scroll if needed */
-      background-color: rgb(0, 0, 0); /* Fallback color */
-      background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-    }
 
-    /* Modal Content/Box */
-    .modal-content {
-      background-color: #fefefe;
-      margin: 15% auto; /* 15% from the top and centered */
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%; /* Could be more or less, depending on screen size */
-    }
+    <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/admin/account.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+        rel="stylesheet" />
 
-    /* The Close Button */
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
-    </style>
+    
 {% endblock %}
 {% block message %}
     {% if messages|has_error_message %}
@@ -83,40 +56,39 @@
     {% endif %}
 {% endblock %}
 {% block main %}
-    <div class="container">
         {% include 'doctor/nav-top.html' %}
+    <div class="admin-container">
         {% include 'administrator/nav.html' %}
-        <div>
-            <h1>Account Management</h1>
+        <main>
             <div class="account-list-container">
+                <h1>Account List</h1>
                 <div class="account-header">
-                    <h1>Account List</h1>
-                    <button class="js_add_account_btn">Add Account</button>
+                    <button class="js_add_account_btn add-acc">Add Account</button>
                     <div>
-                        <button class="js-account-filter js-account-filter-active" data-filter="0">All</button>
-                        <button class="js-account-filter" data-filter="1">Patients</button>
-                        <button class="js-account-filter" data-filter="2">Staff</button>
-                        <button class="js-account-filter" data-filter="3">Doctors</button>
+                        <button class="js-account-filter js-account-filter-active cat-btn cat-btn-active" data-filter="0">All</button>
+                        <button class="js-account-filter cat-btn" data-filter="1">Patients</button>
+                        <button class="js-account-filter cat-btn" data-filter="2">Staff</button>
+                        <button class="js-account-filter cat-btn" data-filter="3">Doctors</button>
                     </div>
                 </div>
                 <table>
                     <thead>
                         <tr>
-                            <th>Account Name</th>
-                            <th>Email</th>
-                            <th>Date Joined</th>
-                            <th>Access</th>
-                            <th>Actions</th>
+                            <th class="table-head">Account Name</th>
+                            <th class="table-head">Email</th>
+                            <th class="table-head">Date Joined</th>
+                            <th class="table-head">Access</th>
+                            <th class="table-head">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="js_account_body">
                         {% if users %}
                             {% for user in users %}
                                 <tr>
-                                    <td>{{ user.first_name }} {{ user.last_name }}</td>
-                                    <td>{{ user.email }}</td>
-                                    <td>{{ user.date_joined|date:'F j, Y' }} at {{ user.date_joined|date:'g:i A' }}</td>
-                                    <td>
+                                    <td class="table-data">{{ user.first_name }} {{ user.last_name }}</td>
+                                    <td class="table-data">{{ user.email }}</td>
+                                    <td class="table-data">{{ user.date_joined|date:'F j, Y' }} at {{ user.date_joined|date:'g:i A' }}</td>
+                                    <td class="table-data">
                                         <div>
                                             <select name="access" class="js_change_access" data-user-id="{{ user.id }}">
                                                 <option value="1" {% if user.access == 1 %}selected{% endif %}>Patient</option>
@@ -126,7 +98,7 @@
                                             </select>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td class="table-data">
                                         <button class="js_delete_user" data-user-id="{{ user.id }}">Delete</button>
                                     </td>
                                 </tr>
@@ -152,38 +124,40 @@
                     </span>
                 </div>
             </div>
-        </div>
+        </main>
     </div>
     <div id="js_add_account_modal" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
-            <span class="close js_close_account_form">&times;</span>
+            <span class="material-symbols-outlined close js_close_account_form">cancel</span>
             <form action="" method="POST" class="js_account_form">
                 {% csrf_token %}
-                <label for="">First Name:</label>
+                <label for="">First Name</label>
                 <input type="text" name="first_name" required />
-                <label for="">Last Name:</label>
+                <label for="">Last Name</label>
                 <input type="text" name="last_name" required />
-                <label for="">Email:</label>
+                <label for="">Email</label>
                 <input type="email" name="email" required />
-                <label for="">Access Type:</label>
+                <label for="">Access Type</label>
                 <select name="access" id="">
                     <option value="1">Patient</option>
                     <option value="2">Staff</option>
                     <option value="3">Doctor</option>
                     <option value="4">Admin</option>
                 </select>
-                <label for="">Department:</label>
-                <input type="text" name="department" list="department-list" required />
+                <label for="">Department</label>
+                <input class="last-inp" type="text" name="department" list="department-list" required />
                 <datalist id="department-list">
                     {% if departments %}
                         {% for department in departments %}<option value="{{ department }}"></option>{% endfor %}
                     {% endif %}
                 </datalist>
                 <input type="hidden" id="department-id" />
-                <button type="submit">Add Account</button>
-                <button type="button" class="js_close_account_form">Close</button>
-            </form>
+                <div class="form-buttons">
+                    <button class="form-button" type="submit">Add Account</button>
+                    <button type="button" class="js_close_account_form cancel-button" >Close</button>
+                </div>
+            </form> 
         </div>
     </div>
     <div class="modal js_access_modal">
