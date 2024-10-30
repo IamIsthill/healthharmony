@@ -24,11 +24,6 @@ const category_data = JSON.parse(document.getElementById('category_data').textCo
 main()
 
 function main() {
-    /**
-     * TEST AREA
-     */
-
-    console.log(category_data)
 
 
 
@@ -225,10 +220,11 @@ function listenCheckBed() {
     checkBedBtn.addEventListener('click', () => {
         const bedModal = document.querySelector('.js-check-bed-modal')
         openModal(bedModal)
-        window.onclick = function(event) {
-            if (event.target == bedModal) {
-                bedModal.style.display = "none";
-            }
+
+        const close_btns = document.querySelectorAll('.js_close_check_bed_modal')
+
+        for (const close of close_btns) {
+            closeModal(bedModal, close)
         }
     })
 
