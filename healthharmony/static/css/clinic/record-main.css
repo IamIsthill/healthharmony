@@ -9,7 +9,7 @@ main{
     margin: 7% auto; /* 15% from the top and centered */
     border: 1px solid #888;
     padding: 1rem 2rem;
-    width: 33%;
+    width: 40%;
     border-radius: 10px;
 }
 .modal-content h1{
@@ -31,20 +31,55 @@ main{
     margin-bottom: 0.5rem;
 }
 
-.view-content{
-    width: 40%;
-    height: 40%;
-}
-.view-data{
+.modal-body{
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    align-items: flex-end;
 }
-.view-data h4{
+.view-content{
+    padding: 0 0;
+    display: flex;
+    flex-direction: column; 
+    border: 2px solid black;
+}
+.visit-info-cont{
+    text-align: center;
+    border-bottom: 1px solid black;
+    display: flex;
+    width: 100%;
+}
+
+.left-visit, .right-visit{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    padding: 14px 8px;
+}
+.left-visit{
+    border-right: 1px solid black;
+}
+.right-visit h4, .left-visit h3{
+    font-size: var(--size-lg);
     font-weight: 500;
 }
+.left-visit h3{
+    color: var(--navbuttons);
+}
 .view-cancel-button{
-    margin-top: 1rem;
+    width: 30%;
+    background: black;
+    color: white;
+    padding: 1rem 0;
+    border-radius: 8px;
+    margin: 0.5rem;
+    border: 1px solid rgba(0, 0, 0, 0);
+    transition: all 0.3s ease;
+}
+.view-cancel-button:hover{
+    background: white;
+    color: black;
+    border: 1px solid black;
 }
 .visit-history table, .lower table{
     margin-top: 1rem;
@@ -118,7 +153,7 @@ main{
     gap: 0.2rem;
 }
 .category-buttons button{
-    font-size: var(--size-xs);
+    font-size: var(--size-sm);
     padding: 0.4rem 0.5rem;
     border-radius: 8px;
     transition: all 0.3s ease;
@@ -138,9 +173,9 @@ main{
 .add-record-btn{
     background: black;
     border-radius: 1rem;
-    padding: 4px 1.5rem;
+    padding: 8px 1.5rem;
     color: white;
-    font-size: var(--size-sm);
+    font-size: var(--size-base);
 }
 .add-record-btn:hover{
     background: rgba(0, 0, 0, 0.555);
@@ -187,6 +222,18 @@ main{
     opacity: 100%;
     font-weight: 600;
 }
+
+.js_certificate_action{
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 4px;
+    padding: 8px 6px;
+    transition: all 0.3s ease;
+}
+.js_certificate_action:hover{
+    background: black;
+    color: white;
+}
+
 .bar-space{
     margin-top: 2rem;
     height: 60vh;

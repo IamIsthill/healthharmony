@@ -84,7 +84,7 @@
                     </form>
                     <form action="{% url 'post_delete_bed' bed.id %}" method="POST">
                         {% csrf_token %}
-                        <button type="submit">Remove Bed</button>
+                        <button class="remove-btn" type="submit">Remove Bed</button>
                     </form>
                 {% empty %}
                 {% endfor %}

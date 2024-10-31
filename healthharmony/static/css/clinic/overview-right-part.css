@@ -204,20 +204,38 @@
         height: 3rem;
         margin-bottom: 4px;
     }
+    
     .h4-cont{
-        border: 1px solid black;
         border-radius: 4px;
         display: flex;
         justify-content: center;
         align-items: center;
+
     }
     .h4-cont h4{
         font-weight: 500;
-        font-size: var(--size-xl);
+        font-size: var(--size-2xl);
     }
     .bed-cont button{
         background: rgb(1, 119, 1);
         border-radius: 8px;
+        color: white;
+        transition: all 0.3s ease;
+    }
+    .bed-cont button:hover{
+        background: rgb(0, 83, 0);
+    }
+    .remove-btn{
+        padding: 1rem 1rem;
+        background: white;
+        border: 3px solid var(--Maroon);
+        color: var(--Maroon);
+        border-radius: 8px;
+        margin-bottom: 16px;
+        transition: all 0.3s ease;
+    }
+    .remove-btn:hover{
+        background: var(--Maroon);
         color: white;
     }
 /* BED SECTION */

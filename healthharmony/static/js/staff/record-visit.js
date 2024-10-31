@@ -12,13 +12,22 @@ export function createViewIllnessBody(data) {
     }
 
     let html = `
-    <div class ="view-data">
-        <h4>Date and Time of Visit: ${format_date(data.added)}</h4>
-        <h4>Illness Category: ${data.category_name ? data.category_name : ''}</h4>
-        <h4>Patient Name: ${data.patient_first_name} ${data.patient_last_name}</h4>
-        <h4>Patient's Claim: ${data.issue}</h4>
-        <h4>Added by: ${data.staff_first_name ? data.staff_first_name : ''}  ${data.staff_last_name ? data.staff_last_name: ''}</h4>
-    </div>
+        <div class = "visit-info-cont">         
+            <div class = "left-visit"> <h3>Patient Name</h3> </div> <div class = "right-visit"> <h4> ${data.patient_first_name} ${data.patient_last_name}</h4> </div>
+        </div>
+        <div class = "visit-info-cont">    
+            <div class = "left-visit"> <h3>Patient's Claim</h3> </div> <div class = "right-visit"> <h4> ${data.issue}</h4> </div>
+        </div>
+        <div class = "visit-info-cont"> 
+            <div class = "left-visit"> <h3>Illness Category</h3> </div> <div class = "right-visit"> <h4> ${data.category_name ? data.category_name : ''}</h4> </div>
+        </div>
+        <div class = "visit-info-cont">
+            <div class = "left-visit"> <h3>Date and Time of Visit</h3> </div> <div class = "right-visit"> <h4> ${format_date(data.added)}</h4> </div>
+        </div>
+        <div class = "visit-info-cont">    
+            <div class = "left-visit"> <h3>Added by</h3> </div> <div class = "right-visit"> <h4> ${data.staff_first_name ? data.staff_first_name : ''}  ${data.staff_last_name ? data.staff_last_name: ''}</h4> </div>
+        </div>
+   
     `
     if (data.doctor) {
         html += `
@@ -28,7 +37,7 @@ export function createViewIllnessBody(data) {
         `
     }
 
-    html += '<button class="js-close-view-illness-modal view-cancel-button cancel-button">Close</button>'
+    html += '<button class="js-close-view-illness-modal view-cancel-button cancel-btn">Close</button>'
     modalBody.innerHTML = html
 }
 
