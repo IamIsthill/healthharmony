@@ -105,7 +105,7 @@
                 <label for="ambulanceStatus">Ambulance Status</label>
                 {% if ambulances %}
                     {% for ambulance in ambulances %}
-                        <select id="ambulanceStatus" name="ambulance">
+                        <select class="ambu-select" id="ambulanceStatus" name="ambulance">
                             {% if ambulance.is_avail %}
                                 <option value="available" selected>Available</option>
                                 <option value="away">Away</option>
@@ -116,7 +116,7 @@
                         </select>
                     {% endfor %}
                 {% else %}
-                    <select id="ambulanceStatus" name="ambulance">
+                    <select class="ambu-select" id="ambulanceStatus" name="ambulance">
                         <option value="available">Available</option>
                         <option value="away">Away</option>
                     </select>
