@@ -25,10 +25,11 @@ export function createDeleteDepartmentModal(department, getToken) {
     const token = getToken()
     const html = `
         <input type="hidden" name="csrfmiddlewaretoken" value="${token}" />
-        <h2>Confirm delete?</h2>
-        <h1>${department.department}</h1>
-        <button type="submit">Confirm</button>
-        <button type="button" class="js-close-delete-department-modal">Cancel</button
+        <h2>Are you sure to delete ${department.department} Department?</h2>
+        <div class = "form-buttons">
+            <button class = "form-button" type="submit">Confirm</button>
+            <button type="button" class="js-close-delete-department-modal cancel-button">Cancel</button>
+        </div>
     `
     formBody.innerHTML = html
 }
@@ -42,8 +43,10 @@ export function createEditDepartmentModal(department, getToken) {
     const html = `
         <input type="hidden" name="csrfmiddlewaretoken" value="${token}" />
         <input type="text" value="${department.department}" name="department_name"required/>
-        <button type="submit">Update</button>
-        <button type="button" class="js-close-edit-department-modal">Cancel</button>
+        <div class = "form-buttons">   
+            <button class = "form-button" type="submit">Update</button>
+            <button type="button" class="js-close-edit-department-modal cancel-button">Cancel</button>
+        </div>
     `
     formBody.innerHTML = html
 }
@@ -51,7 +54,7 @@ export function createEditDepartmentModal(department, getToken) {
 export function createViewDepartmentModal(department, patients, format_date) {
     const modalContent = document.querySelector('.js-view-department-modal .modal-content')
     let html = `
-        <span class="js-close-view-department-modal">&times;</span>
+        <span class="material-symbols-outlined close js-close-view-department-modal">cancel</span>
         <h2>${department.department}</h2>
         <h5>As of today, ${department.department} has ${department.count} user(s).</h5>
     `

@@ -12,58 +12,7 @@
           rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
           rel="stylesheet" />
-    <style>
-    .bordered {
-      border: 2px solid red;
-    }
 
-    img {
-      width: 100px;
-      height: 100px;
-    }
-
-    .btn {
-      cursor: pointer;
-    }
-
-    /* The Modal (background) */
-    .modal {
-      display: none; /* Hidden by default */
-      position: fixed; /* Stay in place */
-      z-index: 1; /* Sit on top */
-      left: 0;
-      top: 0;
-      width: 100%; /* Full width */
-      height: 100%; /* Full height */
-      overflow: auto; /* Enable scroll if needed */
-      background-color: rgb(0, 0, 0); /* Fallback color */
-      background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-    }
-
-    /* Modal Content/Box */
-    .modal-content {
-      background-color: #fefefe;
-      margin: 15% auto; /* 15% from the top and centered */
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%; /* Could be more or less, depending on screen size */
-    }
-
-    /* The Close Button */
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
-    </style>
 {% endblock %}
 {% block message %}
     {% if messages|has_error_message %}
@@ -261,9 +210,9 @@
                                 <td class="table-data">{{ department.department }}</td>
                                 <td class="table-data js-department-counts">{{ department.count }}</td>
                                 <td class="table-data js-dates">{{ department.last_department_visit }}</td>
-                                <td class="table-data js-edit-department btn">Edit</td>
-                                <td class="table-data js-delete-department btn">Delete</td>
-                                <td class="table-data js-view-department btn">View</td>
+                                <td class="table-data js-edit-department act-data"><span class="btn edit-btn"> Edit </span></td>
+                                <td class="table-data js-delete-department act-data"> <span class="btn delete-btn-dept"> Delete </span></td>
+                                <td class="table-data js-view-department act-data"><span class="btn view-btn">View </span> </td>
                             </tr>
                         {% empty %}
                             <tr>
@@ -323,20 +272,21 @@
         </main>
         <div class="js-add-department-modal modal">
             <div class="modal-content">
-                <span class="js-close-add-department-modal">&times;</span>
+                <h1>Add a Department</h1>
                 <form action="{% url 'staff-accounts-add-department' %}"
                       class="form-body"
                       method="post">
                     {% csrf_token %}
                     <input type="text" required name="department_name" />
-                    <button type="submit">Add</button>
-                    <button class="js-close-add-department-modal">Cancel</button>
+                    <div class="form-buttons">
+                        <button class="form-button" type="submit">Confirm</button>
+                        <button class="js-close-add-department-modal cancel-button">Cancel</button>
+                    </div>
                 </form>
             </div>
         </div>
         <div class="js-delete-department-modal modal">
             <div class="modal-content">
-                <span class="js-close-delete-department-modal">&times;</span>
                 <form action="" method="post" class="form-body">
                     {% csrf_token %}
                 </form>
@@ -344,7 +294,6 @@
         </div>
         <div class="js-edit-department-modal modal">
             <div class="modal-content">
-                <span class="js-close-edit-department-modal">&times;</span>
                 <form action="" class="form-body" method="post">
                 </form>
             </div>

@@ -116,9 +116,9 @@ table .table-head, table .table-data{
 .add-department button{
     background: black;
     border-radius: 1rem;
-    padding: 4px 1rem;
+    padding: 8px 1rem;
     color: white;
-    font-size: var(--size-sm);
+    font-size: var(--size-base);
 }
 .add-department button:hover{
     background: rgba(0, 0, 0, 0.555);
@@ -173,12 +173,55 @@ table .table-head, table .table-data{
 .js-hover-patient .hover-dep p{
     font-size: var(--size-lg);
 }
-
-
-   /* CONTAINER */
-
-
-
+.act-data{
+    padding: 6px 0;
+}
+.btn{
+    padding: 6px 8px;
+    border-radius: 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.edit-btn{
+    background:rgb(0, 134, 0);
+    color: white;
+}
+.edit-btn:hover{
+    background:rgb(0, 112, 0);
+}
+.delete-btn-dept{
+    background:rgb(211, 3, 3);
+    color: white;
+}
+.delete-btn-dept:hover{
+    background: rgb(150, 0, 0);
+}
+.view-btn{
+    color: var(--light_gray);
+}
+.view-btn:hover{
+    color: black;
+}
+/* modal */
+.modal-content{
+    position: relative  ;
+    background-color: #fefefe;
+    margin: 7% auto; /* 15% from the top and centered */
+    border: 1px solid #888;
+    padding: 1rem 2rem;
+    width: 25%;
+    border-radius: 10px;
+}
+.modal-content form input{
+    width: 100%;
+    background: #E3E5E6;
+    height: 3.5rem;
+    border: none;
+    border-radius: 5px;
+    padding: 0rem 1rem;
+}
+ 
 
  /* 2xl */
  @media (max-width: 1536px) {
