@@ -22,6 +22,7 @@ main{
     height: 24rem;
     border-radius: 1rem;
     padding: 1rem 1rem;
+    transition: all 0.3s ease;
 }
 .dep-bar h1{
     margin-top: 1rem;
@@ -123,7 +124,9 @@ table .table-head, table .table-data{
 .add-department button:hover{
     background: rgba(0, 0, 0, 0.555);
 }
-
+.patient-name{
+    cursor: pointer;
+}
 .js-hover-patient{
     display: flex;
     flex-direction: column;
@@ -203,6 +206,13 @@ table .table-head, table .table-data{
 .view-btn:hover{
     color: black;
 }
+
+.dep-bar:hover, .table-design:hover{
+    box-shadow: var(--box-shadowlight);
+}
+
+
+
 /* modal */
 .modal-content{
     position: relative  ;

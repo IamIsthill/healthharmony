@@ -93,7 +93,7 @@ main{
     border-collapse: separate; /* Allows spacing between rows */
     border-spacing: 4px 4px;
 }
-.visit-history table:hover{
+.visit-history table:hover, .lower table:hover{
     box-shadow: var(--box-shadowlight);
 }
 
