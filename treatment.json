@@ -1,574 +1,1589 @@
 [
+  {
+    "model": "treatment.category",
+    "pk": 1,
+    "fields": {
+      "category": "Alimentary System",
+      "description": "The alimentary system, also known as the digestive system, is responsible for the ingestion, digestion, absorption, and elimination of food and nutrients. It consists of a series of organs and glands that work together to break down food into smaller molecules, which can be absorbed into the bloodstream and utilized by the body.",
+      "added": "2024-10-07T12:19:39.788Z",
+      "updated": "2024-10-07T07:56:46.140Z"
+    }
+  },
+  {
+    "model": "treatment.category",
+    "pk": 2,
+    "fields": {
+      "category": "Respiratory System",
+      "description": "The respiratory system is responsible for supplying oxygen to the body's tissues and removing carbon dioxide, a waste product of cellular metabolism. It allows the exchange of gases between the body and the environment, which is essential for life.",
+      "added": "2024-10-07T12:19:02.672Z",
+      "updated": "2024-10-07T07:56:58.521Z"
+    }
+  },
+  {
+    "model": "treatment.category",
+    "pk": 3,
+    "fields": {
+      "category": "Musculo-skeletal System",
+      "description": "The musculoskeletal system provides structure, support, and movement to the human body. It is composed of bones, muscles, cartilage, tendons, ligaments, and other connective tissues. Together, these components work to protect vital organs, allow mobility, and maintain posture.",
+      "added": "2024-10-07T12:18:33.880Z",
+      "updated": "2024-10-07T07:57:14.897Z"
+    }
+  },
+  {
+    "model": "treatment.category",
+    "pk": 4,
+    "fields": {
+      "category": "Integumentary System",
+      "description": "The integumentary system is the body’s outer covering and its largest organ system, primarily responsible for protecting the body from external damage, regulating body temperature, and providing sensory information. It consists of the skin, hair, nails, glands, and associated structures.",
+      "added": "2024-10-07T12:18:04.485Z",
+      "updated": "2024-10-07T07:58:18.546Z"
+    }
+  },
+  {
+    "model": "treatment.category",
+    "pk": 5,
+    "fields": {
+      "category": "Urinary System",
+      "description": "The urinary system (also known as the renal system) is responsible for producing, storing, and eliminating urine, as well as maintaining the body's balance of water, salts, and other substances. It plays a crucial role in filtering waste products from the blood and regulating fluid and electrolyte levels.",
+      "added": "2024-10-07T12:17:26.768Z",
+      "updated": "2024-10-07T07:58:30.385Z"
+    }
+  },
+  {
+    "model": "treatment.category",
+    "pk": 6,
+    "fields": {
+      "category": "Metabolic Endocrine Disorder",
+      "description": "Metabolic endocrine disorders are conditions that arise when the endocrine system, which regulates hormones and metabolism, becomes imbalanced or dysfunctional. These disorders affect how the body processes nutrients and produces energy.",
+      "added": "2024-10-07T12:16:57.588Z",
+      "updated": "2024-10-07T08:00:18.615Z"
+    }
+  },
+  {
+    "model": "treatment.category",
+    "pk": 7,
+    "fields": {
+      "category": "Cardiovascular System",
+      "description": "The cardiovascular system (also known as the circulatory system) is responsible for transporting blood, nutrients, oxygen, carbon dioxide, and hormones throughout the body.",
+      "added": "2024-10-07T12:16:16.405Z",
+      "updated": "2024-10-07T08:00:32.777Z"
+    }
+  },
+  {
+    "model": "treatment.category",
+    "pk": 8,
+    "fields": {
+      "category": "Eyes, Ears, Nose and Throat Disorders",
+      "description": "Eyes, Ears, Nose, and Throat (EENT) disorders refer to a wide range of conditions that affect these sensory and functional organs, often handled by an otolaryngologist or ENT specialist.",
+      "added": "2024-10-07T12:15:46.504Z",
+      "updated": "2024-10-07T08:00:52.947Z"
+    }
+  },
+  {
+    "model": "treatment.category",
+    "pk": 9,
+    "fields": {
+      "category": "Communicable Diseases",
+      "description": "Communicable diseases, also known as infectious diseases, are illnesses that are caused by bacteria or viruses and spread through contact with contaminated surfaces, bodily fluids, or the air.",
+      "added": "2024-10-07T11:55:14.714Z",
+      "updated": "2024-10-07T08:01:01.623Z"
+    }
+  },
+  {
+    "model": "treatment.category",
+    "pk": 10,
+    "fields": {
+      "category": "Blood Disorder",
+      "description": "A blood disorder is a condition that affects the blood's ability to function, and can be caused by a number of factors: blood cell levels, blood clotting, inherited, and other causes.",
+      "added": "2024-10-07T11:54:37.669Z",
+      "updated": "2024-10-07T08:01:14.982Z"
+    }
+  },
+  {
+    "model": "treatment.category",
+    "pk": 11,
+    "fields": {
+      "category": "Neurological Disorder",
+      "description": "Neurological Disorders are disorders that affect the brain as well as the nerves found throughout the human body and the spinal cord.",
+      "added": "2024-10-07T11:43:02.909Z",
+      "updated": "2024-10-07T08:01:30.411Z"
+    }
+  },
+  {
+    "model": "treatment.category",
+    "pk": 12,
+    "fields": {
+      "category": "OB-Gyne Cases",
+      "description": "Cases affecting women and their babies during pregnancy and childbirth.",
+      "added": "2024-10-07T11:42:01.343Z",
+      "updated": "2024-10-07T08:01:38.536Z"
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 4,
+    "fields": {
+      "patient": 17,
+      "issue": "Persistent chest pain and shortness of breath during physical activity.",
+      "illness_category": 5,
+      "staff": 6,
+      "doctor": 15,
+      "added": "2024-03-12T16:45:05.360Z",
+      "updated": "2024-10-30T12:09:32.735Z",
+      "diagnosis": "Signs of angina. Recommend further cardiovascular examination and stress testing."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 5,
+    "fields": {
+      "patient": 14,
+      "issue": "Frequent headaches and vision problems worsening over the past few months.",
+      "illness_category": 11,
+      "staff": 6,
+      "doctor": 12,
+      "added": "1986-07-22T15:47:26.671Z",
+      "updated": "2024-10-30T12:10:41.611Z",
+      "diagnosis": "Possible migraine or tension headaches. Consider neurological assessment and eye exam."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 6,
+    "fields": {
+      "patient": 12,
+      "issue": "Difficulty breathing at night and frequent wheezing.",
+      "illness_category": 12,
+      "staff": 6,
+      "doctor": 15,
+      "added": "2006-07-22T20:15:13.940Z",
+      "updated": "2024-10-30T12:09:04.237Z",
+      "diagnosis": "Symptoms suggest asthma. Recommend inhaler use and allergy testing."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 7,
+    "fields": {
+      "patient": 10,
+      "issue": "Severe joint pain in knees, especially after physical exertion.",
+      "illness_category": 8,
+      "staff": 6,
+      "doctor": 9,
+      "added": "1972-01-07T01:13:33.368Z",
+      "updated": "2024-10-30T12:10:58.383Z",
+      "diagnosis": "Potential osteoarthritis. Suggest physical therapy and anti-inflammatory medication."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 8,
+    "fields": {
+      "patient": 14,
+      "issue": "Chronic fatigue and unexplained weight loss over the last few months.",
+      "illness_category": 9,
+      "staff": 6,
+      "doctor": 12,
+      "added": "1993-07-27T06:23:04.737Z",
+      "updated": "2024-10-30T12:10:06.153Z",
+      "diagnosis": "Suspected thyroid disorder. Recommend blood tests to evaluate thyroid function."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 9,
+    "fields": {
+      "patient": 17,
+      "issue": "Recurring back pain, particularly in the lower region, with stiffness.",
+      "illness_category": 3,
+      "staff": 6,
+      "doctor": 15,
+      "added": "1994-06-01T03:24:18.524Z",
+      "updated": "2024-07-28T03:18:40.647Z",
+      "diagnosis": "Possible lumbar strain. Suggest physical therapy and stretching exercises."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 10,
+    "fields": {
+      "patient": 16,
+      "issue": "Frequent upper respiratory infections with persistent cough.",
+      "illness_category": 10,
+      "staff": 6,
+      "doctor": 10,
+      "added": "2009-03-05T22:41:12.595Z",
+      "updated": "2024-10-30T12:08:40.994Z",
+      "diagnosis": "Suspected bronchitis. Recommend antibiotics and monitoring for improvement."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 11,
+    "fields": {
+      "patient": 16,
+      "issue": "Persistent anxiety and difficulty sleeping at night.",
+      "illness_category": 3,
+      "staff": 6,
+      "doctor": 16,
+      "added": "1997-02-20T18:50:46.359Z",
+      "updated": "2024-03-31T20:15:36.075Z",
+      "diagnosis": "Generalized Anxiety Disorder. Recommend therapy and relaxation techniques."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 12,
+    "fields": {
+      "patient": 14,
+      "issue": "Unexplained bruising and occasional nosebleeds.",
+      "illness_category": 7,
+      "staff": 6,
+      "doctor": 13,
+      "added": "1998-10-01T07:39:02.355Z",
+      "updated": "2024-10-30T12:10:23.397Z",
+      "diagnosis": "Potential blood clotting disorder. Recommend full blood count and platelet tests."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 13,
+    "fields": {
+      "patient": 14,
+      "issue": "Shortness of breath and lightheadedness during physical activity.",
+      "illness_category": 10,
+      "staff": 6,
+      "doctor": 15,
+      "added": "2020-12-10T13:37:01.870Z",
+      "updated": "2024-10-30T12:08:22.339Z",
+      "diagnosis": "Likely anemia or mild cardiac issue. Recommend blood tests and cardiology referral."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 14,
+    "fields": {
+      "patient": 20,
+      "issue": "Persistent headache and blurred vision following head trauma.",
+      "illness_category": 11,
+      "staff": 6,
+      "doctor": 19,
+      "added": "1985-02-04T00:12:04.296Z",
+      "updated": "2024-01-01T21:07:34.779Z",
+      "diagnosis": "Concussion with mild cognitive impairment. Recommend rest and gradual return to activity."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 15,
+    "fields": {
+      "patient": 21,
+      "issue": "Chest pain during exercise, accompanied by shortness of breath.",
+      "illness_category": 4,
+      "staff": 6,
+      "doctor": 21,
+      "added": "2022-10-17T02:35:43.914Z",
+      "updated": "2024-10-24T14:07:41.560Z",
+      "diagnosis": "Possible angina. Recommend ECG and stress test to assess heart health."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 16,
+    "fields": {
+      "patient": 21,
+      "issue": "Persistent dry cough and fatigue over the last three weeks.",
+      "illness_category": 6,
+      "staff": 6,
+      "doctor": 20,
+      "added": "1972-12-27T08:31:41.681Z",
+      "updated": "2024-07-27T21:07:03.791Z",
+      "diagnosis": "Suspected bronchitis. Prescribe cough suppressant and monitor respiratory health."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 17,
+    "fields": {
+      "patient": 20,
+      "issue": "Sharp abdominal pain localized to the lower right quadrant.",
+      "illness_category": 8,
+      "staff": 6,
+      "doctor": 23,
+      "added": "2010-12-05T09:15:13.125Z",
+      "updated": "2024-09-21T04:06:51.234Z",
+      "diagnosis": "Potential appendicitis. Recommend immediate imaging and surgical consultation."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 18,
+    "fields": {
+      "patient": 20,
+      "issue": "Recurring fever and chills, accompanied by muscle pain.",
+      "illness_category": 2,
+      "staff": 6,
+      "doctor": 22,
+      "added": "2009-03-21T01:47:13.279Z",
+      "updated": "2024-04-10T08:07:12.578Z",
+      "diagnosis": "Suspected viral infection. Advise rest, fluids, and antipyretics."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 19,
+    "fields": {
+      "patient": 24,
+      "issue": "Patient reports persistent joint pain and limited mobility in the knees. Symptoms worsen with physical activity.",
+      "illness_category": 5,
+      "staff": 6,
+      "doctor": 27,
+      "added": "2022-01-04T18:11:08.048Z",
+      "updated": "2024-01-10T14:51:42.239Z",
+      "diagnosis": "Diagnosed with osteoarthritis in the knees. Recommended physical therapy and anti-inflammatory medication."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 20,
+    "fields": {
+      "patient": 26,
+      "issue": "Patient complains of frequent headaches and blurred vision, particularly in the morning.",
+      "illness_category": 11,
+      "staff": 6,
+      "doctor": 27,
+      "added": "1987-08-30T13:47:58.159Z",
+      "updated": "2024-09-05T10:36:55.879Z",
+      "diagnosis": "Diagnosed with migraines. Advised to avoid triggers, prescribed pain relief, and suggested lifestyle modifications."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 21,
+    "fields": {
+      "patient": 27,
+      "issue": "Reports shortness of breath and persistent cough lasting over three weeks. No history of smoking.",
+      "illness_category": 12,
+      "staff": 6,
+      "doctor": 28,
+      "added": "2007-07-17T23:41:00.822Z",
+      "updated": "2024-07-20T02:16:20.413Z",
+      "diagnosis": "Potential diagnosis of chronic bronchitis. Scheduled follow-up for pulmonary function tests and prescribed bronchodilator."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 22,
+    "fields": {
+      "patient": 28,
+      "issue": "Patient has high fever, chills, and severe fatigue for over four days. Recent travel history to a tropical region.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": 26,
+      "added": "1995-09-17T20:48:46.752Z",
+      "updated": "2024-09-18T08:11:13.661Z",
+      "diagnosis": "Suspected malaria. Advised immediate blood tests. Provided antimalarial treatment pending confirmation."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 23,
+    "fields": {
+      "patient": 26,
+      "issue": "Experiencing persistent lower back pain, especially in the mornings and after long periods of sitting.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": 27,
+      "added": "2007-06-25T02:21:22.439Z",
+      "updated": "2024-06-30T04:35:15.428Z",
+      "diagnosis": "Diagnosed with lumbar strain. Advised on posture improvement, recommended physical therapy, and prescribed muscle relaxants."
+    }
+  },
     {
-      "model": "treatment.doctordetail",
-      "pk": 1,
+      "model": "treatment.illness",
+      "pk": 24,
       "fields": {
-        "doctor": 3,
-        "time_avail_start": "05:47:53",
-        "time_avail_end": "05:42:55",
-        "avail": true
-      }
-    },
-    {
-      "model": "treatment.doctordetail",
-      "pk": 2,
-      "fields": {
-        "doctor": 7,
-        "time_avail_start": "12:51:59",
-        "time_avail_end": "06:55:28",
-        "avail": true
-      }
-    },
-    {
-      "model": "treatment.doctordetail",
-      "pk": 3,
-      "fields": {
-        "doctor": 11,
-        "time_avail_start": "04:56:47",
-        "time_avail_end": "05:52:22",
-        "avail": true
-      }
-    },
-    {
-      "model": "treatment.doctordetail",
-      "pk": 4,
-      "fields": {
-        "doctor": 9,
-        "time_avail_start": "05:48:38",
-        "time_avail_end": "19:24:15",
-        "avail": true
-      }
-    },
-    {
-      "model": "treatment.doctordetail",
-      "pk": 5,
-      "fields": {
-        "doctor": 12,
-        "time_avail_start": "02:35:29",
-        "time_avail_end": "12:29:18",
-        "avail": true
-      }
-    },
-    {
-      "model": "treatment.doctordetail",
-      "pk": 6,
-      "fields": {
-        "doctor": 3,
-        "time_avail_start": "01:24:27",
-        "time_avail_end": "01:53:51",
-        "avail": true
-      }
-    },
-    {
-      "model": "treatment.doctordetail",
-      "pk": 9,
-      "fields": {
-        "doctor": 12,
-        "time_avail_start": "20:04:55",
-        "time_avail_end": "23:15:40",
-        "avail": true
-      }
-    },
-    {
-      "model": "treatment.doctordetail",
-      "pk": 10,
-      "fields": {
-        "doctor": 7,
-        "time_avail_start": "00:41:36",
-        "time_avail_end": "10:57:09",
-        "avail": true
-      }
-    },
-    {
-      "model": "treatment.category",
-      "pk": 1,
-      "fields": {
-        "category": "Blood Disorders",
-        "added": "2024-09-22T12:19:23.814Z",
-        "updated": "2016-09-13T23:44:53.833Z"
-      }
-    },
-    {
-      "model": "treatment.category",
-      "pk": 2,
-      "fields": {
-        "category": "Communicable Disease",
-        "added": "2024-09-22T12:19:10.057Z",
-        "updated": "2017-09-17T05:55:26.006Z"
-      }
-    },
-    {
-      "model": "treatment.category",
-      "pk": 3,
-      "fields": {
-        "category": "Eyes, Ears, Nose, Throat Disorders",
-        "added": "2024-09-22T12:18:44.706Z",
-        "updated": "1993-11-18T13:51:50.545Z"
-      }
-    },
-    {
-      "model": "treatment.category",
-      "pk": 4,
-      "fields": {
-        "category": "Cardiovascular System",
-        "added": "2024-09-22T12:18:18.207Z",
-        "updated": "1988-09-24T02:30:14.687Z"
-      }
-    },
-    {
-      "model": "treatment.category",
-      "pk": 5,
-      "fields": {
-        "category": "Metabolic Endocrine System",
-        "added": "2024-09-22T12:17:57.496Z",
-        "updated": "2005-03-20T02:36:16.247Z"
-      }
-    },
-    {
-      "model": "treatment.category",
-      "pk": 6,
-      "fields": {
-        "category": "Urinary System",
-        "added": "2024-09-22T12:17:33.331Z",
-        "updated": "1979-02-17T16:38:47.002Z"
-      }
-    },
-    {
-      "model": "treatment.category",
-      "pk": 7,
-      "fields": {
-        "category": "Intergumentary System",
-        "added": "2024-09-22T12:17:17.943Z",
-        "updated": "2004-07-14T02:24:21.155Z"
-      }
-    },
-    {
-      "model": "treatment.category",
-      "pk": 8,
-      "fields": {
-        "category": "Musculo-skeletal System",
-        "added": "2024-09-22T12:16:58.439Z",
-        "updated": "1994-08-21T04:44:11.761Z"
-      }
-    },
-    {
-      "model": "treatment.category",
-      "pk": 9,
-      "fields": {
-        "category": "Respiratory System",
-        "added": "2024-09-22T12:16:45.589Z",
-        "updated": "1987-11-28T17:40:10.349Z"
-      }
-    },
-    {
-      "model": "treatment.category",
-      "pk": 10,
-      "fields": {
-        "category": "Alimentary System",
-        "added": "2024-09-22T12:16:33.695Z",
-        "updated": "2008-07-19T18:35:12.760Z"
-      }
-    },
-    {
-      "model": "treatment.category",
-      "pk": 11,
-      "fields": {
-        "category": "Neurological  Disorders",
-        "added": "2024-09-22T12:19:54.518Z",
-        "updated": "2024-09-22T12:19:54.518Z"
-      }
-    },
-    {
-      "model": "treatment.category",
-      "pk": 12,
-      "fields": {
-        "category": "OB-Gyne Cases",
-        "added": "2024-09-22T12:20:41.975Z",
-        "updated": "2024-09-22T12:20:04.422Z"
+        "patient": 29,
+        "issue": "Chronic headaches and vision disturbances over the past month.",
+        "illness_category": 12,
+        "staff": 33,
+        "doctor": 30,
+        "added": "2016-07-22T23:04:03.910Z",
+        "updated": "2024-09-19T11:12:34.043Z",
+        "diagnosis": "Migraines diagnosed, with potential triggers identified as stress and screen exposure. Recommend lifestyle modifications and prescribed preventive medication."
       }
     },
     {
       "model": "treatment.illness",
-      "pk": 1,
+      "pk": 25,
       "fields": {
-        "patient": 1,
-        "issue": "Masakit puson niya",
-        "illness_category": 1,
-        "staff": 2,
-        "doctor": null,
-        "added": "2024-09-22T10:33:41.468Z",
-        "updated": "2024-09-22T12:36:33.567Z",
-        "diagnosis": ""
+        "patient": 29,
+        "issue": "Persistent cough and intermittent fever lasting over two weeks.",
+        "illness_category": 9,
+        "staff": 33,
+        "doctor": 33,
+        "added": "2014-02-08T03:33:29.323Z",
+        "updated": "2024-06-15T09:34:26.048Z",
+        "diagnosis": "Bronchitis suspected, confirmed with chest X-ray. Prescribed antibiotics and recommended increased hydration. Follow-up in two weeks."
       }
     },
     {
       "model": "treatment.illness",
-      "pk": 2,
+      "pk": 26,
       "fields": {
-        "patient": 12,
-        "issue": "Magazine would how discuss realize easy leave. Their wall office tax great yes indicate.\nMay hot somebody notice nor line. Game amount experience my trouble. Hear have follow summer be education.",
+        "patient": 32,
+        "issue": "Pain and swelling in the lower back after lifting heavy objects.",
+        "illness_category": 7,
+        "staff": 30,
+        "doctor": 32,
+        "added": "1977-07-09T02:09:18.521Z",
+        "updated": "2024-12-05T03:21:42.644Z",
+        "diagnosis": "Diagnosed with lumbar strain. Recommended rest, hot/cold compress, and physical therapy if symptoms persist."
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 27,
+      "fields": {
+        "patient": 29,
+        "issue": "Sudden onset of high fever and severe muscle pain.",
         "illness_category": 6,
-        "staff": 11,
-        "doctor": 6,
-        "added": "1978-09-10T03:45:58.063Z",
-        "updated": "2000-02-28T22:42:47.657Z",
-        "diagnosis": "Cause development town today exist. Food support continue could must. White hotel remember need eye."
+        "staff": 31,
+        "doctor": 29,
+        "added": "1994-01-05T07:04:41.055Z",
+        "updated": "2024-07-19T09:07:40.828Z",
+        "diagnosis": "Suspected viral infection. Bed rest and hydration advised, with monitoring for worsening symptoms."
       }
     },
     {
       "model": "treatment.illness",
-      "pk": 3,
+      "pk": 28,
       "fields": {
-        "patient": 11,
-        "issue": "Rich seek skill Congress cold. Stuff edge thought month over activity.\nStandard summer with within whom wait. Along board technology ok after professor kid position.",
+        "patient": 30,
+        "issue": "Joint pain and stiffness, primarily in the knees and hands, worsening over the past year.",
         "illness_category": 8,
-        "staff": 11,
-        "doctor": 12,
-        "added": "1975-09-03T14:07:53.246Z",
-        "updated": "1970-04-03T15:19:42.225Z",
-        "diagnosis": "Forward state without friend account lot recently. Policy century real mention. Student field participant his for suggest quality conference."
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 4,
-      "fields": {
-        "patient": 11,
-        "issue": "This especially others court other. Series before news require along goal contain. Agent great alone he window seat.\nMaybe better suggest forward lay former watch. Coach play quite loss your course.",
-        "illness_category": 3,
-        "staff": 10,
-        "doctor": 7,
-        "added": "2001-07-18T01:20:19.254Z",
-        "updated": "2022-04-24T19:42:05.902Z",
-        "diagnosis": "Tv live do company argue agent. Write administration development include physical. Summer idea dark several."
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 5,
-      "fields": {
-        "patient": 8,
-        "issue": "Line executive line best. International trouble away start project thank. A matter grow probably own. Republican present lawyer watch sort future safe.",
-        "illness_category": 3,
-        "staff": 3,
-        "doctor": 3,
-        "added": "2009-01-05T21:30:41.077Z",
-        "updated": "1973-06-18T22:45:39.176Z",
-        "diagnosis": "Policy traditional final cover finally near individual. Information others need season finish trade his economic."
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 6,
-      "fields": {
-        "patient": 10,
-        "issue": "Travel official rich need. Message arm pull deep hand property.\r\nConsumer score risk operation. Show scene discussion old kid fine.",
-        "illness_category": 6,
-        "staff": 3,
-        "doctor": 11,
-        "added": "2023-07-22T06:27:24.574Z",
-        "updated": "2024-09-22T12:36:45.362Z",
-        "diagnosis": "Fight name attack air age democratic environment. Town test evidence law wish.\r\nAttack chance into society. Onto couple also American myself our."
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 7,
-      "fields": {
-        "patient": 5,
-        "issue": "Benefit total particular save. Everything cup yeah become relate.\nHotel spend history person. Herself bad door safe. Owner Mrs address or bank walk. Actually size pass house.",
-        "illness_category": 1,
-        "staff": 7,
-        "doctor": 6,
-        "added": "2006-10-18T03:21:08.033Z",
-        "updated": "1989-12-05T20:44:18.604Z",
-        "diagnosis": "Service read step forget. Mouth effort mouth activity parent.\nAway call property serve short leg. Have security goal order look town. Choose three sell beat health road wide."
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 8,
-      "fields": {
-        "patient": 12,
-        "issue": "Moment to friend thus issue protect space movie. Hot still together finish law significant. Key special someone time artist offer another likely. Drug everything adult near speech watch wide.",
-        "illness_category": 10,
-        "staff": 12,
-        "doctor": 12,
-        "added": "2015-09-26T11:35:30.708Z",
-        "updated": "1988-09-10T19:50:54.289Z",
-        "diagnosis": "Time dinner officer professional hand management. Director fund beat discussion song.\nEnter second idea similar exactly worry. Raise know price no. Cell sell certainly."
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 9,
-      "fields": {
-        "patient": 7,
-        "issue": "Green role if occur.\nGo figure give though opportunity phone president. Wear add lay including war.\nBring building quite care style.",
-        "illness_category": 8,
-        "staff": 6,
-        "doctor": 4,
-        "added": "1997-04-08T23:26:38.811Z",
-        "updated": "2021-07-22T00:48:11.888Z",
-        "diagnosis": "Wish position group understand for laugh game. Anyone lot education learn sit stay animal."
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 10,
-      "fields": {
-        "patient": 6,
-        "issue": "Easy significant executive.\nDay than small most score good condition. Human under same pattern ahead especially director painting. Treat body leg day hold expect.",
-        "illness_category": 5,
-        "staff": 10,
-        "doctor": 11,
-        "added": "2004-06-27T21:24:59.852Z",
-        "updated": "2006-03-03T18:32:49.196Z",
-        "diagnosis": "Work evidence style. Leave serious actually economy pay build answer after. Statement determine month."
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 11,
-      "fields": {
-        "patient": 12,
-        "issue": "Student blood how song red thousand firm. Admit floor approach age put.\nStatement cultural party significant now south common. Fact rule summer age standard. Will Democrat explain knowledge look.",
-        "illness_category": 5,
-        "staff": 6,
-        "doctor": 7,
-        "added": "1973-04-02T20:01:55.965Z",
-        "updated": "2018-03-19T10:22:18.053Z",
-        "diagnosis": "Set rest phone option key point. Daughter happen up war science themselves.\nShoulder member himself dinner fall total history would. Yeah owner tell per later. Base word authority itself."
-      }
-    },
-    {
-      "model": "treatment.certificate",
-      "pk": 1,
-      "fields": {
-        "patient": 6,
-        "purpose": "Insurance Claims",
-        "requested": "1985-10-06T16:34:44.864Z",
-        "is_ready": false,
-        "released": false
-      }
-    },
-    {
-      "model": "treatment.certificate",
-      "pk": 2,
-      "fields": {
-        "patient": 6,
-        "purpose": "Personal Reasons",
-        "requested": "2010-07-24T10:15:47.620Z",
-        "is_ready": false,
-        "released": false
-      }
-    },
-    {
-      "model": "treatment.certificate",
-      "pk": 3,
-      "fields": {
-        "patient": 8,
-        "purpose": "School or Work Absence",
-        "requested": "1975-02-22T09:05:58.093Z",
-        "is_ready": false,
-        "released": false
-      }
-    },
-    {
-      "model": "treatment.certificate",
-      "pk": 4,
-      "fields": {
-        "patient": 4,
-        "purpose": "Personal Reasons",
-        "requested": "2011-04-05T18:09:02.862Z",
-        "is_ready": true,
-        "released": false
-      }
-    },
-    {
-      "model": "treatment.certificate",
-      "pk": 5,
-      "fields": {
-        "patient": 10,
-        "purpose": "School Absence",
-        "requested": "1987-11-13T09:20:10.534Z",
-        "is_ready": false,
-        "released": true
-      }
-    },
-    {
-      "model": "treatment.certificate",
-      "pk": 6,
-      "fields": {
-        "patient": 10,
-        "purpose": "School Absence",
-        "requested": "1996-11-08T01:11:55.664Z",
-        "is_ready": false,
-        "released": false
-      }
-    },
-    {
-      "model": "treatment.certificate",
-      "pk": 7,
-      "fields": {
-        "patient": 9,
-        "purpose": "School or Work Absence",
-        "requested": "2015-07-22T13:20:39.424Z",
-        "is_ready": false,
-        "released": false
-      }
-    },
-    {
-      "model": "treatment.certificate",
-      "pk": 8,
-      "fields": {
-        "patient": 5,
-        "purpose": "Insurance Claims",
-        "requested": "2013-04-10T09:32:55.275Z",
-        "is_ready": false,
-        "released": false
-      }
-    },
-    {
-      "model": "treatment.certificate",
-      "pk": 9,
-      "fields": {
-        "patient": 10,
-        "purpose": "Personal Reasons",
-        "requested": "2004-10-24T05:56:58.379Z",
-        "is_ready": true,
-        "released": true
-      }
-    },
-    {
-      "model": "treatment.certificate",
-      "pk": 10,
-      "fields": {
-        "patient": 12,
-        "purpose": "Work Related",
-        "requested": "2008-02-03T03:43:48.628Z",
-        "is_ready": false,
-        "released": false
-      }
-    },
-    {
-      "model": "treatment.illnessnote",
-      "pk": 1,
-      "fields": {
-        "patient": 3,
-        "attached_to": 9,
-        "notes": "Experience particularly say air case soldier executive. Toward argue study result. Success school read see young about.\nKid allow strategy authority.",
-        "noted_by": 12,
-        "timestamp": "2014-02-09T16:24:37.382Z",
-        "updated": "2006-10-25T15:16:43.721Z"
-      }
-    },
-    {
-      "model": "treatment.illnessnote",
-      "pk": 2,
-      "fields": {
-        "patient": 5,
-        "attached_to": 10,
-        "notes": "Job blood rest. Whatever create thus rate federal off writer.\nList company figure five many. Speech spring camera health.\nSix trouble tax media into truth. Treat age practice item push cost which.",
-        "noted_by": 11,
-        "timestamp": "1990-01-24T20:41:42.335Z",
-        "updated": "1981-06-01T10:05:46.385Z"
-      }
-    },
-    {
-      "model": "treatment.illnessnote",
-      "pk": 3,
-      "fields": {
-        "patient": 5,
-        "attached_to": 9,
-        "notes": "Run later event glass. Word happy boy happen stop.\nThrough network window somebody bit another himself. Room base rest read big process program similar. Loss affect talk admit paper.",
-        "noted_by": 4,
-        "timestamp": "2002-04-21T23:04:17.652Z",
-        "updated": "1974-12-26T00:32:55.303Z"
-      }
-    },
-    {
-      "model": "treatment.illnessnote",
-      "pk": 4,
-      "fields": {
-        "patient": 8,
-        "attached_to": 4,
-        "notes": "Behavior never suggest education employee. History finish friend assume.\nEven apply approach call.\nFace image who kitchen mouth treatment executive. Middle kid easy may agree.",
-        "noted_by": 10,
-        "timestamp": "2016-07-26T17:35:40.823Z",
-        "updated": "1971-10-15T22:00:14.056Z"
-      }
-    },
-    {
-      "model": "treatment.illnessnote",
-      "pk": 5,
-      "fields": {
-        "patient": 7,
-        "attached_to": 11,
-        "notes": "Tough floor local event natural important. Physical adult food forget.\nCentury break half investment quality return over. Land value scientist risk point forward.",
-        "noted_by": 9,
-        "timestamp": "1982-03-17T22:13:41.049Z",
-        "updated": "2012-05-27T18:03:46.310Z"
-      }
-    },
-    {
-      "model": "treatment.illnessnote",
-      "pk": 6,
-      "fields": {
-        "patient": 5,
-        "attached_to": 3,
-        "notes": "Long how present husband work. Sound sort social former wear.\nArtist manager must hand I civil company cold. Development road guy three. Machine mouth heart man.",
-        "noted_by": 6,
-        "timestamp": "1985-01-06T09:33:51.677Z",
-        "updated": "2020-02-06T04:04:43.891Z"
-      }
-    },
-    {
-      "model": "treatment.illnessnote",
-      "pk": 7,
-      "fields": {
-        "patient": 8,
-        "attached_to": 3,
-        "notes": "At simple have produce. Pm feel century conference Mr major wide. Process sea recently develop information article final.\nListen population pay let cultural while we become.",
-        "noted_by": 12,
-        "timestamp": "2009-04-17T16:24:01.741Z",
-        "updated": "2019-06-12T06:33:22.745Z"
-      }
-    },
-    {
-      "model": "treatment.illnessnote",
-      "pk": 8,
-      "fields": {
-        "patient": 11,
-        "attached_to": 7,
-        "notes": "Save community activity offer. Church vote pretty your cost interview power piece.\nFast task which hair smile. Phone while wife method machine hour.",
-        "noted_by": 12,
-        "timestamp": "2011-10-22T03:26:34.908Z",
-        "updated": "2009-01-01T20:54:14.274Z"
-      }
-    },
-    {
-      "model": "treatment.illnessnote",
-      "pk": 9,
-      "fields": {
-        "patient": 5,
-        "attached_to": 11,
-        "notes": "Per section minute president record score hand. Door wait management court fear natural college her.",
-        "noted_by": 5,
-        "timestamp": "2024-07-28T14:14:52.444Z",
-        "updated": "1981-02-26T09:46:51.574Z"
-      }
-    },
-    {
-      "model": "treatment.illnessnote",
-      "pk": 10,
-      "fields": {
-        "patient": 6,
-        "attached_to": 8,
-        "notes": "Wish expert move send player information every understand. Possible fear successful join bed. Partner time dream fine traditional.\nFirm which exist chance best choice sense.",
-        "noted_by": 3,
-        "timestamp": "1970-10-02T03:30:11.014Z",
-        "updated": "2017-05-30T19:37:06.690Z"
+        "staff": 32,
+        "doctor": 31,
+        "added": "1976-07-20T21:08:51.209Z",
+        "updated": "2024-06-06T18:39:40.510Z",
+        "diagnosis": "Rheumatoid arthritis suspected, confirmed through blood tests. Anti-inflammatory medication prescribed, with recommended follow-up in three months."
       }
     }
-  ]
+  ,
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 1,
+    "fields": {
+      "illness": 4,
+      "inventory_detail": 11,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 2,
+    "fields": {
+      "illness": 4,
+      "inventory_detail": 9,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 3,
+    "fields": {
+      "illness": 4,
+      "inventory_detail": 5,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 4,
+    "fields": {
+      "illness": 5,
+      "inventory_detail": 12,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 5,
+    "fields": {
+      "illness": 6,
+      "inventory_detail": 9,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 6,
+    "fields": {
+      "illness": 6,
+      "inventory_detail": 5,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 7,
+    "fields": {
+      "illness": 7,
+      "inventory_detail": 10,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 8,
+    "fields": {
+      "illness": 7,
+      "inventory_detail": 5,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 9,
+    "fields": {
+      "illness": 7,
+      "inventory_detail": 13,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 10,
+    "fields": {
+      "illness": 8,
+      "inventory_detail": 9,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 11,
+    "fields": {
+      "illness": 8,
+      "inventory_detail": 5,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 12,
+    "fields": {
+      "illness": 9,
+      "inventory_detail": 12,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 13,
+    "fields": {
+      "illness": 9,
+      "inventory_detail": 11,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 14,
+    "fields": {
+      "illness": 10,
+      "inventory_detail": 5,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 15,
+    "fields": {
+      "illness": 11,
+      "inventory_detail": 12,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 16,
+    "fields": {
+      "illness": 11,
+      "inventory_detail": 7,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 17,
+    "fields": {
+      "illness": 11,
+      "inventory_detail": 13,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 18,
+    "fields": {
+      "illness": 12,
+      "inventory_detail": 5,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 19,
+    "fields": {
+      "illness": 13,
+      "inventory_detail": 7,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 20,
+    "fields": {
+      "illness": 13,
+      "inventory_detail": 13,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 21,
+    "fields": {
+      "illness": 7,
+      "inventory_detail": 8,
+      "quantity": -16186
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 22,
+    "fields": {
+      "illness": 5,
+      "inventory_detail": 8,
+      "quantity": 9715
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 23,
+    "fields": {
+      "illness": 4,
+      "inventory_detail": 8,
+      "quantity": -8425
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 24,
+    "fields": {
+      "illness": 12,
+      "inventory_detail": 11,
+      "quantity": -22879
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 25,
+    "fields": {
+      "illness": 6,
+      "inventory_detail": 8,
+      "quantity": -22893
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 26,
+    "fields": {
+      "illness": 7,
+      "inventory_detail": 9,
+      "quantity": -14791
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 27,
+    "fields": {
+      "illness": 5,
+      "inventory_detail": 12,
+      "quantity": -11363
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 28,
+    "fields": {
+      "illness": 11,
+      "inventory_detail": 12,
+      "quantity": 10099
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 29,
+    "fields": {
+      "illness": 8,
+      "inventory_detail": 5,
+      "quantity": -19630
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 30,
+    "fields": {
+      "illness": 6,
+      "inventory_detail": 5,
+      "quantity": -29821
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 31,
+    "fields": {
+      "illness": 14,
+      "inventory_detail": 14,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 32,
+    "fields": {
+      "illness": 15,
+      "inventory_detail": 14,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 33,
+    "fields": {
+      "illness": 16,
+      "inventory_detail": 16,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 34,
+    "fields": {
+      "illness": 17,
+      "inventory_detail": 16,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 35,
+    "fields": {
+      "illness": 17,
+      "inventory_detail": 14,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 36,
+    "fields": {
+      "illness": 18,
+      "inventory_detail": 18,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 37,
+    "fields": {
+      "illness": 18,
+      "inventory_detail": 15,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 38,
+    "fields": {
+      "illness": 17,
+      "inventory_detail": 18,
+      "quantity": 23484
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 39,
+    "fields": {
+      "illness": 18,
+      "inventory_detail": 15,
+      "quantity": 14022
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 40,
+    "fields": {
+      "illness": 18,
+      "inventory_detail": 18,
+      "quantity": -20892
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 41,
+    "fields": {
+      "illness": 16,
+      "inventory_detail": 16,
+      "quantity": 24269
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 42,
+    "fields": {
+      "illness": 18,
+      "inventory_detail": 15,
+      "quantity": 28609
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 43,
+    "fields": {
+      "illness": 19,
+      "inventory_detail": 22,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 44,
+    "fields": {
+      "illness": 20,
+      "inventory_detail": 22,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 45,
+    "fields": {
+      "illness": 21,
+      "inventory_detail": 20,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 46,
+    "fields": {
+      "illness": 22,
+      "inventory_detail": 21,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 47,
+    "fields": {
+      "illness": 22,
+      "inventory_detail": 19,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 48,
+    "fields": {
+      "illness": 23,
+      "inventory_detail": 19,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 49,
+    "fields": {
+      "illness": 23,
+      "inventory_detail": 21,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 50,
+    "fields": {
+      "illness": 20,
+      "inventory_detail": 21,
+      "quantity": 22043
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 51,
+    "fields": {
+      "illness": 23,
+      "inventory_detail": 23,
+      "quantity": 1270
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 52,
+    "fields": {
+      "illness": 20,
+      "inventory_detail": 22,
+      "quantity": -13882
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 53,
+    "fields": {
+      "illness": 21,
+      "inventory_detail": 23,
+      "quantity": -28854
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 54,
+    "fields": {
+      "illness": 23,
+      "inventory_detail": 19,
+      "quantity": 21629
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 55,
+    "fields": {
+      "illness": 24,
+      "inventory_detail": 28,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 56,
+    "fields": {
+      "illness": 25,
+      "inventory_detail": 26,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 57,
+    "fields": {
+      "illness": 25,
+      "inventory_detail": 27,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 58,
+    "fields": {
+      "illness": 26,
+      "inventory_detail": 25,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 59,
+    "fields": {
+      "illness": 27,
+      "inventory_detail": 24,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 60,
+    "fields": {
+      "illness": 28,
+      "inventory_detail": 25,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 61,
+    "fields": {
+      "illness": 28,
+      "inventory_detail": 24,
+      "quantity": 14809
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 62,
+    "fields": {
+      "illness": 27,
+      "inventory_detail": 25,
+      "quantity": -2719
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 63,
+    "fields": {
+      "illness": 25,
+      "inventory_detail": 26,
+      "quantity": 18102
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 64,
+    "fields": {
+      "illness": 28,
+      "inventory_detail": 24,
+      "quantity": -23795
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 65,
+    "fields": {
+      "illness": 27,
+      "inventory_detail": 27,
+      "quantity": 18340
+    }
+  },
+  {
+    "model": "treatment.certificate",
+    "pk": 1,
+    "fields": {
+      "patient": 6,
+      "purpose": "Medical certificate required for an upcoming exam.",
+      "requested": "2024-10-12T14:46:11.263Z",
+      "is_ready": false,
+      "released": false
+    }
+  },
+  {
+    "model": "treatment.certificate",
+    "pk": 2,
+    "fields": {
+      "patient": 9,
+      "purpose": "Certification needed for health insurance verification.",
+      "requested": "2024-07-14T15:17:20.281Z",
+      "is_ready": true,
+      "released": false
+    }
+  },
+  {
+    "model": "treatment.certificate",
+    "pk": 3,
+    "fields": {
+      "patient": 18,
+      "purpose": "Patient requires documentation for legal purposes related to medical treatment.",
+      "requested": "2024-09-11T04:52:08.098Z",
+      "is_ready": false,
+      "released": false
+    }
+  },
+  {
+    "model": "treatment.certificate",
+    "pk": 4,
+    "fields": {
+      "patient": 18,
+      "purpose": "Certification needed for participation in a clinical trial.",
+      "requested": "2024-10-16T16:40:01.492Z",
+      "is_ready": false,
+      "released": false
+    }
+  },
+  {
+    "model": "treatment.certificate",
+    "pk": 5,
+    "fields": {
+      "patient": 11,
+      "purpose": "Medical certificate required for a physical fitness assessment.",
+      "requested": "2024-10-10T04:16:22.485Z",
+      "is_ready": true,
+      "released": false
+    }
+  },
+  {
+    "model": "treatment.certificate",
+    "pk": 6,
+    "fields": {
+      "patient": 16,
+      "purpose": "Documentation required for post-surgery follow-up.",
+      "requested": "2024-05-06T01:45:39.857Z",
+      "is_ready": true,
+      "released": true
+    }
+  },
+  {
+    "model": "treatment.certificate",
+    "pk": 7,
+    "fields": {
+      "patient": 9,
+      "purpose": "Certificate needed for occupational health clearance.",
+      "requested": "2024-06-06T22:19:57.130Z",
+      "is_ready": true,
+      "released": true
+    }
+  },
+  {
+    "model": "treatment.certificate",
+    "pk": 8,
+    "fields": {
+      "patient": 12,
+      "purpose": "Medical certificate requested for school enrollment.",
+      "requested": "2024-08-02T14:17:41.733Z",
+      "is_ready": true,
+      "released": false
+    }
+  },
+  {
+    "model": "treatment.certificate",
+    "pk": 9,
+    "fields": {
+      "patient": 16,
+      "purpose": "Patient requires certification for fitness assessment due to recent medical procedure.",
+      "requested": "2024-02-09T06:09:24.982Z",
+      "is_ready": true,
+      "released": true
+    }
+  },
+  {
+    "model": "treatment.certificate",
+    "pk": 10,
+    "fields": {
+      "patient": 17,
+      "purpose": "Medical certificate requested for work clearance after recent health recovery.",
+      "requested": "2024-01-03T06:06:07.937Z",
+      "is_ready": true,
+      "released": true
+    }
+  },
+  {
+    "model": "treatment.certificate",
+    "pk": 11,
+    "fields": {
+      "patient": 12,
+      "purpose": "Patient requires documentation for travel purposes following medical check-up.",
+      "requested": "2024-11-19T17:38:52.252Z",
+      "is_ready": false,
+      "released": false
+    }
+  },
+  {
+    "model": "treatment.certificate",
+    "pk": 12,
+    "fields": {
+      "patient": 20,
+      "purpose": "Requested for school attendance waiver due to recent medical treatment. Doctor's approval and clearance required for school reentry.",
+      "requested": "2024-03-30T20:57:12.936Z",
+      "is_ready": true,
+      "released": true
+    }
+  },
+  {
+    "model": "treatment.certificate",
+    "pk": 13,
+    "fields": {
+      "patient": 23,
+      "purpose": "Certificate required for workplace injury leave. Valid for two weeks pending evaluation.",
+      "requested": "2024-08-22T02:39:18.094Z",
+      "is_ready": true,
+      "released": true
+    }
+  },
+  {
+    "model": "treatment.certificate",
+    "pk": 14,
+    "fields": {
+      "patient": 22,
+      "purpose": "Clearance certificate for physical activity in sports following recovery from illness.",
+      "requested": "2024-10-09T13:34:46.044Z",
+      "is_ready": true,
+      "released": false
+    }
+  },
+  {
+    "model": "treatment.certificate",
+    "pk": 15,
+    "fields": {
+      "patient": 19,
+      "purpose": "Medical certificate for travel allowance, to ensure health stability during travel.",
+      "requested": "2024-04-17T04:56:15.011Z",
+      "is_ready": true,
+      "released": true
+    }
+  },
+  {
+    "model": "treatment.certificate",
+    "pk": 16,
+    "fields": {
+      "patient": 21,
+      "purpose": "Employment requirement for annual health check clearance. Document pending final health assessment.",
+      "requested": "2024-05-04T08:06:51.785Z",
+      "is_ready": true,
+      "released": false
+    }
+  },
+  {
+    "model": "treatment.certificate",
+    "pk": 17,
+    "fields": {
+      "patient": 28,
+      "purpose": "Certificate required for immigration medical examination clearance.",
+      "requested": "2024-03-07T04:54:02.905Z",
+      "is_ready": true,
+      "released": true
+    }
+  },
+  {
+    "model": "treatment.certificate",
+    "pk": 18,
+    "fields": {
+      "patient": 27,
+      "purpose": "Medical approval for return to work after a period of illness. Clearance pending supervisor's signature.",
+      "requested": "2024-10-14T01:26:01.311Z",
+      "is_ready": true,
+      "released": true
+    }
+  },
+  {
+    "model": "treatment.certificate",
+    "pk": 19,
+    "fields": {
+      "patient": 26,
+      "purpose": "Certificate needed to exempt patient from physical education activities due to temporary injury.",
+      "requested": "2024-05-29T03:27:24.370Z",
+      "is_ready": true,
+      "released": false
+    }
+  },
+  {
+    "model": "treatment.certificate",
+    "pk": 20,
+    "fields": {
+      "patient": 26,
+      "purpose": "Medical examination clearance required for driver's license renewal.",
+      "requested": "2024-07-19T23:20:56.102Z",
+      "is_ready": true,
+      "released": true
+    }
+  },
+  {
+    "model": "treatment.certificate",
+    "pk": 21,
+    "fields": {
+      "patient": 24,
+      "purpose": "Clearance for participation in competitive sports following injury recovery.",
+      "requested": "2024-09-14T20:55:42.026Z",
+      "is_ready": true,
+      "released": false
+    }
+  },
+  {
+    "model": "treatment.illnessnote",
+    "pk": 1,
+    "fields": {
+      "patient": 15,
+      "attached_to": 8,
+      "notes": "Patient reported experiencing persistent pain in the left leg. Recommended further evaluation.",
+      "noted_by": 11,
+      "timestamp": "2024-06-16T21:35:00.855Z",
+      "updated": "2024-11-13T00:43:04.043Z"
+    }
+  },
+  {
+    "model": "treatment.illnessnote",
+    "pk": 2,
+    "fields": {
+      "patient": 10,
+      "attached_to": 10,
+      "notes": "Discussion with the patient regarding surgical options for knee pain. Encouraged the patient to consider their options carefully.",
+      "noted_by": 12,
+      "timestamp": "2024-08-16T11:46:50.294Z",
+      "updated": "2024-07-13T01:32:38.189Z"
+    }
+  },
+  {
+    "model": "treatment.illnessnote",
+    "pk": 3,
+    "fields": {
+      "patient": 12,
+      "attached_to": 7,
+      "notes": "Patient expressed concerns about treatment side effects. Discussed possible adjustments to the medication regimen.",
+      "noted_by": 12,
+      "timestamp": "2024-08-31T16:53:08.360Z",
+      "updated": "2024-10-26T06:13:27.863Z"
+    }
+  },
+  {
+    "model": "treatment.illnessnote",
+    "pk": 4,
+    "fields": {
+      "patient": 16,
+      "attached_to": 11,
+      "notes": "Patient undergoing routine follow-up. All vital signs within normal limits. Continue with current treatment plan.",
+      "noted_by": 17,
+      "timestamp": "2024-06-24T00:56:09.276Z",
+      "updated": "2024-01-07T02:06:12.127Z"
+    }
+  },
+  {
+    "model": "treatment.illnessnote",
+    "pk": 5,
+    "fields": {
+      "patient": 9,
+      "attached_to": 8,
+      "notes": "Patient reported improved symptoms after medication adjustment. Follow-up in one month.",
+      "noted_by": 11,
+      "timestamp": "2024-07-03T12:42:24.285Z",
+      "updated": "2024-09-10T22:16:01.458Z"
+    }
+  },
+  {
+    "model": "treatment.illnessnote",
+    "pk": 6,
+    "fields": {
+      "patient": 16,
+      "attached_to": 4,
+      "notes": "Patient's condition stable, no new complaints. Scheduled next appointment for 3 months.",
+      "noted_by": 12,
+      "timestamp": "2024-05-08T15:53:38.815Z",
+      "updated": "2024-09-23T21:44:42.207Z"
+    }
+  },
+  {
+    "model": "treatment.illnessnote",
+    "pk": 7,
+    "fields": {
+      "patient": 16,
+      "attached_to": 12,
+      "notes": "Discussed lifestyle changes to manage chronic pain. Provided educational materials.",
+      "noted_by": 9,
+      "timestamp": "2024-03-05T15:48:55.491Z",
+      "updated": "2024-10-06T02:05:26.947Z"
+    }
+  },
+  {
+    "model": "treatment.illnessnote",
+    "pk": 8,
+    "fields": {
+      "patient": 13,
+      "attached_to": 5,
+      "notes": "Patient reports difficulty sleeping due to pain. Recommended consulting a sleep specialist.",
+      "noted_by": 17,
+      "timestamp": "2024-03-18T00:44:14.369Z",
+      "updated": "2024-12-21T17:01:01.486Z"
+    }
+  },
+  {
+    "model": "treatment.illnessnote",
+    "pk": 9,
+    "fields": {
+      "patient": 18,
+      "attached_to": 10,
+      "notes": "Patient expressed interest in alternative therapies. Provided referrals for acupuncture and physical therapy.",
+      "noted_by": 15,
+      "timestamp": "2024-11-22T22:31:31.983Z",
+      "updated": "2024-06-28T03:24:54.774Z"
+    }
+  },
+  {
+    "model": "treatment.illnessnote",
+    "pk": 10,
+    "fields": {
+      "patient": 16,
+      "attached_to": 5,
+      "notes": "Patient's treatment plan reviewed and adjusted as necessary. Emphasized the importance of adherence to the regimen.",
+      "noted_by": 18,
+      "timestamp": "2024-04-04T04:34:12.942Z",
+      "updated": "2024-12-01T08:34:05.995Z"
+    }
+  },
+  {
+    "model": "treatment.illnessnote",
+    "pk": 11,
+    "fields": {
+      "patient": 21,
+      "attached_to": 17,
+      "notes": "Patient reported mild improvement in symptoms. Monitoring for any recurrence of pain or discomfort.",
+      "noted_by": 21,
+      "timestamp": "2024-01-02T18:05:25.938Z",
+      "updated": "2024-07-22T20:53:11.193Z"
+    }
+  },
+  {
+    "model": "treatment.illnessnote",
+    "pk": 12,
+    "fields": {
+      "patient": 23,
+      "attached_to": 17,
+      "notes": "Follow-up indicates increased mobility and reduced pain. Physical therapy recommended to continue progress.",
+      "noted_by": 19,
+      "timestamp": "1990-03-24T04:14:47.159Z",
+      "updated": "1984-05-29T03:46:43.398Z"
+    }
+  },
+  {
+    "model": "treatment.illnessnote",
+    "pk": 13,
+    "fields": {
+      "patient": 20,
+      "attached_to": 16,
+      "notes": "Patient experiencing mild dizziness post-medication. Adjusted dosage to monitor response.",
+      "noted_by": 19,
+      "timestamp": "2024-10-11T19:37:29.632Z",
+      "updated": "2024-12-18T20:59:31.017Z"
+    }
+  },
+  {
+    "model": "treatment.illnessnote",
+    "pk": 14,
+    "fields": {
+      "patient": 21,
+      "attached_to": 14,
+      "notes": "Initial consultation notes: Patient presents with severe headaches. Further tests ordered.",
+      "noted_by": 20,
+      "timestamp": "2024-01-16T14:00:09.955Z",
+      "updated": "2024-01-12T09:42:27.406Z"
+    }
+  },
+  {
+    "model": "treatment.illnessnote",
+    "pk": 15,
+    "fields": {
+      "patient": 21,
+      "attached_to": 17,
+      "notes": "Observed signs of recovery, though patient reports occasional discomfort. Suggested light exercise and rest.",
+      "noted_by": 19,
+      "timestamp": "2204-04-06T01:42:12.744Z",
+      "updated": "2024-06-06T16:14:46.085Z"
+    }
+  },
+  {
+    "model": "treatment.illnessnote",
+    "pk": 16,
+    "fields": {
+      "patient": 24,
+      "attached_to": 22,
+      "notes": "Patient exhibits high protective responses. Observed steady improvement in seasonal allergies, though additional weight monitoring is recommended. Security measures have been effective.",
+      "noted_by": 28,
+      "timestamp": "2024-03-22T01:58:04.292Z",
+      "updated": "2024-07-12T06:14:15.402Z"
+    }
+  },
+  {
+    "model": "treatment.illnessnote",
+    "pk": 17,
+    "fields": {
+      "patient": 28,
+      "attached_to": 19,
+      "notes": "Patient maintains good physical activity. No recent major symptoms, but recommended to monitor stress levels. Coordination with family for additional support suggested.",
+      "noted_by": 26,
+      "timestamp": "2024-08-10T08:21:11.869Z",
+      "updated": "2024-01-30T03:21:38.310Z"
+    }
+  },
+  {
+    "model": "treatment.illnessnote",
+    "pk": 18,
+    "fields": {
+      "patient": 28,
+      "attached_to": 22,
+      "notes": "Discussed social support and regular check-ins to address mild stress symptoms. No major medical issues noted recently.",
+      "noted_by": 24,
+      "timestamp": "2024-08-09T03:28:14.164Z",
+      "updated": "2024-10-26T13:02:11.092Z"
+    }
+  },
+  {
+    "model": "treatment.illnessnote",
+    "pk": 19,
+    "fields": {
+      "patient": 27,
+      "attached_to": 22,
+      "notes": "Physical check-up showed stable health with no significant changes. Recommended to continue routine physical activity. Mental health support if necessary.",
+      "noted_by": 25,
+      "timestamp": "2024-07-02T12:30:25.901Z",
+      "updated": "2024-09-11T06:49:24.653Z"
+    }
+  },
+  {
+    "model": "treatment.illnessnote",
+    "pk": 20,
+    "fields": {
+      "patient": 26,
+      "attached_to": 21,
+      "notes": "General improvement observed in mobility and overall strength. Discussed setting new health goals to sustain motivation.",
+      "noted_by": 27,
+      "timestamp": "2024-09-14T18:19:50.617Z",
+      "updated": "2024-06-09T11:37:54.702Z"
+    }
+  },
+  {
+    "model": "treatment.illnessnote",
+    "pk": 21,
+    "fields": {
+      "patient": 33,
+      "attached_to": 28,
+      "notes": "Nor town position force. Far walk event. Should happen politics father game.\nMrs air popular phone store there. Single value Mrs while manager issue social.",
+      "noted_by": 32,
+      "timestamp": "2024-07-02T01:42:56.846Z",
+      "updated": "2024-12-06T14:21:33.042Z"
+    }
+  },
+  {
+    "model": "treatment.illnessnote",
+    "pk": 22,
+    "fields": {
+      "patient": 31,
+      "attached_to": 27,
+      "notes": "Within though because trial memory but across. Line commercial result at whose. Right college middle sport almost while.",
+      "noted_by": 29,
+      "timestamp": "1988-05-12T12:15:58.418Z",
+      "updated": "2024-06-07T23:50:01.653Z"
+    }
+  },
+  {
+    "model": "treatment.illnessnote",
+    "pk": 23,
+    "fields": {
+      "patient": 33,
+      "attached_to": 26,
+      "notes": "Anything style test by image watch kind. Quickly region money continue enjoy miss. From off once figure lot present side.",
+      "noted_by": 33,
+      "timestamp": "1982-04-18T22:15:12.792Z",
+      "updated": "2024-04-19T14:24:07.821Z"
+    }
+  },
+  {
+    "model": "treatment.illnessnote",
+    "pk": 24,
+    "fields": {
+      "patient": 30,
+      "attached_to": 25,
+      "notes": "Wear pay card brother else significant commercial.\nPresident development American term point. Manage fall simple western these. Citizen our lay long.\nGreen if along finish.",
+      "noted_by": 31,
+      "timestamp": "2008-12-29T11:54:25.514Z",
+      "updated": "2024-06-13T13:39:54.869Z"
+    }
+  },
+  {
+    "model": "treatment.illnessnote",
+    "pk": 25,
+    "fields": {
+      "patient": 33,
+      "attached_to": 28,
+      "notes": "Blood possible camera eight expert past town.\nBelieve see music.\nFront month natural word foot necessary. Church hold bank back just peace.",
+      "noted_by": 30,
+      "timestamp": "1982-06-26T18:59:37.496Z",
+      "updated": "2024-06-04T02:19:40.722Z"
+    }
+  }
+]

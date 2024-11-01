@@ -11,6 +11,18 @@ migrate:
 download:
 	poetry run python -m healthharmony.manage dumpdata treatment inventory users > data.json
 
+.PHONY: download-all
+download-all:
+	poetry run python -m healthharmony.manage dumpdata treatment > treatment.json
+	poetry run python -m healthharmony.manage dumpdata inventory > inventory.json
+	poetry run python -m healthharmony.manage dumpdata users > users.json
+
+.PHONY: upload-all
+upload-all:
+	poetry run python -m healthharmony.manage loaddata users.json
+	poetry run python -m healthharmony.manage loaddata inventory.json
+	poetry run python -m healthharmony.manage loaddata treatment.json
+
 .PHONY: upload
 upload:
 	poetry run python -m healthharmony.manage loaddata data.json

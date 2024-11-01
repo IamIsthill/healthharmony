@@ -575,7 +575,7 @@ function get_form_element_for_patient_details() {
         <input name="patient_id" value="${patient_data.id}" type="hidden" />
         <input name="DOB" value="${patient_data.DOB ? patient_data.DOB : ''}" type="date" required />
         <input name="sex" value="${patient_data.sex ? patient_data.sex: ''}" type="text" required />
-        <input name="contact" value="${patient_data.contact ? patient_data.contact : ''}" type="number" placeholder="contact" required />
+        <input name="contact" value="${patient_data.contact ? patient_data.contact : ''}" type="text" placeholder="contact" required />
         <div class = "year-section">
         <select name="year">
             <option value="1" ${patient_data.year==1 ? 'selected' : ''}>1</option>

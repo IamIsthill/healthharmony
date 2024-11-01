@@ -1,158 +1,397 @@
 [
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 1,
-    "fields": {
-      "item_no": 1111,
-      "unit": "tablets",
-      "item_name": "Mefenamic Acid",
-      "category": "Medicine",
-      "description": "Non-steroidal anti-inflammatory drug (NSAID) for pain relief and fever reduction.",
-      "expiration_date": "2027-10-22",
-      "added_by": 2
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 1,
+      "fields": {
+        "item_no": 143,
+        "unit": "tablet",
+        "item_name": "Atorvastatin",
+        "category": "Medicine",
+        "description": "Take this three times a day as prescribed.",
+        "expiration_date": "2024-10-25",
+        "added_by": 4
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 2,
+      "fields": {
+        "item_no": 144,
+        "unit": "tablet",
+        "item_name": "Losartan",
+        "category": "Medicine",
+        "description": "Take when feeling unwell or stressed.",
+        "expiration_date": "2024-10-25",
+        "added_by": 4
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 3,
+      "fields": {
+        "item_no": 99,
+        "unit": "box",
+        "item_name": "Ibuprofen",
+        "category": "Supply",
+        "description": "Use gloves when handling.",
+        "expiration_date": null,
+        "added_by": 4
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 4,
+      "fields": {
+        "item_no": 150,
+        "unit": "bottle",
+        "item_name": "Vitamin C Syrup",
+        "category": "Medicine",
+        "description": "Take 10ml daily to boost immunity.",
+        "expiration_date": "2025-06-21",
+        "added_by": 5
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 5,
+      "fields": {
+        "item_no": 201,
+        "unit": "syringe",
+        "item_name": "Insulin",
+        "category": "Medicine",
+        "description": "For blood sugar management. Inject as prescribed.",
+        "expiration_date": "2024-12-23",
+        "added_by": 5
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 6,
+      "fields": {
+        "item_no": 223,
+        "unit": "bottle",
+        "item_name": "Antibiotic Solution",
+        "category": "Medicine",
+        "description": "Use as directed by the physician.",
+        "expiration_date": "2025-01-05",
+        "added_by": 4
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 7,
+      "fields": {
+        "item_no": 300,
+        "unit": "bottle",
+        "item_name": "Hand Sanitizer",
+        "category": "Supply",
+        "description": "Use to sanitize hands before handling equipment.",
+        "expiration_date": "2025-08-16",
+        "added_by": 2
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 8,
+      "fields": {
+        "item_no": 315,
+        "unit": "tablet",
+        "item_name": "Pain Reliever",
+        "category": "Medicine",
+        "description": "Take only when experiencing severe pain.",
+        "expiration_date": "2024-10-13",
+        "added_by": 5
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 9,
+      "fields": {
+        "item_no": 399,
+        "unit": "mask",
+        "item_name": "N95 Respirator",
+        "category": "Supply",
+        "description": "Use for airborne infection control.",
+        "expiration_date": null,
+        "added_by": 4
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 10,
+      "fields": {
+        "item_no": 401,
+        "unit": "ointment",
+        "item_name": "Burn Ointment",
+        "category": "Medicine",
+        "description": "Apply on burns and cover with a sterile bandage.",
+        "expiration_date": "2025-06-24",
+        "added_by": 2
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 11,
+      "fields": {
+        "item_no": 500,
+        "unit": "tablet",
+        "item_name": "Antihistamine",
+        "category": "Medicine",
+        "description": "Take to relieve allergic reactions.",
+        "expiration_date": "2024-12-23",
+        "added_by": 5
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 12,
+      "fields": {
+        "item_no": 601,
+        "unit": "bottle",
+        "item_name": "Cough Syrup",
+        "category": "Medicine",
+        "description": "Take 10ml every 6 hours as needed.",
+        "expiration_date": "2025-04-25",
+        "added_by": 5
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 13,
+      "fields": {
+        "item_no": 699,
+        "unit": "bottle",
+        "item_name": "Antiseptic Solution",
+        "category": "Supply",
+        "description": "Use for cleaning wounds before dressing.",
+        "expiration_date": "2025-12-13",
+        "added_by": 4
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 14,
+      "fields": {
+        "item_no": 8105,
+        "unit": "box",
+        "item_name": "Sterile Bandages",
+        "category": "Supply",
+        "description": "Used for wound dressing and infection prevention.",
+        "expiration_date": "2024-10-25",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 15,
+      "fields": {
+        "item_no": 7027,
+        "unit": "pack",
+        "item_name": "Pain Relief Tablets",
+        "category": "Medicine",
+        "description": "Oral tablets for temporary pain relief.",
+        "expiration_date": "2023-06-02",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 16,
+      "fields": {
+        "item_no": 11031,
+        "unit": "tube",
+        "item_name": "Antibiotic Ointment",
+        "category": "Medicine",
+        "description": "Topical ointment for treating minor cuts and infections.",
+        "expiration_date": "2025-02-04",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 17,
+      "fields": {
+        "item_no": 28905,
+        "unit": "bottle",
+        "item_name": "Cough Syrup",
+        "category": "Medicine",
+        "description": "Syrup to relieve cough and soothe throat irritation.",
+        "expiration_date": "2023-06-16",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 18,
+      "fields": {
+        "item_no": 14698,
+        "unit": "packet",
+        "item_name": "Electrolyte Powder",
+        "category": "Medicine",
+        "description": "Oral rehydration salts for electrolyte replenishment.",
+        "expiration_date": "2023-01-10",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 19,
+      "fields": {
+        "item_no": 4243,
+        "unit": "Box",
+        "item_name": "Antacid Tablets",
+        "category": "Medicine",
+        "description": "Used to relieve indigestion, heartburn, and acid reflux. Store in a cool, dry place.",
+        "expiration_date": "2025-05-11",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 20,
+      "fields": {
+        "item_no": 26552,
+        "unit": "Bottle",
+        "item_name": "Multivitamin Syrup",
+        "category": "Medicine",
+        "description": "Provides essential vitamins and minerals. Recommended for daily use to support overall health.",
+        "expiration_date": "2019-11-29",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 21,
+      "fields": {
+        "item_no": 22,
+        "unit": "Packet",
+        "item_name": "Oral Rehydration Salts (ORS)",
+        "category": "Medicine",
+        "description": "Used for dehydration treatment by replenishing fluids and electrolytes lost due to diarrhea.",
+        "expiration_date": "2004-12-05",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 22,
+      "fields": {
+        "item_no": 9072,
+        "unit": "Box",
+        "item_name": "Sterile Gauze Pads",
+        "category": "Supply",
+        "description": "Used for wound dressing and protection. Sterile, single-use pads to prevent infection.",
+        "expiration_date": "2025-01-13",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 23,
+      "fields": {
+        "item_no": 8670,
+        "unit": "Bottle",
+        "item_name": "Cough Syrup",
+        "category": "Medicine",
+        "description": "Relieves symptoms of cough and sore throat. Shake well before use.",
+        "expiration_date": "2021-10-26",
+        "added_by": null
+      }
+    },
+        {
+          "model": "inventory.inventorydetail",
+          "pk": 24,
+          "fields": {
+            "item_no": 28309,
+            "unit": "bottle",
+            "item_name": "Paracetamol 500mg Tablets",
+            "category": "Medicine",
+            "description": "Used to relieve pain and reduce fever. Store at room temperature, away from light and moisture.",
+            "expiration_date": "2025-02-28",
+            "added_by": null
+          }
+        },
+        {
+          "model": "inventory.inventorydetail",
+          "pk": 25,
+          "fields": {
+            "item_no": 526,
+            "unit": "box",
+            "item_name": "Antiseptic Wipes",
+            "category": "Supply",
+            "description": "Individually packed antiseptic wipes for external use only. Helps to disinfect and clean wounds or minor injuries.",
+            "expiration_date": "2025-10-14",
+            "added_by": null
+          }
+        },
+        {
+          "model": "inventory.inventorydetail",
+          "pk": 26,
+          "fields": {
+            "item_no": 17455,
+            "unit": "tube",
+            "item_name": "Antibiotic Ointment",
+            "category": "Medicine",
+            "description": "Topical antibiotic ointment for preventing infections in minor cuts, scrapes, and burns.",
+            "expiration_date": "2024-09-18",
+            "added_by": null
+          }
+        },
+        {
+          "model": "inventory.inventorydetail",
+          "pk": 27,
+          "fields": {
+            "item_no": 9946,
+            "unit": "pack",
+            "item_name": "Sterile Gauze Pads",
+            "category": "Supply",
+            "description": "Sterile gauze pads for wound care. Suitable for dressing open wounds and controlling bleeding.",
+            "expiration_date": "2026-10-05",
+            "added_by": null
+          }
+        },
+        {
+          "model": "inventory.inventorydetail",
+          "pk": 28,
+          "fields": {
+            "item_no": 14159,
+            "unit": "bottle",
+            "item_name": "Ibuprofen 200mg Tablets",
+            "category": "Medicine",
+            "description": "Nonsteroidal anti-inflammatory drug (NSAID) used to reduce fever and relieve pain or inflammation.",
+            "expiration_date": "2024-03-28",
+            "added_by": null
+          }
+        }
+    ,
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 1,
+      "fields": {
+        "inventory": 1,
+        "updated_quantity": 100,
+        "timestamp": "2024-10-24T10:56:14.408Z",
+        "changed_by": 4
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 2,
+      "fields": {
+        "inventory": 2,
+        "updated_quantity": 100,
+        "timestamp": "2024-10-24T10:58:14.177Z",
+        "changed_by": 4
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 3,
+      "fields": {
+        "inventory": 3,
+        "updated_quantity": 58,
+        "timestamp": "2024-10-24T11:00:48.843Z",
+        "changed_by": 4
+      }
     }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 2,
-    "fields": {
-      "item_no": 1212,
-      "unit": "rolls",
-      "item_name": "Medical Adhesive Tape",
-      "category": "Supply",
-      "description": "Adhesive tape for wound dressing and securing medical equipment.",
-      "expiration_date": "2024-09-22",
-      "added_by": 2
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 3,
-    "fields": {
-      "item_no": 1231,
-      "unit": "boxes",
-      "item_name": "Acetaminophen",
-      "category": "Medicine",
-      "description": "Over-the-counter pain reliever and fever reducer.",
-      "expiration_date": "2013-06-11",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 4,
-    "fields": {
-      "item_no": 5567,
-      "unit": "bottles",
-      "item_name": "Aspirin",
-      "category": "Medicine",
-      "description": "Blood thinner and pain reliever.",
-      "expiration_date": "1984-10-04",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 5,
-    "fields": {
-      "item_no": 6913,
-      "unit": "syringes",
-      "item_name": "Insulin Syringes",
-      "category": "Supply",
-      "description": "Used for administering insulin injections.",
-      "expiration_date": "1999-12-20",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 6,
-    "fields": {
-      "item_no": 5675,
-      "unit": "strips",
-      "item_name": "Glucose Test Strips",
-      "category": "Supply",
-      "description": "Used for measuring blood sugar levels.",
-      "expiration_date": "1980-07-28",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 7,
-    "fields": {
-      "item_no": 4564,
-      "unit": "vials",
-      "item_name": "Vitamin B12",
-      "category": "Medicine",
-      "description": "Vitamin supplement used for treating vitamin B12 deficiency.",
-      "expiration_date": "1973-01-05",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 8,
-    "fields": {
-      "item_no": 4456,
-      "unit": "tubes",
-      "item_name": "Neosporin",
-      "category": "Medicine",
-      "description": "Topical antibiotic ointment for treating minor cuts and scrapes.",
-      "expiration_date": "1996-05-16",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 9,
-    "fields": {
-      "item_no": 25904,
-      "unit": "tablets",
-      "item_name": "Aspirin",
-      "category": "Medicine",
-      "description": "Blood thinner and pain reliever.",
-      "expiration_date": "2025-05-16",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 10,
-    "fields": {
-      "item_no": 1233,
-      "unit": "tablets",
-      "item_name": "Acetaminophen",
-      "category": "Medicine",
-      "description": "Over-the-counter pain reliever and fever reducer.",
-      "expiration_date": "2011-02-15",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 11,
-    "fields": {
-      "item_no": 5676,
-      "unit": "rolls",
-      "item_name": "Medical Adhesive Tape",
-      "category": "Supply",
-      "description": "Adhesive tape for wound dressing and securing medical equipment.",
-      "expiration_date": "2008-01-31",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 12,
-    "fields": {
-      "item_no": 2193,
-      "unit": "tablets",
-      "item_name": "Mefenamic Acid",
-      "category": "Medicine",
-      "description": "Non-steroidal anti-inflammatory drug (NSAID) for pain relief and fever reduction.",
-      "expiration_date": "1986-08-17",
-      "added_by": null
-    }
-  }
-]
+  ]
