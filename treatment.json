@@ -2498,12 +2498,11 @@
       "updated": "2024-03-09T01:05:37.168Z",
       "diagnosis": ""
     }
-  }
-,
-{
-  "model": "treatment.illness",
-  "pk": 174,
-  "fields": {
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 174,
+    "fields": {
       "patient": 171,
       "issue": "The patient expresses concerns about their health and is seeking guidance on how to improve their situation. They feel overwhelmed with various aspects of their life and are unsure about the next steps.",
       "illness_category": 1,
@@ -2512,12 +2511,12 @@
       "added": "2024-01-01T13:08:21.080Z",
       "updated": "2024-02-18T19:05:47.911Z",
       "diagnosis": ""
-  }
-},
-{
-  "model": "treatment.illness",
-  "pk": 175,
-  "fields": {
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 175,
+    "fields": {
       "patient": 175,
       "issue": "The patient discusses feelings of anxiety and frustration related to their family dynamics. They mention that it's challenging to maintain a positive outlook with the ongoing issues in their life.",
       "illness_category": 1,
@@ -2526,12 +2525,12 @@
       "added": "2024-01-09T08:35:34.006Z",
       "updated": "2024-02-23T10:12:59.909Z",
       "diagnosis": ""
-  }
-},
-{
-  "model": "treatment.illness",
-  "pk": 176,
-  "fields": {
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 176,
+    "fields": {
       "patient": 181,
       "issue": "The patient feels a sense of confusion regarding their circumstances. They have difficulty managing their stress and find it hard to cope with their daily responsibilities.",
       "illness_category": 1,
@@ -2540,12 +2539,12 @@
       "added": "2024-05-19T13:51:20.425Z",
       "updated": "2024-06-06T00:49:19.227Z",
       "diagnosis": ""
-  }
-},
-{
-  "model": "treatment.illness",
-  "pk": 177,
-  "fields": {
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 177,
+    "fields": {
       "patient": 175,
       "issue": "The patient shares their experiences of feeling disconnected from their environment and expresses concerns about their ability to engage with others. They seek reassurance and support.",
       "illness_category": 1,
@@ -2554,12 +2553,12 @@
       "added": "2024-06-08T23:39:01.905Z",
       "updated": "2024-07-13T11:41:02.041Z",
       "diagnosis": ""
-  }
-},
-{
-  "model": "treatment.illness",
-  "pk": 178,
-  "fields": {
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 178,
+    "fields": {
       "patient": 177,
       "issue": "The patient discusses ongoing difficulties with stress management and expresses a desire to understand how their past experiences may be influencing their current feelings.",
       "illness_category": 1,
@@ -2568,12 +2567,12 @@
       "added": "2024-09-19T04:57:10.214Z",
       "updated": "2024-10-13T18:31:21.974Z",
       "diagnosis": ""
-  }
-},
-{
-  "model": "treatment.illness",
-  "pk": 179,
-  "fields": {
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 179,
+    "fields": {
       "patient": 186,
       "issue": "The patient articulates feelings of worry about their future and struggles with a sense of hopelessness. They seek guidance on how to address these feelings effectively.",
       "illness_category": 1,
@@ -2582,12 +2581,12 @@
       "added": "2024-07-31T21:16:12.905Z",
       "updated": "2024-08-11T14:46:49.963Z",
       "diagnosis": ""
-  }
-},
-{
-  "model": "treatment.illness",
-  "pk": 180,
-  "fields": {
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 180,
+    "fields": {
       "patient": 185,
       "issue": "The patient discusses their concerns about the pressures of work and how these pressures affect their mental health. They are looking for strategies to cope with stress.",
       "illness_category": 1,
@@ -2596,12 +2595,12 @@
       "added": "2024-03-27T12:13:45.249Z",
       "updated": "2024-04-18T09:18:42.656Z",
       "diagnosis": ""
-  }
-},
-{
-  "model": "treatment.illness",
-  "pk": 181,
-  "fields": {
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 181,
+    "fields": {
       "patient": 183,
       "issue": "The patient reflects on their relationships and how they feel supported or unsupported by those around them. They express a desire for more positive interactions.",
       "illness_category": 1,
@@ -2610,12 +2609,12 @@
       "added": "2024-02-23T12:49:44.393Z",
       "updated": "2024-03-05T12:06:22.011Z",
       "diagnosis": ""
-  }
-},
-{
-  "model": "treatment.illness",
-  "pk": 182,
-  "fields": {
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 182,
+    "fields": {
       "patient": 179,
       "issue": "The patient shares their feelings of uncertainty regarding their life choices and expresses a desire for clarity and direction. They seek support in making positive changes.",
       "illness_category": 1,
@@ -2624,12 +2623,12 @@
       "added": "2024-03-01T06:08:48.906Z",
       "updated": "2024-04-28T16:05:42.930Z",
       "diagnosis": ""
-  }
-},
-{
-  "model": "treatment.illness",
-  "pk": 183,
-  "fields": {
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 183,
+    "fields": {
       "patient": 172,
       "issue": "The patient conveys feelings of frustration and overwhelm due to various life challenges. They express a need for coping strategies to help them navigate these difficulties.",
       "illness_category": 1,
@@ -2638,6 +2637,287 @@
       "added": "2024-04-17T23:32:06.469Z",
       "updated": "2024-05-31T05:41:08.546Z",
       "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 184,
+    "fields": {
+      "patient": 208,
+      "issue": "Patient presents with hair loss and a noticeable difference in hair texture. There are concerns regarding stress levels and overall health impacting the patient's appearance. Recommendations include further evaluation and possible referrals for stress management.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-08-20T06:34:43.623Z",
+      "updated": "2024-09-21T00:18:05.891Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 185,
+    "fields": {
+      "patient": 206,
+      "issue": "Patient reports frequent episodes of forgetfulness and difficulty focusing, which could be linked to changes in routine or stress. A comprehensive evaluation of cognitive functions is recommended to rule out any underlying issues.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-02-03T02:53:40.796Z",
+      "updated": "2024-03-10T18:35:59.473Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 186,
+    "fields": {
+      "patient": 204,
+      "issue": "Patient expresses concern about ongoing fatigue and lack of motivation, which affects daily activities. Encouraged the patient to maintain a balanced diet and consider engaging in light exercise. Follow-up to monitor progress is advised.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-01-15T17:18:06.228Z",
+      "updated": "2024-02-26T06:34:44.694Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 187,
+    "fields": {
+      "patient": 206,
+      "issue": "Patient is experiencing increased anxiety about upcoming social events, which may exacerbate existing conditions. Suggested coping strategies, including mindfulness techniques and potential referrals to a mental health professional.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-06-26T17:54:15.765Z",
+      "updated": "2024-07-07T20:00:59.988Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 188,
+    "fields": {
+      "patient": 191,
+      "issue": "Patient has reported intermittent chest pains and shortness of breath during physical activity. A thorough cardiovascular assessment is recommended to identify any potential underlying conditions.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-05-31T09:15:01.004Z",
+      "updated": "2024-06-05T22:09:05.693Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 189,
+    "fields": {
+      "patient": 201,
+      "issue": "Patient displays symptoms of seasonal allergies, including sneezing and itchy eyes. Discussed management options, including over-the-counter antihistamines and lifestyle modifications to minimize exposure.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-07-11T01:08:59.858Z",
+      "updated": "2024-08-17T16:03:10.147Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 190,
+    "fields": {
+      "patient": 196,
+      "issue": "Patient reports experiencing frequent headaches that have intensified over the past few weeks. Suggested keeping a headache diary to identify potential triggers and advised a follow-up appointment for further evaluation.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-01-29T15:48:36.258Z",
+      "updated": "2024-02-11T14:26:19.240Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 191,
+    "fields": {
+      "patient": 193,
+      "issue": "Patient has been showing signs of depression, including withdrawal from social interactions and changes in appetite. Recommended a mental health evaluation and possible counseling to address these concerns.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-09-03T15:48:44.307Z",
+      "updated": "2024-10-02T04:44:03.705Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 192,
+    "fields": {
+      "patient": 189,
+      "issue": "Patient expresses concern about frequent digestive issues and discomfort after meals. Suggested dietary adjustments and further investigation if symptoms persist.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-04-22T14:46:13.371Z",
+      "updated": "2024-05-20T16:22:21.842Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 193,
+    "fields": {
+      "patient": 201,
+      "issue": "Patient is experiencing persistent joint pain, particularly in the knees. Advised regular low-impact exercise and discussed potential referral to a rheumatologist if symptoms continue.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-09-27T00:50:11.173Z",
+      "updated": "2024-10-18T13:35:34.336Z",
+      "diagnosis": ""
+    }
+  }
+,
+{
+  "model": "treatment.illness",
+  "pk": 194,
+  "fields": {
+    "patient": 203,
+    "issue": "Patient reports difficulties in managing personal identity, particularly related to maternal relationships. Expresses ongoing concerns regarding communication skills and social interactions, leading to heightened anxiety. Indicates a need for supportive measures to address these issues and improve emotional well-being.",
+    "illness_category": 1,
+    "staff": 6,
+    "doctor": null,
+    "added": "2024-04-14T06:20:15.321Z",
+    "updated": "2024-05-15T08:30:33.420Z",
+    "diagnosis": ""
+  }
+},
+{
+  "model": "treatment.illness",
+  "pk": 195,
+  "fields": {
+    "patient": 192,
+    "issue": "Patient describes feelings of anxiety and confusion in social settings, particularly when engaging with others. Reports a perceived disconnect in personal relationships, causing emotional distress. Requires further evaluation to assess underlying causes and to develop a management plan.",
+    "illness_category": 1,
+    "staff": 6,
+    "doctor": null,
+    "added": "2024-02-28T05:45:22.729Z",
+    "updated": "2024-03-06T19:57:03.260Z",
+    "diagnosis": ""
+  }
+},
+{
+  "model": "treatment.illness",
+  "pk": 196,
+  "fields": {
+    "patient": 203,
+    "issue": "Patient expresses concerns about home environment and its impact on mental health. Reports feeling overwhelmed by daily responsibilities and a sense of helplessness in managing familial relationships. Needs supportive interventions to enhance coping strategies.",
+    "illness_category": 1,
+    "staff": 6,
+    "doctor": null,
+    "added": "2024-09-10T08:00:14.290Z",
+    "updated": "2024-10-29T02:58:37.306Z",
+    "diagnosis": ""
+  }
+},
+{
+  "model": "treatment.illness",
+  "pk": 197,
+  "fields": {
+    "patient": 192,
+    "issue": "Patient demonstrates signs of stress related to workplace dynamics. Reports feeling unsupported by colleagues and overwhelmed by job responsibilities. Suggests a need for workplace intervention and stress management strategies.",
+    "illness_category": 1,
+    "staff": 6,
+    "doctor": null,
+    "added": "2024-02-10T01:01:42.287Z",
+    "updated": "2024-03-09T21:54:14.243Z",
+    "diagnosis": ""
+  }
+},
+{
+  "model": "treatment.illness",
+  "pk": 198,
+  "fields": {
+    "patient": 198,
+    "issue": "Patient describes experiencing psychological distress related to past trauma. Reports difficulty in coping with recent changes in life circumstances, contributing to feelings of anxiety. Needs a comprehensive treatment plan to address emotional health.",
+    "illness_category": 1,
+    "staff": 6,
+    "doctor": null,
+    "added": "2024-02-18T01:24:42.804Z",
+    "updated": "2024-03-22T05:45:05.845Z",
+    "diagnosis": ""
+  }
+},
+{
+  "model": "treatment.illness",
+  "pk": 199,
+  "fields": {
+    "patient": 204,
+    "issue": "Patient reports experiencing episodes of sadness and isolation. Expresses concern about lack of social support and difficulty in engaging with peers. Requires assessment for potential intervention strategies.",
+    "illness_category": 1,
+    "staff": 6,
+    "doctor": null,
+    "added": "2024-05-20T19:10:38.358Z",
+    "updated": "2024-06-03T04:01:45.488Z",
+    "diagnosis": ""
+  }
+},
+{
+  "model": "treatment.illness",
+  "pk": 200,
+  "fields": {
+    "patient": 204,
+    "issue": "Patient expresses concern over health-related anxieties. Reports fears about medical outcomes and experiences of distress associated with visits to healthcare settings. Needs psychological support to manage these concerns.",
+    "illness_category": 1,
+    "staff": 6,
+    "doctor": null,
+    "added": "2024-05-12T11:42:23.758Z",
+    "updated": "2024-06-08T18:49:58.085Z",
+    "diagnosis": ""
+  }
+},
+{
+  "model": "treatment.illness",
+  "pk": 201,
+  "fields": {
+    "patient": 205,
+    "issue": "Patient indicates feeling overwhelmed by academic pressures. Reports difficulty concentrating and managing time effectively. Requires academic support and mental health resources to address these challenges.",
+    "illness_category": 1,
+    "staff": 6,
+    "doctor": null,
+    "added": "2024-01-05T13:57:21.205Z",
+    "updated": "2024-02-01T23:02:28.134Z",
+    "diagnosis": ""
+  }
+},
+{
+  "model": "treatment.illness",
+  "pk": 202,
+  "fields": {
+    "patient": 193,
+    "issue": "Patient presents with feelings of confusion and uncertainty regarding recent life changes. Reports difficulty in adjusting to new situations and feelings of frustration. Needs a tailored support plan to enhance coping mechanisms.",
+    "illness_category": 1,
+    "staff": 6,
+    "doctor": null,
+    "added": "2024-02-21T17:55:15.833Z",
+    "updated": "2024-03-11T07:20:15.904Z",
+    "diagnosis": ""
+  }
+},
+{
+  "model": "treatment.illness",
+  "pk": 203,
+  "fields": {
+    "patient": 204,
+    "issue": "Patient expresses concerns regarding recent events leading to emotional distress. Reports feeling unsafe in their environment and experiencing heightened levels of anxiety. Requires assessment for further support.",
+    "illness_category": 1,
+    "staff": 6,
+    "doctor": null,
+    "added": "2024-01-22T02:39:47.534Z",
+    "updated": "2024-01-22T11:08:12.431Z",
+    "diagnosis": ""
   }
 }
 ,
