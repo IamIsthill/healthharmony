@@ -25,7 +25,9 @@
     padding: 0rem 1rem;
     margin-bottom: 0.5rem;
 }
-
+.submit-btn{
+    margin-top: 12px;
+}
 main{
     margin-top: 1.5rem;
     color: var(--normal-fontcolor);

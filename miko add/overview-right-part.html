@@ -113,6 +113,27 @@
             <h1>Ambulance Availability</h1>
             <div class="check_ambulance_form_body">
                 <div class="form-group">
+<<<<<<< HEAD
+                <label for="ambulanceStatus">Ambulance Status</label>
+                {% if ambulances %}
+                    {% for ambulance in ambulances %}
+                        <select class="ambu-select" id="ambulanceStatus" name="ambulance">
+                            {% if ambulance.is_avail %}
+                                <option value="available" selected>Available</option>
+                                <option value="away">Away</option>
+                            {% else %}
+                                <option value="available">Available</option>
+                                <option value="away" selected>Away</option>
+                            {% endif %}
+                        </select>
+                    {% endfor %}
+                {% else %}
+                    <select class="ambu-select" id="ambulanceStatus" name="ambulance">
+                        <option value="available">Available</option>
+                        <option value="away">Away</option>
+                    </select>
+                {% endif %}
+=======
                     <label for="ambulanceStatus">Ambulance Status</label>
                     {% if ambulances %}
                         {% for ambulance in ambulances %}
@@ -132,6 +153,7 @@
                             <option value="away">Away</option>
                         </select>
                     {% endif %}
+>>>>>>> main
                 </div>
             </div>
             <div class="form-buttons">

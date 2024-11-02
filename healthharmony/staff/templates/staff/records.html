@@ -158,93 +158,105 @@
                 {% endif %}
             </div>
             <div class="lower">
-                <table>
-                    <thead>
-                        <tr>
-                            <th colspan="4">
-                                <div class="header-content">
-                                    <h1>Request Summary</h1>
-                                </div>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th colspan="4">
-                                <div class="header-content">
-                                    <div class="category-buttons">
-                                        <button class="js-request-status-filter visit-record_cat visit-record_cat-active"
-                                                data-filter="">All</button>
-                                        <button class="js-request-status-filter visit-record_cat" data-filter="false">Pending</button>
-                                        <button class="js-request-status-filter visit-record_cat" data-filter="true">Released</button>
-                                    </div>
-                                    <div class="pagination">
-                                        <span class="step-links">
-                                            {% if certificates_page.has_previous %}
-                                                <a href="?cert-page=1" class="js-links">&laquo; First</a>
-                                                <a href="?cert-page={{ certificates_page.previous_page_number }}"
-                                                   class="js-links">Previous</a>
-                                            {% endif %}
-                                            <span class="current">Page {{ certificates_page.number }} of {{ certificates_page.paginator.num_pages }}.</span>
-                                            {% if certificates_page.has_next %}
-                                                <a href="?cert-page={{ certificates_page.next_page_number }}"
-                                                   class="js-links">Next</a>
-                                                <a href="?cert-page={{ certificates_page.paginator.num_pages }}"
-                                                   class="js-links">Last &raquo;</a>
-                                            {% endif %}
-                                        </span>
-                                    </div>
-                                </div>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th class="table-head">Email</th>
-                            <th class="table-head">Requester</th>
-                            <th class="table-head">Purpose</th>
-                            <th class="table-head">Date Requested</th>
-                            <th class="table-head">Status</th>
-                            <th class="table-head">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="request-body js-request-body">
-                        {% for certificate in certificates_page %}
+                <div class="request-summary-part">
+                    <table>
+                        <thead>
                             <tr>
-                                <td class="table-data">{{ certificate.email }}</td>
-                                <td class="table-data">
-                                    {{ certificate.first_name|default_if_none:'' }} {{ certificate.last_name|default_if_none:'' }}
-                                </td>
-                                <td class="table-data">{{ certificate.purpose|truncatechars:60 }}</td>
-                                <td class="table-data js-cert-date">{{ certificate.requested }}</td>
-                                {% if not certificate.is_ready and not certificate.released %}
-                                    <td class="table-data">Request to be processed</td>
-                                    <td class="table-data">
-                                        <button class="js_certificate_action"
-                                                data-certificate-id="{{ certificate.id }}">Mark as Ready</button>
-                                    </td>
-                                {% elif certificate.is_ready and not certificate.released %}
-                                    <td class="table-data">Ready, waiting to be collected</td>
-                                    <td class="table-data">
-                                        <button class="js_certificate_action"
-                                                data-certificate-id="{{ certificate.id }}">Mark as Collected</button>
-                                    </td>
-                                {% elif certificate.is_ready and certificate.released %}
-                                    <td class="table-data">Medical certificate was collected</td>
-                                    <td class="table-data">No actions to be taken</td>
-                                {% endif %}
+                                <th colspan="4">
+                                    <div class="header-content">
+                                        <h1>Request Summary</h1>
+                                    </div>
+                                </th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <div class="right">
-                    <div class="bar-space">
-                        <h2>Request Over Time</h2>
-                        <div>
-                            <button class="js-request-date-filter js-request-date-active"
-                                    data-filter="weekly">Last 7 days</button>
-                            <button class="js-request-date-filter" data-filter="monthly">Last 30 days</button>
-                            <button class="js-request-date-filter" data-filter="yearly">Last 12 months</button>
-                        </div>
-                        <canvas id="requestBar"></canvas>
+                            <tr>
+                                <th colspan="4">
+                                    <div class="header-content">
+                                        <div class="category-buttons">
+                                            <button class="js-request-status-filter visit-record_cat visit-record_cat-active"
+                                                    data-filter="">All</button>
+                                            <button class="js-request-status-filter visit-record_cat" data-filter="false">Pending</button>
+                                            <button class="js-request-status-filter visit-record_cat" data-filter="true">Released</button>
+                                        </div>
+                                        
+                                    </div>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th class="table-head">Email</th>
+                                <th class="table-head">Requester</th>
+                                <th class="table-head">Purpose</th>
+                                <th class="table-head">Date Requested</th>
+                                <th class="table-head">Status</th>
+                                <th class="table-head">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="request-body js-request-body">
+                            {% for certificate in certificates_page %}
+                                <tr>
+                                    <td class="table-data">{{ certificate.email }}</td>
+                                    <td class="table-data">
+                                        {{ certificate.first_name|default_if_none:'' }} {{ certificate.last_name|default_if_none:'' }}
+                                    </td>
+                                    <td class="table-data">{{ certificate.purpose|truncatechars:60 }}</td>
+                                    <td class="table-data js-cert-date">{{ certificate.requested }}</td>
+                                    {% if not certificate.is_ready and not certificate.released %}
+                                        <td class="table-data">Request to be processed</td>
+                                        <td class="table-data">
+                                            <button class="js_certificate_action"
+                                                    data-certificate-id="{{ certificate.id }}">Mark as Ready</button>
+                                        </td>
+                                    {% elif certificate.is_ready and not certificate.released %}
+                                        <td class="table-data">Ready, waiting to be collected</td>
+                                        <td class="table-data">
+                                            <button class="js_certificate_action"
+                                                    data-certificate-id="{{ certificate.id }}">Mark as Collected</button>
+                                        </td>
+                                    {% elif certificate.is_ready and certificate.released %}
+                                        <td class="table-data">Medical certificate was collected</td>
+                                        <td class="table-data">No actions to be taken</td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="pagination-design">
+                         <span class="step-links">
+                            {% if certificates_page.has_previous %}
+                            <a href="?cert-page=1" class="js-links page-shortcut">&laquo; First</a>
+                            <a href="?cert-page={{ certificates_page.previous_page_number }}" class="js-links">
+                                <div class="previous-next-page">
+                                    <span class="material-symbols-outlined page-icon">arrow_back_ios</span> <span>Previous</span>
+                                </div>
+                            </a>
+                            {% endif %}
+                            <span class="current">Page {{ certificates_page.number }} of {{ certificates_page.paginator.num_pages }}.</span>
+                            {% if certificates_page.has_next %}
+                            <a href="?cert-page={{ certificates_page.next_page_number }}"
+                            class="js-links">
+                            <div class="previous-next-page">
+                                <span>Next</span><span class="material-symbols-outlined page-icon">arrow_forward_ios</span>
+                            </div>
+                        </a>
+                            <a href="?cert-page={{ certificates_page.paginator.num_pages }}"
+                            class="js-links page-shortcut">Last &raquo;</a>
+                            {% endif %}
+                            </span>
                     </div>
                 </div>
+
+
+                    <div class="right">
+                        <div class="bar-space">
+                            <h2>Request Over Time</h2>
+                            <div>
+                                <button class="js-request-date-filter js-request-date-active"
+                                        data-filter="weekly">Last 7 days</button>
+                                <button class="js-request-date-filter" data-filter="monthly">Last 30 days</button>
+                                <button class="js-request-date-filter" data-filter="yearly">Last 12 months</button>
+                            </div>
+                            <canvas id="requestBar"></canvas>
+                        </div>
+                    </div>
             </div>
         </main>
     </div>
@@ -275,9 +287,9 @@
         </div>
         <div id="viewIllnessModal" class="modal">
             <div class="modal-content view-content">
-                <span class="material-symbols-outlined close js-close-view-illness-modal">cancel</span>
+                <span style="display: none;" class="material-symbols-outlined close js-close-view-illness-modal">cancel</span>
                 <div class="modal-body">
-                    <h1>Hi</h1>
+                    
                 </div>
             </div>
         </div>
