@@ -2079,286 +2079,568 @@
       "diagnosis": ""
     }
   },
-    {
-      "model": "treatment.illness",
-      "pk": 144,
-      "fields": {
-        "patient": 153,
-        "issue": "I've been feeling overwhelmed lately; the changes in my address and daily routine have been quite stressful. It's affecting my focus at work.",
-        "illness_category": 5,
-        "staff": 6,
-        "doctor": null,
-        "added": "2024-07-12T11:49:35.408Z",
-        "updated": "2024-08-05T20:06:28.988Z",
-        "diagnosis": ""
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 145,
-      "fields": {
-        "patient": 150,
-        "issue": "I've been feeling unwell; the debates and pressures at work have been hard to manage, and I'm struggling to keep up with my responsibilities.",
-        "illness_category": 5,
-        "staff": 6,
-        "doctor": null,
-        "added": "2024-04-17T19:34:19.901Z",
-        "updated": "2024-05-08T04:13:52.633Z",
-        "diagnosis": ""
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 146,
-      "fields": {
-        "patient": 149,
-        "issue": "I feel the need to contribute more, but the demands are overwhelming. I often feel like my opinions are not valued.",
-        "illness_category": 5,
-        "staff": 6,
-        "doctor": null,
-        "added": "2024-08-05T19:42:44.345Z",
-        "updated": "2024-09-19T18:19:53.680Z",
-        "diagnosis": ""
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 147,
-      "fields": {
-        "patient": 158,
-        "issue": "I'm finding it hard to participate in discussions; it's like I'm stuck in a cycle of negativity and feel weighed down by the expectations.",
-        "illness_category": 5,
-        "staff": 6,
-        "doctor": null,
-        "added": "2024-04-23T12:51:39.874Z",
-        "updated": "2024-05-21T03:54:54.320Z",
-        "diagnosis": ""
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 148,
-      "fields": {
-        "patient": 168,
-        "issue": "I've been feeling lost lately; there’s a lot happening around me, and it’s hard to keep up with everything that's expected of me.",
-        "illness_category": 5,
-        "staff": 6,
-        "doctor": null,
-        "added": "2024-08-27T04:11:23.197Z",
-        "updated": "2024-09-14T13:58:38.755Z",
-        "diagnosis": ""
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 149,
-      "fields": {
-        "patient": 166,
-        "issue": "I often feel overwhelmed by the demands on my time and responsibilities, making it hard for me to focus on what matters most.",
-        "illness_category": 5,
-        "staff": 6,
-        "doctor": null,
-        "added": "2024-11-02T03:52:45.347Z",
-        "updated": "2024-11-04T23:32:06.735Z",
-        "diagnosis": ""
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 150,
-      "fields": {
-        "patient": 157,
-        "issue": "I'm struggling to manage my thoughts; everything feels chaotic, and I need help to sort through my feelings and the expectations placed on me.",
-        "illness_category": 5,
-        "staff": 6,
-        "doctor": null,
-        "added": "2024-11-01T19:00:05.151Z",
-        "updated": "2024-11-02T01:47:40.189Z",
-        "diagnosis": ""
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 151,
-      "fields": {
-        "patient": 167,
-        "issue": "I'm feeling disconnected and frustrated with the information I receive. It seems like I'm always in the dark about important decisions.",
-        "illness_category": 5,
-        "staff": 6,
-        "doctor": null,
-        "added": "2024-10-20T07:00:48.962Z",
-        "updated": "2024-10-24T20:35:24.123Z",
-        "diagnosis": ""
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 152,
-      "fields": {
-        "patient": 157,
-        "issue": "I find myself caught in repetitive thoughts; it’s hard to break free and see things from a different perspective.",
-        "illness_category": 5,
-        "staff": 6,
-        "doctor": null,
-        "added": "2024-10-11T12:36:43.529Z",
-        "updated": "2024-10-21T14:44:34.207Z",
-        "diagnosis": ""
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 153,
-      "fields": {
-        "patient": 168,
-        "issue": "I often feel overwhelmed by decisions and their consequences, leaving me questioning my abilities and choices.",
-        "illness_category": 5,
-        "staff": 6,
-        "doctor": null,
-        "added": "2024-03-31T20:51:53.699Z",
-        "updated": "2024-04-30T20:28:54.909Z",
-        "diagnosis": ""
-      }
-    },
-      {
-        "model": "treatment.illness",
-        "pk": 154,
-        "fields": {
-          "patient": 160,
-          "issue": "The patient expressed concerns about feeling fatigued and having trouble sleeping. They mentioned some anxiety about upcoming tests and have been experiencing headaches more frequently. We discussed strategies for managing stress and improving sleep hygiene.",
-          "illness_category": 5,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-01-23T02:59:03.535Z",
-          "updated": "2024-02-19T10:05:34.202Z",
-          "diagnosis": ""
-        }
-      },
-      {
-        "model": "treatment.illness",
-        "pk": 155,
-        "fields": {
-          "patient": 149,
-          "issue": "The patient reported feeling a tightness in their chest and occasional shortness of breath. They are concerned about their heart health and would like advice on lifestyle changes to improve their condition.",
-          "illness_category": 5,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-08-06T16:57:14.283Z",
-          "updated": "2024-09-25T20:21:30.118Z",
-          "diagnosis": ""
-        }
-      },
-      {
-        "model": "treatment.illness",
-        "pk": 156,
-        "fields": {
-          "patient": 162,
-          "issue": "The patient discussed persistent stomach discomfort and occasional nausea after meals. They are looking for dietary recommendations and want to rule out any serious gastrointestinal issues.",
-          "illness_category": 5,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-03-17T09:36:42.661Z",
-          "updated": "2024-04-16T07:15:28.547Z",
-          "diagnosis": ""
-        }
-      },
-      {
-        "model": "treatment.illness",
-        "pk": 157,
-        "fields": {
-          "patient": 168,
-          "issue": "The patient is experiencing joint pain and stiffness, especially in the mornings. They are interested in exploring treatment options to manage their symptoms and improve mobility.",
-          "illness_category": 5,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-08-14T07:41:13.532Z",
-          "updated": "2024-09-06T00:16:50.864Z",
-          "diagnosis": ""
-        }
-      },
-      {
-        "model": "treatment.illness",
-        "pk": 158,
-        "fields": {
-          "patient": 164,
-          "issue": "The patient reported experiencing mood swings and feelings of sadness that have been interfering with daily activities. They expressed a desire to talk about coping strategies and possible therapies.",
-          "illness_category": 5,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-07-22T09:23:04.134Z",
-          "updated": "2024-08-16T11:45:51.542Z",
-          "diagnosis": ""
-        }
-      },
-      {
-        "model": "treatment.illness",
-        "pk": 159,
-        "fields": {
-          "patient": 150,
-          "issue": "The patient mentioned frequent dizziness and occasional fainting spells. They are worried about their overall health and want to ensure there are no underlying issues.",
-          "illness_category": 5,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-06-18T16:22:57.059Z",
-          "updated": "2024-07-28T20:14:46.140Z",
-          "diagnosis": ""
-        }
-      },
-      {
-        "model": "treatment.illness",
-        "pk": 160,
-        "fields": {
-          "patient": 154,
-          "issue": "The patient is concerned about weight management and is looking for advice on healthy eating and exercise routines. They expressed interest in setting realistic goals for weight loss.",
-          "illness_category": 5,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-04-04T18:07:14.537Z",
-          "updated": "2024-05-14T00:40:26.128Z",
-          "diagnosis": ""
-        }
-      },
-      {
-        "model": "treatment.illness",
-        "pk": 161,
-        "fields": {
-          "patient": 151,
-          "issue": "The patient expressed frustration with chronic headaches that disrupt their daily life. They are seeking potential triggers and treatments to help alleviate their pain.",
-          "illness_category": 5,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-01-15T18:22:43.942Z",
-          "updated": "2024-01-16T04:52:10.663Z",
-          "diagnosis": ""
-        }
-      },
-      {
-        "model": "treatment.illness",
-        "pk": 162,
-        "fields": {
-          "patient": 163,
-          "issue": "The patient reported feeling increasingly anxious and overwhelmed with daily responsibilities. They would like to discuss stress management techniques and coping strategies.",
-          "illness_category": 5,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-07-23T23:23:51.205Z",
-          "updated": "2024-08-05T06:01:02.022Z",
-          "diagnosis": ""
-        }
-      },
-      {
-        "model": "treatment.illness",
-        "pk": 163,
-        "fields": {
-          "patient": 163,
-          "issue": "The patient shared concerns about their vision and has been experiencing blurry sight. They want to schedule an eye examination and discuss possible solutions.",
-          "illness_category": 5,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-07-21T18:47:16.926Z",
-          "updated": "2024-08-10T03:21:01.536Z",
-          "diagnosis": ""
-        }
-      },
+  {
+    "model": "treatment.illness",
+    "pk": 144,
+    "fields": {
+      "patient": 153,
+      "issue": "I've been feeling overwhelmed lately; the changes in my address and daily routine have been quite stressful. It's affecting my focus at work.",
+      "illness_category": 5,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-07-12T11:49:35.408Z",
+      "updated": "2024-08-05T20:06:28.988Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 145,
+    "fields": {
+      "patient": 150,
+      "issue": "I've been feeling unwell; the debates and pressures at work have been hard to manage, and I'm struggling to keep up with my responsibilities.",
+      "illness_category": 5,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-04-17T19:34:19.901Z",
+      "updated": "2024-05-08T04:13:52.633Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 146,
+    "fields": {
+      "patient": 149,
+      "issue": "I feel the need to contribute more, but the demands are overwhelming. I often feel like my opinions are not valued.",
+      "illness_category": 5,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-08-05T19:42:44.345Z",
+      "updated": "2024-09-19T18:19:53.680Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 147,
+    "fields": {
+      "patient": 158,
+      "issue": "I'm finding it hard to participate in discussions; it's like I'm stuck in a cycle of negativity and feel weighed down by the expectations.",
+      "illness_category": 5,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-04-23T12:51:39.874Z",
+      "updated": "2024-05-21T03:54:54.320Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 148,
+    "fields": {
+      "patient": 168,
+      "issue": "I've been feeling lost lately; there’s a lot happening around me, and it’s hard to keep up with everything that's expected of me.",
+      "illness_category": 5,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-08-27T04:11:23.197Z",
+      "updated": "2024-09-14T13:58:38.755Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 149,
+    "fields": {
+      "patient": 166,
+      "issue": "I often feel overwhelmed by the demands on my time and responsibilities, making it hard for me to focus on what matters most.",
+      "illness_category": 5,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-11-02T03:52:45.347Z",
+      "updated": "2024-11-04T23:32:06.735Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 150,
+    "fields": {
+      "patient": 157,
+      "issue": "I'm struggling to manage my thoughts; everything feels chaotic, and I need help to sort through my feelings and the expectations placed on me.",
+      "illness_category": 5,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-11-01T19:00:05.151Z",
+      "updated": "2024-11-02T01:47:40.189Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 151,
+    "fields": {
+      "patient": 167,
+      "issue": "I'm feeling disconnected and frustrated with the information I receive. It seems like I'm always in the dark about important decisions.",
+      "illness_category": 5,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-10-20T07:00:48.962Z",
+      "updated": "2024-10-24T20:35:24.123Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 152,
+    "fields": {
+      "patient": 157,
+      "issue": "I find myself caught in repetitive thoughts; it’s hard to break free and see things from a different perspective.",
+      "illness_category": 5,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-10-11T12:36:43.529Z",
+      "updated": "2024-10-21T14:44:34.207Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 153,
+    "fields": {
+      "patient": 168,
+      "issue": "I often feel overwhelmed by decisions and their consequences, leaving me questioning my abilities and choices.",
+      "illness_category": 5,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-03-31T20:51:53.699Z",
+      "updated": "2024-04-30T20:28:54.909Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 154,
+    "fields": {
+      "patient": 160,
+      "issue": "The patient expressed concerns about feeling fatigued and having trouble sleeping. They mentioned some anxiety about upcoming tests and have been experiencing headaches more frequently. We discussed strategies for managing stress and improving sleep hygiene.",
+      "illness_category": 5,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-01-23T02:59:03.535Z",
+      "updated": "2024-02-19T10:05:34.202Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 155,
+    "fields": {
+      "patient": 149,
+      "issue": "The patient reported feeling a tightness in their chest and occasional shortness of breath. They are concerned about their heart health and would like advice on lifestyle changes to improve their condition.",
+      "illness_category": 5,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-08-06T16:57:14.283Z",
+      "updated": "2024-09-25T20:21:30.118Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 156,
+    "fields": {
+      "patient": 162,
+      "issue": "The patient discussed persistent stomach discomfort and occasional nausea after meals. They are looking for dietary recommendations and want to rule out any serious gastrointestinal issues.",
+      "illness_category": 5,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-03-17T09:36:42.661Z",
+      "updated": "2024-04-16T07:15:28.547Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 157,
+    "fields": {
+      "patient": 168,
+      "issue": "The patient is experiencing joint pain and stiffness, especially in the mornings. They are interested in exploring treatment options to manage their symptoms and improve mobility.",
+      "illness_category": 5,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-08-14T07:41:13.532Z",
+      "updated": "2024-09-06T00:16:50.864Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 158,
+    "fields": {
+      "patient": 164,
+      "issue": "The patient reported experiencing mood swings and feelings of sadness that have been interfering with daily activities. They expressed a desire to talk about coping strategies and possible therapies.",
+      "illness_category": 5,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-07-22T09:23:04.134Z",
+      "updated": "2024-08-16T11:45:51.542Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 159,
+    "fields": {
+      "patient": 150,
+      "issue": "The patient mentioned frequent dizziness and occasional fainting spells. They are worried about their overall health and want to ensure there are no underlying issues.",
+      "illness_category": 5,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-06-18T16:22:57.059Z",
+      "updated": "2024-07-28T20:14:46.140Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 160,
+    "fields": {
+      "patient": 154,
+      "issue": "The patient is concerned about weight management and is looking for advice on healthy eating and exercise routines. They expressed interest in setting realistic goals for weight loss.",
+      "illness_category": 5,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-04-04T18:07:14.537Z",
+      "updated": "2024-05-14T00:40:26.128Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 161,
+    "fields": {
+      "patient": 151,
+      "issue": "The patient expressed frustration with chronic headaches that disrupt their daily life. They are seeking potential triggers and treatments to help alleviate their pain.",
+      "illness_category": 5,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-01-15T18:22:43.942Z",
+      "updated": "2024-01-16T04:52:10.663Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 162,
+    "fields": {
+      "patient": 163,
+      "issue": "The patient reported feeling increasingly anxious and overwhelmed with daily responsibilities. They would like to discuss stress management techniques and coping strategies.",
+      "illness_category": 5,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-07-23T23:23:51.205Z",
+      "updated": "2024-08-05T06:01:02.022Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 163,
+    "fields": {
+      "patient": 163,
+      "issue": "The patient shared concerns about their vision and has been experiencing blurry sight. They want to schedule an eye examination and discuss possible solutions.",
+      "illness_category": 5,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-07-21T18:47:16.926Z",
+      "updated": "2024-08-10T03:21:01.536Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 164,
+    "fields": {
+      "patient": 169,
+      "issue": "I've been feeling very anxious lately about my health, and it seems to affect my daily life. I worry that something might be seriously wrong, but I'm not sure what it is.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-01-24T14:13:56.322Z",
+      "updated": "2024-02-22T05:09:15.854Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 165,
+    "fields": {
+      "patient": 169,
+      "issue": "I've been having trouble sleeping and I often feel exhausted during the day. I think it might be affecting my performance at work.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-10-27T22:43:25.815Z",
+      "updated": "2024-11-28T21:19:47.489Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 166,
+    "fields": {
+      "patient": 174,
+      "issue": "I've been experiencing frequent headaches lately, and they seem to be getting worse. I'm worried they could be a sign of something more serious.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-08-21T04:15:24.267Z",
+      "updated": "2024-09-30T04:58:14.083Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 167,
+    "fields": {
+      "patient": 180,
+      "issue": "I've noticed some unusual changes in my body lately that I'm really concerned about. I would like to understand what might be happening.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-08-20T13:04:13.902Z",
+      "updated": "2024-09-20T17:25:58.158Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 168,
+    "fields": {
+      "patient": 180,
+      "issue": "I'm feeling overwhelmed by stress and it's affecting my ability to cope with daily activities. I think I might need some help managing it.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-03-10T16:00:26.184Z",
+      "updated": "2024-04-18T04:57:46.106Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 169,
+    "fields": {
+      "patient": 176,
+      "issue": "I've been feeling very fatigued, and I can't pinpoint why. I just don't have the energy I used to have.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-10-29T14:08:53.661Z",
+      "updated": "2024-10-30T03:24:20.512Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 170,
+    "fields": {
+      "patient": 179,
+      "issue": "I've been feeling some discomfort in my stomach and I'm unsure of what could be causing it. It's persistent and worrying me.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-10-24T06:21:49.896Z",
+      "updated": "2024-10-25T12:00:11.458Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 171,
+    "fields": {
+      "patient": 171,
+      "issue": "I feel like I might be dealing with some anxiety issues, but I'm not sure. It's becoming harder to focus and enjoy things.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-02-11T04:02:11.159Z",
+      "updated": "2024-03-24T07:04:08.790Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 172,
+    "fields": {
+      "patient": 178,
+      "issue": "I have some concerns about my weight and how it may be affecting my overall health. I'm seeking advice on what to do.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-01-21T20:23:06.226Z",
+      "updated": "2024-02-03T13:35:51.900Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 173,
+    "fields": {
+      "patient": 173,
+      "issue": "I've been feeling a bit down lately and it's hard for me to motivate myself. I think I could use someone to talk to.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-02-28T23:50:00.427Z",
+      "updated": "2024-03-09T01:05:37.168Z",
+      "diagnosis": ""
+    }
+  }
+,
+{
+  "model": "treatment.illness",
+  "pk": 174,
+  "fields": {
+      "patient": 171,
+      "issue": "The patient expresses concerns about their health and is seeking guidance on how to improve their situation. They feel overwhelmed with various aspects of their life and are unsure about the next steps.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-01-01T13:08:21.080Z",
+      "updated": "2024-02-18T19:05:47.911Z",
+      "diagnosis": ""
+  }
+},
+{
+  "model": "treatment.illness",
+  "pk": 175,
+  "fields": {
+      "patient": 175,
+      "issue": "The patient discusses feelings of anxiety and frustration related to their family dynamics. They mention that it's challenging to maintain a positive outlook with the ongoing issues in their life.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-01-09T08:35:34.006Z",
+      "updated": "2024-02-23T10:12:59.909Z",
+      "diagnosis": ""
+  }
+},
+{
+  "model": "treatment.illness",
+  "pk": 176,
+  "fields": {
+      "patient": 181,
+      "issue": "The patient feels a sense of confusion regarding their circumstances. They have difficulty managing their stress and find it hard to cope with their daily responsibilities.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-05-19T13:51:20.425Z",
+      "updated": "2024-06-06T00:49:19.227Z",
+      "diagnosis": ""
+  }
+},
+{
+  "model": "treatment.illness",
+  "pk": 177,
+  "fields": {
+      "patient": 175,
+      "issue": "The patient shares their experiences of feeling disconnected from their environment and expresses concerns about their ability to engage with others. They seek reassurance and support.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-06-08T23:39:01.905Z",
+      "updated": "2024-07-13T11:41:02.041Z",
+      "diagnosis": ""
+  }
+},
+{
+  "model": "treatment.illness",
+  "pk": 178,
+  "fields": {
+      "patient": 177,
+      "issue": "The patient discusses ongoing difficulties with stress management and expresses a desire to understand how their past experiences may be influencing their current feelings.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-09-19T04:57:10.214Z",
+      "updated": "2024-10-13T18:31:21.974Z",
+      "diagnosis": ""
+  }
+},
+{
+  "model": "treatment.illness",
+  "pk": 179,
+  "fields": {
+      "patient": 186,
+      "issue": "The patient articulates feelings of worry about their future and struggles with a sense of hopelessness. They seek guidance on how to address these feelings effectively.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-07-31T21:16:12.905Z",
+      "updated": "2024-08-11T14:46:49.963Z",
+      "diagnosis": ""
+  }
+},
+{
+  "model": "treatment.illness",
+  "pk": 180,
+  "fields": {
+      "patient": 185,
+      "issue": "The patient discusses their concerns about the pressures of work and how these pressures affect their mental health. They are looking for strategies to cope with stress.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-03-27T12:13:45.249Z",
+      "updated": "2024-04-18T09:18:42.656Z",
+      "diagnosis": ""
+  }
+},
+{
+  "model": "treatment.illness",
+  "pk": 181,
+  "fields": {
+      "patient": 183,
+      "issue": "The patient reflects on their relationships and how they feel supported or unsupported by those around them. They express a desire for more positive interactions.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-02-23T12:49:44.393Z",
+      "updated": "2024-03-05T12:06:22.011Z",
+      "diagnosis": ""
+  }
+},
+{
+  "model": "treatment.illness",
+  "pk": 182,
+  "fields": {
+      "patient": 179,
+      "issue": "The patient shares their feelings of uncertainty regarding their life choices and expresses a desire for clarity and direction. They seek support in making positive changes.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-03-01T06:08:48.906Z",
+      "updated": "2024-04-28T16:05:42.930Z",
+      "diagnosis": ""
+  }
+},
+{
+  "model": "treatment.illness",
+  "pk": 183,
+  "fields": {
+      "patient": 172,
+      "issue": "The patient conveys feelings of frustration and overwhelm due to various life challenges. They express a need for coping strategies to help them navigate these difficulties.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-04-17T23:32:06.469Z",
+      "updated": "2024-05-31T05:41:08.546Z",
+      "diagnosis": ""
+  }
+}
+,
   {
     "model": "treatment.illnesstreatment",
     "pk": 1,
