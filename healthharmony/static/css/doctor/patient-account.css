@@ -255,8 +255,10 @@ form input{
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            min-height: 60%;
-            width: 40%;
+            min-height: 40%;
+            max-width: 90%; /* Prevents modal from taking full viewport width */
+            width: 30%; /* Main width setting */
+            min-width: 20%;
             border-radius: 1rem;
             background: white;
             margin: 5% auto;
@@ -271,6 +273,26 @@ form input{
         display: flex;
         flex-direction: column;
         gap: 8px;
+    }
+    .js_send_notes_form{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    .send-notes-modal{
+        min-width: 20%;
+    }
+    .form-button{
+        width: 6.5rem;
+    }
+    .send-notes-modal h1{
+        font-weight: 600;
+    }
+    .js_send_notes_form h2, .js_send_notes_form h3{
+        font-weight: 500;
+    }
+    .js_send_notes_form h3{
+        font-size: var(--size-lg);
     }
 /* MODAL */
 

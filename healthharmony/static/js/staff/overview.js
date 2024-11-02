@@ -85,8 +85,8 @@ function handle_hover_illness_info() {
             const hover_div = document.createElement('div')
             hover_div.classList.add('js_hover_illness_info')
             hover_div.innerHTML = `
-                <p>${category.category}</p>
-                <p>${category.description}</p>
+                <h4 class = "hover-title">${category.category}</h4>
+                <p class = "hover-info">${category.description}</p>
             `
 
             // Set design then append to the html

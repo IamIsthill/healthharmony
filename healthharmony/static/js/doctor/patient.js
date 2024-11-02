@@ -177,10 +177,8 @@ function handle_onclick_send_notes() {
 
             form.innerHTML = `
                 <div>
-                    <h2>Symptoms</h2>
-                    <h3>Symptoms: ${illness_data.issue}</h3>
-                    <hr />
                     <h2>Case Details</h2>
+                    <h3>Symptoms: ${illness_data.issue}</h3>
                     <h3>Symptom Category: ${illness_data.category_name}</h3>
                     <h3>Diagnosis: ${illness_data.diagnosis}</h3>
                 </div>
@@ -208,9 +206,10 @@ function handle_onclick_send_notes() {
             form.appendChild(textarea_element)
 
             form.innerHTML += `
-                <button type='button' class='js-close-btn'>Cancel</button>
-                <button type='submit'>Send</button>
-
+            <div class = "form-buttons">
+                <button type='button' class="js-close-btn cancel-button">Cancel</button>
+                <button class = "form-button" type='submit'>Send</button>
+            </div>
             `
 
             const modal = document.querySelector('.js_send_notes_modal')
