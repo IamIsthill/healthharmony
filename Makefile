@@ -2,10 +2,31 @@
 run:
 	poetry run python -m healthharmony.manage runserver
 
-.PHONY:migrate
+.PHONY: migrate
 migrate:
 	poetry run python -m healthharmony.manage makemigrations
-	poetry run python -m healthharmony.manage migrate
+	poetry run python -m healthharmony.manage migrate || poetry run python -m healthharmony.manage migrate account 0002_initial --fake; poetry run python -m healthharmony.manage migrate;
+
+.PHONY: download
+download:
+	poetry run python -m healthharmony.manage dumpdata treatment inventory users > data.json
+
+.PHONY: download-all
+download-all:
+	poetry run python -m healthharmony.manage dumpdata treatment > treatment.json
+	poetry run python -m healthharmony.manage dumpdata inventory > inventory.json
+	poetry run python -m healthharmony.manage dumpdata users > users.json
+
+.PHONY: upload-all
+upload-all:
+	poetry run python -m healthharmony.manage loaddata users.json
+	poetry run python -m healthharmony.manage loaddata inventory.json
+	poetry run python -m healthharmony.manage loaddata treatment.json
+
+.PHONY: upload
+upload:
+	poetry run python -m healthharmony.manage loaddata data.json
+
 
 .PHONY: install
 install:
