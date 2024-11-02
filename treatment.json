@@ -1799,286 +1799,566 @@
       "diagnosis": ""
     }
   },
+  {
+    "model": "treatment.illness",
+    "pk": 124,
+    "fields": {
+      "patient": 146,
+      "issue": "Patient reports feeling tension in their upper back and shoulders. They express concerns about frequent anxiety and mention feeling weighed down by ongoing responsibilities.",
+      "illness_category": 10,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-01-08T12:01:56.606Z",
+      "updated": "2024-01-18T03:07:46.369Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 125,
+    "fields": {
+      "patient": 148,
+      "issue": "Patient describes feeling frequently on edge with mild irritability. They mention recurring headaches and express difficulty managing stress from daily tasks.",
+      "illness_category": 10,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-03-01T09:34:41.259Z",
+      "updated": "2024-04-25T00:08:10.008Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 126,
+    "fields": {
+      "patient": 133,
+      "issue": "Patient has concerns about recent episodes of mental fatigue. They describe feeling detached and report difficulty maintaining focus on tasks.",
+      "illness_category": 10,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-01-04T15:13:26.381Z",
+      "updated": "2024-02-27T23:22:32.297Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 127,
+    "fields": {
+      "patient": 139,
+      "issue": "Patient notes feeling increasingly overwhelmed, with periods of irritability. They mention struggling with a sense of obligation and a busy schedule.",
+      "illness_category": 10,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-09-13T03:01:01.711Z",
+      "updated": "2024-10-08T14:19:24.796Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 128,
+    "fields": {
+      "patient": 133,
+      "issue": "Patient mentions a feeling of weariness and mental fatigue, especially after work. Expresses that they are 'just tired' despite taking rest days.",
+      "illness_category": 10,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-01-04T15:54:45.802Z",
+      "updated": "2024-02-14T09:26:31.004Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 129,
+    "fields": {
+      "patient": 140,
+      "issue": "Patient reports feeling under pressure lately, resulting in physical tension and occasional shortness of breath.",
+      "illness_category": 10,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-07-11T15:04:29.112Z",
+      "updated": "2024-08-30T09:32:01.902Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 130,
+    "fields": {
+      "patient": 148,
+      "issue": "Patient describes episodes of irritability, especially in social situations. Mentions struggling to focus on conversations, which causes frustration.",
+      "illness_category": 10,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-07-30T01:59:06.083Z",
+      "updated": "2024-08-08T23:51:29.957Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 131,
+    "fields": {
+      "patient": 138,
+      "issue": "Patient reports feeling overwhelmed by work responsibilities, which they feel is affecting their energy levels. Mentions often feeling worn out by the end of the day.",
+      "illness_category": 10,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-07-30T04:32:55.488Z",
+      "updated": "2024-08-09T17:38:00.056Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 132,
+    "fields": {
+      "patient": 138,
+      "issue": "Patient describes feeling both mentally and physically drained lately. Mentions difficulty keeping up with daily routines due to low energy levels.",
+      "illness_category": 10,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-09-10T09:46:28.847Z",
+      "updated": "2024-09-17T15:36:28.042Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 133,
+    "fields": {
+      "patient": 148,
+      "issue": "Patient notes recurring fatigue and slight disinterest in daily tasks. They express that their mood has been 'up and down' for a while.",
+      "illness_category": 10,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-05-21T23:07:42.365Z",
+      "updated": "2024-06-19T05:41:11.387Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 134,
+    "fields": {
+      "patient": 139,
+      "issue": "The patient describes having frequent discomfort in the back, particularly after physical activity, and mentions issues with long-standing tasks.",
+      "illness_category": 10,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-02-27T12:27:09.233Z",
+      "updated": "2024-03-08T04:51:27.788Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 135,
+    "fields": {
+      "patient": 146,
+      "issue": "The patient reports fatigue and soreness that worsen in the evening, often accompanied by headaches and mild anxiety.",
+      "illness_category": 10,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-07-26T16:29:27.599Z",
+      "updated": "2024-08-04T17:42:11.414Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 136,
+    "fields": {
+      "patient": 138,
+      "issue": "The patient mentions feeling discomfort in the lower limbs, with occasional swelling and limited mobility, especially after walking long distances.",
+      "illness_category": 10,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-08-21T05:43:30.879Z",
+      "updated": "2024-09-25T13:37:10.537Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 137,
+    "fields": {
+      "patient": 130,
+      "issue": "Patient experiences occasional sharp pain in the abdomen, with bloating and discomfort after meals, affecting their daily routine.",
+      "illness_category": 10,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-04-04T22:22:24.040Z",
+      "updated": "2024-05-14T02:12:30.628Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 138,
+    "fields": {
+      "patient": 145,
+      "issue": "Patient describes persistent upper back pain, worse in the evenings and after extended periods of sitting.",
+      "illness_category": 10,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-06-09T14:40:53.753Z",
+      "updated": "2024-02-14T09:43:41.902Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 139,
+    "fields": {
+      "patient": 134,
+      "issue": "Patient reports fatigue, accompanied by intermittent chest discomfort and shortness of breath, especially after climbing stairs.",
+      "illness_category": 10,
+      "staff": 6,
+      "doctor": null,
+      "added": "1924-05-03T17:09:43.940Z",
+      "updated": "2024-06-08T20:00:06.637Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 140,
+    "fields": {
+      "patient": 145,
+      "issue": "Patient mentions issues with dizziness and a sense of imbalance that occurs randomly, mostly in the morning.",
+      "illness_category": 10,
+      "staff": 6,
+      "doctor": null,
+      "added": "1924-08-15T02:34:53.982Z",
+      "updated": "2024-09-06T03:56:54.711Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 141,
+    "fields": {
+      "patient": 144,
+      "issue": "Patient states recurring joint pain, particularly in the knees, which intensifies after physical exertion.",
+      "illness_category": 10,
+      "staff": 6,
+      "doctor": null,
+      "added": "1924-08-09T21:21:03.181Z",
+      "updated": "2024-09-12T18:46:05.573Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 142,
+    "fields": {
+      "patient": 142,
+      "issue": "The patient mentions discomfort in the stomach with occasional cramps, especially noticeable before meals.",
+      "illness_category": 10,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-10-20T11:27:25.132Z",
+      "updated": "2024-10-25T07:26:11.079Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 143,
+    "fields": {
+      "patient": 129,
+      "issue": "Patient reports a recurring feeling of tiredness throughout the day, which impacts their focus and productivity.",
+      "illness_category": 10,
+      "staff": 6,
+      "doctor": null,
+      "added": "1924-05-07T09:07:17.472Z",
+      "updated": "2024-06-05T13:54:41.128Z",
+      "diagnosis": ""
+    }
+  },
     {
       "model": "treatment.illness",
-      "pk": 124,
+      "pk": 144,
       "fields": {
-        "patient": 146,
-        "issue": "Patient reports feeling tension in their upper back and shoulders. They express concerns about frequent anxiety and mention feeling weighed down by ongoing responsibilities.",
-        "illness_category": 10,
+        "patient": 153,
+        "issue": "I've been feeling overwhelmed lately; the changes in my address and daily routine have been quite stressful. It's affecting my focus at work.",
+        "illness_category": 5,
         "staff": 6,
         "doctor": null,
-        "added": "2024-01-08T12:01:56.606Z",
-        "updated": "2024-01-18T03:07:46.369Z",
+        "added": "2024-07-12T11:49:35.408Z",
+        "updated": "2024-08-05T20:06:28.988Z",
         "diagnosis": ""
       }
     },
     {
       "model": "treatment.illness",
-      "pk": 125,
+      "pk": 145,
       "fields": {
-        "patient": 148,
-        "issue": "Patient describes feeling frequently on edge with mild irritability. They mention recurring headaches and express difficulty managing stress from daily tasks.",
-        "illness_category": 10,
+        "patient": 150,
+        "issue": "I've been feeling unwell; the debates and pressures at work have been hard to manage, and I'm struggling to keep up with my responsibilities.",
+        "illness_category": 5,
         "staff": 6,
         "doctor": null,
-        "added": "2024-03-01T09:34:41.259Z",
-        "updated": "2024-04-25T00:08:10.008Z",
+        "added": "2024-04-17T19:34:19.901Z",
+        "updated": "2024-05-08T04:13:52.633Z",
         "diagnosis": ""
       }
     },
     {
       "model": "treatment.illness",
-      "pk": 126,
+      "pk": 146,
       "fields": {
-        "patient": 133,
-        "issue": "Patient has concerns about recent episodes of mental fatigue. They describe feeling detached and report difficulty maintaining focus on tasks.",
-        "illness_category": 10,
+        "patient": 149,
+        "issue": "I feel the need to contribute more, but the demands are overwhelming. I often feel like my opinions are not valued.",
+        "illness_category": 5,
         "staff": 6,
         "doctor": null,
-        "added": "2024-01-04T15:13:26.381Z",
-        "updated": "2024-02-27T23:22:32.297Z",
+        "added": "2024-08-05T19:42:44.345Z",
+        "updated": "2024-09-19T18:19:53.680Z",
         "diagnosis": ""
       }
     },
     {
       "model": "treatment.illness",
-      "pk": 127,
+      "pk": 147,
       "fields": {
-        "patient": 139,
-        "issue": "Patient notes feeling increasingly overwhelmed, with periods of irritability. They mention struggling with a sense of obligation and a busy schedule.",
-        "illness_category": 10,
+        "patient": 158,
+        "issue": "I'm finding it hard to participate in discussions; it's like I'm stuck in a cycle of negativity and feel weighed down by the expectations.",
+        "illness_category": 5,
         "staff": 6,
         "doctor": null,
-        "added": "2024-09-13T03:01:01.711Z",
-        "updated": "2024-10-08T14:19:24.796Z",
+        "added": "2024-04-23T12:51:39.874Z",
+        "updated": "2024-05-21T03:54:54.320Z",
         "diagnosis": ""
       }
     },
     {
       "model": "treatment.illness",
-      "pk": 128,
+      "pk": 148,
       "fields": {
-        "patient": 133,
-        "issue": "Patient mentions a feeling of weariness and mental fatigue, especially after work. Expresses that they are 'just tired' despite taking rest days.",
-        "illness_category": 10,
+        "patient": 168,
+        "issue": "I've been feeling lost lately; there’s a lot happening around me, and it’s hard to keep up with everything that's expected of me.",
+        "illness_category": 5,
         "staff": 6,
         "doctor": null,
-        "added": "2024-01-04T15:54:45.802Z",
-        "updated": "2024-02-14T09:26:31.004Z",
+        "added": "2024-08-27T04:11:23.197Z",
+        "updated": "2024-09-14T13:58:38.755Z",
         "diagnosis": ""
       }
     },
     {
       "model": "treatment.illness",
-      "pk": 129,
+      "pk": 149,
       "fields": {
-        "patient": 140,
-        "issue": "Patient reports feeling under pressure lately, resulting in physical tension and occasional shortness of breath.",
-        "illness_category": 10,
+        "patient": 166,
+        "issue": "I often feel overwhelmed by the demands on my time and responsibilities, making it hard for me to focus on what matters most.",
+        "illness_category": 5,
         "staff": 6,
         "doctor": null,
-        "added": "2024-07-11T15:04:29.112Z",
-        "updated": "2024-08-30T09:32:01.902Z",
+        "added": "2024-11-02T03:52:45.347Z",
+        "updated": "2024-11-04T23:32:06.735Z",
         "diagnosis": ""
       }
     },
     {
       "model": "treatment.illness",
-      "pk": 130,
+      "pk": 150,
       "fields": {
-        "patient": 148,
-        "issue": "Patient describes episodes of irritability, especially in social situations. Mentions struggling to focus on conversations, which causes frustration.",
-        "illness_category": 10,
+        "patient": 157,
+        "issue": "I'm struggling to manage my thoughts; everything feels chaotic, and I need help to sort through my feelings and the expectations placed on me.",
+        "illness_category": 5,
         "staff": 6,
         "doctor": null,
-        "added": "2024-07-30T01:59:06.083Z",
-        "updated": "2024-08-08T23:51:29.957Z",
+        "added": "2024-11-01T19:00:05.151Z",
+        "updated": "2024-11-02T01:47:40.189Z",
         "diagnosis": ""
       }
     },
     {
       "model": "treatment.illness",
-      "pk": 131,
+      "pk": 151,
       "fields": {
-        "patient": 138,
-        "issue": "Patient reports feeling overwhelmed by work responsibilities, which they feel is affecting their energy levels. Mentions often feeling worn out by the end of the day.",
-        "illness_category": 10,
+        "patient": 167,
+        "issue": "I'm feeling disconnected and frustrated with the information I receive. It seems like I'm always in the dark about important decisions.",
+        "illness_category": 5,
         "staff": 6,
         "doctor": null,
-        "added": "2024-07-30T04:32:55.488Z",
-        "updated": "2024-08-09T17:38:00.056Z",
+        "added": "2024-10-20T07:00:48.962Z",
+        "updated": "2024-10-24T20:35:24.123Z",
         "diagnosis": ""
       }
     },
     {
       "model": "treatment.illness",
-      "pk": 132,
+      "pk": 152,
       "fields": {
-        "patient": 138,
-        "issue": "Patient describes feeling both mentally and physically drained lately. Mentions difficulty keeping up with daily routines due to low energy levels.",
-        "illness_category": 10,
+        "patient": 157,
+        "issue": "I find myself caught in repetitive thoughts; it’s hard to break free and see things from a different perspective.",
+        "illness_category": 5,
         "staff": 6,
         "doctor": null,
-        "added": "2024-09-10T09:46:28.847Z",
-        "updated": "2024-09-17T15:36:28.042Z",
+        "added": "2024-10-11T12:36:43.529Z",
+        "updated": "2024-10-21T14:44:34.207Z",
         "diagnosis": ""
       }
     },
     {
       "model": "treatment.illness",
-      "pk": 133,
+      "pk": 153,
       "fields": {
-        "patient": 148,
-        "issue": "Patient notes recurring fatigue and slight disinterest in daily tasks. They express that their mood has been 'up and down' for a while.",
-        "illness_category": 10,
+        "patient": 168,
+        "issue": "I often feel overwhelmed by decisions and their consequences, leaving me questioning my abilities and choices.",
+        "illness_category": 5,
         "staff": 6,
         "doctor": null,
-        "added": "2024-05-21T23:07:42.365Z",
-        "updated": "2024-06-19T05:41:11.387Z",
+        "added": "2024-03-31T20:51:53.699Z",
+        "updated": "2024-04-30T20:28:54.909Z",
         "diagnosis": ""
       }
     },
-    {
-      "model": "treatment.illness",
-      "pk": 134,
-      "fields": {
-        "patient": 139,
-        "issue": "The patient describes having frequent discomfort in the back, particularly after physical activity, and mentions issues with long-standing tasks.",
-        "illness_category": 10,
-        "staff": 6,
-        "doctor": null,
-        "added": "2024-02-27T12:27:09.233Z",
-        "updated": "2024-03-08T04:51:27.788Z",
-        "diagnosis": ""
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 135,
-      "fields": {
-        "patient": 146,
-        "issue": "The patient reports fatigue and soreness that worsen in the evening, often accompanied by headaches and mild anxiety.",
-        "illness_category": 10,
-        "staff": 6,
-        "doctor": null,
-        "added": "2024-07-26T16:29:27.599Z",
-        "updated": "2024-08-04T17:42:11.414Z",
-        "diagnosis": ""
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 136,
-      "fields": {
-        "patient": 138,
-        "issue": "The patient mentions feeling discomfort in the lower limbs, with occasional swelling and limited mobility, especially after walking long distances.",
-        "illness_category": 10,
-        "staff": 6,
-        "doctor": null,
-        "added": "2024-08-21T05:43:30.879Z",
-        "updated": "2024-09-25T13:37:10.537Z",
-        "diagnosis": ""
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 137,
-      "fields": {
-        "patient": 130,
-        "issue": "Patient experiences occasional sharp pain in the abdomen, with bloating and discomfort after meals, affecting their daily routine.",
-        "illness_category": 10,
-        "staff": 6,
-        "doctor": null,
-        "added": "2024-04-04T22:22:24.040Z",
-        "updated": "2024-05-14T02:12:30.628Z",
-        "diagnosis": ""
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 138,
-      "fields": {
-        "patient": 145,
-        "issue": "Patient describes persistent upper back pain, worse in the evenings and after extended periods of sitting.",
-        "illness_category": 10,
-        "staff": 6,
-        "doctor": null,
-        "added": "2024-06-09T14:40:53.753Z",
-        "updated": "2024-02-14T09:43:41.902Z",
-        "diagnosis": ""
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 139,
-      "fields": {
-        "patient": 134,
-        "issue": "Patient reports fatigue, accompanied by intermittent chest discomfort and shortness of breath, especially after climbing stairs.",
-        "illness_category": 10,
-        "staff": 6,
-        "doctor": null,
-        "added": "1924-05-03T17:09:43.940Z",
-        "updated": "2024-06-08T20:00:06.637Z",
-        "diagnosis": ""
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 140,
-      "fields": {
-        "patient": 145,
-        "issue": "Patient mentions issues with dizziness and a sense of imbalance that occurs randomly, mostly in the morning.",
-        "illness_category": 10,
-        "staff": 6,
-        "doctor": null,
-        "added": "1924-08-15T02:34:53.982Z",
-        "updated": "2024-09-06T03:56:54.711Z",
-        "diagnosis": ""
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 141,
-      "fields": {
-        "patient": 144,
-        "issue": "Patient states recurring joint pain, particularly in the knees, which intensifies after physical exertion.",
-        "illness_category": 10,
-        "staff": 6,
-        "doctor": null,
-        "added": "1924-08-09T21:21:03.181Z",
-        "updated": "2024-09-12T18:46:05.573Z",
-        "diagnosis": ""
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 142,
-      "fields": {
-        "patient": 142,
-        "issue": "The patient mentions discomfort in the stomach with occasional cramps, especially noticeable before meals.",
-        "illness_category": 10,
-        "staff": 6,
-        "doctor": null,
-        "added": "2024-10-20T11:27:25.132Z",
-        "updated": "2024-10-25T07:26:11.079Z",
-        "diagnosis": ""
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 143,
-      "fields": {
-        "patient": 129,
-        "issue": "Patient reports a recurring feeling of tiredness throughout the day, which impacts their focus and productivity.",
-        "illness_category": 10,
-        "staff": 6,
-        "doctor": null,
-        "added": "1924-05-07T09:07:17.472Z",
-        "updated": "2024-06-05T13:54:41.128Z",
-        "diagnosis": ""
-      }
-    },
+      {
+        "model": "treatment.illness",
+        "pk": 154,
+        "fields": {
+          "patient": 160,
+          "issue": "The patient expressed concerns about feeling fatigued and having trouble sleeping. They mentioned some anxiety about upcoming tests and have been experiencing headaches more frequently. We discussed strategies for managing stress and improving sleep hygiene.",
+          "illness_category": 5,
+          "staff": 6,
+          "doctor": null,
+          "added": "2024-01-23T02:59:03.535Z",
+          "updated": "2024-02-19T10:05:34.202Z",
+          "diagnosis": ""
+        }
+      },
+      {
+        "model": "treatment.illness",
+        "pk": 155,
+        "fields": {
+          "patient": 149,
+          "issue": "The patient reported feeling a tightness in their chest and occasional shortness of breath. They are concerned about their heart health and would like advice on lifestyle changes to improve their condition.",
+          "illness_category": 5,
+          "staff": 6,
+          "doctor": null,
+          "added": "2024-08-06T16:57:14.283Z",
+          "updated": "2024-09-25T20:21:30.118Z",
+          "diagnosis": ""
+        }
+      },
+      {
+        "model": "treatment.illness",
+        "pk": 156,
+        "fields": {
+          "patient": 162,
+          "issue": "The patient discussed persistent stomach discomfort and occasional nausea after meals. They are looking for dietary recommendations and want to rule out any serious gastrointestinal issues.",
+          "illness_category": 5,
+          "staff": 6,
+          "doctor": null,
+          "added": "2024-03-17T09:36:42.661Z",
+          "updated": "2024-04-16T07:15:28.547Z",
+          "diagnosis": ""
+        }
+      },
+      {
+        "model": "treatment.illness",
+        "pk": 157,
+        "fields": {
+          "patient": 168,
+          "issue": "The patient is experiencing joint pain and stiffness, especially in the mornings. They are interested in exploring treatment options to manage their symptoms and improve mobility.",
+          "illness_category": 5,
+          "staff": 6,
+          "doctor": null,
+          "added": "2024-08-14T07:41:13.532Z",
+          "updated": "2024-09-06T00:16:50.864Z",
+          "diagnosis": ""
+        }
+      },
+      {
+        "model": "treatment.illness",
+        "pk": 158,
+        "fields": {
+          "patient": 164,
+          "issue": "The patient reported experiencing mood swings and feelings of sadness that have been interfering with daily activities. They expressed a desire to talk about coping strategies and possible therapies.",
+          "illness_category": 5,
+          "staff": 6,
+          "doctor": null,
+          "added": "2024-07-22T09:23:04.134Z",
+          "updated": "2024-08-16T11:45:51.542Z",
+          "diagnosis": ""
+        }
+      },
+      {
+        "model": "treatment.illness",
+        "pk": 159,
+        "fields": {
+          "patient": 150,
+          "issue": "The patient mentioned frequent dizziness and occasional fainting spells. They are worried about their overall health and want to ensure there are no underlying issues.",
+          "illness_category": 5,
+          "staff": 6,
+          "doctor": null,
+          "added": "2024-06-18T16:22:57.059Z",
+          "updated": "2024-07-28T20:14:46.140Z",
+          "diagnosis": ""
+        }
+      },
+      {
+        "model": "treatment.illness",
+        "pk": 160,
+        "fields": {
+          "patient": 154,
+          "issue": "The patient is concerned about weight management and is looking for advice on healthy eating and exercise routines. They expressed interest in setting realistic goals for weight loss.",
+          "illness_category": 5,
+          "staff": 6,
+          "doctor": null,
+          "added": "2024-04-04T18:07:14.537Z",
+          "updated": "2024-05-14T00:40:26.128Z",
+          "diagnosis": ""
+        }
+      },
+      {
+        "model": "treatment.illness",
+        "pk": 161,
+        "fields": {
+          "patient": 151,
+          "issue": "The patient expressed frustration with chronic headaches that disrupt their daily life. They are seeking potential triggers and treatments to help alleviate their pain.",
+          "illness_category": 5,
+          "staff": 6,
+          "doctor": null,
+          "added": "2024-01-15T18:22:43.942Z",
+          "updated": "2024-01-16T04:52:10.663Z",
+          "diagnosis": ""
+        }
+      },
+      {
+        "model": "treatment.illness",
+        "pk": 162,
+        "fields": {
+          "patient": 163,
+          "issue": "The patient reported feeling increasingly anxious and overwhelmed with daily responsibilities. They would like to discuss stress management techniques and coping strategies.",
+          "illness_category": 5,
+          "staff": 6,
+          "doctor": null,
+          "added": "2024-07-23T23:23:51.205Z",
+          "updated": "2024-08-05T06:01:02.022Z",
+          "diagnosis": ""
+        }
+      },
+      {
+        "model": "treatment.illness",
+        "pk": 163,
+        "fields": {
+          "patient": 163,
+          "issue": "The patient shared concerns about their vision and has been experiencing blurry sight. They want to schedule an eye examination and discuss possible solutions.",
+          "illness_category": 5,
+          "staff": 6,
+          "doctor": null,
+          "added": "2024-07-21T18:47:16.926Z",
+          "updated": "2024-08-10T03:21:01.536Z",
+          "diagnosis": ""
+        }
+      },
   {
     "model": "treatment.illnesstreatment",
     "pk": 1,
