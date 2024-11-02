@@ -142,7 +142,7 @@
       "illness_category": 11,
       "staff": 6,
       "doctor": 12,
-      "added": "1986-07-22T15:47:26.671Z",
+      "added": "2024-07-22T15:47:26.671Z",
       "updated": "2024-10-30T12:10:41.611Z",
       "diagnosis": "Possible migraine or tension headaches. Consider neurological assessment and eye exam."
     }
@@ -153,10 +153,10 @@
     "fields": {
       "patient": 12,
       "issue": "Difficulty breathing at night and frequent wheezing.",
-      "illness_category": 12,
+      "illness_category": 11,
       "staff": 6,
-      "doctor": 15,
-      "added": "2006-07-22T20:15:13.940Z",
+      "doctor": 5,
+      "added": "2024-07-22T20:15:13.940Z",
       "updated": "2024-10-30T12:09:04.237Z",
       "diagnosis": "Symptoms suggest asthma. Recommend inhaler use and allergy testing."
     }
@@ -169,8 +169,8 @@
       "issue": "Severe joint pain in knees, especially after physical exertion.",
       "illness_category": 8,
       "staff": 6,
-      "doctor": 9,
-      "added": "1972-01-07T01:13:33.368Z",
+      "doctor": 5,
+      "added": "2024-01-07T01:13:33.368Z",
       "updated": "2024-10-30T12:10:58.383Z",
       "diagnosis": "Potential osteoarthritis. Suggest physical therapy and anti-inflammatory medication."
     }
@@ -183,8 +183,8 @@
       "issue": "Chronic fatigue and unexplained weight loss over the last few months.",
       "illness_category": 9,
       "staff": 6,
-      "doctor": 12,
-      "added": "1993-07-27T06:23:04.737Z",
+      "doctor": 5,
+      "added": "2024-07-27T06:23:04.737Z",
       "updated": "2024-10-30T12:10:06.153Z",
       "diagnosis": "Suspected thyroid disorder. Recommend blood tests to evaluate thyroid function."
     }
@@ -197,8 +197,8 @@
       "issue": "Recurring back pain, particularly in the lower region, with stiffness.",
       "illness_category": 3,
       "staff": 6,
-      "doctor": 15,
-      "added": "1994-06-01T03:24:18.524Z",
+      "doctor": 5,
+      "added": "2024-06-01T03:24:18.524Z",
       "updated": "2024-07-28T03:18:40.647Z",
       "diagnosis": "Possible lumbar strain. Suggest physical therapy and stretching exercises."
     }
@@ -211,8 +211,8 @@
       "issue": "Frequent upper respiratory infections with persistent cough.",
       "illness_category": 10,
       "staff": 6,
-      "doctor": 10,
-      "added": "2009-03-05T22:41:12.595Z",
+      "doctor": 5,
+      "added": "2024-03-05T22:41:12.595Z",
       "updated": "2024-10-30T12:08:40.994Z",
       "diagnosis": "Suspected bronchitis. Recommend antibiotics and monitoring for improvement."
     }
@@ -225,8 +225,8 @@
       "issue": "Persistent anxiety and difficulty sleeping at night.",
       "illness_category": 3,
       "staff": 6,
-      "doctor": 16,
-      "added": "1997-02-20T18:50:46.359Z",
+      "doctor": 5,
+      "added": "2024-02-20T18:50:46.359Z",
       "updated": "2024-03-31T20:15:36.075Z",
       "diagnosis": "Generalized Anxiety Disorder. Recommend therapy and relaxation techniques."
     }
@@ -239,8 +239,8 @@
       "issue": "Unexplained bruising and occasional nosebleeds.",
       "illness_category": 7,
       "staff": 6,
-      "doctor": 13,
-      "added": "1998-10-01T07:39:02.355Z",
+      "doctor": 5,
+      "added": "2024-10-01T07:39:02.355Z",
       "updated": "2024-10-30T12:10:23.397Z",
       "diagnosis": "Potential blood clotting disorder. Recommend full blood count and platelet tests."
     }
@@ -253,8 +253,8 @@
       "issue": "Shortness of breath and lightheadedness during physical activity.",
       "illness_category": 10,
       "staff": 6,
-      "doctor": 15,
-      "added": "2020-12-10T13:37:01.870Z",
+      "doctor": 5,
+      "added": "2024-10-10T13:37:01.870Z",
       "updated": "2024-10-30T12:08:22.339Z",
       "diagnosis": "Likely anemia or mild cardiac issue. Recommend blood tests and cardiology referral."
     }
@@ -267,9 +267,9 @@
       "issue": "Persistent headache and blurred vision following head trauma.",
       "illness_category": 11,
       "staff": 6,
-      "doctor": 19,
-      "added": "1985-02-04T00:12:04.296Z",
-      "updated": "2024-01-01T21:07:34.779Z",
+      "doctor": 5,
+      "added": "2024-02-04T00:12:04.296Z",
+      "updated": "2024-03-01T21:07:34.779Z",
       "diagnosis": "Concussion with mild cognitive impairment. Recommend rest and gradual return to activity."
     }
   },
@@ -281,8 +281,8 @@
       "issue": "Chest pain during exercise, accompanied by shortness of breath.",
       "illness_category": 4,
       "staff": 6,
-      "doctor": 21,
-      "added": "2022-10-17T02:35:43.914Z",
+      "doctor": 5,
+      "added": "2024-10-17T02:35:43.914Z",
       "updated": "2024-10-24T14:07:41.560Z",
       "diagnosis": "Possible angina. Recommend ECG and stress test to assess heart health."
     }
@@ -295,9 +295,9 @@
       "issue": "Persistent dry cough and fatigue over the last three weeks.",
       "illness_category": 6,
       "staff": 6,
-      "doctor": 20,
-      "added": "1972-12-27T08:31:41.681Z",
-      "updated": "2024-07-27T21:07:03.791Z",
+      "doctor": 5,
+      "added": "2024-12-27T08:31:41.681Z",
+      "updated": "2024-12-30T07:03:00.791Z",
       "diagnosis": "Suspected bronchitis. Prescribe cough suppressant and monitor respiratory health."
     }
   },
@@ -309,8 +309,8 @@
       "issue": "Sharp abdominal pain localized to the lower right quadrant.",
       "illness_category": 8,
       "staff": 6,
-      "doctor": 23,
-      "added": "2010-12-05T09:15:13.125Z",
+      "doctor": 5,
+      "added": "2024-07-05T09:15:13.125Z",
       "updated": "2024-09-21T04:06:51.234Z",
       "diagnosis": "Potential appendicitis. Recommend immediate imaging and surgical consultation."
     }
@@ -323,8 +323,8 @@
       "issue": "Recurring fever and chills, accompanied by muscle pain.",
       "illness_category": 2,
       "staff": 6,
-      "doctor": 22,
-      "added": "2009-03-21T01:47:13.279Z",
+      "doctor": 5,
+      "added": "2024-03-21T01:47:13.279Z",
       "updated": "2024-04-10T08:07:12.578Z",
       "diagnosis": "Suspected viral infection. Advise rest, fluids, and antipyretics."
     }
@@ -337,8 +337,8 @@
       "issue": "Patient reports persistent joint pain and limited mobility in the knees. Symptoms worsen with physical activity.",
       "illness_category": 5,
       "staff": 6,
-      "doctor": 27,
-      "added": "2022-01-04T18:11:08.048Z",
+      "doctor": 5,
+      "added": "2024-01-04T18:11:08.048Z",
       "updated": "2024-01-10T14:51:42.239Z",
       "diagnosis": "Diagnosed with osteoarthritis in the knees. Recommended physical therapy and anti-inflammatory medication."
     }
@@ -351,8 +351,8 @@
       "issue": "Patient complains of frequent headaches and blurred vision, particularly in the morning.",
       "illness_category": 11,
       "staff": 6,
-      "doctor": 27,
-      "added": "1987-08-30T13:47:58.159Z",
+      "doctor": 5,
+      "added": "2024-08-30T13:47:58.159Z",
       "updated": "2024-09-05T10:36:55.879Z",
       "diagnosis": "Diagnosed with migraines. Advised to avoid triggers, prescribed pain relief, and suggested lifestyle modifications."
     }
@@ -365,8 +365,8 @@
       "issue": "Reports shortness of breath and persistent cough lasting over three weeks. No history of smoking.",
       "illness_category": 12,
       "staff": 6,
-      "doctor": 28,
-      "added": "2007-07-17T23:41:00.822Z",
+      "doctor": 5,
+      "added": "2024-07-17T23:41:00.822Z",
       "updated": "2024-07-20T02:16:20.413Z",
       "diagnosis": "Potential diagnosis of chronic bronchitis. Scheduled follow-up for pulmonary function tests and prescribed bronchodilator."
     }
@@ -379,8 +379,8 @@
       "issue": "Patient has high fever, chills, and severe fatigue for over four days. Recent travel history to a tropical region.",
       "illness_category": 1,
       "staff": 6,
-      "doctor": 26,
-      "added": "1995-09-17T20:48:46.752Z",
+      "doctor": 5,
+      "added": "2024-09-17T20:48:46.752Z",
       "updated": "2024-09-18T08:11:13.661Z",
       "diagnosis": "Suspected malaria. Advised immediate blood tests. Provided antimalarial treatment pending confirmation."
     }
@@ -393,82 +393,852 @@
       "issue": "Experiencing persistent lower back pain, especially in the mornings and after long periods of sitting.",
       "illness_category": 1,
       "staff": 6,
-      "doctor": 27,
-      "added": "2007-06-25T02:21:22.439Z",
+      "doctor": 5,
+      "added": "2024-06-25T02:21:22.439Z",
       "updated": "2024-06-30T04:35:15.428Z",
       "diagnosis": "Diagnosed with lumbar strain. Advised on posture improvement, recommended physical therapy, and prescribed muscle relaxants."
     }
   },
-    {
-      "model": "treatment.illness",
-      "pk": 24,
-      "fields": {
-        "patient": 29,
-        "issue": "Chronic headaches and vision disturbances over the past month.",
-        "illness_category": 12,
-        "staff": 33,
-        "doctor": 30,
-        "added": "2016-07-22T23:04:03.910Z",
-        "updated": "2024-09-19T11:12:34.043Z",
-        "diagnosis": "Migraines diagnosed, with potential triggers identified as stress and screen exposure. Recommend lifestyle modifications and prescribed preventive medication."
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 25,
-      "fields": {
-        "patient": 29,
-        "issue": "Persistent cough and intermittent fever lasting over two weeks.",
-        "illness_category": 9,
-        "staff": 33,
-        "doctor": 33,
-        "added": "2014-02-08T03:33:29.323Z",
-        "updated": "2024-06-15T09:34:26.048Z",
-        "diagnosis": "Bronchitis suspected, confirmed with chest X-ray. Prescribed antibiotics and recommended increased hydration. Follow-up in two weeks."
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 26,
-      "fields": {
-        "patient": 32,
-        "issue": "Pain and swelling in the lower back after lifting heavy objects.",
-        "illness_category": 7,
-        "staff": 30,
-        "doctor": 32,
-        "added": "1977-07-09T02:09:18.521Z",
-        "updated": "2024-12-05T03:21:42.644Z",
-        "diagnosis": "Diagnosed with lumbar strain. Recommended rest, hot/cold compress, and physical therapy if symptoms persist."
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 27,
-      "fields": {
-        "patient": 29,
-        "issue": "Sudden onset of high fever and severe muscle pain.",
-        "illness_category": 6,
-        "staff": 31,
-        "doctor": 29,
-        "added": "1994-01-05T07:04:41.055Z",
-        "updated": "2024-07-19T09:07:40.828Z",
-        "diagnosis": "Suspected viral infection. Bed rest and hydration advised, with monitoring for worsening symptoms."
-      }
-    },
-    {
-      "model": "treatment.illness",
-      "pk": 28,
-      "fields": {
-        "patient": 30,
-        "issue": "Joint pain and stiffness, primarily in the knees and hands, worsening over the past year.",
-        "illness_category": 8,
-        "staff": 32,
-        "doctor": 31,
-        "added": "1976-07-20T21:08:51.209Z",
-        "updated": "2024-06-06T18:39:40.510Z",
-        "diagnosis": "Rheumatoid arthritis suspected, confirmed through blood tests. Anti-inflammatory medication prescribed, with recommended follow-up in three months."
-      }
+  {
+    "model": "treatment.illness",
+    "pk": 24,
+    "fields": {
+      "patient": 29,
+      "issue": "Chronic headaches and vision disturbances over the past month.",
+      "illness_category": 12,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-07-22T23:04:03.910Z",
+      "updated": "2024-09-19T11:12:34.043Z",
+      "diagnosis": "Migraines diagnosed, with potential triggers identified as stress and screen exposure. Recommend lifestyle modifications and prescribed preventive medication."
     }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 25,
+    "fields": {
+      "patient": 29,
+      "issue": "Persistent cough and intermittent fever lasting over two weeks.",
+      "illness_category": 9,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-02-08T03:33:29.323Z",
+      "updated": "2024-06-15T09:34:26.048Z",
+      "diagnosis": "Bronchitis suspected, confirmed with chest X-ray. Prescribed antibiotics and recommended increased hydration. Follow-up in two weeks."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 26,
+    "fields": {
+      "patient": 32,
+      "issue": "Pain and swelling in the lower back after lifting heavy objects.",
+      "illness_category": 7,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-07-09T02:09:18.521Z",
+      "updated": "2024-12-05T03:21:42.644Z",
+      "diagnosis": "Diagnosed with lumbar strain. Recommended rest, hot/cold compress, and physical therapy if symptoms persist."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 27,
+    "fields": {
+      "patient": 29,
+      "issue": "Sudden onset of high fever and severe muscle pain.",
+      "illness_category": 6,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-01-05T07:04:41.055Z",
+      "updated": "2024-07-19T09:07:40.828Z",
+      "diagnosis": "Suspected viral infection. Bed rest and hydration advised, with monitoring for worsening symptoms."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 28,
+    "fields": {
+      "patient": 30,
+      "issue": "Joint pain and stiffness, primarily in the knees and hands, worsening over the past year.",
+      "illness_category": 8,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-05-20T21:08:51.209Z",
+      "updated": "2024-06-06T18:39:40.510Z",
+      "diagnosis": "Rheumatoid arthritis suspected, confirmed through blood tests. Anti-inflammatory medication prescribed, with recommended follow-up in three months."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 29,
+    "fields": {
+      "patient": 35,
+      "issue": "Patient reports persistent cough and difficulty breathing, especially during physical activity. Symptoms have worsened over the past week.",
+      "illness_category": 2,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-03-02T18:31:51.301Z",
+      "updated": "2024-04-09T19:09:48.227Z",
+      "diagnosis": "Suspected asthma exacerbation. Recommend spirometry and consider bronchodilator therapy."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 30,
+    "fields": {
+      "patient": 34,
+      "issue": "Patient experiences intermittent headaches and blurred vision. Symptoms occur mainly in the evenings.",
+      "illness_category": 11,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-10-13T10:51:57.530Z",
+      "updated": "2024-10-15T00:52:31.890Z",
+      "diagnosis": "Possible migraine disorder. Advise maintaining a headache diary and considering preventive therapy."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 31,
+    "fields": {
+      "patient": 35,
+      "issue": "Patient reports joint pain and stiffness in the morning, improving throughout the day.",
+      "illness_category": 9,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-07-11T14:53:07.281Z",
+      "updated": "2024-08-24T01:10:59.740Z",
+      "diagnosis": "Signs of early rheumatoid arthritis. Recommend further evaluation including serology and imaging studies."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 32,
+    "fields": {
+      "patient": 35,
+      "issue": "Patient presents with fatigue, weight loss, and increased thirst.",
+      "illness_category": 5,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-10-14T16:20:44.420Z",
+      "updated": "2024-10-25T13:23:16.037Z",
+      "diagnosis": "Possible diabetes mellitus. Recommend blood glucose monitoring and lifestyle modifications."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 33,
+    "fields": {
+      "patient": 37,
+      "issue": "Patient experiences frequent heartburn and regurgitation after meals.",
+      "illness_category": 2,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-02-05T16:24:23.552Z",
+      "updated": "2024-03-25T22:28:58.801Z",
+      "diagnosis": "Suspected gastroesophageal reflux disease (GERD). Recommend dietary modifications and consider PPI therapy."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 34,
+    "fields": {
+      "patient": 40,
+      "issue": "Patient experiencing severe anxiety and mood swings. Notable changes in sleep patterns and appetite.",
+      "illness_category": 11,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-09-02T20:54:08.428Z",
+      "updated": "2024-10-16T01:35:48.863Z",
+      "diagnosis": "Patient shows signs of generalized anxiety disorder. Recommended therapy sessions and possible medication."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 35,
+    "fields": {
+      "patient": 41,
+      "issue": "Patient has reported ongoing headaches and vision disturbances. Increased sensitivity to light noted.",
+      "illness_category": 11,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-01-31T10:55:18.809Z",
+      "updated": "2024-02-18T02:13:51.950Z",
+      "diagnosis": "Symptoms suggest possible migraine disorder. Recommend further testing and preventative measures."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 36,
+    "fields": {
+      "patient": 41,
+      "issue": "Patient exhibits frequent fatigue and weight loss. Family history of thyroid issues.",
+      "illness_category": 10,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-05-03T06:55:20.076Z",
+      "updated": "2024-09-29T20:13:57.111Z",
+      "diagnosis": "Concern for hyperthyroidism. Suggest blood tests for hormone levels."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 37,
+    "fields": {
+      "patient": 40,
+      "issue": "Patient reports persistent cough and difficulty breathing. History of asthma exacerbations.",
+      "illness_category": 7,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-07-09T05:23:54.709Z",
+      "updated": "2024-10-11T12:09:26.169Z",
+      "diagnosis": "Asthma management required. Update inhaler prescription and schedule follow-up appointment."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 38,
+    "fields": {
+      "patient": 41,
+      "issue": "Patient is experiencing severe joint pain and swelling, particularly in hands and knees.",
+      "illness_category": 11,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-07-11T06:24:01.910Z",
+      "updated": "2024-09-03T03:02:39.469Z",
+      "diagnosis": "Rheumatoid arthritis suspected. Further imaging and lab tests recommended for confirmation."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 39,
+    "fields": {
+      "patient": 44,
+      "issue": "Patient shows signs of anxiety and stress, often feeling overwhelmed by daily tasks. Needs assistance with coping strategies.",
+      "illness_category": 3,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-04-17T12:30:14.629Z",
+      "updated": "2024-10-23T04:42:06.052Z",
+      "diagnosis": "Diagnosis indicates generalized anxiety disorder with episodes of panic attacks. Recommend therapy and medication review."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 40,
+    "fields": {
+      "patient": 44,
+      "issue": "Patient presents with symptoms of depression, including persistent sadness and lack of interest in previously enjoyable activities.",
+      "illness_category": 4,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-03-23T10:20:10.576Z",
+      "updated": "2024-10-30T20:53:52.975Z",
+      "diagnosis": "Major depressive disorder diagnosed. Recommended counseling sessions and consideration of antidepressant therapy."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 41,
+    "fields": {
+      "patient": 48,
+      "issue": "Patient has been experiencing frequent headaches and fatigue, impacting daily activities and concentration.",
+      "illness_category": 6,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-03-26T18:30:26.291Z",
+      "updated": "2024-04-16T22:35:20.635Z",
+      "diagnosis": "Diagnosis of tension-type headaches with underlying fatigue. Suggested lifestyle changes and possible medication for pain management."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 42,
+    "fields": {
+      "patient": 45,
+      "issue": "Patient reports gastrointestinal discomfort and irregular bowel movements, indicating possible dietary issues.",
+      "illness_category": 8,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-02-05T10:22:59.189Z",
+      "updated": "2024-04-13T04:26:09.868Z",
+      "diagnosis": "Potential irritable bowel syndrome (IBS). Recommended dietary adjustments and follow-up for further evaluation."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 43,
+    "fields": {
+      "patient": 44,
+      "issue": "Patient is experiencing symptoms of insomnia, affecting overall health and daily functioning.",
+      "illness_category": 9,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-06-17T05:38:09.786Z",
+      "updated": "2024-07-13T08:22:20.438Z",
+      "diagnosis": "Diagnosis of chronic insomnia. Recommend sleep hygiene education and potential sleep aids if necessary."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 44,
+    "fields": {
+      "patient": 51,
+      "issue": "Patient exhibits signs of anxiety related to social interactions, expressing discomfort in group settings.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-02-21T18:45:36.193Z",
+      "updated": "2024-03-12T23:11:58.960Z",
+      "diagnosis": "Social anxiety disorder diagnosed. Recommended cognitive behavioral therapy (CBT) and gradual exposure techniques."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 45,
+    "fields": {
+      "patient": 53,
+      "issue": "Patient reports feeling overwhelmed by responsibilities at work and home, leading to stress and fatigue.",
+      "illness_category": 12,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-05-27T02:57:56.171Z",
+      "updated": "2024-06-05T15:17:44.557Z",
+      "diagnosis": "Adjustment disorder with anxiety diagnosed. Suggested stress management techniques and support resources."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 46,
+    "fields": {
+      "patient": 51,
+      "issue": "Patient is experiencing depressive symptoms, including low energy and feelings of hopelessness.",
+      "illness_category": 8,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-09-14T00:32:24.751Z",
+      "updated": "2024-10-13T17:43:19.733Z",
+      "diagnosis": "Major depressive disorder diagnosed. Recommend psychotherapy and potential medication evaluation."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 47,
+    "fields": {
+      "patient": 52,
+      "issue": "Patient has difficulty managing stress related to academic pressures, impacting overall well-being.",
+      "illness_category": 3,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-08-21T23:48:38.102Z",
+      "updated": "2024-10-24T13:20:01.862Z",
+      "diagnosis": "Diagnosis of stress-related disorders. Suggested counseling and stress-reduction techniques."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 48,
+    "fields": {
+      "patient": 49,
+      "issue": "Patient struggles with sleep disturbances, reporting difficulty falling and staying asleep.",
+      "illness_category": 5,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-01-20T13:30:25.728Z",
+      "updated": "2024-02-17T04:21:32.619Z",
+      "diagnosis": "Insomnia diagnosed. Recommended sleep hygiene practices and cognitive behavioral therapy for insomnia (CBT-I)."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 49,
+    "fields": {
+      "patient": 58,
+      "issue": "Sudden changes in career dynamics have caused significant stress and uncertainty. Employees are feeling overwhelmed in their roles and facing challenges that affect workplace morale.",
+      "illness_category": 6,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-02-05T12:39:40.544Z",
+      "updated": "2024-03-09T14:14:38.607Z",
+      "diagnosis": "The patient is experiencing anxiety related to career instability. Symptoms include restlessness and difficulty concentrating."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 50,
+    "fields": {
+      "patient": 58,
+      "issue": "Chronic fatigue and stress stemming from financial pressures and job insecurity. The patient reports a lack of motivation and persistent worry about future job prospects.",
+      "illness_category": 2,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-04-12T03:01:25.082Z",
+      "updated": "2024-09-18T07:04:02.343Z",
+      "diagnosis": "Diagnosis indicates depressive symptoms due to ongoing stress. The patient exhibits signs of low energy and diminished interest in daily activities."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 51,
+    "fields": {
+      "patient": 54,
+      "issue": "Difficulty managing personal responsibilities and maintaining relationships due to overwhelming emotional stress. The patient feels isolated and struggles to cope with daily tasks.",
+      "illness_category": 11,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-01-23T16:04:08.036Z",
+      "updated": "2024-02-10T23:28:52.344Z",
+      "diagnosis": "The patient shows signs of adjustment disorder with anxiety. Treatment will focus on coping strategies and emotional support."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 52,
+    "fields": {
+      "patient": 56,
+      "issue": "Feelings of inadequacy and pressure to meet societal expectations are contributing to the patient's mental health struggles. They express a sense of being overwhelmed by their environment.",
+      "illness_category": 3,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-04-03T04:21:33.206Z",
+      "updated": "2024-10-26T03:28:16.685Z",
+      "diagnosis": "Patient exhibits symptoms of generalized anxiety disorder. The focus will be on mindfulness and cognitive-behavioral techniques."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 53,
+    "fields": {
+      "patient": 58,
+      "issue": "Struggles with self-identity and personal growth are impacting the patient's overall well-being. There are concerns about motivation and self-acceptance.",
+      "illness_category": 8,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-10-23T22:02:50.898Z",
+      "updated": "2024-11-01T15:49:31.569Z",
+      "diagnosis": "Signs of existential anxiety present. Therapeutic approaches will include exploring personal values and enhancing self-awareness."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 54,
+    "fields": {
+      "patient": 67,
+      "issue": "Patient experiences sudden mood changes and anxiety attacks. Recommending further observation and therapy.",
+      "illness_category": 4,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-07-06T22:23:28.687Z",
+      "updated": "2024-08-01T23:30:41.659Z",
+      "diagnosis": "Initial assessments indicate possible anxiety disorder. Further tests and evaluations are needed."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 55,
+    "fields": {
+      "patient": 63,
+      "issue": "Patient reports persistent fatigue and difficulty concentrating. Recommendation for blood tests to check for underlying issues.",
+      "illness_category": 4,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-07-02T17:38:59.416Z",
+      "updated": "2024-07-17T03:03:44.266Z",
+      "diagnosis": "Suspected iron deficiency anemia. Further investigation required to confirm."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 56,
+    "fields": {
+      "patient": 65,
+      "issue": "Patient is experiencing chronic pain in the lower back and limited mobility. Suggest physical therapy.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-03-21T05:11:04.735Z",
+      "updated": "2024-04-06T07:47:20.050Z",
+      "diagnosis": "Diagnosis of chronic lower back pain. Recommend a multidisciplinary approach to treatment."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 57,
+    "fields": {
+      "patient": 60,
+      "issue": "Patient shows symptoms of a respiratory infection, including cough and fever. Immediate care recommended.",
+      "illness_category": 3,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-02-21T00:14:42.330Z",
+      "updated": "2024-03-21T14:57:16.858Z",
+      "diagnosis": "Acute respiratory infection suspected. Monitoring and treatment necessary."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 58,
+    "fields": {
+      "patient": 63,
+      "issue": "Patient reports increased heart rate and episodes of dizziness. Recommend cardiac evaluation.",
+      "illness_category": 2,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-07-16T17:52:40.672Z",
+      "updated": "2024-10-06T02:50:05.721Z",
+      "diagnosis": "Possible arrhythmia. Further diagnostic tests required."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 59,
+    "fields": {
+      "patient": 59,
+      "issue": "Patient experiences joint pain and swelling. Recommend rheumatology consult.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-08-31T17:13:07.909Z",
+      "updated": "2024-10-23T21:18:10.475Z",
+      "diagnosis": "Symptoms suggestive of rheumatoid arthritis. Further evaluation needed."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 60,
+    "fields": {
+      "patient": 59,
+      "issue": "Patient presents with gastrointestinal discomfort and weight loss. Gastroenterology referral recommended.",
+      "illness_category": 7,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-09-28T20:45:34.029Z",
+      "updated": "2024-10-12T09:56:18.937Z",
+      "diagnosis": "Evaluation needed for potential gastrointestinal disorders."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 61,
+    "fields": {
+      "patient": 67,
+      "issue": "Patient shows signs of depression and withdrawal from social activities. Immediate psychological support recommended.",
+      "illness_category": 11,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-07-01T05:44:59.925Z",
+      "updated": "2024-10-27T01:53:47.777Z",
+      "diagnosis": "Major depressive disorder suspected. Recommend therapy and monitoring."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 62,
+    "fields": {
+      "patient": 60,
+      "issue": "Patient experiences anxiety during social situations. Cognitive behavioral therapy recommended.",
+      "illness_category": 3,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-03-21T21:19:54.904Z",
+      "updated": "2024-04-02T12:06:46.508Z",
+      "diagnosis": "Social anxiety disorder. Behavioral interventions needed."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 63,
+    "fields": {
+      "patient": 67,
+      "issue": "Patient complains of insomnia and fatigue. Sleep study recommended.",
+      "illness_category": 5,
+      "staff": 6,
+      "doctor": 5,
+      "added": "2024-02-20T16:15:52.089Z",
+      "updated": "2024-08-30T15:20:43.674Z",
+      "diagnosis": "Insomnia suspected. Evaluation and treatment plan required."
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 64,
+    "fields": {
+      "patient": 69,
+      "issue": "I've been experiencing persistent headaches that seem to get worse in the afternoons. They often come with nausea and sensitivity to light.",
+      "illness_category": 7,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-07-27T20:10:43.956Z",
+      "updated": "2024-08-23T10:28:41.111Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 65,
+    "fields": {
+      "patient": 69,
+      "issue": "I've been feeling unusually anxious lately. My heart races, and I have trouble sleeping because of it.",
+      "illness_category": 2,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-06-01T22:17:13.138Z",
+      "updated": "2024-06-14T02:15:42.060Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 66,
+    "fields": {
+      "patient": 78,
+      "issue": "I've noticed a persistent cough that has lasted for over two weeks. It gets worse at night and sometimes makes it hard to breathe.",
+      "illness_category": 3,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-07-02T12:22:46.468Z",
+      "updated": "2024-08-02T10:35:06.514Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 67,
+    "fields": {
+      "patient": 72,
+      "issue": "I’ve been feeling fatigued and weak, even after getting plenty of rest. It's affecting my daily activities.",
+      "illness_category": 3,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-05-02T06:06:13.316Z",
+      "updated": "2024-06-26T09:07:24.579Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 68,
+    "fields": {
+      "patient": 74,
+      "issue": "I've been experiencing sharp pain in my lower back, especially when sitting for long periods. It radiates down my leg sometimes.",
+      "illness_category": 6,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-06-26T01:21:23.052Z",
+      "updated": "2024-07-10T20:11:56.033Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 69,
+    "fields": {
+      "patient": 73,
+      "issue": "I've been experiencing stomach pain after meals and frequent bloating. I'm also having trouble with my digestion.",
+      "illness_category": 9,
+      "staff": 77,
+      "doctor": null,
+      "added": "2024-01-12T16:38:13.219Z",
+      "updated": "2024-02-27T21:26:31.543Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 70,
+    "fields": {
+      "patient": 73,
+      "issue": "I often feel dizzy and lightheaded, especially when standing up quickly. I’m worried it might be something serious.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-05-07T15:02:54.205Z",
+      "updated": "2024-06-11T22:22:42.669Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 71,
+    "fields": {
+      "patient": 78,
+      "issue": "I've been feeling a tightness in my chest, especially during exercise. I also have a persistent cough.",
+      "illness_category": 10,
+      "staff": 6,
+      "doctor": null,
+      "added": "2204-09-29T04:53:49.904Z",
+      "updated": "2024-10-17T16:45:28.731Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 72,
+    "fields": {
+      "patient": 70,
+      "issue": "I've been experiencing unusual weight loss without trying, and I feel constantly thirsty. It's concerning me.",
+      "illness_category": 12,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-04-08T12:20:13.826Z",
+      "updated": "2024-05-20T22:15:49.422Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 73,
+    "fields": {
+      "patient": 75,
+      "issue": "I’ve been having mood swings and feeling more irritable than usual. I think I might need to talk to someone about it.",
+      "illness_category": 11,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-06-19T05:51:40.765Z",
+      "updated": "2024-06-29T08:13:47.970Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 74,
+    "fields": {
+      "patient": 86,
+      "issue": "I've been experiencing severe headaches, especially in the morning, and my vision seems a bit blurry.",
+      "illness_category": 11,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-09-05T08:23:05.144Z",
+      "updated": "2024-10-17T04:42:11.110Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 75,
+    "fields": {
+      "patient": 88,
+      "issue": "I've had persistent chest pain and shortness of breath for the past few days.",
+      "illness_category": 10,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-03-31T22:50:37.578Z",
+      "updated": "2024-02-11T05:11:24.553Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 76,
+    "fields": {
+      "patient": 88,
+      "issue": "Lately, I've felt dizzy and have been losing my balance occasionally.",
+      "illness_category": 5,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-04-10T16:24:01.332Z",
+      "updated": "2024-05-09T16:51:18.962Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 77,
+    "fields": {
+      "patient": 83,
+      "issue": "I'm having consistent joint pain, especially in my knees and elbows, making movement difficult.",
+      "illness_category": 9,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-08-10T02:24:15.811Z",
+      "updated": "2024-09-28T02:40:54.005Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 78,
+    "fields": {
+      "patient": 81,
+      "issue": "I've had a sore throat and persistent cough that hasn't improved over the past week.",
+      "illness_category": 6,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-10-11T00:02:25.589Z",
+      "updated": "2024-11-06T19:53:11.023Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 79,
+    "fields": {
+      "patient": 85,
+      "issue": "I feel tired all the time, no matter how much I sleep, and I've lost some weight recently.",
+      "illness_category": 9,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-01-12T15:26:51.804Z",
+      "updated": "2024-02-10T20:31:09.907Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 80,
+    "fields": {
+      "patient": 84,
+      "issue": "I've noticed a rash on my arms and back that gets itchy, especially at night.",
+      "illness_category": 2,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-01-01T02:35:08.638Z",
+      "updated": "2024-01-03T07:54:16.505Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 81,
+    "fields": {
+      "patient": 88,
+      "issue": "My appetite has decreased, and I've been feeling queasy after meals.",
+      "illness_category": 2,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-02-12T10:06:53.944Z",
+      "updated": "2024-03-01T03:19:02.266Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 82,
+    "fields": {
+      "patient": 87,
+      "issue": "I’ve been dealing with constant lower back pain that worsens when I sit for long periods.",
+      "illness_category": 1,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-09-05T10:18:31.146Z",
+      "updated": "2024-10-04T16:23:19.748Z",
+      "diagnosis": ""
+    }
+  },
+  {
+    "model": "treatment.illness",
+    "pk": 83,
+    "fields": {
+      "patient": 85,
+      "issue": "I have difficulty breathing at night and often wake up feeling short of breath.",
+      "illness_category": 5,
+      "staff": 6,
+      "doctor": null,
+      "added": "2024-09-27T17:14:34.518Z",
+      "updated": "2024-10-20T09:59:37.624Z",
+      "diagnosis": ""
+    }
+  }
   ,
   {
     "model": "treatment.illnesstreatment",
@@ -719,7 +1489,7 @@
     "fields": {
       "illness": 11,
       "inventory_detail": 12,
-      "quantity": 10099
+      "quantity": 12
     }
   },
   {
@@ -728,7 +1498,7 @@
     "fields": {
       "illness": 8,
       "inventory_detail": 5,
-      "quantity": -19630
+      "quantity": 10
     }
   },
   {
@@ -1056,14 +1826,779 @@
     }
   },
   {
+    "model": "treatment.illnesstreatment",
+    "pk": 66,
+    "fields": {
+      "illness": 29,
+      "inventory_detail": 29,
+      "quantity": 10
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 67,
+    "fields": {
+      "illness": 29,
+      "inventory_detail": 31,
+      "quantity": 10
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 68,
+    "fields": {
+      "illness": 30,
+      "inventory_detail": 33,
+      "quantity": 10
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 69,
+    "fields": {
+      "illness": 30,
+      "inventory_detail": 32,
+      "quantity": 10
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 70,
+    "fields": {
+      "illness": 31,
+      "inventory_detail": 31,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 71,
+    "fields": {
+      "illness": 32,
+      "inventory_detail": 30,
+      "quantity": 10
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 72,
+    "fields": {
+      "illness": 32,
+      "inventory_detail": 32,
+      "quantity": 23
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 73,
+    "fields": {
+      "illness": 33,
+      "inventory_detail": 33,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 74,
+    "fields": {
+      "illness": 33,
+      "inventory_detail": 29,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 75,
+    "fields": {
+      "illness": 29,
+      "inventory_detail": 32,
+      "quantity": 23
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 76,
+    "fields": {
+      "illness": 29,
+      "inventory_detail": 32,
+      "quantity": 5
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 77,
+    "fields": {
+      "illness": 31,
+      "inventory_detail": 32,
+      "quantity": 2
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 78,
+    "fields": {
+      "illness": 29,
+      "inventory_detail": 31,
+      "quantity": 2
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 79,
+    "fields": {
+      "illness": 32,
+      "inventory_detail": 30,
+      "quantity": 2
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 80,
+    "fields": {
+      "illness": 34,
+      "inventory_detail": 35,
+      "quantity": 30
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 81,
+    "fields": {
+      "illness": 35,
+      "inventory_detail": 35,
+      "quantity": 30
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 82,
+    "fields": {
+      "illness": 36,
+      "inventory_detail": 36,
+      "quantity": 30
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 83,
+    "fields": {
+      "illness": 37,
+      "inventory_detail": 36,
+      "quantity": 30
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 84,
+    "fields": {
+      "illness": 37,
+      "inventory_detail": 35,
+      "quantity": 30
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 85,
+    "fields": {
+      "illness": 38,
+      "inventory_detail": 36,
+      "quantity": 30
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 86,
+    "fields": {
+      "illness": 38,
+      "inventory_detail": 38,
+      "quantity": 30
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 87,
+    "fields": {
+      "illness": 37,
+      "inventory_detail": 38,
+      "quantity": -29836
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 88,
+    "fields": {
+      "illness": 34,
+      "inventory_detail": 37,
+      "quantity": 5781
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 89,
+    "fields": {
+      "illness": 36,
+      "inventory_detail": 37,
+      "quantity": 13978
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 90,
+    "fields": {
+      "illness": 35,
+      "inventory_detail": 34,
+      "quantity": 16003
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 91,
+    "fields": {
+      "illness": 35,
+      "inventory_detail": 34,
+      "quantity": 24209
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 92,
+    "fields": {
+      "illness": 39,
+      "inventory_detail": 41,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 93,
+    "fields": {
+      "illness": 40,
+      "inventory_detail": 41,
+      "quantity": 2
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 94,
+    "fields": {
+      "illness": 40,
+      "inventory_detail": 40,
+      "quantity": 3
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 95,
+    "fields": {
+      "illness": 41,
+      "inventory_detail": 43,
+      "quantity": 4
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 96,
+    "fields": {
+      "illness": 42,
+      "inventory_detail": 43,
+      "quantity": 4
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 97,
+    "fields": {
+      "illness": 43,
+      "inventory_detail": 39,
+      "quantity": 5
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 98,
+    "fields": {
+      "illness": 41,
+      "inventory_detail": 42,
+      "quantity": 123
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 99,
+    "fields": {
+      "illness": 41,
+      "inventory_detail": 43,
+      "quantity": 4
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 100,
+    "fields": {
+      "illness": 39,
+      "inventory_detail": 39,
+      "quantity": 5
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 101,
+    "fields": {
+      "illness": 43,
+      "inventory_detail": 39,
+      "quantity": 4
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 102,
+    "fields": {
+      "illness": 41,
+      "inventory_detail": 42,
+      "quantity": 16736
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 103,
+    "fields": {
+      "illness": 44,
+      "inventory_detail": 47,
+      "quantity": 5
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 104,
+    "fields": {
+      "illness": 45,
+      "inventory_detail": 47,
+      "quantity": 3
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 105,
+    "fields": {
+      "illness": 45,
+      "inventory_detail": 46,
+      "quantity": 3
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 106,
+    "fields": {
+      "illness": 46,
+      "inventory_detail": 47,
+      "quantity": 3
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 107,
+    "fields": {
+      "illness": 47,
+      "inventory_detail": 46,
+      "quantity": 3
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 108,
+    "fields": {
+      "illness": 48,
+      "inventory_detail": 48,
+      "quantity": 3
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 109,
+    "fields": {
+      "illness": 44,
+      "inventory_detail": 46,
+      "quantity": 2
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 110,
+    "fields": {
+      "illness": 44,
+      "inventory_detail": 48,
+      "quantity": 2
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 111,
+    "fields": {
+      "illness": 48,
+      "inventory_detail": 48,
+      "quantity": 2
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 112,
+    "fields": {
+      "illness": 45,
+      "inventory_detail": 45,
+      "quantity": 12
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 113,
+    "fields": {
+      "illness": 44,
+      "inventory_detail": 48,
+      "quantity": 3
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 114,
+    "fields": {
+      "illness": 49,
+      "inventory_detail": 50,
+      "quantity": 9
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 115,
+    "fields": {
+      "illness": 49,
+      "inventory_detail": 49,
+      "quantity": 9
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 116,
+    "fields": {
+      "illness": 50,
+      "inventory_detail": 49,
+      "quantity": 9
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 117,
+    "fields": {
+      "illness": 50,
+      "inventory_detail": 51,
+      "quantity": 9
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 118,
+    "fields": {
+      "illness": 51,
+      "inventory_detail": 52,
+      "quantity": 9
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 119,
+    "fields": {
+      "illness": 52,
+      "inventory_detail": 49,
+      "quantity": 9
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 120,
+    "fields": {
+      "illness": 53,
+      "inventory_detail": 50,
+      "quantity": 9
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 121,
+    "fields": {
+      "illness": 52,
+      "inventory_detail": 49,
+      "quantity": 7
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 122,
+    "fields": {
+      "illness": 53,
+      "inventory_detail": 51,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 123,
+    "fields": {
+      "illness": 49,
+      "inventory_detail": 49,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 124,
+    "fields": {
+      "illness": 49,
+      "inventory_detail": 50,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 125,
+    "fields": {
+      "illness": 50,
+      "inventory_detail": 51,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 126,
+    "fields": {
+      "illness": 54,
+      "inventory_detail": 57,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 127,
+    "fields": {
+      "illness": 55,
+      "inventory_detail": 59,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 128,
+    "fields": {
+      "illness": 56,
+      "inventory_detail": 60,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 129,
+    "fields": {
+      "illness": 56,
+      "inventory_detail": 61,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 130,
+    "fields": {
+      "illness": 57,
+      "inventory_detail": 57,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 131,
+    "fields": {
+      "illness": 58,
+      "inventory_detail": 60,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 132,
+    "fields": {
+      "illness": 58,
+      "inventory_detail": 63,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 133,
+    "fields": {
+      "illness": 59,
+      "inventory_detail": 61,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 134,
+    "fields": {
+      "illness": 60,
+      "inventory_detail": 55,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 135,
+    "fields": {
+      "illness": 60,
+      "inventory_detail": 54,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 136,
+    "fields": {
+      "illness": 61,
+      "inventory_detail": 54,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 137,
+    "fields": {
+      "illness": 61,
+      "inventory_detail": 57,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 138,
+    "fields": {
+      "illness": 62,
+      "inventory_detail": 63,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 139,
+    "fields": {
+      "illness": 63,
+      "inventory_detail": 54,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 140,
+    "fields": {
+      "illness": 63,
+      "inventory_detail": 61,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 141,
+    "fields": {
+      "illness": 56,
+      "inventory_detail": 59,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 142,
+    "fields": {
+      "illness": 60,
+      "inventory_detail": 59,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 143,
+    "fields": {
+      "illness": 55,
+      "inventory_detail": 61,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 144,
+    "fields": {
+      "illness": 58,
+      "inventory_detail": 55,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 145,
+    "fields": {
+      "illness": 60,
+      "inventory_detail": 56,
+      "quantity": 4860
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 146,
+    "fields": {
+      "illness": 63,
+      "inventory_detail": 61,
+      "quantity": -7009
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 147,
+    "fields": {
+      "illness": 57,
+      "inventory_detail": 57,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 148,
+    "fields": {
+      "illness": 63,
+      "inventory_detail": 61,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 149,
+    "fields": {
+      "illness": 59,
+      "inventory_detail": 62,
+      "quantity": 1
+    }
+  },
+  {
+    "model": "treatment.illnesstreatment",
+    "pk": 150,
+    "fields": {
+      "illness": 55,
+      "inventory_detail": 63,
+      "quantity": 1
+    }
+  },
+  {
     "model": "treatment.certificate",
     "pk": 1,
     "fields": {
       "patient": 6,
       "purpose": "Medical certificate required for an upcoming exam.",
       "requested": "2024-10-12T14:46:11.263Z",
-      "is_ready": false,
-      "released": false
+      "is_ready": true,
+      "released": true
     }
   },
   {
@@ -1074,7 +2609,7 @@
       "purpose": "Certification needed for health insurance verification.",
       "requested": "2024-07-14T15:17:20.281Z",
       "is_ready": true,
-      "released": false
+      "released": true
     }
   },
   {
@@ -1293,7 +2828,7 @@
       "patient": 15,
       "attached_to": 8,
       "notes": "Patient reported experiencing persistent pain in the left leg. Recommended further evaluation.",
-      "noted_by": 11,
+      "noted_by": 5,
       "timestamp": "2024-06-16T21:35:00.855Z",
       "updated": "2024-11-13T00:43:04.043Z"
     }
@@ -1305,8 +2840,8 @@
       "patient": 10,
       "attached_to": 10,
       "notes": "Discussion with the patient regarding surgical options for knee pain. Encouraged the patient to consider their options carefully.",
-      "noted_by": 12,
-      "timestamp": "2024-08-16T11:46:50.294Z",
+      "noted_by": 5,
+      "timestamp": "2024-06-16T11:46:50.294Z",
       "updated": "2024-07-13T01:32:38.189Z"
     }
   },
@@ -1317,7 +2852,7 @@
       "patient": 12,
       "attached_to": 7,
       "notes": "Patient expressed concerns about treatment side effects. Discussed possible adjustments to the medication regimen.",
-      "noted_by": 12,
+      "noted_by": 5,
       "timestamp": "2024-08-31T16:53:08.360Z",
       "updated": "2024-10-26T06:13:27.863Z"
     }
@@ -1329,9 +2864,9 @@
       "patient": 16,
       "attached_to": 11,
       "notes": "Patient undergoing routine follow-up. All vital signs within normal limits. Continue with current treatment plan.",
-      "noted_by": 17,
+      "noted_by": 5,
       "timestamp": "2024-06-24T00:56:09.276Z",
-      "updated": "2024-01-07T02:06:12.127Z"
+      "updated": "2024-07-07T02:06:12.127Z"
     }
   },
   {
@@ -1341,7 +2876,7 @@
       "patient": 9,
       "attached_to": 8,
       "notes": "Patient reported improved symptoms after medication adjustment. Follow-up in one month.",
-      "noted_by": 11,
+      "noted_by": 5,
       "timestamp": "2024-07-03T12:42:24.285Z",
       "updated": "2024-09-10T22:16:01.458Z"
     }
@@ -1353,7 +2888,7 @@
       "patient": 16,
       "attached_to": 4,
       "notes": "Patient's condition stable, no new complaints. Scheduled next appointment for 3 months.",
-      "noted_by": 12,
+      "noted_by": 5,
       "timestamp": "2024-05-08T15:53:38.815Z",
       "updated": "2024-09-23T21:44:42.207Z"
     }
@@ -1365,7 +2900,7 @@
       "patient": 16,
       "attached_to": 12,
       "notes": "Discussed lifestyle changes to manage chronic pain. Provided educational materials.",
-      "noted_by": 9,
+      "noted_by": 5,
       "timestamp": "2024-03-05T15:48:55.491Z",
       "updated": "2024-10-06T02:05:26.947Z"
     }
@@ -1377,7 +2912,7 @@
       "patient": 13,
       "attached_to": 5,
       "notes": "Patient reports difficulty sleeping due to pain. Recommended consulting a sleep specialist.",
-      "noted_by": 17,
+      "noted_by": 5,
       "timestamp": "2024-03-18T00:44:14.369Z",
       "updated": "2024-12-21T17:01:01.486Z"
     }
@@ -1389,9 +2924,9 @@
       "patient": 18,
       "attached_to": 10,
       "notes": "Patient expressed interest in alternative therapies. Provided referrals for acupuncture and physical therapy.",
-      "noted_by": 15,
-      "timestamp": "2024-11-22T22:31:31.983Z",
-      "updated": "2024-06-28T03:24:54.774Z"
+      "noted_by": 5,
+      "timestamp": "2024-10-22T22:31:31.983Z",
+      "updated": "2024-10-28T03:24:54.774Z"
     }
   },
   {
@@ -1401,9 +2936,9 @@
       "patient": 16,
       "attached_to": 5,
       "notes": "Patient's treatment plan reviewed and adjusted as necessary. Emphasized the importance of adherence to the regimen.",
-      "noted_by": 18,
+      "noted_by": 5,
       "timestamp": "2024-04-04T04:34:12.942Z",
-      "updated": "2024-12-01T08:34:05.995Z"
+      "updated": "2024-11-01T08:34:05.995Z"
     }
   },
   {
@@ -1413,7 +2948,7 @@
       "patient": 21,
       "attached_to": 17,
       "notes": "Patient reported mild improvement in symptoms. Monitoring for any recurrence of pain or discomfort.",
-      "noted_by": 21,
+      "noted_by": 5,
       "timestamp": "2024-01-02T18:05:25.938Z",
       "updated": "2024-07-22T20:53:11.193Z"
     }
@@ -1425,9 +2960,9 @@
       "patient": 23,
       "attached_to": 17,
       "notes": "Follow-up indicates increased mobility and reduced pain. Physical therapy recommended to continue progress.",
-      "noted_by": 19,
-      "timestamp": "1990-03-24T04:14:47.159Z",
-      "updated": "1984-05-29T03:46:43.398Z"
+      "noted_by": 5,
+      "timestamp": "2024-03-24T04:14:47.159Z",
+      "updated": "2024-05-29T03:46:43.398Z"
     }
   },
   {
@@ -1437,9 +2972,9 @@
       "patient": 20,
       "attached_to": 16,
       "notes": "Patient experiencing mild dizziness post-medication. Adjusted dosage to monitor response.",
-      "noted_by": 19,
+      "noted_by": 5,
       "timestamp": "2024-10-11T19:37:29.632Z",
-      "updated": "2024-12-18T20:59:31.017Z"
+      "updated": "2024-10-18T20:59:31.017Z"
     }
   },
   {
@@ -1449,8 +2984,8 @@
       "patient": 21,
       "attached_to": 14,
       "notes": "Initial consultation notes: Patient presents with severe headaches. Further tests ordered.",
-      "noted_by": 20,
-      "timestamp": "2024-01-16T14:00:09.955Z",
+      "noted_by": 5,
+      "timestamp": "2024-01-11T14:00:09.955Z",
       "updated": "2024-01-12T09:42:27.406Z"
     }
   },
@@ -1461,8 +2996,8 @@
       "patient": 21,
       "attached_to": 17,
       "notes": "Observed signs of recovery, though patient reports occasional discomfort. Suggested light exercise and rest.",
-      "noted_by": 19,
-      "timestamp": "2204-04-06T01:42:12.744Z",
+      "noted_by": 5,
+      "timestamp": "2024-04-06T01:42:12.744Z",
       "updated": "2024-06-06T16:14:46.085Z"
     }
   },
@@ -1473,7 +3008,7 @@
       "patient": 24,
       "attached_to": 22,
       "notes": "Patient exhibits high protective responses. Observed steady improvement in seasonal allergies, though additional weight monitoring is recommended. Security measures have been effective.",
-      "noted_by": 28,
+      "noted_by": 5,
       "timestamp": "2024-03-22T01:58:04.292Z",
       "updated": "2024-07-12T06:14:15.402Z"
     }
@@ -1485,7 +3020,7 @@
       "patient": 28,
       "attached_to": 19,
       "notes": "Patient maintains good physical activity. No recent major symptoms, but recommended to monitor stress levels. Coordination with family for additional support suggested.",
-      "noted_by": 26,
+      "noted_by": 5,
       "timestamp": "2024-08-10T08:21:11.869Z",
       "updated": "2024-01-30T03:21:38.310Z"
     }
@@ -1497,7 +3032,7 @@
       "patient": 28,
       "attached_to": 22,
       "notes": "Discussed social support and regular check-ins to address mild stress symptoms. No major medical issues noted recently.",
-      "noted_by": 24,
+      "noted_by": 5,
       "timestamp": "2024-08-09T03:28:14.164Z",
       "updated": "2024-10-26T13:02:11.092Z"
     }
@@ -1509,7 +3044,7 @@
       "patient": 27,
       "attached_to": 22,
       "notes": "Physical check-up showed stable health with no significant changes. Recommended to continue routine physical activity. Mental health support if necessary.",
-      "noted_by": 25,
+      "noted_by": 5,
       "timestamp": "2024-07-02T12:30:25.901Z",
       "updated": "2024-09-11T06:49:24.653Z"
     }
@@ -1521,69 +3056,9 @@
       "patient": 26,
       "attached_to": 21,
       "notes": "General improvement observed in mobility and overall strength. Discussed setting new health goals to sustain motivation.",
-      "noted_by": 27,
+      "noted_by": 5,
       "timestamp": "2024-09-14T18:19:50.617Z",
-      "updated": "2024-06-09T11:37:54.702Z"
-    }
-  },
-  {
-    "model": "treatment.illnessnote",
-    "pk": 21,
-    "fields": {
-      "patient": 33,
-      "attached_to": 28,
-      "notes": "Nor town position force. Far walk event. Should happen politics father game.\nMrs air popular phone store there. Single value Mrs while manager issue social.",
-      "noted_by": 32,
-      "timestamp": "2024-07-02T01:42:56.846Z",
-      "updated": "2024-12-06T14:21:33.042Z"
-    }
-  },
-  {
-    "model": "treatment.illnessnote",
-    "pk": 22,
-    "fields": {
-      "patient": 31,
-      "attached_to": 27,
-      "notes": "Within though because trial memory but across. Line commercial result at whose. Right college middle sport almost while.",
-      "noted_by": 29,
-      "timestamp": "1988-05-12T12:15:58.418Z",
-      "updated": "2024-06-07T23:50:01.653Z"
-    }
-  },
-  {
-    "model": "treatment.illnessnote",
-    "pk": 23,
-    "fields": {
-      "patient": 33,
-      "attached_to": 26,
-      "notes": "Anything style test by image watch kind. Quickly region money continue enjoy miss. From off once figure lot present side.",
-      "noted_by": 33,
-      "timestamp": "1982-04-18T22:15:12.792Z",
-      "updated": "2024-04-19T14:24:07.821Z"
-    }
-  },
-  {
-    "model": "treatment.illnessnote",
-    "pk": 24,
-    "fields": {
-      "patient": 30,
-      "attached_to": 25,
-      "notes": "Wear pay card brother else significant commercial.\nPresident development American term point. Manage fall simple western these. Citizen our lay long.\nGreen if along finish.",
-      "noted_by": 31,
-      "timestamp": "2008-12-29T11:54:25.514Z",
-      "updated": "2024-06-13T13:39:54.869Z"
-    }
-  },
-  {
-    "model": "treatment.illnessnote",
-    "pk": 25,
-    "fields": {
-      "patient": 33,
-      "attached_to": 28,
-      "notes": "Blood possible camera eight expert past town.\nBelieve see music.\nFront month natural word foot necessary. Church hold bank back just peace.",
-      "noted_by": 30,
-      "timestamp": "1982-06-26T18:59:37.496Z",
-      "updated": "2024-06-04T02:19:40.722Z"
+      "updated": "2024-10-09T11:37:54.702Z"
     }
   }
 ]
