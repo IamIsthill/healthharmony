@@ -74,9 +74,10 @@ main{
     background: rgba(0, 0, 0, 0.575);
 }
 /* FORM */
-.js-sched-form, .js-sched-form form{
+.js_sched_form, .js_sched_form form{
     display: flex;
     flex-direction: column;
+    gap: 1rem;
 }
 .form-avail{
     margin-bottom: 0.5rem;
