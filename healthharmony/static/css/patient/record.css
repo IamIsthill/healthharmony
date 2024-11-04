@@ -56,40 +56,32 @@ main{
 
 /* modal */
 .modal-content{
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    min-height: 30%;
+    position: relative  ;
+    background-color: #fefefe;
+    margin: 7% auto; /* 15% from the top and centered */
+    border: 1px solid #888;
+    padding: 1rem 2rem;
     width: 40%;
-    border-radius: 1rem;
-    background: white;
-    margin: 5% auto;
-    gap: 1rem;
-    padding: 1rem 1rem;
+    border-radius: 10px;
 }
-.modal-content h1{
-    font-size: var(--size-lg);
+.modal-content label{
     align-self: flex-start;
-}
-.modal-content form{
+    font-size: var(--size-2xl);
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+  .modal-content form{
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
-.modal-content form label{
-    font-size: var(--size-lg);
-}
-.modal-content form input{
+.modal-content form textarea{
     background: #E3E5E6;
+    width: 95%;
     height: 5rem;
     border: none;
-    border-radius: 8px;
-    width: 20rem;
-}
-.modal-content form label, .modal-content form input{
-    margin-bottom: 8px;
+    border-radius: 5px;
+    padding: 8px 1rem;
+    margin-bottom: 0.5rem;
 }
 
 /* bottom part */

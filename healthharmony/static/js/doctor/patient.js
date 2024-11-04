@@ -178,9 +178,15 @@ function handle_onclick_send_notes() {
             form.innerHTML = `
                 <div>
                     <h2>Case Details</h2>
-                    <h3>Symptoms: ${illness_data.issue}</h3>
-                    <h3>Symptom Category: ${illness_data.category_name}</h3>
-                    <h3>Diagnosis: ${illness_data.diagnosis}</h3>
+                    <div class = "case-row"> 
+                        <h3>Symptoms:</h3> <span> ${illness_data.issue}</span>
+                    </div>
+                    <div class = "case-row"> 
+                        <h3>Symptom Category:</h3> <span>${illness_data.category_name}</span>
+                    </div>
+                    <div class = "case-row"> 
+                        <h3>Diagnosis:</h3> <span> ${illness_data.diagnosis}</span>
+                    </div>
                 </div>
             `
 

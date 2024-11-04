@@ -55,6 +55,7 @@ table tr {
     border-radius: 2rem;
     background: white;
     box-shadow: var( --box-shadow2);
+    transition: all 0.3s ease;
 }
 .most-illness-categories h1, .most-cases-per-department h1{
     font-size: var(--size-lg);
@@ -63,7 +64,7 @@ table tr {
 .canvas-cont{
     width: 250px;
 }
-.most-illness-categories:hover{
+.most-illness-categories:hover, table:hover, .most-cases-per-department:hover{
     box-shadow: var(--box-shadowlight); 
 }
 .most-illness-categories h3{
