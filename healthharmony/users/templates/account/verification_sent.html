@@ -8,6 +8,7 @@
 {% block title %}Verify Email | HealthHarmony{% endblock %}
 {% block message %}{% endblock %}
 {% block main %}
+<div class="email-container">
     <div class="top-1st">
         <a href="{% url 'home' %}">
             <img src="{% static 'assets/images/landing-page/logo/adminlogo.svg' %}"
@@ -21,6 +22,7 @@
         </p>
         <button onclick="window.location.href='{% url 'home' %}'">Back to Homepage</button>
     </div>
+</div>
 {% endblock %}
 {% block script %}{% endblock %}
 {% comment %} {% extends 'account/base_entrance.html' %}
