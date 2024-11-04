@@ -126,12 +126,12 @@ function update_illness_table(filtered_illness_data) {
             }
             illness_body_element.innerHTML += `
             <tr>
-              <td class = "table-data">
+              <td class = "table-data name-column">
                 <span class="patient btn" data-patient-id="${illness.patient}">${patient}</span>
               </td>
-              <td class = "table-data">${illness.issue}</td>
-              <td class = "table-data">${case_status}</td>
-              <td class="js-view-illness btn table-data" data-patient-id="${illness.patient}">Review</td>
+              <td class = "table-data issue-column">${illness.issue}</td>
+              <td class = "table-data status-column">${case_status}</td>
+              <td class="js-view-illness btn table-data view-column" data-patient-id="${illness.patient}">Review</td>
             </tr>
         `
         }
