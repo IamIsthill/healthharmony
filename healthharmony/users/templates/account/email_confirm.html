@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
 {% endblock %}
 {% block content %}
+<div class="email-container">
     <div class="top-1st">
         <img src="{% static 'assets/images/landing-page/logo/adminlogo.svg' %}"
              alt="" />
@@ -32,6 +33,7 @@
         {% csrf_token %}
         {{ redirect_field }}
         <button class="email-confirm-btn" type="submit">Confirm</button>
+
     {% endslot %}
 {% endelement %}
 {% else %}
@@ -47,3 +49,4 @@
 {% endif %}
 </div>
 {% endblock %}
+</div>
