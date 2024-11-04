@@ -152,18 +152,22 @@
                         <div data-illness-id="{{ illness.id }}" class="js-illness">
                             {% if request.user.access > 2 %}<button class="js-edit-illness-btn">Edit</button>{% endif %}
                             <div class="info-cont">
-                                <div class="visit-left">
-                                    <span>Date and Time:</span>
-                                    <span>Symptoms:</span>
-                                    <span>Category of Symptom:</span>
-                                    <span>Diagnosis:</span>
-                                </div>
-                                <div class="visit-right">
-                                    <p class="js-dates">{{ illness.added }}</p>
-                                    <p>{{ illness.issue }}</p>
-                                    <p>{{ illness.category_name|default_if_none:'' }}</p>
-                                    <p>{{ illness.diagnosis|default_if_none:'' }}</p>
-                                </div>
+                                    <div class="visit-row">
+                                        <span>Date and Time:</span>
+                                        <p class="js-dates">{{ illness.added }}</p>
+                                    </div>
+                                    <div class="visit-row">
+                                        <span>Symptoms:</span>
+                                        <p>{{ illness.issue }}</p>
+                                    </div>
+                                    <div class="visit-row">
+                                        <span>Category of Symptom:</span>
+                                        <p>{{ illness.category_name|default_if_none:'' }}</p>
+                                    </div>
+                                    <div class="visit-row">
+                                        <span>Diagnosis:</span>
+                                        <p>{{ illness.diagnosis|default_if_none:'' }}</p>
+                                    </div>
                             </div>
                             {% if illness.treatment %}
                                 <div class="js-treatment-list hide">

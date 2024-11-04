@@ -72,18 +72,47 @@ form input{
     margin-bottom: 0.5rem;
     font-weight: 600;
 }
-.vital-data, .info-cont{
+.vital-data{
     display: flex;
     gap: 1rem;
     margin-top: 1rem;
 }
-.vital-left, .vital-right, .detailed-left, .detailed-right, .visit-left, .visit-right{
+.info-cont {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.visit-row, .case-row {
+    display: flex;
+    flex-direction: row; 
+    align-items: flex-start;
+    margin-bottom: 8px;
+    width: 100%; 
+}
+
+.visit-row span {
+    margin-right: 8px;
+}
+
+.visit-row p {
+    word-wrap: break-word;
+    white-space: normal;
+    margin: 0; 
+}
+.visit-row p{
+    width: 60%;
+}
+.visit-row span{
+    width: 40%;
+}
+.vital-left, .vital-right, .detailed-left, .detailed-right{
     width: 50%;
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
 }
-.detailed-right, .visit-right{
+.detailed-right{
     width: 60%;
 }
 .vital-left, .vital-right{
@@ -139,9 +168,6 @@ form input{
     padding: 1rem 1rem;
     border-radius: 1rem;
 }
-.visit-history span, .visit-history p{
-    height: 2rem;
-}
 .illness_body{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -180,7 +206,7 @@ form input{
 .js-illness{
     position: relative;
     margin-bottom: 1rem;
-    width: 38rem;
+    width: 38rem;   
     display: flex;
     gap: 1rem;
     flex-direction: column;
@@ -292,7 +318,13 @@ form input{
         font-weight: 500;
     }
     .js_send_notes_form h3{
-        font-size: var(--size-lg);
+        font-size: var(--size-base);
+    }
+    .case-row h3{
+        width: 40%;
+    }
+    .case-row span{
+        width: 60%;
     }
 /* MODAL */
 
