@@ -4320,705 +4320,1405 @@
       }
     },
     {
+      "model": "treatment.illness",
+      "pk": 304,
+      "fields": {
+        "patient": 329,
+        "issue": "The patient presents with significant anxiety regarding their recent diagnosis, expressing concerns about their treatment options and the impact on their daily life.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-08-27T10:24:10.987Z",
+        "updated": "2024-09-15T18:45:19.484Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 305,
+      "fields": {
+        "patient": 327,
+        "issue": "Patient reports persistent fatigue and occasional dizziness, affecting their ability to perform daily activities. A thorough assessment is needed to determine underlying causes.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-10-10T01:46:47.017Z",
+        "updated": "2024-11-03T21:39:27.269Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 306,
+      "fields": {
+        "patient": 310,
+        "issue": "Patient exhibits symptoms of shortness of breath and increased heart rate. Further evaluation is necessary to assess cardiac function.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-04-18T07:24:44.204Z",
+        "updated": "2024-05-17T13:23:14.423Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 307,
+      "fields": {
+        "patient": 346,
+        "issue": "Patient is experiencing recurrent abdominal pain and changes in bowel habits. Further gastrointestinal evaluation is recommended.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-01-17T03:02:47.557Z",
+        "updated": "2024-02-27T16:56:36.755Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 308,
+      "fields": {
+        "patient": 340,
+        "issue": "Patient reports increased anxiety and difficulty sleeping, likely related to recent life changes. Counseling may be beneficial.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-02-05T00:36:32.628Z",
+        "updated": "2024-03-03T14:09:56.144Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 309,
+      "fields": {
+        "patient": 358,
+        "issue": "Patient presents with skin irritation and rash, possibly indicating an allergic reaction. Immediate assessment and intervention are needed.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-09-08T12:35:12.541Z",
+        "updated": "2024-10-02T02:43:32.102Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 310,
+      "fields": {
+        "patient": 331,
+        "issue": "Patient is complaining of persistent headaches and visual disturbances. Neurological evaluation is warranted.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-02-10T02:53:11.487Z",
+        "updated": "2024-02-11T02:15:59.334Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 311,
+      "fields": {
+        "patient": 337,
+        "issue": "Patient reports joint pain and swelling, suggesting possible inflammatory or autoimmune conditions. Further investigation is required.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-06-19T10:33:20.738Z",
+        "updated": "2024-07-23T20:20:30.450Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 312,
+      "fields": {
+        "patient": 319,
+        "issue": "Patient expresses concerns regarding weight management and its impact on overall health. A nutritionist referral may be appropriate.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-07-26T02:08:25.350Z",
+        "updated": "2024-09-01T07:21:05.441Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 313,
+      "fields": {
+        "patient": 337,
+        "issue": "Patient demonstrates signs of stress and emotional distress. Support and potential counseling options should be discussed.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-04-25T14:16:26.053Z",
+        "updated": "2024-05-29T02:59:33.069Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 314,
+      "fields": {
+        "patient": 355,
+        "issue": "Patient reports experiencing significant discomfort and fatigue. There are concerns about weight loss and decreased appetite over the last few weeks. Vital signs within normal limits, but further evaluation is needed to rule out any underlying conditions.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-04-09T07:48:47.257Z",
+        "updated": "2024-04-09T08:16:15.906Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 315,
+      "fields": {
+        "patient": 328,
+        "issue": "Patient is feeling overwhelmed by recent health changes and expresses concerns about ongoing pain. Observations indicate mild swelling in the lower extremities. Patient advised to maintain a log of symptoms for further review.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-10-03T21:49:05.879Z",
+        "updated": "2024-10-12T09:18:45.188Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 316,
+      "fields": {
+        "patient": 355,
+        "issue": "Patient describes a sudden onset of dizziness and mild shortness of breath. Reports feeling faint after standing for prolonged periods. Further assessment is required to determine possible causes.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-09-22T18:53:10.111Z",
+        "updated": "2024-10-18T08:42:35.205Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 317,
+      "fields": {
+        "patient": 329,
+        "issue": "Patient indicates experiencing sharp pain in the chest and increased heart rate. Noted anxiety regarding symptoms. Immediate cardiac evaluation recommended to ensure patient safety.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-07-14T00:44:28.024Z",
+        "updated": "2024-08-08T20:40:34.057Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 318,
+      "fields": {
+        "patient": 325,
+        "issue": "Patient reports increased fatigue and persistent headache for the last week. Additionally, difficulty concentrating and occasional blurred vision noted. Further neurological evaluation may be necessary.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-04-22T03:04:17.748Z",
+        "updated": "2024-05-27T09:45:30.183Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 319,
+      "fields": {
+        "patient": 349,
+        "issue": "Patient expresses concern over recurring abdominal pain and irregular bowel movements. Family history of gastrointestinal issues. Recommended dietary changes and potential follow-up tests.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-04-20T15:52:21.280Z",
+        "updated": "2024-05-20T17:25:36.425Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 320,
+      "fields": {
+        "patient": 355,
+        "issue": "Patient complains of joint pain and stiffness, particularly in the mornings. Observed slight swelling in the hands. Referral to rheumatology may be beneficial.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-02-28T17:06:07.302Z",
+        "updated": "2024-03-27T02:10:50.735Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 321,
+      "fields": {
+        "patient": 346,
+        "issue": "Patient reports severe headaches accompanied by nausea and sensitivity to light. Medical history includes migraines. Recommended to track headache patterns and potential triggers.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-04-09T14:01:03.832Z",
+        "updated": "2024-05-05T10:56:54.586Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 322,
+      "fields": {
+        "patient": 340,
+        "issue": "Patient expresses difficulty sleeping and increased anxiety. Reports feeling overwhelmed with daily tasks. Suggestion for counseling and possible sleep study.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-09-20T15:23:33.327Z",
+        "updated": "2024-10-23T14:50:17.387Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 323,
+      "fields": {
+        "patient": 319,
+        "issue": "Patient shows signs of anxiety regarding recent medical findings. Complains of chest tightness during stressful situations. Encouragement to engage in stress-relief practices and follow up for further support.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-03-27T14:03:49.264Z",
+        "updated": "2024-04-26T00:59:24.641Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 324,
+      "fields": {
+        "patient": 334,
+        "issue": "The patient has been experiencing persistent headaches and fatigue. They report difficulty concentrating and occasional dizziness. Further assessment is needed to determine underlying causes.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-02-24T06:52:34.076Z",
+        "updated": "2024-03-04T10:29:41.167Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 325,
+      "fields": {
+        "patient": 331,
+        "issue": "The patient reports experiencing chest tightness and shortness of breath during physical activity. They have a history of asthma and are concerned about their current condition.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-07-31T16:14:33.059Z",
+        "updated": "2024-08-22T21:35:21.616Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 326,
+      "fields": {
+        "patient": 356,
+        "issue": "The patient has been experiencing abdominal pain and nausea for the past few days. They report changes in appetite and difficulty sleeping due to discomfort.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-01-30T02:24:32.240Z",
+        "updated": "2024-02-17T16:12:33.294Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 327,
+      "fields": {
+        "patient": 314,
+        "issue": "The patient presents with joint pain and stiffness, particularly in the knees and hands. They express concern about mobility and the impact on daily activities.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-09-17T02:20:19.259Z",
+        "updated": "2024-10-01T23:00:48.068Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 328,
+      "fields": {
+        "patient": 353,
+        "issue": "The patient reports experiencing anxiety and sleep disturbances. They mention feeling overwhelmed with daily responsibilities and difficulty managing stress.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-08-25T10:31:47.767Z",
+        "updated": "2024-09-11T14:46:14.754Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 329,
+      "fields": {
+        "patient": 326,
+        "issue": "The patient reports frequent urination and increased thirst. They express concern about these symptoms potentially indicating a more serious condition.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-02-19T08:21:33.062Z",
+        "updated": "2024-03-29T00:05:03.503Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 330,
+      "fields": {
+        "patient": 355,
+        "issue": "The patient has reported intermittent episodes of dizziness and fainting spells. They have a history of low blood pressure and are concerned about their health.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-08-01T21:28:38.923Z",
+        "updated": "2024-09-01T13:49:29.656Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 331,
+      "fields": {
+        "patient": 330,
+        "issue": "The patient presents with symptoms of depression, including a lack of interest in activities and feelings of hopelessness. They require support and possible counseling.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-05-18T07:46:12.195Z",
+        "updated": "2024-06-19T04:52:17.357Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 332,
+      "fields": {
+        "patient": 329,
+        "issue": "The patient reports severe back pain radiating down the legs, which impacts their ability to walk and perform daily tasks. They need immediate assessment.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-02-24T14:14:34.253Z",
+        "updated": "2024-03-03T01:24:35.097Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 333,
+      "fields": {
+        "patient": 324,
+        "issue": "The patient presents with skin rashes and itching. They mention recent exposure to new detergents and have concerns about potential allergic reactions.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-01-11T06:53:11.806Z",
+        "updated": "2024-02-27T02:46:37.216Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 334,
+      "fields": {
+        "patient": 339,
+        "issue": "Patient presents with heightened anxiety levels, reporting difficulties in focusing and sleeping. He expresses concerns about upcoming school exams, which he feels unprepared for. Additionally, he mentions a lack of motivation for regular activities.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-02-19T19:01:09.825Z",
+        "updated": "2024-02-23T03:53:14.949Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 335,
+      "fields": {
+        "patient": 342,
+        "issue": "Patient reports persistent headaches and fatigue over the last few weeks. He describes the pain as a dull ache, primarily located in the temples, which intensifies with screen time and loud noises. No significant trauma reported.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-10-29T16:36:59.895Z",
+        "updated": "2024-11-03T10:26:38.910Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 336,
+      "fields": {
+        "patient": 355,
+        "issue": "Patient complains of recurrent abdominal pain, particularly after meals. The pain is described as crampy and is associated with bloating and occasional nausea. No changes in bowel habits reported, and patient denies any weight loss.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-10-30T03:22:01.019Z",
+        "updated": "2024-11-03T23:29:32.845Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 337,
+      "fields": {
+        "patient": 348,
+        "issue": "Patient presents with severe fatigue and decreased appetite over the past month. He reports feeling overwhelmed by daily tasks and struggles to maintain his usual routine. No significant weight changes noted.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-06-22T08:10:58.289Z",
+        "updated": "2024-07-07T22:44:46.326Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 338,
+      "fields": {
+        "patient": 314,
+        "issue": "Patient reports intermittent chest pain, described as a sharp sensation that lasts a few seconds. The pain occurs sporadically throughout the day and is not associated with physical activity. No shortness of breath or dizziness reported.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-10-28T10:58:53.773Z",
+        "updated": "2024-11-01T03:25:01.636Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 339,
+      "fields": {
+        "patient": 320,
+        "issue": "Patient presents with mood swings and irritability. He describes feeling excessively emotional over minor issues and has been experiencing frequent conflicts with peers. There is no significant history of depression or anxiety noted.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-04-27T11:52:49.980Z",
+        "updated": "2024-05-15T18:29:23.730Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 340,
+      "fields": {
+        "patient": 355,
+        "issue": "Patient reports joint pain and stiffness, particularly in the knees and hands, which worsens with activity and improves with rest. He notes some swelling in the affected joints but denies any recent injuries.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-04-07T20:04:44.190Z",
+        "updated": "2024-05-23T17:20:02.175Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 341,
+      "fields": {
+        "patient": 318,
+        "issue": "Patient presents with sleep disturbances, including difficulty falling asleep and frequent awakenings during the night. He reports feeling fatigued during the day, affecting his work performance.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-08-20T03:18:02.364Z",
+        "updated": "2024-09-01T01:30:34.552Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 342,
+      "fields": {
+        "patient": 310,
+        "issue": "Patient reports occasional dizziness and lightheadedness, particularly upon standing up quickly. He denies any history of falls or fainting. There are no associated symptoms such as headache or palpitations.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-04-06T23:46:59.196Z",
+        "updated": "2024-05-30T06:19:14.818Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 343,
+      "fields": {
+        "patient": 309,
+        "issue": "Patient expresses feelings of sadness and hopelessness over the last month. He reports a lack of interest in activities he once enjoyed and feelings of worthlessness. No suicidal ideation reported.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-08-22T08:23:31.457Z",
+        "updated": "2024-09-08T22:39:10.691Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 344,
+      "fields": {
+        "patient": 352,
+        "issue": "Patient presents with signs of anxiety and restlessness, expressing concerns about family support and personal safety. Reports difficulty in managing daily tasks and feeling overwhelmed by current circumstances. Recommending further evaluation and possible counseling.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-03-10T06:48:11.089Z",
+        "updated": "2024-03-10T09:07:04.509Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 345,
+      "fields": {
+        "patient": 350,
+        "issue": "Patient is experiencing chronic fatigue and difficulty concentrating, likely exacerbated by recent life stressors. Advising on lifestyle changes and possible referral to a psychologist for coping strategies.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-07-24T17:21:59.651Z",
+        "updated": "2024-08-07T06:16:49.023Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 346,
+      "fields": {
+        "patient": 345,
+        "issue": "Patient reports difficulty in interpersonal relationships, particularly in the context of recent life changes. Suggested monitoring of mood changes and considering therapy.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-08-25T17:29:28.702Z",
+        "updated": "2024-09-22T04:46:55.765Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 347,
+      "fields": {
+        "patient": 340,
+        "issue": "Patient expresses feelings of confusion and frustration related to current stressors. Evaluation for possible anxiety disorder recommended, along with stress management techniques.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-10-18T06:42:02.807Z",
+        "updated": "2024-11-03T11:38:54.180Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 348,
+      "fields": {
+        "patient": 346,
+        "issue": "Patient indicates feelings of low mood and social withdrawal. Exploration of potential depressive symptoms is warranted. Recommended follow-up appointment for further assessment.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-07-21T16:32:43.820Z",
+        "updated": "2024-09-18T10:57:09.292Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 349,
+      "fields": {
+        "patient": 349,
+        "issue": "Patient describes feeling overwhelmed with responsibilities, leading to difficulty in daily functioning. Recommendations include lifestyle modification and possible counseling referral.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-03-17T08:54:18.713Z",
+        "updated": "2024-04-05T09:53:55.059Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 350,
+      "fields": {
+        "patient": 335,
+        "issue": "Patient shows signs of anxiety regarding upcoming life changes. Encouraged to engage in relaxation techniques and consider discussing feelings with a mental health professional.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-04-06T14:29:18.215Z",
+        "updated": "2024-05-11T08:18:55.465Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 351,
+      "fields": {
+        "patient": 336,
+        "issue": "Patient expresses concerns about feeling socially isolated and disconnected. Suggested community involvement and possible support group referral for enhancing social interactions.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-06-01T13:40:28.308Z",
+        "updated": "2024-07-21T19:30:52.649Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 352,
+      "fields": {
+        "patient": 314,
+        "issue": "Patient presents with significant stress related to work and family obligations. Recommending stress management techniques and a follow-up visit to discuss coping strategies.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-04-01T19:42:43.331Z",
+        "updated": "2024-05-28T17:06:51.365Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 353,
+      "fields": {
+        "patient": 328,
+        "issue": "Patient reports feeling pressured by societal expectations and experiencing mood fluctuations. Suggested evaluating for potential mood disorder and monitoring symptoms closely.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-10-14T05:49:31.034Z",
+        "updated": "2024-10-20T06:04:14.898Z",
+        "diagnosis": ""
+      }
+    },
+    {
         "model": "treatment.illness",
-        "pk": 304,
+        "pk": 354,
         "fields": {
-          "patient": 329,
-          "issue": "The patient presents with significant anxiety regarding their recent diagnosis, expressing concerns about their treatment options and the impact on their daily life.",
+          "patient": 389,
+          "issue": "Patient reports ongoing discomfort in the abdomen and describes a feeling of tightness, particularly after meals. Observes slight swelling around the midsection.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-08-27T10:24:10.987Z",
-          "updated": "2024-09-15T18:45:19.484Z",
+          "added": "2024-03-08T12:39:13.072Z",
+          "updated": "2024-04-27T00:24:24.461Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 305,
+        "pk": 355,
         "fields": {
-          "patient": 327,
-          "issue": "Patient reports persistent fatigue and occasional dizziness, affecting their ability to perform daily activities. A thorough assessment is needed to determine underlying causes.",
+          "patient": 406,
+          "issue": "Patient complains of recurring headaches, mostly in the evening, accompanied by mild dizziness and occasional nausea.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-10-10T01:46:47.017Z",
-          "updated": "2024-11-03T21:39:27.269Z",
+          "added": "2024-01-24T17:13:33.005Z",
+          "updated": "2024-05-19T18:07:41.386Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 306,
+        "pk": 356,
         "fields": {
-          "patient": 310,
-          "issue": "Patient exhibits symptoms of shortness of breath and increased heart rate. Further evaluation is necessary to assess cardiac function.",
+          "patient": 365,
+          "issue": "Patient reports difficulty breathing when engaging in physical activity and a persistent cough, especially in the early morning.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-04-18T07:24:44.204Z",
-          "updated": "2024-05-17T13:23:14.423Z",
+          "added": "2024-05-22T16:31:26.654Z",
+          "updated": "2024-06-11T16:33:35.843Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 307,
+        "pk": 357,
         "fields": {
-          "patient": 346,
-          "issue": "Patient is experiencing recurrent abdominal pain and changes in bowel habits. Further gastrointestinal evaluation is recommended.",
+          "patient": 393,
+          "issue": "Patient has been feeling fatigued and reports experiencing frequent muscle aches, particularly in the shoulders and neck.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-01-17T03:02:47.557Z",
-          "updated": "2024-02-27T16:56:36.755Z",
+          "added": "2024-07-07T15:44:34.662Z",
+          "updated": "2024-10-23T23:48:52.069Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 308,
+        "pk": 358,
         "fields": {
-          "patient": 340,
-          "issue": "Patient reports increased anxiety and difficulty sleeping, likely related to recent life changes. Counseling may be beneficial.",
+          "patient": 405,
+          "issue": "Patient mentions sharp pains in the lower back, which worsen after prolonged sitting. Some difficulty with mobility reported.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-02-05T00:36:32.628Z",
-          "updated": "2024-03-03T14:09:56.144Z",
+          "added": "2024-07-21T14:47:10.007Z",
+          "updated": "2024-08-07T23:25:07.408Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 309,
+        "pk": 359,
         "fields": {
-          "patient": 358,
-          "issue": "Patient presents with skin irritation and rash, possibly indicating an allergic reaction. Immediate assessment and intervention are needed.",
+          "patient": 381,
+          "issue": "Patient experiences shortness of breath and reports mild chest discomfort during daily activities. No history of similar issues.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-09-08T12:35:12.541Z",
-          "updated": "2024-10-02T02:43:32.102Z",
+          "added": "2024-06-20T23:36:40.185Z",
+          "updated": "2024-07-02T08:25:16.531Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 310,
+        "pk": 360,
         "fields": {
-          "patient": 331,
-          "issue": "Patient is complaining of persistent headaches and visual disturbances. Neurological evaluation is warranted.",
+          "patient": 389,
+          "issue": "Patient reports frequent bouts of nausea and occasional vomiting. Symptoms have persisted for the past week.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-02-10T02:53:11.487Z",
-          "updated": "2024-02-11T02:15:59.334Z",
+          "added": "2024-02-05T17:32:45.462Z",
+          "updated": "2024-05-18T12:24:57.821Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 311,
+        "pk": 361,
         "fields": {
-          "patient": 337,
-          "issue": "Patient reports joint pain and swelling, suggesting possible inflammatory or autoimmune conditions. Further investigation is required.",
+          "patient": 361,
+          "issue": "Patient complains of joint stiffness, especially in the mornings, along with occasional swelling around the knees and wrists.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-06-19T10:33:20.738Z",
-          "updated": "2024-07-23T20:20:30.450Z",
+          "added": "2024-02-15T17:23:47.736Z",
+          "updated": "2024-03-21T21:55:46.716Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 312,
+        "pk": 362,
         "fields": {
-          "patient": 319,
-          "issue": "Patient expresses concerns regarding weight management and its impact on overall health. A nutritionist referral may be appropriate.",
+          "patient": 400,
+          "issue": "Patient has been experiencing mild fever and sore throat for the past three days. Also mentions a general feeling of tiredness.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-07-26T02:08:25.350Z",
-          "updated": "2024-09-01T07:21:05.441Z",
+          "added": "2024-01-06T13:45:55.252Z",
+          "updated": "2024-02-23T23:27:41.601Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 313,
+        "pk": 363,
         "fields": {
-          "patient": 337,
-          "issue": "Patient demonstrates signs of stress and emotional distress. Support and potential counseling options should be discussed.",
+          "patient": 400,
+          "issue": "Patient notes increased sensitivity to light and sound, with intermittent headaches that impact daily activities.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-04-25T14:16:26.053Z",
-          "updated": "2024-05-29T02:59:33.069Z",
+          "added": "2024-04-13T14:02:03.163Z",
+          "updated": "2024-07-20T22:14:54.516Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 314,
+        "pk": 364,
         "fields": {
-          "patient": 355,
-          "issue": "Patient reports experiencing significant discomfort and fatigue. There are concerns about weight loss and decreased appetite over the last few weeks. Vital signs within normal limits, but further evaluation is needed to rule out any underlying conditions.",
+          "patient": 386,
+          "issue": "Patient complains of general body weakness and fatigue. Reports experiencing difficulty breathing and slight chest discomfort. Noted occasional dizziness and muscle aches.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-04-09T07:48:47.257Z",
-          "updated": "2024-04-09T08:16:15.906Z",
+          "added": "2024-02-27T05:50:50.351Z",
+          "updated": "2024-09-07T13:47:48.131Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 315,
+        "pk": 365,
         "fields": {
-          "patient": 328,
-          "issue": "Patient is feeling overwhelmed by recent health changes and expresses concerns about ongoing pain. Observations indicate mild swelling in the lower extremities. Patient advised to maintain a log of symptoms for further review.",
+          "patient": 373,
+          "issue": "Patient reports persistent headache and blurred vision. Complains of nausea and sensitivity to light. No history of similar symptoms previously.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-10-03T21:49:05.879Z",
-          "updated": "2024-10-12T09:18:45.188Z",
+          "added": "2024-08-10T10:25:56.902Z",
+          "updated": "2024-08-18T12:19:30.331Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 316,
+        "pk": 366,
         "fields": {
-          "patient": 355,
-          "issue": "Patient describes a sudden onset of dizziness and mild shortness of breath. Reports feeling faint after standing for prolonged periods. Further assessment is required to determine possible causes.",
+          "patient": 372,
+          "issue": "Patient experiencing shortness of breath, especially when climbing stairs. Reports occasional chest pain and palpitations, with episodes of dizziness.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-09-22T18:53:10.111Z",
-          "updated": "2024-10-18T08:42:35.205Z",
+          "added": "2024-08-26T01:32:38.029Z",
+          "updated": "2024-09-07T22:57:19.248Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 317,
+        "pk": 367,
         "fields": {
-          "patient": 329,
-          "issue": "Patient indicates experiencing sharp pain in the chest and increased heart rate. Noted anxiety regarding symptoms. Immediate cardiac evaluation recommended to ensure patient safety.",
+          "patient": 370,
+          "issue": "Patient complains of abdominal pain and bloating after meals. Reports occasional episodes of nausea and indigestion, especially in the evenings.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-07-14T00:44:28.024Z",
-          "updated": "2024-08-08T20:40:34.057Z",
+          "added": "2024-09-15T05:39:56.080Z",
+          "updated": "2024-09-20T11:56:26.976Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 318,
+        "pk": 368,
         "fields": {
-          "patient": 325,
-          "issue": "Patient reports increased fatigue and persistent headache for the last week. Additionally, difficulty concentrating and occasional blurred vision noted. Further neurological evaluation may be necessary.",
+          "patient": 371,
+          "issue": "Patient reports frequent episodes of coughing, especially at night. Experiences mild chest tightness and sore throat. Reports no fever or wheezing.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-04-22T03:04:17.748Z",
-          "updated": "2024-05-27T09:45:30.183Z",
+          "added": "2024-02-19T20:54:36.218Z",
+          "updated": "2024-03-10T06:49:43.320Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 319,
+        "pk": 369,
         "fields": {
-          "patient": 349,
-          "issue": "Patient expresses concern over recurring abdominal pain and irregular bowel movements. Family history of gastrointestinal issues. Recommended dietary changes and potential follow-up tests.",
+          "patient": 377,
+          "issue": "Patient presents with joint pain, particularly in the knees and lower back. Reports stiffness in the morning and occasional swelling in the joints.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-04-20T15:52:21.280Z",
-          "updated": "2024-05-20T17:25:36.425Z",
+          "added": "2024-05-08T16:44:08.930Z",
+          "updated": "2024-12-30T02:23:07.056Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 320,
+        "pk": 370,
         "fields": {
-          "patient": 355,
-          "issue": "Patient complains of joint pain and stiffness, particularly in the mornings. Observed slight swelling in the hands. Referral to rheumatology may be beneficial.",
+          "patient": 377,
+          "issue": "Patient reports frequent headaches and mild fever. Complains of body aches and fatigue, with occasional chills. No cough or respiratory symptoms reported.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-02-28T17:06:07.302Z",
-          "updated": "2024-03-27T02:10:50.735Z",
+          "added": "2024-06-27T20:44:54.228Z",
+          "updated": "2024-09-13T18:48:03.680Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 321,
+        "pk": 371,
         "fields": {
-          "patient": 346,
-          "issue": "Patient reports severe headaches accompanied by nausea and sensitivity to light. Medical history includes migraines. Recommended to track headache patterns and potential triggers.",
+          "patient": 393,
+          "issue": "Patient complains of sudden onset of lower back pain. Reports difficulty in movement and discomfort when sitting or bending forward. No history of similar pain.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-04-09T14:01:03.832Z",
-          "updated": "2024-05-05T10:56:54.586Z",
+          "added": "2024-09-03T19:29:40.313Z",
+          "updated": "2024-11-02T00:46:25.212Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 322,
+        "pk": 372,
         "fields": {
-          "patient": 340,
-          "issue": "Patient expresses difficulty sleeping and increased anxiety. Reports feeling overwhelmed with daily tasks. Suggestion for counseling and possible sleep study.",
+          "patient": 382,
+          "issue": "Patient experiencing sharp pain in the right shoulder, worsening with movement. Reports mild swelling and limited range of motion.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-09-20T15:23:33.327Z",
-          "updated": "2024-10-23T14:50:17.387Z",
+          "added": "2024-08-07T02:33:58.325Z",
+          "updated": "2024-10-18T09:26:43.279Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 323,
+        "pk": 373,
         "fields": {
-          "patient": 319,
-          "issue": "Patient shows signs of anxiety regarding recent medical findings. Complains of chest tightness during stressful situations. Encouragement to engage in stress-relief practices and follow up for further support.",
+          "patient": 372,
+          "issue": "Patient reports persistent sore throat and difficulty swallowing. Complains of hoarseness and mild discomfort in the throat. No fever or cough.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-03-27T14:03:49.264Z",
-          "updated": "2024-04-26T00:59:24.641Z",
+          "added": "2024-06-19T04:05:08.070Z",
+          "updated": "2024-07-16T22:35:07.847Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 324,
+        "pk": 374,
         "fields": {
-          "patient": 334,
-          "issue": "The patient has been experiencing persistent headaches and fatigue. They report difficulty concentrating and occasional dizziness. Further assessment is needed to determine underlying causes.",
+          "patient": 398,
+          "issue": "Patient reports persistent fatigue and difficulty breathing over the past week. Noted occasional cough with mild chest discomfort. No fever reported.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-02-24T06:52:34.076Z",
-          "updated": "2024-03-04T10:29:41.167Z",
+          "added": "2024-01-04T06:26:56.170Z",
+          "updated": "2024-01-23T07:21:05.195Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 325,
+        "pk": 375,
         "fields": {
-          "patient": 331,
-          "issue": "The patient reports experiencing chest tightness and shortness of breath during physical activity. They have a history of asthma and are concerned about their current condition.",
+          "patient": 382,
+          "issue": "Patient complains of joint pain, particularly in the knees and lower back, worsening with movement. Has noticed increased stiffness in the mornings.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-07-31T16:14:33.059Z",
-          "updated": "2024-08-22T21:35:21.616Z",
+          "added": "2024-01-25T19:59:37.535Z",
+          "updated": "2024-02-23T16:26:47.909Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 326,
+        "pk": 376,
         "fields": {
-          "patient": 356,
-          "issue": "The patient has been experiencing abdominal pain and nausea for the past few days. They report changes in appetite and difficulty sleeping due to discomfort.",
+          "patient": 390,
+          "issue": "Patient reports occasional dizziness and lightheadedness, especially when standing up quickly. No history of recent head injuries.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-01-30T02:24:32.240Z",
-          "updated": "2024-02-17T16:12:33.294Z",
+          "added": "2024-02-06T09:32:17.994Z",
+          "updated": "2024-02-26T14:00:29.350Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 327,
+        "pk": 377,
         "fields": {
-          "patient": 314,
-          "issue": "The patient presents with joint pain and stiffness, particularly in the knees and hands. They express concern about mobility and the impact on daily activities.",
+          "patient": 383,
+          "issue": "Patient describes experiencing persistent headaches for the past few days, especially in the afternoons. Reports relief with over-the-counter pain medication.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-09-17T02:20:19.259Z",
-          "updated": "2024-10-01T23:00:48.068Z",
+          "added": "2024-03-01T05:56:21.137Z",
+          "updated": "2024-05-27T13:23:06.358Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 328,
+        "pk": 378,
         "fields": {
-          "patient": 353,
-          "issue": "The patient reports experiencing anxiety and sleep disturbances. They mention feeling overwhelmed with daily responsibilities and difficulty managing stress.",
+          "patient": 396,
+          "issue": "Patient has noticed mild swelling in ankles and feet, especially towards the end of the day. No significant pain reported.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-08-25T10:31:47.767Z",
-          "updated": "2024-09-11T14:46:14.754Z",
+          "added": "2024-05-20T05:18:53.797Z",
+          "updated": "2024-06-24T18:52:10.395Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 329,
+        "pk": 379,
         "fields": {
-          "patient": 326,
-          "issue": "The patient reports frequent urination and increased thirst. They express concern about these symptoms potentially indicating a more serious condition.",
+          "patient": 377,
+          "issue": "Patient complains of frequent urination and mild abdominal discomfort. No fever or nausea reported.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-02-19T08:21:33.062Z",
-          "updated": "2024-03-29T00:05:03.503Z",
+          "added": "2024-03-13T08:24:28.453Z",
+          "updated": "2024-03-22T05:53:53.117Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 330,
+        "pk": 380,
         "fields": {
-          "patient": 355,
-          "issue": "The patient has reported intermittent episodes of dizziness and fainting spells. They have a history of low blood pressure and are concerned about their health.",
+          "patient": 374,
+          "issue": "Patient reports episodes of shortness of breath when climbing stairs, accompanied by mild chest tightness. No palpitations noted.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-08-01T21:28:38.923Z",
-          "updated": "2024-09-01T13:49:29.656Z",
+          "added": "2024-03-07T20:39:49.906Z",
+          "updated": "2024-03-29T09:51:40.683Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 331,
+        "pk": 381,
         "fields": {
-          "patient": 330,
-          "issue": "The patient presents with symptoms of depression, including a lack of interest in activities and feelings of hopelessness. They require support and possible counseling.",
+          "patient": 368,
+          "issue": "Patient complains of persistent sore throat and mild hoarseness for the past few days. Reports no recent travel or exposure to illness.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-05-18T07:46:12.195Z",
-          "updated": "2024-06-19T04:52:17.357Z",
+          "added": "2024-05-05T22:51:38.638Z",
+          "updated": "2024-05-19T15:23:38.501Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 332,
+        "pk": 382,
         "fields": {
-          "patient": 329,
-          "issue": "The patient reports severe back pain radiating down the legs, which impacts their ability to walk and perform daily tasks. They need immediate assessment.",
+          "patient": 395,
+          "issue": "Patient reports feeling unusually tired and low energy over the past week, despite adequate rest. No other symptoms noted.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-02-24T14:14:34.253Z",
-          "updated": "2024-03-03T01:24:35.097Z",
+          "added": "2024-07-11T00:30:45.979Z",
+          "updated": "2024-07-24T21:36:51.407Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 333,
+        "pk": 383,
         "fields": {
-          "patient": 324,
-          "issue": "The patient presents with skin rashes and itching. They mention recent exposure to new detergents and have concerns about potential allergic reactions.",
+          "patient": 391,
+          "issue": "Patient describes feeling more anxious recently, with occasional trouble sleeping and increased irritability. Denies any history of similar episodes.",
           "illness_category": 1,
           "staff": 6,
           "doctor": null,
-          "added": "2024-01-11T06:53:11.806Z",
-          "updated": "2024-02-27T02:46:37.216Z",
+          "added": "2024-02-17T00:46:26.122Z",
+          "updated": "2024-02-22T23:44:10.564Z",
           "diagnosis": ""
         }
       },
       {
         "model": "treatment.illness",
-        "pk": 334,
+        "pk": 384,
         "fields": {
-          "patient": 339,
-          "issue": "Patient presents with heightened anxiety levels, reporting difficulties in focusing and sleeping. He expresses concerns about upcoming school exams, which he feels unprepared for. Additionally, he mentions a lack of motivation for regular activities.",
-          "illness_category": 1,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-02-19T19:01:09.825Z",
-          "updated": "2024-02-23T03:53:14.949Z",
-          "diagnosis": ""
+            "patient": 368,
+            "issue": "Patient reports persistent fatigue and difficulty concentrating. Complains of occasional dizziness and feelings of general weakness over the past few weeks.",
+            "illness_category": 1,
+            "staff": 6,
+            "doctor": null,
+            "added": "2024-06-14T15:16:18.178Z",
+            "updated": "2024-07-18T07:08:02.261Z",
+            "diagnosis": ""
         }
-      },
-      {
+    },
+    {
         "model": "treatment.illness",
-        "pk": 335,
+        "pk": 385,
         "fields": {
-          "patient": 342,
-          "issue": "Patient reports persistent headaches and fatigue over the last few weeks. He describes the pain as a dull ache, primarily located in the temples, which intensifies with screen time and loud noises. No significant trauma reported.",
-          "illness_category": 1,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-10-29T16:36:59.895Z",
-          "updated": "2024-11-03T10:26:38.910Z",
-          "diagnosis": ""
+            "patient": 379,
+            "issue": "Patient reports discomfort in lower back with intermittent pain radiating to the left leg. Describes stiffness especially after prolonged sitting or standing.",
+            "illness_category": 1,
+            "staff": 6,
+            "doctor": null,
+            "added": "2024-10-10T01:37:39.284Z",
+            "updated": "2024-10-27T11:48:19.136Z",
+            "diagnosis": ""
         }
-      },
-      {
+    },
+    {
         "model": "treatment.illness",
-        "pk": 336,
+        "pk": 386,
         "fields": {
-          "patient": 355,
-          "issue": "Patient complains of recurrent abdominal pain, particularly after meals. The pain is described as crampy and is associated with bloating and occasional nausea. No changes in bowel habits reported, and patient denies any weight loss.",
-          "illness_category": 1,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-10-30T03:22:01.019Z",
-          "updated": "2024-11-03T23:29:32.845Z",
-          "diagnosis": ""
+            "patient": 366,
+            "issue": "Patient reports mild chest discomfort and shortness of breath after moderate exertion. Describes occasional palpitations over the past two weeks.",
+            "illness_category": 1,
+            "staff": 6,
+            "doctor": null,
+            "added": "2024-02-02T17:31:35.131Z",
+            "updated": "2024-02-28T03:03:22.277Z",
+            "diagnosis": ""
         }
-      },
-      {
+    },
+    {
         "model": "treatment.illness",
-        "pk": 337,
+        "pk": 387,
         "fields": {
-          "patient": 348,
-          "issue": "Patient presents with severe fatigue and decreased appetite over the past month. He reports feeling overwhelmed by daily tasks and struggles to maintain his usual routine. No significant weight changes noted.",
-          "illness_category": 1,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-06-22T08:10:58.289Z",
-          "updated": "2024-07-07T22:44:46.326Z",
-          "diagnosis": ""
+            "patient": 403,
+            "issue": "Patient reports headache and neck stiffness, particularly in the mornings. Complains of trouble focusing and occasional sensitivity to light.",
+            "illness_category": 1,
+            "staff": 6,
+            "doctor": null,
+            "added": "2024-10-22T16:32:36.646Z",
+            "updated": "2024-10-22T21:14:06.571Z",
+            "diagnosis": ""
         }
-      },
-      {
+    },
+    {
         "model": "treatment.illness",
-        "pk": 338,
+        "pk": 388,
         "fields": {
-          "patient": 314,
-          "issue": "Patient reports intermittent chest pain, described as a sharp sensation that lasts a few seconds. The pain occurs sporadically throughout the day and is not associated with physical activity. No shortness of breath or dizziness reported.",
-          "illness_category": 1,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-10-28T10:58:53.773Z",
-          "updated": "2024-11-01T03:25:01.636Z",
-          "diagnosis": ""
+            "patient": 360,
+            "issue": "Patient reports mild abdominal discomfort and bloating, especially after meals. Notes changes in bowel movements over the last month.",
+            "illness_category": 1,
+            "staff": 6,
+            "doctor": null,
+            "added": "2024-04-26T00:37:25.266Z",
+            "updated": "2024-05-19T00:05:38.018Z",
+            "diagnosis": ""
         }
-      },
-      {
+    },
+    {
         "model": "treatment.illness",
-        "pk": 339,
+        "pk": 389,
         "fields": {
-          "patient": 320,
-          "issue": "Patient presents with mood swings and irritability. He describes feeling excessively emotional over minor issues and has been experiencing frequent conflicts with peers. There is no significant history of depression or anxiety noted.",
-          "illness_category": 1,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-04-27T11:52:49.980Z",
-          "updated": "2024-05-15T18:29:23.730Z",
-          "diagnosis": ""
+            "patient": 389,
+            "issue": "Patient describes increased joint pain and stiffness in hands and knees, especially in the mornings. Reports mild swelling in affected areas.",
+            "illness_category": 1,
+            "staff": 6,
+            "doctor": null,
+            "added": "2024-05-23T00:24:13.466Z",
+            "updated": "2024-05-27T21:43:15.802Z",
+            "diagnosis": ""
         }
-      },
-      {
+    },
+    {
         "model": "treatment.illness",
-        "pk": 340,
+        "pk": 390,
         "fields": {
-          "patient": 355,
-          "issue": "Patient reports joint pain and stiffness, particularly in the knees and hands, which worsens with activity and improves with rest. He notes some swelling in the affected joints but denies any recent injuries.",
-          "illness_category": 1,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-04-07T20:04:44.190Z",
-          "updated": "2024-05-23T17:20:02.175Z",
-          "diagnosis": ""
+            "patient": 384,
+            "issue": "Patient reports persistent cough and shortness of breath, especially after mild physical activities. Complains of occasional chest tightness.",
+            "illness_category": 1,
+            "staff": 6,
+            "doctor": null,
+            "added": "2024-01-25T22:20:14.628Z",
+            "updated": "2024-01-26T02:48:23.733Z",
+            "diagnosis": ""
         }
-      },
-      {
+    },
+    {
         "model": "treatment.illness",
-        "pk": 341,
+        "pk": 391,
         "fields": {
-          "patient": 318,
-          "issue": "Patient presents with sleep disturbances, including difficulty falling asleep and frequent awakenings during the night. He reports feeling fatigued during the day, affecting his work performance.",
-          "illness_category": 1,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-08-20T03:18:02.364Z",
-          "updated": "2024-09-01T01:30:34.552Z",
-          "diagnosis": ""
+            "patient": 401,
+            "issue": "Patient complains of persistent insomnia and feeling excessively tired during the day. Reports recent stress and difficulty relaxing.",
+            "illness_category": 1,
+            "staff": 6,
+            "doctor": null,
+            "added": "2024-08-11T06:12:07.696Z",
+            "updated": "2024-08-24T11:46:59.692Z",
+            "diagnosis": ""
         }
-      },
-      {
+    },
+    {
         "model": "treatment.illness",
-        "pk": 342,
+        "pk": 392,
         "fields": {
-          "patient": 310,
-          "issue": "Patient reports occasional dizziness and lightheadedness, particularly upon standing up quickly. He denies any history of falls or fainting. There are no associated symptoms such as headache or palpitations.",
-          "illness_category": 1,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-04-06T23:46:59.196Z",
-          "updated": "2024-05-30T06:19:14.818Z",
-          "diagnosis": ""
+            "patient": 389,
+            "issue": "Patient reports muscle weakness and occasional cramps, especially in legs. Notes symptoms worsen after prolonged physical activity.",
+            "illness_category": 1,
+            "staff": 6,
+            "doctor": null,
+            "added": "2024-09-11T17:23:17.264Z",
+            "updated": "2024-10-01T12:12:09.849Z",
+            "diagnosis": ""
         }
-      },
-      {
+    },
+    {
         "model": "treatment.illness",
-        "pk": 343,
+        "pk": 393,
         "fields": {
-          "patient": 309,
-          "issue": "Patient expresses feelings of sadness and hopelessness over the last month. He reports a lack of interest in activities he once enjoyed and feelings of worthlessness. No suicidal ideation reported.",
-          "illness_category": 1,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-08-22T08:23:31.457Z",
-          "updated": "2024-09-08T22:39:10.691Z",
-          "diagnosis": ""
+            "patient": 396,
+            "issue": "Patient reports frequent episodes of dizziness, particularly when standing up quickly. Notes occasional nausea and feelings of unsteadiness.",
+            "illness_category": 1,
+            "staff": 6,
+            "doctor": null,
+            "added": "2024-05-05T13:53:12.555Z",
+            "updated": "2024-05-18T19:37:42.935Z",
+            "diagnosis": ""
         }
-      },
-      {
-        "model": "treatment.illness",
-        "pk": 344,
-        "fields": {
-          "patient": 352,
-          "issue": "Patient presents with signs of anxiety and restlessness, expressing concerns about family support and personal safety. Reports difficulty in managing daily tasks and feeling overwhelmed by current circumstances. Recommending further evaluation and possible counseling.",
-          "illness_category": 1,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-03-10T06:48:11.089Z",
-          "updated": "2024-03-10T09:07:04.509Z",
-          "diagnosis": ""
-        }
-      },
-      {
-        "model": "treatment.illness",
-        "pk": 345,
-        "fields": {
-          "patient": 350,
-          "issue": "Patient is experiencing chronic fatigue and difficulty concentrating, likely exacerbated by recent life stressors. Advising on lifestyle changes and possible referral to a psychologist for coping strategies.",
-          "illness_category": 1,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-07-24T17:21:59.651Z",
-          "updated": "2024-08-07T06:16:49.023Z",
-          "diagnosis": ""
-        }
-      },
-      {
-        "model": "treatment.illness",
-        "pk": 346,
-        "fields": {
-          "patient": 345,
-          "issue": "Patient reports difficulty in interpersonal relationships, particularly in the context of recent life changes. Suggested monitoring of mood changes and considering therapy.",
-          "illness_category": 1,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-08-25T17:29:28.702Z",
-          "updated": "2024-09-22T04:46:55.765Z",
-          "diagnosis": ""
-        }
-      },
-      {
-        "model": "treatment.illness",
-        "pk": 347,
-        "fields": {
-          "patient": 340,
-          "issue": "Patient expresses feelings of confusion and frustration related to current stressors. Evaluation for possible anxiety disorder recommended, along with stress management techniques.",
-          "illness_category": 1,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-10-18T06:42:02.807Z",
-          "updated": "2024-11-03T11:38:54.180Z",
-          "diagnosis": ""
-        }
-      },
-      {
-        "model": "treatment.illness",
-        "pk": 348,
-        "fields": {
-          "patient": 346,
-          "issue": "Patient indicates feelings of low mood and social withdrawal. Exploration of potential depressive symptoms is warranted. Recommended follow-up appointment for further assessment.",
-          "illness_category": 1,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-07-21T16:32:43.820Z",
-          "updated": "2024-09-18T10:57:09.292Z",
-          "diagnosis": ""
-        }
-      },
-      {
-        "model": "treatment.illness",
-        "pk": 349,
-        "fields": {
-          "patient": 349,
-          "issue": "Patient describes feeling overwhelmed with responsibilities, leading to difficulty in daily functioning. Recommendations include lifestyle modification and possible counseling referral.",
-          "illness_category": 1,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-03-17T08:54:18.713Z",
-          "updated": "2024-04-05T09:53:55.059Z",
-          "diagnosis": ""
-        }
-      },
-      {
-        "model": "treatment.illness",
-        "pk": 350,
-        "fields": {
-          "patient": 335,
-          "issue": "Patient shows signs of anxiety regarding upcoming life changes. Encouraged to engage in relaxation techniques and consider discussing feelings with a mental health professional.",
-          "illness_category": 1,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-04-06T14:29:18.215Z",
-          "updated": "2024-05-11T08:18:55.465Z",
-          "diagnosis": ""
-        }
-      },
-      {
-        "model": "treatment.illness",
-        "pk": 351,
-        "fields": {
-          "patient": 336,
-          "issue": "Patient expresses concerns about feeling socially isolated and disconnected. Suggested community involvement and possible support group referral for enhancing social interactions.",
-          "illness_category": 1,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-06-01T13:40:28.308Z",
-          "updated": "2024-07-21T19:30:52.649Z",
-          "diagnosis": ""
-        }
-      },
-      {
-        "model": "treatment.illness",
-        "pk": 352,
-        "fields": {
-          "patient": 314,
-          "issue": "Patient presents with significant stress related to work and family obligations. Recommending stress management techniques and a follow-up visit to discuss coping strategies.",
-          "illness_category": 1,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-04-01T19:42:43.331Z",
-          "updated": "2024-05-28T17:06:51.365Z",
-          "diagnosis": ""
-        }
-      },
-      {
-        "model": "treatment.illness",
-        "pk": 353,
-        "fields": {
-          "patient": 328,
-          "issue": "Patient reports feeling pressured by societal expectations and experiencing mood fluctuations. Suggested evaluating for potential mood disorder and monitoring symptoms closely.",
-          "illness_category": 1,
-          "staff": 6,
-          "doctor": null,
-          "added": "2024-10-14T05:49:31.034Z",
-          "updated": "2024-10-20T06:04:14.898Z",
-          "diagnosis": ""
-        }
-      },
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 394,
+      "fields": {
+        "patient": 388,
+        "issue": "Ahead both baby watch.\nAuthor memory high quite music return hard. Whatever water party. Some go animal defense scene history lead.\nPast usually data radio call. Federal get growth can might.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-05-12T06:34:01.896Z",
+        "updated": "2024-05-30T00:54:11.114Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 395,
+      "fields": {
+        "patient": 368,
+        "issue": "Subject up try window rule. Month small heart name body today. May stay career instead ago ok resource.\nOk both thank so. But law politics fall hear knowledge science. Protect after structure.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-02-07T15:37:04.311Z",
+        "updated": "2024-02-11T14:13:38.699Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 396,
+      "fields": {
+        "patient": 378,
+        "issue": "Key system employee. Serve or peace board age.\nLand kid present everyone although oil goal. Small affect turn attorney range debate main.\nThink environmental interview accept create effect until.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-10-04T08:48:26.771Z",
+        "updated": "2024-10-09T13:57:12.032Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 397,
+      "fields": {
+        "patient": 373,
+        "issue": "Give contain business style institution. Front for they computer lay figure behind consider. Weight series senior pass me. Employee push western hundred gas future.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-01-11T19:55:40.262Z",
+        "updated": "2024-01-13T17:23:31.230Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 398,
+      "fields": {
+        "patient": 367,
+        "issue": "By single sure. That production mention investment region. Discover group kitchen company there though amount learn.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-09-06T08:10:27.562Z",
+        "updated": "2024-09-15T20:11:38.935Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 399,
+      "fields": {
+        "patient": 385,
+        "issue": "I conference thing people interesting kid fall. Wrong yourself his goal mean.\nAs use available join alone season defense. Red agency minute bar.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-05-18T06:49:11.408Z",
+        "updated": "2024-06-18T02:37:42.928Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 400,
+      "fields": {
+        "patient": 362,
+        "issue": "Note expect continue least fire admit. Even toward outside option. Many past official effort daughter.\nMan reveal young field lead. There perform half successful consumer.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-01-05T15:09:11.010Z",
+        "updated": "2024-01-23T00:07:54.379Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 401,
+      "fields": {
+        "patient": 395,
+        "issue": "Factor hundred her government. Accept as tree standard work common. Quickly staff early task note party.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-10-13T04:32:02.577Z",
+        "updated": "2024-10-31T11:57:37.819Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 402,
+      "fields": {
+        "patient": 397,
+        "issue": "Act win year necessary.\nProgram economy important any. Successful change first consumer. Decision take quite natural instead happen and.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-07-17T04:32:19.487Z",
+        "updated": "2024-08-02T20:19:40.948Z",
+        "diagnosis": ""
+      }
+    },
+    {
+      "model": "treatment.illness",
+      "pk": 403,
+      "fields": {
+        "patient": 380,
+        "issue": "Include cold show condition arrive amount thank. Improve approach face generation. Imagine reason effort soon can may smile. Less weight dinner though mean newspaper candidate.",
+        "illness_category": 1,
+        "staff": 6,
+        "doctor": null,
+        "added": "2024-07-18T22:14:29.314Z",
+        "updated": "2024-07-29T11:17:59.468Z",
+        "diagnosis": ""
+      }
+    },
     {
       "model": "treatment.illnesstreatment",
       "pk": 1,
