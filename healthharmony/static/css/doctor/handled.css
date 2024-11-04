@@ -28,7 +28,15 @@ table tr {
 .table-head, .table-data{
     padding-right: 1rem;
 }
-
+.review-data{
+    color: var(--light_gray);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.review-data:hover{
+    color: black;
+    font-weight: 600;
+}
 /* RIGHT-PART */
 
 .doctor-right-part{
