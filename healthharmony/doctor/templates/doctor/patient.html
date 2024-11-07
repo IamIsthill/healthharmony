@@ -112,7 +112,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="detailed-info">            !!!!!! ETO YUNG LUMA !!!!!!!
+                <!--   <div class="detailed-info">            !!!!!! ETO YUNG LUMA !!!!!!!
                     <div class="detailed-top">
                         <h3>Detailed Information</h3>
                         <button class="js_edit_patient_btn">Edit</button>
@@ -135,8 +135,8 @@
                             <p>{{ user.department|default_if_none:'' }}</p>
                         </div>
                     </div>
-                </div> -->
-                <div class="detailed-info"> 
+                </div>   -->
+                <div class="detailed-info">
                     <div class="detailed-top">
                         <h3>Detailed Information</h3>
                         <button class="js_edit_patient_btn">Edit</button>
@@ -166,10 +166,10 @@
                             <div class="visit-row">
                                 <span>Department</span>
                                 <p>{{ user.department|default_if_none:'' }}</p>
-                            </div>  
+                            </div>
                         </div>
                     </div>
-                   </div>
+                </div>
             </div>
             <div class="illnesses visit-history">
                 <div class="visit-top">
@@ -186,22 +186,22 @@
                         <div data-illness-id="{{ illness.id }}" class="js-illness">
                             {% if request.user.access > 2 %}<button class="js-edit-illness-btn">Edit</button>{% endif %}
                             <div class="info-cont">
-                                    <div class="visit-row">
-                                        <span>Date and Time:</span>
-                                        <p class="js-dates">{{ illness.added }}</p>
-                                    </div>
-                                    <div class="visit-row">
-                                        <span>Symptoms:</span>
-                                        <p>{{ illness.issue }}</p>
-                                    </div>
-                                    <div class="visit-row">
-                                        <span>Category of Symptom:</span>
-                                        <p>{{ illness.category_name|default_if_none:'' }}</p>
-                                    </div>
-                                    <div class="visit-row">
-                                        <span>Diagnosis:</span>
-                                        <p>{{ illness.diagnosis|default_if_none:'' }}</p>
-                                    </div>
+                                <div class="visit-row">
+                                    <span>Date and Time:</span>
+                                    <p class="js-dates">{{ illness.added }}</p>
+                                </div>
+                                <div class="visit-row">
+                                    <span>Symptoms:</span>
+                                    <p>{{ illness.issue }}</p>
+                                </div>
+                                <div class="visit-row">
+                                    <span>Category of Symptom:</span>
+                                    <p>{{ illness.category_name|default_if_none:'' }}</p>
+                                </div>
+                                <div class="visit-row">
+                                    <span>Diagnosis:</span>
+                                    <p>{{ illness.diagnosis|default_if_none:'' }}</p>
+                                </div>
                             </div>
                             {% if illness.treatment %}
                                 <div class="js-treatment-list hide">

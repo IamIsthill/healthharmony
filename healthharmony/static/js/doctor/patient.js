@@ -178,13 +178,13 @@ function handle_onclick_send_notes() {
             form.innerHTML = `
                 <div>
                     <h2>Case Details</h2>
-                    <div class = "case-row"> 
+                    <div class = "case-row">
                         <h3>Symptoms:</h3> <span> ${illness_data.issue}</span>
                     </div>
-                    <div class = "case-row"> 
+                    <div class = "case-row">
                         <h3>Symptom Category:</h3> <span>${illness_data.category_name}</span>
                     </div>
-                    <div class = "case-row"> 
+                    <div class = "case-row">
                         <h3>Diagnosis:</h3> <span> ${illness_data.diagnosis}</span>
                     </div>
                 </div>
@@ -530,28 +530,76 @@ function handle_onclick_edit_patient() {
     btn.addEventListener('click', () => {
         btn.setAttribute('style', 'display: none')
         const labels_element = document.querySelector('.js_patient_labels')
-        // Save the info element
-        const info_element = labels_element.nextElementSibling
 
-        // remove it
-        labels_element.nextElementSibling.remove()
+        // Save the content of labels
+        const old_labels = labels_element.innerHTML
 
-        // creaet the form
-        const form_element = get_form_element_for_patient_details()
+        const department_list_element = document.createElement('datalist')
+        department_list_element.setAttribute('id', 'department_list')
+        for (const department of department_data) {
+            department_list_element.innerHTML += `
+                <option value="${department.department}">${department.department}</option>
+            `
+        }
 
-        const age_label = document.querySelector('.js_form_age_label')
-        age_label.innerText = 'Date of Birth'
+        labels_element.innerHTML = `
+            <form action="/doctor/patient/post_update_user_details/" method="POST">
+                    <input name="csrfmiddlewaretoken" value="${getToken()}" type="hidden" />
+                    <input name="patient_id" value="${patient_data.id}" type="hidden" />
+            <div class="visit-row">
+                <span class="js_form_age_label">Date of Birth:</span>
+                 <input name="DOB" value="${patient_data.DOB ? patient_data.DOB : ''}" type="date" required />
+              </div>
+              <div class="visit-row">
+                <span>Sex</span>
+                <select name="sex">
+                    <option value="Male" ${patient_data.sex=='Male' ? 'selected': ''}>Male</option>
+                    <option value="Female" ${patient_data.sex=='Female' ? 'selected': ''}>Female</option>
+                </select>
+              </div>
+              <div class="visit-row">
+                <span>Contact</span>
+                <input name="contact" value="${patient_data.contact ? patient_data.contact : ''}" type="text" placeholder="contact" required />
+              </div>
+              <div class="visit-row">
+                <span>Year</span>
+                <select name="year">
+            <option value="1" ${patient_data.year==1 ? 'selected' : ''}>1</option>
+            <option value="2" ${patient_data.year==2 ? 'selected' : ''}>2</option>
+            <option value="3" ${patient_data.year==3 ? 'selected' : ''}>3</option>
+            <option value="4" ${patient_data.year==4 ? 'selected' : ''}>4</option>
+            <option value="5" ${patient_data.year==5 ? 'selected' : ''}>5</option>
+        </select>
+              </div>
+              <div class="visit-row">
+                <span>Section</span>
+                 <input name="section" value="${patient_data.section ? patient_data.section : ''}" type="text" placeholder="section" required />
+              </div>
+              <div class="visit-row">
+                <span>Program</span>
+                <input name="program" value="${patient_data.program ? patient_data.program : ''}" type="text" placeholder="Program..." required/>
+              </div>
+              <div class="visit-row">
+                <span>Department</span>
+                 <input name="department" value="${patient_data.department_name ? patient_data.department_name : ''}" type="text" placeholder="Department..." list="department_list" required />
+              </div>
+              <div class = "edit-buttons">
+            <button class ="update-btn" type="submit">Update</button>
+            <button type="button" class="js_cancel_pattient_btn cancel-btn">Cancel</button>
+        </div>
 
-        labels_element.insertAdjacentElement('afterend', form_element)
+            </form>
+        `
+
+        // Add the department list in the form
+        labels_element.appendChild(department_list_element)
 
 
         const cancel_btn = document.querySelector('.js_cancel_pattient_btn')
 
         cancel_btn.addEventListener('click', () => {
-            labels_element.nextElementSibling.remove()
-            labels_element.insertAdjacentElement('afterend', info_element)
+            labels_element.innerHTML = old_labels
             btn.setAttribute('style', '')
-            age_label.innerText = 'Age'
         })
         filter_inputs_number_field()
     })
@@ -647,7 +695,7 @@ function get_form_element_for_patient_vital() {
 
         <input name="csrfmiddlewaretoken" value="${getToken()}" type="hidden" />
         <input name="patient_id" value="${patient_data.id}" type="hidden" />
-        <input name="blood_type" value="${patient_data.blood_type ? patient_data.blood_type : '' }" type="text" required placeholder="Patient's blood type..." list="blood_list"/>
+        <input name="blood_type" value="${patient_data.blood_type ? patient_data.blood_type : '' }" type="text" placeholder="Patient's blood type..." list="blood_list"/>
         <datalist id="blood_list">
             <option value="A+">
             <option value="A-">
