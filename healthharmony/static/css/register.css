@@ -61,6 +61,7 @@ form a{
 }
 form a:hover{
     color: rgb(110, 1, 1);
+    font-size: var(--size-base);
 }
 .form a, form h5{
     font-size: var(--size-sm);

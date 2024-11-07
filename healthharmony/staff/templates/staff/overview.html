@@ -23,15 +23,28 @@
         <!-- MAIN CONTENT -->
         <main>
             {% if messages %}
-                <div>
+             <div class="pop-up-message pop-up-green">
                     <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro veniam eveniet vel, cum voluptatibus a quo itaque omnis ipsa, veritatis alias ratione sed iure nobis quae consequatur! Et, molestiae similique?
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro veniam ev
                     </p>
+                    <span class="material-symbols-outlined close-pop-up">cancel</span>
                     {% for m in messages %}
                         {% if m.tags == 'error' %}<p>{{ m }}</p>{% endif %}
                     {% endfor %}
                 </div>
             {% endif %}
+            
+            {% if messages %}
+            <div class="pop-up-message pop-up-red">
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro veniam ev
+                </p>
+                <span class="material-symbols-outlined close-pop-up">cancel</span>
+                {% for m in messages %}
+                    {% if m.tags == 'error' %}<p>{{ m }}</p>{% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
             {% include 'staff/overview-top.html' %}
             {% include 'staff/overview-graphs.html' %}
         </main>
