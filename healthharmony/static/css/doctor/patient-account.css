@@ -350,6 +350,14 @@ form input{
         width: 33rem;
     }
  }
+ @media (max-width: 1470px) {
+    .js-illness{
+        width: 29rem;
+    }
+    .js-illness-note-btn{
+        font-size: var(--size-sm);
+    }
+ }
  @media (max-width: 1380px) {
     .top-part{
         display: flex;
@@ -384,11 +392,8 @@ form input{
     .vital-left span , .vital-right p {
         font-size: var(--size-base);
     }  
-    .detailed-top button, .js-edit-illness-btn, .js-illness-note-btn{
+    .detailed-top button, .js-edit-illness-btn{
         font-size: var(--size-sm);
-    }
-    .js-illness{
-        width: 29rem;
     }
     .visit-right{
         width: 70%;
