@@ -112,7 +112,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="detailed-info">
+                <!-- <div class="detailed-info">            !!!!!! ETO YUNG LUMA !!!!!!!
                     <div class="detailed-top">
                         <h3>Detailed Information</h3>
                         <button class="js_edit_patient_btn">Edit</button>
@@ -135,7 +135,41 @@
                             <p>{{ user.department|default_if_none:'' }}</p>
                         </div>
                     </div>
-                </div>
+                </div> -->
+                <div class="detailed-info"> 
+                    <div class="detailed-top">
+                        <h3>Detailed Information</h3>
+                        <button class="js_edit_patient_btn">Edit</button>
+                    </div>
+                    <div class="info-cont">
+                        <div class="detailed-left js_patient_labels">
+                            <div class="visit-row">
+                                <span class="js_form_age_label">Age</span>
+                                <p>{{ age|default_if_none:'' }}</p>
+                            </div>
+                            <div class="visit-row">
+                                <span>Sex</span>
+                                <p>{{ user.sex|default_if_none:'' }}</p>
+                            </div>
+                            <div class="visit-row">
+                                <span>Contact</span>
+                                <p>{{ user.contact|default_if_none:'' }}</p>
+                            </div>
+                            <div class="visit-row">
+                                <span>Year and Section</span>
+                                <p>{{ user.year|default_if_none:'' }} - {{ user.section|default_if_none:'' }}</p>
+                            </div>
+                            <div class="visit-row">
+                                <span>Program</span>
+                                <p>{{ user.program|default_if_none:'' }}</p>
+                            </div>
+                            <div class="visit-row">
+                                <span>Department</span>
+                                <p>{{ user.department|default_if_none:'' }}</p>
+                            </div>  
+                        </div>
+                    </div>
+                   </div>
             </div>
             <div class="illnesses visit-history">
                 <div class="visit-top">
