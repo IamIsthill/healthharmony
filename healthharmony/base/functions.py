@@ -34,43 +34,43 @@ def check_models():
     Returns:
     - None
     """
-    try:
-        # train_diagnosis_predictor()
-        # Retrieve all log entries
-        diagnosis_predictor, created = Models.objects.get_or_create(
-            model_name="diagnosis_predictor"
-        )
-        logs = ModelLog.objects.filter(model_name=diagnosis_predictor)
+    # try:
+    #     # train_diagnosis_predictor()
+    #     # Retrieve all log entries
+    #     diagnosis_predictor, created = Models.objects.get_or_create(
+    #         model_name="diagnosis_predictor"
+    #     )
+    #     logs = ModelLog.objects.filter(model_name=diagnosis_predictor)
 
-        # Get the first log entry, if any
-        first_log = logs.first()
+    #     # Get the first log entry, if any
+    #     first_log = logs.first()
 
-        # # Check if logs count is 0
-        if logs.count() == 0:
-            logger.info("No logs found. Training diagnosis predictor.")
-            train_diagnosis_predictor()
-            # Record that the diagnosis predictor was trained
-            ModelLog.objects.create(model_name=diagnosis_predictor)
-            logger.info("Diagnosis Predictor was trained successfully.")
-        elif first_log and first_log.update_time:
-            # Calculate the time difference
-            now = timezone.now()
-            time_diff = now - first_log.update_time
+    #     # # Check if logs count is 0
+    #     if logs.count() == 0:
+    #         logger.info("No logs found. Training diagnosis predictor.")
+    #         train_diagnosis_predictor()
+    #         # Record that the diagnosis predictor was trained
+    #         ModelLog.objects.create(model_name=diagnosis_predictor)
+    #         logger.info("Diagnosis Predictor was trained successfully.")
+    #     elif first_log and first_log.update_time:
+    #         # Calculate the time difference
+    #         now = timezone.now()
+    #         time_diff = now - first_log.update_time
 
-            # Check if the update_time is older than 24 hours
-            if time_diff > timedelta(hours=24):
-                logger.info(
-                    "The first log entry is older than 24 hours. Training diagnosis predictor."
-                )
-                train_diagnosis_predictor()
-                # Record that the diagnosis predictor was trained
-                ModelLog.objects.create(model_name=diagnosis_predictor)
-                logger.info("Diagnosis Predictor was trained successfully.")
-        else:
-            return
+    #         # Check if the update_time is older than 24 hours
+    #         if time_diff > timedelta(hours=24):
+    #             logger.info(
+    #                 "The first log entry is older than 24 hours. Training diagnosis predictor."
+    #             )
+    #             train_diagnosis_predictor()
+    #             # Record that the diagnosis predictor was trained
+    #             ModelLog.objects.create(model_name=diagnosis_predictor)
+    #             logger.info("Diagnosis Predictor was trained successfully.")
+    #     else:
+    #         return
 
-    except Exception as e:
-        logger.error(f"Failed to train models: {e}")
+    # except Exception as e:
+    #     logger.error(f"Failed to train models: {e}")
 
 
 def get_season():

@@ -809,7 +809,7 @@
     "model": "inventory.inventorydetail",
     "pk": 63,
     "fields": {
-      "item_no": -1924,
+      "item_no": 12393,
       "unit": "Unit",
       "item_name": "Thermometer",
       "category": "Supplies",
