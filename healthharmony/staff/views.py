@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 import secrets
 import string
+from django.db import connection, DatabaseError
 from django.db.models import (
     OuterRef,
     Subquery,
@@ -110,7 +111,7 @@ def overview(request):
     previous_month = now - relativedelta(months=1)
     context = {}
     try:
-        with ThreadPoolExecutor() as tp:
+        with ThreadPoolExecutor(max_workers=10) as tp:
             futures = {
                 tp.submit(fetch_today_patient, now): "today_patient",
                 tp.submit(fetch_total_patient): "total_patient",
@@ -350,7 +351,7 @@ def records(request):
     email = env("EMAIL_ADD")
     context = {"page": "records", "email": email}
     try:
-        with ThreadPoolExecutor() as tp:
+        with ThreadPoolExecutor(max_workers=5) as tp:
             futures = {
                 tp.submit(fetch_history, Illness, IllnessSerializer): "fetch_history",
                 tp.submit(
@@ -444,6 +445,8 @@ def fetch_patient_list(request):
         patient_list = User.objects.filter(access=1)
     except Exception as e:
         logger.info(f"{request.user.email} failed to fetch patient list: {str(e)}")
+    finally:
+        connection.close()
 
     return patient_list or None
 
@@ -644,6 +647,8 @@ def patients_and_accounts(request):
     except Exception as e:
         logger.error(f"Failed to fetch data: {str(e)}")
         messages.error(request, "Failed to fetch necessary data. Please reload page.")
+    finally:
+        connection.close()
     return render(request, "staff/accounts.html", context)
 
 
@@ -751,6 +756,8 @@ def get_ambulances(request):
     except Exception as e:
         logger.warning(f"Failed to fetch the ambulances: {str(e)}")
         messages.error(request, "Failed to fetch necessary data. Please reload page.")
+    finally:
+        connection.close()
     return request, ambulances
 
 
@@ -765,6 +772,8 @@ def get_category_data(request):
     except Exception as e:
         messages.error(request, "Failed to fetch necessary data. Please reload page.")
         logger.warning(f"Failed to fetch the category data: {str(e)}")
+    finally:
+        connection.close()
     return request, category_data
 
 
@@ -784,5 +793,7 @@ def get_wheelchairs(request):
     except Exception as e:
         logger.warning(f"Failed to fetch wheelchair data: {str(e)}")
         messages.error(request, "Failed to fetch necessary data. Please reload page.")
+    finally:
+        connection.close()
 
     return request, wheelchair_data

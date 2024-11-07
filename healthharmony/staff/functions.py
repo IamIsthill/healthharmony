@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.utils import timezone
 from datetime import timedelta
+from django.db import connection, DatabaseError
 from dateutil.relativedelta import relativedelta
 from django.db.models import Sum, Min, Count
 import logging
@@ -152,6 +153,8 @@ def sort_category_loop(
         except Exception as e:
             logger.error(f"Failed to sort data: {str(e)}")
             messages.error(request, "Failed to sort data. Please try again")
+        finally:
+            connection.close()
 
     return request, category_storage
 
@@ -231,6 +234,8 @@ def get_departments(request):
         messages.error(request, "Failed to fetch data. Please reload")
         # Return the request and an empty list of departments
         return request, []
+    finally:
+        connection.close()
 
     # Return the request and the list of departments
     return request, departments
@@ -447,6 +452,8 @@ def sort_department_loop(
             # Log the error and add an error message to the request if sorting fails
             logger.error(f"Failed to sort department data: {str(e)}")
             messages.error(request, "Failed to sort data. Please try again")
+        finally:
+            connection.close()
 
     return request, department_data
 
@@ -531,6 +538,8 @@ def get_sorted_inventory_list(request):
     except Exception as e:
         logger.error(f"Failed to fetch sorted inventory list: {str(e)}")
         messages.error(request, "Requested data not fetched. Please reload page")
+    finally:
+        connection.close()
 
     return request, list(inventory)
 
@@ -587,63 +596,114 @@ def get_counted_inventory(request):
         logger.error(str(e))
         messages.error(request, "Failed to fetch inventory data.")
         inventory_data = None
+    finally:
+        connection.close()
 
     return request, inventory_data
 
 
 def fetch_today_patient(now):
-    return (
-        User.objects.filter(patient_illness__updated__date=now.date())
-        .distinct()
-        .count()
-        or 0
-    )
+    try:
+        count = (
+            User.objects.filter(patient_illness__updated__date=now.date())
+            .distinct()
+            .count()
+            or 0
+        )
+    except DatabaseError as e:
+        logger.info(f"{e}")
+        count = 0
+    finally:
+        connection.close()
+    return count
 
 
 def fetch_total_patient():
-    return (
-        User.objects.annotate(illness_count=Count("patient_illness"))
-        .filter(illness_count__gt=0)
-        .count()
-        or 0
-    )
+    try:
+        count = (
+            User.objects.annotate(illness_count=Count("patient_illness"))
+            .filter(illness_count__gt=0)
+            .count()
+            or 0
+        )
+    except DatabaseError as e:
+        logger.info(f"{e}")
+        count = 0
+    finally:
+        connection.close()
+    return count
 
 
 def fetch_previous_patients(previous_day):
-    return (
-        User.objects.filter(patient_illness__updated__date=previous_day.date())
-        .distinct()
-        .count()
-        or 0
-    )
+    try:
+        count = (
+            User.objects.filter(patient_illness__updated__date=previous_day.date())
+            .distinct()
+            .count()
+            or 0
+        )
+    except DatabaseError as e:
+        logger.info(f"{e}")
+        count = 0
+    finally:
+        connection.close()
+    return count
 
 
 def fetch_monthly_medcert(now):
-    return (
-        Certificate.objects.filter(
-            requested__month=now.month, requested__year=now.year, released=True
-        ).count()
-        or 0
-    )
+    try:
+        count = (
+            Certificate.objects.filter(
+                requested__month=now.month, requested__year=now.year, released=True
+            ).count()
+            or 0
+        )
+    except DatabaseError as e:
+        logger.info(f"{e}")
+        count = 0
+    finally:
+        connection.close()
+    return count
 
 
 def fetch_previous_medcert(previous_month):
-    return (
-        Certificate.objects.filter(
-            requested__month=previous_month.month,
-            requested__year=previous_month.year,
-            released=True,
-        ).count()
-        or 0
-    )
+    try:
+        count = (
+            Certificate.objects.filter(
+                requested__month=previous_month.month,
+                requested__year=previous_month.year,
+                released=True,
+            ).count()
+            or 0
+        )
+    except DatabaseError as e:
+        logger.info(f"{e}")
+        count = 0
+    finally:
+        connection.close()
+    return count
 
 
 def fetch_patients():
-    return User.objects.filter(access=1)
+    try:
+        patients = User.objects.filter(access=1)
+    except DatabaseError as e:
+        logger.info(f"{e}")
+        patients = None
+    finally:
+        connection.close()
+    return patients
 
 
 def fetch_categories():
-    return Category.objects.all()
+    try:
+        category = Category.objects.all()
+    except DatabaseError as e:
+        logger.info(f"{e}")
+        category = None
+    finally:
+        connection.close()
+    return category
 
 
 def fetch_inventory(InventoryDetail, Sum, request):
@@ -665,15 +725,24 @@ def fetch_inventory(InventoryDetail, Sum, request):
     except Exception as e:
         logger.error(f"Failed to fetch inventory data: {str(e)}")
         messages.error(request, "Failed to fetched inventory data. Please reload page.")
+    finally:
+        connection.close()
     return request, inventory
 
 
 def fetch_history(Illness, IllnessSerializer):
-    history = Illness.objects.all()
-    history_data = []
-    for hist in history:
-        data = IllnessSerializer(hist)
-        history_data.append(data.data)
+    history = None
+    history_data = None
+    try:
+        history = Illness.objects.all()
+        history_data = []
+        for hist in history:
+            data = IllnessSerializer(hist)
+            history_data.append(data.data)
+    except Exception as e:
+        logger.info(f"{e}")
+    finally:
+        connection.close()
     return history, history_data
 
 
@@ -687,6 +756,7 @@ def fetch_certificate_chart(timezone, Certificate, relativedelta):
     start = now - relativedelta(months=11)
 
     certificates = Certificate.objects.filter(requested__gte=start)
+    connection.close()
 
     for cert_date in cert_dates:
         start, max_range, date_format, date_loop = get_init_loop_params(cert_date, now)
@@ -726,6 +796,7 @@ def fetch_certificates(Certificate, F):
             "last_name",
         )
     )
+    connection.close()
     if certificates:
         for cert in certificates:
             cert["requested"] = cert["requested"].isoformat()
