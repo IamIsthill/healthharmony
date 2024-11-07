@@ -3,7 +3,7 @@ from django.utils import timezone
 from datetime import timedelta
 from django.db import connection, DatabaseError
 from dateutil.relativedelta import relativedelta
-from django.db.models import Sum, Min, Count
+from django.db.models import Sum, Min, Count, Max
 import logging
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
@@ -67,6 +67,13 @@ def sort_category(categories, request):
 
     now = timezone.now()
 
+    try:
+        illnesses = Illness.objects.all()
+    except DatabaseError as e:
+        logger.info(f"{e}")
+    finally:
+        connection.close()
+
     for filter in data_filter:
         start, max_range, date_format, date_loop = get_init_loop_params(filter, now)
 
@@ -83,13 +90,21 @@ def sort_category(categories, request):
                 date_format,
                 request,
                 filter,
+                illnesses,
             )
 
     return request, category_data
 
 
 def sort_category_loop(
-    categories, main_start, main_end, category_storage, date_format, request, filter
+    categories,
+    main_start,
+    main_end,
+    category_storage,
+    date_format,
+    request,
+    filter,
+    illnesses,
 ):
     """
     Sort and categorize illnesses based on their update timestamps and a specified filter.
@@ -118,18 +133,9 @@ def sort_category_loop(
         None: Any exceptions encountered during processing are logged and handled
               within the function, and an error message is sent to the user.
     """
-    for category in categories:
-        try:
-            illnesses = Illness.objects.select_related("illness_category").filter(
-                illness_category=category, updated__gte=main_start, updated__lt=main_end
-            )
 
-            if filter == "weekly":
-                illnesses = Illness.objects.filter(
-                    illness_category=category,
-                    updated__gte=main_start,
-                    updated__lte=main_end,
-                )
+    for category in categories:
+        for illness in illnesses:
 
             if filter not in category_storage:
                 category_storage[filter] = {}
@@ -145,16 +151,60 @@ def sort_category_loop(
                     main_start.strftime(date_format)
                 ] = []
 
-            if illnesses:
+            if filter == "weekly":
+                if (
+                    illness.illness_category.category == category.category
+                    and illness.updated >= main_start
+                    and illness.updated <= main_end
+                ):
+                    category_storage[filter][category.id][category.category][
+                        main_start.strftime(date_format)
+                    ].append(illness_to_dict(illness))
+            elif (
+                illness.illness_category.category == category.category
+                and illness.updated >= main_start
+                and illness.updated < main_end
+            ):
                 category_storage[filter][category.id][category.category][
                     main_start.strftime(date_format)
-                ] = [illness_to_dict(illness) for illness in illnesses]
+                ].append(illness_to_dict(illness))
 
-        except Exception as e:
-            logger.error(f"Failed to sort data: {str(e)}")
-            messages.error(request, "Failed to sort data. Please try again")
-        finally:
-            connection.close()
+        # try:
+        #     illnesses = Illness.objects.select_related("illness_category").filter(
+        #         illness_category=category, updated__gte=main_start, updated__lt=main_end
+        #     )
+
+        #     if filter == "weekly":
+        #         illnesses = Illness.objects.filter(
+        #             illness_category=category,
+        #             updated__gte=main_start,
+        #             updated__lte=main_end,
+        #         )
+
+        #     if filter not in category_storage:
+        #         category_storage[filter] = {}
+        #     if category.id not in category_storage[filter]:
+        #         category_storage[filter][category.id] = {}
+        #     if category.category not in category_storage[filter][category.id]:
+        #         category_storage[filter][category.id][category.category] = {}
+        #     if (
+        #         main_start.strftime(date_format)
+        #         not in category_storage[filter][category.id][category.category]
+        #     ):
+        #         category_storage[filter][category.id][category.category][
+        #             main_start.strftime(date_format)
+        #         ] = []
+
+        #     if illnesses:
+        #         category_storage[filter][category.id][category.category][
+        #             main_start.strftime(date_format)
+        #         ] = [illness_to_dict(illness) for illness in illnesses]
+
+        # except Exception as e:
+        #     logger.error(f"Failed to sort data: {str(e)}")
+        #     messages.error(request, "Failed to sort data. Please try again")
+        # finally:
+        #     connection.close()
 
     return request, category_storage
 
@@ -267,6 +317,15 @@ def sort_department(
     # Get the current time
     now = timezone.now()
 
+    try:
+        patients = User.objects.all().annotate(
+            latest_illness=Max("patient_illness__updated")
+        )
+    except DatabaseError as e:
+        logger.warning(f"{e}")
+    finally:
+        connection.close()
+
     # Iterate over each filter type (yearly, monthly, weekly)
     for filter in department_data:
         # Get the initial parameters for the loop based on the filter type
@@ -288,6 +347,7 @@ def sort_department(
                 date_format,
                 filter,
                 request,
+                patients,
             )
 
     return request, department_data
@@ -401,7 +461,14 @@ def get_changing_loop_params(offset, start, date_loop, filter):
 
 
 def sort_department_loop(
-    departments, department_data, main_start, main_end, date_format, filter, request
+    departments,
+    department_data,
+    main_start,
+    main_end,
+    date_format,
+    filter,
+    request,
+    patients,
 ):
     """
     Processes and sorts department data for a given time period and updates the department_data dictionary.
@@ -418,42 +485,60 @@ def sort_department_loop(
     Returns:
         tuple: A tuple containing the updated request and department_data dictionary.
     """
+
     for department in departments:
         # Prepare the department data storage structure for the current department
         department_data = get_prepared_department_storage(
             department_data, department, main_start, date_format, filter
         )
 
-        try:
-            # Query for patients associated with the current department and within the specified date range
-            patients = (
-                User.objects.select_related("department")
-                .filter(
-                    department=department,
-                    patient_illness__updated__gte=main_start,
-                    patient_illness__updated__lte=main_end,
-                )
-                .distinct()
-            )
+        if patients:
+            for patient in patients:
+                if patient.department and patient.latest_illness:
+                    if (
+                        patient.department.id == department.id
+                        and patient.latest_illness >= main_start
+                        and patient.latest_illness <= main_end
+                    ):
+                        department_data[filter][department.id][department.department][
+                            main_start.strftime(date_format)
+                        ].append(
+                            {
+                                "patientId": patient.id,
+                                "department": patient.department.department,
+                            }
+                        )
 
-            # If there are patients, add their information to the department_data dictionary
-            if patients:
-                department_data[filter][department.id][department.department][
-                    main_start.strftime(date_format)
-                ] = [
-                    {
-                        "patientId": patient.id,
-                        "department": patient.department.department,
-                    }
-                    for patient in patients
-                ]
+        # try:
+        #     # Query for patients associated with the current department and within the specified date range
+        #     patients = (
+        #         User.objects.select_related("department")
+        #         .filter(
+        #             department=department,
+        #             patient_illness__updated__gte=main_start,
+        #             patient_illness__updated__lte=main_end,
+        #         )
+        #         .distinct()
+        #     )
 
-        except Exception as e:
-            # Log the error and add an error message to the request if sorting fails
-            logger.error(f"Failed to sort department data: {str(e)}")
-            messages.error(request, "Failed to sort data. Please try again")
-        finally:
-            connection.close()
+        #     # If there are patients, add their information to the department_data dictionary
+        #     if patients:
+        #         department_data[filter][department.id][department.department][
+        #             main_start.strftime(date_format)
+        #         ] = [
+        #             {
+        #                 "patientId": patient.id,
+        #                 "department": patient.department.department,
+        #             }
+        #             for patient in patients
+        #         ]
+
+        # except Exception as e:
+        #     # Log the error and add an error message to the request if sorting fails
+        #     logger.error(f"Failed to sort department data: {str(e)}")
+        #     messages.error(request, "Failed to sort data. Please try again")
+        # finally:
+        #     connection.close()
 
     return request, department_data
 
