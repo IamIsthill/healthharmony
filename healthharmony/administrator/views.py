@@ -92,15 +92,16 @@ def account_view(request):
             messages.error(request, "Please correct the errors.")
 
     try:
-        users = User.objects.filter(access__lte=4)
+        users = User.objects.all()
         departments = Department.objects.all()
 
         # serialize users
         user_data = []
         if users:
             for user in users:
-                data = UserSerializer(user)
-                user_data.append(data.data)
+                if user.access <= 4:
+                    data = UserSerializer(user)
+                    user_data.append(data.data)
 
         user_page = account_paginate_user(request, users)
 
