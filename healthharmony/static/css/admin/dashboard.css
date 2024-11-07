@@ -26,11 +26,12 @@ main .small-card:hover{
 }
 .small-card h2{
     font-size: var(--size-xl);
-    font-weight: 600;
+    font-weight: 500;
 }
 .small-card h3{
     font-size: var(--size-2xl);
     margin-top: 1rem;
+    font-weight: 600;
 }
 .user-chart{
     margin-top: 1rem;
@@ -71,3 +72,14 @@ main .small-card:hover{
     height: 30rem;
     width: 60%;
  }
+ .cat-button{
+    color: var(--light_gray);
+    border: 1px solid white;
+}
+.cat-button:hover{
+    border: 1px solid rgb(112, 112, 112);
+}
+.active-cat{
+    border: 1px solid black;
+    color: black;
+}

@@ -113,13 +113,21 @@
                 <div class="pagination pagination-design">
                     <span class="step-links">
                         {% if users.has_previous %}
-                            <a href="?page=1" class="js-links">&laquo; First</a>
-                            <a class="js-links" href="?page={{ users.previous_page_number }}">Previous</a>
+                            <a href="?page=1" class="js-links page-shortcut">&laquo; First</a>
+                            <a class="js-links" href="?page={{ users.previous_page_number }}">
+                                <div class="previous-next-page">
+                                    <span class="material-symbols-outlined page-icon">arrow_back_ios</span> <span>Previous</span>
+                                </div>
+                            </a>
                         {% endif %}
                         <span class="current">Page {{ users.number }} of {{ users.paginator.num_pages }}.</span>
                         {% if users.has_next %}
-                            <a class="js-links" href="?page={{ users.next_page_number }}">Next</a>
-                            <a class="js-links" href="?page={{ users.paginator.num_pages }}">Last &raquo;</a>
+                            <a class="js-links" href="?page={{ users.next_page_number }}">
+                                <div class="previous-next-page">
+                                    <span>Next</span> <span class="material-symbols-outlined page-icon">arrow_forward_ios</span>
+                                </div>
+                            </a>
+                            <a class="js-links page-shortcut" href="?page={{ users.paginator.num_pages }}">Last &raquo;</a>
                         {% endif %}
                     </span>
                 </div>
