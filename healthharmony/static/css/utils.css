@@ -196,62 +196,33 @@
 
 
 /* POP UP ERROR */
-.containerPage{
+.pop-up-message{
   position: fixed;
-  top:50%;
-  left: 50%;
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  visibility: hidden;
-  transition: transform 0.4s;
-  z-index: 102;
-  transform: translate(-50%,-100%) scale(0.1);
-}
-.popUp{
-  background: white;
-  width: 430px;
-  padding: 3rem 0rem;
-  position: fixed;
-  top: 35%;
-  left: 50%;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  border-radius: 0.5rem;
-  transform: translate(-50%,-100%);
-}
-.open-popup{
-  transform: translate(-50%,-50%) scale(1);
-  visibility: visible;
-}
-.popUp span{
-  margin-top: 2rem;
-  font-weight: bold;
-  font-size: larger;
-}
-.popUp p{
-  margin-top: 8px;
-  width: 20rem;
-  text-align: center;
-}
-.popUp img{
-  width: 300px;
-}
-.popUp button{
-  margin-top: 1.5rem;
-  width: 200px;
-  padding: 10px 0rem;
-  border-radius: 1rem;
-  background: white;
-  border: 1px solid black;
-  cursor: pointer;
-  font-size: large;
-  transition: all 0.3s ease;
-}
-.popUp button:hover{
-  background: black;
+  padding: 0 1rem;
+  top: 100px;
+  left: 25%;
+  width: 40%;
+  height:50px;
   color: white;
+  
+  border-radius:8px;
+}
+.pop-up-green{
+  background: green;
+}
+.pop-up-red{
+  background: var(--Maroon);
+}
+.close-pop-up{
+  color: white;
+  cursor: pointer;
+  font-size: var(--size-5xl);
+}
+.close-pop-up:hover{
+  color: gray;
 }
 /* POP UP ERROR */
 .close {

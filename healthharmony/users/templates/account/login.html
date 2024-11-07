@@ -47,6 +47,16 @@
         <p>
             Don't have an account yet? Please <a href="{% url 'account_signup' %}">Sign Up here</a>
         </p>
+        <a class="return-btn-a" href="{% url 'home' %}">
+            <div class="return-btn">
+                <span class="material-symbols-outlined">
+                    arrow_back_ios_new
+                </span>
+                <span>
+                    Return to Homepage
+                </span>
+            </div>
+        </a>
     </section>
     <img src="{% static 'assets/images/svgs/loginillus.svg' %}" class="illus" />
 {% endblock %}
