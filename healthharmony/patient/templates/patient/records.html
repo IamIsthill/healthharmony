@@ -22,23 +22,27 @@
     </style>
 {% endblock %}
 {% block title %}Health Records | HealthHarmony{% endblock %}
-{% block message %}
-    {% if messages|has_error_message %}
-        {% for message in messages %}
-            {% if message.tags == 'error' %}<p>{{ message }}</p>{% endif %}
-        {% endfor %}
-    {% endif %}
-    {% if messages|has_success_message %}
-        {% for message in messages %}
-            {% if message.tags == 'success' %}<p>{{ message }}</p>{% endif %}
-        {% endfor %}
-    {% endif %}
-{% endblock %}
 {% block main %}
     {% include 'doctor/nav-top.html' %}
     <div class="doctor-profile-container">
         {% include 'patient/nav.html' %}
         <main>
+            {% if messages|has_success_message %}
+                <div class="pop-up-message pop-up-green js-messages">
+                    {% for m in messages %}
+                        {% if m.tags == 'success' %}<p>{{ m }}</p>{% endif %}
+                    {% endfor %}
+                    <span class="material-symbols-outlined close-pop-up js-close-messages">cancel</span>
+                </div>
+            {% endif %}
+            {% if messages|has_error_message %}
+                <div class="pop-up-message pop-up-red js-messages">
+                    {% for m in messages %}
+                        {% if m.tags == 'error' %}<p>{{ m }}</p>{% endif %}
+                    {% endfor %}
+                    <span class="material-symbols-outlined close-pop-up js-close-messages">cancel</span>
+                </div>
+            {% endif %}
             <div class="top-part">
                 <div class="top-card ill-cat">
                     <h1>Your Usual Illness Categories</h1>

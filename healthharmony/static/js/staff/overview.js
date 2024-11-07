@@ -31,9 +31,9 @@ function main() {
     /**
      * MAIN CODE
      */
-    listenToError()
-    listenToSuccess()
-    listenToModalOk()
+    // listenToError()
+    // listenToSuccess()
+    // listenToModalOk()
 
     // SHORTCUTS
     listenCheckBed()
