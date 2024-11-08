@@ -35,12 +35,13 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "postgres",
-        # "HOST": env("DATABASE_HOST"),
-        "HOST": "35.240.250.37",
+        "HOST": env("DATABASE_HOST"),
+        # "HOST": "35.240.250.37",
         "PORT": 5432,
-        # "USER": env("DATABASE_USER"),
-        "USER": "healthharmony",
-        "PASSWORD": env("GOOGLE_DB_PASSWORD"),
+        "USER": env("DATABASE_USER"),
+        # "USER": "healthharmony",
+        # "PASSWORD": env("GOOGLE_DB_PASSWORD"),
+        "PASSWORD": env("DATABASE_PASSWORD"),
     }
 }
 
