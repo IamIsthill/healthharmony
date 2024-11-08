@@ -35,7 +35,15 @@ def getCategory(request):
             - HttpRequest: The original request object, potentially modified to include error messages.
     """
     try:
-        categories = Category.objects.all()
+        category_cache = cache.get("category_cache", {})
+
+        categories = category_cache.get("query")
+
+        if not categories:
+            categories = Category.objects.all()
+            category_cache["query"] = categories
+            cache.set("category_cache", category_cache, timeout=(60 * 120))
+
     except Exception as e:
         logger.error(f"Error fetching data: {str(e)}")
         messages.error(request, "Error fetching data. Please reload.")
@@ -69,18 +77,14 @@ def sort_category(categories, request):
     now = timezone.now()
 
     try:
-        illness_cache = cache.get("illness_cache")
-        if not illness_cache:
-            illness_cache = {}
+        illness_cache = cache.get("illness_cache", {})
+
+        illnesses = illness_cache.get("query")
+
+        if not illnesses:
             illnesses = Illness.objects.all()
             illness_cache["query"] = illnesses
             cache.set("illness_cache", illness_cache, timeout=None)
-        else:
-            illnesses = illness_cache.get("query")
-            if not illnesses:
-                illnesses = Illness.objects.all()
-                illness_cache["query"] = illnesses
-                cache.set("illness_cache", illness_cache, timeout=None)
 
     except DatabaseError as e:
         logger.info(f"{e}")
@@ -295,7 +299,14 @@ def get_departments(request):
     """
     try:
         # Fetch all Department instances
-        departments = Department.objects.all()
+        department_cache = cache.get("department_cache", {})
+
+        if not department_cache.get("query"):
+            departments = Department.objects.all()
+            department_cache["query"] = departments
+            cache.set("department_cache", department_cache, timeout=(60 * 120))
+        else:
+            departments = department_cache.get("query")
 
     except Exception as e:
         # Log the error with a message
@@ -338,23 +349,16 @@ def sort_department(
     now = timezone.now()
 
     try:
-        illness_cache = cache.get("illness_cache")
-        if not illness_cache:
-            illness_cache = {}
+        illness_cache = cache.get("illness_cache", {})
+
+        patients = illness_cache.get("patient_per_department")
+
+        if not patients:
             patients = User.objects.all().annotate(
                 latest_illness=Max("patient_illness__updated")
             )
-            illness_cache["patients"] = patients
+            illness_cache["patient_per_department"] = patients
             cache.set("illness_cache", illness_cache, timeout=None)
-        else:
-            if illness_cache.get("patients") is None:
-                patients = User.objects.all().annotate(
-                    latest_illness=Max("patient_illness__updated")
-                )
-                illness_cache["patients"] = patients
-                cache.set("illness_cache", illness_cache, timeout=None)
-            else:
-                patients = illness_cache.get("patients")
 
     except DatabaseError as e:
         logger.warning(f"{e}")
@@ -633,7 +637,10 @@ def get_inventory(request):
 def get_sorted_inventory_list(request):
     inventory = None
     try:
-        inventory = cache.get("inventory_detailed")
+        inventory_cache = cache.get("inventory_cache", {})
+
+        inventory = inventory_cache.get("inventory_detailed")
+
         if not inventory:
             inventory = (
                 InventoryDetail.objects.all()
@@ -649,20 +656,21 @@ def get_sorted_inventory_list(request):
                     "unit",
                 )
             )
-            cache.set("inventory_detailed", inventory, timeout=(60 * 60))
 
-        if inventory:
-            for data in inventory:
-                if data["total_quantity"] is None:
-                    data["total_quantity"] = 0
-                if data["expiration_date"] is not None:
-                    data["expiration_date"] = data["expiration_date"].isoformat()
-                else:
-                    data["expiration_date"] = ""
-                if data["category"] == "Medicine":
-                    data["sorter"] = 1
-                if data["category"] == "Supply":
-                    data["sorter"] = 2
+            if inventory:
+                for data in inventory:
+                    if data["total_quantity"] is None:
+                        data["total_quantity"] = 0
+                    if data["expiration_date"] is not None:
+                        data["expiration_date"] = data["expiration_date"].isoformat()
+                    else:
+                        data["expiration_date"] = ""
+                    if data["category"] == "Medicine":
+                        data["sorter"] = 1
+                    if data["category"] == "Supply":
+                        data["sorter"] = 2
+            inventory_cache["inventory_detailed"] = inventory
+            cache.set("inventory_detailed", inventory, timeout=(60 * 120))
 
     except Exception as e:
         logger.error(f"Failed to fetch sorted inventory list: {str(e)}")
@@ -682,44 +690,51 @@ def get_counted_inventory(request):
         }
 
         now = timezone.now()
+        inventory_cache = cache.get("inventory_cache", {})
 
-        for category in inventory_data:
+        if inventory_cache.get("inventory_data"):
+            inventory_data = inventory_cache.get("inventory_data")
+        else:
 
-            for filter in inventory_data[category]:
-                start, max_range, date_format, date_loop = get_init_loop_params(
-                    filter, now
-                )
+            for category in inventory_data:
 
-                for offset in range(max_range):
-                    main_start, main_end = get_changing_loop_params(
-                        offset, start, date_loop, filter
+                for filter in inventory_data[category]:
+                    start, max_range, date_format, date_loop = get_init_loop_params(
+                        filter, now
                     )
-                    inventory = InventoryDetail.objects.filter(
-                        category=category,
-                        quantities__timestamp__gte=main_start,
-                        quantities__timestamp__lte=main_end,
-                    ).annotate(
-                        total_quantity=Sum("quantities__updated_quantity"),
-                        date_updated=Min("quantities__timestamp"),
-                    )
-                    inventory_data[category][filter][
-                        main_start.strftime(date_format)
-                    ] = []
-                    if inventory:
-                        for data in inventory:
-                            data.total_quantity = data.total_quantity or 0
-                            inventory_data[category][filter][
-                                main_start.strftime(date_format)
-                            ].append(
-                                {
-                                    "id": data.id,
-                                    "total_quantity": data.total_quantity,
-                                    "expiration_date": data.expiration_date.isoformat()
-                                    if data.expiration_date
-                                    else "",
-                                    "date_updated": data.date_updated.isoformat(),
-                                }
-                            )
+
+                    for offset in range(max_range):
+                        main_start, main_end = get_changing_loop_params(
+                            offset, start, date_loop, filter
+                        )
+                        inventory = InventoryDetail.objects.filter(
+                            category=category,
+                            quantities__timestamp__gte=main_start,
+                            quantities__timestamp__lte=main_end,
+                        ).annotate(
+                            total_quantity=Sum("quantities__updated_quantity"),
+                            date_updated=Min("quantities__timestamp"),
+                        )
+                        inventory_data[category][filter][
+                            main_start.strftime(date_format)
+                        ] = []
+                        if inventory:
+                            for data in inventory:
+                                data.total_quantity = data.total_quantity or 0
+                                inventory_data[category][filter][
+                                    main_start.strftime(date_format)
+                                ].append(
+                                    {
+                                        "id": data.id,
+                                        "total_quantity": data.total_quantity,
+                                        "expiration_date": data.expiration_date.isoformat()
+                                        if data.expiration_date
+                                        else "",
+                                        "date_updated": data.date_updated.isoformat(),
+                                    }
+                                )
+            inventory_cache["inventory_data"] = inventory_data
+            cache.set("inventory_cache", inventory_cache, timeout=(60 * 120))
 
     except Exception as e:
         logger.error(str(e))
@@ -798,10 +813,11 @@ def fetch_monthly_medcert(now, previous_month):
     monthly_medcert = 0
     previous_medcert = 0
     try:
-        certificate_cache = cache.get("certificate_cache")
-        if not certificate_cache:
-            certificate_cache = {}
+        certificate_cache = cache.get("certificate_cache", {})
 
+        medcerts = certificate_cache.get("query")
+
+        if not medcerts:
             medcerts = Certificate.objects.filter(released=True)
 
             if medcerts:
@@ -821,46 +837,15 @@ def fetch_monthly_medcert(now, previous_month):
                 certificate_cache["monthly_medcert"] = monthly_medcert
                 certificate_cache["previous_medcert"] = previous_medcert
 
-                cache.set("certificate_cache", certificate_cache, timeout=None)
+            cache.set("certificate_cache", certificate_cache, timeout=(60 * 120))
         else:
             monthly_medcert = certificate_cache.get("monthly_medcert", 0)
             previous_medcert = certificate_cache.get("previous_medcert", 0)
-
-        # medcerts = cache.get('certificates')
-        # if not medcerts:
-        #     medcerts = Certificate.objects.filter(released=True)
-        #     cache.set('certificates', medcerts, timeout=(60*30))
-
-        #     if medcerts:
-        #         for cert in medcerts:
-        #             if cert.requested.month == now.month and cert.requested.year == now.year:
-        #                 monthly_medcert += 1
-        #             if cert.requested.month == previous_month.month and cert.requested.year == previous_month.year:
-        #                 previous_medcert += 1
-        #     cache.set('monthly_medcert', monthly_medcert, timeout=None)
-        #     cache.set('previous_medcert', previous_medcert, timeout=None)
-        # else:
-        #     monthly_medcert = cache.get('monthly_medcert')
-        #     previous_medcert = cache.get('previous_medcert')
 
     except DatabaseError as e:
         logger.info(f"{e}")
 
     return monthly_medcert, previous_medcert
-
-    # try:
-    #     count = (
-    #         Certificate.objects.filter(
-    #             requested__month=now.month, requested__year=now.year, released=True
-    #         ).count()
-    #         or 0
-    #     )
-    # except DatabaseError as e:
-    #     logger.info(f"{e}")
-    #     count = 0
-    # finally:
-    #     connection.close()
-    # return count
 
 
 def fetch_previous_medcert(previous_month):
@@ -883,13 +868,12 @@ def fetch_previous_medcert(previous_month):
 
 def fetch_patients():
     try:
-        user_cache = cache.get("user_cache")
+        user_cache = cache.get("user_cache", {})
 
-        if not user_cache:
-            user_cache = {}
+        if not user_cache.get("patients"):
             patients = User.objects.filter(access=1)
             user_cache["patients"] = patients
-            cache.set("user_cache", user_cache, timeout=None)
+            cache.set("user_cache", user_cache, timeout=(60 * 120))
         else:
             patients = user_cache.get("patients")
     except DatabaseError as e:
@@ -902,9 +886,9 @@ def fetch_patients():
 
 def fetch_categories():
     try:
-        category_cache = cache.get("category_cache")
-        if not category_cache:
-            category_cache = {}
+        category_cache = cache.get("category_cache", {})
+
+        if not category_cache.get("query"):
             category = Category.objects.all()
             category_cache["query"] = category
             cache.set("category_cache", category_cache, timeout=None)
@@ -921,7 +905,10 @@ def fetch_categories():
 def fetch_inventory(InventoryDetail, Sum, request):
     inventory = None
     try:
-        inventory = cache.get("inventory")
+        inventory_cache = cache.get("inventory_cache", {})
+
+        inventory = inventory_cache.get("inventory_table")
+
         if not inventory:
             inventory = (
                 InventoryDetail.objects.all()
@@ -931,13 +918,15 @@ def fetch_inventory(InventoryDetail, Sum, request):
                 .values("id", "item_name", "category", "quantity", "expiration_date")
             )
 
-            cache.set("inventory", inventory, timeout=(60 * 30))
+            if inventory:
+                for data in inventory:
+                    if data["expiration_date"]:
+                        data["expiration_date"] = data["expiration_date"].isoformat()
+                    data["quantity"] = data["quantity"] or 0
 
-        if inventory:
-            for data in inventory:
-                if data["expiration_date"]:
-                    data["expiration_date"] = data["expiration_date"].isoformat()
-                data["quantity"] = data["quantity"] or 0
+            inventory_cache["inventory_table"] = inventory
+
+            cache.set("inventory_cache", inventory_cache, timeout=(60 * 120))
 
     except Exception as e:
         logger.error(f"Failed to fetch inventory data: {str(e)}")

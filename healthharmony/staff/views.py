@@ -154,7 +154,7 @@ def overview(request):
         total_patient = fetch_total_patient()
         previous_patients = fetch_previous_patients(previous_day)
         monthly_medcert, previous_medcert = fetch_monthly_medcert(now, previous_month)
-        previous_medcert = fetch_previous_medcert(previous_month)
+        # previous_medcert = fetch_previous_medcert(previous_month)
         patients = fetch_patients()
         categories = fetch_categories()
         request, sorted_category = get_sorted_category(request)
@@ -272,7 +272,7 @@ def add_inventory(request):
         if form.is_valid():
             form.save(request)
             # clear related cache
-            cache.delete_many(["inventory", "inventory_detailed"])
+            cache.delete("inventory_cache")
     return redirect("staff-inventory")
 
 
@@ -284,7 +284,7 @@ def delete_inventory(request, pk):
         form = DeleteInventoryForm(request.POST)
         if form.is_valid():
             form.save(request, pk)
-            cache.delete_many(["inventory", "inventory_detailed"])
+            cache.delete("inventory_cache")
         else:
             messages.error(request, "Form is invalid. Please try again")
             logger.error("Delete inventory form is invalid")
@@ -299,7 +299,7 @@ def update_inventory(request, pk):
         form = EditInventoryForm(request.POST)
         if form.is_valid():
             form.save(request, pk)
-            cache.delete_many(["inventory", "inventory_detailed"])
+            cache.delete("inventory_cache")
         else:
             messages.error(request, "Form is invalid. Please try again.")
             logger.error("Update inventory form is invalid")
@@ -798,14 +798,22 @@ def get_ambulances(request):
 def get_category_data(request):
     category_data = []
     try:
-        categories = cache.get("category")
-        if not categories:
+        category_cache = cache.get("category_cache", {})
+
+        if not category_cache.get("query"):
             categories = Category.objects.all()
-            cache.set("category", categories, timeout=(60 * 60))
-        if categories:
-            for category in categories:
-                data = CategorySerializer(category)
-                category_data.append(data.data)
+            category_cache["query"] = categories
+            cache.set("category_cache", category_cache, timeout=(60 * 60))
+
+        if not category_cache.get("category_data"):
+            categories = category_cache.get("query")
+            if categories:
+                for category in categories:
+                    data = CategorySerializer(category)
+                    category_data.append(data.data)
+            category_cache["category_data"] = category_data
+        else:
+            category_data = category_cache.get("category_data")
     except Exception as e:
         messages.error(request, "Failed to fetch necessary data. Please reload page.")
         logger.warning(f"Failed to fetch the category data: {str(e)}")
