@@ -181,7 +181,14 @@ def overview(request):
             for department in department_names
         ]
 
-        beds = BedStat.objects.all()
+        bed_cache = cache.get("bed_cache", {})
+
+        beds = bed_cache.get("query")
+
+        if not beds:
+            beds = BedStat.objects.all()
+            bed_cache["query"] = beds
+            cache.set("bed_cache", bed_cache, timeout=(120 * 60))
 
         context.update(
             {

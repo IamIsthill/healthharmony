@@ -37,7 +37,7 @@ function remove_error_show() {
     for (const element of error_elements) {
         setTimeout(() => {
             element.remove()
-        }, 2000)
+        }, 4000)
     }
 }
 
