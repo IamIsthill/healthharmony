@@ -477,10 +477,12 @@ def records(request):
 
 def fetch_patient_list(request):
     try:
-        patient_list = cache.get("patients")
+        user_cache = cache.get("user_cache", {})
+        patient_list = user_cache.get("patients")
         if not patient_list:
             patient_list = User.objects.filter(access=1)
-            cache.set("patients", patient_list, timeout=(60 * 60))
+            user_cache["patients"] = patient_list
+            cache.set("user_cache", user_cache, timeout=(60 * 120))
     except Exception as e:
         logger.info(f"{request.user.email} failed to fetch patient list: {str(e)}")
     finally:
@@ -807,20 +809,23 @@ def get_category_data(request):
     try:
         category_cache = cache.get("category_cache", {})
 
-        if not category_cache.get("query"):
+        category_data = category_cache.get("category_data")
+        categories = category_cache.get("query")
+
+        if not categories:
             categories = Category.objects.all()
             category_cache["query"] = categories
-            cache.set("category_cache", category_cache, timeout=(60 * 60))
+            cache.set("category_cache", category_cache, timeout=(60 * 120))
 
-        if not category_cache.get("category_data"):
-            categories = category_cache.get("query")
+        if not category_data:
+            category_data = []
             if categories:
                 for category in categories:
                     data = CategorySerializer(category)
                     category_data.append(data.data)
             category_cache["category_data"] = category_data
-        else:
-            category_data = category_cache.get("category_data")
+            cache.set("category_cache", category_cache, timeout=(60 * 120))
+
     except Exception as e:
         messages.error(request, "Failed to fetch necessary data. Please reload page.")
         logger.warning(f"Failed to fetch the category data: {str(e)}")
