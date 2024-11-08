@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 import logging
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.contrib.auth.decorators import login_required
+from django.core.cache import cache
 
 # models
 from healthharmony.users.models import User, Department
@@ -87,20 +88,34 @@ def account_view(request):
         form = AdminUserCreationForm(request.POST)
         if form.is_valid():
             form.save(request)
+
+            # delete cache
+            cache.delete("users")
+
             return redirect("admin-accounts")
         else:
             messages.error(request, "Please correct the errors.")
 
     try:
-        users = User.objects.filter(access__lte=4)
-        departments = Department.objects.all()
+        users = cache.get("users")
+
+        departments = cache.get("department")
+
+        if not users:
+            users = User.objects.all()
+            cache.set("users", users, timeout=(60 * 15))
+
+        if not departments:
+            departments = Department.objects.all()
+            cache.set("departments", departments, timeout=(60 * 15))
 
         # serialize users
         user_data = []
         if users:
             for user in users:
-                data = UserSerializer(user)
-                user_data.append(data.data)
+                if user.access <= 4:
+                    data = UserSerializer(user)
+                    user_data.append(data.data)
 
         user_page = account_paginate_user(request, users)
 
@@ -159,6 +174,9 @@ def post_update_user_access(request):
         )
         logger.info(f"{request.user.email} has changed the access for user[{user.id}]")
         messages.success(request, f"Successfully update the access for {user.email}")
+
+        # delete cache
+        cache.delete("users")
     return redirect("admin-accounts")
 
 
@@ -186,6 +204,9 @@ def post_delete_user(request):
             action=f"{request.user.email} has deleted user[{user.id}]",
         )
         messages.success(request, f"Successfully deleted user with email {user.email}")
+
+        # delete cache
+        cache.delete("users")
     return redirect("admin-accounts")
 
 

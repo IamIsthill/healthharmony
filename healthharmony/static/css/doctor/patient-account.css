@@ -106,7 +106,7 @@ form input{
 .visit-row span{
     width: 40%;
 }
-.vital-left, .vital-right, .detailed-left, .detailed-right{
+.vital-left, .vital-right{
     width: 50%;
     display: flex;
     flex-direction: column;
@@ -121,9 +121,7 @@ form input{
 .vital-left span , .vital-right p {
     font-size: var(--size-xl);
 }  
-.detailed-left span, .detailed-right p{
-    font-size: var(--size-lg);
-}
+
 .vital-right p, .detailed-right p{
     color: #7f8894;
 }
@@ -352,6 +350,14 @@ form input{
         width: 33rem;
     }
  }
+ @media (max-width: 1470px) {
+    .js-illness{
+        width: 29rem;
+    }
+    .js-illness-note-btn{
+        font-size: var(--size-sm);
+    }
+ }
  @media (max-width: 1380px) {
     .top-part{
         display: flex;
@@ -386,14 +392,8 @@ form input{
     .vital-left span , .vital-right p {
         font-size: var(--size-base);
     }  
-    .detailed-left span, .detailed-right p{
+    .detailed-top button, .js-edit-illness-btn{
         font-size: var(--size-sm);
-    }
-    .detailed-top button, .js-edit-illness-btn, .js-illness-note-btn{
-        font-size: var(--size-sm);
-    }
-    .js-illness{
-        width: 29rem;
     }
     .visit-right{
         width: 70%;
@@ -428,3 +428,4 @@ form input{
  @media (max-width: 475px) {
 
  }
+ 
