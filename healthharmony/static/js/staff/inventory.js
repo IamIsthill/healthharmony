@@ -388,7 +388,10 @@ function listenToSearchBtn() {
         } = getInitParamsForInventorySorter(getActiveFilter)
         const inventory = getSortedInventoryData(filter, inventorySort, sortDirection)
         const filteredInventory = searchInventory(inventory)
-        createLogicInventoryTable()
+        updateInventoryTable(filteredInventory)
+        listenToInventoryButtons()
+        listenToInventoryDeleteButtons()
+        // createLogicInventoryTable()
     })
 }
 

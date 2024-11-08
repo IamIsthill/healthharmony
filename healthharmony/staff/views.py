@@ -13,6 +13,7 @@ from django.db.models import (
     DateTimeField,
     Q,
 )
+from django.core.cache import cache
 from django.db.models.functions import Coalesce
 from django.utils import timezone
 from django.contrib import messages
@@ -152,7 +153,7 @@ def overview(request):
         today_patient = fetch_today_patient(now)
         total_patient = fetch_total_patient()
         previous_patients = fetch_previous_patients(previous_day)
-        monthly_medcert = fetch_monthly_medcert(now)
+        monthly_medcert, previous_medcert = fetch_monthly_medcert(now, previous_month)
         previous_medcert = fetch_previous_medcert(previous_month)
         patients = fetch_patients()
         categories = fetch_categories()
@@ -231,25 +232,28 @@ def add_issue(request):
 def inventory(request):
     if request.user.access < 2:
         return redirect("patient-overview")
-    with ThreadPoolExecutor(max_workers=2) as tp:
-        futures = {
-            tp.submit(fetch_inventory, InventoryDetail, Sum, request): "inventory",
-            tp.submit(get_sorted_inventory_list, request): "sorted_inventory",
-            tp.submit(get_counted_inventory, request): "counted_inventory",
-        }
-        results = {}
+    # with ThreadPoolExecutor(max_workers=2) as tp:
+    #     futures = {
+    #         tp.submit(fetch_inventory, InventoryDetail, Sum, request): "inventory",
+    #         tp.submit(get_sorted_inventory_list, request): "sorted_inventory",
+    #         tp.submit(get_counted_inventory, request): "counted_inventory",
+    #     }
+    #     results = {}
 
-        for future in as_completed(futures):
-            key = futures[future]
-            try:
-                results[key] = future.result()
-            except Exception as e:
-                logger.error(f"{key} generated an exception: {e}")
-                results[key] = 0
+    #     for future in as_completed(futures):
+    #         key = futures[future]
+    #         try:
+    #             results[key] = future.result()
+    #         except Exception as e:
+    #             logger.error(f"{key} generated an exception: {e}")
+    #             results[key] = 0
 
-    request, inventory = results["inventory"]
-    request, sorted_inventory = results["sorted_inventory"]
-    request, counted_inventory = results["counted_inventory"]
+    # request, inventory = results["inventory"]
+    # request, sorted_inventory = results["sorted_inventory"]
+    # request, counted_inventory = results["counted_inventory"]
+    request, inventory = fetch_inventory(InventoryDetail, Sum, request)
+    request, sorted_inventory = get_sorted_inventory_list(request)
+    request, counted_inventory = get_counted_inventory(request)
     context = {
         "page": "inventory",
         "inventory": list(inventory),
@@ -267,6 +271,8 @@ def add_inventory(request):
         form = AddInventoryForm(request.POST)
         if form.is_valid():
             form.save(request)
+            # clear related cache
+            cache.delete_many(["inventory", "inventory_detailed"])
     return redirect("staff-inventory")
 
 
@@ -278,6 +284,7 @@ def delete_inventory(request, pk):
         form = DeleteInventoryForm(request.POST)
         if form.is_valid():
             form.save(request, pk)
+            cache.delete_many(["inventory", "inventory_detailed"])
         else:
             messages.error(request, "Form is invalid. Please try again")
             logger.error("Delete inventory form is invalid")
@@ -292,6 +299,7 @@ def update_inventory(request, pk):
         form = EditInventoryForm(request.POST)
         if form.is_valid():
             form.save(request, pk)
+            cache.delete_many(["inventory", "inventory_detailed"])
         else:
             messages.error(request, "Form is invalid. Please try again.")
             logger.error("Update inventory form is invalid")
@@ -364,29 +372,35 @@ def records(request):
     email = env("EMAIL_ADD")
     context = {"page": "records", "email": email}
     try:
-        with ThreadPoolExecutor(max_workers=5) as tp:
-            futures = {
-                tp.submit(fetch_history, Illness, IllnessSerializer): "fetch_history",
-                tp.submit(
-                    fetch_certificate_chart, timezone, Certificate, relativedelta
-                ): "fetch_certificate_chart",
-                tp.submit(fetch_certificates, Certificate, F): "fetch_certificates",
-                tp.submit(fetch_patient_list, request): "fetch_patient_list",
-            }
-            results = {}
+        # with ThreadPoolExecutor(max_workers=5) as tp:
+        #     futures = {
+        #         tp.submit(fetch_history, Illness, IllnessSerializer): "fetch_history",
+        #         tp.submit(
+        #             fetch_certificate_chart, timezone, Certificate, relativedelta
+        #         ): "fetch_certificate_chart",
+        #         tp.submit(fetch_certificates, Certificate, F): "fetch_certificates",
+        #         tp.submit(fetch_patient_list, request): "fetch_patient_list",
+        #     }
+        #     results = {}
 
-            for future in as_completed(futures):
-                key = futures[future]
-                try:
-                    results[key] = future.result()
-                except Exception as e:
-                    logger.error(f"{key} generated an exception: {e}")
-                    results[key] = 0
+        #     for future in as_completed(futures):
+        #         key = futures[future]
+        #         try:
+        #             results[key] = future.result()
+        #         except Exception as e:
+        #             logger.error(f"{key} generated an exception: {e}")
+        #             results[key] = 0
 
-        history, history_data = results["fetch_history"]
-        certificate_chart = results["fetch_certificate_chart"]
-        certificates = results["fetch_certificates"]
-        patient_list = results["fetch_patient_list"]
+        # history, history_data = results["fetch_history"]
+        # certificate_chart = results["fetch_certificate_chart"]
+        # certificates = results["fetch_certificates"]
+        # patient_list = results["fetch_patient_list"]
+        history, history_data = fetch_history(Illness, IllnessSerializer)
+        certificate_chart = fetch_certificate_chart(
+            timezone, Certificate, relativedelta
+        )
+        certificates = fetch_certificates(Certificate, F)
+        patient_list = fetch_patient_list(request)
 
         paginator = Paginator(history, 10)
         page = request.GET.get("page")
@@ -448,6 +462,7 @@ def records(request):
         )
         logger.info(f"{request.user.email} updated certificate[{certificate.id}]")
         messages.success(request, "Successfully updated certificate request status")
+        cache.delete_many(["certificates", "certificates_detailed"])
         return redirect("staff-records")
 
     return render(request, "staff/records.html", context)
@@ -455,7 +470,10 @@ def records(request):
 
 def fetch_patient_list(request):
     try:
-        patient_list = User.objects.filter(access=1)
+        patient_list = cache.get("patients")
+        if not patient_list:
+            patient_list = User.objects.filter(access=1)
+            cache.set("patients", patient_list, timeout=(60 * 60))
     except Exception as e:
         logger.info(f"{request.user.email} failed to fetch patient list: {str(e)}")
     finally:
@@ -765,7 +783,10 @@ def post_create_wheelchair(request):
 def get_ambulances(request):
     ambulances = None
     try:
-        ambulances = Ambulansya.objects.all()
+        ambulances = cache.get("ambulances")
+        if not ambulances:
+            ambulances = Ambulansya.objects.all()
+            cache.set("ambulances", ambulances, timeout=(60 * 60))
     except Exception as e:
         logger.warning(f"Failed to fetch the ambulances: {str(e)}")
         messages.error(request, "Failed to fetch necessary data. Please reload page.")
@@ -777,7 +798,10 @@ def get_ambulances(request):
 def get_category_data(request):
     category_data = []
     try:
-        categories = Category.objects.all()
+        categories = cache.get("category")
+        if not categories:
+            categories = Category.objects.all()
+            cache.set("category", categories, timeout=(60 * 60))
         if categories:
             for category in categories:
                 data = CategorySerializer(category)
@@ -793,8 +817,14 @@ def get_category_data(request):
 def get_wheelchairs(request):
     wheelchair_data = {}
     try:
-        avail_wheelchairs = WheelChair.objects.filter(is_avail=True)[:1]
-        unavail_wheelchairs = WheelChair.objects.filter(is_avail=False)[:1]
+        avail_wheelchairs = cache.get("avail_wheelchairs")
+        if not avail_wheelchairs:
+            avail_wheelchairs = WheelChair.objects.filter(is_avail=True)[:1]
+            cache.set("avail_wheelchairs", avail_wheelchairs, timeout=(60 * 60))
+        unavail_wheelchairs = cache.get("unavail_wheelchairs")
+        if not unavail_wheelchairs:
+            unavail_wheelchairs = WheelChair.objects.filter(is_avail=False)[:1]
+            cache.set("unavail_wheelchairs", unavail_wheelchairs, timeout=(60 * 60))
         for wheel in avail_wheelchairs:
             wheelchair_data.update(
                 {
