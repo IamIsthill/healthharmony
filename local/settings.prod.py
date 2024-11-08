@@ -45,6 +45,15 @@ DATABASES = {
     }
 }
 
+if env.bool("CLOUD", True):
+    CACHES = {
+        "default": {
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": "redis://redis:6379/",
+            "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+        }
+    }
+
 # AWS Configuration for Static files
 AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY")
 
