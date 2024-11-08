@@ -940,19 +940,24 @@ def fetch_history(Illness, IllnessSerializer):
     history = None
     history_data = None
     try:
-        history = cache.get("illness")
+        illness_cache = cache.get("illness_cache", {})
+        history = illness_cache.get("query")
+        history_data = illness_cache.get("illness_data")
+
         if not history:
             history = Illness.objects.all()
-            cache.set("illness", history, timeout=(60 * 60))
+            illness_cache["query"] = history
+            cache.set("illness_cache", illness_cache, timeout=(60 * 120))
 
+        if not history_data:
             history_data = []
+
             for hist in history:
                 data = IllnessSerializer(hist)
                 history_data.append(data.data)
 
-            cache.set("illness_history_data", history_data, timeout=(60 * 60))
-        else:
-            history_data = cache.get("illness_history_data")
+            illness_cache["illness_data"] = history_data
+            cache.set("illness_cache", illness_cache, timeout=(60 * 120))
 
     except Exception as e:
         logger.info(f"{e}")
@@ -970,12 +975,18 @@ def fetch_certificate_chart(timezone, Certificate, relativedelta):
 
     start = now - relativedelta(months=11)
 
-    certificates = cache.get("certificates")
+    certificate_cache = cache.get("certificate_cache", {})
+    certificates = certificate_cache.get("query")
+    certificate_chart = certificate_cache.get("certificate_chart")
+
     if not certificates:
         certificates = Certificate.objects.all()
-        cache.set("certificates", certificates, timeout=(60 * 60))
         connection.close()
+        certificate_cache["query"] = certificates
+        cache.set("certificate_cache", certificate_cache, timeout=(60 * 120))
 
+    if not certificate_chart:
+        certificate_chart = {}
         for cert_date in cert_dates:
             start, max_range, date_format, date_loop = get_init_loop_params(
                 cert_date, now
@@ -993,17 +1004,15 @@ def fetch_certificate_chart(timezone, Certificate, relativedelta):
                 certificate_chart[cert_date].append(
                     {f"{main_start.strftime(date_format)}": count}
                 )
-        cache.set(
-            "certificates_certificate_chart", certificate_chart, timeout=(60 * 60)
-        )
-    else:
-        certificate_chart = cache.get("certificates_certificate_chart")
+        certificate_cache["certificate_chart"] = certificate_chart
+        cache.set("certificate_cache", certificate_cache, timeout=(60 * 120))
 
     return certificate_chart
 
 
 def fetch_certificates(Certificate, F):
-    certificates = cache.get("certificates_detailed")
+    certificate_cache = cache.get("certificate_cache", {})
+    certificates = certificate_cache.get("certificates_detailed")
     if not certificates:
         certificates = (
             Certificate.objects.all()
@@ -1024,14 +1033,16 @@ def fetch_certificates(Certificate, F):
                 "last_name",
             )
         )
-        cache.set("certificates_detailed", certificates, timeout=(60 * 60))
+
+        if certificates:
+            for cert in certificates:
+                cert["requested"] = cert["requested"].isoformat()
+        certificate_cache["certificates_detailed"] = certificates
+        cache.set("certificate_cache", certificate_cache, timeout=(60 * 120))
+
     connection.close()
-    if certificates:
-        for cert in certificates:
-            cert["requested"] = cert["requested"].isoformat()
-        return certificates
-    else:
-        return None
+
+    return certificates
 
 
 def fetch_employees(

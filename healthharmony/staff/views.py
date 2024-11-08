@@ -321,6 +321,7 @@ def bed(request):
         try:
             BedStat.objects.create()
             messages.success(request, "New bed has been added!")
+            cache.delete("bed_cache")
         except Exception as e:
             logger.error(f"Failed to create a new bed: {str(e)}")
             messages.error(request, "Failed to add new bed.")
@@ -341,6 +342,7 @@ def bed_handler(request, pk):
                 action=f"Updated BedStat({bed.id}) from {not bed.status} to {bed.status}",
             )
             messages.success(request, "Bed was successfully updated")
+            cache.delete("bed_cache")
         except Exception:
             messages.error(request, "Error fetching bed data")
     return redirect("staff-overview")
@@ -367,6 +369,8 @@ def post_delete_bed(request, pk):
             user=request.user,
             action=f"{request.user.email} successfuly deleted bed instance[{bed.id}]",
         )
+        cache.delete("bed_cache")
+
         logger.info(f"{request.user.email} successfuly deleted bed instance[{bed.id}]")
         messages.success(request, "Successfully deleted bed!")
     return redirect("staff-overview")
@@ -469,7 +473,7 @@ def records(request):
         )
         logger.info(f"{request.user.email} updated certificate[{certificate.id}]")
         messages.success(request, "Successfully updated certificate request status")
-        cache.delete_many(["certificates", "certificates_detailed"])
+        cache.delete("certificate_cache")
         return redirect("staff-records")
 
     return render(request, "staff/records.html", context)
@@ -529,6 +533,7 @@ def post_add_patient(request):
 
             logger.info(f"Email was sent to: {patient.email}")
             messages.success(request, "Patient has been added to the system.")
+            cache.clear()
         else:
             logger.info(f"User {patient.email} already exists.")
             messages.error(request, f"User {patient.email} already exists.")
