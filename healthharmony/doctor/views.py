@@ -239,25 +239,49 @@ def handled_cases(request):
 
     else:
         try:
-            illness_cases = Illness.objects.filter(
-                Q(doctor=request.user) | Q(staff=request.user)
-            )
+            illness_cache = cache.get("illness_cache", {})
+            illness_cases = illness_cache.get(f"{request.user.email}")
+            if not illness_cases:
+                illness_cases = Illness.objects.filter(
+                    Q(doctor=request.user) | Q(staff=request.user)
+                )
+                illness_cache[f"{request.user.email}"] = illness_cases
+                cache.set("illness_cache", illness_cache, timeout=(120 * 60))
         except Exception as e:
             logger.info(f"Failed to fetch the illness cases: {str(e)}")
             messages.error(request, "Failed to fetch required data. Please reload page")
             return redirect(request.META.get("HTTP_REFERER", "doctor-overview"))
 
     try:
-        unfiltered_illness_case = Illness.objects.filter(
-            Q(doctor=request.user) | Q(staff=request.user)
-        )
+        illness_cache = cache.get("illness_cache", {})
+        unfiltered_illness_case = illness_cache.get(f"{request.user.email}")
+        if not unfiltered_illness_case:
+            unfiltered_illness_case = Illness.objects.filter(
+                Q(doctor=request.user) | Q(staff=request.user)
+            )
+            illness_cache[f"{request.user.email}"] = unfiltered_illness_case
+            cache.set("illness_cache", illness_cache, timeout=(120 * 60))
+
     except Exception as e:
         logger.info(f"Failed to fetch the unfiltered illness cases: {str(e)}")
         messages.error(request, "Failed to fetch required data. Please reload page")
         return redirect(request.META.get("HTTP_REFERER", "doctor-overview"))
 
-    department_data = get_doctors_cases_per_department(unfiltered_illness_case)
-    illness_category_data = get_doctors_cases_per_category(unfiltered_illness_case)
+    department_data = illness_cache.get(f"{request.user.email}_department_data")
+    if not department_data:
+        department_data = get_doctors_cases_per_department(unfiltered_illness_case)
+        illness_cache[f"{request.user.email}_department_data"] = department_data
+        cache.set("illness_cache", illness_cache, timeout=(120 * 60))
+
+    illness_category_data = illness_cache.get(
+        f"{request.user.email}_illness_category_data"
+    )
+    if not illness_category_data:
+        illness_category_data = get_doctors_cases_per_category(unfiltered_illness_case)
+        illness_cache[
+            f"{request.user.email}_illness_category_data"
+        ] = illness_category_data
+        cache.set("illness_cache", illness_cache, timeout=(120 * 60))
 
     illness_page = get_illness_page(request, illness_cases)
 
@@ -440,6 +464,7 @@ def get_doctors_cases_per_department(illness_cases):
                 department_data.append(
                     {"department_id": 0, "department_name": "Others", "cases_count": 1}
                 )
+
     return department_data
 
 
@@ -504,9 +529,16 @@ def get_illness_case(search, request):
 
         # If search query is empty, show all illness cases for the user
     else:
-        illness_cases = Illness.objects.filter(
-            Q(doctor=request.user) | Q(staff=request.user)
-        )
+        illness_cache = cache.get("illness_cache", {})
+
+        illness_cases = illness_cache.get(f"{request.user.email}")
+
+        if not illness_cases:
+            illness_cases = Illness.objects.filter(
+                Q(doctor=request.user) | Q(staff=request.user)
+            )
+            illness_cache[f"{request.user.email}"] = illness_cases
+            cache.set("illness_cache", illness_cache, timeout=(60 * 120))
 
     return illness_cases
 
