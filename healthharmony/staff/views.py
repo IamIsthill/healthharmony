@@ -12,6 +12,7 @@ from django.db.models import (
     Count,
     DateTimeField,
     Q,
+    Max,
 )
 from django.core.cache import cache
 from django.db.models.functions import Coalesce
@@ -608,31 +609,39 @@ def patients_and_accounts(request):
         return redirect("patient-overview")
     context = {}
     try:
-        last_visit = Illness.objects.filter(patient=OuterRef("pk")).values("added")
-        patients = (
-            User.objects.filter(access=1)
-            .annotate(
-                department_name=F("department__department"),
-                last_visit=Coalesce(
-                    Subquery(last_visit[:1]), Value(None), output_field=CharField()
-                ),
+        illness_cache = cache.get("illness_cache", {})
+
+        patients = illness_cache.get("accounts_patients")
+        if not patients:
+            last_visit = Illness.objects.filter(patient=OuterRef("pk")).values("added")
+            patients = (
+                User.objects.filter(access=1)
+                .annotate(
+                    department_name=F("department__department"),
+                    last_visit=Coalesce(
+                        Subquery(last_visit[:1]), Value(None), output_field=CharField()
+                    ),
+                )
+                .distinct()
+                .values(
+                    "last_visit",
+                    "first_name",
+                    "last_name",
+                    "profile",
+                    "id",
+                    "date_joined",
+                    "department_name",
+                    "email",
+                    "department",
+                )
             )
-            .distinct()
-            .values(
-                "last_visit",
-                "first_name",
-                "last_name",
-                "profile",
-                "id",
-                "date_joined",
-                "department_name",
-                "email",
-                "department",
-            )
-        )
-        for patient in patients:
-            if patient["date_joined"]:
-                patient["date_joined"] = patient["date_joined"].isoformat()
+            for patient in patients:
+                if patient["date_joined"]:
+                    patient["date_joined"] = patient["date_joined"].isoformat()
+
+            illness_cache["accounts_patients"] = patients
+            cache.set("illness_cache", illness_cache, timeout=(60 * 120))
+
         patients_paginator = Paginator(patients, 10)
 
         try:
@@ -644,35 +653,79 @@ def patients_and_accounts(request):
             patients_page = patients_paginator.page(patients_paginator.num_pages)
             logger.error("No page was set")
 
-        last_department_visit = (
-            Illness.objects.filter(patient=OuterRef("pk"))
-            .exclude(added__isnull=True)
-            .order_by("-added")
-            .values("added")
-        )
+        # last_department_visit = (
+        #     Illness.objects.filter(patient=OuterRef("pk"))
+        #     .exclude(added__isnull=True)
+        #     .order_by("-added")
+        #     .values("added")
+        # )
 
         # Annotate the departments with the last visit date of any patient in that department
-        departments = (
-            Department.objects.annotate(
-                last_department_visit=Subquery(
-                    User.objects.filter(department=OuterRef("pk"), access=1)
-                    .annotate(
-                        last_department_visit=Coalesce(
-                            Subquery(last_department_visit[:1]),
-                            Value(None),
-                            output_field=CharField(),
-                        )
-                    )
-                    .exclude(last_department_visit__isnull=True)
-                    .values(
-                        "last_department_visit"
-                    )  # Only get the last visit of the first patient in the department
-                ),
-                count=Count("user_department"),
+        # departments = (
+        #     Department.objects.annotate(
+        #         last_department_visit=Subquery(
+        #             User.objects.filter(department=OuterRef("pk"), access=1)
+        #             .annotate(
+        #                 last_department_visit=Coalesce(
+        #                     Subquery(last_department_visit[:1]),
+        #                     Value(None),
+        #                     output_field=CharField(),
+        #                 )
+        #             )
+        #             .exclude(last_department_visit__isnull=True)
+        #             .values(
+        #                 "last_department_visit"
+        #             )  # Only get the last visit of the first patient in the department
+        #         ),
+        #         count=Count("user_department"),
+        #     )
+        #     .distinct()
+        #     .values()
+        # )
+        # departments = (
+        #     Department.objects.annotate(
+        #         last_department_visit=Max(
+        #             "user_department__illness__added",
+        #             filter=Q(user_department__access=1)
+        #         ),
+        #         user_count=Count("user_department", filter=Q(user_department__access=1))
+        #     ).values("id", "name", "last_department_visit", "user_count")
+        # )
+        department_cache = cache.get("department_cache", {})
+        departments = department_cache.get("query")
+        if not departments:
+            departments = Department.objects.all()
+            department_cache["query"] = departments
+            cache.set("department_cache", department_cache, timeout=(60 * 120))
+
+        department_data = illness_cache.get("accounts_department_data")
+        if not department_data:
+            department_data = []
+            illnesses = (
+                Illness.objects.all().exclude(added__isnull=True).order_by("-added")
             )
-            .distinct()
-            .values()
-        )
+            department_data = []
+            for department in departments:
+                department.count = 0
+                department.last_department_visit = None
+                for illness in illnesses:
+                    if illness.patient.department == department:
+                        department.count += 1
+
+                        if department.count == 1:
+                            department.last_department_visit = illness.added
+                department_data.append(
+                    {
+                        "id": department.id,
+                        "department": department.department,
+                        "count": department.count,
+                        "last_department_visit": department.last_department_visit,
+                    }
+                )
+            illness_cache["accounts_department_data"] = department_data
+            cache.set("illness_cache", illness_cache, timeout=(60 * 120))
+
+        # print(departments)
         employees = fetch_employees(
             OuterRef, Coalesce, Subquery, Value, DateTimeField, messages, request
         )
@@ -681,8 +734,8 @@ def patients_and_accounts(request):
             {
                 "patients": list(patients),
                 "patients_page": patients_page,
-                "departments": departments,
-                "departmentData": list(departments),
+                "departments": department_data,
+                "departmentData": list(department_data),
                 "employees": employees,
                 "employeeData": list(employees),
                 "page": "accounts",
@@ -715,6 +768,8 @@ def add_department(request):
                     action=f"New department instance has been created[id:{department.id}]",
                 )
 
+                cache.delete_many(["department_cache", "illness_cache"])
+
             else:
                 messages.error(
                     request,
@@ -738,6 +793,8 @@ def delete_department(request, pk):
         form = DeleteDepartmentForm(request.POST)
         if form.is_valid():
             form.save(request, pk)
+            cache.delete_many(["department_cache", "illness_cache"])
+
         else:
             messages.error(request, "Form is invalid. Please try again.")
             logger.info(
@@ -754,6 +811,8 @@ def edit_department(request, pk):
         form = EditDepartmentForm(request.POST)
         if form.is_valid():
             form.save(request, pk)
+            cache.delete_many(["department_cache", "illness_cache"])
+
         else:
             messages.error(request, "Form is invalid. Please try again.")
             logger.info(

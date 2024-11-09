@@ -1049,29 +1049,34 @@ def fetch_employees(
     OuterRef, Coalesce, Subquery, Value, DateTimeField, messages, request
 ):
     try:
-        cases = (
-            Illness.objects.filter(staff=OuterRef("pk"))
-            .order_by("-updated")
-            .values("updated")[:1]
-        )
-        users = (
-            User.objects.filter(access__gte=2, access__lte=3)
-            .annotate(
-                last_case=Coalesce(
-                    Subquery(cases), Value(None), output_field=DateTimeField()
-                ),
-                staff_count=Count("staff_illness"),
-                doctor_count=Count("doctor_illness"),
+        illness_cache = cache.get("illness_cache", {})
+        users = illness_cache.get("clinic_employees")
+        if not users:
+            cases = (
+                Illness.objects.filter(staff=OuterRef("pk"))
+                .order_by("-updated")
+                .values("updated")[:1]
             )
-            .values()
-        )
-        for user in users:
-            if user["DOB"]:
-                user["DOB"] = user["DOB"].isoformat()
-            if user["last_case"]:
-                user["last_case"] = user["last_case"].isoformat()
-            if user["date_joined"]:
-                user["date_joined"] = user["date_joined"].isoformat()
+            users = (
+                User.objects.filter(access__gte=2, access__lte=3)
+                .annotate(
+                    last_case=Coalesce(
+                        Subquery(cases), Value(None), output_field=DateTimeField()
+                    ),
+                    staff_count=Count("staff_illness"),
+                    doctor_count=Count("doctor_illness"),
+                )
+                .values()
+            )
+            for user in users:
+                if user["DOB"]:
+                    user["DOB"] = user["DOB"].isoformat()
+                if user["last_case"]:
+                    user["last_case"] = user["last_case"].isoformat()
+                if user["date_joined"]:
+                    user["date_joined"] = user["date_joined"].isoformat()
+            illness_cache["clinic_employees"] = users
+            cache.set("illness_cache", illness_cache, timeout=(60 * 120))
         logger.info(
             f"{request.user.email} successfully fetched employee instances in staff/accounts"
         )
