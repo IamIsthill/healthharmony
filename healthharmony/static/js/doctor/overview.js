@@ -224,7 +224,6 @@ function add_border_then_remove_to_bars() {
 function create_department_bars_based_active_params() {
     const filtered_department_data = get_department_bar_data(department_data)
     const department_name_with_count = get_department_names_and_counts(filtered_department_data, department_names)
-    console.log(department_name_with_count)
     create_department_bar_canvas(department_name_with_count)
     create_department_bars(department_name_with_count, createBars)
 }

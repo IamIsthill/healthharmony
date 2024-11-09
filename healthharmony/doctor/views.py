@@ -370,22 +370,28 @@ def access_checker(request):
 
 def get_sorted_illness_categories(illness_cases):
     now = timezone.now()
-    illness_categories = []
-    for case in illness_cases:
-        if case.added.month == now.month:
-            if case.illness_category and case.illness_category.category:
-                category_found = False
-                for category in illness_categories:
-                    if category["category"] == case.illness_category.category:
-                        category["count"] += 1  # Increment the count
-                        category_found = True
-                        break
+    illness_cache = cache.get("illness_cache", {})
+    illness_categories = illness_cache.get("doctor_overview_sorted_illness", [])
 
-                # If the category doesn't exist, add it to the list
-                if not category_found:
-                    illness_categories.append(
-                        {"category": case.illness_category.category, "count": 1}
-                    )
+    if not illness_categories:
+
+        for case in illness_cases:
+            if case.added.month == now.month:
+                if case.illness_category and case.illness_category.category:
+                    category_found = False
+                    for category in illness_categories:
+                        if category["category"] == case.illness_category.category:
+                            category["count"] += 1  # Increment the count
+                            category_found = True
+                            break
+
+                    # If the category doesn't exist, add it to the list
+                    if not category_found:
+                        illness_categories.append(
+                            {"category": case.illness_category.category, "count": 1}
+                        )
+        illness_cache["doctor_overview_sorted_illness"] = illness_categories
+        cache.set("illness_cache", illness_cache, timeout=(120 * 60))
 
     return illness_categories
 

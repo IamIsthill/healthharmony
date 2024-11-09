@@ -887,13 +887,13 @@ def fetch_patients():
 def fetch_categories():
     try:
         category_cache = cache.get("category_cache", {})
+        category = category_cache.get("query")
 
-        if not category_cache.get("query"):
+        if not category:
             category = Category.objects.all()
             category_cache["query"] = category
             cache.set("category_cache", category_cache, timeout=None)
-        else:
-            category = category_cache.get("query")
+
     except DatabaseError as e:
         logger.info(f"{e}")
         category = None
