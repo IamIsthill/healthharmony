@@ -67,19 +67,31 @@ def view_patient_profile(request, pk):
     update_patient_view_context(request, context, pk)
 
     try:
-        user = User.objects.get(id=int(pk))
-        patient = UserSerializer(user).data
-        illnesses = []
-        treatments = []
-        illness_query = Illness.objects.filter(patient=user)
-        for illness in illness_query:
-            illnesses.append(IllnessSerializer(illness).data)
-            for treatment in illness.illnesstreatment_set.all():
-                treatments.append(IllnessTreatmentSerializer(treatment).data)
+        user_cache = cache.get("user_cache", {})
+        user = user_cache.get(pk)
+        if not user:
+            user = User.objects.get(id=int(pk))
+            user_cache[pk] = user
+            cache.set("user_cache", user_cache, timeout=(60 * 120))
 
-        if treatments:
-            for treatment in treatments:
-                treatment["quantity"] = treatment["quantity"] * -1
+        patient = UserSerializer(user).data
+
+        treatments = user_cache.get(f"{pk}_treatments", [])
+        illnesses = user_cache.get(f"{pk}_illnesses", [])
+        if not illnesses:
+            illness_query = Illness.objects.filter(patient=user)
+            for illness in illness_query:
+                illnesses.append(IllnessSerializer(illness).data)
+                for treatment in illness.illnesstreatment_set.all():
+                    treatments.append(IllnessTreatmentSerializer(treatment).data)
+            if treatments:
+                for treatment in treatments:
+                    treatment["quantity"] = treatment["quantity"] * -1
+            user_cache[f"{pk}_treatments"] = treatments
+            user_cache[f"{pk}_illnesses"] = illnesses
+
+            cache.set("user_cache", user_cache, timeout=(60 * 120))
+
         context.update(
             {"illnesses": illnesses, "treatments": treatments, "patient": patient}
         )
@@ -322,6 +334,7 @@ def post_update_doctor_time(request):
 
         if form.is_valid():
             form.save(request)
+            cache.delete("doctor_cache")
     return redirect("doctor-schedule")
 
 
@@ -332,6 +345,7 @@ def post_update_doctor_avail(request):
 
         if form.is_valid():
             form.save(request)
+            cache.delete("doctor_cache")
         else:
             logger.info("Form is invalid")
             messages.error(request, "Form is invalid. Please try again.")
@@ -564,11 +578,21 @@ def get_illness_page(request, illness_cases):
 
 def get_department_data(request, context):
     try:
-        departments = Department.objects.all()
-        department_data = []
-        for department in departments:
-            data = DepartmentSerializer(department)
-            department_data.append(data.data)
+        department_cache = cache.get("department_cache", {})
+        departments = department_cache.get("query")
+        if not departments:
+            departments = Department.objects.all()
+            department_cache["query"] = departments
+            cache.set("department_cache", department_cache, timeout=(120 * 60))
+
+        department_data = department_cache.get("department_data", [])
+        if not department_data:
+            for department in departments:
+                data = DepartmentSerializer(department)
+                department_data.append(data.data)
+            department_cache["department_data"] = department_data
+            cache.set("department_cache", department_cache, timeout=(120 * 60))
+
         context.update({"department_data": department_data})
 
     except Exception as e:
@@ -580,13 +604,17 @@ def get_department_data(request, context):
 
 def get_related_illness_notes(request, context, user):
     try:
-        illness_notes = IllnessNote.objects.filter(patient=user)
-        illness_notes_data = []
+        note_cache = cache.get("note_cache", {})
+        illness_notes_data = note_cache.get(user.id, [])
+        if not illness_notes_data:
+            illness_notes = IllnessNote.objects.filter(patient=user)
 
-        if illness_notes:
-            for notes in illness_notes:
-                data = IllnessNoteSerializer(notes)
-                illness_notes_data.append(data.data)
+            if illness_notes:
+                for notes in illness_notes:
+                    data = IllnessNoteSerializer(notes)
+                    illness_notes_data.append(data.data)
+            note_cache[user.id] = illness_notes_data
+            cache.set("note_cache", note_cache, timeout=(120 * 60))
 
         context.update({"illness_notes_data": illness_notes_data})
 

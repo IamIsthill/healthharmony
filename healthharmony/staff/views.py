@@ -105,7 +105,7 @@ def add_patient(request):
 
 @login_required(login_url="account_login")
 def overview(request):
-    check_models()
+    # check_models()
     if request.user.access < 2:
         return redirect("patient-overview")
     now = timezone.now()
