@@ -327,7 +327,9 @@ function listenToCategoryBarFilters() {
             btn.classList.add('js-category-bar-filter-btn')
             btn.classList.add('bar-btn-active')
             const filter = btn.getAttribute('data-category-data')
+            createMorbidityBarCanvas(getBarCounts(categoryData[filter]))
             selectEachMorbidityBarThenCreateBars(getBarCounts(categoryData[filter]), createBars)
+            handle_hover_illness_info()
         })
     }
 }
@@ -343,7 +345,9 @@ function listenToDepartmentBarFilters() {
             btn.classList.add('js-department-bar-filter-btn')
             btn.classList.add('bar-btn-active')
             const filter = btn.getAttribute('data-category-data')
+            createDepartmentBarCanvas(getBarCounts(departmentData[filter]))
             selectEachDepartmentBarThenCreateBars(getBarCounts(departmentData[filter]), createBars)
+            handle_hover_illness_info()
         })
     }
 }
