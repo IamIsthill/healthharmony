@@ -302,7 +302,12 @@ def schedule(request):
     context = {"page": "Schedule"}
 
     try:
-        doctor_sched = DoctorDetail.objects.filter(doctor=request.user).values()
+        doctor_cache = cache.get("doctor_cache", {})
+        doctor_sched = doctor_cache.get(f"{request.user.email}")
+        if not doctor_sched:
+            doctor_sched = DoctorDetail.objects.filter(doctor=request.user).values()
+            doctor_cache[f"{request.user.email}"] = doctor_sched
+            cache.set("doctor_cache", doctor_cache, timeout=(120 * 60))
         context.update({"doctor_sched": doctor_sched[0]})
     except Exception as e:
         logger.info(f"{request.user.email} has no schedule: {str(e)}")

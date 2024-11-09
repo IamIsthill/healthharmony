@@ -109,11 +109,11 @@ ASGI_APPLICATION = "healthharmony.app.asgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
-#     }
-# }
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

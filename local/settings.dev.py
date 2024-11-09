@@ -1,6 +1,7 @@
 from healthharmony.app.settings.logging import LOGGING
 from healthharmony.app.settings import BASE_DIR
 import os
+from healthharmony.app.settings import env
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -33,3 +34,12 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost",
     "http://localhost:8000",
 ]
+
+if env.bool("CLOUD", True):
+    CACHES = {
+        "default": {
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": "redis://0.0.0.0:6379/",
+            "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+        }
+    }
