@@ -1,9 +1,3 @@
-// import {
-//     create_department_bar_canvas,
-//     create_department_bars,
-//     get_department_bar_data,
-//     get_department_names_and_counts
-// } from '/static/js/doctor/overview-bar.js'
 import {
     create_morbidity_chart,
     get_active_illness,
@@ -14,14 +8,23 @@ import {
     getCountsAndLabelsForChart,
     createChart,
     createBars,
+    getCurrentUrl
 } from '../utils.js'
 
-import * as overview_module from './overview-bar.js';
+import {
+    create_department_bar_canvas,
+    create_department_bars,
+    get_department_bar_data,
+    get_department_names_and_counts
+} from './overview-bar.js';
 
-const create_department_bar_canvas = overview_module.create_department_bar_canvas
-const create_department_bars = overview_module.create_department_bars
-const get_department_bar_data = overview_module.get_department_bar_data
-const get_department_names_and_counts = overview_module.get_department_names_and_counts
+// import * as overview_module from './overview-bar.js';
+
+// const create_department_bar_canvas = overview_module.create_department_bar_canvas
+// const create_department_bars = overview_module.create_department_bars
+// const get_department_bar_data = overview_module.get_department_bar_data
+// const get_department_names_and_counts = overview_module.get_department_names_and_counts
+// overview_module.
 
 
 const illness_data = JSON.parse(document.getElementById('illness_data').textContent)
@@ -59,7 +62,8 @@ function handle_onclick_illness_status() {
             btn.classList.add('js-illness-filter-active')
             btn.classList.add('button_cat-active')
             const filtered_illness_data = get_filtered_illness_data()
-            update_illness_table(filtered_illness_data)
+            const paginated_data = paginateArray(filtered_illness_data)
+            update_illness_table(paginated_data)
             handle_onclick_review_illness()
         })
     }
@@ -230,4 +234,34 @@ function create_department_bars_based_active_params() {
     const department_name_with_count = get_department_names_and_counts(filtered_department_data, department_names)
     create_department_bar_canvas(department_name_with_count)
     create_department_bars(department_name_with_count, createBars)
+}
+
+
+// Get current page and then paginate array
+function paginateArray(array) {
+    const url = getCurrentUrl()
+
+    let page = url.searchParams.get('page')
+    if (!page) {
+        page = 1
+    }
+
+    page = parseInt(page)
+    let itemStart = page * 10 - 9
+    let itemEnd = page * 10
+    if (itemStart > array.length) {
+        page = Math.ceil(array.length / 10)
+        itemStart = page * 10 - 9
+        itemEnd = page * 10
+
+    }
+    let paginatedArray = []
+
+    for (let key in array) {
+        key = parseInt(key)
+        if (key + 1 >= itemStart && key + 1 <= itemEnd) {
+            paginatedArray.push(array[key])
+        }
+    }
+    return paginatedArray
 }
