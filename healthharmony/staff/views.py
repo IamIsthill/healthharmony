@@ -592,6 +592,8 @@ def create_patient_add_issue(request):
             )
             logger.info(f"Logged data change for illness record id [{visit.id}]")
 
+            cache.delete_many(["user_cache", "department_cache", "illness_cache"])
+
         except Exception as e:
             messages.error(request, "System faced some error")
             logger.error(f"Error occurred while creating patient or issue: {str(e)}")
@@ -830,6 +832,7 @@ def post_create_update_ambulance(request):
         form = CreateUpdateAmbulance(request.POST)
         if form.is_valid():
             form.save(request)
+            cache.delete("ambulances")
         else:
             logger.info("CreateUpdateAmbulance is invalid")
             messages.error(request, "Submitted data is invalid. Please try again")
@@ -847,6 +850,7 @@ def post_create_wheelchair(request):
 
         if form.is_valid():
             form.save(request)
+            cache.delete_many(["avail_wheelchairs", "unavail_wheelchairs"])
         else:
             logger.info("CreateWheelChairQuantity is invalid")
             messages.error(request, "Submitted data is invalid. Please try again")
