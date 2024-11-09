@@ -147,8 +147,13 @@ def overview_view(request):
     if request.user.access < 3:
         return redirect("staff-overview")
 
-    illness_cases = Illness.objects.all()
-    illness_data = []
+    illness_cache = cache.get("illness_cache", {})
+    illness_cases = illness_cache.get("query")
+
+    if not illness_cases:
+        illness_cases = Illness.objects.all()
+        illness_cache["query"] = illness_cases
+        cache.set("illness_cache", illness_cache, timeout=(60 * 120))
 
     illness_paginator = Paginator(illness_cases, 20)
     page = request.GET.get("page")
@@ -180,9 +185,13 @@ def overview_view(request):
     #             logger.error(f"{key} generated an exception: {exc}")
     #             results[key] = 0
 
-    for case in illness_cases:
-        data = IllnessSerializer(case).data
-        illness_data.append(data)
+    illness_data = illness_cache.get("illness_data", [])
+    if not illness_data:
+        for case in illness_cases:
+            data = IllnessSerializer(case).data
+            illness_data.append(data)
+        illness_cache["illness_data"] = illness_data
+        cache.set("illness_cache", illness_cache, timeout=(120 * 60))
 
     # illness_categories = results["illness_categories"]
     # request, department_names = results["department_names"]

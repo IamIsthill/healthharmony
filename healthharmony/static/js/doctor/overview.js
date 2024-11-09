@@ -18,14 +18,6 @@ import {
     get_department_names_and_counts
 } from './overview-bar.js';
 
-// import * as overview_module from './overview-bar.js';
-
-// const create_department_bar_canvas = overview_module.create_department_bar_canvas
-// const create_department_bars = overview_module.create_department_bars
-// const get_department_bar_data = overview_module.get_department_bar_data
-// const get_department_names_and_counts = overview_module.get_department_names_and_counts
-// overview_module.
-
 
 const illness_data = JSON.parse(document.getElementById('illness_data').textContent)
 const department_names = JSON.parse(document.getElementById('department_names').textContent)
@@ -122,7 +114,7 @@ function update_illness_table(filtered_illness_data) {
             let patient = ''
 
             if(illness.patient_first_name && illness.patient_last_name) {
-                patient = `${illness.patient_first_name} ${illness.patient_first_name}`
+                patient = `${illness.patient_first_name} ${illness.patient_last_name}`
 
             }
             else {
@@ -201,10 +193,10 @@ function handle_onclick_department_filters() {
     for (const btn of btns) {
         btn.addEventListener('click', () => {
             for (const btn of btns) {
-                btn.classList.remove('.js-department-bar-btn-active')
+                btn.classList.remove('js-department-bar-btn-active')
                 btn.classList.remove('bar-btn-active')
             }
-            btn.classList.add('.js-department-bar-btn-active')
+            btn.classList.add('js-department-bar-btn-active')
             btn.classList.add('bar-btn-active')
             create_department_bars_based_active_params()
             add_border_then_remove_to_bars()
@@ -232,6 +224,7 @@ function add_border_then_remove_to_bars() {
 function create_department_bars_based_active_params() {
     const filtered_department_data = get_department_bar_data(department_data)
     const department_name_with_count = get_department_names_and_counts(filtered_department_data, department_names)
+    console.log(department_name_with_count)
     create_department_bar_canvas(department_name_with_count)
     create_department_bars(department_name_with_count, createBars)
 }
