@@ -127,12 +127,14 @@ def post_update_patient_illness(request, pk):
             messages.error(request, "Failed to update patient's case.")
             logger.warning("Illness form is invalid")
 
-        if prescription_form.is_valid():
+        if illness_form.is_valid() and prescription_form.is_valid():
             prescription_form.save(request)
 
         else:
             messages.error(request, "Failed to update patient's case.")
             logger.warning("Prescription form is invalid")
+
+        cache.delete_many(["inventory_cache", "user_cache", "illness_cache"])
 
         return redirect("doctor-view-patient", pk)
 
@@ -146,6 +148,7 @@ def post_create_illness_note(request, pk):
 
     if form.is_valid():
         form.save(request)
+        cache.delete("note_cache")
     else:
         messages.error(request, "The request is invalid")
         logger.warning("The request is invalid")
@@ -361,6 +364,9 @@ def post_update_user_details(request):
         form = UpdateUserDetails(request.POST)
         if form.is_valid():
             form.save(request)
+            user_cache = cache.get("user_cache", {})
+            user_cache.pop(int(patient_id), None)
+            cache.set("user_cache", user_cache, timeout=(60 * 60 * 2))
         else:
             logger.info("Form is invalid")
             messages.error(request, "Form is invalid. Please try again.")
@@ -375,6 +381,9 @@ def post_update_user_vitals(request):
         form = UpdateUserVital(request.POST)
         if form.is_valid():
             form.save(request)
+            user_cache = cache.get("user_cache", {})
+            user_cache.pop(int(patient_id), None)
+            cache.set("user_cache", user_cache, timeout=(60 * 60 * 2))
         else:
             logger.info("Form is invalid")
             messages.error(request, "Form is invalid. Please try again.")
