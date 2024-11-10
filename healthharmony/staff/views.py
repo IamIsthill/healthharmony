@@ -21,7 +21,7 @@ from django.contrib import messages
 from dateutil.relativedelta import relativedelta
 from django.core.mail import EmailMessage
 import logging
-from concurrent.futures import as_completed, ThreadPoolExecutor
+from concurrent.futures import as_completed, ProcessPoolExecutor, ThreadPoolExecutor
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.contrib.auth.decorators import login_required
 
@@ -113,57 +113,59 @@ def overview(request):
     previous_month = now - relativedelta(months=1)
     context = {}
     try:
-        # with ThreadPoolExecutor(max_workers=10) as tp:
-        #     futures = {
-        #         tp.submit(fetch_today_patient, now): "today_patient",
-        #         tp.submit(fetch_total_patient): "total_patient",
-        #         tp.submit(fetch_previous_patients, previous_day): "previous_patients",
-        #         tp.submit(fetch_monthly_medcert, now): "monthly_medcert",
-        #         tp.submit(fetch_previous_medcert, previous_month): "previous_medcert",
-        #         tp.submit(fetch_patients): "patients",
-        #         tp.submit(fetch_categories): "categories",
-        #         tp.submit(get_sorted_category, request): "sorted_category",
-        #         tp.submit(get_sorted_department, request): "sorted_department",
-        #         tp.submit(get_departments, request): "department_names",
-        #         tp.submit(get_ambulances, request): "get_ambulances",
-        #         tp.submit(get_category_data, request): "get_category_data",
-        #         tp.submit(get_wheelchairs, request): "get_wheelchairs",
-        #     }
-        #     results = {}
-        #     for future in as_completed(futures):
-        #         key = futures[future]
-        #         try:
-        #             results[key] = future.result()
-        #         except Exception as exc:
-        #             logger.error(f"{key} generated an exception: {exc}")
-        #             results[key] = 0
+        with ThreadPoolExecutor() as tp:
+            futures = {
+                tp.submit(fetch_today_patient, now): "today_patient",
+                tp.submit(fetch_total_patient): "total_patient",
+                tp.submit(fetch_previous_patients, previous_day): "previous_patients",
+                tp.submit(
+                    fetch_monthly_medcert, now, previous_month
+                ): "monthly_medcert",
+                # tp.submit(fetch_previous_medcert, previous_month): "previous_medcert",
+                tp.submit(fetch_patients): "patients",
+                tp.submit(fetch_categories): "categories",
+                tp.submit(get_sorted_category, request): "sorted_category",
+                tp.submit(get_sorted_department, request): "sorted_department",
+                tp.submit(get_departments, request): "department_names",
+                tp.submit(get_ambulances, request): "get_ambulances",
+                tp.submit(get_category_data, request): "get_category_data",
+                tp.submit(get_wheelchairs, request): "get_wheelchairs",
+            }
+            results = {}
+            for future in as_completed(futures):
+                key = futures[future]
+                try:
+                    results[key] = future.result()
+                except Exception as exc:
+                    logger.error(f"{key} generated an exception: {exc}")
+                    results[key] = 0
 
-        # today_patient = results["today_patient"]
-        # total_patient = results["total_patient"]
-        # previous_patients = results["previous_patients"]
-        # monthly_medcert = results["monthly_medcert"]
+        today_patient = results["today_patient"]
+        total_patient = results["total_patient"]
+        previous_patients = results["previous_patients"]
+        monthly_medcert, previous_medcert = results["monthly_medcert"]
         # previous_medcert = results["previous_medcert"]
-        # patients = results["patients"]
-        # categories = results["categories"]
-        # request, sorted_category = results["sorted_category"]
-        # request, sorted_department = results["sorted_department"]
-        # request, department_names = results["department_names"]
-        # request, ambulances = results["get_ambulances"]
-        # request, category_data = results["get_category_data"]
-        # request, wheelchair_data = results["get_wheelchairs"]
-        today_patient = fetch_today_patient(now)
-        total_patient = fetch_total_patient()
-        previous_patients = fetch_previous_patients(previous_day)
-        monthly_medcert, previous_medcert = fetch_monthly_medcert(now, previous_month)
-        # previous_medcert = fetch_previous_medcert(previous_month)
-        patients = fetch_patients()
-        categories = fetch_categories()
-        request, sorted_category = get_sorted_category(request)
-        request, sorted_department = get_sorted_department(request)
-        request, department_names = get_departments(request)
-        request, ambulances = get_ambulances(request)
-        request, category_data = get_category_data(request)
-        request, wheelchair_data = get_wheelchairs(request)
+        patients = results["patients"]
+        categories = results["categories"]
+        request, sorted_category = results["sorted_category"]
+        request, sorted_department = results["sorted_department"]
+        request, department_names = results["department_names"]
+        request, ambulances = results["get_ambulances"]
+        request, category_data = results["get_category_data"]
+        request, wheelchair_data = results["get_wheelchairs"]
+        # today_patient = fetch_today_patient(now)
+        # total_patient = fetch_total_patient()
+        # previous_patients = fetch_previous_patients(previous_day)
+        # monthly_medcert, previous_medcert = fetch_monthly_medcert(now, previous_month)
+        # # previous_medcert = fetch_previous_medcert(previous_month)
+        # patients = fetch_patients()
+        # categories = fetch_categories()
+        # request, sorted_category = get_sorted_category(request)
+        # request, sorted_department = get_sorted_department(request)
+        # request, department_names = get_departments(request)
+        # request, ambulances = get_ambulances(request)
+        # request, category_data = get_category_data(request)
+        # request, wheelchair_data = get_wheelchairs(request)
 
         # Calculate percentages
         patient_percent = (
