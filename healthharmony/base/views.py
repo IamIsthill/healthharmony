@@ -14,6 +14,7 @@ from healthharmony.base.functions import (
     get_beds,
     train_diagnosis_predictor,
 )
+from django.core.cache import cache
 
 # Models
 from healthharmony.models.bed.models import BedStat, Ambulansya, WheelChair
@@ -48,38 +49,46 @@ def home(request):
 
     try:
         df, model, le_season, le_sickness, le_weather = load_data_and_model()
-        with ThreadPoolExecutor() as tp:
-            futures = {
-                tp.submit(train_model): "train_model",
-                tp.submit(
-                    get_prediction,
-                    weather,
-                    df,
-                    model,
-                    le_season,
-                    le_sickness,
-                    le_weather,
-                    request,
-                    messages,
-                ): "get_prediction",
-                tp.submit(get_beds, BedStat, messages, request): "get_beds",
-                tp.submit(get_doctors_sched, request): "get_doctors_sched",
-                tp.submit(get_ambulance, request): "get_ambulance",
-                tp.submit(get_wheelchairs, request): "get_wheelchairs",
-            }
-            results = {}
-            for future in as_completed(futures):
-                key = futures[future]
-                try:
-                    results[key] = future.result()
-                except Exception as e:
-                    logger.error(f"{key} generated an exception: {e}")
-                    results[key] = 0
-        request, predict = results["get_prediction"]
-        request, beds = results["get_beds"]
-        request, ambulances = results["get_ambulance"]
-        request, wheelchair_quantity = results["get_wheelchairs"]
-        doctor_data = results["get_doctors_sched"]
+        # with ThreadPoolExecutor() as tp:
+        #     futures = {
+        #         tp.submit(train_model): "train_model",
+        #         tp.submit(
+        #             get_prediction,
+        #             weather,
+        #             df,
+        #             model,
+        #             le_season,
+        #             le_sickness,
+        #             le_weather,
+        #             request,
+        #             messages,
+        #         ): "get_prediction",
+        #         tp.submit(get_beds, BedStat, messages, request): "get_beds",
+        #         tp.submit(get_doctors_sched, request): "get_doctors_sched",
+        #         tp.submit(get_ambulance, request): "get_ambulance",
+        #         tp.submit(get_wheelchairs, request): "get_wheelchairs",
+        #     }
+        #     results = {}
+        #     for future in as_completed(futures):
+        #         key = futures[future]
+        #         try:
+        #             results[key] = future.result()
+        #         except Exception as e:
+        #             logger.error(f"{key} generated an exception: {e}")
+        #             results[key] = 0
+        # request, predict = results["get_prediction"]
+        # request, beds = results["get_beds"]
+        # request, ambulances = results["get_ambulance"]
+        # request, wheelchair_quantity = results["get_wheelchairs"]
+        # doctor_data = results["get_doctors_sched"]
+        train_model()
+        request, predict = get_prediction(
+            weather, df, model, le_season, le_sickness, le_weather, request, messages
+        )
+        request, beds = get_beds(BedStat, messages, request)
+        request, ambulances = get_ambulance(request)
+        request, wheelchair_quantity = get_wheelchairs(request)
+        doctor_data = get_doctors_sched(request)
         context = {
             "temp": temp,
             "feels": feels,
