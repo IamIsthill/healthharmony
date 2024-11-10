@@ -24,6 +24,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 from healthharmony.models.trained_models.models import Models, ModelLog
+from healthharmony.app.settings import env
 
 logger = logging.getLogger(__name__)
 
@@ -199,28 +200,29 @@ def train_diagnosis_predictor():
     Returns:
         None
     """
-    df = get_illness_data()
+    if env.bool("TRAIN_MODEL", False):
+        df = get_illness_data()
 
-    if df is None:
-        return
-    issues = []
-    df["iss_lem"] = get_processed_issues(df, issues)
-    voting_clf = get_voting_clf()
-    model = get_model(voting_clf, df)
-    model_binary = io.BytesIO()
-    joblib.dump(model, model_binary)
-    model_binary.seek(0)
+        if df is None:
+            return
+        issues = []
+        df["iss_lem"] = get_processed_issues(df, issues)
+        voting_clf = get_voting_clf()
+        model = get_model(voting_clf, df)
+        model_binary = io.BytesIO()
+        joblib.dump(model, model_binary)
+        model_binary.seek(0)
 
-    saved_model, created = Models.objects.get_or_create(
-        model_name="diagnosis_predictor"
-    )
-    if created:
-        saved_model = Models.objects.get(model_name="diagnosis_predictor")
-        saved_model.model_file = model_binary.read()
-        saved_model.save()
-    else:
-        saved_model.model_file = model_binary.read()
-        saved_model.save()
+        saved_model, created = Models.objects.get_or_create(
+            model_name="diagnosis_predictor"
+        )
+        if created:
+            saved_model = Models.objects.get(model_name="diagnosis_predictor")
+            saved_model.model_file = model_binary.read()
+            saved_model.save()
+        else:
+            saved_model.model_file = model_binary.read()
+            saved_model.save()
 
 
 def predict_diagnosis(issue):
@@ -232,6 +234,7 @@ def predict_diagnosis(issue):
         saved_model = cache.get("saved_model")
         if not saved_model:
             saved_model = Models.objects.get(model_name="diagnosis_predictor")
+            cache.set("saved_model", saved_model, timeout=(60 * 60 * 4))
 
         model_binary = io.BytesIO(saved_model.model_file)
         model = joblib.load(model_binary)

@@ -12,6 +12,7 @@ from healthharmony.base.functions import (
     check_models,
     get_prediction,
     get_beds,
+    train_diagnosis_predictor,
 )
 
 # Models
@@ -28,6 +29,7 @@ logger = logging.getLogger(__name__)
 
 def home(request):
     context = {}
+    train_diagnosis_predictor()
     try:
         # Fetch weather data from OpenWeatherMap API
         request_url = f"https://api.openweathermap.org/data/2.5/weather?appid={env.str('WEATHER')}&q=Bacolor,PH&units=metric"
@@ -48,7 +50,6 @@ def home(request):
         df, model, le_season, le_sickness, le_weather = load_data_and_model()
         with ThreadPoolExecutor() as tp:
             futures = {
-                tp.submit(check_models): "check_models",
                 tp.submit(train_model): "train_model",
                 tp.submit(
                     get_prediction,

@@ -51,7 +51,7 @@ from healthharmony.doctor.serializer import (
     IllnessNoteSerializer,
 )
 
-from healthharmony.base.functions import check_models
+from healthharmony.base.functions import check_models, train_diagnosis_predictor
 
 
 logger = logging.getLogger(__name__)
@@ -158,6 +158,7 @@ def overview_view(request):
     # Check the access level of the user, return to home if not sufficient
     if request.user.access < 3:
         return redirect("staff-overview")
+    train_diagnosis_predictor()
 
     illness_cache = cache.get("illness_cache", {})
     illness_cases = illness_cache.get("query")
@@ -390,19 +391,36 @@ def get_predicted_diagnosis(request):
 
 @api_view(["GET"])
 def get_illness_categories(request):
-    categories = Category.objects.all()
-    data = []
-    for category in categories:
-        data.append(IllnessCategorySerializer(category).data)
+    category_cache = cache.get("category_cache", {})
+    categories = category_cache.get("query")
+    if not categories:
+        categories = Category.objects.all()
+        category_cache["query"] = categories
+        cache.set("category_cache", category_cache, timeout=(120 * 60))
+    data = category_cache.get("IllnessCategorySerializer", [])
+    if not data:
+        for category in categories:
+            data.append(IllnessCategorySerializer(category).data)
+        category_cache["IllnessCategorySerializer"] = data
+        cache.set("category_cache", category_cache, timeout=(120 * 60))
     return JsonResponse(data, safe=False)
 
 
 @api_view(["GET"])
 def get_inventory_list(request):
-    inventories = InventoryDetail.objects.all()
-    data = []
-    for inventory in inventories:
-        data.append(InventorySerializer(inventory).data)
+    inventory_cache = cache.get("inventory_cache", {})
+    inventories = inventory_cache.get("query")
+    if not inventories:
+        inventories = InventoryDetail.objects.all()
+        inventory_cache["query"] = inventories
+        cache.set("inventory_cache", inventory_cache, timeout=(120 * 60))
+    data = inventory_cache.get("InventorySerializer", [])
+    if not data:
+        for inventory in inventories:
+            data.append(InventorySerializer(inventory).data)
+        inventory_cache["InventorySerializer"] = data
+        cache.set("inventory_cache", inventory_cache, timeout=(120 * 60))
+
     return JsonResponse(data, safe=False)
 
 

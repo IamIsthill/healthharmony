@@ -40,7 +40,7 @@ def check_models():
         diagnosis_predictor, created = Models.objects.get_or_create(
             model_name="diagnosis_predictor"
         )
-        logs = ModelLog.objects.filter(model_name=diagnosis_predictor)
+        logs = ModelLog.objects.filter(model_name="diagnosis_predictor")
 
         # Get the first log entry, if any
         first_log = logs.first()

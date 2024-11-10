@@ -21,7 +21,7 @@ from healthharmony.patient.functions import (
     get_weather,
     fetch_overview_data,
 )
-from healthharmony.base.functions import check_models
+from healthharmony.base.functions import check_models, train_diagnosis_predictor
 from healthharmony.app.settings import env
 
 
@@ -33,10 +33,11 @@ logger = logging.getLogger(__name__)
 def overview_view(request):
     if request.user.access < 1:
         return redirect("home")
+    train_diagnosis_predictor()
     context = {"page": "Dashboard"}
     try:
         with ThreadPoolExecutor() as tp:
-            tp.submit(check_models)
+            # tp.submit(check_models)
             tp.submit(get_weather, context, env)
             tp.submit(fetch_overview_data, context, request)
             tp.submit(fetch_medcert_data, request, context, request.user)
