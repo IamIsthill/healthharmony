@@ -35,7 +35,7 @@ def overview_view(request):
     if request.user.access < 1:
         return redirect("home")
     train_diagnosis_predictor()
-    context = {"page": "Dashboard"}
+    context = {"page": "dashboard"}
     try:
         # with ThreadPoolExecutor() as tp:
         # tp.submit(check_models)
@@ -54,6 +54,7 @@ def overview_view(request):
         messages.error(request, "Please reload page.")
     if "data_error" in context:
         messages.error(request, "Please reload page.")
+    context.update({"page": "dashboard"})
 
     return render(request, "patient/overview.html", context)
 
