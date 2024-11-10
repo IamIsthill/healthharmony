@@ -35,7 +35,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost:8000",
 ]
 
-if env.bool("CLOUD", True):
+if env.bool("DEV_REDIS", False):
     CACHES = {
         "default": {
             "BACKEND": "django_redis.cache.RedisCache",

@@ -242,28 +242,28 @@ def add_issue(request):
 def inventory(request):
     if request.user.access < 2:
         return redirect("patient-overview")
-    # with ThreadPoolExecutor(max_workers=2) as tp:
-    #     futures = {
-    #         tp.submit(fetch_inventory, InventoryDetail, Sum, request): "inventory",
-    #         tp.submit(get_sorted_inventory_list, request): "sorted_inventory",
-    #         tp.submit(get_counted_inventory, request): "counted_inventory",
-    #     }
-    #     results = {}
+    with ThreadPoolExecutor(max_workers=2) as tp:
+        futures = {
+            tp.submit(fetch_inventory, InventoryDetail, Sum, request): "inventory",
+            tp.submit(get_sorted_inventory_list, request): "sorted_inventory",
+            tp.submit(get_counted_inventory, request): "counted_inventory",
+        }
+        results = {}
 
-    #     for future in as_completed(futures):
-    #         key = futures[future]
-    #         try:
-    #             results[key] = future.result()
-    #         except Exception as e:
-    #             logger.error(f"{key} generated an exception: {e}")
-    #             results[key] = 0
+        for future in as_completed(futures):
+            key = futures[future]
+            try:
+                results[key] = future.result()
+            except Exception as e:
+                logger.error(f"{key} generated an exception: {e}")
+                results[key] = 0
 
-    # request, inventory = results["inventory"]
-    # request, sorted_inventory = results["sorted_inventory"]
-    # request, counted_inventory = results["counted_inventory"]
-    request, inventory = fetch_inventory(InventoryDetail, Sum, request)
-    request, sorted_inventory = get_sorted_inventory_list(request)
-    request, counted_inventory = get_counted_inventory(request)
+    request, inventory = results["inventory"]
+    request, sorted_inventory = results["sorted_inventory"]
+    request, counted_inventory = results["counted_inventory"]
+    # request, inventory = fetch_inventory(InventoryDetail, Sum, request)
+    # request, sorted_inventory = get_sorted_inventory_list(request)
+    # request, counted_inventory = get_counted_inventory(request)
     context = {
         "page": "inventory",
         "inventory": list(inventory),
@@ -386,35 +386,35 @@ def records(request):
     email = env("EMAIL_ADD")
     context = {"page": "records", "email": email}
     try:
-        # with ThreadPoolExecutor(max_workers=5) as tp:
-        #     futures = {
-        #         tp.submit(fetch_history, Illness, IllnessSerializer): "fetch_history",
-        #         tp.submit(
-        #             fetch_certificate_chart, timezone, Certificate, relativedelta
-        #         ): "fetch_certificate_chart",
-        #         tp.submit(fetch_certificates, Certificate, F): "fetch_certificates",
-        #         tp.submit(fetch_patient_list, request): "fetch_patient_list",
-        #     }
-        #     results = {}
+        with ThreadPoolExecutor() as tp:
+            futures = {
+                tp.submit(fetch_history, Illness, IllnessSerializer): "fetch_history",
+                tp.submit(
+                    fetch_certificate_chart, timezone, Certificate, relativedelta
+                ): "fetch_certificate_chart",
+                tp.submit(fetch_certificates, Certificate, F): "fetch_certificates",
+                tp.submit(fetch_patient_list, request): "fetch_patient_list",
+            }
+            results = {}
 
-        #     for future in as_completed(futures):
-        #         key = futures[future]
-        #         try:
-        #             results[key] = future.result()
-        #         except Exception as e:
-        #             logger.error(f"{key} generated an exception: {e}")
-        #             results[key] = 0
+            for future in as_completed(futures):
+                key = futures[future]
+                try:
+                    results[key] = future.result()
+                except Exception as e:
+                    logger.error(f"{key} generated an exception: {e}")
+                    results[key] = 0
 
-        # history, history_data = results["fetch_history"]
-        # certificate_chart = results["fetch_certificate_chart"]
-        # certificates = results["fetch_certificates"]
-        # patient_list = results["fetch_patient_list"]
-        history, history_data = fetch_history(Illness, IllnessSerializer)
-        certificate_chart = fetch_certificate_chart(
-            timezone, Certificate, relativedelta
-        )
-        certificates = fetch_certificates(Certificate, F)
-        patient_list = fetch_patient_list(request)
+        history, history_data = results["fetch_history"]
+        certificate_chart = results["fetch_certificate_chart"]
+        certificates = results["fetch_certificates"]
+        patient_list = results["fetch_patient_list"]
+        # history, history_data = fetch_history(Illness, IllnessSerializer)
+        # certificate_chart = fetch_certificate_chart(
+        #     timezone, Certificate, relativedelta
+        # )
+        # certificates = fetch_certificates(Certificate, F)
+        # patient_list = fetch_patient_list(request)
 
         paginator = Paginator(history, 10)
         page = request.GET.get("page")

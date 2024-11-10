@@ -45,7 +45,28 @@ DATABASES = {
     }
 }
 
-if env.bool("CLOUD", True):
+if env.bool("AWS_DB", False):
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": "postgres",
+            "HOST": env("AWS_DB_HOST"),
+            "PORT": env("AWS_DB_PORT"),
+            "USER": env("AWS_DB_USER"),
+            "PASSWORD": env("AWS_DB_PASS"),
+        }
+    }
+
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://redis:6379/",
+        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+    }
+}
+
+if env.bool("DEV_REDIS", False):
     CACHES = {
         "default": {
             "BACKEND": "django_redis.cache.RedisCache",
@@ -53,6 +74,15 @@ if env.bool("CLOUD", True):
             "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
         }
     }
+if env.bool("EXPOSE_REDIS", False):
+    CACHES = {
+        "default": {
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": "redis://0.0.0.0:6379/",
+            "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+        }
+    }
+
 
 # AWS Configuration for Static files
 AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY")

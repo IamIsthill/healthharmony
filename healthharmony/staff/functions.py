@@ -88,8 +88,6 @@ def sort_category(categories, request):
 
     except DatabaseError as e:
         logger.info(f"{e}")
-    finally:
-        connection.close()
 
     if illness_cache.get("category_data") is not None:
         category_data = illness_cache.get("category_data")
@@ -315,8 +313,6 @@ def get_departments(request):
         messages.error(request, "Failed to fetch data. Please reload")
         # Return the request and an empty list of departments
         return request, []
-    finally:
-        connection.close()
 
     # Return the request and the list of departments
     return request, departments
@@ -362,8 +358,6 @@ def sort_department(
 
     except DatabaseError as e:
         logger.warning(f"{e}")
-    finally:
-        connection.close()
 
     if illness_cache.get("department_data") is not None:
         department_data = illness_cache.get("department_data")
@@ -675,8 +669,6 @@ def get_sorted_inventory_list(request):
     except Exception as e:
         logger.error(f"Failed to fetch sorted inventory list: {str(e)}")
         messages.error(request, "Requested data not fetched. Please reload page")
-    finally:
-        connection.close()
 
     return request, list(inventory)
 
@@ -740,8 +732,6 @@ def get_counted_inventory(request):
         logger.error(str(e))
         messages.error(request, "Failed to fetch inventory data.")
         inventory_data = None
-    finally:
-        connection.close()
 
     return request, inventory_data
 
@@ -760,8 +750,6 @@ def fetch_today_patient(now):
     except DatabaseError as e:
         logger.info(f"{e}")
         count = 0
-    finally:
-        connection.close()
     return count
 
 
@@ -782,8 +770,6 @@ def fetch_total_patient():
     except DatabaseError as e:
         logger.info(f"{e}")
         count = 0
-    finally:
-        connection.close()
     return count
 
 
@@ -804,8 +790,6 @@ def fetch_previous_patients(previous_day):
     except DatabaseError as e:
         logger.info(f"{e}")
         count = 0
-    finally:
-        connection.close()
     return count
 
 
@@ -861,8 +845,6 @@ def fetch_previous_medcert(previous_month):
     except DatabaseError as e:
         logger.info(f"{e}")
         count = 0
-    finally:
-        connection.close()
     return count
 
 
@@ -879,8 +861,6 @@ def fetch_patients():
     except DatabaseError as e:
         logger.info(f"{e}")
         patients = None
-    finally:
-        connection.close()
     return patients
 
 
@@ -897,8 +877,6 @@ def fetch_categories():
     except DatabaseError as e:
         logger.info(f"{e}")
         category = None
-    finally:
-        connection.close()
     return category
 
 
@@ -931,8 +909,6 @@ def fetch_inventory(InventoryDetail, Sum, request):
     except Exception as e:
         logger.error(f"Failed to fetch inventory data: {str(e)}")
         messages.error(request, "Failed to fetched inventory data. Please reload page.")
-    finally:
-        connection.close()
     return request, inventory
 
 
@@ -961,8 +937,6 @@ def fetch_history(Illness, IllnessSerializer):
 
     except Exception as e:
         logger.info(f"{e}")
-    finally:
-        connection.close()
     return history, history_data
 
 
