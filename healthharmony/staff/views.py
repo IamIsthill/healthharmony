@@ -705,15 +705,24 @@ def patients_and_accounts(request):
         department_data = illness_cache.get("accounts_department_data")
         if not department_data:
             department_data = []
-            illnesses = (
-                Illness.objects.all().exclude(added__isnull=True).order_by("-added")
-            )
+            illnesses = illness_cache.get("query")
+            if not illnesses:
+                # illnesses = (
+                #     Illness.objects.all().exclude(added__isnull=True).order_by("-added")
+                # )
+                illnesses = Illness.objects.all()
+                illness_cache["query"] = illnesses
+                cache.set("illness_cache", illness_cache, timeout=(60 * 120))
+
             department_data = []
             for department in departments:
                 department.count = 0
                 department.last_department_visit = None
                 for illness in illnesses:
-                    if illness.patient.department == department:
+                    if (
+                        illness.patient.department == department
+                        and illness.added == None
+                    ):
                         department.count += 1
 
                         if department.count == 1:
