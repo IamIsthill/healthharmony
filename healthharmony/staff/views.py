@@ -21,7 +21,7 @@ from django.contrib import messages
 from dateutil.relativedelta import relativedelta
 from django.core.mail import EmailMessage
 import logging
-from concurrent.futures import as_completed, ThreadPoolExecutor
+from concurrent.futures import as_completed, ProcessPoolExecutor, ThreadPoolExecutor
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.contrib.auth.decorators import login_required
 
@@ -113,57 +113,59 @@ def overview(request):
     previous_month = now - relativedelta(months=1)
     context = {}
     try:
-        # with ThreadPoolExecutor(max_workers=10) as tp:
-        #     futures = {
-        #         tp.submit(fetch_today_patient, now): "today_patient",
-        #         tp.submit(fetch_total_patient): "total_patient",
-        #         tp.submit(fetch_previous_patients, previous_day): "previous_patients",
-        #         tp.submit(fetch_monthly_medcert, now): "monthly_medcert",
-        #         tp.submit(fetch_previous_medcert, previous_month): "previous_medcert",
-        #         tp.submit(fetch_patients): "patients",
-        #         tp.submit(fetch_categories): "categories",
-        #         tp.submit(get_sorted_category, request): "sorted_category",
-        #         tp.submit(get_sorted_department, request): "sorted_department",
-        #         tp.submit(get_departments, request): "department_names",
-        #         tp.submit(get_ambulances, request): "get_ambulances",
-        #         tp.submit(get_category_data, request): "get_category_data",
-        #         tp.submit(get_wheelchairs, request): "get_wheelchairs",
-        #     }
-        #     results = {}
-        #     for future in as_completed(futures):
-        #         key = futures[future]
-        #         try:
-        #             results[key] = future.result()
-        #         except Exception as exc:
-        #             logger.error(f"{key} generated an exception: {exc}")
-        #             results[key] = 0
+        with ThreadPoolExecutor() as tp:
+            futures = {
+                tp.submit(fetch_today_patient, now): "today_patient",
+                tp.submit(fetch_total_patient): "total_patient",
+                tp.submit(fetch_previous_patients, previous_day): "previous_patients",
+                tp.submit(
+                    fetch_monthly_medcert, now, previous_month
+                ): "monthly_medcert",
+                # tp.submit(fetch_previous_medcert, previous_month): "previous_medcert",
+                tp.submit(fetch_patients): "patients",
+                tp.submit(fetch_categories): "categories",
+                tp.submit(get_sorted_category, request): "sorted_category",
+                tp.submit(get_sorted_department, request): "sorted_department",
+                tp.submit(get_departments, request): "department_names",
+                tp.submit(get_ambulances, request): "get_ambulances",
+                tp.submit(get_category_data, request): "get_category_data",
+                tp.submit(get_wheelchairs, request): "get_wheelchairs",
+            }
+            results = {}
+            for future in as_completed(futures):
+                key = futures[future]
+                try:
+                    results[key] = future.result()
+                except Exception as exc:
+                    logger.error(f"{key} generated an exception: {exc}")
+                    results[key] = 0
 
-        # today_patient = results["today_patient"]
-        # total_patient = results["total_patient"]
-        # previous_patients = results["previous_patients"]
-        # monthly_medcert = results["monthly_medcert"]
+        today_patient = results["today_patient"]
+        total_patient = results["total_patient"]
+        previous_patients = results["previous_patients"]
+        monthly_medcert, previous_medcert = results["monthly_medcert"]
         # previous_medcert = results["previous_medcert"]
-        # patients = results["patients"]
-        # categories = results["categories"]
-        # request, sorted_category = results["sorted_category"]
-        # request, sorted_department = results["sorted_department"]
-        # request, department_names = results["department_names"]
-        # request, ambulances = results["get_ambulances"]
-        # request, category_data = results["get_category_data"]
-        # request, wheelchair_data = results["get_wheelchairs"]
-        today_patient = fetch_today_patient(now)
-        total_patient = fetch_total_patient()
-        previous_patients = fetch_previous_patients(previous_day)
-        monthly_medcert, previous_medcert = fetch_monthly_medcert(now, previous_month)
-        # previous_medcert = fetch_previous_medcert(previous_month)
-        patients = fetch_patients()
-        categories = fetch_categories()
-        request, sorted_category = get_sorted_category(request)
-        request, sorted_department = get_sorted_department(request)
-        request, department_names = get_departments(request)
-        request, ambulances = get_ambulances(request)
-        request, category_data = get_category_data(request)
-        request, wheelchair_data = get_wheelchairs(request)
+        patients = results["patients"]
+        categories = results["categories"]
+        request, sorted_category = results["sorted_category"]
+        request, sorted_department = results["sorted_department"]
+        request, department_names = results["department_names"]
+        request, ambulances = results["get_ambulances"]
+        request, category_data = results["get_category_data"]
+        request, wheelchair_data = results["get_wheelchairs"]
+        # today_patient = fetch_today_patient(now)
+        # total_patient = fetch_total_patient()
+        # previous_patients = fetch_previous_patients(previous_day)
+        # monthly_medcert, previous_medcert = fetch_monthly_medcert(now, previous_month)
+        # # previous_medcert = fetch_previous_medcert(previous_month)
+        # patients = fetch_patients()
+        # categories = fetch_categories()
+        # request, sorted_category = get_sorted_category(request)
+        # request, sorted_department = get_sorted_department(request)
+        # request, department_names = get_departments(request)
+        # request, ambulances = get_ambulances(request)
+        # request, category_data = get_category_data(request)
+        # request, wheelchair_data = get_wheelchairs(request)
 
         # Calculate percentages
         patient_percent = (
@@ -240,28 +242,28 @@ def add_issue(request):
 def inventory(request):
     if request.user.access < 2:
         return redirect("patient-overview")
-    # with ThreadPoolExecutor(max_workers=2) as tp:
-    #     futures = {
-    #         tp.submit(fetch_inventory, InventoryDetail, Sum, request): "inventory",
-    #         tp.submit(get_sorted_inventory_list, request): "sorted_inventory",
-    #         tp.submit(get_counted_inventory, request): "counted_inventory",
-    #     }
-    #     results = {}
+    with ThreadPoolExecutor(max_workers=2) as tp:
+        futures = {
+            tp.submit(fetch_inventory, InventoryDetail, Sum, request): "inventory",
+            tp.submit(get_sorted_inventory_list, request): "sorted_inventory",
+            tp.submit(get_counted_inventory, request): "counted_inventory",
+        }
+        results = {}
 
-    #     for future in as_completed(futures):
-    #         key = futures[future]
-    #         try:
-    #             results[key] = future.result()
-    #         except Exception as e:
-    #             logger.error(f"{key} generated an exception: {e}")
-    #             results[key] = 0
+        for future in as_completed(futures):
+            key = futures[future]
+            try:
+                results[key] = future.result()
+            except Exception as e:
+                logger.error(f"{key} generated an exception: {e}")
+                results[key] = 0
 
-    # request, inventory = results["inventory"]
-    # request, sorted_inventory = results["sorted_inventory"]
-    # request, counted_inventory = results["counted_inventory"]
-    request, inventory = fetch_inventory(InventoryDetail, Sum, request)
-    request, sorted_inventory = get_sorted_inventory_list(request)
-    request, counted_inventory = get_counted_inventory(request)
+    request, inventory = results["inventory"]
+    request, sorted_inventory = results["sorted_inventory"]
+    request, counted_inventory = results["counted_inventory"]
+    # request, inventory = fetch_inventory(InventoryDetail, Sum, request)
+    # request, sorted_inventory = get_sorted_inventory_list(request)
+    # request, counted_inventory = get_counted_inventory(request)
     context = {
         "page": "inventory",
         "inventory": list(inventory),
@@ -384,35 +386,35 @@ def records(request):
     email = env("EMAIL_ADD")
     context = {"page": "records", "email": email}
     try:
-        # with ThreadPoolExecutor(max_workers=5) as tp:
-        #     futures = {
-        #         tp.submit(fetch_history, Illness, IllnessSerializer): "fetch_history",
-        #         tp.submit(
-        #             fetch_certificate_chart, timezone, Certificate, relativedelta
-        #         ): "fetch_certificate_chart",
-        #         tp.submit(fetch_certificates, Certificate, F): "fetch_certificates",
-        #         tp.submit(fetch_patient_list, request): "fetch_patient_list",
-        #     }
-        #     results = {}
+        with ThreadPoolExecutor() as tp:
+            futures = {
+                tp.submit(fetch_history, Illness, IllnessSerializer): "fetch_history",
+                tp.submit(
+                    fetch_certificate_chart, timezone, Certificate, relativedelta
+                ): "fetch_certificate_chart",
+                tp.submit(fetch_certificates, Certificate, F): "fetch_certificates",
+                tp.submit(fetch_patient_list, request): "fetch_patient_list",
+            }
+            results = {}
 
-        #     for future in as_completed(futures):
-        #         key = futures[future]
-        #         try:
-        #             results[key] = future.result()
-        #         except Exception as e:
-        #             logger.error(f"{key} generated an exception: {e}")
-        #             results[key] = 0
+            for future in as_completed(futures):
+                key = futures[future]
+                try:
+                    results[key] = future.result()
+                except Exception as e:
+                    logger.error(f"{key} generated an exception: {e}")
+                    results[key] = 0
 
-        # history, history_data = results["fetch_history"]
-        # certificate_chart = results["fetch_certificate_chart"]
-        # certificates = results["fetch_certificates"]
-        # patient_list = results["fetch_patient_list"]
-        history, history_data = fetch_history(Illness, IllnessSerializer)
-        certificate_chart = fetch_certificate_chart(
-            timezone, Certificate, relativedelta
-        )
-        certificates = fetch_certificates(Certificate, F)
-        patient_list = fetch_patient_list(request)
+        history, history_data = results["fetch_history"]
+        certificate_chart = results["fetch_certificate_chart"]
+        certificates = results["fetch_certificates"]
+        patient_list = results["fetch_patient_list"]
+        # history, history_data = fetch_history(Illness, IllnessSerializer)
+        # certificate_chart = fetch_certificate_chart(
+        #     timezone, Certificate, relativedelta
+        # )
+        # certificates = fetch_certificates(Certificate, F)
+        # patient_list = fetch_patient_list(request)
 
         paginator = Paginator(history, 10)
         page = request.GET.get("page")
@@ -703,15 +705,24 @@ def patients_and_accounts(request):
         department_data = illness_cache.get("accounts_department_data")
         if not department_data:
             department_data = []
-            illnesses = (
-                Illness.objects.all().exclude(added__isnull=True).order_by("-added")
-            )
+            illnesses = illness_cache.get("query")
+            if not illnesses:
+                # illnesses = (
+                #     Illness.objects.all().exclude(added__isnull=True).order_by("-added")
+                # )
+                illnesses = Illness.objects.all()
+                illness_cache["query"] = illnesses
+                cache.set("illness_cache", illness_cache, timeout=(60 * 120))
+
             department_data = []
             for department in departments:
                 department.count = 0
                 department.last_department_visit = None
                 for illness in illnesses:
-                    if illness.patient.department == department:
+                    if (
+                        illness.patient.department == department
+                        and illness.added == None
+                    ):
                         department.count += 1
 
                         if department.count == 1:
