@@ -340,7 +340,7 @@
   .nurse-container{
    /* border:1px solid black; */
    width: 96%;
-   grid-template-columns: 9rem auto 24rem;
+   grid-template-columns: 10rem auto 24rem;
  }
  .nurse-container2{
   /* border:1px solid rgb(170, 37, 37); */

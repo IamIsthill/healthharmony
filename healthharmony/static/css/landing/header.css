@@ -103,7 +103,7 @@
         transition: right 0.3s ease-in-out;
     }
 
-    .sidebar.open {
+    .header_menu.open {
         right: 0;
     }
 

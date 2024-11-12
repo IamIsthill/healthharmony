@@ -1,3 +1,6 @@
+.logo{
+    margin-left: 2.5rem;
+}
 .patient-container{
     grid-template-columns: 13rem auto 27rem;
 }

@@ -55,9 +55,25 @@
 {% endblock %}
 {% block main %}
     {% include 'doctor/nav-top.html' %}
-    <div class="doctor-container">
+    <div class="doctor-profile-container">
         {% include 'doctor/nav.html' %}
         <main>
+            <div class="doctor-right-part">
+                <div class="most-illness-categories">
+                    <h1>Illness Categories</h1>
+                    <p>Cases you have handled per category</p>
+                    <div class="canvas-cont">
+                        <canvas id="js_illness_categories_bar"></canvas>
+                    </div>
+                </div>
+                <div class="most-cases-per-department">
+                    <h1>Colleges</h1>
+                    <p>Cases you have handled per college</p>
+                    <div class="canvas-cont">
+                        <canvas id="js_college_bar"></canvas>
+                    </div>
+                </div>
+            </div>
             <div>
                 <table class="mod-table">
                     <thead>
@@ -135,22 +151,6 @@
                 </div>
             </div>
         </main>
-        <div class="doctor-right-part">
-            <div class="most-illness-categories">
-                <h1>Illness Categories</h1>
-                <p>Cases you have handled per category</p>
-                <div class="canvas-cont">
-                    <canvas id="js_illness_categories_bar"></canvas>
-                </div>
-            </div>
-            <div class="most-cases-per-department">
-                <h1>Colleges</h1>
-                <p>Cases you have handled per college</p>
-                <div class="canvas-cont">
-                    <canvas id="js_college_bar"></canvas>
-                </div>
-            </div>
-        </div>
     </div>
 {% endblock %}
 {% block script %}
