@@ -148,7 +148,7 @@
     transition: all 0.3s ease;
 }
 .bar-btn, .bar-btn-active{
-    color: var(--light_gray);
+    color: rgb(103, 103, 103);
     border: 1px solid rgba(255, 255, 255, 0);
 }
 .bar-btn-active{
@@ -276,11 +276,7 @@
 
 /* 2xl */
 @media (max-width: 1536px) {
-    .action-part{
-        margin-top: 1rem;
-        height: 9rem;
-        padding: 1rem 1.2rem;
-    }
+
     .action-part h1{
         font-size: var(--size-xl);
     }
@@ -303,13 +299,24 @@
 
   /* xl */
   @media (max-width: 1380px) {
+    .icon-button{
+        padding:4px 4px;
+    }
+    .icon-button svg {
+        width: 35px; 
+        height: 35px; 
+    }
+    .action-button-container{
+        gap: 0.5rem;
+    }
+    .check-buttons{
+        gap: 8px;
+    }
     .right-part{
         margin-top: 0rem;
     }
     .action-part{
         margin-top: 0rem;
-        height: 9rem;
-        padding: 1rem 1.2rem;
     }
     .action-part h1{
         font-size: var(--size-base);
