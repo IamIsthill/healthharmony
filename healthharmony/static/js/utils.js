@@ -199,6 +199,10 @@ export function getElapsedTime(dateString) {
     if (elapsed.days) {
         stmt = `${elapsed.days}d ${elapsed.hours}hr ${elapsed.minutes}m ${elapsed.seconds}s`
     }
+
+    if (new Date(dateString).getTime() > now) {
+        stmt = '0s'
+    }
     return stmt
 }
 
