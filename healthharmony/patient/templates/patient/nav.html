@@ -1,12 +1,6 @@
 {% load cache %}
 {% load static %}
-{% cache 600 patient_nav %}
-{% comment %} <!--    <nav>
-    <a href="{% url 'patient-overview' %}" class="js-nav-links">Dashboard</a>
-    <a href="{% url 'patient-records' request.user.id %}" class="js-nav-links">Health Records</a>
-    <a href="{% url 'patient-profile' request.user.id %}" class="js-nav-links">Patient Profile</a>
-    <a href="{% url 'logout' %}">Logout</a>
-</nav>    --> {% endcomment %}
+{% comment %} {% cache 600 patient_nav %} {% endcomment %}
 <aside class="sidebar-container">
     <div class="logo">
         <a href="{% url 'patient-overview' %}">
@@ -14,9 +8,8 @@
         </a>
     </div>
     <div class="sidebar">
-        <a class="js-nav-links"
-           href="{% url 'patient-overview' %} "
-           class=" {% with class='active' %} {% if page.lower == 'dashboard' %}{{ class }}{% endif %} {% endwith %}">
+        <a href="{% url 'patient-overview' %} "
+           class="{% with class='active' %} {% if page == 'dashboard' %}{{ class }}{% endif %} {% endwith %}">
             <span>
                 <svg width="33"
                      height="33"
@@ -30,9 +23,8 @@
             </span>
             <span class="span-lightgray">Dashboard</span>
         </a>
-        <a class="js-nav-links"
-           href="{% url 'patient-records' request.user.id %}"
-           class=" {% with class='active' %} {% if page.lower == 'health records' %}{{ class }}{% endif %} {% endwith %}">
+        <a href="{% url 'patient-records' request.user.id %}"
+           class="{% with class='active' %} {% if page.lower == 'health records' %}{{ class }}{% endif %} {% endwith %}">
             <span>
                 <svg width="33"
                      height="33"
@@ -44,8 +36,7 @@
             </span>
             <span class="span-lightgray">Health Records</span>
         </a>
-        <a class="js-nav-links"
-           href="{% url 'patient-profile' request.user.id %}"
+        <a href="{% url 'patient-profile' request.user.id %}"
            class=" {% with class='active' %} {% if page.lower == 'patient profile' %}{{ class }}{% endif %} {% endwith %}">
             <span>
                 <svg width="33"
@@ -60,4 +51,4 @@
         </a>
     </div>
 </aside>
-{% endcache %}
+<script>const links = document.querySelectorAll('')</script>

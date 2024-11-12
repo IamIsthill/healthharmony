@@ -332,7 +332,7 @@ class UpdateUserDetails(forms.Form):
 
 class UpdateUserVital(forms.Form):
     patient_id = forms.IntegerField(required=True)
-    blood_type = forms.CharField(required=True)
+    blood_type = forms.CharField(required=False)
     height = forms.IntegerField(required=True)
     weight = forms.IntegerField(required=True)
 

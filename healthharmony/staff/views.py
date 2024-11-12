@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 import secrets
 import string
+from django.db import connection, DatabaseError
 from django.db.models import (
     OuterRef,
     Subquery,
@@ -11,14 +12,16 @@ from django.db.models import (
     Count,
     DateTimeField,
     Q,
+    Max,
 )
+from django.core.cache import cache
 from django.db.models.functions import Coalesce
 from django.utils import timezone
 from django.contrib import messages
 from dateutil.relativedelta import relativedelta
 from django.core.mail import EmailMessage
 import logging
-from concurrent.futures import as_completed, ThreadPoolExecutor
+from concurrent.futures import as_completed, ProcessPoolExecutor, ThreadPoolExecutor
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.contrib.auth.decorators import login_required
 
@@ -102,7 +105,7 @@ def add_patient(request):
 
 @login_required(login_url="account_login")
 def overview(request):
-    check_models()
+    # check_models()
     if request.user.access < 2:
         return redirect("patient-overview")
     now = timezone.now()
@@ -115,8 +118,10 @@ def overview(request):
                 tp.submit(fetch_today_patient, now): "today_patient",
                 tp.submit(fetch_total_patient): "total_patient",
                 tp.submit(fetch_previous_patients, previous_day): "previous_patients",
-                tp.submit(fetch_monthly_medcert, now): "monthly_medcert",
-                tp.submit(fetch_previous_medcert, previous_month): "previous_medcert",
+                tp.submit(
+                    fetch_monthly_medcert, now, previous_month
+                ): "monthly_medcert",
+                # tp.submit(fetch_previous_medcert, previous_month): "previous_medcert",
                 tp.submit(fetch_patients): "patients",
                 tp.submit(fetch_categories): "categories",
                 tp.submit(get_sorted_category, request): "sorted_category",
@@ -138,8 +143,8 @@ def overview(request):
         today_patient = results["today_patient"]
         total_patient = results["total_patient"]
         previous_patients = results["previous_patients"]
-        monthly_medcert = results["monthly_medcert"]
-        previous_medcert = results["previous_medcert"]
+        monthly_medcert, previous_medcert = results["monthly_medcert"]
+        # previous_medcert = results["previous_medcert"]
         patients = results["patients"]
         categories = results["categories"]
         request, sorted_category = results["sorted_category"]
@@ -148,6 +153,19 @@ def overview(request):
         request, ambulances = results["get_ambulances"]
         request, category_data = results["get_category_data"]
         request, wheelchair_data = results["get_wheelchairs"]
+        # today_patient = fetch_today_patient(now)
+        # total_patient = fetch_total_patient()
+        # previous_patients = fetch_previous_patients(previous_day)
+        # monthly_medcert, previous_medcert = fetch_monthly_medcert(now, previous_month)
+        # # previous_medcert = fetch_previous_medcert(previous_month)
+        # patients = fetch_patients()
+        # categories = fetch_categories()
+        # request, sorted_category = get_sorted_category(request)
+        # request, sorted_department = get_sorted_department(request)
+        # request, department_names = get_departments(request)
+        # request, ambulances = get_ambulances(request)
+        # request, category_data = get_category_data(request)
+        # request, wheelchair_data = get_wheelchairs(request)
 
         # Calculate percentages
         patient_percent = (
@@ -166,7 +184,14 @@ def overview(request):
             for department in department_names
         ]
 
-        beds = BedStat.objects.all()
+        bed_cache = cache.get("bed_cache", {})
+
+        beds = bed_cache.get("query")
+
+        if not beds:
+            beds = BedStat.objects.all()
+            bed_cache["query"] = beds
+            cache.set("bed_cache", bed_cache, timeout=(120 * 60))
 
         context.update(
             {
@@ -236,6 +261,9 @@ def inventory(request):
     request, inventory = results["inventory"]
     request, sorted_inventory = results["sorted_inventory"]
     request, counted_inventory = results["counted_inventory"]
+    # request, inventory = fetch_inventory(InventoryDetail, Sum, request)
+    # request, sorted_inventory = get_sorted_inventory_list(request)
+    # request, counted_inventory = get_counted_inventory(request)
     context = {
         "page": "inventory",
         "inventory": list(inventory),
@@ -253,6 +281,8 @@ def add_inventory(request):
         form = AddInventoryForm(request.POST)
         if form.is_valid():
             form.save(request)
+            # clear related cache
+            cache.delete("inventory_cache")
     return redirect("staff-inventory")
 
 
@@ -264,6 +294,7 @@ def delete_inventory(request, pk):
         form = DeleteInventoryForm(request.POST)
         if form.is_valid():
             form.save(request, pk)
+            cache.delete("inventory_cache")
         else:
             messages.error(request, "Form is invalid. Please try again")
             logger.error("Delete inventory form is invalid")
@@ -278,6 +309,7 @@ def update_inventory(request, pk):
         form = EditInventoryForm(request.POST)
         if form.is_valid():
             form.save(request, pk)
+            cache.delete("inventory_cache")
         else:
             messages.error(request, "Form is invalid. Please try again.")
             logger.error("Update inventory form is invalid")
@@ -292,6 +324,7 @@ def bed(request):
         try:
             BedStat.objects.create()
             messages.success(request, "New bed has been added!")
+            cache.delete("bed_cache")
         except Exception as e:
             logger.error(f"Failed to create a new bed: {str(e)}")
             messages.error(request, "Failed to add new bed.")
@@ -312,6 +345,7 @@ def bed_handler(request, pk):
                 action=f"Updated BedStat({bed.id}) from {not bed.status} to {bed.status}",
             )
             messages.success(request, "Bed was successfully updated")
+            cache.delete("bed_cache")
         except Exception:
             messages.error(request, "Error fetching bed data")
     return redirect("staff-overview")
@@ -338,6 +372,8 @@ def post_delete_bed(request, pk):
             user=request.user,
             action=f"{request.user.email} successfuly deleted bed instance[{bed.id}]",
         )
+        cache.delete("bed_cache")
+
         logger.info(f"{request.user.email} successfuly deleted bed instance[{bed.id}]")
         messages.success(request, "Successfully deleted bed!")
     return redirect("staff-overview")
@@ -373,6 +409,12 @@ def records(request):
         certificate_chart = results["fetch_certificate_chart"]
         certificates = results["fetch_certificates"]
         patient_list = results["fetch_patient_list"]
+        # history, history_data = fetch_history(Illness, IllnessSerializer)
+        # certificate_chart = fetch_certificate_chart(
+        #     timezone, Certificate, relativedelta
+        # )
+        # certificates = fetch_certificates(Certificate, F)
+        # patient_list = fetch_patient_list(request)
 
         paginator = Paginator(history, 10)
         page = request.GET.get("page")
@@ -434,6 +476,7 @@ def records(request):
         )
         logger.info(f"{request.user.email} updated certificate[{certificate.id}]")
         messages.success(request, "Successfully updated certificate request status")
+        cache.delete("certificate_cache")
         return redirect("staff-records")
 
     return render(request, "staff/records.html", context)
@@ -441,9 +484,16 @@ def records(request):
 
 def fetch_patient_list(request):
     try:
-        patient_list = User.objects.filter(access=1)
+        user_cache = cache.get("user_cache", {})
+        patient_list = user_cache.get("patients")
+        if not patient_list:
+            patient_list = User.objects.filter(access=1)
+            user_cache["patients"] = patient_list
+            cache.set("user_cache", user_cache, timeout=(60 * 120))
     except Exception as e:
         logger.info(f"{request.user.email} failed to fetch patient list: {str(e)}")
+    finally:
+        connection.close()
 
     return patient_list or None
 
@@ -486,6 +536,7 @@ def post_add_patient(request):
 
             logger.info(f"Email was sent to: {patient.email}")
             messages.success(request, "Patient has been added to the system.")
+            cache.clear()
         else:
             logger.info(f"User {patient.email} already exists.")
             messages.error(request, f"User {patient.email} already exists.")
@@ -543,6 +594,8 @@ def create_patient_add_issue(request):
             )
             logger.info(f"Logged data change for illness record id [{visit.id}]")
 
+            cache.delete_many(["user_cache", "department_cache", "illness_cache"])
+
         except Exception as e:
             messages.error(request, "System faced some error")
             logger.error(f"Error occurred while creating patient or issue: {str(e)}")
@@ -560,31 +613,39 @@ def patients_and_accounts(request):
         return redirect("patient-overview")
     context = {}
     try:
-        last_visit = Illness.objects.filter(patient=OuterRef("pk")).values("added")
-        patients = (
-            User.objects.filter(access=1)
-            .annotate(
-                department_name=F("department__department"),
-                last_visit=Coalesce(
-                    Subquery(last_visit[:1]), Value(None), output_field=CharField()
-                ),
+        illness_cache = cache.get("illness_cache", {})
+
+        patients = illness_cache.get("accounts_patients")
+        if not patients:
+            last_visit = Illness.objects.filter(patient=OuterRef("pk")).values("added")
+            patients = (
+                User.objects.filter(access=1)
+                .annotate(
+                    department_name=F("department__department"),
+                    last_visit=Coalesce(
+                        Subquery(last_visit[:1]), Value(None), output_field=CharField()
+                    ),
+                )
+                .distinct()
+                .values(
+                    "last_visit",
+                    "first_name",
+                    "last_name",
+                    "profile",
+                    "id",
+                    "date_joined",
+                    "department_name",
+                    "email",
+                    "department",
+                )
             )
-            .distinct()
-            .values(
-                "last_visit",
-                "first_name",
-                "last_name",
-                "profile",
-                "id",
-                "date_joined",
-                "department_name",
-                "email",
-                "department",
-            )
-        )
-        for patient in patients:
-            if patient["date_joined"]:
-                patient["date_joined"] = patient["date_joined"].isoformat()
+            for patient in patients:
+                if patient["date_joined"]:
+                    patient["date_joined"] = patient["date_joined"].isoformat()
+
+            illness_cache["accounts_patients"] = patients
+            cache.set("illness_cache", illness_cache, timeout=(60 * 120))
+
         patients_paginator = Paginator(patients, 10)
 
         try:
@@ -596,35 +657,88 @@ def patients_and_accounts(request):
             patients_page = patients_paginator.page(patients_paginator.num_pages)
             logger.error("No page was set")
 
-        last_department_visit = (
-            Illness.objects.filter(patient=OuterRef("pk"))
-            .exclude(added__isnull=True)
-            .order_by("-added")
-            .values("added")
-        )
+        # last_department_visit = (
+        #     Illness.objects.filter(patient=OuterRef("pk"))
+        #     .exclude(added__isnull=True)
+        #     .order_by("-added")
+        #     .values("added")
+        # )
 
         # Annotate the departments with the last visit date of any patient in that department
-        departments = (
-            Department.objects.annotate(
-                last_department_visit=Subquery(
-                    User.objects.filter(department=OuterRef("pk"), access=1)
-                    .annotate(
-                        last_department_visit=Coalesce(
-                            Subquery(last_department_visit[:1]),
-                            Value(None),
-                            output_field=CharField(),
-                        )
-                    )
-                    .exclude(last_department_visit__isnull=True)
-                    .values(
-                        "last_department_visit"
-                    )  # Only get the last visit of the first patient in the department
-                ),
-                count=Count("user_department"),
-            )
-            .distinct()
-            .values()
-        )
+        # departments = (
+        #     Department.objects.annotate(
+        #         last_department_visit=Subquery(
+        #             User.objects.filter(department=OuterRef("pk"), access=1)
+        #             .annotate(
+        #                 last_department_visit=Coalesce(
+        #                     Subquery(last_department_visit[:1]),
+        #                     Value(None),
+        #                     output_field=CharField(),
+        #                 )
+        #             )
+        #             .exclude(last_department_visit__isnull=True)
+        #             .values(
+        #                 "last_department_visit"
+        #             )  # Only get the last visit of the first patient in the department
+        #         ),
+        #         count=Count("user_department"),
+        #     )
+        #     .distinct()
+        #     .values()
+        # )
+        # departments = (
+        #     Department.objects.annotate(
+        #         last_department_visit=Max(
+        #             "user_department__illness__added",
+        #             filter=Q(user_department__access=1)
+        #         ),
+        #         user_count=Count("user_department", filter=Q(user_department__access=1))
+        #     ).values("id", "name", "last_department_visit", "user_count")
+        # )
+        department_cache = cache.get("department_cache", {})
+        departments = department_cache.get("query")
+        if not departments:
+            departments = Department.objects.all()
+            department_cache["query"] = departments
+            cache.set("department_cache", department_cache, timeout=(60 * 120))
+
+        department_data = illness_cache.get("accounts_department_data")
+        if not department_data:
+            department_data = []
+            illnesses = illness_cache.get("query")
+            if not illnesses:
+                # illnesses = (
+                #     Illness.objects.all().exclude(added__isnull=True).order_by("-added")
+                # )
+                illnesses = Illness.objects.all()
+                illness_cache["query"] = illnesses
+                cache.set("illness_cache", illness_cache, timeout=(60 * 120))
+
+            department_data = []
+            for department in departments:
+                department.count = 0
+                department.last_department_visit = None
+                for illness in illnesses:
+                    if (
+                        illness.patient.department == department
+                        and illness.added == None
+                    ):
+                        department.count += 1
+
+                        if department.count == 1:
+                            department.last_department_visit = illness.added
+                department_data.append(
+                    {
+                        "id": department.id,
+                        "department": department.department,
+                        "count": department.count,
+                        "last_department_visit": department.last_department_visit,
+                    }
+                )
+            illness_cache["accounts_department_data"] = department_data
+            cache.set("illness_cache", illness_cache, timeout=(60 * 120))
+
+        # print(departments)
         employees = fetch_employees(
             OuterRef, Coalesce, Subquery, Value, DateTimeField, messages, request
         )
@@ -633,8 +747,8 @@ def patients_and_accounts(request):
             {
                 "patients": list(patients),
                 "patients_page": patients_page,
-                "departments": departments,
-                "departmentData": list(departments),
+                "departments": department_data,
+                "departmentData": list(department_data),
                 "employees": employees,
                 "employeeData": list(employees),
                 "page": "accounts",
@@ -644,6 +758,8 @@ def patients_and_accounts(request):
     except Exception as e:
         logger.error(f"Failed to fetch data: {str(e)}")
         messages.error(request, "Failed to fetch necessary data. Please reload page.")
+    finally:
+        connection.close()
     return render(request, "staff/accounts.html", context)
 
 
@@ -664,6 +780,8 @@ def add_department(request):
                     user=request.user,
                     action=f"New department instance has been created[id:{department.id}]",
                 )
+
+                cache.delete_many(["department_cache", "illness_cache"])
 
             else:
                 messages.error(
@@ -688,6 +806,8 @@ def delete_department(request, pk):
         form = DeleteDepartmentForm(request.POST)
         if form.is_valid():
             form.save(request, pk)
+            cache.delete_many(["department_cache", "illness_cache"])
+
         else:
             messages.error(request, "Form is invalid. Please try again.")
             logger.info(
@@ -704,6 +824,8 @@ def edit_department(request, pk):
         form = EditDepartmentForm(request.POST)
         if form.is_valid():
             form.save(request, pk)
+            cache.delete_many(["department_cache", "illness_cache"])
+
         else:
             messages.error(request, "Form is invalid. Please try again.")
             logger.info(
@@ -721,6 +843,7 @@ def post_create_update_ambulance(request):
         form = CreateUpdateAmbulance(request.POST)
         if form.is_valid():
             form.save(request)
+            cache.delete("ambulances")
         else:
             logger.info("CreateUpdateAmbulance is invalid")
             messages.error(request, "Submitted data is invalid. Please try again")
@@ -738,6 +861,7 @@ def post_create_wheelchair(request):
 
         if form.is_valid():
             form.save(request)
+            cache.delete_many(["avail_wheelchairs", "unavail_wheelchairs"])
         else:
             logger.info("CreateWheelChairQuantity is invalid")
             messages.error(request, "Submitted data is invalid. Please try again")
@@ -747,32 +871,59 @@ def post_create_wheelchair(request):
 def get_ambulances(request):
     ambulances = None
     try:
-        ambulances = Ambulansya.objects.all()
+        ambulances = cache.get("ambulances")
+        if not ambulances:
+            ambulances = Ambulansya.objects.all()
+            cache.set("ambulances", ambulances, timeout=(60 * 60))
     except Exception as e:
         logger.warning(f"Failed to fetch the ambulances: {str(e)}")
         messages.error(request, "Failed to fetch necessary data. Please reload page.")
+    finally:
+        connection.close()
     return request, ambulances
 
 
 def get_category_data(request):
     category_data = []
     try:
-        categories = Category.objects.all()
-        if categories:
-            for category in categories:
-                data = CategorySerializer(category)
-                category_data.append(data.data)
+        category_cache = cache.get("category_cache", {})
+
+        category_data = category_cache.get("category_data")
+        categories = category_cache.get("query")
+
+        if not categories:
+            categories = Category.objects.all()
+            category_cache["query"] = categories
+            cache.set("category_cache", category_cache, timeout=(60 * 120))
+
+        if not category_data:
+            category_data = []
+            if categories:
+                for category in categories:
+                    data = CategorySerializer(category)
+                    category_data.append(data.data)
+            category_cache["category_data"] = category_data
+            cache.set("category_cache", category_cache, timeout=(60 * 120))
+
     except Exception as e:
         messages.error(request, "Failed to fetch necessary data. Please reload page.")
         logger.warning(f"Failed to fetch the category data: {str(e)}")
+    finally:
+        connection.close()
     return request, category_data
 
 
 def get_wheelchairs(request):
     wheelchair_data = {}
     try:
-        avail_wheelchairs = WheelChair.objects.filter(is_avail=True)[:1]
-        unavail_wheelchairs = WheelChair.objects.filter(is_avail=False)[:1]
+        avail_wheelchairs = cache.get("avail_wheelchairs")
+        if not avail_wheelchairs:
+            avail_wheelchairs = WheelChair.objects.filter(is_avail=True)[:1]
+            cache.set("avail_wheelchairs", avail_wheelchairs, timeout=(60 * 60))
+        unavail_wheelchairs = cache.get("unavail_wheelchairs")
+        if not unavail_wheelchairs:
+            unavail_wheelchairs = WheelChair.objects.filter(is_avail=False)[:1]
+            cache.set("unavail_wheelchairs", unavail_wheelchairs, timeout=(60 * 60))
         for wheel in avail_wheelchairs:
             wheelchair_data.update(
                 {
@@ -784,5 +935,7 @@ def get_wheelchairs(request):
     except Exception as e:
         logger.warning(f"Failed to fetch wheelchair data: {str(e)}")
         messages.error(request, "Failed to fetch necessary data. Please reload page.")
+    finally:
+        connection.close()
 
     return request, wheelchair_data

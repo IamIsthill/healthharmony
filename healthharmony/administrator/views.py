@@ -26,9 +26,13 @@ def admin_dashboard(request):
         return redirect("doctor-overview")
     context = {}
     try:
-        users = User.objects.filter(is_active=True)
-        count_users = users.count() or 0
-        context = {"count_users": count_users}
+        user_cache = cache.get("user_cache", {})
+        users = user_cache.get("active_users")
+        if not users:
+            users = User.objects.filter(is_active=True).count or 0
+            user_cache["active_users"] = users
+            cache.set("user_cache", user_cache, timeout=120 * 60)
+        context = {"count_users": users}
     except Exception as e:
         logger.info(
             f"{request.user.email} failed to fetched necessary data to load administrator overview : {str(e)}"
@@ -44,9 +48,18 @@ def log_and_records(request):
         return redirect("doctor-overview")
     context = {}
     try:
-        logs = Log.objects.select_related("user").all()
-        data_logs = DataChangeLog.objects.all()
-        data_logs = get_prepared_data_logs(data_logs)
+        data_cache = cache.get("data_cache", {})
+        logs = data_cache.get("user_logs")
+        if not logs:
+            logs = Log.objects.select_related("user").all()
+            data_cache["user_logs"] = logs
+            cache.set("data_cache", data_cache, timeout=60 * 5)
+        data_logs = data_cache.get("change_logs")
+        if not data_logs:
+            data_logs = DataChangeLog.objects.all()
+            data_logs = get_prepared_data_logs(data_logs)
+            data_cache["change_logs"] = data_logs
+            cache.set("data_cache", data_cache, timeout=60 * 5)
 
         logs_paginator = Paginator(logs, 30)
         logs_page = request.GET.get("logs_page")
@@ -90,24 +103,27 @@ def account_view(request):
             form.save(request)
 
             # delete cache
-            cache.delete("users")
+            cache.delete("user_cache")
 
             return redirect("admin-accounts")
         else:
             messages.error(request, "Please correct the errors.")
 
     try:
-        users = cache.get("users")
-
-        departments = cache.get("department")
-
+        user_cache = cache.get("user_cache", {})
+        users = user_cache.get("query")
         if not users:
             users = User.objects.all()
-            cache.set("users", users, timeout=(60 * 15))
+            user_cache["query"] = users
+            cache.set("user_cache", user_cache, timeout=(120 * 60))
+
+        department_cache = cache.get("department_cache", {})
+        departments = department_cache.get("department")
 
         if not departments:
             departments = Department.objects.all()
-            cache.set("departments", departments, timeout=(60 * 15))
+            department_cache["query"] = departments
+            cache.set("department_cache", department_cache, timeout=(120 * 60))
 
         # serialize users
         user_data = []
@@ -176,7 +192,15 @@ def post_update_user_access(request):
         messages.success(request, f"Successfully update the access for {user.email}")
 
         # delete cache
-        cache.delete("users")
+        cache.delete_many(
+            [
+                "user_cache",
+                "certificate_cache",
+                "inventory_cache",
+                "doctor_cache",
+                "illness_cache",
+            ]
+        )
     return redirect("admin-accounts")
 
 
@@ -206,7 +230,16 @@ def post_delete_user(request):
         messages.success(request, f"Successfully deleted user with email {user.email}")
 
         # delete cache
-        cache.delete("users")
+        cache.delete_many(
+            [
+                "user_cache",
+                "certificate_cache",
+                "inventory_cache",
+                "doctor_cache",
+                "illness_cache",
+            ]
+        )
+
     return redirect("admin-accounts")
 
 

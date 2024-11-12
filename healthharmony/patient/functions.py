@@ -2,6 +2,7 @@ from django.utils import timezone
 from dateutil.relativedelta import relativedelta
 from django.contrib import messages
 import logging
+from django.core.cache import cache
 import requests
 
 from healthharmony.base.functions import (
@@ -58,7 +59,13 @@ def get_latest_blood_pressure(user):
 def update_patient_view_context(request, context, pk):
     """Update the context with the required information"""
     try:
-        user = User.objects.prefetch_related("blood_pressures").get(id=int(pk))
+        user_cache = cache.get("user_cache", {})
+        user = user_cache.get(f"{pk}_detailed")
+        if not user:
+            user = User.objects.prefetch_related("blood_pressures").get(id=int(pk))
+            user_cache[f"{pk}_detailed"] = user
+            cache.set("user_cache", user_cache, timeout=120 * 60)
+
     except User.DoesNotExist:
         messages.error(request, "User not found.")
         return
@@ -119,12 +126,37 @@ def fetch_overview_data(context, request):
     - request (HttpRequest): The Django request object containing user information.
     """
     try:
-        visits = Illness.objects.filter(patient=request.user).count() or 0
-        treatments = (
-            Illness.objects.filter(patient=request.user, diagnosis__gt="").count() or 0
-        )
-        beds = BedStat.objects.all()
-        doctors = DoctorDetail.objects.filter(doctor__access=3).select_related("doctor")
+        illness_cache = cache.get("illness_cache", {})
+        visits = illness_cache.get(f"patient_page_{request.user.id}_visits")
+        if not visits:
+            visits = Illness.objects.filter(patient=request.user).count() or 0
+            illness_cache[f"patient_page_{request.user.id}_visits"] = visits
+            cache.set("illness_cache", illness_cache, timeout=(60 * 60 * 2))
+
+        treatments = illness_cache.get(f"patient_page_{request.user.id}_treatments")
+        if not treatments:
+            treatments = (
+                Illness.objects.filter(patient=request.user, diagnosis__gt="").count()
+                or 0
+            )
+            illness_cache[f"patient_page_{request.user.id}_treatments"] = treatments
+            cache.set("illness_cache", illness_cache, timeout=(60 * 60 * 2))
+
+        bed_cache = cache.get("bed_cache", {})
+        beds = bed_cache.get("query")
+        if not beds:
+            beds = BedStat.objects.all()
+            bed_cache["query"] = beds
+            cache.set("bed_cache", bed_cache, timeout=(60 * 60 * 2))
+
+        doctor_cache = cache.get("doctor_cache", {})
+        doctors = doctor_cache.get("doctor_detailed")
+        if not doctors:
+            doctors = DoctorDetail.objects.filter(doctor__access=3).select_related(
+                "doctor"
+            )
+            doctor_cache["doctor_detailed"] = doctors
+            cache.set("doctor_cache", doctor_cache, timeout=(60 * 60 * 2))
 
         for doc in doctors:
             now = timezone.localtime().time()

@@ -8,6 +8,7 @@ from io import StringIO
 import io
 from textacy import preprocessing as pre
 import textacy as t
+from django.core.cache import cache
 
 from sklearn.svm import LinearSVC
 from sklearn.naive_bayes import MultinomialNB, ComplementNB
@@ -23,6 +24,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 from healthharmony.models.trained_models.models import Models, ModelLog
+from healthharmony.app.settings import env
 
 logger = logging.getLogger(__name__)
 
@@ -146,7 +148,7 @@ def get_voting_clf():
         ("RandomForest", RandomForestClassifier(random_state=42)),
         ("GradientBoosting", GradientBoostingClassifier(random_state=42)),
         ("LogisticRegression", LogisticRegression(max_iter=1000, random_state=42)),
-        ("KNeighbors", KNeighborsClassifier(n_neighbors=3)),
+        # ("KNeighbors", KNeighborsClassifier(n_neighbors=3)),
         ("DecisionTree", DecisionTreeClassifier(random_state=42)),
     ]
     voting_clf = VotingClassifier(estimators=base_classifiers, voting="hard")
@@ -175,7 +177,7 @@ def get_model(voting_clf, df):
     model = imbpipeline(
         [
             ("tfidf", TfidfVectorizer(stop_words="english")),
-            ("smote", SMOTE(random_state=42)),
+            # ("smote", SMOTE(random_state=42)),
             ("clf", voting_clf),
         ]
     )
@@ -198,28 +200,29 @@ def train_diagnosis_predictor():
     Returns:
         None
     """
-    df = get_illness_data()
+    if env.bool("TRAIN_MODEL", False):
+        df = get_illness_data()
 
-    if df is None:
-        return
-    issues = []
-    df["iss_lem"] = get_processed_issues(df, issues)
-    voting_clf = get_voting_clf()
-    model = get_model(voting_clf, df)
-    model_binary = io.BytesIO()
-    joblib.dump(model, model_binary)
-    model_binary.seek(0)
+        if df is None:
+            return
+        issues = []
+        df["iss_lem"] = get_processed_issues(df, issues)
+        voting_clf = get_voting_clf()
+        model = get_model(voting_clf, df)
+        model_binary = io.BytesIO()
+        joblib.dump(model, model_binary)
+        model_binary.seek(0)
 
-    saved_model, created = Models.objects.get_or_create(
-        model_name="diagnosis_predictor"
-    )
-    if created:
-        saved_model = Models.objects.get(model_name="diagnosis_predictor")
-        saved_model.model_file = model_binary.read()
-        saved_model.save()
-    else:
-        saved_model.model_file = model_binary.read()
-        saved_model.save()
+        saved_model, created = Models.objects.get_or_create(
+            model_name="diagnosis_predictor"
+        )
+        if created:
+            saved_model = Models.objects.get(model_name="diagnosis_predictor")
+            saved_model.model_file = model_binary.read()
+            saved_model.save()
+        else:
+            saved_model.model_file = model_binary.read()
+            saved_model.save()
 
 
 def predict_diagnosis(issue):
@@ -228,7 +231,10 @@ def predict_diagnosis(issue):
         doc = t.make_spacy_doc(preproc(text), lang="en_core_web_sm")
         text = [i.lemma_ for i in doc]
 
-        saved_model = Models.objects.get(model_name="diagnosis_predictor")
+        saved_model = cache.get("saved_model")
+        if not saved_model:
+            saved_model = Models.objects.get(model_name="diagnosis_predictor")
+            cache.set("saved_model", saved_model, timeout=(60 * 60 * 4))
 
         model_binary = io.BytesIO(saved_model.model_file)
         model = joblib.load(model_binary)

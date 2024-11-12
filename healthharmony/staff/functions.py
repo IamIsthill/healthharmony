@@ -1,12 +1,14 @@
 from django.contrib import messages
 from django.utils import timezone
 from datetime import timedelta
+from django.db import connection, DatabaseError
 from dateutil.relativedelta import relativedelta
-from django.db.models import Sum, Min, Count
+from django.db.models import Sum, Min, Count, Max
 import logging
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.conf import settings
+from django.core.cache import cache
 
 from healthharmony.models.treatment.models import Category, Illness, Certificate
 from healthharmony.models.inventory.models import InventoryDetail
@@ -33,7 +35,15 @@ def getCategory(request):
             - HttpRequest: The original request object, potentially modified to include error messages.
     """
     try:
-        categories = Category.objects.all()
+        category_cache = cache.get("category_cache", {})
+
+        categories = category_cache.get("query")
+
+        if not categories:
+            categories = Category.objects.all()
+            category_cache["query"] = categories
+            cache.set("category_cache", category_cache, timeout=(60 * 120))
+
     except Exception as e:
         logger.error(f"Error fetching data: {str(e)}")
         messages.error(request, "Error fetching data. Please reload.")
@@ -66,29 +76,55 @@ def sort_category(categories, request):
 
     now = timezone.now()
 
-    for filter in data_filter:
-        start, max_range, date_format, date_loop = get_init_loop_params(filter, now)
+    try:
+        illness_cache = cache.get("illness_cache", {})
 
-        for offset in range(max_range):
-            main_start, main_end = get_changing_loop_params(
-                offset, start, date_loop, filter
-            )
+        illnesses = illness_cache.get("query")
 
-            request, category_data = sort_category_loop(
-                categories,
-                main_start,
-                main_end,
-                category_data,
-                date_format,
-                request,
-                filter,
-            )
+        if not illnesses:
+            illnesses = Illness.objects.all()
+            illness_cache["query"] = illnesses
+            cache.set("illness_cache", illness_cache, timeout=None)
+
+    except DatabaseError as e:
+        logger.info(f"{e}")
+
+    if illness_cache.get("category_data") is not None:
+        category_data = illness_cache.get("category_data")
+    else:
+        for filter in data_filter:
+            start, max_range, date_format, date_loop = get_init_loop_params(filter, now)
+
+            for offset in range(max_range):
+                main_start, main_end = get_changing_loop_params(
+                    offset, start, date_loop, filter
+                )
+
+                request, category_data = sort_category_loop(
+                    categories,
+                    main_start,
+                    main_end,
+                    category_data,
+                    date_format,
+                    request,
+                    filter,
+                    illnesses,
+                )
+        illness_cache["category_data"] = category_data
+        cache.set("illness_cache", illness_cache, timeout=None)
 
     return request, category_data
 
 
 def sort_category_loop(
-    categories, main_start, main_end, category_storage, date_format, request, filter
+    categories,
+    main_start,
+    main_end,
+    category_storage,
+    date_format,
+    request,
+    filter,
+    illnesses,
 ):
     """
     Sort and categorize illnesses based on their update timestamps and a specified filter.
@@ -117,18 +153,9 @@ def sort_category_loop(
         None: Any exceptions encountered during processing are logged and handled
               within the function, and an error message is sent to the user.
     """
-    for category in categories:
-        try:
-            illnesses = Illness.objects.select_related("illness_category").filter(
-                illness_category=category, updated__gte=main_start, updated__lt=main_end
-            )
 
-            if filter == "weekly":
-                illnesses = Illness.objects.filter(
-                    illness_category=category,
-                    updated__gte=main_start,
-                    updated__lte=main_end,
-                )
+    for category in categories:
+        for illness in illnesses:
 
             if filter not in category_storage:
                 category_storage[filter] = {}
@@ -144,14 +171,62 @@ def sort_category_loop(
                     main_start.strftime(date_format)
                 ] = []
 
-            if illnesses:
-                category_storage[filter][category.id][category.category][
-                    main_start.strftime(date_format)
-                ] = [illness_to_dict(illness) for illness in illnesses]
+            if illness.illness_category:
 
-        except Exception as e:
-            logger.error(f"Failed to sort data: {str(e)}")
-            messages.error(request, "Failed to sort data. Please try again")
+                if filter == "weekly":
+                    if (
+                        illness.illness_category.category == category.category
+                        and illness.updated >= main_start
+                        and illness.updated <= main_end
+                    ):
+                        category_storage[filter][category.id][category.category][
+                            main_start.strftime(date_format)
+                        ].append(illness_to_dict(illness))
+                elif (
+                    illness.illness_category.category == category.category
+                    and illness.updated >= main_start
+                    and illness.updated < main_end
+                ):
+                    category_storage[filter][category.id][category.category][
+                        main_start.strftime(date_format)
+                    ].append(illness_to_dict(illness))
+
+        # try:
+        #     illnesses = Illness.objects.select_related("illness_category").filter(
+        #         illness_category=category, updated__gte=main_start, updated__lt=main_end
+        #     )
+
+        #     if filter == "weekly":
+        #         illnesses = Illness.objects.filter(
+        #             illness_category=category,
+        #             updated__gte=main_start,
+        #             updated__lte=main_end,
+        #         )
+
+        #     if filter not in category_storage:
+        #         category_storage[filter] = {}
+        #     if category.id not in category_storage[filter]:
+        #         category_storage[filter][category.id] = {}
+        #     if category.category not in category_storage[filter][category.id]:
+        #         category_storage[filter][category.id][category.category] = {}
+        #     if (
+        #         main_start.strftime(date_format)
+        #         not in category_storage[filter][category.id][category.category]
+        #     ):
+        #         category_storage[filter][category.id][category.category][
+        #             main_start.strftime(date_format)
+        #         ] = []
+
+        #     if illnesses:
+        #         category_storage[filter][category.id][category.category][
+        #             main_start.strftime(date_format)
+        #         ] = [illness_to_dict(illness) for illness in illnesses]
+
+        # except Exception as e:
+        #     logger.error(f"Failed to sort data: {str(e)}")
+        #     messages.error(request, "Failed to sort data. Please try again")
+        # finally:
+        #     connection.close()
 
     return request, category_storage
 
@@ -222,7 +297,14 @@ def get_departments(request):
     """
     try:
         # Fetch all Department instances
-        departments = Department.objects.all()
+        department_cache = cache.get("department_cache", {})
+
+        if not department_cache.get("query"):
+            departments = Department.objects.all()
+            department_cache["query"] = departments
+            cache.set("department_cache", department_cache, timeout=(60 * 120))
+        else:
+            departments = department_cache.get("query")
 
     except Exception as e:
         # Log the error with a message
@@ -262,28 +344,49 @@ def sort_department(
     # Get the current time
     now = timezone.now()
 
-    # Iterate over each filter type (yearly, monthly, weekly)
-    for filter in department_data:
-        # Get the initial parameters for the loop based on the filter type
-        start, max_range, date_format, date_loop = get_init_loop_params(filter, now)
+    try:
+        illness_cache = cache.get("illness_cache", {})
 
-        # Iterate through each offset value within the range for the current filter
-        for offset in range(max_range):
-            # Get the start and end dates for the current period
-            main_start, main_end = get_changing_loop_params(
-                offset, start, date_loop, filter
-            )
+        patients = illness_cache.get("patient_per_department")
 
-            # Sort and process the department data for the current period
-            request, department_data = sort_department_loop(
-                departments,
-                department_data,
-                main_start,
-                main_end,
-                date_format,
-                filter,
-                request,
+        if not patients:
+            patients = User.objects.all().annotate(
+                latest_illness=Max("patient_illness__updated")
             )
+            illness_cache["patient_per_department"] = patients
+            cache.set("illness_cache", illness_cache, timeout=None)
+
+    except DatabaseError as e:
+        logger.warning(f"{e}")
+
+    if illness_cache.get("department_data") is not None:
+        department_data = illness_cache.get("department_data")
+    else:
+        # Iterate over each filter type (yearly, monthly, weekly)
+        for filter in department_data:
+            # Get the initial parameters for the loop based on the filter type
+            start, max_range, date_format, date_loop = get_init_loop_params(filter, now)
+
+            # Iterate through each offset value within the range for the current filter
+            for offset in range(max_range):
+                # Get the start and end dates for the current period
+                main_start, main_end = get_changing_loop_params(
+                    offset, start, date_loop, filter
+                )
+
+                # Sort and process the department data for the current period
+                request, department_data = sort_department_loop(
+                    departments,
+                    department_data,
+                    main_start,
+                    main_end,
+                    date_format,
+                    filter,
+                    request,
+                    patients,
+                )
+        illness_cache["department_data"] = department_data
+        cache.set("illness_cache", illness_cache, timeout=None)
 
     return request, department_data
 
@@ -396,7 +499,14 @@ def get_changing_loop_params(offset, start, date_loop, filter):
 
 
 def sort_department_loop(
-    departments, department_data, main_start, main_end, date_format, filter, request
+    departments,
+    department_data,
+    main_start,
+    main_end,
+    date_format,
+    filter,
+    request,
+    patients,
 ):
     """
     Processes and sorts department data for a given time period and updates the department_data dictionary.
@@ -413,40 +523,60 @@ def sort_department_loop(
     Returns:
         tuple: A tuple containing the updated request and department_data dictionary.
     """
+
     for department in departments:
         # Prepare the department data storage structure for the current department
         department_data = get_prepared_department_storage(
             department_data, department, main_start, date_format, filter
         )
 
-        try:
-            # Query for patients associated with the current department and within the specified date range
-            patients = (
-                User.objects.select_related("department")
-                .filter(
-                    department=department,
-                    patient_illness__updated__gte=main_start,
-                    patient_illness__updated__lte=main_end,
-                )
-                .distinct()
-            )
+        if patients:
+            for patient in patients:
+                if patient.department and patient.latest_illness:
+                    if (
+                        patient.department.id == department.id
+                        and patient.latest_illness >= main_start
+                        and patient.latest_illness <= main_end
+                    ):
+                        department_data[filter][department.id][department.department][
+                            main_start.strftime(date_format)
+                        ].append(
+                            {
+                                "patientId": patient.id,
+                                "department": patient.department.department,
+                            }
+                        )
 
-            # If there are patients, add their information to the department_data dictionary
-            if patients:
-                department_data[filter][department.id][department.department][
-                    main_start.strftime(date_format)
-                ] = [
-                    {
-                        "patientId": patient.id,
-                        "department": patient.department.department,
-                    }
-                    for patient in patients
-                ]
+        # try:
+        #     # Query for patients associated with the current department and within the specified date range
+        #     patients = (
+        #         User.objects.select_related("department")
+        #         .filter(
+        #             department=department,
+        #             patient_illness__updated__gte=main_start,
+        #             patient_illness__updated__lte=main_end,
+        #         )
+        #         .distinct()
+        #     )
 
-        except Exception as e:
-            # Log the error and add an error message to the request if sorting fails
-            logger.error(f"Failed to sort department data: {str(e)}")
-            messages.error(request, "Failed to sort data. Please try again")
+        #     # If there are patients, add their information to the department_data dictionary
+        #     if patients:
+        #         department_data[filter][department.id][department.department][
+        #             main_start.strftime(date_format)
+        #         ] = [
+        #             {
+        #                 "patientId": patient.id,
+        #                 "department": patient.department.department,
+        #             }
+        #             for patient in patients
+        #         ]
+
+        # except Exception as e:
+        #     # Log the error and add an error message to the request if sorting fails
+        #     logger.error(f"Failed to sort department data: {str(e)}")
+        #     messages.error(request, "Failed to sort data. Please try again")
+        # finally:
+        #     connection.close()
 
     return request, department_data
 
@@ -501,32 +631,40 @@ def get_inventory(request):
 def get_sorted_inventory_list(request):
     inventory = None
     try:
-        inventory = (
-            InventoryDetail.objects.all()
-            .annotate(total_quantity=Sum("quantities__updated_quantity"))
-            .values(
-                "id",
-                "total_quantity",
-                "item_name",
-                "category",
-                "expiration_date",
-                "item_no",
-                "description",
-                "unit",
-            )
-        )
+        inventory_cache = cache.get("inventory_cache", {})
 
-        for data in inventory:
-            if data["total_quantity"] is None:
-                data["total_quantity"] = 0
-            if data["expiration_date"] is not None:
-                data["expiration_date"] = data["expiration_date"].isoformat()
-            else:
-                data["expiration_date"] = ""
-            if data["category"] == "Medicine":
-                data["sorter"] = 1
-            if data["category"] == "Supply":
-                data["sorter"] = 2
+        inventory = inventory_cache.get("inventory_detailed")
+
+        if not inventory:
+            inventory = (
+                InventoryDetail.objects.all()
+                .annotate(total_quantity=Sum("quantities__updated_quantity"))
+                .values(
+                    "id",
+                    "total_quantity",
+                    "item_name",
+                    "category",
+                    "expiration_date",
+                    "item_no",
+                    "description",
+                    "unit",
+                )
+            )
+
+            if inventory:
+                for data in inventory:
+                    if data["total_quantity"] is None:
+                        data["total_quantity"] = 0
+                    if data["expiration_date"] is not None:
+                        data["expiration_date"] = data["expiration_date"].isoformat()
+                    else:
+                        data["expiration_date"] = ""
+                    if data["category"] == "Medicine":
+                        data["sorter"] = 1
+                    if data["category"] == "Supply":
+                        data["sorter"] = 2
+            inventory_cache["inventory_detailed"] = inventory
+            cache.set("inventory_detailed", inventory, timeout=(60 * 120))
 
     except Exception as e:
         logger.error(f"Failed to fetch sorted inventory list: {str(e)}")
@@ -544,44 +682,51 @@ def get_counted_inventory(request):
         }
 
         now = timezone.now()
+        inventory_cache = cache.get("inventory_cache", {})
 
-        for category in inventory_data:
+        if inventory_cache.get("inventory_data"):
+            inventory_data = inventory_cache.get("inventory_data")
+        else:
 
-            for filter in inventory_data[category]:
-                start, max_range, date_format, date_loop = get_init_loop_params(
-                    filter, now
-                )
+            for category in inventory_data:
 
-                for offset in range(max_range):
-                    main_start, main_end = get_changing_loop_params(
-                        offset, start, date_loop, filter
+                for filter in inventory_data[category]:
+                    start, max_range, date_format, date_loop = get_init_loop_params(
+                        filter, now
                     )
-                    inventory = InventoryDetail.objects.filter(
-                        category=category,
-                        quantities__timestamp__gte=main_start,
-                        quantities__timestamp__lte=main_end,
-                    ).annotate(
-                        total_quantity=Sum("quantities__updated_quantity"),
-                        date_updated=Min("quantities__timestamp"),
-                    )
-                    inventory_data[category][filter][
-                        main_start.strftime(date_format)
-                    ] = []
-                    if inventory:
-                        for data in inventory:
-                            data.total_quantity = data.total_quantity or 0
-                            inventory_data[category][filter][
-                                main_start.strftime(date_format)
-                            ].append(
-                                {
-                                    "id": data.id,
-                                    "total_quantity": data.total_quantity,
-                                    "expiration_date": data.expiration_date.isoformat()
-                                    if data.expiration_date
-                                    else "",
-                                    "date_updated": data.date_updated.isoformat(),
-                                }
-                            )
+
+                    for offset in range(max_range):
+                        main_start, main_end = get_changing_loop_params(
+                            offset, start, date_loop, filter
+                        )
+                        inventory = InventoryDetail.objects.filter(
+                            category=category,
+                            quantities__timestamp__gte=main_start,
+                            quantities__timestamp__lte=main_end,
+                        ).annotate(
+                            total_quantity=Sum("quantities__updated_quantity"),
+                            date_updated=Min("quantities__timestamp"),
+                        )
+                        inventory_data[category][filter][
+                            main_start.strftime(date_format)
+                        ] = []
+                        if inventory:
+                            for data in inventory:
+                                data.total_quantity = data.total_quantity or 0
+                                inventory_data[category][filter][
+                                    main_start.strftime(date_format)
+                                ].append(
+                                    {
+                                        "id": data.id,
+                                        "total_quantity": data.total_quantity,
+                                        "expiration_date": data.expiration_date.isoformat()
+                                        if data.expiration_date
+                                        else "",
+                                        "date_updated": data.date_updated.isoformat(),
+                                    }
+                                )
+            inventory_cache["inventory_data"] = inventory_data
+            cache.set("inventory_cache", inventory_cache, timeout=(60 * 120))
 
     except Exception as e:
         logger.error(str(e))
@@ -592,75 +737,174 @@ def get_counted_inventory(request):
 
 
 def fetch_today_patient(now):
-    return (
-        User.objects.filter(patient_illness__updated__date=now.date())
-        .distinct()
-        .count()
-        or 0
-    )
+    try:
+        count = cache.get("today_patient")
+        if not count:
+            count = (
+                User.objects.filter(patient_illness__updated__date=now.date())
+                .distinct()
+                .count()
+                or 0
+            )
+            cache.set("today_patient", count, timeout=(60 * 30))
+    except DatabaseError as e:
+        logger.info(f"{e}")
+        count = 0
+    return count
 
 
 def fetch_total_patient():
-    return (
-        User.objects.annotate(illness_count=Count("patient_illness"))
-        .filter(illness_count__gt=0)
-        .count()
-        or 0
-    )
+    try:
+        count = cache.get("total_patient")
+
+        if not count:
+
+            count = (
+                User.objects.annotate(illness_count=Count("patient_illness"))
+                .filter(illness_count__gt=0)
+                .count()
+                or 0
+            )
+            cache.set("total_patient", count, timeout=(60 * 30))
+
+    except DatabaseError as e:
+        logger.info(f"{e}")
+        count = 0
+    return count
 
 
 def fetch_previous_patients(previous_day):
-    return (
-        User.objects.filter(patient_illness__updated__date=previous_day.date())
-        .distinct()
-        .count()
-        or 0
-    )
+    try:
+        count = cache.get("previous_patients")
+
+        if not count:
+            count = (
+                User.objects.filter(patient_illness__updated__date=previous_day.date())
+                .distinct()
+                .count()
+                or 0
+            )
+
+            cache.set("previous_patients", count, timeout=(60 * 30))
+
+    except DatabaseError as e:
+        logger.info(f"{e}")
+        count = 0
+    return count
 
 
-def fetch_monthly_medcert(now):
-    return (
-        Certificate.objects.filter(
-            requested__month=now.month, requested__year=now.year, released=True
-        ).count()
-        or 0
-    )
+def fetch_monthly_medcert(now, previous_month):
+    monthly_medcert = 0
+    previous_medcert = 0
+    try:
+        certificate_cache = cache.get("certificate_cache", {})
+
+        medcerts = certificate_cache.get("query")
+
+        if not medcerts:
+            medcerts = Certificate.objects.filter(released=True)
+
+            if medcerts:
+                certificate_cache["query"] = medcerts
+
+                for cert in medcerts:
+                    if (
+                        cert.requested.month == now.month
+                        and cert.requested.year == now.year
+                    ):
+                        monthly_medcert += 1
+                    if (
+                        cert.requested.month == previous_month.month
+                        and cert.requested.year == previous_month.year
+                    ):
+                        previous_medcert += 1
+                certificate_cache["monthly_medcert"] = monthly_medcert
+                certificate_cache["previous_medcert"] = previous_medcert
+
+            cache.set("certificate_cache", certificate_cache, timeout=(60 * 120))
+        else:
+            monthly_medcert = certificate_cache.get("monthly_medcert", 0)
+            previous_medcert = certificate_cache.get("previous_medcert", 0)
+
+    except DatabaseError as e:
+        logger.info(f"{e}")
+
+    return monthly_medcert, previous_medcert
 
 
 def fetch_previous_medcert(previous_month):
-    return (
-        Certificate.objects.filter(
-            requested__month=previous_month.month,
-            requested__year=previous_month.year,
-            released=True,
-        ).count()
-        or 0
-    )
+    try:
+        count = (
+            Certificate.objects.filter(
+                requested__month=previous_month.month,
+                requested__year=previous_month.year,
+                released=True,
+            ).count()
+            or 0
+        )
+    except DatabaseError as e:
+        logger.info(f"{e}")
+        count = 0
+    return count
 
 
 def fetch_patients():
-    return User.objects.filter(access=1)
+    try:
+        user_cache = cache.get("user_cache", {})
+
+        if not user_cache.get("patients"):
+            patients = User.objects.filter(access=1)
+            user_cache["patients"] = patients
+            cache.set("user_cache", user_cache, timeout=(60 * 120))
+        else:
+            patients = user_cache.get("patients")
+    except DatabaseError as e:
+        logger.info(f"{e}")
+        patients = None
+    return patients
 
 
 def fetch_categories():
-    return Category.objects.all()
+    try:
+        category_cache = cache.get("category_cache", {})
+        category = category_cache.get("query")
+
+        if not category:
+            category = Category.objects.all()
+            category_cache["query"] = category
+            cache.set("category_cache", category_cache, timeout=None)
+
+    except DatabaseError as e:
+        logger.info(f"{e}")
+        category = None
+    return category
 
 
 def fetch_inventory(InventoryDetail, Sum, request):
     inventory = None
     try:
-        inventory = (
-            InventoryDetail.objects.all()
-            .annotate(
-                quantity=Sum("quantities__updated_quantity"),
-            )
-            .values("id", "item_name", "category", "quantity", "expiration_date")
-        )
+        inventory_cache = cache.get("inventory_cache", {})
 
-        for data in inventory:
-            if data["expiration_date"]:
-                data["expiration_date"] = data["expiration_date"].isoformat()
-            data["quantity"] = data["quantity"] or 0
+        inventory = inventory_cache.get("inventory_table")
+
+        if not inventory:
+            inventory = (
+                InventoryDetail.objects.all()
+                .annotate(
+                    quantity=Sum("quantities__updated_quantity"),
+                )
+                .values("id", "item_name", "category", "quantity", "expiration_date")
+            )
+
+            if inventory:
+                for data in inventory:
+                    if data["expiration_date"]:
+                        data["expiration_date"] = data["expiration_date"].isoformat()
+                    data["quantity"] = data["quantity"] or 0
+
+            inventory_cache["inventory_table"] = inventory
+
+            cache.set("inventory_cache", inventory_cache, timeout=(60 * 120))
 
     except Exception as e:
         logger.error(f"Failed to fetch inventory data: {str(e)}")
@@ -669,11 +913,30 @@ def fetch_inventory(InventoryDetail, Sum, request):
 
 
 def fetch_history(Illness, IllnessSerializer):
-    history = Illness.objects.all()
-    history_data = []
-    for hist in history:
-        data = IllnessSerializer(hist)
-        history_data.append(data.data)
+    history = None
+    history_data = None
+    try:
+        illness_cache = cache.get("illness_cache", {})
+        history = illness_cache.get("query")
+        history_data = illness_cache.get("illness_data")
+
+        if not history:
+            history = Illness.objects.all()
+            illness_cache["query"] = history
+            cache.set("illness_cache", illness_cache, timeout=(60 * 120))
+
+        if not history_data:
+            history_data = []
+
+            for hist in history:
+                data = IllnessSerializer(hist)
+                history_data.append(data.data)
+
+            illness_cache["illness_data"] = history_data
+            cache.set("illness_cache", illness_cache, timeout=(60 * 120))
+
+    except Exception as e:
+        logger.info(f"{e}")
     return history, history_data
 
 
@@ -686,81 +949,108 @@ def fetch_certificate_chart(timezone, Certificate, relativedelta):
 
     start = now - relativedelta(months=11)
 
-    certificates = Certificate.objects.filter(requested__gte=start)
+    certificate_cache = cache.get("certificate_cache", {})
+    certificates = certificate_cache.get("query")
+    certificate_chart = certificate_cache.get("certificate_chart")
 
-    for cert_date in cert_dates:
-        start, max_range, date_format, date_loop = get_init_loop_params(cert_date, now)
-        certificate_chart[cert_date] = []
-        for offset in range(max_range):
-            main_start, main_end = get_changing_loop_params(
-                offset, start, date_loop, cert_date
+    if not certificates:
+        certificates = Certificate.objects.all()
+        connection.close()
+        certificate_cache["query"] = certificates
+        cache.set("certificate_cache", certificate_cache, timeout=(60 * 120))
+
+    if not certificate_chart:
+        certificate_chart = {}
+        for cert_date in cert_dates:
+            start, max_range, date_format, date_loop = get_init_loop_params(
+                cert_date, now
             )
-            count = 0
-            for cert in certificates:
-                if cert.requested >= main_start and cert.requested < main_end:
-                    count = count + 1
-            certificate_chart[cert_date].append(
-                {f"{main_start.strftime(date_format)}": count}
-            )
+            certificate_chart[cert_date] = []
+            for offset in range(max_range):
+                main_start, main_end = get_changing_loop_params(
+                    offset, start, date_loop, cert_date
+                )
+                count = 0
+                if certificates:
+                    for cert in certificates:
+                        if cert.requested >= main_start and cert.requested < main_end:
+                            count = count + 1
+                certificate_chart[cert_date].append(
+                    {f"{main_start.strftime(date_format)}": count}
+                )
+        certificate_cache["certificate_chart"] = certificate_chart
+        cache.set("certificate_cache", certificate_cache, timeout=(60 * 120))
 
     return certificate_chart
 
 
 def fetch_certificates(Certificate, F):
-    certificates = (
-        Certificate.objects.all()
-        .annotate(
-            email=F("patient__email"),
-            first_name=F("patient__first_name"),
-            last_name=F("patient__last_name"),
+    certificate_cache = cache.get("certificate_cache", {})
+    certificates = certificate_cache.get("certificates_detailed")
+    if not certificates:
+        certificates = (
+            Certificate.objects.all()
+            .annotate(
+                email=F("patient__email"),
+                first_name=F("patient__first_name"),
+                last_name=F("patient__last_name"),
+            )
+            .values(
+                "id",
+                "patient",
+                "purpose",
+                "requested",
+                "is_ready",
+                "released",
+                "email",
+                "first_name",
+                "last_name",
+            )
         )
-        .values(
-            "id",
-            "patient",
-            "purpose",
-            "requested",
-            "is_ready",
-            "released",
-            "email",
-            "first_name",
-            "last_name",
-        )
-    )
-    if certificates:
-        for cert in certificates:
-            cert["requested"] = cert["requested"].isoformat()
-        return certificates
-    else:
-        return None
+
+        if certificates:
+            for cert in certificates:
+                cert["requested"] = cert["requested"].isoformat()
+        certificate_cache["certificates_detailed"] = certificates
+        cache.set("certificate_cache", certificate_cache, timeout=(60 * 120))
+
+    connection.close()
+
+    return certificates
 
 
 def fetch_employees(
     OuterRef, Coalesce, Subquery, Value, DateTimeField, messages, request
 ):
     try:
-        cases = (
-            Illness.objects.filter(staff=OuterRef("pk"))
-            .order_by("-updated")
-            .values("updated")[:1]
-        )
-        users = (
-            User.objects.filter(access__gte=2, access__lte=3)
-            .annotate(
-                last_case=Coalesce(
-                    Subquery(cases), Value(None), output_field=DateTimeField()
-                ),
-                staff_count=Count("staff_illness"),
-                doctor_count=Count("doctor_illness"),
+        illness_cache = cache.get("illness_cache", {})
+        users = illness_cache.get("clinic_employees")
+        if not users:
+            cases = (
+                Illness.objects.filter(staff=OuterRef("pk"))
+                .order_by("-updated")
+                .values("updated")[:1]
             )
-            .values()
-        )
-        for user in users:
-            if user["DOB"]:
-                user["DOB"] = user["DOB"].isoformat()
-            if user["last_case"]:
-                user["last_case"] = user["last_case"].isoformat()
-            if user["date_joined"]:
-                user["date_joined"] = user["date_joined"].isoformat()
+            users = (
+                User.objects.filter(access__gte=2, access__lte=3)
+                .annotate(
+                    last_case=Coalesce(
+                        Subquery(cases), Value(None), output_field=DateTimeField()
+                    ),
+                    staff_count=Count("staff_illness"),
+                    doctor_count=Count("doctor_illness"),
+                )
+                .values()
+            )
+            for user in users:
+                if user["DOB"]:
+                    user["DOB"] = user["DOB"].isoformat()
+                if user["last_case"]:
+                    user["last_case"] = user["last_case"].isoformat()
+                if user["date_joined"]:
+                    user["date_joined"] = user["date_joined"].isoformat()
+            illness_cache["clinic_employees"] = users
+            cache.set("illness_cache", illness_cache, timeout=(60 * 120))
         logger.info(
             f"{request.user.email} successfully fetched employee instances in staff/accounts"
         )

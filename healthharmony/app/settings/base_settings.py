@@ -109,16 +109,9 @@ ASGI_APPLICATION = "healthharmony.app.asgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
-#     }
-# }
 CACHES = {
     "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://0.0.0.0:6379/",
-        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
     }
 }
 

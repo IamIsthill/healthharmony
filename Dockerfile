@@ -4,6 +4,7 @@ COPY [ "package-lock.json", "package.json", "./"]
 
 RUN npm install
 
+FROM redis:latest
 
 FROM python:3.12-slim-bullseye AS python-base
 

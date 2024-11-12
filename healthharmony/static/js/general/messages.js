@@ -37,7 +37,7 @@ function remove_error_show() {
     for (const element of error_elements) {
         setTimeout(() => {
             element.remove()
-        }, 2000)
+        }, 4000)
     }
 }
 
@@ -56,9 +56,13 @@ function handle_notif() {
 
     const close_btns = document.querySelectorAll('.js-close-messages')
 
-    for (const close in close_btns) {
-        close.addEventListener('click', () => {
-            close.parentElement.remove()
-        })
+    if (close_btns.length <= 0) {
+        for (const close in close_btns) {
+            close.addEventListener('click', () => {
+                close.parentElement.remove()
+            })
+        }
     }
+
+
 }
