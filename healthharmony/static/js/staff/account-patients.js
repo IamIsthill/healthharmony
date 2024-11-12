@@ -204,7 +204,7 @@ export function create_hover_patient_information(patient_data, x, y, format_date
         console.log(error)
     }
     const content = `
-        <img src="https://healthharmony-static.s3.ap-southeast-2.amazonaws.com/${patient_data.profile}">
+        <img src="https://healthharmony-staticfiles.s3.ap-southeast-2.amazonaws.com/${patient_data.profile}">
         <p class="hover-name">${patient_data.first_name} ${patient_data.last_name}</p>
         <p class="hover-email">${patient_data.email}</p>
         <hr>

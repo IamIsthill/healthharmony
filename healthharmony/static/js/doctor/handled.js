@@ -134,6 +134,7 @@ function create_illness_category_bar_chart() {
         },
         scales: {
             x: {
+                display: false,
                 grid: {
                     display: false
                 },
@@ -287,7 +288,8 @@ function create_colleges_bar_chart() {
                         size: 10,
                         weight: 'bold',
                         style: 'normal'
-                    }
+                    },
+                    rotation: 90
                 }
             },
             y: {

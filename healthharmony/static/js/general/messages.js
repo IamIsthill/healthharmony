@@ -1,12 +1,12 @@
 handle_onclick_ok_modal()
 remove_error_show()
-
+handle_notif()
 
 // Close modal
 function handle_onclick_ok_modal() {
     const btns = document.querySelectorAll('.js-modal-btn-ok')
 
-    if(btns.length == 0) {
+    if (btns.length == 0) {
         return
     }
 
@@ -35,8 +35,34 @@ function remove_error_show() {
     }
 
     for (const element of error_elements) {
-        setTimeout(()=>{
+        setTimeout(() => {
             element.remove()
+        }, 4000)
+    }
+}
+
+function handle_notif() {
+    const messages = document.querySelectorAll('.js-messages')
+
+    if (messages.length <= 0) {
+        return
+    }
+
+    for (const message of messages) {
+        setTimeout(() => {
+            message.remove()
         }, 2000)
     }
+
+    const close_btns = document.querySelectorAll('.js-close-messages')
+
+    if (close_btns.length <= 0) {
+        for (const close in close_btns) {
+            close.addEventListener('click', () => {
+                close.parentElement.remove()
+            })
+        }
+    }
+
+
 }

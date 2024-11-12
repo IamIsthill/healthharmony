@@ -5,6 +5,7 @@ import logging
 from rest_framework.decorators import api_view
 from django.http import JsonResponse
 from django.contrib.auth import logout
+from django.core.cache import cache
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -50,7 +51,7 @@ from healthharmony.doctor.serializer import (
     IllnessNoteSerializer,
 )
 
-from healthharmony.base.functions import check_models
+from healthharmony.base.functions import check_models, train_diagnosis_predictor
 
 
 logger = logging.getLogger(__name__)
@@ -66,19 +67,31 @@ def view_patient_profile(request, pk):
     update_patient_view_context(request, context, pk)
 
     try:
-        user = User.objects.get(id=int(pk))
-        patient = UserSerializer(user).data
-        illnesses = []
-        treatments = []
-        illness_query = Illness.objects.filter(patient=user)
-        for illness in illness_query:
-            illnesses.append(IllnessSerializer(illness).data)
-            for treatment in illness.illnesstreatment_set.all():
-                treatments.append(IllnessTreatmentSerializer(treatment).data)
+        user_cache = cache.get("user_cache", {})
+        user = user_cache.get(pk)
+        if not user:
+            user = User.objects.get(id=int(pk))
+            user_cache[pk] = user
+            cache.set("user_cache", user_cache, timeout=(60 * 120))
 
-        if treatments:
-            for treatment in treatments:
-                treatment["quantity"] = treatment["quantity"] * -1
+        patient = UserSerializer(user).data
+
+        treatments = user_cache.get(f"{pk}_treatments", [])
+        illnesses = user_cache.get(f"{pk}_illnesses", [])
+        if not illnesses:
+            illness_query = Illness.objects.filter(patient=user)
+            for illness in illness_query:
+                illnesses.append(IllnessSerializer(illness).data)
+                for treatment in illness.illnesstreatment_set.all():
+                    treatments.append(IllnessTreatmentSerializer(treatment).data)
+            if treatments:
+                for treatment in treatments:
+                    treatment["quantity"] = treatment["quantity"] * -1
+            user_cache[f"{pk}_treatments"] = treatments
+            user_cache[f"{pk}_illnesses"] = illnesses
+
+            cache.set("user_cache", user_cache, timeout=(60 * 120))
+
         context.update(
             {"illnesses": illnesses, "treatments": treatments, "patient": patient}
         )
@@ -114,12 +127,14 @@ def post_update_patient_illness(request, pk):
             messages.error(request, "Failed to update patient's case.")
             logger.warning("Illness form is invalid")
 
-        if prescription_form.is_valid():
+        if illness_form.is_valid() and prescription_form.is_valid():
             prescription_form.save(request)
 
         else:
             messages.error(request, "Failed to update patient's case.")
             logger.warning("Prescription form is invalid")
+
+        cache.delete_many(["inventory_cache", "user_cache", "illness_cache"])
 
         return redirect("doctor-view-patient", pk)
 
@@ -133,6 +148,7 @@ def post_create_illness_note(request, pk):
 
     if form.is_valid():
         form.save(request)
+        cache.delete("note_cache")
     else:
         messages.error(request, "The request is invalid")
         logger.warning("The request is invalid")
@@ -145,9 +161,15 @@ def overview_view(request):
     # Check the access level of the user, return to home if not sufficient
     if request.user.access < 3:
         return redirect("staff-overview")
+    train_diagnosis_predictor()
 
-    illness_cases = Illness.objects.all()
-    illness_data = []
+    illness_cache = cache.get("illness_cache", {})
+    illness_cases = illness_cache.get("query")
+
+    if not illness_cases:
+        illness_cases = Illness.objects.all()
+        illness_cache["query"] = illness_cases
+        cache.set("illness_cache", illness_cache, timeout=(60 * 120))
 
     illness_paginator = Paginator(illness_cases, 20)
     page = request.GET.get("page")
@@ -159,35 +181,44 @@ def overview_view(request):
     except EmptyPage:
         illness_page = illness_paginator.page(illness_paginator.num_pages)
 
-    with ThreadPoolExecutor() as tp:
-        futures = {
-            tp.submit(
-                get_sorted_illness_categories, illness_cases
-            ): "illness_categories",
-            tp.submit(get_departments, request): "department_names",
-            tp.submit(get_sorted_department, request): "department_data",
-            tp.submit(get_sorted_category, request): "sorted_illness_category",
-            tp.submit(fetch_categories): "categories",
-        }
+    # with ThreadPoolExecutor() as tp:
+    #     futures = {
+    #         tp.submit(
+    #             get_sorted_illness_categories, illness_cases
+    #         ): "illness_categories",
+    #         tp.submit(get_departments, request): "department_names",
+    #         tp.submit(get_sorted_department, request): "department_data",
+    #         tp.submit(get_sorted_category, request): "sorted_illness_category",
+    #         tp.submit(fetch_categories): "categories",
+    #     }
 
-        results = {}
-        for future in as_completed(futures):
-            key = futures[future]
-            try:
-                results[key] = future.result()
-            except Exception as exc:
-                logger.error(f"{key} generated an exception: {exc}")
-                results[key] = 0
+    #     results = {}
+    #     for future in as_completed(futures):
+    #         key = futures[future]
+    #         try:
+    #             results[key] = future.result()
+    #         except Exception as exc:
+    #             logger.error(f"{key} generated an exception: {exc}")
+    #             results[key] = 0
 
-    for case in illness_cases:
-        data = IllnessSerializer(case).data
-        illness_data.append(data)
+    illness_data = illness_cache.get("illness_data", [])
+    if not illness_data:
+        for case in illness_cases:
+            data = IllnessSerializer(case).data
+            illness_data.append(data)
+        illness_cache["illness_data"] = illness_data
+        cache.set("illness_cache", illness_cache, timeout=(120 * 60))
 
-    illness_categories = results["illness_categories"]
-    request, department_names = results["department_names"]
-    request, department_data = results["department_data"]
-    request, sorted_illness_category = results["sorted_illness_category"]
-    categories = results["categories"]
+    # illness_categories = results["illness_categories"]
+    # request, department_names = results["department_names"]
+    # request, department_data = results["department_data"]
+    # request, sorted_illness_category = results["sorted_illness_category"]
+    # categories = results["categories"]
+    illness_categories = get_sorted_illness_categories(request)
+    request, department_names = get_departments(request)
+    request, department_data = get_sorted_department(request)
+    request, sorted_illness_category = get_sorted_category(request)
+    categories = fetch_categories()
 
     department_names = [
         {"id": department.id, "department": department.department}
@@ -224,25 +255,49 @@ def handled_cases(request):
 
     else:
         try:
-            illness_cases = Illness.objects.filter(
-                Q(doctor=request.user) | Q(staff=request.user)
-            )
+            illness_cache = cache.get("illness_cache", {})
+            illness_cases = illness_cache.get(f"{request.user.email}")
+            if not illness_cases:
+                illness_cases = Illness.objects.filter(
+                    Q(doctor=request.user) | Q(staff=request.user)
+                )
+                illness_cache[f"{request.user.email}"] = illness_cases
+                cache.set("illness_cache", illness_cache, timeout=(120 * 60))
         except Exception as e:
             logger.info(f"Failed to fetch the illness cases: {str(e)}")
             messages.error(request, "Failed to fetch required data. Please reload page")
             return redirect(request.META.get("HTTP_REFERER", "doctor-overview"))
 
     try:
-        unfiltered_illness_case = Illness.objects.filter(
-            Q(doctor=request.user) | Q(staff=request.user)
-        )
+        illness_cache = cache.get("illness_cache", {})
+        unfiltered_illness_case = illness_cache.get(f"{request.user.email}")
+        if not unfiltered_illness_case:
+            unfiltered_illness_case = Illness.objects.filter(
+                Q(doctor=request.user) | Q(staff=request.user)
+            )
+            illness_cache[f"{request.user.email}"] = unfiltered_illness_case
+            cache.set("illness_cache", illness_cache, timeout=(120 * 60))
+
     except Exception as e:
         logger.info(f"Failed to fetch the unfiltered illness cases: {str(e)}")
         messages.error(request, "Failed to fetch required data. Please reload page")
         return redirect(request.META.get("HTTP_REFERER", "doctor-overview"))
 
-    department_data = get_doctors_cases_per_department(unfiltered_illness_case)
-    illness_category_data = get_doctors_cases_per_category(unfiltered_illness_case)
+    department_data = illness_cache.get(f"{request.user.email}_department_data")
+    if not department_data:
+        department_data = get_doctors_cases_per_department(unfiltered_illness_case)
+        illness_cache[f"{request.user.email}_department_data"] = department_data
+        cache.set("illness_cache", illness_cache, timeout=(120 * 60))
+
+    illness_category_data = illness_cache.get(
+        f"{request.user.email}_illness_category_data"
+    )
+    if not illness_category_data:
+        illness_category_data = get_doctors_cases_per_category(unfiltered_illness_case)
+        illness_cache[
+            f"{request.user.email}_illness_category_data"
+        ] = illness_category_data
+        cache.set("illness_cache", illness_cache, timeout=(120 * 60))
 
     illness_page = get_illness_page(request, illness_cases)
 
@@ -263,7 +318,12 @@ def schedule(request):
     context = {"page": "Schedule"}
 
     try:
-        doctor_sched = DoctorDetail.objects.filter(doctor=request.user).values()
+        doctor_cache = cache.get("doctor_cache", {})
+        doctor_sched = doctor_cache.get(f"{request.user.email}")
+        if not doctor_sched:
+            doctor_sched = DoctorDetail.objects.filter(doctor=request.user).values()
+            doctor_cache[f"{request.user.email}"] = doctor_sched
+            cache.set("doctor_cache", doctor_cache, timeout=(120 * 60))
         context.update({"doctor_sched": doctor_sched[0]})
     except Exception as e:
         logger.info(f"{request.user.email} has no schedule: {str(e)}")
@@ -278,6 +338,7 @@ def post_update_doctor_time(request):
 
         if form.is_valid():
             form.save(request)
+            cache.delete("doctor_cache")
     return redirect("doctor-schedule")
 
 
@@ -288,6 +349,7 @@ def post_update_doctor_avail(request):
 
         if form.is_valid():
             form.save(request)
+            cache.delete("doctor_cache")
         else:
             logger.info("Form is invalid")
             messages.error(request, "Form is invalid. Please try again.")
@@ -302,6 +364,9 @@ def post_update_user_details(request):
         form = UpdateUserDetails(request.POST)
         if form.is_valid():
             form.save(request)
+            user_cache = cache.get("user_cache", {})
+            user_cache.pop(int(patient_id), None)
+            cache.set("user_cache", user_cache, timeout=(60 * 60 * 2))
         else:
             logger.info("Form is invalid")
             messages.error(request, "Form is invalid. Please try again.")
@@ -316,6 +381,9 @@ def post_update_user_vitals(request):
         form = UpdateUserVital(request.POST)
         if form.is_valid():
             form.save(request)
+            user_cache = cache.get("user_cache", {})
+            user_cache.pop(int(patient_id), None)
+            cache.set("user_cache", user_cache, timeout=(60 * 60 * 2))
         else:
             logger.info("Form is invalid")
             messages.error(request, "Form is invalid. Please try again.")
@@ -332,19 +400,36 @@ def get_predicted_diagnosis(request):
 
 @api_view(["GET"])
 def get_illness_categories(request):
-    categories = Category.objects.all()
-    data = []
-    for category in categories:
-        data.append(IllnessCategorySerializer(category).data)
+    category_cache = cache.get("category_cache", {})
+    categories = category_cache.get("query")
+    if not categories:
+        categories = Category.objects.all()
+        category_cache["query"] = categories
+        cache.set("category_cache", category_cache, timeout=(120 * 60))
+    data = category_cache.get("IllnessCategorySerializer", [])
+    if not data:
+        for category in categories:
+            data.append(IllnessCategorySerializer(category).data)
+        category_cache["IllnessCategorySerializer"] = data
+        cache.set("category_cache", category_cache, timeout=(120 * 60))
     return JsonResponse(data, safe=False)
 
 
 @api_view(["GET"])
 def get_inventory_list(request):
-    inventories = InventoryDetail.objects.all()
-    data = []
-    for inventory in inventories:
-        data.append(InventorySerializer(inventory).data)
+    inventory_cache = cache.get("inventory_cache", {})
+    inventories = inventory_cache.get("query")
+    if not inventories:
+        inventories = InventoryDetail.objects.all()
+        inventory_cache["query"] = inventories
+        cache.set("inventory_cache", inventory_cache, timeout=(120 * 60))
+    data = inventory_cache.get("InventorySerializer", [])
+    if not data:
+        for inventory in inventories:
+            data.append(InventorySerializer(inventory).data)
+        inventory_cache["InventorySerializer"] = data
+        cache.set("inventory_cache", inventory_cache, timeout=(120 * 60))
+
     return JsonResponse(data, safe=False)
 
 
@@ -355,22 +440,28 @@ def access_checker(request):
 
 def get_sorted_illness_categories(illness_cases):
     now = timezone.now()
-    illness_categories = []
-    for case in illness_cases:
-        if case.added.month == now.month:
-            if case.illness_category and case.illness_category.category:
-                category_found = False
-                for category in illness_categories:
-                    if category["category"] == case.illness_category.category:
-                        category["count"] += 1  # Increment the count
-                        category_found = True
-                        break
+    illness_cache = cache.get("illness_cache", {})
+    illness_categories = illness_cache.get("doctor_overview_sorted_illness", [])
 
-                # If the category doesn't exist, add it to the list
-                if not category_found:
-                    illness_categories.append(
-                        {"category": case.illness_category.category, "count": 1}
-                    )
+    if not illness_categories:
+
+        for case in illness_cases:
+            if case.added.month == now.month:
+                if case.illness_category and case.illness_category.category:
+                    category_found = False
+                    for category in illness_categories:
+                        if category["category"] == case.illness_category.category:
+                            category["count"] += 1  # Increment the count
+                            category_found = True
+                            break
+
+                    # If the category doesn't exist, add it to the list
+                    if not category_found:
+                        illness_categories.append(
+                            {"category": case.illness_category.category, "count": 1}
+                        )
+        illness_cache["doctor_overview_sorted_illness"] = illness_categories
+        cache.set("illness_cache", illness_cache, timeout=(120 * 60))
 
     return illness_categories
 
@@ -419,6 +510,7 @@ def get_doctors_cases_per_department(illness_cases):
                 department_data.append(
                     {"department_id": 0, "department_name": "Others", "cases_count": 1}
                 )
+
     return department_data
 
 
@@ -483,9 +575,16 @@ def get_illness_case(search, request):
 
         # If search query is empty, show all illness cases for the user
     else:
-        illness_cases = Illness.objects.filter(
-            Q(doctor=request.user) | Q(staff=request.user)
-        )
+        illness_cache = cache.get("illness_cache", {})
+
+        illness_cases = illness_cache.get(f"{request.user.email}")
+
+        if not illness_cases:
+            illness_cases = Illness.objects.filter(
+                Q(doctor=request.user) | Q(staff=request.user)
+            )
+            illness_cache[f"{request.user.email}"] = illness_cases
+            cache.set("illness_cache", illness_cache, timeout=(60 * 120))
 
     return illness_cases
 
@@ -506,11 +605,21 @@ def get_illness_page(request, illness_cases):
 
 def get_department_data(request, context):
     try:
-        departments = Department.objects.all()
-        department_data = []
-        for department in departments:
-            data = DepartmentSerializer(department)
-            department_data.append(data.data)
+        department_cache = cache.get("department_cache", {})
+        departments = department_cache.get("query")
+        if not departments:
+            departments = Department.objects.all()
+            department_cache["query"] = departments
+            cache.set("department_cache", department_cache, timeout=(120 * 60))
+
+        department_data = department_cache.get("department_data", [])
+        if not department_data:
+            for department in departments:
+                data = DepartmentSerializer(department)
+                department_data.append(data.data)
+            department_cache["department_data"] = department_data
+            cache.set("department_cache", department_cache, timeout=(120 * 60))
+
         context.update({"department_data": department_data})
 
     except Exception as e:
@@ -522,13 +631,17 @@ def get_department_data(request, context):
 
 def get_related_illness_notes(request, context, user):
     try:
-        illness_notes = IllnessNote.objects.filter(patient=user)
-        illness_notes_data = []
+        note_cache = cache.get("note_cache", {})
+        illness_notes_data = note_cache.get(user.id, [])
+        if not illness_notes_data:
+            illness_notes = IllnessNote.objects.filter(patient=user)
 
-        if illness_notes:
-            for notes in illness_notes:
-                data = IllnessNoteSerializer(notes)
-                illness_notes_data.append(data.data)
+            if illness_notes:
+                for notes in illness_notes:
+                    data = IllnessNoteSerializer(notes)
+                    illness_notes_data.append(data.data)
+            note_cache[user.id] = illness_notes_data
+            cache.set("note_cache", note_cache, timeout=(120 * 60))
 
         context.update({"illness_notes_data": illness_notes_data})
 
