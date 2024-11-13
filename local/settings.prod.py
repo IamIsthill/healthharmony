@@ -10,7 +10,7 @@ ALLOWED_HOSTS = [
     "healthharmony.duckdns.org",
     "localhost",
     "127.0.0.1",
-    "35.230.80.25",  # Change the IP everytime
+    "34.127.122.56",  # Change the IP everytime
 ]
 
 if not DEBUG:
