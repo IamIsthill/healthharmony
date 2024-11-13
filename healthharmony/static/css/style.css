@@ -134,7 +134,7 @@ button{
 }
 
 .form-button, .cancel-button {
-  padding: 0.8rem 1rem;
+  padding: 0.6rem 1rem;
   border-radius: 3rem;
   cursor: pointer;  
   transition: all 0.3s ease;

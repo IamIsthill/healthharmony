@@ -26,8 +26,8 @@ function handle_onclick_delete_user() {
             const form_body = document.querySelector('.js_delete_user_form_body')
 
             form_body.innerHTML = `
-                <span class="close js_close_delete_user_form">&times;</span>
-                <label>Delete user with email ${user.email}?</label>
+                <span style="display:none;" class="close js_close_delete_user_form">&times;</span>
+                <label>Are you sure to delete <span class ="user-span">${user.email}</span> account?</label>
                 <input type="hidden" name="user_id" value="${user_id}" required />
             `
 
@@ -104,7 +104,7 @@ function handle_change_user_access() {
 
             const access_form = document.querySelector('.js_access_form_body')
             access_form.innerHTML = `
-        <h4>Change the access level for ${user.email} to ${access_text}? </h4>
+        <h4>Change the access level for <span class = "user-span"> ${user.email} </span> to <span class = "access-span"> ${access_text}</span>? </h4>
         <input type="hidden" name="user_id" value="${user_id}" />
         <input type="hidden" name="access" value="${access}" />
       `
