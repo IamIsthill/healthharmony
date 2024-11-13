@@ -84,3 +84,12 @@ table .table-head, table .table-data{
 .last-inp{
     margin-bottom:0rem;
 }
+.js_delete_user{
+    background: rgb(194, 0, 0);
+    color: white;
+    padding: 4px 4px;
+    border-radius: 4px ;
+}
+.js_delete_user:hover{
+    background: rgb(145, 1, 1);
+}
