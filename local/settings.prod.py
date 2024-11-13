@@ -109,7 +109,7 @@ DATABASES = {
         "NAME": "postgres",  # Default database name for PostgreSQL
         "USER": "postgres",  # Default PostgreSQL user
         "PASSWORD": "12345678",  # The password you set
-        "HOST": "db",  # or '127.0.0.1'
+        "HOST": "localhost",  # or '127.0.0.1'
         "PORT": "5432",  # Default PostgreSQL port
     }
 }
