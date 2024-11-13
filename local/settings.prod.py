@@ -102,3 +102,14 @@ STORAGES = {
 }
 
 MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "postgres",  # Default database name for PostgreSQL
+        "USER": "postgres",  # Default PostgreSQL user
+        "PASSWORD": "12345678",  # The password you set
+        "HOST": "localhost",  # or '127.0.0.1'
+        "PORT": "5432",  # Default PostgreSQL port
+    }
+}

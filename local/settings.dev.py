@@ -43,3 +43,13 @@ if env.bool("DEV_REDIS", False):
             "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
         }
     }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "postgres",  # Default database name for PostgreSQL
+        "USER": "postgres",  # Default PostgreSQL user
+        "PASSWORD": "12345678",  # The password you set
+        "HOST": "localhost",  # or '127.0.0.1'
+        "PORT": "5432",  # Default PostgreSQL port
+    }
+}
