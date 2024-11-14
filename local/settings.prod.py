@@ -10,7 +10,7 @@ ALLOWED_HOSTS = [
     "healthharmony.duckdns.org",
     "localhost",
     "127.0.0.1",
-    "34.127.122.56",  # Change the IP everytime
+    "34.82.70.131",  # Change the IP everytime
 ]
 
 if not DEBUG:
@@ -66,24 +66,6 @@ CACHES = {
     }
 }
 
-if env.bool("DEV_REDIS", False):
-    CACHES = {
-        "default": {
-            "BACKEND": "django_redis.cache.RedisCache",
-            "LOCATION": "redis://0.0.0.0:6379/",
-            "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
-        }
-    }
-if env.bool("EXPOSE_REDIS", False):
-    CACHES = {
-        "default": {
-            "BACKEND": "django_redis.cache.RedisCache",
-            "LOCATION": "redis://0.0.0.0:6379/",
-            "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
-        }
-    }
-
-
 # AWS Configuration for Static files
 AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY")
 
@@ -103,13 +85,22 @@ STORAGES = {
 
 MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "postgres",  # Default database name for PostgreSQL
-        "USER": "postgres",  # Default PostgreSQL user
-        "PASSWORD": "12345678",  # The password you set
-        "HOST": "localhost",  # or '127.0.0.1'
-        "PORT": "5432",  # Default PostgreSQL port
+if env.bool("IN_DOCKER", True):
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": "postgres",  # Default database name for PostgreSQL
+            "USER": "postgres",  # Default PostgreSQL user
+            "PASSWORD": "12345678",  # The password you set
+            "HOST": "localhost",  # or '127.0.0.1'
+            "PORT": "5432",  # Default PostgreSQL port
+        }
     }
-}
+
+    CACHES = {
+        "default": {
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": "redis://0.0.0.0:6379/",
+            "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+        }
+    }

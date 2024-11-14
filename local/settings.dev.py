@@ -35,7 +35,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost:8000",
 ]
 
-if env.bool("DEV_REDIS", False):
+if env.bool("IN_DOCKER", False):
     CACHES = {
         "default": {
             "BACKEND": "django_redis.cache.RedisCache",
@@ -43,13 +43,14 @@ if env.bool("DEV_REDIS", False):
             "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
         }
     }
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "postgres",  # Default database name for PostgreSQL
-        "USER": "postgres",  # Default PostgreSQL user
-        "PASSWORD": "12345678",  # The password you set
-        "HOST": "db",  # or '127.0.0.1'
-        "PORT": "5432",  # Default PostgreSQL port
+
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": "postgres",  # Default database name for PostgreSQL
+            "USER": "postgres",  # Default PostgreSQL user
+            "PASSWORD": "12345678",  # The password you set
+            "HOST": "db",  # or '127.0.0.1'
+            "PORT": "5432",  # Default PostgreSQL port
+        }
     }
-}
