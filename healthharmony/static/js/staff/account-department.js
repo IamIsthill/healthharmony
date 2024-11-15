@@ -25,8 +25,11 @@ export function createDeleteDepartmentModal(department, getToken) {
     const token = getToken()
     const html = `
         <input type="hidden" name="csrfmiddlewaretoken" value="${token}" />
-        <h2>Are you sure to delete ${department.department} Department?</h2>
-        <div class = "form-buttons">
+        <div class = "delete-illus">
+            <img src="../../static/assets/images/svgs/remove-dep.svg" alt="">
+            <h2>Are you sure to delete <span class ="delete-dept">${department.department} Department</span>?</h2>
+        </div>
+        <div class = "form-buttons delete-buttons">
             <button class = "form-button" type="submit">Confirm</button>
             <button type="button" class="js-close-delete-department-modal cancel-button">Cancel</button>
         </div>
@@ -41,10 +44,16 @@ export function createEditDepartmentModal(department, getToken) {
     formBody.setAttribute('action', url)
     formBody.reset()
     const html = `
+        <h1> Change the Department Name </h1>
         <input type="hidden" name="csrfmiddlewaretoken" value="${token}" />
+        <div class = "edit-input-cont">
+        <span class="material-symbols-outlined">
+            domain
+        </span>
         <input type="text" value="${department.department}" name="department_name"required/>
+        </div>
         <div class = "form-buttons">   
-            <button class = "form-button" type="submit">Update</button>
+            <button class = "form-button edit-button" type="submit">Update</button>
             <button type="button" class="js-close-edit-department-modal cancel-button">Cancel</button>
         </div>
     `

@@ -194,7 +194,6 @@
 }
 /* SEARCH UTIL */
 
-
 /* POP UP ERROR */
 .pop-up-message{
   position: fixed;
@@ -202,6 +201,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 1rem;
+  z-index: 2000;
   top: 100px;
   left: 25%;
   width: 40%;

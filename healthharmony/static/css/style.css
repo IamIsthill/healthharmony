@@ -144,6 +144,17 @@ button{
   background:black;
   color: white;
 }
+.form-button:hover{
+  background:rgba(0, 0, 0, 0.521);
+}
+
+.edit-button{
+  background:rgb(0, 114, 0);
+  color: white;
+}
+.edit-button:hover{
+  background:rgb(0, 71, 0);
+}
 .cancel-button{
   background:rgb(255, 255, 255);
   color: rgb(0, 0, 0);
@@ -154,14 +165,16 @@ button{
   border: 1px solid rgba(146, 146, 146, 0.548);  
   color: white;
 }
-.form-button:hover{
-  background:rgba(0, 0, 0, 0.521);
-}
+
 .form-buttons {
   margin-top: 0.5rem;
   display: flex;
   gap: 0.5rem;
   box-sizing: border-box;
+}
+.delete-buttons{
+  align-items: center;
+  justify-content: center;
 }
 .delete-btn{
   color: var(--Red);
