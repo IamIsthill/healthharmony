@@ -271,7 +271,9 @@ table .table-head, table .table-data{
 .js-edit-department-modal input{
     width: 50%;
 }
-
+.js-edit-department-modal h1{
+    margin-bottom: 8px;
+}
 
 /* view modal */
 .view-modal{
