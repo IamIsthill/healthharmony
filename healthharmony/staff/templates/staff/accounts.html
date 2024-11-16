@@ -93,8 +93,9 @@
                                 <td colspan="3">No patients</td>
                             </tr>
                         {% endif %}
-                    </table>
-                    {% if patients_page.has_other_pages %}
+                        <tr>
+                            <td colspan="3">
+                            {% if patients_page.has_other_pages %}
                         <div class="pagination js-patients-pagination pagination-design">
                             <span class="step-links">
                                 {% if patients_page.has_previous %}
@@ -121,6 +122,10 @@
                             </span>
                         </div>
                     {% endif %}
+                    </td>
+                        </tr>
+                    </table>
+                    
                 </div>
                 <div class="js-department-bar-graph dep-bar">
                     <h1>Department Bar</h1>
@@ -243,8 +248,8 @@
                     </thead>
                     <tbody class="js-employee-body">
                         <tr>
-                            <td class="table-data">Lorem ipsum dolor sit amet.</td>
-                            <td class="table-data">Lorem ipsum dolor sit amet.</td>
+                            <td class="table-data" >Lorem ipsum dolor sit amet.</td>
+                            <td class= "table-data">Lorem ipsum dolor sit amet.</td>
                             <td class="table-data">Lorem ipsum dolor sit.</td>
                             <td class="table-data">Lorem, ipsum dolor.</td>
                         </tr>
@@ -286,7 +291,7 @@
             </div>
         </div>
         <div class="js-view-department-modal modal">
-            <div class="modal-content"></div>
+            <div class="modal-content view-modal"></div>
         </div>
     </div>
 {% endblock %}

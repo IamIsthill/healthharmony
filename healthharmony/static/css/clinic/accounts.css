@@ -8,7 +8,9 @@ main{
 }
 .total-bar{
     display: flex;
+    justify-content: space-between;
     gap: 2rem;
+    width: 95%;
 }
 .dep-bar{
     margin-top: 1rem;
@@ -18,8 +20,8 @@ main{
     justify-content: center;
     box-shadow: var(--box-shadow2);
     background: white;
-    width: 31rem;
     height: 24rem;
+    width: 40%;
     border-radius: 1rem;
     padding: 1rem 1rem;
     transition: all 0.3s ease;
@@ -40,7 +42,6 @@ main{
     height: 100%;
 }
 
-
 .table-design{
     margin-top: 1rem;
     width: 95%;
@@ -54,7 +55,7 @@ main{
     border-spacing: 4px 4px;
 }
 .total-patient-table{
-    width: 52rem;
+    width: 50rem;
     height: 24rem;
 }
 .header-content2{
@@ -272,33 +273,38 @@ table .table-head, table .table-data{
 }
 
 
+/* view modal */
+.view-modal{
+    padding: 2.2rem 2.7rem;
+}
+.js-view-department-modal h2{
+    font-weight: 600;
+    font-size: var(--size-2xl);
+}
+.js-view-department-modal h5{
+    font-weight: 500;
+    font-size: var(--size-base);
+}
+.no-account-cont{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+.no-account-cont img{
+    width: 350px;
+    height: auto;
+}
 
  /* 2xl */
  @media (max-width: 1536px) {
-    .total-patient-table{
-        width: 46rem;
-        height: 22rem;
-    }
-    .dep-bar{
-        width: 28rem;
-        height: 22rem;
-    }
-    .total-bar{
-        gap: 1.5rem;
-    }
+    
  }
 
 @media (max-width: 1380px) {
     .total-patient-table{
-        width: 42rem;
-        height: 20rem;
-    }
-    .dep-bar{
-        width: 24rem;
-        height: 20rem;
-    }
-    .total-bar{
-        gap: 1rem;
+        width: 40rem;
     }
 }
 

@@ -64,8 +64,11 @@ export function createViewDepartmentModal(department, patients, format_date) {
     const modalContent = document.querySelector('.js-view-department-modal .modal-content')
     let html = `
         <span class="material-symbols-outlined close js-close-view-department-modal">cancel</span>
+        <div class = "no-account-cont">
+        <img src="../../static/assets/images/svgs/no-account.svg" alt="">
         <h2>${department.department}</h2>
-        <h5>As of today, ${department.department} has ${department.count} user(s).</h5>
+        <h5>This Department has no user.</h5>
+        </div>
     `
     if (department.count > 0) {
         html += '<div> <h3>Users</h3>'
