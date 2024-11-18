@@ -1,821 +1,1451 @@
 [
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 1,
-    "fields": {
-      "item_no": 143,
-      "unit": "tablet",
-      "item_name": "Atorvastatin",
-      "category": "Medicine",
-      "description": "Take this three times a day as prescribed.",
-      "expiration_date": "2024-10-25",
-      "added_by": 4
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 1,
+      "fields": {
+        "item_no": 143,
+        "unit": "tablet",
+        "item_name": "Atorvastatin",
+        "category": "Medicine",
+        "description": "Take this three times a day as prescribed.",
+        "expiration_date": "2024-10-25",
+        "added_by": 4
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 2,
+      "fields": {
+        "item_no": 144,
+        "unit": "tablet",
+        "item_name": "Losartan",
+        "category": "Medicine",
+        "description": "Take when feeling unwell or stressed.",
+        "expiration_date": "2024-10-25",
+        "added_by": 4
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 3,
+      "fields": {
+        "item_no": 99,
+        "unit": "box",
+        "item_name": "Ibuprofen",
+        "category": "Supply",
+        "description": "Use gloves when handling.",
+        "expiration_date": null,
+        "added_by": 4
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 4,
+      "fields": {
+        "item_no": 150,
+        "unit": "bottle",
+        "item_name": "Vitamin C Syrup",
+        "category": "Medicine",
+        "description": "Take 10ml daily to boost immunity.",
+        "expiration_date": "2025-06-21",
+        "added_by": 5
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 5,
+      "fields": {
+        "item_no": 201,
+        "unit": "syringe",
+        "item_name": "Insulin",
+        "category": "Medicine",
+        "description": "For blood sugar management. Inject as prescribed.",
+        "expiration_date": "2024-12-23",
+        "added_by": 5
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 6,
+      "fields": {
+        "item_no": 223,
+        "unit": "bottle",
+        "item_name": "Antibiotic Solution",
+        "category": "Medicine",
+        "description": "Use as directed by the physician.",
+        "expiration_date": "2025-01-05",
+        "added_by": 4
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 7,
+      "fields": {
+        "item_no": 300,
+        "unit": "bottle",
+        "item_name": "Hand Sanitizer",
+        "category": "Supply",
+        "description": "Use to sanitize hands before handling equipment.",
+        "expiration_date": "2025-08-16",
+        "added_by": 2
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 8,
+      "fields": {
+        "item_no": 315,
+        "unit": "tablet",
+        "item_name": "Pain Reliever",
+        "category": "Medicine",
+        "description": "Take only when experiencing severe pain.",
+        "expiration_date": "2024-10-13",
+        "added_by": 5
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 9,
+      "fields": {
+        "item_no": 399,
+        "unit": "mask",
+        "item_name": "N95 Respirator",
+        "category": "Supply",
+        "description": "Use for airborne infection control.",
+        "expiration_date": null,
+        "added_by": 4
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 10,
+      "fields": {
+        "item_no": 401,
+        "unit": "ointment",
+        "item_name": "Burn Ointment",
+        "category": "Medicine",
+        "description": "Apply on burns and cover with a sterile bandage.",
+        "expiration_date": "2025-06-24",
+        "added_by": 2
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 11,
+      "fields": {
+        "item_no": 500,
+        "unit": "tablet",
+        "item_name": "Antihistamine",
+        "category": "Medicine",
+        "description": "Take to relieve allergic reactions.",
+        "expiration_date": "2024-12-23",
+        "added_by": 5
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 12,
+      "fields": {
+        "item_no": 601,
+        "unit": "bottle",
+        "item_name": "Cough Syrup",
+        "category": "Medicine",
+        "description": "Take 10ml every 6 hours as needed.",
+        "expiration_date": "2025-04-25",
+        "added_by": 5
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 13,
+      "fields": {
+        "item_no": 699,
+        "unit": "bottle",
+        "item_name": "Antiseptic Solution",
+        "category": "Supply",
+        "description": "Use for cleaning wounds before dressing.",
+        "expiration_date": "2025-12-13",
+        "added_by": 4
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 14,
+      "fields": {
+        "item_no": 8105,
+        "unit": "box",
+        "item_name": "Sterile Bandages",
+        "category": "Supply",
+        "description": "Used for wound dressing and infection prevention.",
+        "expiration_date": "2024-10-25",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 15,
+      "fields": {
+        "item_no": 7027,
+        "unit": "pack",
+        "item_name": "Pain Relief Tablets",
+        "category": "Medicine",
+        "description": "Oral tablets for temporary pain relief.",
+        "expiration_date": "2023-06-02",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 16,
+      "fields": {
+        "item_no": 11031,
+        "unit": "tube",
+        "item_name": "Antibiotic Ointment",
+        "category": "Medicine",
+        "description": "Topical ointment for treating minor cuts and infections.",
+        "expiration_date": "2025-02-04",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 17,
+      "fields": {
+        "item_no": 28905,
+        "unit": "bottle",
+        "item_name": "Cough Syrup",
+        "category": "Medicine",
+        "description": "Syrup to relieve cough and soothe throat irritation.",
+        "expiration_date": "2023-06-16",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 18,
+      "fields": {
+        "item_no": 14698,
+        "unit": "packet",
+        "item_name": "Electrolyte Powder",
+        "category": "Medicine",
+        "description": "Oral rehydration salts for electrolyte replenishment.",
+        "expiration_date": "2023-01-10",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 19,
+      "fields": {
+        "item_no": 4243,
+        "unit": "Box",
+        "item_name": "Antacid Tablets",
+        "category": "Medicine",
+        "description": "Used to relieve indigestion, heartburn, and acid reflux. Store in a cool, dry place.",
+        "expiration_date": "2025-05-11",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 20,
+      "fields": {
+        "item_no": 26552,
+        "unit": "Bottle",
+        "item_name": "Multivitamin Syrup",
+        "category": "Medicine",
+        "description": "Provides essential vitamins and minerals. Recommended for daily use to support overall health.",
+        "expiration_date": "2019-11-29",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 21,
+      "fields": {
+        "item_no": 22,
+        "unit": "Packet",
+        "item_name": "Oral Rehydration Salts (ORS)",
+        "category": "Medicine",
+        "description": "Used for dehydration treatment by replenishing fluids and electrolytes lost due to diarrhea.",
+        "expiration_date": "2004-12-05",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 22,
+      "fields": {
+        "item_no": 9072,
+        "unit": "Box",
+        "item_name": "Sterile Gauze Pads",
+        "category": "Supply",
+        "description": "Used for wound dressing and protection. Sterile, single-use pads to prevent infection.",
+        "expiration_date": "2025-01-13",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 23,
+      "fields": {
+        "item_no": 8670,
+        "unit": "Bottle",
+        "item_name": "Cough Syrup",
+        "category": "Medicine",
+        "description": "Relieves symptoms of cough and sore throat. Shake well before use.",
+        "expiration_date": "2021-10-26",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 24,
+      "fields": {
+        "item_no": 28309,
+        "unit": "bottle",
+        "item_name": "Paracetamol 500mg Tablets",
+        "category": "Medicine",
+        "description": "Used to relieve pain and reduce fever. Store at room temperature, away from light and moisture.",
+        "expiration_date": "2025-02-28",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 25,
+      "fields": {
+        "item_no": 526,
+        "unit": "box",
+        "item_name": "Antiseptic Wipes",
+        "category": "Supply",
+        "description": "Individually packed antiseptic wipes for external use only. Helps to disinfect and clean wounds or minor injuries.",
+        "expiration_date": "2025-10-14",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 26,
+      "fields": {
+        "item_no": 17455,
+        "unit": "tube",
+        "item_name": "Antibiotic Ointment",
+        "category": "Medicine",
+        "description": "Topical antibiotic ointment for preventing infections in minor cuts, scrapes, and burns.",
+        "expiration_date": "2024-09-18",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 27,
+      "fields": {
+        "item_no": 9946,
+        "unit": "pack",
+        "item_name": "Sterile Gauze Pads",
+        "category": "Supply",
+        "description": "Sterile gauze pads for wound care. Suitable for dressing open wounds and controlling bleeding.",
+        "expiration_date": "2026-10-05",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 28,
+      "fields": {
+        "item_no": 14159,
+        "unit": "bottle",
+        "item_name": "Ibuprofen 200mg Tablets",
+        "category": "Medicine",
+        "description": "Nonsteroidal anti-inflammatory drug (NSAID) used to reduce fever and relieve pain or inflammation.",
+        "expiration_date": "2024-03-28",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 29,
+      "fields": {
+        "item_no": -17012,
+        "unit": "Tablets",
+        "item_name": "Pain Reliever Extra Strength",
+        "category": "Medicine",
+        "description": "A powerful pain reliever effective for various types of pain. Suitable for adults and children over 12 years old. Take as directed.",
+        "expiration_date": "2025-07-13",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 30,
+      "fields": {
+        "item_no": -26079,
+        "unit": "Syringe",
+        "item_name": "Insulin Syringe 1ml",
+        "category": "Medicine",
+        "description": "Disposable insulin syringes for easy and safe insulin injection. Each syringe has a clear barrel for accurate dosing.",
+        "expiration_date": "2026-05-09",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 31,
+      "fields": {
+        "item_no": -12424,
+        "unit": "Vial",
+        "item_name": "Antibiotic Injection",
+        "category": "Medicine",
+        "description": "Broad-spectrum antibiotic used to treat various infections. Administer under the supervision of a healthcare professional.",
+        "expiration_date": "2024-01-18",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 32,
+      "fields": {
+        "item_no": 11255,
+        "unit": "Box",
+        "item_name": "Cold and Flu Relief",
+        "category": "Medicine",
+        "description": "Combination of medications to relieve cold and flu symptoms. Provides temporary relief from nasal congestion, cough, and sore throat.",
+        "expiration_date": "2026-10-21",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 33,
+      "fields": {
+        "item_no": 20217,
+        "unit": "Bottle",
+        "item_name": "Antacid Liquid",
+        "category": "Medicine",
+        "description": "Liquid antacid for fast relief from heartburn and indigestion. Effective for both adults and children.",
+        "expiration_date": "2025-06-29",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 34,
+      "fields": {
+        "item_no": 18143,
+        "unit": "Box",
+        "item_name": "Pain Relief Tablets",
+        "category": "Medicine",
+        "description": "Over-the-counter pain relief tablets effective for headaches and muscle aches. Provides quick relief with minimal side effects.",
+        "expiration_date": "2025-05-04",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 35,
+      "fields": {
+        "item_no": 5730,
+        "unit": "Bottle",
+        "item_name": "Cough Syrup",
+        "category": "Medicine",
+        "description": "Syrup designed to relieve cough symptoms and soothe the throat. Suitable for both adults and children.",
+        "expiration_date": "2024-09-18",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 36,
+      "fields": {
+        "item_no": 21668,
+        "unit": "Pack",
+        "item_name": "Antibiotic Ointment",
+        "category": "Medicine",
+        "description": "Topical antibiotic ointment for minor cuts and scrapes. Helps prevent infection and promotes healing.",
+        "expiration_date": "2026-06-18",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 37,
+      "fields": {
+        "item_no": 14851,
+        "unit": "Tube",
+        "item_name": "Hydrocortisone Cream",
+        "category": "Medicine",
+        "description": "Cream for the relief of skin irritations and rashes. Provides anti-inflammatory effects to reduce itching and swelling.",
+        "expiration_date": "2023-02-11",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 38,
+      "fields": {
+        "item_no": 18796,
+        "unit": "Bottle",
+        "item_name": "Allergy Relief Drops",
+        "category": "Medicine",
+        "description": "Liquid drops designed to relieve allergy symptoms, including sneezing, runny nose, and itchy eyes.",
+        "expiration_date": "2025-08-05",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 39,
+      "fields": {
+        "item_no": 101,
+        "unit": "bottle",
+        "item_name": "Aspirin 500mg",
+        "category": "Medicine",
+        "description": "Commonly used to relieve pain, reduce inflammation, and lower fever.",
+        "expiration_date": "2025-05-14",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 40,
+      "fields": {
+        "item_no": 102,
+        "unit": "box",
+        "item_name": "Ibuprofen 200mg",
+        "category": "Medicine",
+        "description": "Used for treating pain, fever, and inflammation.",
+        "expiration_date": "2024-06-21",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 41,
+      "fields": {
+        "item_no": 103,
+        "unit": "pack",
+        "item_name": "Paracetamol 500mg",
+        "category": "Medicine",
+        "description": "Effective pain reliever and fever reducer.",
+        "expiration_date": "2026-06-01",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 42,
+      "fields": {
+        "item_no": 104,
+        "unit": "vial",
+        "item_name": "Amoxicillin 250mg",
+        "category": "Medicine",
+        "description": "Antibiotic used to treat a variety of infections.",
+        "expiration_date": "2023-09-04",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 43,
+      "fields": {
+        "item_no": 105,
+        "unit": "tablet",
+        "item_name": "Metformin 500mg",
+        "category": "Medicine",
+        "description": "Used for managing type 2 diabetes.",
+        "expiration_date": "2027-11-07",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 44,
+      "fields": {
+        "item_no": 106,
+        "unit": "bottle",
+        "item_name": "Simvastatin 20mg",
+        "category": "Medicine",
+        "description": "Medication used to control high cholesterol levels.",
+        "expiration_date": "2028-10-07",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 45,
+      "fields": {
+        "item_no": 107,
+        "unit": "pack",
+        "item_name": "Cetirizine 10mg",
+        "category": "Medicine",
+        "description": "Antihistamine used to relieve allergy symptoms.",
+        "expiration_date": "2025-12-26",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 46,
+      "fields": {
+        "item_no": 108,
+        "unit": "tube",
+        "item_name": "Hydrocortisone Cream",
+        "category": "Medicine",
+        "description": "Used to relieve inflammation and itching from various skin conditions.",
+        "expiration_date": "2024-05-10",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 47,
+      "fields": {
+        "item_no": 109,
+        "unit": "injection",
+        "item_name": "Flu Vaccine",
+        "category": "Medicine",
+        "description": "Vaccination to prevent influenza.",
+        "expiration_date": "2023-02-12",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 48,
+      "fields": {
+        "item_no": 110,
+        "unit": "box",
+        "item_name": "Furosemide 40mg",
+        "category": "Medicine",
+        "description": "Diuretic used to reduce fluid retention and swelling.",
+        "expiration_date": "2026-04-11",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 49,
+      "fields": {
+        "item_no": -7513,
+        "unit": "Bottle",
+        "item_name": "Antibiotic Ointment",
+        "category": "Medicine",
+        "description": "Topical antibiotic ointment for preventing infections in minor cuts, scrapes, and burns. Promotes healing and protects the skin.",
+        "expiration_date": "2025-08-10",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 50,
+      "fields": {
+        "item_no": 1124,
+        "unit": "Tube",
+        "item_name": "Moisturizing Cream",
+        "category": "Medicine",
+        "description": "Rich in nutrients and vitamins, this moisturizing cream enhances skin health and appearance, providing hydration and elasticity.",
+        "expiration_date": "1974-04-07",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 51,
+      "fields": {
+        "item_no": 32682,
+        "unit": "Bottle",
+        "item_name": "Vitamin C Tablets",
+        "category": "Medicine",
+        "description": "Essential vitamin for boosting immunity and overall health, promoting skin health, and aiding in iron absorption.",
+        "expiration_date": "1992-04-08",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 52,
+      "fields": {
+        "item_no": -22325,
+        "unit": "Tube",
+        "item_name": "Pain Relief Gel",
+        "category": "Medicine",
+        "description": "Fast-acting pain relief gel for sore muscles and joints, providing quick relief from pain and inflammation, ideal for athletes and active individuals.",
+        "expiration_date": "1985-06-15",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 53,
+      "fields": {
+        "item_no": -433,
+        "unit": "Bottle",
+        "item_name": "Multivitamin Capsules",
+        "category": "Medicine",
+        "description": "Comprehensive blend of essential vitamins and minerals to fill dietary gaps and promote overall wellness.",
+        "expiration_date": "1989-04-01",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 54,
+      "fields": {
+        "item_no": 26215,
+        "unit": "Bottle",
+        "item_name": "Antiseptic Solution",
+        "category": "Medicine",
+        "description": "A powerful antiseptic solution used for cleaning wounds and preventing infections. Suitable for both clinical and home use.",
+        "expiration_date": "2004-03-18",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 55,
+      "fields": {
+        "item_no": 9552,
+        "unit": "Box",
+        "item_name": "Disposable Masks",
+        "category": "Medicine",
+        "description": "A box of disposable face masks designed to protect against airborne pathogens and pollutants. Ideal for medical environments and public use.",
+        "expiration_date": "2018-03-08",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 56,
+      "fields": {
+        "item_no": -15491,
+        "unit": "Box",
+        "item_name": "Pain Relief Medication",
+        "category": "Medicine",
+        "description": "A comprehensive pain relief medication effective for managing chronic and acute pain. Ideal for patients with various pain conditions.",
+        "expiration_date": "2000-08-27",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 57,
+      "fields": {
+        "item_no": -2361,
+        "unit": "Bottle",
+        "item_name": "Antibiotic Suspension",
+        "category": "Medicine",
+        "description": "An antibiotic suspension for treating bacterial infections in children. Recommended dosage must be followed as per physician's advice.",
+        "expiration_date": "1982-04-26",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 58,
+      "fields": {
+        "item_no": -11250,
+        "unit": "Pack",
+        "item_name": "Vitamins and Minerals",
+        "category": "Medicine",
+        "description": "A daily supplement pack containing essential vitamins and minerals to support overall health and wellness.",
+        "expiration_date": "1977-05-30",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 59,
+      "fields": {
+        "item_no": -12796,
+        "unit": "Unit",
+        "item_name": "Surgical Gloves",
+        "category": "Medicine",
+        "description": "Sterile surgical gloves for use in medical procedures to ensure safety and hygiene.",
+        "expiration_date": "1974-01-25",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 60,
+      "fields": {
+        "item_no": 10897,
+        "unit": "Unit",
+        "item_name": "Syringe Set",
+        "category": "Medicine",
+        "description": "A set of disposable syringes for administering injections and drawing blood. Each set includes various sizes for different needs.",
+        "expiration_date": "1988-07-23",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 61,
+      "fields": {
+        "item_no": 27334,
+        "unit": "Bottle",
+        "item_name": "Cough Syrup",
+        "category": "Medicine",
+        "description": "A soothing cough syrup designed to relieve cough and throat irritation. Contains natural ingredients.",
+        "expiration_date": "1995-07-29",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 62,
+      "fields": {
+        "item_no": 30153,
+        "unit": "Box",
+        "item_name": "Bandage Pack",
+        "category": "Medicine",
+        "description": "A pack of assorted bandages for treating minor cuts and scrapes. Includes adhesive and sterile options.",
+        "expiration_date": "1991-05-17",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.inventorydetail",
+      "pk": 63,
+      "fields": {
+        "item_no": 12393,
+        "unit": "Unit",
+        "item_name": "Thermometer",
+        "category": "Medicine",
+        "description": "Digital thermometer for accurate temperature measurement. Ideal for both clinical and home use.",
+        "expiration_date": "2015-05-29",
+        "added_by": null
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 1,
+      "fields": {
+        "inventory": 14,
+        "updated_quantity": 1000,
+        "timestamp": "2024-01-18T12:22:00.444Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 2,
+      "fields": {
+        "inventory": 15,
+        "updated_quantity": 3000,
+        "timestamp": "2024-02-18T12:22:07.876Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 3,
+      "fields": {
+        "inventory": 16,
+        "updated_quantity": 2400,
+        "timestamp": "2024-03-18T12:22:16.889Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 4,
+      "fields": {
+        "inventory": 17,
+        "updated_quantity": 540,
+        "timestamp": "2024-04-18T12:22:22.325Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 5,
+      "fields": {
+        "inventory": 18,
+        "updated_quantity": 9000,
+        "timestamp": "2024-05-18T12:22:28.422Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 6,
+      "fields": {
+        "inventory": 20,
+        "updated_quantity": 2900,
+        "timestamp": "2024-06-18T12:22:35.488Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 7,
+      "fields": {
+        "inventory": 19,
+        "updated_quantity": 1200,
+        "timestamp": "2024-07-18T12:22:43.025Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 8,
+      "fields": {
+        "inventory": 25,
+        "updated_quantity": 610,
+        "timestamp": "2024-08-18T12:22:51.623Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 9,
+      "fields": {
+        "inventory": 24,
+        "updated_quantity": 7000,
+        "timestamp": "2024-09-18T12:22:59.692Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 10,
+      "fields": {
+        "inventory": 59,
+        "updated_quantity": 1000,
+        "timestamp": "2024-10-18T12:23:08.847Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 11,
+      "fields": {
+        "inventory": 50,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:23:16.675Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 12,
+      "fields": {
+        "inventory": 58,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:23:25.675Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 13,
+      "fields": {
+        "inventory": 57,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:23:37.426Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 14,
+      "fields": {
+        "inventory": 21,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:23:48.475Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 15,
+      "fields": {
+        "inventory": 23,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:24:00.450Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 16,
+      "fields": {
+        "inventory": 26,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:24:08.254Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 17,
+      "fields": {
+        "inventory": 22,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:24:15.797Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 18,
+      "fields": {
+        "inventory": 32,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:24:22.221Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 19,
+      "fields": {
+        "inventory": 27,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:24:28.896Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 20,
+      "fields": {
+        "inventory": 28,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:24:35.169Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 21,
+      "fields": {
+        "inventory": 29,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:24:42.654Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 22,
+      "fields": {
+        "inventory": 30,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:24:52.856Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 23,
+      "fields": {
+        "inventory": 31,
+        "updated_quantity": 300,
+        "timestamp": "2024-11-18T12:25:00.659Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 24,
+      "fields": {
+        "inventory": 33,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:25:11.345Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 25,
+      "fields": {
+        "inventory": 34,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:25:20.434Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 26,
+      "fields": {
+        "inventory": 35,
+        "updated_quantity": 320,
+        "timestamp": "2024-11-18T12:25:30.423Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 27,
+      "fields": {
+        "inventory": 36,
+        "updated_quantity": 140,
+        "timestamp": "2024-11-18T12:26:26.588Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 28,
+      "fields": {
+        "inventory": 8,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:26:37.021Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 29,
+      "fields": {
+        "inventory": 37,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:26:54.414Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 30,
+      "fields": {
+        "inventory": 38,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:27:08.968Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 31,
+      "fields": {
+        "inventory": 39,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:27:29.250Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 32,
+      "fields": {
+        "inventory": 40,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:27:40.957Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 33,
+      "fields": {
+        "inventory": 41,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:27:51.761Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 34,
+      "fields": {
+        "inventory": 42,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:28:00.870Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 35,
+      "fields": {
+        "inventory": 43,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:28:09.527Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 36,
+      "fields": {
+        "inventory": 44,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:28:17.773Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 37,
+      "fields": {
+        "inventory": 60,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:28:26.496Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 38,
+      "fields": {
+        "inventory": 51,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:28:35.547Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 39,
+      "fields": {
+        "inventory": 45,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:28:43.433Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 40,
+      "fields": {
+        "inventory": 46,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:28:51.584Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 41,
+      "fields": {
+        "inventory": 47,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:29:02.073Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 42,
+      "fields": {
+        "inventory": 48,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:29:09.469Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 43,
+      "fields": {
+        "inventory": 49,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:29:18.358Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 44,
+      "fields": {
+        "inventory": 52,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:29:26.834Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 45,
+      "fields": {
+        "inventory": 53,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:29:34.789Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 46,
+      "fields": {
+        "inventory": 54,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:29:43.849Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 47,
+      "fields": {
+        "inventory": 55,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:30:06.539Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 48,
+      "fields": {
+        "inventory": 56,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:30:17.696Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 49,
+      "fields": {
+        "inventory": 61,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:30:26.969Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 50,
+      "fields": {
+        "inventory": 62,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:30:39.999Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 51,
+      "fields": {
+        "inventory": 63,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:30:47.288Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 52,
+      "fields": {
+        "inventory": 7,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:31:02.086Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 53,
+      "fields": {
+        "inventory": 10,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:31:16.681Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 54,
+      "fields": {
+        "inventory": 1,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:31:26.293Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 55,
+      "fields": {
+        "inventory": 2,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:31:35.809Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 56,
+      "fields": {
+        "inventory": 3,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:31:45.546Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 57,
+      "fields": {
+        "inventory": 6,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-18T12:31:55.551Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 58,
+      "fields": {
+        "inventory": 9,
+        "updated_quantity": 900,
+        "timestamp": "2024-11-19T12:32:06.122Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 59,
+      "fields": {
+        "inventory": 13,
+        "updated_quantity": 100,
+        "timestamp": "2024-11-20T12:32:19.472Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 60,
+      "fields": {
+        "inventory": 4,
+        "updated_quantity": 800,
+        "timestamp": "2024-11-21T12:32:28.734Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 61,
+      "fields": {
+        "inventory": 5,
+        "updated_quantity": 400,
+        "timestamp": "2024-11-22T12:32:36.885Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 62,
+      "fields": {
+        "inventory": 11,
+        "updated_quantity": 20,
+        "timestamp": "2024-11-23T12:32:46.725Z",
+        "changed_by": 1
+      }
+    },
+    {
+      "model": "inventory.quantityhistory",
+      "pk": 63,
+      "fields": {
+        "inventory": 12,
+        "updated_quantity": 300,
+        "timestamp": "2024-11-24T12:32:56.972Z",
+        "changed_by": 1
+      }
     }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 2,
-    "fields": {
-      "item_no": 144,
-      "unit": "tablet",
-      "item_name": "Losartan",
-      "category": "Medicine",
-      "description": "Take when feeling unwell or stressed.",
-      "expiration_date": "2024-10-25",
-      "added_by": 4
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 3,
-    "fields": {
-      "item_no": 99,
-      "unit": "box",
-      "item_name": "Ibuprofen",
-      "category": "Supply",
-      "description": "Use gloves when handling.",
-      "expiration_date": null,
-      "added_by": 4
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 4,
-    "fields": {
-      "item_no": 150,
-      "unit": "bottle",
-      "item_name": "Vitamin C Syrup",
-      "category": "Medicine",
-      "description": "Take 10ml daily to boost immunity.",
-      "expiration_date": "2025-06-21",
-      "added_by": 5
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 5,
-    "fields": {
-      "item_no": 201,
-      "unit": "syringe",
-      "item_name": "Insulin",
-      "category": "Medicine",
-      "description": "For blood sugar management. Inject as prescribed.",
-      "expiration_date": "2024-12-23",
-      "added_by": 5
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 6,
-    "fields": {
-      "item_no": 223,
-      "unit": "bottle",
-      "item_name": "Antibiotic Solution",
-      "category": "Medicine",
-      "description": "Use as directed by the physician.",
-      "expiration_date": "2025-01-05",
-      "added_by": 4
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 7,
-    "fields": {
-      "item_no": 300,
-      "unit": "bottle",
-      "item_name": "Hand Sanitizer",
-      "category": "Supply",
-      "description": "Use to sanitize hands before handling equipment.",
-      "expiration_date": "2025-08-16",
-      "added_by": 2
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 8,
-    "fields": {
-      "item_no": 315,
-      "unit": "tablet",
-      "item_name": "Pain Reliever",
-      "category": "Medicine",
-      "description": "Take only when experiencing severe pain.",
-      "expiration_date": "2024-10-13",
-      "added_by": 5
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 9,
-    "fields": {
-      "item_no": 399,
-      "unit": "mask",
-      "item_name": "N95 Respirator",
-      "category": "Supply",
-      "description": "Use for airborne infection control.",
-      "expiration_date": null,
-      "added_by": 4
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 10,
-    "fields": {
-      "item_no": 401,
-      "unit": "ointment",
-      "item_name": "Burn Ointment",
-      "category": "Medicine",
-      "description": "Apply on burns and cover with a sterile bandage.",
-      "expiration_date": "2025-06-24",
-      "added_by": 2
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 11,
-    "fields": {
-      "item_no": 500,
-      "unit": "tablet",
-      "item_name": "Antihistamine",
-      "category": "Medicine",
-      "description": "Take to relieve allergic reactions.",
-      "expiration_date": "2024-12-23",
-      "added_by": 5
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 12,
-    "fields": {
-      "item_no": 601,
-      "unit": "bottle",
-      "item_name": "Cough Syrup",
-      "category": "Medicine",
-      "description": "Take 10ml every 6 hours as needed.",
-      "expiration_date": "2025-04-25",
-      "added_by": 5
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 13,
-    "fields": {
-      "item_no": 699,
-      "unit": "bottle",
-      "item_name": "Antiseptic Solution",
-      "category": "Supply",
-      "description": "Use for cleaning wounds before dressing.",
-      "expiration_date": "2025-12-13",
-      "added_by": 4
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 14,
-    "fields": {
-      "item_no": 8105,
-      "unit": "box",
-      "item_name": "Sterile Bandages",
-      "category": "Supply",
-      "description": "Used for wound dressing and infection prevention.",
-      "expiration_date": "2024-10-25",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 15,
-    "fields": {
-      "item_no": 7027,
-      "unit": "pack",
-      "item_name": "Pain Relief Tablets",
-      "category": "Medicine",
-      "description": "Oral tablets for temporary pain relief.",
-      "expiration_date": "2023-06-02",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 16,
-    "fields": {
-      "item_no": 11031,
-      "unit": "tube",
-      "item_name": "Antibiotic Ointment",
-      "category": "Medicine",
-      "description": "Topical ointment for treating minor cuts and infections.",
-      "expiration_date": "2025-02-04",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 17,
-    "fields": {
-      "item_no": 28905,
-      "unit": "bottle",
-      "item_name": "Cough Syrup",
-      "category": "Medicine",
-      "description": "Syrup to relieve cough and soothe throat irritation.",
-      "expiration_date": "2023-06-16",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 18,
-    "fields": {
-      "item_no": 14698,
-      "unit": "packet",
-      "item_name": "Electrolyte Powder",
-      "category": "Medicine",
-      "description": "Oral rehydration salts for electrolyte replenishment.",
-      "expiration_date": "2023-01-10",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 19,
-    "fields": {
-      "item_no": 4243,
-      "unit": "Box",
-      "item_name": "Antacid Tablets",
-      "category": "Medicine",
-      "description": "Used to relieve indigestion, heartburn, and acid reflux. Store in a cool, dry place.",
-      "expiration_date": "2025-05-11",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 20,
-    "fields": {
-      "item_no": 26552,
-      "unit": "Bottle",
-      "item_name": "Multivitamin Syrup",
-      "category": "Medicine",
-      "description": "Provides essential vitamins and minerals. Recommended for daily use to support overall health.",
-      "expiration_date": "2019-11-29",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 21,
-    "fields": {
-      "item_no": 22,
-      "unit": "Packet",
-      "item_name": "Oral Rehydration Salts (ORS)",
-      "category": "Medicine",
-      "description": "Used for dehydration treatment by replenishing fluids and electrolytes lost due to diarrhea.",
-      "expiration_date": "2004-12-05",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 22,
-    "fields": {
-      "item_no": 9072,
-      "unit": "Box",
-      "item_name": "Sterile Gauze Pads",
-      "category": "Supply",
-      "description": "Used for wound dressing and protection. Sterile, single-use pads to prevent infection.",
-      "expiration_date": "2025-01-13",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 23,
-    "fields": {
-      "item_no": 8670,
-      "unit": "Bottle",
-      "item_name": "Cough Syrup",
-      "category": "Medicine",
-      "description": "Relieves symptoms of cough and sore throat. Shake well before use.",
-      "expiration_date": "2021-10-26",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 24,
-    "fields": {
-      "item_no": 28309,
-      "unit": "bottle",
-      "item_name": "Paracetamol 500mg Tablets",
-      "category": "Medicine",
-      "description": "Used to relieve pain and reduce fever. Store at room temperature, away from light and moisture.",
-      "expiration_date": "2025-02-28",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 25,
-    "fields": {
-      "item_no": 526,
-      "unit": "box",
-      "item_name": "Antiseptic Wipes",
-      "category": "Supply",
-      "description": "Individually packed antiseptic wipes for external use only. Helps to disinfect and clean wounds or minor injuries.",
-      "expiration_date": "2025-10-14",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 26,
-    "fields": {
-      "item_no": 17455,
-      "unit": "tube",
-      "item_name": "Antibiotic Ointment",
-      "category": "Medicine",
-      "description": "Topical antibiotic ointment for preventing infections in minor cuts, scrapes, and burns.",
-      "expiration_date": "2024-09-18",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 27,
-    "fields": {
-      "item_no": 9946,
-      "unit": "pack",
-      "item_name": "Sterile Gauze Pads",
-      "category": "Supply",
-      "description": "Sterile gauze pads for wound care. Suitable for dressing open wounds and controlling bleeding.",
-      "expiration_date": "2026-10-05",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 28,
-    "fields": {
-      "item_no": 14159,
-      "unit": "bottle",
-      "item_name": "Ibuprofen 200mg Tablets",
-      "category": "Medicine",
-      "description": "Nonsteroidal anti-inflammatory drug (NSAID) used to reduce fever and relieve pain or inflammation.",
-      "expiration_date": "2024-03-28",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 29,
-    "fields": {
-      "item_no": -17012,
-      "unit": "Tablets",
-      "item_name": "Pain Reliever Extra Strength",
-      "category": "Medicine",
-      "description": "A powerful pain reliever effective for various types of pain. Suitable for adults and children over 12 years old. Take as directed.",
-      "expiration_date": "2025-07-13",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 30,
-    "fields": {
-      "item_no": -26079,
-      "unit": "Syringe",
-      "item_name": "Insulin Syringe 1ml",
-      "category": "Medicine",
-      "description": "Disposable insulin syringes for easy and safe insulin injection. Each syringe has a clear barrel for accurate dosing.",
-      "expiration_date": "2026-05-09",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 31,
-    "fields": {
-      "item_no": -12424,
-      "unit": "Vial",
-      "item_name": "Antibiotic Injection",
-      "category": "Medicine",
-      "description": "Broad-spectrum antibiotic used to treat various infections. Administer under the supervision of a healthcare professional.",
-      "expiration_date": "2024-01-18",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 32,
-    "fields": {
-      "item_no": 11255,
-      "unit": "Box",
-      "item_name": "Cold and Flu Relief",
-      "category": "Medicine",
-      "description": "Combination of medications to relieve cold and flu symptoms. Provides temporary relief from nasal congestion, cough, and sore throat.",
-      "expiration_date": "2026-10-21",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 33,
-    "fields": {
-      "item_no": 20217,
-      "unit": "Bottle",
-      "item_name": "Antacid Liquid",
-      "category": "Medicine",
-      "description": "Liquid antacid for fast relief from heartburn and indigestion. Effective for both adults and children.",
-      "expiration_date": "2025-06-29",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 34,
-    "fields": {
-      "item_no": 18143,
-      "unit": "Box",
-      "item_name": "Pain Relief Tablets",
-      "category": "Medicine",
-      "description": "Over-the-counter pain relief tablets effective for headaches and muscle aches. Provides quick relief with minimal side effects.",
-      "expiration_date": "2025-05-04",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 35,
-    "fields": {
-      "item_no": 5730,
-      "unit": "Bottle",
-      "item_name": "Cough Syrup",
-      "category": "Medicine",
-      "description": "Syrup designed to relieve cough symptoms and soothe the throat. Suitable for both adults and children.",
-      "expiration_date": "2024-09-18",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 36,
-    "fields": {
-      "item_no": 21668,
-      "unit": "Pack",
-      "item_name": "Antibiotic Ointment",
-      "category": "Medicine",
-      "description": "Topical antibiotic ointment for minor cuts and scrapes. Helps prevent infection and promotes healing.",
-      "expiration_date": "2026-06-18",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 37,
-    "fields": {
-      "item_no": 14851,
-      "unit": "Tube",
-      "item_name": "Hydrocortisone Cream",
-      "category": "Medicine",
-      "description": "Cream for the relief of skin irritations and rashes. Provides anti-inflammatory effects to reduce itching and swelling.",
-      "expiration_date": "2023-02-11",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 38,
-    "fields": {
-      "item_no": 18796,
-      "unit": "Bottle",
-      "item_name": "Allergy Relief Drops",
-      "category": "Medicine",
-      "description": "Liquid drops designed to relieve allergy symptoms, including sneezing, runny nose, and itchy eyes.",
-      "expiration_date": "2025-08-05",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 39,
-    "fields": {
-      "item_no": 101,
-      "unit": "bottle",
-      "item_name": "Aspirin 500mg",
-      "category": "Medicine",
-      "description": "Commonly used to relieve pain, reduce inflammation, and lower fever.",
-      "expiration_date": "2025-05-14",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 40,
-    "fields": {
-      "item_no": 102,
-      "unit": "box",
-      "item_name": "Ibuprofen 200mg",
-      "category": "Medicine",
-      "description": "Used for treating pain, fever, and inflammation.",
-      "expiration_date": "2024-06-21",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 41,
-    "fields": {
-      "item_no": 103,
-      "unit": "pack",
-      "item_name": "Paracetamol 500mg",
-      "category": "Medicine",
-      "description": "Effective pain reliever and fever reducer.",
-      "expiration_date": "2026-06-01",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 42,
-    "fields": {
-      "item_no": 104,
-      "unit": "vial",
-      "item_name": "Amoxicillin 250mg",
-      "category": "Medicine",
-      "description": "Antibiotic used to treat a variety of infections.",
-      "expiration_date": "2023-09-04",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 43,
-    "fields": {
-      "item_no": 105,
-      "unit": "tablet",
-      "item_name": "Metformin 500mg",
-      "category": "Medicine",
-      "description": "Used for managing type 2 diabetes.",
-      "expiration_date": "2027-11-07",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 44,
-    "fields": {
-      "item_no": 106,
-      "unit": "bottle",
-      "item_name": "Simvastatin 20mg",
-      "category": "Medicine",
-      "description": "Medication used to control high cholesterol levels.",
-      "expiration_date": "2028-10-07",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 45,
-    "fields": {
-      "item_no": 107,
-      "unit": "pack",
-      "item_name": "Cetirizine 10mg",
-      "category": "Medicine",
-      "description": "Antihistamine used to relieve allergy symptoms.",
-      "expiration_date": "2025-12-26",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 46,
-    "fields": {
-      "item_no": 108,
-      "unit": "tube",
-      "item_name": "Hydrocortisone Cream",
-      "category": "Medicine",
-      "description": "Used to relieve inflammation and itching from various skin conditions.",
-      "expiration_date": "2024-05-10",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 47,
-    "fields": {
-      "item_no": 109,
-      "unit": "injection",
-      "item_name": "Flu Vaccine",
-      "category": "Medicine",
-      "description": "Vaccination to prevent influenza.",
-      "expiration_date": "2023-02-12",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 48,
-    "fields": {
-      "item_no": 110,
-      "unit": "box",
-      "item_name": "Furosemide 40mg",
-      "category": "Medicine",
-      "description": "Diuretic used to reduce fluid retention and swelling.",
-      "expiration_date": "2026-04-11",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 49,
-    "fields": {
-      "item_no": -7513,
-      "unit": "Bottle",
-      "item_name": "Antibiotic Ointment",
-      "category": "Medicine",
-      "description": "Topical antibiotic ointment for preventing infections in minor cuts, scrapes, and burns. Promotes healing and protects the skin.",
-      "expiration_date": "2025-08-10",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 50,
-    "fields": {
-      "item_no": 1124,
-      "unit": "Tube",
-      "item_name": "Moisturizing Cream",
-      "category": "Medicine",
-      "description": "Rich in nutrients and vitamins, this moisturizing cream enhances skin health and appearance, providing hydration and elasticity.",
-      "expiration_date": "1974-04-07",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 51,
-    "fields": {
-      "item_no": 32682,
-      "unit": "Bottle",
-      "item_name": "Vitamin C Tablets",
-      "category": "Medicine",
-      "description": "Essential vitamin for boosting immunity and overall health, promoting skin health, and aiding in iron absorption.",
-      "expiration_date": "1992-04-08",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 52,
-    "fields": {
-      "item_no": -22325,
-      "unit": "Tube",
-      "item_name": "Pain Relief Gel",
-      "category": "Medicine",
-      "description": "Fast-acting pain relief gel for sore muscles and joints, providing quick relief from pain and inflammation, ideal for athletes and active individuals.",
-      "expiration_date": "1985-06-15",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 53,
-    "fields": {
-      "item_no": -433,
-      "unit": "Bottle",
-      "item_name": "Multivitamin Capsules",
-      "category": "Medicine",
-      "description": "Comprehensive blend of essential vitamins and minerals to fill dietary gaps and promote overall wellness.",
-      "expiration_date": "1989-04-01",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 54,
-    "fields": {
-      "item_no": 26215,
-      "unit": "Bottle",
-      "item_name": "Antiseptic Solution",
-      "category": "Medicine",
-      "description": "A powerful antiseptic solution used for cleaning wounds and preventing infections. Suitable for both clinical and home use.",
-      "expiration_date": "2004-03-18",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 55,
-    "fields": {
-      "item_no": -9552,
-      "unit": "Box",
-      "item_name": "Disposable Masks",
-      "category": "Supplies",
-      "description": "A box of disposable face masks designed to protect against airborne pathogens and pollutants. Ideal for medical environments and public use.",
-      "expiration_date": "2018-03-08",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 56,
-    "fields": {
-      "item_no": -15491,
-      "unit": "Box",
-      "item_name": "Pain Relief Medication",
-      "category": "Medicine",
-      "description": "A comprehensive pain relief medication effective for managing chronic and acute pain. Ideal for patients with various pain conditions.",
-      "expiration_date": "2000-08-27",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 57,
-    "fields": {
-      "item_no": -2361,
-      "unit": "Bottle",
-      "item_name": "Antibiotic Suspension",
-      "category": "Medicine",
-      "description": "An antibiotic suspension for treating bacterial infections in children. Recommended dosage must be followed as per physician's advice.",
-      "expiration_date": "1982-04-26",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 58,
-    "fields": {
-      "item_no": -11250,
-      "unit": "Pack",
-      "item_name": "Vitamins and Minerals",
-      "category": "Medicine",
-      "description": "A daily supplement pack containing essential vitamins and minerals to support overall health and wellness.",
-      "expiration_date": "1977-05-30",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 59,
-    "fields": {
-      "item_no": -12796,
-      "unit": "Unit",
-      "item_name": "Surgical Gloves",
-      "category": "Supplies",
-      "description": "Sterile surgical gloves for use in medical procedures to ensure safety and hygiene.",
-      "expiration_date": "1974-01-25",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 60,
-    "fields": {
-      "item_no": 10897,
-      "unit": "Unit",
-      "item_name": "Syringe Set",
-      "category": "Supplies",
-      "description": "A set of disposable syringes for administering injections and drawing blood. Each set includes various sizes for different needs.",
-      "expiration_date": "1988-07-23",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 61,
-    "fields": {
-      "item_no": 27334,
-      "unit": "Bottle",
-      "item_name": "Cough Syrup",
-      "category": "Medicine",
-      "description": "A soothing cough syrup designed to relieve cough and throat irritation. Contains natural ingredients.",
-      "expiration_date": "1995-07-29",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 62,
-    "fields": {
-      "item_no": 30153,
-      "unit": "Box",
-      "item_name": "Bandage Pack",
-      "category": "Supplies",
-      "description": "A pack of assorted bandages for treating minor cuts and scrapes. Includes adhesive and sterile options.",
-      "expiration_date": "1991-05-17",
-      "added_by": null
-    }
-  },
-  {
-    "model": "inventory.inventorydetail",
-    "pk": 63,
-    "fields": {
-      "item_no": 12393,
-      "unit": "Unit",
-      "item_name": "Thermometer",
-      "category": "Supplies",
-      "description": "Digital thermometer for accurate temperature measurement. Ideal for both clinical and home use.",
-      "expiration_date": "2015-05-29",
-      "added_by": null
-    }
-  }
-]
+  ]
