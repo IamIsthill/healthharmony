@@ -121,7 +121,6 @@ def overview(request):
                 tp.submit(
                     fetch_monthly_medcert, now, previous_month
                 ): "monthly_medcert",
-                # tp.submit(fetch_previous_medcert, previous_month): "previous_medcert",
                 tp.submit(fetch_patients): "patients",
                 tp.submit(fetch_categories): "categories",
                 tp.submit(get_sorted_category, request): "sorted_category",
@@ -144,7 +143,6 @@ def overview(request):
         total_patient = results["total_patient"]
         previous_patients = results["previous_patients"]
         monthly_medcert, previous_medcert = results["monthly_medcert"]
-        # previous_medcert = results["previous_medcert"]
         patients = results["patients"]
         categories = results["categories"]
         request, sorted_category = results["sorted_category"]
@@ -153,20 +151,6 @@ def overview(request):
         request, ambulances = results["get_ambulances"]
         request, category_data = results["get_category_data"]
         request, wheelchair_data = results["get_wheelchairs"]
-        # today_patient = fetch_today_patient(now)
-        # total_patient = fetch_total_patient()
-        # previous_patients = fetch_previous_patients(previous_day)
-        # monthly_medcert, previous_medcert = fetch_monthly_medcert(now, previous_month)
-        # # previous_medcert = fetch_previous_medcert(previous_month)
-        # patients = fetch_patients()
-        # categories = fetch_categories()
-        # request, sorted_category = get_sorted_category(request)
-        # request, sorted_department = get_sorted_department(request)
-        # request, department_names = get_departments(request)
-        # request, ambulances = get_ambulances(request)
-        # request, category_data = get_category_data(request)
-        # request, wheelchair_data = get_wheelchairs(request)
-
         # Calculate percentages
         patient_percent = (
             0.00
@@ -409,13 +393,6 @@ def records(request):
         certificate_chart = results["fetch_certificate_chart"]
         certificates = results["fetch_certificates"]
         patient_list = results["fetch_patient_list"]
-        # history, history_data = fetch_history(Illness, IllnessSerializer)
-        # certificate_chart = fetch_certificate_chart(
-        #     timezone, Certificate, relativedelta
-        # )
-        # certificates = fetch_certificates(Certificate, F)
-        # patient_list = fetch_patient_list(request)
-
         paginator = Paginator(history, 10)
         page = request.GET.get("page")
 
@@ -657,44 +634,6 @@ def patients_and_accounts(request):
             patients_page = patients_paginator.page(patients_paginator.num_pages)
             logger.error("No page was set")
 
-        # last_department_visit = (
-        #     Illness.objects.filter(patient=OuterRef("pk"))
-        #     .exclude(added__isnull=True)
-        #     .order_by("-added")
-        #     .values("added")
-        # )
-
-        # Annotate the departments with the last visit date of any patient in that department
-        # departments = (
-        #     Department.objects.annotate(
-        #         last_department_visit=Subquery(
-        #             User.objects.filter(department=OuterRef("pk"), access=1)
-        #             .annotate(
-        #                 last_department_visit=Coalesce(
-        #                     Subquery(last_department_visit[:1]),
-        #                     Value(None),
-        #                     output_field=CharField(),
-        #                 )
-        #             )
-        #             .exclude(last_department_visit__isnull=True)
-        #             .values(
-        #                 "last_department_visit"
-        #             )  # Only get the last visit of the first patient in the department
-        #         ),
-        #         count=Count("user_department"),
-        #     )
-        #     .distinct()
-        #     .values()
-        # )
-        # departments = (
-        #     Department.objects.annotate(
-        #         last_department_visit=Max(
-        #             "user_department__illness__added",
-        #             filter=Q(user_department__access=1)
-        #         ),
-        #         user_count=Count("user_department", filter=Q(user_department__access=1))
-        #     ).values("id", "name", "last_department_visit", "user_count")
-        # )
         department_cache = cache.get("department_cache", {})
         departments = department_cache.get("query")
         if not departments:
