@@ -400,10 +400,10 @@ function updateEmployeeHTMl(employeeData) {
                 employee.email
             html += `
             <tr>
-                <td>${employee.first_name ? employee.first_name : ''} ${employee.last_name ? employee.last_name : ''}</td>
-                <td>${position}</td>
-                <td>${last_case}</td>
-                <td>${count}</td>
+                <td class = "table-data">${employee.first_name ? employee.first_name : ''} ${employee.last_name ? employee.last_name : ''}</td>
+                <td class = "table-data">${position}</td>
+                <td class = "table-data">${last_case}</td>
+                <td class = "table-data">${count}</td>
             </tr>
         `
         }

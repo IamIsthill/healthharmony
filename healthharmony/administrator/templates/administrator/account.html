@@ -149,23 +149,27 @@
         </div>
     </div>
     <div class="modal js_access_modal">
-        <div class="modal-content">
-            <span class="close js_close_access_form">&times;</span>
-            <form action="{% url "post_update_user_access" %}" method="POST">
+        <div class="modal-content form-modal">
+            <span style="display: none;" class="close js_close_access_form">&times;</span>
+            <form class="access-form" action="{% url "post_update_user_access" %}" method="POST">
                 {% csrf_token %}
                 <div class="js_access_form_body"></div>
-                <button>Update Access</button>
-                <button type="button" class="js_close_access_form">Close</button>
+                <div class="form-buttons">
+                    <button class="form-button">Update Access</button>
+                    <button type="button" class="js_close_access_form cancel-button">Close</button>
+                </div>
             </form>
         </div>
     </div>
     <div class="modal js_delete_user_modal">
         <div class="modal-content">
-            <form action="{% url "post_delete_user" %}" method="POST">
+            <form class="access-form" action="{% url "post_delete_user" %}" method="POST">
                 {% csrf_token %}
                 <div class="js_delete_user_form_body"></div>
-                <button type="submit">Delete</button>
-                <button type="button" class="js_close_delete_user_form">Cancel</button>
+                <div class="form-buttons">
+                    <button class="form-button" type="submit">Delete</button>
+                    <button type="button" class="js_close_delete_user_form cancel-button">Cancel</button>
+                </div>
             </form>
         </div>
     </div>
