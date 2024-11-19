@@ -236,7 +236,7 @@ aside{
         top: 0;
         left: -100%;
         z-index: 1002;
-        background: rgba(255, 255, 255, 0.900);
+        background: rgba(255, 255, 255, 0.947);
         transition: all 0.3s ease-in-out;
     }
     aside.open{
@@ -272,6 +272,22 @@ aside{
 /* xs */
 @media (max-width: 475px) {
     .nav-top h2{
+        margin-left: 2rem;
+    }
+    aside{
+        width: 70%;
+    }
+    .logo a{
+        margin-left: 4.5rem;
+    }
+    .logo{
+        border: 1px solid red;
+        margin-left: 6rem;
+    }
+    .sidebar{
+        position: relative;
+    }
+    .sidebar a{
         margin-left: 2rem;
     }
 }
