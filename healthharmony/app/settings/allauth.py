@@ -51,4 +51,6 @@ if env.bool("PROD", True):
 ACCOUNT_FORMS = {
     "signup": "healthharmony.users.forms.CustomSignUpForm",
     # "login": "healthharmony.users.forms.GoogleLoginForm",
+    "reset_password_from_key": "allauth.account.forms.ResetPasswordKeyForm",
 }
+ACCOUNT_EMAIL_VERIFICATION_BY_CODE_ENABLED = True
