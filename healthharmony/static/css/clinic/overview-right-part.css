@@ -43,8 +43,8 @@
 }
 
 .icon-button svg {
-    width: 40px; 
-    height: 40px; 
+    width: 40px;
+    height: 40px;
 }
 .top-buttons{
     display: flex;
@@ -52,8 +52,8 @@
 }
 .action-button:hover, .icon-button:hover{
     background: rgba(255, 255, 255, 0.418);
-    transform: scale(1.1); 
-    transition: transform 0.2s ease-in-out; 
+    transform: scale(1.1);
+    transition: transform 0.2s ease-in-out;
 }
 
 .bar-section{
@@ -204,7 +204,7 @@
         height: 3rem;
         margin-bottom: 4px;
     }
-    
+
     .h4-cont{
         border-radius: 4px;
         display: flex;
@@ -217,13 +217,22 @@
         font-size: var(--size-2xl);
     }
     .bed-cont button{
-        background: rgb(1, 119, 1);
         border-radius: 8px;
         color: white;
         transition: all 0.3s ease;
     }
-    .bed-cont button:hover{
+
+    .available-button{
+        background: rgb(1, 119, 1);
+    }
+    .available-button:hover{
         background: rgb(0, 83, 0);
+    }
+    .occupied-button{
+        background: rgb(158, 2, 2);
+    }
+    .occupied-button:hover{
+        background: rgb(122, 1, 1);
     }
     .remove-btn{
         padding: 1rem 1rem;
@@ -303,8 +312,8 @@
         padding:4px 4px;
     }
     .icon-button svg {
-        width: 35px; 
-        height: 35px; 
+        width: 35px;
+        height: 35px;
     }
     .action-button-container{
         gap: 0.5rem;
