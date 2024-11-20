@@ -2,7 +2,7 @@
     position: fixed;
     top: 0;
     margin-top: 2rem;
-    margin-left: 1.5rem;
+    margin-left: 2rem;
 }
 aside{
     height: 100%;
@@ -10,6 +10,7 @@ aside{
     /* border: 1px solid blue; */
     /* box-shadow: var(--box-shadow); */
 }
+
 .sidebar{
     position: fixed;
     display: flex;
@@ -143,10 +144,16 @@ aside{
 .header_hamburger{
     display: none;
 }
+.profile-mobile{
+    display: none;
+}
 /* 2xl */
 @media (max-width: 1536px) {
     .nav-top h2{
         margin-left: 14rem;
+    }
+    .logo{
+        margin-left: 1.2rem;
     }
 }
 
@@ -157,7 +164,7 @@ aside{
     }
     .logo{
         width: 6rem;
-        margin-left: 2rem;
+        margin-left: 1rem;
     }
     .nav-top h2{
         margin-left: 13rem;
@@ -227,10 +234,11 @@ aside{
 /* md */
 @media (max-width: 768px) {
     aside{
+        display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        width: 28%;
+        width: 40%;
         height: 100vh;
         position: fixed;
         top: 0;
@@ -267,27 +275,35 @@ aside{
         margin-left: 3rem;
         font-size: var(--size-xl);
     }
+    .aside{
+        width: 50%;
+    }
 }
 
 /* xs */
 @media (max-width: 475px) {
+    .patient-top{
+        display: none;
+    }
     .nav-top h2{
         margin-left: 2rem;
     }
     aside{
-        width: 70%;
-    }
-    .logo a{
-        margin-left: 4.5rem;
+        width: 50%;
+        align-items: center;
     }
     .logo{
-        border: 1px solid red;
-        margin-left: 6rem;
+        position: relative;
+        margin-left: 0rem;
+        margin-right: 2rem;
     }
     .sidebar{
         position: relative;
     }
     .sidebar a{
         margin-left: 2rem;
+    }
+    .profile-mobile{
+        display: block;
     }
 }
