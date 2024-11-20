@@ -84,13 +84,11 @@
                             <div class="h4-cont">
                                 <h4>Bed {{ forloop.counter }}</h4>
                             </div>
-                            <button type="submit">
-                                {% if bed.status == True %}
-                                    Occupied
-                                {% else %}
-                                    Available
-                                {% endif %}
-                            </button>
+                            {% if bed.status == True %}
+                                <button class="occupied-button" type="submit">Occupied</button>
+                            {% else %}
+                                <button class="available-button" type="submit">Available</button>
+                            {% endif %}
                         </div>
                     </form>
                     <form action="{% url 'post_delete_bed' bed.id %}" method="POST">
