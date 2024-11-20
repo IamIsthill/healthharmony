@@ -66,16 +66,21 @@
 }
 /* illness info hover */
 .js_hover_illness_info{
-    padding: 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     border-radius: 8px;
+    text-align: center;
 }
 .hover-title{
     font-size: var(--size-2xl);
     font-weight: 600;
+    color: var(--Maroon);
 }
 .hover-info{
     font-size: var(--size-base);
-    width: 90%;
+    width: 80%;
 }
 /* illness info hover */
 .Bar{

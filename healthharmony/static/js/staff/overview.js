@@ -62,54 +62,66 @@ function main() {
 
 // when user hovers on the info icon on the morbidity bars
 function handle_hover_illness_info() {
-    const icons = document.querySelectorAll('.js_view_categories')
+    const icons = document.querySelectorAll('.js_view_categories');
 
     // Exit early if there are no icons
-    if (icons.length == 0) {
-        return
+    if (icons.length === 0) {
+        return;
     }
-
-
 
     for (const icon of icons) {
-        icon.addEventListener('mouseenter', (event) => {
-            const category_id = parseInt(icon.getAttribute('category-id'))
+        icon.addEventListener('mouseenter', () => {
+            const category_id = parseInt(icon.getAttribute('category-id'));
+            const category = get_category(category_id);
 
-            const category = get_category(category_id)
+            // Get the bounding box of the icon relative to the sticky container
+            const rightPart = document.querySelector('.right-part');
+            const rightPartRect = rightPart.getBoundingClientRect();
+            const iconRect = icon.getBoundingClientRect();
 
-            // Get cursor location
-            const x = event.clientX,
-                y = event.clientY
+            // Calculate position relative to `.right-part`
+            const offsetTop = iconRect.top - rightPartRect.top;
+            const offsetLeft = iconRect.left - rightPartRect.left;
 
-            //Create the hover thingy
-            const hover_div = document.createElement('div')
-            hover_div.classList.add('js_hover_illness_info')
+            // Create the hover div
+            const hover_div = document.createElement('div');
+            hover_div.classList.add('js_hover_illness_info');
             hover_div.innerHTML = `
-                <h4 class = "hover-title">${category.category}</h4>
-                <p class = "hover-info">${category.description}</p>
-            `
+                <h4 class="hover-title">${category.category}</h4>
+                <p class="hover-info">${category.description}</p>
+            `;
 
-            // Set design then append to the html
-            hover_div.style = `
-                position: absolute;
-                top: ${y + 5}px;
-                left: ${x + 5}px;
-                zIndex: 100;
-                background: white;
-            `
-            document.body.append(hover_div)
+            
+            rightPart.appendChild(hover_div);
 
-            // Remove all hovers when mouse leaves
+            
+            const hoverWidth = hover_div.offsetWidth;
+            const hoverHeight = hover_div.offsetHeight;
+
+            
+            hover_div.style.position = 'absolute';
+            hover_div.style.top = `${offsetTop + iconRect.height / 2 - hoverHeight / 2 - 150}px`; 
+            hover_div.style.left = `${offsetLeft - hoverWidth + 100}px`; 
+            hover_div.style.zIndex = 100;
+            hover_div.style.background = 'white';
+            hover_div.style.border = '1px solid #ccc';
+            hover_div.style.padding = '8px';
+            hover_div.style.borderRadius = '4px';
+            hover_div.style.boxShadow = '0 2px 6px rgba(0, 0, 0, 0.15)';
+            hover_div.style.width = '300px';
+            hover_div.style.wordWrap = 'break-word';
+
+            
             icon.addEventListener('mouseleave', () => {
-                const hovers = document.querySelectorAll('.js_hover_illness_info')
-
-                for (const hover of hovers) {
-                    hover.remove()
-                }
-            })
-        })
+                hover_div.remove();
+            });
+        });
     }
 }
+
+
+
+
 
 function get_category(id) {
     if (category_data.length == 0) {
