@@ -71,7 +71,13 @@ export function createViewDepartmentModal(department, patients, format_date) {
         </div>
     `
     if (department.count > 0) {
-        html += '<div> <h3>Users</h3>'
+        html = `
+            <span class="material-symbols-outlined close js-close-view-department-modal">cancel</span>
+            <div class = "no-account-cont">
+            <h2>${department.department}</h2>
+            </div>
+        `
+        html += '<div><h3>Users</h3>'
         for (const patient of patients) {
             html += `
                 <div>

@@ -61,7 +61,6 @@ main()
 
 function main() {
     /**TEST AREA */
-    console.log(departmentData)
 
     /**PATIENT TABLE */
     formatDatesInPatientsPage(format_date)
@@ -79,6 +78,7 @@ function main() {
 
     /**DEPARTMENT TABLE */
     update_department_count(departmentData)
+    update_department_table(departmentData, format_date)
     handle_onclick_department_direction()
     handle_onclick_department_sort()
 
