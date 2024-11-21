@@ -1,0 +1,33 @@
+{% load static %}
+{% load tags %}
+<div>
+    <div class="pop-up-message pop-up-green js-messages">
+        <p>1</p>
+        <span class="material-symbols-outlined close-pop-up js-close-messages">cancel</span>
+    </div>
+    <div class="pop-up-message pop-up-green js-messages">
+        <p>2</p>
+        <span class="material-symbols-outlined close-pop-up js-close-messages">cancel</span>
+    </div>
+    {% if messages|has_success_message %}
+        {% for m in messages %}
+            {% if m.tags == 'success' %}
+                <div class="pop-up-message pop-up-green js-messages">
+                    <p>{{ m }}</p>
+                    <span class="material-symbols-outlined close-pop-up js-close-messages">cancel</span>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    {% if messages|has_error_message %}
+        {% for m in messages %}
+            {% if m.tags == 'error' %}
+                <div class="pop-up-message pop-up-red js-messages">
+                    <p>{{ m }}</p>
+                    <span class="material-symbols-outlined close-pop-up js-close-messages">cancel</span>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</div>
+<script src="{% static 'js/general/messages.js' %}" type="module"></script>

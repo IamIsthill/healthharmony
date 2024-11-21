@@ -20,22 +20,7 @@
     <div class="doctor-container">
         {% include 'doctor/nav.html' %}
         <main>
-            {% if messages|has_success_message %}
-                <div class="pop-up-message pop-up-green js-messages">
-                    {% for m in messages %}
-                        {% if m.tags == 'success' %}<p>{{ m }}</p>{% endif %}
-                    {% endfor %}
-                    <span class="material-symbols-outlined close-pop-up js-close-messages">cancel</span>
-                </div>
-            {% endif %}
-            {% if messages|has_error_message %}
-                <div class="pop-up-message pop-up-red js-messages">
-                    {% for m in messages %}
-                        {% if m.tags == 'error' %}<p>{{ m }}</p>{% endif %}
-                    {% endfor %}
-                    <span class="material-symbols-outlined close-pop-up js-close-messages">cancel</span>
-                </div>
-            {% endif %}
+            {% include 'messages.html' %}
             <div class="illness-category-chart-space lineChart">
                 <div class="top-chart">
                     <h4>Morbidity Cases</h4>
@@ -57,12 +42,12 @@
                 </div>
             </div>
             <div class="illness-space">
-                <!--                    <h1>Illnesses</h1>
+                <!--                     <h1>Illnesses</h1>
                 <div>
                     <button class="js-illness-filter-active js-illness-filter" data-category="all">All</button>
                     <button class="js-illness-filter" data-category="not">Pending</button>
                     <button class="js-illness-filter" data-category="done">Completed</button>
-                </div>                    -->
+                </div>                     -->
                 <table class="mod-table">
                     <thead>
                         <tr>

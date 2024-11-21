@@ -18,22 +18,7 @@
     <div class="doctor-sched-container">
         {% include 'doctor/nav.html' %}
         <main>
-            {% if messages|has_success_message %}
-                <div class="pop-up-message pop-up-green js-messages">
-                    {% for m in messages %}
-                        {% if m.tags == 'success' %}<p>{{ m }}</p>{% endif %}
-                    {% endfor %}
-                    <span class="material-symbols-outlined close-pop-up js-close-messages">cancel</span>
-                </div>
-            {% endif %}
-            {% if messages|has_error_message %}
-                <div class="pop-up-message pop-up-red js-messages">
-                    {% for m in messages %}
-                        {% if m.tags == 'error' %}<p>{{ m }}</p>{% endif %}
-                    {% endfor %}
-                    <span class="material-symbols-outlined close-pop-up js-close-messages">cancel</span>
-                </div>
-            {% endif %}
+            {% include 'messages.html' %}
             <div class="sched-part">
                 <h1>Your Schedule</h1>
                 <h3>Set your schedule so that patients may know</h3>
@@ -127,7 +112,6 @@
 {% block script %}
     {{ doctor_sched|json_script:'doctor_sched' }}
     <script src="{% static 'chart.js/dist/chart.umd.js' %}"></script>
-    <script src="{% static 'js/general/messages.js' %}" type="module"></script>
     <script>
     const doctor_sched = JSON.parse(document.getElementById('doctor_sched').textContent)
     /** MAIN */
