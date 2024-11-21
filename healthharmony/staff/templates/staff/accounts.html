@@ -93,34 +93,38 @@
                                 <td colspan="3">No patients</td>
                             </tr>
                         {% endif %}
+                        <tr>
+                            <td colspan="3">
+                                {% if patients_page.has_other_pages %}
+                                    <div class="pagination js-patients-pagination pagination-design">
+                                        <span class="step-links">
+                                            {% if patients_page.has_previous %}
+                                                <a href="?patients-page=1"
+                                                   class="js-links js-patient-links page-shortcut">First</a>
+                                                <a href="?patients-page={{ patients_page.previous_page_number }}"
+                                                   class="js-links js-patient-links">
+                                                    <div class="previous-next-page">
+                                                        <span class="material-symbols-outlined page-icon">arrow_back_ios</span> <span>Previous</span>
+                                                    </div>
+                                                </a>
+                                            {% endif %}
+                                            <span class="current">Page {{ patients_page.number }} of {{ patients_page.paginator.num_pages }}.</span>
+                                            {% if patients_page.has_next %}
+                                                <a href="?patients-page={{ patients_page.next_page_number }}"
+                                                   class="js-links js-patient-links">
+                                                    <div class="previous-next-page">
+                                                        <span>Next</span> <span class="material-symbols-outlined page-icon">arrow_forward_ios</span>
+                                                    </div>
+                                                </a>
+                                                <a href="?patients-page={{ patients_page.paginator.num_pages }}"
+                                                   class="js-links js-patient-links page-shortcut">Last</a>
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                {% endif %}
+                            </td>
+                        </tr>
                     </table>
-                    {% if patients_page.has_other_pages %}
-                        <div class="pagination js-patients-pagination pagination-design">
-                            <span class="step-links">
-                                {% if patients_page.has_previous %}
-                                    <a href="?patients-page=1"
-                                       class="js-links js-patient-links page-shortcut">First</a>
-                                    <a href="?patients-page={{ patients_page.previous_page_number }}"
-                                       class="js-links js-patient-links">
-                                        <div class="previous-next-page">
-                                            <span class="material-symbols-outlined page-icon">arrow_back_ios</span> <span>Previous</span>
-                                        </div>
-                                    </a>
-                                {% endif %}
-                                <span class="current">Page {{ patients_page.number }} of {{ patients_page.paginator.num_pages }}.</span>
-                                {% if patients_page.has_next %}
-                                    <a href="?patients-page={{ patients_page.next_page_number }}"
-                                       class="js-links js-patient-links">
-                                        <div class="previous-next-page">
-                                            <span>Next</span> <span class="material-symbols-outlined page-icon">arrow_forward_ios</span>
-                                        </div>
-                                    </a>
-                                    <a href="?patients-page={{ patients_page.paginator.num_pages }}"
-                                       class="js-links js-patient-links page-shortcut">Last</a>
-                                {% endif %}
-                            </span>
-                        </div>
-                    {% endif %}
                 </div>
                 <div class="js-department-bar-graph dep-bar">
                     <h1>Department Bar</h1>
@@ -135,6 +139,7 @@
                         <tr>
                             <th colspan="6">
                                 <div class="header-content">
+                                    {{ departments.count }}
                                     <h1 class="js-department-count dept-h1">Total Departments({{ departments.count }})</h1>
                                     <div class="search-main-container">
                                         <div class="search-container">
@@ -252,6 +257,10 @@
                 </table>
             </div>
         </main>
+        <!--            TO MIKO
+            LAGAY MO ICON SA TABI NG INPUT SA ADD DEP
+             AYUSIN MO VIEW DEPARTMENT
+                   -->
         <div class="js-add-department-modal modal">
             <div class="modal-content">
                 <h1>Add a Department</h1>
@@ -268,7 +277,7 @@
             </div>
         </div>
         <div class="js-delete-department-modal modal">
-            <div class="modal-content">
+            <div class="modal-content delete-modal">
                 <form action="" method="post" class="form-body">
                     {% csrf_token %}
                 </form>
@@ -281,7 +290,7 @@
             </div>
         </div>
         <div class="js-view-department-modal modal">
-            <div class="modal-content"></div>
+            <div class="modal-content view-modal"></div>
         </div>
     </div>
 {% endblock %}
@@ -289,6 +298,8 @@
     {{ patients|json_script:'patientData' }}
     {{ departmentData|json_script:'departmentData' }}
     {{ employeeData|json_script:'employeeData' }}
+    {{ static_path|json_script:'static_path' }}
+    {{ media_path|json_script:'media_path' }}
     <script src="{% static 'chart.js/dist/chart.umd.js' %}"></script>
     <script src="{% static 'chartjs-plugin-zoom/dist/chartjs-plugin-zoom.min.js' %}"></script>
     <script type="module" src="{% static 'js/dist/staff_account.js' %}"></script>

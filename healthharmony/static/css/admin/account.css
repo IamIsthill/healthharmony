@@ -81,6 +81,33 @@ table .table-head, table .table-data{
     padding: 0.5rem 1rem;
     margin-bottom: 0.5rem;
 }
+.access-modal{
+    width: 38%;
+}
 .last-inp{
     margin-bottom:0rem;
+}
+.js_delete_user{
+    background: rgb(194, 0, 0);
+    color: white;
+    padding: 4px 4px;
+    border-radius: 4px ;
+}
+.js_delete_user:hover{
+    background: rgb(145, 1, 1);
+}
+.access-form{
+    display: flex;
+    flex-direction: column;
+}
+.js_access_form_body h4{
+    font-weight: 400;
+    font-size: var(--size-base);
+}
+.user-span, .access-span{
+    font-weight: 500;
+    font-size: var(--size-lg);
+}
+.access-span{
+    color: rgb(1, 95, 1);
 }

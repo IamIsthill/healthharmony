@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.conf import settings
 import secrets
 import string
 from django.db import connection, DatabaseError
@@ -659,8 +660,8 @@ def patients_and_accounts(request):
                 department.last_department_visit = None
                 for illness in illnesses:
                     if (
-                        illness.patient.department == department
-                        and illness.added == None
+                        illness.patient.department.id == department.id
+                        and illness.added != None
                     ):
                         department.count += 1
 
@@ -691,6 +692,8 @@ def patients_and_accounts(request):
                 "employees": employees,
                 "employeeData": list(employees),
                 "page": "accounts",
+                "static_path": settings.STATIC_URL,
+                "media_path": settings.MEDIA_URL,
             }
         )
 

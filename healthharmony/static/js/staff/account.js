@@ -49,11 +49,13 @@ import {
 
 import {
     get_sorted_department_data_using_current_params,
+    update_department_count
 } from './account-department.js'
 
 const patientData = JSON.parse(document.getElementById('patientData').textContent)
 const departmentData = JSON.parse(document.getElementById('departmentData').textContent)
 const employeeData = JSON.parse(document.getElementById('employeeData').textContent)
+const static_path = JSON.parse(document.getElementById('static_path').textContent)
 
 main()
 
@@ -76,6 +78,8 @@ function main() {
     handle_onclick_patient_name()
 
     /**DEPARTMENT TABLE */
+    update_department_count(departmentData)
+    update_department_table(departmentData, format_date)
     handle_onclick_department_direction()
     handle_onclick_department_sort()
 
@@ -400,10 +404,10 @@ function updateEmployeeHTMl(employeeData) {
                 employee.email
             html += `
             <tr>
-                <td>${employee.first_name ? employee.first_name : ''} ${employee.last_name ? employee.last_name : ''}</td>
-                <td>${position}</td>
-                <td>${last_case}</td>
-                <td>${count}</td>
+                <td class = "table-data">${employee.first_name ? employee.first_name : ''} ${employee.last_name ? employee.last_name : ''}</td>
+                <td class = "table-data">${position}</td>
+                <td class = "table-data">${last_case}</td>
+                <td class = "table-data">${count}</td>
             </tr>
         `
         }
@@ -585,10 +589,10 @@ function createDepartmentBarGraph() {
         // chart js zoom plugin
         transitions: {
             zoom: {
-              animation: {
-                duration: 1000,
-                easing: 'easeInOutCubic'
-              }
+                animation: {
+                    duration: 1000,
+                    easing: 'easeInOutCubic'
+                }
             }
         },
         scales: {
