@@ -49,6 +49,7 @@ import {
 
 import {
     get_sorted_department_data_using_current_params,
+    update_department_count
 } from './account-department.js'
 
 const patientData = JSON.parse(document.getElementById('patientData').textContent)
@@ -60,6 +61,7 @@ main()
 
 function main() {
     /**TEST AREA */
+    console.log(departmentData)
 
     /**PATIENT TABLE */
     formatDatesInPatientsPage(format_date)
@@ -76,6 +78,7 @@ function main() {
     handle_onclick_patient_name()
 
     /**DEPARTMENT TABLE */
+    update_department_count(departmentData)
     handle_onclick_department_direction()
     handle_onclick_department_sort()
 
@@ -585,10 +588,10 @@ function createDepartmentBarGraph() {
         // chart js zoom plugin
         transitions: {
             zoom: {
-              animation: {
-                duration: 1000,
-                easing: 'easeInOutCubic'
-              }
+                animation: {
+                    duration: 1000,
+                    easing: 'easeInOutCubic'
+                }
             }
         },
         scales: {

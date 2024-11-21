@@ -52,7 +52,7 @@ export function createEditDepartmentModal(department, getToken) {
         </span>
         <input type="text" value="${department.department}" name="department_name"required/>
         </div>
-        <div class = "form-buttons">   
+        <div class = "form-buttons">
             <button class = "form-button edit-button" type="submit">Update</button>
             <button type="button" class="js-close-edit-department-modal cancel-button">Cancel</button>
         </div>
@@ -125,7 +125,7 @@ export function update_department_table(filtered_department_data, format_date) {
             <td class="table-data">${department_data.department}</td>
             <td class="table-data js-department-counts">${department_data.count}</td>
             <td class="table-data js-dates">${format_date(department_data.last_department_visit)}</td>
-            <td class="table-data js-edit-department btn"><span class="btn edit-btn">Edit</span></td>
+            <td class="table-data js-edit-department act-data"><span class="btn edit-btn">Edit</span></td>
             <td class="table-data js-delete-department btn"> <span class="btn delete-btn-dept"> Delete </span> </td>
             <td class="table-data js-view-department btn"><span class="btn view-btn">View</span></td>
         `
@@ -239,4 +239,15 @@ function get_sorted_patient_data(filter, direction, department_data) {
     }
 
     return department_data
+}
+
+export function update_department_count(departmentData) {
+    console.log(departmentData)
+    let count = 0
+    for (const i of Object.entries(departmentData)) {
+        count++
+    }
+    const text = `Total Department(${count})`
+    document.querySelector('.js-department-count').textContent = text
+
 }
