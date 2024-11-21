@@ -77,9 +77,14 @@
     // Get the desired filter
     let userDateFilter = 'year'
     const userFilterBtns = document.querySelectorAll('.user-filter-btn')
+
     userFilterBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
+        for (const btn of userFilterBtns) {
+          btn.classList.remove('active-cat')
+        }
         let text = btn.getAttribute('data-category').toLowerCase()
+        btn.classList.add('active-cat')
         userDateFilter = text
         fetchUserData()
       })
