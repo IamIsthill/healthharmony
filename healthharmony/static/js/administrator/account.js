@@ -135,8 +135,10 @@ function handle_user_filters() {
         btn.addEventListener('click', () => {
             for (const btn of btns) {
                 btn.classList.remove('js-account-filter-active')
+                btn.classList.remove('cat-btn-active')
             }
             btn.classList.add('js-account-filter-active')
+            btn.classList.add('cat-btn-active')
             const paginated_user_data = get_filtered_user_data()
             update_account_table(paginated_user_data)
             handle_change_user_access()
