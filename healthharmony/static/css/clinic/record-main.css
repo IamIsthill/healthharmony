@@ -270,3 +270,19 @@ main{
 .bar-btn:hover{
     border:1px solid var(--light_gray);
 }
+.collected-btn{
+    background: rgb(20, 20, 20);
+    color: white;
+}
+.collected-btn:hover{
+    background: rgb(66, 66, 66);
+}
+.ready-span{
+    color: rgb(187, 122, 0);
+}
+.med-collected-span{
+    color: green;
+}
+.no-act-span{
+    color: gray;
+}
