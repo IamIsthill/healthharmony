@@ -257,10 +257,10 @@
                 </table>
             </div>
         </main>
-        <!--           TO MIKO
+        <!--            TO MIKO
             LAGAY MO ICON SA TABI NG INPUT SA ADD DEP
              AYUSIN MO VIEW DEPARTMENT
-                  -->
+                   -->
         <div class="js-add-department-modal modal">
             <div class="modal-content">
                 <h1>Add a Department</h1>
@@ -299,6 +299,7 @@
     {{ departmentData|json_script:'departmentData' }}
     {{ employeeData|json_script:'employeeData' }}
     {{ static_path|json_script:'static_path' }}
+    {{ media_path|json_script:'media_path' }}
     <script src="{% static 'chart.js/dist/chart.umd.js' %}"></script>
     <script src="{% static 'chartjs-plugin-zoom/dist/chartjs-plugin-zoom.min.js' %}"></script>
     <script type="module" src="{% static 'js/dist/staff_account.js' %}"></script>

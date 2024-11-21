@@ -693,6 +693,7 @@ def patients_and_accounts(request):
                 "employeeData": list(employees),
                 "page": "accounts",
                 "static_path": settings.STATIC_URL,
+                "media_path": settings.MEDIA_URL,
             }
         )
 

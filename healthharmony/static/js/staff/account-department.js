@@ -1,4 +1,5 @@
 const static_path = JSON.parse(document.getElementById('static_path').textContent)
+const media_path = JSON.parse(document.getElementById('media_path').textContent)
 
 export function getPatientList(patientData, departmentId) {
     let data = []
@@ -89,7 +90,7 @@ export function createViewDepartmentModal(department, patients, format_date) {
         for (const patient of patients) {
             html += `
                 <div class ="department-view">
-                    <img src="/media/${patient.profile}">
+                    <img src="${media_path}${patient.profile}">
                     <div class = "name-email">
                     <p>${patient.first_name} ${patient.last_name}</p>
                     <p>${patient.email}</p>
@@ -130,7 +131,7 @@ export function createViewDepartmentModal(department, patients, format_date) {
                 for (const patient of patient_container) {
                     content += `
                     <div class ="department-view">
-                        <img src="/media/${patient.profile}">
+                        <img src="${media_path}${patient.profile}">
                         <div class = "name-email">
                             <p>${patient.first_name} ${patient.last_name}</p>
                             <p>${patient.email}</p>
