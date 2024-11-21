@@ -77,15 +77,16 @@ export function createViewDepartmentModal(department, patients, format_date) {
             <h2>${department.department}</h2>
             </div>
         `
-        html += '<div><h3>Users</h3>'
+        html += '<div class = "dep-view-cont"><h3>Users</h3>'
         for (const patient of patients) {
             html += `
-                <div>
+                <div class = "department-view">
                     <img src="/media/${patient.profile}">
+                    <div class = "name-email">
+                    <p>${patient.first_name} ${patient.last_name}</p>
+                    <p>${patient.email}</p>
+                    </div>
                     <a href="/doctor/patient/${patient.id}/">Go to Profile</a>
-                    <p>Name: ${patient.first_name} ${patient.last_name}</p>
-                    <p>Email: ${patient.email}</p>
-                    <p class="js-dates">Joined On: ${format_date(patient.date_joined)}</p>
                 </div>
             `
         }
