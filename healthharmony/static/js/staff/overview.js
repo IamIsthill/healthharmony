@@ -101,7 +101,7 @@ function handle_hover_illness_info() {
             
             hover_div.style.position = 'absolute';
             hover_div.style.top = `${offsetTop + iconRect.height / 2 - hoverHeight / 2 - 150}px`; 
-            hover_div.style.left = `${offsetLeft - hoverWidth + 100}px`; 
+            hover_div.style.left = `${offsetLeft - hoverWidth + 70}px`; 
             hover_div.style.zIndex = 100;
             hover_div.style.background = 'white';
             hover_div.style.border = '1px solid #ccc';
