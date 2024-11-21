@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.conf import settings
 import secrets
 import string
 from django.db import connection, DatabaseError
@@ -691,6 +692,7 @@ def patients_and_accounts(request):
                 "employees": employees,
                 "employeeData": list(employees),
                 "page": "accounts",
+                "static_path": settings.STATIC_URL,
             }
         )
 

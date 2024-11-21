@@ -1,3 +1,5 @@
+const static_path = JSON.parse(document.getElementById('static_path').textContent)
+
 export function getPatientList(patientData, departmentId) {
     let data = []
     for (const patient of patientData) {
@@ -26,7 +28,7 @@ export function createDeleteDepartmentModal(department, getToken) {
     const html = `
         <input type="hidden" name="csrfmiddlewaretoken" value="${token}" />
         <div class = "delete-illus">
-            <img src="../../static/assets/images/svgs/remove-dep.svg" alt="">
+            <img src="${static_path}assets/images/svgs/remove-dep.svg" alt="">
             <h2>Are you sure to delete <span class ="delete-dept">${department.department} Department</span>?</h2>
         </div>
         <div class = "form-buttons delete-buttons">
@@ -65,7 +67,7 @@ export function createViewDepartmentModal(department, patients, format_date) {
     let html = `
         <span class="material-symbols-outlined close js-close-view-department-modal">cancel</span>
         <div class = "no-account-cont">
-        <img src="../../static/assets/images/svgs/no-account.svg" alt="">
+        <img src="${static_path}assets/images/svgs/no-account.svg" alt="">
         <h2>${department.department}</h2>
         <h5>This Department has no user.</h5>
         </div>

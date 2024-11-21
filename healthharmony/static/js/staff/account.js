@@ -55,6 +55,7 @@ import {
 const patientData = JSON.parse(document.getElementById('patientData').textContent)
 const departmentData = JSON.parse(document.getElementById('departmentData').textContent)
 const employeeData = JSON.parse(document.getElementById('employeeData').textContent)
+const static_path = JSON.parse(document.getElementById('static_path').textContent)
 
 main()
 
