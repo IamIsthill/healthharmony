@@ -659,8 +659,8 @@ def patients_and_accounts(request):
                 department.last_department_visit = None
                 for illness in illnesses:
                     if (
-                        illness.patient.department == department
-                        and illness.added == None
+                        illness.patient.department.id == department.id
+                        and illness.added != None
                     ):
                         department.count += 1
 

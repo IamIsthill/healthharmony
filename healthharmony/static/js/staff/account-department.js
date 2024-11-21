@@ -125,7 +125,7 @@ export function update_department_table(filtered_department_data, format_date) {
             <td class="table-data">${department_data.department}</td>
             <td class="table-data js-department-counts">${department_data.count}</td>
             <td class="table-data js-dates">${format_date(department_data.last_department_visit)}</td>
-            <td class="table-data js-edit-department btn"><span class="btn edit-btn">Edit</span></td>
+            <td class="table-data js-edit-department act-data"><span class="btn edit-btn">Edit</span></td>
             <td class="table-data js-delete-department btn"> <span class="btn delete-btn-dept"> Delete </span> </td>
             <td class="table-data js-view-department btn"><span class="btn view-btn">View</span></td>
         `

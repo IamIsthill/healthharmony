@@ -61,6 +61,7 @@ main()
 
 function main() {
     /**TEST AREA */
+    console.log(departmentData)
 
     /**PATIENT TABLE */
     formatDatesInPatientsPage(format_date)
