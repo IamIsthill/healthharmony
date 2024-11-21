@@ -79,10 +79,16 @@ export function createViewDepartmentModal(department, patients, format_date) {
             <h2>${department.department}</h2>
             </div>
         `
-        html += '<div class = "dep-view-cont"><h3>Users</h3>'
+        html += `
+            <div class = "dep-view-cont">
+            <h3>Users</h3>
+            <input type="text" class="js_specific_department_field" placeholder="Search Department...">
+            <button class="js_search_specific_department">Search</button>
+            </div>
+            <div class="js_user_list">`
         for (const patient of patients) {
             html += `
-                <div class = "department-view">
+                <div class ="department-view">
                     <img src="/media/${patient.profile}">
                     <div class = "name-email">
                     <p>${patient.first_name} ${patient.last_name}</p>
@@ -95,6 +101,52 @@ export function createViewDepartmentModal(department, patients, format_date) {
         html += '</div>'
     }
     modalContent.innerHTML = html
+
+    if (department.count > 0) {
+        const search_btn = document.querySelector('.js_search_specific_department')
+        search_btn.addEventListener('click', () => {
+            const search_field = document.querySelector('.js_specific_department_field')
+            const search_text = search_field.value.toLowerCase()
+
+            //Search for the user
+            let patient_container = []
+            if (search_text) {
+                for (const patient of patients) {
+                    if (String(patient.email).toLowerCase().includes(search_text) ||
+                String(patient.first_name).toLowerCase().includes(search_text) ||
+                String(patient.last_name).toLowerCase().includes(search_text)) {
+                    patient_container.push(patient)
+            }
+                }
+            }
+
+            // Put patient in a div
+
+            let content = "<h1>No User found</h1>" // Default content
+
+            // If may nahanap, default will be changed
+            if (patient_container.length > 0) {
+                content = ''
+                for (const patient of patient_container) {
+                    content += `
+                    <div class ="department-view">
+                        <img src="/media/${patient.profile}">
+                        <div class = "name-email">
+                            <p>${patient.first_name} ${patient.last_name}</p>
+                            <p>${patient.email}</p>
+                        </div>
+                        <a href="/doctor/patient/${patient.id}/">Go to Profile</a>
+                    </div>
+                    `
+                }
+            }
+            document.querySelector('.js_user_list').innerHTML = content
+
+            // Clean
+            search_field.value=''
+
+        })
+    }
 }
 
 export function getDepartmentLabelsAndCounts(departmentData) {
