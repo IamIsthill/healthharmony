@@ -9,7 +9,7 @@ migrate:
 
 .PHONY: download
 download:
-	poetry run python -m healthharmony.manage dumpdata treatment inventory users > data.json
+	poetry run python -m healthharmony.manage dumpdata > data.json
 
 .PHONY: download-all
 download-all:
