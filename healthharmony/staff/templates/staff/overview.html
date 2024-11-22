@@ -1,93 +1,81 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load tags %}
-{% block title %}Overview | HealthHarmony{% endblock %}
+{% block title %}
+  Overview | HealthHarmony
+{% endblock %}
 {% block header %}
-    <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/clinic/overview-main.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/clinic/overview-graph.css' %}" />
-    <link rel="stylesheet"
-          href="{% static 'css/clinic/overview-right-part.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
-          rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-          rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/clinic/overview-main.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/clinic/overview-graph.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/clinic/overview-right-part.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 {% endblock %}
 {% block main %}
-    {% include 'staff/nav-top.html' %}
-    <div class="nurse-container">
-        {% include 'staff/navbar.html' %}
-        <!-- MAIN CONTENT -->
-        <main>
-            {% if messages|has_success_message %}
-                <div class="pop-up-message pop-up-green js-messages">
-                    {% for m in messages %}
-                        {% if m.tags == 'success' %}<p>{{ m }}</p>{% endif %}
-                    {% endfor %}
-                    <span class="material-symbols-outlined close-pop-up js-close-messages">cancel</span>
-                </div>
-            {% endif %}
-            {% if messages|has_error_message %}
-                <div class="pop-up-message pop-up-red js-messages">
-                    {% for m in messages %}
-                        {% if m.tags == 'error' %}<p>{{ m }}</p>{% endif %}
-                    {% endfor %}
-                    <span class="material-symbols-outlined close-pop-up js-close-messages">cancel</span>
-                </div>
-            {% endif %}
-            {% include 'staff/overview-top.html' %}
-            {% include 'staff/overview-graphs.html' %}
-        </main>
-        {% include 'staff/overview-right-part.html' %}
+  {% include 'staff/nav-top.html' %}
+  <div class="nurse-container">
+    {% include 'staff/navbar.html' %}
+    <!-- MAIN CONTENT -->
+    <main>
+      {% include 'messages.html' %}
+      {% include 'staff/overview-top.html' %}
+      {% include 'staff/overview-graphs.html' %}
+    </main>
+    {% include 'staff/overview-right-part.html' %}
+  </div>
+  <div id="js-add-visit-modal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <h1>Add a Patient Record</h1>
+      <span class="material-symbols-outlined close js-close-add-visit-modal-btn">cancel</span>
+      <form action="{% url 'create-patient-add-issue' %}" method="post">
+        {% csrf_token %}
+        <label for="">Patient</label>
+        <input class="patient-input" name="email" list="patient-list" required placeholder="Find name or email of a patient" />
+        <datalist id="patient-list">
+          {% for patient in patients %}
+            {% with name=patient.first_name|add:' '|add:patient.last_name %}
+              {% if patient.first_name and patient.last_name %}
+                <option value="{{ patient.email }}">{{ name }}</option>
+              {% else %}
+                <option value="{{ patient.email }}">{{ patient.first_name }}</option>
+              {% endif %}
+            {% endwith %}
+          {% endfor %}
+        </datalist>
+        <label for="">Issue</label>
+        <textarea name="issue" id="" class="issue-input"></textarea>
+        <button class="form-button submit-btn" type="submit">Confirm</button>
+      </form>
     </div>
-    <div id="js-add-visit-modal" class="modal">
-        <!-- Modal content -->
-        <div class="modal-content">
-            <h1>Add a Patient Record</h1>
-            <span class="material-symbols-outlined close js-close-add-visit-modal-btn">cancel</span>
-            <form action="{% url 'create-patient-add-issue' %}" method="post">
-                {% csrf_token %}
-                <label for="">Patient</label>
-                <select class="patient-input" name="email">
-                    {% for patient in patients %}<option value="{{ patient.email }}">{{ patient.email }}</option>{% endfor %}
-                </select>
-                <label for="">Issue</label>
-                <textarea name="issue" id="" class="issue-input"></textarea>
-                <button class="form-button submit-btn" type="submit">Confirm</button>
-            </form>
+  </div>
+  <div class="modal add-new" id="js_add_patient_modal">
+    <div class="modal-content add-new-content">
+      <span class="material-symbols-outlined close js_close_add_patient_modal">cancel</span>
+      <form action="{% url 'post_add_patient' %}" method="POST" class="js_add_patient_form">
+        {% csrf_token %}
+        <label for="">First Name</label>
+        <input type="text" name="first_name" required placeholder="First Name..." />
+        <label for="">Last Name</label>
+        <input type="text" name="last_name" required placeholder="Last Name..." />
+        <label for="">Email</label>
+        <input type="text" name="email" required placeholder="Email(must be unique)..." />
+        <label for="">Contact Details</label>
+        <input type="text" name="contact" required placeholder="Contact details..." />
+        <label for="">Date of Birth</label>
+        <input type="date" name="DOB" required placeholder="Date of Birth" />
+        <div class="form-buttons">
+          <button class="form-button" type="submit">Add Patient</button>
+          <button type="button" class="js_close_add_patient_modal cancel-button">Close</button>
         </div>
+      </form>
     </div>
-    <div class="modal add-new" id="js_add_patient_modal">
-        <div class="modal-content add-new-content">
-            <span class="material-symbols-outlined close js_close_add_patient_modal">cancel</span>
-            <form action="{% url 'post_add_patient' %}"
-                  method="POST"
-                  class="js_add_patient_form">
-                {% csrf_token %}
-                <label for="">First Name</label>
-                <input type="text" name="first_name" required placeholder="First Name..." />
-                <label for="">Last Name</label>
-                <input type="text" name="last_name" required placeholder="Last Name..." />
-                <label for="">Email</label>
-                <input type="text"
-                       name="email"
-                       required
-                       placeholder="Email(must be unique)..." />
-                <label for="">Contact Details</label>
-                <input type="text" name="contact" required placeholder="Contact details..." />
-                <label for="">Date of Birth</label>
-                <input type="date" name="DOB" required placeholder="Date of Birth" />
-                <div class="form-buttons">
-                    <button class="form-button" type="submit">Add Patient</button>
-                    <button type="button" class="js_close_add_patient_modal cancel-button">Close</button>
-                </div>
-            </form>
-        </div>
-    </div>
+  </div>
 {% endblock %}
 {% block script %}
-    {% include 'staff/overview-script.html' %}
+  {% include 'staff/overview-script.html' %}
 {% endblock %}

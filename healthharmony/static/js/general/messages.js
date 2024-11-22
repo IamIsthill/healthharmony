@@ -51,13 +51,13 @@ function handle_notif() {
     for (const message of messages) {
         setTimeout(() => {
             message.remove()
-        }, 2000)
+        }, 3000)
     }
 
     const close_btns = document.querySelectorAll('.js-close-messages')
 
-    if (close_btns.length <= 0) {
-        for (const close in close_btns) {
+    if (close_btns.length > 0) {
+        for (const close of close_btns) {
             close.addEventListener('click', () => {
                 close.parentElement.remove()
             })

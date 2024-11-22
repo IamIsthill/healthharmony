@@ -54,6 +54,28 @@ async function main() {
 
     listenInventoryTrendsCategoryBtns()
     listenInventoryTrendsFilterBtns()
+
+    // 
+    listen_all_number_input()
+}
+
+function listen_all_number_input() {
+    const inputs = document.querySelectorAll('input[type="number"]')
+    
+    if (inputs.length <= 0) {
+        return
+    }
+
+    for (const input of inputs) {
+        input.addEventListener('input', () => {
+            const inputted_number = parseFloat(input.value)
+
+            if (inputted_number < 0) {
+                input.value = 0
+            }
+
+        })
+    }
 }
 
 function listenToInventoryDeleteButtons() {
@@ -98,6 +120,7 @@ function listenToInventoryButtons() {
             const item = getInventoryUsingId(Object.values(sortedInventory), inventoryId)
             createUpdateInventoryForm(item, token)
             openModal(updateInventoryModal)
+            listen_all_number_input()
             const cancelInventoryBtns = document.querySelectorAll('.js-close-update-inventory-btn')
             for (const cancelInventoryBtn of cancelInventoryBtns) {
                 closeModal(updateInventoryModal, cancelInventoryBtn)
@@ -401,6 +424,7 @@ function listenToAddInventoryBtn() {
     const cancelInventoryBtns = document.querySelectorAll('.js-close-inventory-btn')
     addInventoryBtn.addEventListener('click', () => {
         openModal(addInventoryModal)
+        listen_all_number_input()
         for (const cancelInventoryBtn of cancelInventoryBtns) {
             closeModal(addInventoryModal, cancelInventoryBtn)
         }

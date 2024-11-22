@@ -50,6 +50,7 @@ export function get_diagnosis_element(diagnosis) {
     element.setAttribute('required', '')
     element.setAttribute('type', 'text')
     element.innerText = diagnosis
+    element.classList.add('js_illness_diagnosis_field')
     return element
 }
 export function get_category_element(category, illness_categories) {

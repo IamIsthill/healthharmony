@@ -5,6 +5,7 @@ import secrets
 import string
 import logging
 from django.db.models import Sum
+from django.db.transaction import atomic
 
 from healthharmony.users.models import User, Department
 from healthharmony.models.bed.models import Ambulansya, WheelChair
@@ -46,47 +47,48 @@ class AddInventoryForm(forms.Form):
 
     def save(self, request):
         try:
-            # Extract cleaned data
-            expiration_date = self.cleaned_data.get("expiration_date")
-            quantity = self.cleaned_data.get("quantity")
-            category = self.cleaned_data.get("category")
+            with atomic():
+                # Extract cleaned data
+                expiration_date = self.cleaned_data.get("expiration_date")
+                quantity = self.cleaned_data.get("quantity")
+                category = self.cleaned_data.get("category")
 
-            # Create InventoryDetail object
-            item = InventoryDetail.objects.create(
-                added_by=request.user,
-                item_no=self.cleaned_data.get("item_no"),
-                item_name=self.cleaned_data.get("item_name"),
-                unit=self.cleaned_data.get("unit"),
-                category=category if category else None,
-                description=self.cleaned_data.get("description"),
-                expiration_date=expiration_date if expiration_date else None,
-            )
-
-            # Log inventory addition
-            Log.objects.create(
-                user=request.user,
-                action=f"Successfully added new inventory record[id:{item.id}]",
-            )
-            logger.info(f"Successfully added new inventory record[id:{item.id}]")
-
-            # Create QuantityHistory if quantity is provided
-            if quantity:
-                item_quantity = QuantityHistory.objects.create(
-                    inventory=item,  # Assuming QuantityHistory has a ForeignKey to InventoryDetail
-                    changed_by=request.user,
-                    updated_quantity=quantity,
+                # Create InventoryDetail object
+                item = InventoryDetail.objects.create(
+                    added_by=request.user,
+                    item_no=self.cleaned_data.get("item_no"),
+                    item_name=self.cleaned_data.get("item_name"),
+                    unit=self.cleaned_data.get("unit"),
+                    category=category if category else None,
+                    description=self.cleaned_data.get("description"),
+                    expiration_date=expiration_date if expiration_date else None,
                 )
 
-                # Log quantity history addition
+                # Log inventory addition
                 Log.objects.create(
                     user=request.user,
-                    action=f"Successfully added new quantity history record[id:{item_quantity.id}]",
+                    action=f"Successfully added new inventory record[id:{item.id}]",
                 )
-                logger.info(
-                    f"Successfully added new quantity history record[id:{item_quantity.id}]"
-                )
+                logger.info(f"Successfully added new inventory record[id:{item.id}]")
 
-            messages.success(request, "New inventory item was added successfully.")
+                # Create QuantityHistory if quantity is provided
+                if quantity:
+                    item_quantity = QuantityHistory.objects.create(
+                        inventory=item,  # Assuming QuantityHistory has a ForeignKey to InventoryDetail
+                        changed_by=request.user,
+                        updated_quantity=quantity,
+                    )
+
+                    # Log quantity history addition
+                    Log.objects.create(
+                        user=request.user,
+                        action=f"Successfully added new quantity history record[id:{item_quantity.id}]",
+                    )
+                    logger.info(
+                        f"Successfully added new quantity history record[id:{item_quantity.id}]"
+                    )
+
+                messages.success(request, "New inventory item was added successfully.")
 
         except Exception as e:
             logger.error(f"Failed to add a new inventory record: {str(e)}")

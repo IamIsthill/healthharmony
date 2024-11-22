@@ -55,13 +55,13 @@ import {
 const patientData = JSON.parse(document.getElementById('patientData').textContent)
 const departmentData = JSON.parse(document.getElementById('departmentData').textContent)
 const employeeData = JSON.parse(document.getElementById('employeeData').textContent)
+const static_path = JSON.parse(document.getElementById('static_path').textContent)
 
 main()
 
 
 function main() {
     /**TEST AREA */
-    console.log(departmentData)
 
     /**PATIENT TABLE */
     formatDatesInPatientsPage(format_date)
@@ -79,6 +79,7 @@ function main() {
 
     /**DEPARTMENT TABLE */
     update_department_count(departmentData)
+    update_department_table(departmentData, format_date)
     handle_onclick_department_direction()
     handle_onclick_department_sort()
 
@@ -830,6 +831,9 @@ function listenToHoverOnPatientName() {
 }
 
 function format_date(dateString) {
+    if (!dateString) {
+        return ''
+    }
     const formattedDate = new Date(dateString).toLocaleString("en-US", {
         year: 'numeric',
         month: 'long',
