@@ -66,7 +66,12 @@
     color: var(--light_gray);
   }
   /* COLORS */
-
+  .pending-span{
+    color:rgb(170, 111, 2);
+  }
+  .complete-span{
+    color: green;
+  }
 
 
 * {
@@ -109,6 +114,7 @@ button{
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0, 0, 0); /* Fallback color */
   background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  transition: all 0.3s ease-out;
 }
 .small-modal{
     position: relative;
@@ -134,15 +140,26 @@ button{
 }
 
 .form-button, .cancel-button {
-  padding: 0.8rem 1rem;
+  padding: 0.6rem 1rem;
   border-radius: 3rem;
-  cursor: pointer;  
+  cursor: pointer;
   transition: all 0.3s ease;
   border: 1px solid rgba(0, 0, 0, 0);
 }
 .form-button{
   background:black;
   color: white;
+}
+.form-button:hover{
+  background:rgba(0, 0, 0, 0.521);
+}
+
+.edit-button{
+  background:rgb(0, 114, 0);
+  color: white;
+}
+.edit-button:hover{
+  background:rgb(0, 71, 0);
 }
 .cancel-button{
   background:rgb(255, 255, 255);
@@ -151,17 +168,19 @@ button{
 }
 .cancel-button:hover{
   background: rgba(0, 0, 0, 0.548);
-  border: 1px solid rgba(146, 146, 146, 0.548);  
+  border: 1px solid rgba(146, 146, 146, 0.548);
   color: white;
 }
-.form-button:hover{
-  background:rgba(0, 0, 0, 0.521);
-}
+
 .form-buttons {
   margin-top: 0.5rem;
   display: flex;
   gap: 0.5rem;
   box-sizing: border-box;
+}
+.delete-buttons{
+  align-items: center;
+  justify-content: center;
 }
 .delete-btn{
   color: var(--Red);
@@ -258,6 +277,6 @@ button{
 
 /* LINE CHARRRRRT */
 
-    
+
 
 /* LINE CHARRRRRT */

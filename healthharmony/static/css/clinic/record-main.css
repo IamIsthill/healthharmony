@@ -246,3 +246,43 @@ main{
     background: white;
     box-shadow: var( --box-shadow2);
 }
+.bar-btn-section{
+    width: 50%;
+    display: flex;
+    gap: 4px;
+    justify-content: space-between;
+    align-self: center;
+}
+.bar-btn, .bar-btn-active{
+    font-size: var(--size-sm);
+    padding: 0.6rem 0;
+    width: 8rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+.bar-btn, .bar-btn-active{
+    color: rgb(103, 103, 103);
+    border: 1px solid rgba(255, 255, 255, 0);
+}
+.bar-btn-active{
+    border: 1px solid var(--light_gray);
+}
+.bar-btn:hover{
+    border:1px solid var(--light_gray);
+}
+.collected-btn{
+    background: rgb(20, 20, 20);
+    color: white;
+}
+.collected-btn:hover{
+    background: rgb(66, 66, 66);
+}
+.ready-span{
+    color: rgb(187, 122, 0);
+}
+.med-collected-span{
+    color: green;
+}
+.no-act-span{
+    color: gray;
+}

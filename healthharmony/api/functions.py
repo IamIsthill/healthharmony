@@ -55,8 +55,8 @@ def init_params(date):
         date_string = "%B, %d"
         date_loop = 5
     if date == "year":
-        start = now - timedelta(days=365)
-        max_range = 13
+        start = now - relativedelta(months=11) 
+        max_range = 12
         date_string = "%B"
         date_loop = 1
 

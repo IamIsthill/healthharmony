@@ -1,0 +1,50 @@
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 90vh;
+    width: 99%;
+}
+.password-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center                                                                                 ;
+    margin-top: 5%;
+    width: 60%;
+    text-align: center;
+    background: white;
+    box-shadow: var(---box-shadow2);
+    padding: 1rem 1rem;
+    border-radius: 8px;
+    gap: 8px;
+}
+.password-container h1{
+    color: rgb(200, 175, 14);
+}
+.p-1st{
+    width: 95%;
+}
+a{
+    color: maroon;
+}
+form button{
+    margin-top: 8px;
+    background: rgb(210, 166, 10);
+    padding: 6px 8px;
+    color: white;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+form button:hover{
+    background: rgba(210, 167, 10, 0.548);
+}
+.back-home{
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: rgb(109, 109, 109);
+    transition: all 0.2s ease;
+}
+.back-home:hover{
+    background: rgb(210, 166, 10);
+    color: white;
+}

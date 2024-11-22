@@ -18,22 +18,7 @@
     <div class="nurse-container2">
         {% include 'staff/navbar.html' %}
         <main>
-            {% if messages|has_success_message %}
-                <div class="pop-up-message pop-up-green js-messages">
-                    {% for m in messages %}
-                        {% if m.tags == 'success' %}<p>{{ m }}</p>{% endif %}
-                    {% endfor %}
-                    <span class="material-symbols-outlined close-pop-up js-close-messages">cancel</span>
-                </div>
-            {% endif %}
-            {% if messages|has_error_message %}
-                <div class="pop-up-message pop-up-red js-messages">
-                    {% for m in messages %}
-                        {% if m.tags == 'error' %}<p>{{ m }}</p>{% endif %}
-                    {% endfor %}
-                    <span class="material-symbols-outlined close-pop-up js-close-messages">cancel</span>
-                </div>
-            {% endif %}
+            {% include 'messages.html' %}
             <div class="visit-history">
                 <table>
                     <thead>
@@ -108,31 +93,35 @@
                             </tr>
                         {% endif %}
                     </tbody>
+                    <tr>
+                        <td colspan="5">
+                            {% if history.has_other_pages %}
+                                <div class="pagination pagination-design">
+                                    <span class="step-links">
+                                        {% if history.has_previous %}
+                                            <a href="?page=1" class="js-links page-shortcut">First</a>
+                                            <a class="js-links" href="?page={{ history.previous_page_number }}">
+                                                <div class="previous-next-page">
+                                                    <span class="material-symbols-outlined page-icon">arrow_back_ios</span> <span>Previous</span>
+                                                </div>
+                                            </a>
+                                        {% endif %}
+                                        <span class="current">Page {{ history.number }} of {{ history.paginator.num_pages }}.</span>
+                                        {% if history.has_next %}
+                                            <a class="js-links" href="?page={{ history.next_page_number }}">
+                                                <div class="previous-next-page">
+                                                    <span>Next</span><span class="material-symbols-outlined page-icon">arrow_forward_ios</span>
+                                                </div>
+                                            </a>
+                                            <a class="js-links page-shortcut"
+                                               href="?page={{ history.paginator.num_pages }}">Last</a>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            {% endif %}
+                        </td>
+                    </tr>
                 </table>
-                {% if history.has_other_pages %}
-                    <div class="pagination pagination-design">
-                        <span class="step-links">
-                            {% if history.has_previous %}
-                                <a href="?page=1" class="js-links page-shortcut">First</a>
-                                <a class="js-links" href="?page={{ history.previous_page_number }}">
-                                    <div class="previous-next-page">
-                                        <span class="material-symbols-outlined page-icon">arrow_back_ios</span> <span>Previous</span>
-                                    </div>
-                                </a>
-                            {% endif %}
-                            <span class="current">Page {{ history.number }} of {{ history.paginator.num_pages }}.</span>
-                            {% if history.has_next %}
-                                <a class="js-links" href="?page={{ history.next_page_number }}">
-                                    <div class="previous-next-page">
-                                        <span>Next</span><span class="material-symbols-outlined page-icon">arrow_forward_ios</span>
-                                    </div>
-                                </a>
-                                <a class="js-links page-shortcut"
-                                   href="?page={{ history.paginator.num_pages }}">Last</a>
-                            {% endif %}
-                        </span>
-                    </div>
-                {% endif %}
             </div>
             <div class="lower">
                 <div class="request-summary-part">
@@ -182,54 +171,58 @@
                                                     data-certificate-id="{{ certificate.id }}">Mark as Ready</button>
                                         </td>
                                     {% elif certificate.is_ready and not certificate.released %}
-                                        <td class="table-data">Ready, waiting to be collected</td>
+                                        <td class="table-data ready-span">Ready, waiting to be collected</td>
                                         <td class="table-data">
-                                            <button class="js_certificate_action"
+                                            <button class="js_certificate_action collected-btn"
                                                     data-certificate-id="{{ certificate.id }}">
                                                 Mark as Collected
                                             </button>
                                         </td>
                                     {% elif certificate.is_ready and certificate.released %}
-                                        <td class="table-data">Medical certificate was collected</td>
-                                        <td class="table-data">No actions to be taken</td>
+                                        <td class="table-data med-collected-span">Medical certificate was collected</td>
+                                        <td class="table-data no-act-span">No actions to be taken</td>
                                     {% endif %}
                                 </tr>
                             {% endfor %}
                         </tbody>
+                        <tr>
+                            <td colspan="6">
+                                <div class="pagination-design">
+                                    <span class="step-links">
+                                        {% if certificates_page.has_previous %}
+                                            <a href="?cert-page=1" class="js-links page-shortcut">&laquo; First</a>
+                                            <a href="?cert-page={{ certificates_page.previous_page_number }}"
+                                               class="js-links">
+                                                <div class="previous-next-page">
+                                                    <span class="material-symbols-outlined page-icon">arrow_back_ios</span> <span>Previous</span>
+                                                </div>
+                                            </a>
+                                        {% endif %}
+                                        <span class="current">Page {{ certificates_page.number }} of {{ certificates_page.paginator.num_pages }}.</span>
+                                        {% if certificates_page.has_next %}
+                                            <a href="?cert-page={{ certificates_page.next_page_number }}"
+                                               class="js-links">
+                                                <div class="previous-next-page">
+                                                    <span>Next</span><span class="material-symbols-outlined page-icon">arrow_forward_ios</span>
+                                                </div>
+                                            </a>
+                                            <a href="?cert-page={{ certificates_page.paginator.num_pages }}"
+                                               class="js-links page-shortcut">Last &raquo;</a>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
                     </table>
-                    <div class="pagination-design">
-                        <span class="step-links">
-                            {% if certificates_page.has_previous %}
-                                <a href="?cert-page=1" class="js-links page-shortcut">&laquo; First</a>
-                                <a href="?cert-page={{ certificates_page.previous_page_number }}"
-                                   class="js-links">
-                                    <div class="previous-next-page">
-                                        <span class="material-symbols-outlined page-icon">arrow_back_ios</span> <span>Previous</span>
-                                    </div>
-                                </a>
-                            {% endif %}
-                            <span class="current">Page {{ certificates_page.number }} of {{ certificates_page.paginator.num_pages }}.</span>
-                            {% if certificates_page.has_next %}
-                                <a href="?cert-page={{ certificates_page.next_page_number }}"
-                                   class="js-links">
-                                    <div class="previous-next-page">
-                                        <span>Next</span><span class="material-symbols-outlined page-icon">arrow_forward_ios</span>
-                                    </div>
-                                </a>
-                                <a href="?cert-page={{ certificates_page.paginator.num_pages }}"
-                                   class="js-links page-shortcut">Last &raquo;</a>
-                            {% endif %}
-                        </span>
-                    </div>
                 </div>
                 <div class="right">
                     <div class="bar-space">
                         <h2>Request Over Time</h2>
-                        <div>
-                            <button class="js-request-date-filter js-request-date-active"
+                        <div class="bar-btn-section">
+                            <button class="js-request-date-filter js-request-date-active bar-btn bar-btn-active"
                                     data-filter="weekly">Last 7 days</button>
-                            <button class="js-request-date-filter" data-filter="monthly">Last 30 days</button>
-                            <button class="js-request-date-filter" data-filter="yearly">Last 12 months</button>
+                            <button class="js-request-date-filter bar-btn" data-filter="monthly">Last 30 days</button>
+                            <button class="js-request-date-filter bar-btn" data-filter="yearly">Last 12 months</button>
                         </div>
                         <canvas id="requestBar"></canvas>
                     </div>
