@@ -557,7 +557,9 @@ def create_patient_add_issue(request):
                 #     messages.success(request, "Patient has been added to the system.")
                 # else:
                 #     logger.info(f"User {patient.email} already exists.")
-
+                posted_issue = request.POST.get("issue")
+                if posted_issue == '':
+                    raise Exception()
                 visit = Illness.objects.create(
                     patient=patient, issue=request.POST.get("issue"), staff=request.user
                 )
