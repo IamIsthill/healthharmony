@@ -18,22 +18,7 @@
     <div class="admin-container">
         {% include 'administrator/nav.html' %}
         <main>
-            {% if messages|has_success_message %}
-                <div class="pop-up-message pop-up-green js-messages">
-                    {% for m in messages %}
-                        {% if m.tags == 'success' %}<p>{{ m }}</p>{% endif %}
-                    {% endfor %}
-                    <span class="material-symbols-outlined close-pop-up js-close-messages">cancel</span>
-                </div>
-            {% endif %}
-            {% if messages|has_error_message %}
-                <div class="pop-up-message pop-up-red js-messages">
-                    {% for m in messages %}
-                        {% if m.tags == 'error' %}<p>{{ m }}</p>{% endif %}
-                    {% endfor %}
-                    <span class="material-symbols-outlined close-pop-up js-close-messages">cancel</span>
-                </div>
-            {% endif %}
+            {% include 'messages.html' %}
             <div class="upper record-table">
                 <h2>User Activity Trail</h2>
                 <table>
@@ -169,6 +154,5 @@
     </div>
 {% endblock %}
 {% block script %}
-    <script src="{% static 'js/general/messages.js' %}" type="module"></script>
     <script src="{% static 'js/dist/admin_records.js' %}" type="module"></script>
 {% endblock %}

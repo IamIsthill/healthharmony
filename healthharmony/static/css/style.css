@@ -66,7 +66,12 @@
     color: var(--light_gray);
   }
   /* COLORS */
-
+  .pending-span{
+    color:rgb(170, 111, 2);
+  }
+  .complete-span{
+    color: green;
+  }
 
 
 * {
@@ -137,7 +142,7 @@ button{
 .form-button, .cancel-button {
   padding: 0.6rem 1rem;
   border-radius: 3rem;
-  cursor: pointer;  
+  cursor: pointer;
   transition: all 0.3s ease;
   border: 1px solid rgba(0, 0, 0, 0);
 }
@@ -163,7 +168,7 @@ button{
 }
 .cancel-button:hover{
   background: rgba(0, 0, 0, 0.548);
-  border: 1px solid rgba(146, 146, 146, 0.548);  
+  border: 1px solid rgba(146, 146, 146, 0.548);
   color: white;
 }
 
@@ -272,6 +277,6 @@ button{
 
 /* LINE CHARRRRRT */
 
-    
+
 
 /* LINE CHARRRRRT */

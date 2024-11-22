@@ -1,0 +1,37 @@
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="code.css">
+        <link rel="stylesheet" href="updated css/css/style.css">
+        <link rel="stylesheet" href="updated css/css/utils.css">
+        <link rel="icon"
+              type="image/png"
+              href="/static/assets/images/svgs/logotitle.svg" />
+        <title>Email Verification</title>
+    </head>
+    <body>
+        <div class="password-container">
+            <h1>Enter Email Verification Code</h1>
+            <p>
+                We’ve sent a code to <a href="mailto:basilio.miko12@gmail.com">basilio.miko12@gmail.com</a>. The code expires shortly, so please enter it soon.
+            </p>
+            <form method="post" action="/accounts/confirm-email/" class="">
+                <input type="hidden"
+                       name="csrfmiddlewaretoken"
+                       value="fUtMFmr2tLgUwlZZzvlats6KqEKb61GJaEbhhLJlesjXq5vgVgb99frx5JohfXqQ">
+                <div>
+                    <label for="id_code">Code:</label>
+                    <input type="text"
+                           name="code"
+                           placeholder="enter code here"
+                           autocomplete="one-time-code"
+                           required
+                           id="id_code">
+                </div>
+                <button type="submit">Submit Code</button>
+            </form>
+            <button class="back-home" form="logout-from-stage"  type="submit">Return</button>
+        </div>
+    </body>
+</html>

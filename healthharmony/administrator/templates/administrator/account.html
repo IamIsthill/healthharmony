@@ -18,22 +18,7 @@
     <div class="admin-container">
         {% include 'administrator/nav.html' %}
         <main>
-            {% if messages|has_success_message %}
-                <div class="pop-up-message pop-up-green js-messages">
-                    {% for m in messages %}
-                        {% if m.tags == 'success' %}<p>{{ m }}</p>{% endif %}
-                    {% endfor %}
-                    <span class="material-symbols-outlined close-pop-up js-close-messages">cancel</span>
-                </div>
-            {% endif %}
-            {% if messages|has_error_message %}
-                <div class="pop-up-message pop-up-red js-messages">
-                    {% for m in messages %}
-                        {% if m.tags == 'error' %}<p>{{ m }}</p>{% endif %}
-                    {% endfor %}
-                    <span class="material-symbols-outlined close-pop-up js-close-messages">cancel</span>
-                </div>
-            {% endif %}
+            {% include 'messages.html' %}
             <div class="account-list-container">
                 <h1>Account List</h1>
                 <div class="account-header">
@@ -151,7 +136,9 @@
     <div class="modal js_access_modal">
         <div class="modal-content form-modal">
             <span style="display: none;" class="close js_close_access_form">&times;</span>
-            <form class="access-form" action="{% url "post_update_user_access" %}" method="POST">
+            <form class="access-form"
+                  action="{% url "post_update_user_access" %}"
+                  method="POST">
                 {% csrf_token %}
                 <div class="js_access_form_body"></div>
                 <div class="form-buttons">
@@ -163,7 +150,9 @@
     </div>
     <div class="modal js_delete_user_modal">
         <div class="modal-content">
-            <form class="access-form" action="{% url "post_delete_user" %}" method="POST">
+            <form class="access-form"
+                  action="{% url "post_delete_user" %}"
+                  method="POST">
                 {% csrf_token %}
                 <div class="js_delete_user_form_body"></div>
                 <div class="form-buttons">
@@ -178,5 +167,4 @@
 {% block script %}
     {{ user_data|json_script:'user_data' }}
     <script src="{% static 'js/dist/admin_account.js' %}" type="module"></script>
-    <script src="{% static 'js/general/messages.js' %}" type="module"></script>
 {% endblock %}

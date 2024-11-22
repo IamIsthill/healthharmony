@@ -22,22 +22,7 @@
         {% include 'staff/navbar.html' %}
         <!-- MAIN CONTENT -->
         <main>
-            {% if messages|has_success_message %}
-                <div class="pop-up-message pop-up-green js-messages">
-                    {% for m in messages %}
-                        {% if m.tags == 'success' %}<p>{{ m }}</p>{% endif %}
-                    {% endfor %}
-                    <span class="material-symbols-outlined close-pop-up js-close-messages">cancel</span>
-                </div>
-            {% endif %}
-            {% if messages|has_error_message %}
-                <div class="pop-up-message pop-up-red js-messages">
-                    {% for m in messages %}
-                        {% if m.tags == 'error' %}<p>{{ m }}</p>{% endif %}
-                    {% endfor %}
-                    <span class="material-symbols-outlined close-pop-up js-close-messages">cancel</span>
-                </div>
-            {% endif %}
+            {% include 'messages.html' %}
             {% include 'staff/overview-top.html' %}
             {% include 'staff/overview-graphs.html' %}
         </main>
