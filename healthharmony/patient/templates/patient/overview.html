@@ -79,11 +79,13 @@
                 </div>
             </div>
             <div class="visit-chart lineChart">
-                <div>
+                <div class="top-chart">
                     <h3>Visit Over Time</h3>
-                    <button class="visit-filter" data-category="year">12 Months</button>
-                    <button class="visit-filter" data-category="month">30 Days</button>
-                    <button class="visit-filter" data-category="week">7 Days</button>
+                    <div class="date-buttons">
+                    <button class="visit-filter cat-button active-cat" data-category="year">12 Months</button>
+                    <button class="visit-filter cat-button" data-category="month">30 Days</button>
+                    <button class="visit-filter cat-button" data-category="week">7 Days</button>
+                    </div>
                 </div>
                 <div>
                     <canvas id="visitCanvas"></canvas>
