@@ -19,22 +19,7 @@
         {% include 'staff/navbar.html' %}
         {% csrf_token %}
         <main>
-            {% if messages|has_success_message %}
-                <div class="pop-up-message pop-up-green js-messages">
-                    {% for m in messages %}
-                        {% if m.tags == 'success' %}<p>{{ m }}</p>{% endif %}
-                    {% endfor %}
-                    <span class="material-symbols-outlined close-pop-up js-close-messages">cancel</span>
-                </div>
-            {% endif %}
-            {% if messages|has_error_message %}
-                <div class="pop-up-message pop-up-red js-messages">
-                    {% for m in messages %}
-                        {% if m.tags == 'error' %}<p>{{ m }}</p>{% endif %}
-                    {% endfor %}
-                    <span class="material-symbols-outlined close-pop-up js-close-messages">cancel</span>
-                </div>
-            {% endif %}
+            {% include 'messages.html' %}
             <div class="total-bar">
                 <div class="total-patient">
                     <table class="table-design total-patient-table">
@@ -257,18 +242,21 @@
                 </table>
             </div>
         </main>
-        <!--  TO MIKO
+        <!--                    TO MIKO
             LAGAY MO ICON SA TABI NG INPUT SA ADD DEP
              AYUSIN MO VIEW DEPARTMENT
-         -->
+                           -->
         <div class="js-add-department-modal modal">
-            <div class="modal-content">
+            <div class="modal-content add-dep-modal">
                 <h1>Add a Department</h1>
                 <form action="{% url 'staff-accounts-add-department' %}"
                       class="form-body"
                       method="post">
                     {% csrf_token %}
-                    <input type="text" required name="department_name" />
+                    <div class="edit-input-cont">
+                        <span class="material-symbols-outlined">domain</span>
+                        <input type="text" required name="department_name" />
+                    </div>
                     <div class="form-buttons">
                         <button class="form-button" type="submit">Confirm</button>
                         <button class="js-close-add-department-modal cancel-button">Cancel</button>
@@ -298,6 +286,8 @@
     {{ patients|json_script:'patientData' }}
     {{ departmentData|json_script:'departmentData' }}
     {{ employeeData|json_script:'employeeData' }}
+    {{ static_path|json_script:'static_path' }}
+    {{ media_path|json_script:'media_path' }}
     <script src="{% static 'chart.js/dist/chart.umd.js' %}"></script>
     <script src="{% static 'chartjs-plugin-zoom/dist/chartjs-plugin-zoom.min.js' %}"></script>
     <script type="module" src="{% static 'js/dist/staff_account.js' %}"></script>

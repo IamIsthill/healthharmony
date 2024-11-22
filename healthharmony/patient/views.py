@@ -146,6 +146,7 @@ def patient_view(request, pk):
                 user = form.save(request, pk)
                 messages.success(request, "Profile updated successfully!")
                 context.update({"user": user})
+                cache.delete("user_cache")
                 return redirect("patient-profile", request.user.id)
             except ValueError as e:
                 messages.error(request, str(e))
