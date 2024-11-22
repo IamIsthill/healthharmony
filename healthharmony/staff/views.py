@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.db import transaction
 from django.conf import settings
 import secrets
 import string
@@ -527,55 +528,57 @@ def create_patient_add_issue(request):
         return redirect("patient-overview")
     if request.method == "POST":
         try:
-            patient, created = User.objects.get_or_create(
-                email=request.POST.get("email")
-            )
-            if created:
-                patient.access = 1
-                password = generate_password()
-                patient.set_password(password)
-                patient.save()
-                logger.info(f"Created new user {patient.email} with id [{patient.id}]")
+            with transaction.atomic():
+                patient = User.objects.get( email=request.POST.get("email"))
+                # patient, created = User.objects.get_or_create(
+                #     email=request.POST.get("email")
+                # )
+                # if created:
+                #     patient.access = 1
+                #     password = generate_password()
+                #     patient.set_password(password)
+                #     patient.save()
+                #     logger.info(f"Created new user {patient.email} with id [{patient.id}]")
 
-                Log.objects.create(
-                    user=request.user,
-                    action=f"Created new user {patient.email} with id [{patient.id}]",
+                #     Log.objects.create(
+                #         user=request.user,
+                #         action=f"Created new user {patient.email} with id [{patient.id}]",
+                #     )
+                #     subject = "Welcome to HealthHarmony!"
+                #     body = (
+                #         f"<h1>This is your password {password}</h1><p>With HTML content</p>"
+                #     )
+                #     from_email = env("EMAIL_ADD")
+                #     recipient_list = [patient.email]
+                #     email = EmailMessage(subject, body, from_email, recipient_list)
+                #     email.content_subtype = "html"
+                #     email.send()
+                #     logger.info(f"Email was sent to: {patient.email}")
+                #     messages.success(request, "Patient has been added to the system.")
+                # else:
+                #     logger.info(f"User {patient.email} already exists.")
+
+                visit = Illness.objects.create(
+                    patient=patient, issue=request.POST.get("issue"), staff=request.user
                 )
-                subject = "Welcome to HealthHarmony!"
-                body = (
-                    f"<h1>This is your password {password}</h1><p>With HTML content</p>"
+                logger.info(
+                    f"Created new illness record for patient {patient.email} with id [{visit.id}]"
                 )
-                from_email = env("EMAIL_ADD")
-                recipient_list = [patient.email]
-                email = EmailMessage(subject, body, from_email, recipient_list)
-                email.content_subtype = "html"
-                email.send()
-                logger.info(f"Email was sent to: {patient.email}")
-                messages.success(request, "Patient has been added to the system.")
-            else:
-                logger.info(f"User {patient.email} already exists.")
+                messages.success(request, "A new record has been added.")
 
-            visit = Illness.objects.create(
-                patient=patient, issue=request.POST.get("issue"), staff=request.user
-            )
-            logger.info(
-                f"Created new illness record for patient {patient.email} with id [{visit.id}]"
-            )
-            messages.success(request, "A new record has been added.")
+                DataChangeLog.objects.create(
+                    table="Illness",
+                    record_id=visit.id,
+                    action="create",
+                    new_value=visit.__str__(),
+                    changed_by=request.user,
+                )
+                logger.info(f"Logged data change for illness record id [{visit.id}]")
 
-            DataChangeLog.objects.create(
-                table="Illness",
-                record_id=visit.id,
-                action="create",
-                new_value=visit.__str__(),
-                changed_by=request.user,
-            )
-            logger.info(f"Logged data change for illness record id [{visit.id}]")
-
-            cache.delete_many(["user_cache", "department_cache", "illness_cache"])
+                cache.clear()
 
         except Exception as e:
-            messages.error(request, "System faced some error")
+            messages.error(request, "Unable to add visit record")
             logger.error(f"Error occurred while creating patient or issue: {str(e)}")
     return redirect(request.META.get("HTTP_REFERER", "staff-records"))
 
