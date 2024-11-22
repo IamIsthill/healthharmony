@@ -113,11 +113,10 @@ function update_illness_table(filtered_illness_data) {
 
             let patient = ''
 
-            if(illness.patient_first_name && illness.patient_last_name) {
+            if (illness.patient_first_name && illness.patient_last_name) {
                 patient = `${illness.patient_first_name} ${illness.patient_last_name}`
 
-            }
-            else {
+            } else {
                 patient = `${illness.patient_email}`
             }
             illness_body_element.innerHTML += `
@@ -126,7 +125,7 @@ function update_illness_table(filtered_illness_data) {
                 <span class="patient btn" data-patient-id="${illness.patient}">${patient}</span>
               </td>
               <td class = "table-data issue-column">${illness.issue}</td>
-              <td class = "table-data status-column">${case_status}</td>
+              <td class = "table-data status-column ${case_status=='Completed' ? 'complete-span' : 'pending-span' }">${case_status}</td>
               <td class="js-view-illness btn table-data view-column" data-patient-id="${illness.patient}">Review</td>
             </tr>
         `

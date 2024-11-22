@@ -1,14 +1,6 @@
 {% load static %}
 {% load tags %}
-<div>
-    <div class="pop-up-message pop-up-green js-messages">
-        <p>1</p>
-        <span class="material-symbols-outlined close-pop-up js-close-messages">cancel</span>
-    </div>
-    <div class="pop-up-message pop-up-green js-messages">
-        <p>2</p>
-        <span class="material-symbols-outlined close-pop-up js-close-messages">cancel</span>
-    </div>
+<div class="pop-up-cont">
     {% if messages|has_success_message %}
         {% for m in messages %}
             {% if m.tags == 'success' %}

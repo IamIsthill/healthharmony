@@ -48,7 +48,7 @@ table tr {
     width: 10%;
 }
 .view-column{
-    width: 8.5%;
+    width: 9%;
     opacity: 70%;
     cursor: pointer;
 }
@@ -59,4 +59,3 @@ table tr {
 .lineChart{
     margin-bottom: 1rem;
 }
-

@@ -82,9 +82,13 @@ export function createViewDepartmentModal(department, patients, format_date) {
         `
         html += `
             <div class = "dep-view-cont">
-            <h3>Users</h3>
-            <input type="text" class="js_specific_department_field" placeholder="Search Department...">
-            <button class="js_search_specific_department">Search</button>
+                <h3>Users</h3>
+                <div class ="search-container-dep">
+                <input type="text" class="js_specific_department_field " placeholder="Search Department...">
+                <button class="js_search_specific_department">
+                    <span class="material-symbols-outlined">search</span>
+                </button>
+                </div>
             </div>
             <div class="js_user_list">`
         for (const patient of patients) {
@@ -114,10 +118,10 @@ export function createViewDepartmentModal(department, patients, format_date) {
             if (search_text) {
                 for (const patient of patients) {
                     if (String(patient.email).toLowerCase().includes(search_text) ||
-                String(patient.first_name).toLowerCase().includes(search_text) ||
-                String(patient.last_name).toLowerCase().includes(search_text)) {
-                    patient_container.push(patient)
-            }
+                        String(patient.first_name).toLowerCase().includes(search_text) ||
+                        String(patient.last_name).toLowerCase().includes(search_text)) {
+                        patient_container.push(patient)
+                    }
                 }
             }
 
@@ -144,7 +148,7 @@ export function createViewDepartmentModal(department, patients, format_date) {
             document.querySelector('.js_user_list').innerHTML = content
 
             // Clean
-            search_field.value=''
+            search_field.value = ''
 
         })
     }

@@ -242,18 +242,21 @@
                 </table>
             </div>
         </main>
-        <!--                 TO MIKO
+        <!--                    TO MIKO
             LAGAY MO ICON SA TABI NG INPUT SA ADD DEP
              AYUSIN MO VIEW DEPARTMENT
-                        -->
+                           -->
         <div class="js-add-department-modal modal">
-            <div class="modal-content">
+            <div class="modal-content add-dep-modal">
                 <h1>Add a Department</h1>
                 <form action="{% url 'staff-accounts-add-department' %}"
                       class="form-body"
                       method="post">
                     {% csrf_token %}
-                    <input type="text" required name="department_name" />
+                    <div class="edit-input-cont">
+                        <span class="material-symbols-outlined">domain</span>
+                        <input type="text" required name="department_name" />
+                    </div>
                     <div class="form-buttons">
                         <button class="form-button" type="submit">Confirm</button>
                         <button class="js-close-add-department-modal cancel-button">Cancel</button>

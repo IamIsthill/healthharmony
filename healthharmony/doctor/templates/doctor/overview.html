@@ -42,12 +42,12 @@
                 </div>
             </div>
             <div class="illness-space">
-                <!--                     <h1>Illnesses</h1>
+                <!--                      <h1>Illnesses</h1>
                 <div>
                     <button class="js-illness-filter-active js-illness-filter" data-category="all">All</button>
                     <button class="js-illness-filter" data-category="not">Pending</button>
                     <button class="js-illness-filter" data-category="done">Completed</button>
-                </div>                     -->
+                </div>                      -->
                 <table class="mod-table">
                     <thead>
                         <tr>
@@ -82,9 +82,9 @@
                                 </td>
                                 <td class="table-data issue-column">{{ illness.issue }}</td>
                                 {% if illness.diagnosis %}
-                                    <td class="table-data status-column">Completed</td>
+                                    <td class="table-data status-column complete-span">Completed</td>
                                 {% else %}
-                                    <td class="table-data status-column">Pending</td>
+                                    <td class="table-data status-column pending-span">Pending</td>
                                 {% endif %}
                                 <td class="js-view-illness btn table-data view-column"
                                     data-patient-id="{{ illness.patient.id }}">Review</td>

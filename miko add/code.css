@@ -10,12 +10,13 @@ body{
     flex-direction: column;
     align-items: center                                                                                 ;
     margin-top: 5%;
-    max-width: 40%;
+    width: 60%;
     text-align: center;
     background: white;
     box-shadow: var(---box-shadow2);
     padding: 1rem 1rem;
     border-radius: 8px;
+    gap: 8px;
 }
 .password-container h1{
     color: rgb(200, 175, 14);
@@ -23,15 +24,8 @@ body{
 .p-1st{
     width: 95%;
 }
-.email-cont{
-    margin-top: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-}
-.email-cont label{
-    font-size: var(--size-xl);
+a{
+    color: maroon;
 }
 form button{
     margin-top: 8px;
@@ -44,11 +38,8 @@ form button{
 form button:hover{
     background: rgba(210, 167, 10, 0.548);
 }
-.please-contact{
-    font-size: var(--size-sm);
-}
 .back-home{
-    padding: 8px 8px;
+    padding: 4px 8px;
     border-radius: 4px;
     color: rgb(109, 109, 109);
     transition: all 0.2s ease;
@@ -57,15 +48,3 @@ form button:hover{
     background: rgb(210, 166, 10);
     color: white;
 }
-/* .content-wrapper{
-    border: 1px solid red;
-}
-h1{
-    color: red;
-}
-h2{
-    color: rebeccapurple;
-}
-button{
-    background: yellow;
-} */

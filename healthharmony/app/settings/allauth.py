@@ -53,4 +53,4 @@ ACCOUNT_FORMS = {
     # "login": "healthharmony.users.forms.GoogleLoginForm",
     "reset_password_from_key": "allauth.account.forms.ResetPasswordKeyForm",
 }
-ACCOUNT_EMAIL_VERIFICATION_BY_CODE_ENABLED = True
+# ACCOUNT_EMAIL_VERIFICATION_BY_CODE_ENABLED = True

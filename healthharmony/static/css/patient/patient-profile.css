@@ -33,7 +33,7 @@ form input{
     padding: 0rem 1rem;
     background: white;
     box-shadow: var(--box-shadowlight);
-    width: 100%;   
+    width: 100%;
     border-radius: 1rem;
 }
 .profile-edit{
@@ -106,7 +106,7 @@ form input{
 }
 .vital-left span , .vital-right p {
     font-size: var(--size-xl);
-}  
+}
 .detailed-left span, .detailed-right p{
     font-size: var(--size-lg);
 }
@@ -153,15 +153,16 @@ form input{
 .js_profile_form{
     display: flex;
     flex-direction: column;
-    width: 48%;
     background: white;
     box-shadow: var(--box-shadow2);
     padding: 1rem 1rem;
     border-radius: 1rem;
+    width: 70%;
 }
 .form-group{
     display: flex;
     margin-bottom: 8px;
+    align-items: center;
 }
 .form-group>:last-child{
     margin-bottom: 0;
@@ -171,6 +172,8 @@ form input{
 }
 .form-group input{
     margin-left: 1rem;
+    width: 60%;
+    height: 2.4rem;
 }
 .form-buttons button{
     padding: 8px 8px;
@@ -196,7 +199,7 @@ form input{
    /* CONTAINER */
  /* 2xl */
  @media (max-width: 1536px) {
-    
+
  }
  @media (max-width: 1380px) {
     .top-part{
@@ -222,7 +225,7 @@ form input{
     }
     .vital-left span , .vital-right p {
         font-size: var(--size-base);
-    }  
+    }
     .detailed-left span, .detailed-right p{
         font-size: var(--size-sm);
     }
@@ -259,7 +262,7 @@ form input{
  }
  /* md */
  @media (max-width: 768px) {
-    
+
  }
 
  /* sm */
@@ -287,11 +290,11 @@ form input{
     }
     .vital-left span , .vital-right p {
         font-size: var(--size-sm);
-    }  
+    }
     .detailed-left span, .detailed-right p{
         font-size: var(--size-sm);
     }
     .detailed-top button, .js-edit-illness-btn, .js-illness-note-btn{
         font-size: var(--size-sm);
-    }   
+    }
  }
