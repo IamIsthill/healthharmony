@@ -126,6 +126,7 @@ def post_create_certificate_request(request):
         form = CreateCertificateForm(request.POST)
         if form.is_valid():
             form.save(request)
+            cache.clear()
         else:
             messages.error(request, "Form is invalid. Please try again")
     return redirect("patient-records", request.user.id)
@@ -146,7 +147,7 @@ def patient_view(request, pk):
                 user = form.save(request, pk)
                 messages.success(request, "Profile updated successfully!")
                 context.update({"user": user})
-                cache.delete("user_cache")
+                cache.clear()
                 return redirect("patient-profile", request.user.id)
             except ValueError as e:
                 messages.error(request, str(e))
