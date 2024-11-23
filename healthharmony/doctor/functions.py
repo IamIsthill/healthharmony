@@ -22,6 +22,7 @@ from imblearn.over_sampling import SMOTE
 from imblearn.pipeline import Pipeline as imbpipeline
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics import accuracy_score
 
 from healthharmony.models.trained_models.models import Models, ModelLog
 from healthharmony.app.settings import env
@@ -45,7 +46,7 @@ def get_illness_data():
         Exception: If there is an error fetching data from the database.
     """
     try:
-        data = Illness.objects.all().values("pk", "issue", "diagnosis")
+        data = Illness.objects.exclude(diagnosis='').values("pk", "issue", "diagnosis")
         logger.info("Illness data was successfully fetched.")
         if data:
             for d in data:
@@ -148,7 +149,7 @@ def get_voting_clf():
         ("RandomForest", RandomForestClassifier(random_state=42)),
         ("GradientBoosting", GradientBoostingClassifier(random_state=42)),
         ("LogisticRegression", LogisticRegression(max_iter=1000, random_state=42)),
-        # ("KNeighbors", KNeighborsClassifier(n_neighbors=3)),
+        ("KNeighbors", KNeighborsClassifier(n_neighbors=3)),
         ("DecisionTree", DecisionTreeClassifier(random_state=42)),
     ]
     voting_clf = VotingClassifier(estimators=base_classifiers, voting="hard")
@@ -182,6 +183,10 @@ def get_model(voting_clf, df):
         ]
     )
     model.fit(X_train, y_train)
+    logger.info("Model Training Complete. Evaluating...")
+    y_pred = model.predict(X_test)
+    accuracy = accuracy_score(y_test, y_pred)
+    logger.info(f"Model Accuracy: {accuracy:.2f}")
     return model
 
 
@@ -223,24 +228,44 @@ def train_diagnosis_predictor():
         else:
             saved_model.model_file = model_binary.read()
             saved_model.save()
+        example_texts = ["Severe headache with nausea", "Mild fever and body ache"]
+        for issue in example_texts:
+            predictions = predict_diagnosis(issue)
+            logger.info(f"Predictions: {predictions}")
+
+def preprocess_issue(issue):
+    """
+    Preprocess and lemmatize the input issue.
+    """
+    if not issue or not issue.strip():
+        logger.warning("Received empty issue for diagnosis.")
+        return None
+
+    text = issue.replace("\n", "").strip()
+    try:
+        doc = t.make_spacy_doc(preproc(text), lang="en_core_web_sm")
+        return [token.lemma_ for token in doc]
+    except Exception as e:
+        logger.error(f"Error in preprocessing issue: {str(e)}")
+        return None
 
 
 def predict_diagnosis(issue):
     try:
-        text = issue.replace("\n", "")
-        doc = t.make_spacy_doc(preproc(text), lang="en_core_web_sm")
-        text = [i.lemma_ for i in doc]
+        # text = issue.replace("\n", "")
+        # doc = t.make_spacy_doc(preproc(text), lang="en_core_web_sm")
+        # text = [i.lemma_ for i in doc]
 
-        saved_model = cache.get("saved_model")
-        if not saved_model:
+        text = preprocess_issue(issue)
+        if not text:
+            return None
+
+        model = cache.get('diagnosis_model')
+        if not model:
             saved_model = Models.objects.get(model_name="diagnosis_predictor")
-            cache.set("saved_model", saved_model, timeout=(60 * 60 * 4))
-
-        model_binary = io.BytesIO(saved_model.model_file)
-        model = joblib.load(model_binary)
-
-        # model_path = "healthharmony/static/assets/models/diagnosis_predictor.joblib"
-        # model = joblib.load(model_path)
+            model_binary = io.BytesIO(saved_model.model_file)
+            model = joblib.load(model_binary)
+            cache.set("diagnosis_model", model, timeout=(60 * 60 * 4))
 
         diagnosis = model.predict([string_lemma(text)])
 

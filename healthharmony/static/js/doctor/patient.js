@@ -338,7 +338,7 @@ async function create_illness_edit_form(illness_data, illness_categories) {
     form_body.innerHTML += '<label>Diagnosis: </label>'
     const diagnosis = await fetchPredictedDiagnosis(illness_data.issue)
 
-    if ((illness_data.diagnosis != '' || !illness_data.diagnosis) && diagnosis) {
+    if ((illness_data.diagnosis == '' || !illness_data.diagnosis) && diagnosis) {
         form_body.appendChild(get_diagnosis_element(diagnosis))
         form_body.innerHTML += `
             <span class="close js-clear-diagnosis-field">&times;</span>
