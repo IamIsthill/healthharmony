@@ -395,6 +395,7 @@ def get_predicted_diagnosis(request):
     issue = request.query_params.get("issue")
 
     diagnosis = predict_diagnosis(issue)
+    print(diagnosis)
     return JsonResponse(diagnosis, safe=False)
 
 

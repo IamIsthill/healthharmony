@@ -38,10 +38,10 @@ def user_profile(request):
 @login_required(login_url="account_login")
 def login_redirect(request):
     if request.user.is_authenticated:
-        if request.user.access == 3:
-            next_url = reverse("doctor-overview")
         if request.user.access == 4:
             next_url = reverse("admin-overview")
+        elif request.user.access == 3:
+            next_url = reverse("doctor-overview")
         elif request.user.access == 2:
             next_url = reverse("staff-overview")
         elif request.user.access == 1:
