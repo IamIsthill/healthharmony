@@ -94,7 +94,7 @@ export function createViewDepartmentModal(department, patients, format_date) {
         for (const patient of patients) {
             html += `
                 <div class ="department-view">
-                    <img src="${media_path}${patient.profile}">
+                    <img src="https://healthharmony-staticfiles.s3.amazonaws.com/${patient.profile}">
                     <div class = "name-email">
                     <p>${patient.first_name} ${patient.last_name}</p>
                     <p>${patient.email}</p>
