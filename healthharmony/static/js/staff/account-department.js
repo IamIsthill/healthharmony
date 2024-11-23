@@ -308,7 +308,6 @@ function get_sorted_patient_data(filter, direction, department_data) {
 }
 
 export function update_department_count(departmentData) {
-    console.log(departmentData)
     let count = 0
     for (const i of Object.entries(departmentData)) {
         count++
