@@ -75,7 +75,6 @@ export function formatDatesInVisitHistory(format_date) {
     const dateStrings = document.querySelectorAll('.date')
     for (const date of dateStrings) {
         const newDate = format_date(date.textContent)
-        console.log(date.textContent)
         date.innerText = newDate
     }
 }
