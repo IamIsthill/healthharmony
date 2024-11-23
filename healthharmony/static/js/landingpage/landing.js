@@ -1,6 +1,5 @@
 const doctor_data = JSON.parse(document.getElementById('doctor_data').textContent)
 
-console.log(doctor_data)
 
 handle_making_readable_time()
 

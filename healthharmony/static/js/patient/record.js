@@ -11,8 +11,6 @@ const illness_category = JSON.parse(document.getElementById('illness_category').
 const certificate_data = JSON.parse(document.getElementById('certificate_data').textContent)
 
 
-console.log(notes_data)
-console.log(illness_data)
 /**MEDCERT */
 handle_onclick_request_medcert()
 

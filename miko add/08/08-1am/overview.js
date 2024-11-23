@@ -100,7 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 monthBarData = false
                 weekBarData = true
             }
-            console.log(dateFilter)
 
         })
     })
