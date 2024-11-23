@@ -63,6 +63,8 @@ main()
 function main() {
     /**TEST AREA */
 
+    console.log(departmentData)
+
     /**PATIENT TABLE */
     formatDatesInPatientsPage(format_date)
     update_patient_count_element()
@@ -831,6 +833,9 @@ function listenToHoverOnPatientName() {
 }
 
 function format_date(dateString) {
+    if (!dateString) {
+        return ''
+    }
     const formattedDate = new Date(dateString).toLocaleString("en-US", {
         year: 'numeric',
         month: 'long',
