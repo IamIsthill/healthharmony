@@ -831,6 +831,9 @@ function listenToHoverOnPatientName() {
 }
 
 function format_date(dateString) {
+    if (!dateString) {
+        return ''
+    }
     const formattedDate = new Date(dateString).toLocaleString("en-US", {
         year: 'numeric',
         month: 'long',
