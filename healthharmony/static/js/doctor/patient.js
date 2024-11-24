@@ -79,8 +79,8 @@ function handle_onclick_view_notes() {
 
             for (const notes of Object.values(illness_notes_data)) {
                 if (parseInt(notes.attached_to) == illness_id) {
-                    const sender = notes.doctor_first_name != '' || notes.doctor_first_name || notes
-                        .doctor_last_name != '' || notes.doctor_last_name ?
+                    const sender = notes.doctor_first_name != '' && notes.doctor_first_name && notes
+                        .doctor_last_name != '' && notes.doctor_last_name ?
                         `${notes.doctor_first_name} ${notes.doctor_last_name}` : `${notes.doctor_email}`
                     notes_div.innerHTML += `
                         <div>
