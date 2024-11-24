@@ -57,29 +57,29 @@
                             </th>
                         </tr>
                         <tr>
-                            <th class="table-head">Patient Name</th>
-                            <th class="table-head">Issue</th>
-                            <th class="table-head">Status</th>
-                            <th class="table-head">Action</th>
+                            <th class="table-head name-head">Patient Name</th>
+                            <th class="table-head issue-head">Issue</th>
+                            <th class="table-head status-head">Status</th>
+                            <th class="table-head action-head">Action</th>
                         </tr>
                     </thead>
                     <tbody id="illness_body">
                         {% for illness in illness_page %}
                             <tr>
-                                <td class="table-data">
+                                <td class="table-data name-data">
                                     {% if illness.patient.first_name and illness.patient.last_name %}
                                         <span class="patient btn" data-patient-id="{{ illness.patient.id }}">{{ illness.patient.first_name }} {{ illness.patient.last_name }}</span>
                                     {% else %}
                                         <span class="patient btn" data-patient-id="{{ illness.patient.id }}">{{ illness.patient.email }}</span>
                                     {% endif %}
                                 </td>
-                                <td class="table-data">{{ illness.issue|truncatewords:'10' }}</td>
+                                <td class="table-data issue-data">{{ illness.issue|truncatewords:'10' }}</td>
                                 {% if illness.diagnosis %}
-                                    <td class="table-data complete-span">Completed</td>
+                                    <td class="table-data status-data complete-span">Completed</td>
                                 {% else %}
-                                    <td class="table-data pending-span">Pending</td>
+                                    <td class="table-data status-data pending-span">Pending</td>
                                 {% endif %}
-                                <td class="js-view-illness btn table-data review-data"
+                                <td class="js-view-illness btn table-data review-data action-data"
                                     data-patient-id="{{ illness.patient.id }}">Review</td>
                             </tr>
                         {% empty %}

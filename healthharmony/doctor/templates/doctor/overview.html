@@ -95,29 +95,34 @@
                             </tr>
                         {% endfor %}
                     </tbody>
+                    <tr>
+                        <td colspan="4">
+                            <div class="pagination pagination-design">
+                                <span class="step-links">
+                                    {% if illness_page.has_previous %}
+                                        <a href="?page=1" class="js-links page-shortcut">&laquo; First</a>
+                                        <a class="js-links" href="?page={{ illness_page.previous_page_number }}">
+                                            <div class="previous-next-page">
+                                                <span class="material-symbols-outlined page-icon">arrow_back_ios</span> <span>Previous</span>
+                                            </div>
+                                        </a>
+                                    {% endif %}
+                                    <span class="current">Page {{ illness_page.number }} of {{ illness_page.paginator.num_pages }}.</span>
+                                    {% if illness_page.has_next %}
+                                        <a class="js-links" href="?page={{ illness_page.next_page_number }}">
+                                            <div class="previous-next-page">
+                                                <span>Next</span><span class="material-symbols-outlined page-icon">arrow_forward_ios</span>
+                                            </div>
+                                        </a>
+                                        <a class="js-links page-shortcut"
+                                        href="?page={{ illness_page.paginator.num_pages }}">Last &raquo;</a>
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
                 </table>
-                <div class="pagination pagination-design">
-                    <span class="step-links">
-                        {% if illness_page.has_previous %}
-                            <a href="?page=1" class="js-links page-shortcut">&laquo; First</a>
-                            <a class="js-links" href="?page={{ illness_page.previous_page_number }}">
-                                <div class="previous-next-page">
-                                    <span class="material-symbols-outlined page-icon">arrow_back_ios</span> <span>Previous</span>
-                                </div>
-                            </a>
-                        {% endif %}
-                        <span class="current">Page {{ illness_page.number }} of {{ illness_page.paginator.num_pages }}.</span>
-                        {% if illness_page.has_next %}
-                            <a class="js-links" href="?page={{ illness_page.next_page_number }}">
-                                <div class="previous-next-page">
-                                    <span>Next</span><span class="material-symbols-outlined page-icon">arrow_forward_ios</span>
-                                </div>
-                            </a>
-                            <a class="js-links page-shortcut"
-                               href="?page={{ illness_page.paginator.num_pages }}">Last &raquo;</a>
-                        {% endif %}
-                    </span>
-                </div>
+                
             </div>
         </main>
         <div class="doctor-right-part">
@@ -176,4 +181,5 @@
     {{ sorted_illness_category|json_script:'sorted_illness_category' }}
     <script src="{% static 'chart.js/dist/chart.umd.js' %}"></script>
     <script src="{% static 'js/dist/doctor_overview.js' %}" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/datalist-css/dist/datalist-css.min.js"></script>
 {% endblock %}
