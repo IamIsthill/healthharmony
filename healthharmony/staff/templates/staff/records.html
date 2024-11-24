@@ -64,9 +64,9 @@
                   <td class="table-data concern-column">{{ data.issue|truncatechars:60 }}</td>
                   <td class="table-data status-column">
                     {% if data.diagnosis == '' %}
-                      Ongoing
+                     <span class="pending-span"> Ongoing </span>
                     {% else %}
-                      Finished
+                     <span class="span-green"> Finished </span>
                     {% endif %}
                   </td>
                   <td class="table-data view-column js-view-illness-btn" data-illness-id="{{ data.id }}">View Illness</td>

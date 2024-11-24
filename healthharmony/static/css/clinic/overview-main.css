@@ -96,6 +96,10 @@ main .today-patient .info span{
     color: white;
 }
 
+datalist {
+    top: calc(40% + 0.5em); /* Place below the input field */
+  }
+
 
 /* 2xl */
 @media (max-width: 1536px) {

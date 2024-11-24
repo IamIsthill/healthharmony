@@ -244,6 +244,11 @@ form input{
     align-self: center;
 }
 
+input, select, textarea {
+    background: #E3E5E6;
+    border: none;
+    padding: 0 1rem;
+}
 
 /* form */
 .edit-buttons{
@@ -285,7 +290,7 @@ form input{
             min-width: 20%;
             border-radius: 1rem;
             background: white;
-            margin: 5% auto;
+            margin: 2% auto;
             gap: 1rem;
             padding: 1rem 1rem;
     }
@@ -298,10 +303,19 @@ form input{
         flex-direction: column;
         gap: 8px;
     }
+
+    .js_treatment_fields select{
+        margin-bottom: 4px;
+        margin-right: 4px;
+    }
     .js_send_notes_form{
         display: flex;
         flex-direction: column;
         width: 100%;
+    }
+    .js_send_notes_form textarea, .js-edit-illness-form textarea{
+        padding-top: 1rem;
+        min-height: 8rem;
     }
     .send-notes-modal{
         min-width: 20%;
@@ -311,6 +325,10 @@ form input{
     }
     .send-notes-modal h1{
         font-weight: 600;
+        font-size: var(--size-2xl);
+    }
+    .js_send_notes_form h2{
+        font-size: var(--size-xl);
     }
     .js_send_notes_form h2, .js_send_notes_form h3{
         font-weight: 500;
