@@ -306,7 +306,26 @@ aside{
     .sidebar a{
         margin-left: 2rem;
     }
-    .profile-mobile{
+    .profile-mobile a{
+       display: flex;
+      gap: 4px;  
+      justify-content: center;
+      align-items: center; 
+     width: 8rem;
+     color: black;
+     border-radius: 4px;
+     transition: all 0.2s ease;
+     font-weight: 600;
+}
+    .profile-mobile a:hover{
+        background: black;
+        color: white;
+    }
+    .profile-mobile a span:hover{
+        color: white;
+    }
+    .profile-mobile{  
         display: flex;
+        z-index: 1002;   
     }
 }

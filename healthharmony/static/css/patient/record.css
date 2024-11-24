@@ -17,8 +17,16 @@ main{
     width: 50%;
     display: flex;
     flex-direction: column;
+    transition: all 0.3s ease;
+}
+.top-card:hover{
+    box-shadow: var(--box-shadowlight);
 }
 .usual-page{
+    padding: 0 8px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
     max-height: 12rem;
     overflow-y: scroll;
 }
@@ -26,10 +34,9 @@ main{
     background: rgb(199, 199, 199);
     padding: 0.5rem 1rem;
     border-radius: 1rem;
-    margin-bottom: 1rem;
 }
 .usual-cont h2{
-    font-size: var(--size-xl);
+    font-size: var(--size-lg);
     font-weight: 600;
 }
 .top-card h1{
@@ -93,6 +100,10 @@ main{
     border-radius: 1rem;
     width: 55%;
     height:20rem;
+    transition: all 0.3s ease;
+}
+.for-the-request:hover, .recent-illness:hover{
+    box-shadow: var(--box-shadowlight);
 }
 .med-header{
     font-size: var(--size-xl);
@@ -110,6 +121,7 @@ main{
     box-shadow: var(--box-shadow2);
     padding: 1rem 1rem;
     border-radius: 1rem;
+    transition: all 0.3s ease;
 }
 
 .visible h2{
@@ -123,8 +135,89 @@ main{
 .bottom-part{
     margin-bottom: 1rem;
 }
+.top-card h1, .recent-illness h1, .med-header{
+    font-size: var(--size-2xl);
+    font-weight: 600;
+}
 
 
+/* recent ilnes */
+.recent-illness h1{
+    margin-bottom: 8px;
+}
+.recent-cont{
+    padding: 12px 12px;
+}
+.recent-cont ul{
+    list-style-type: none; 
+    padding: 0; 
+    margin: 0;
+}
+.recent-cont li{
+     min-height: 3rem;
+     background: white;
+     padding: 0.6rem 1rem;
+     color: rgb(14, 14, 14);
+     align-items: center;
+     margin-bottom: 0.8rem;
+     border-radius: 8px;
+     box-shadow: 0 0rem 1rem rgb(32, 43, 55,0.2);
+     transition: all 0.2s ease;
+}
+.recent-cont li:hover{
+    box-shadow: 0 0rem 1rem rgba(32, 43, 55, 0.137);
+}
+.recent-top{
+    display: flex;
+    justify-content: space-between;
+}
+.js_show_illness_details{
+    display: flex;
+    align-items: center;
+    color: rgba(128, 0, 0, 0.671);
+    font-weight: 600;
+}
+.js_show_illness_details:hover{
+    color: maroon;
+}
+.recent-data{
+    font-size: var(--size-base);
+    font-weight: 500;
+}
+
+/* med cert history table*/
+.for-the-request table tbody{
+    display: block;
+    max-height: 230px; /* Set the height of the tbody */
+    overflow-y: auto; /* Enable scrolling for the tbody */
+    width: 100%;
+}
+.for-the-request table thead{
+    position: sticky;
+}
+.for-the-request table tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed; /* Ensures that cells align properly */
+}
+.table-head, .table-data{
+    padding-right: 1rem;
+}
+.purp-data{
+    width: 40%;
+}
+.purp-head{
+    width: 38.5%;
+}
+.data-head, .data-data{
+    width: 20%;
+}
+.status-head{
+    width: 30%;
+}
+.status-data{
+    width: 28%;
+}
    /* CONTAINER */
  /* 2xl */
  @media (max-width: 1536px) {

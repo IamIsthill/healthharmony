@@ -13,10 +13,14 @@
     width: 950px;
   }
   .swiper-wrapper{
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
     padding: 0rem 1rem;
   }
 
   .card{
+    max-width: 400px;
     position: relative;
     background: #fff;
     border-radius: 20px;

@@ -195,8 +195,38 @@
     }
     .sickness-part{ /* BOTTOM PART */
         display: flex;
+        flex-direction: column;
         align-items: start;
-        margin-left:7px;
+        justify-content: start;
+        width: 100%;
+        margin-left: 1rem;
+    }
+    .sickness{
+        margin-right: 8px;
+        margin-bottom: 8px;
+    }
+    
+    .sickness ul{
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: start;
+        list-style-type: none; 
+        padding: 0; 
+        margin: 0;
+    }
+    .sickness li{
+        display: flex;
+        align-items: start;
+        justify-content: start;
+        gap: 6px;
+    }
+    .sickness span{
+        margin-top: 2px;
+    }
+    .sickness-part h4{
+        font-weight: 500;
+        font-size: var(--size-lg);
     }
     .sickness-part img{
         margin-top: 5px;

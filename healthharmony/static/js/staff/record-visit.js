@@ -12,22 +12,22 @@ export function createViewIllnessBody(data) {
     }
 
     let html = `
-        <div class = "visit-info-cont">         
+        <div class = "visit-info-cont">
             <div class = "left-visit"> <h3>Patient Name</h3> </div> <div class = "right-visit"> <h4> ${data.patient_first_name} ${data.patient_last_name}</h4> </div>
         </div>
-        <div class = "visit-info-cont">    
+        <div class = "visit-info-cont">
             <div class = "left-visit"> <h3>Patient's Claim</h3> </div> <div class = "right-visit"> <h4> ${data.issue}</h4> </div>
         </div>
-        <div class = "visit-info-cont"> 
+        <div class = "visit-info-cont">
             <div class = "left-visit"> <h3>Illness Category</h3> </div> <div class = "right-visit"> <h4> ${data.category_name ? data.category_name : ''}</h4> </div>
         </div>
         <div class = "visit-info-cont">
             <div class = "left-visit"> <h3>Date and Time of Visit</h3> </div> <div class = "right-visit"> <h4> ${format_date(data.added)}</h4> </div>
         </div>
-        <div class = "visit-info-cont">    
+        <div class = "visit-info-cont">
             <div class = "left-visit"> <h3>Added by</h3> </div> <div class = "right-visit"> <h4> ${data.staff_first_name ? data.staff_first_name : ''}  ${data.staff_last_name ? data.staff_last_name: ''}</h4> </div>
         </div>
-   
+
     `
     if (data.doctor) {
         html += `
@@ -136,7 +136,7 @@ export function createVisitHtml(historyData, formatDate) {
                 <td class="table-data date date-column" data="date-${data.id}">${formatDate(data.added)}</td>
                 <td class="table-data patient-column">${data.patient_first_name} ${data.patient_last_name}</td>
                 <td class="table-data concern-column">${issue}</td>
-                <td class="table-data status-column">${status}</td>
+                <td class="table-data status-column ${status=='Finished' ? 'span-green' : 'pending-span'}">${status}</td>
                 <td class="table-data view-column js-view-illness-btn"
                     data-illness-id="${data.id}">View Illness</td>
                 <td class="table-data profile-column js-view-patient"
