@@ -194,15 +194,24 @@ main{
     font-size: var(--size-sm);
 }
 /* Apply consistent column widths */
-.date-column-head, .date-column{
+.date-column-head{
     width: 13.5%;
 }
-.patient-column-head, .patient-column {
-    width: 12%;
+.date-column{
+    width: 13.8%;
+}
+.patient-column-head {
+    width: 9%;
+}
+.patient-column {
+    width: 9.3%;
 }
 
-.concern-column-head, .concern-column {
+.concern-column-head {
     width: 13%;
+}
+.concern-column {
+    width: 13.4%;
 }
 
 .status-column-head, .status-column {
@@ -212,7 +221,7 @@ main{
     width: 12%;
 }
 .view-column, .profile-column{
-    width: 6%;
+    width: 5.9%;
 }
 .view-column, .profile-column{
     opacity: 70%;
