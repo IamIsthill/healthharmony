@@ -79,8 +79,8 @@ function handle_onclick_view_notes() {
 
             for (const notes of Object.values(illness_notes_data)) {
                 if (parseInt(notes.attached_to) == illness_id) {
-                    const sender = notes.doctor_first_name != '' || notes.doctor_first_name || notes
-                        .doctor_last_name != '' || notes.doctor_last_name ?
+                    const sender = notes.doctor_first_name != '' && notes.doctor_first_name && notes
+                        .doctor_last_name != '' && notes.doctor_last_name ?
                         `${notes.doctor_first_name} ${notes.doctor_last_name}` : `${notes.doctor_email}`
                     notes_div.innerHTML += `
                         <div>
@@ -341,8 +341,7 @@ async function create_illness_edit_form(illness_data, illness_categories) {
     if ((illness_data.diagnosis == '' || !illness_data.diagnosis) && diagnosis) {
         form_body.appendChild(get_diagnosis_element(diagnosis))
         form_body.innerHTML += `
-            <span class="close js-clear-diagnosis-field">&times;</span>
-            <p>This is system generated and may be inaccurate. Please ensure that they are correct.</p>
+            <p class="illness-error-message">This is system generated and may be inaccurate. Please ensure that they are correct.</p>
         `
     } else {
         form_body.appendChild(get_diagnosis_element(illness_data.diagnosis))
@@ -354,6 +353,14 @@ async function create_illness_edit_form(illness_data, illness_categories) {
     form_body.innerHTML += '<button type="submit" class="js_illness_edit_btn update-case">Update Case</button>'
 
     add_more_prescription(inventory_list)
+
+    const diagnosis_field = document.querySelector('.js_illness_diagnosis_field')
+    diagnosis_field.addEventListener('input', () => {
+        const message = document.querySelector('.illness-error-message')
+        if(message)(
+            message.remove()
+        )
+    })
     // send_updated_illness_case()
 }
 
