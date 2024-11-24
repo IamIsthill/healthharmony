@@ -318,11 +318,18 @@ input, select, textarea {
         display: flex;
         flex-direction: column;
         gap: 8px;
+        border: 1px solid red;
     }
 
     .js_treatment_fields select{
         margin-bottom: 4px;
         margin-right: 4px;
+        width: 14rem;
+    }
+    .js_treatment_fields input{
+        width: 7rem;
+        height: 2.5rem;
+        margin-bottom: 4px;
     }
     .js_send_notes_form{
         display: flex;
