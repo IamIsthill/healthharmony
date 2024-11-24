@@ -231,7 +231,9 @@ main{
 
  /* lg */
  @media (max-width: 1024px) {
-
+    .modal-content{
+        width: 67%;
+    }
  }
 
  /* md */
@@ -239,7 +241,7 @@ main{
     .doctor-profile-container{
         grid-template-columns: auto;
     }
-  
+
  }
 
  /* sm */
@@ -252,10 +254,14 @@ main{
     .top-card, .for-the-request, .recent-illness{
         width: 95%;
     }
-    
+    .modal-content{
+        width: 67%;
+    }
  }
 
  /* xs */
  @media (max-width: 475px) {
-
+    .modal-content{
+        width: 70%;
+    }
  }
