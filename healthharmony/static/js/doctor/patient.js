@@ -583,7 +583,7 @@ function handle_onclick_edit_patient() {
               </div>
               <div class="visit-row">
                 <span>Year</span>
-                <select name="year">
+                <select name="year" class = "year-select">
             <option value="1" ${patient_data.year==1 ? 'selected' : ''}>1</option>
             <option value="2" ${patient_data.year==2 ? 'selected' : ''}>2</option>
             <option value="3" ${patient_data.year==3 ? 'selected' : ''}>3</option>
