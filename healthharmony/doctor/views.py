@@ -134,7 +134,7 @@ def post_update_patient_illness(request, pk):
             messages.error(request, "Failed to update patient's case.")
             logger.warning("Prescription form is invalid")
 
-        cache.delete_many(["inventory_cache", "user_cache", "illness_cache"])
+        cache.clear()
 
         return redirect("doctor-view-patient", pk)
 
@@ -364,9 +364,8 @@ def post_update_user_details(request):
         form = UpdateUserDetails(request.POST)
         if form.is_valid():
             form.save(request)
-            user_cache = cache.get("user_cache", {})
-            user_cache.pop(int(patient_id), None)
-            cache.set("user_cache", user_cache, timeout=(60 * 60 * 2))
+            cache.clear()
+
         else:
             logger.info("Form is invalid")
             messages.error(request, "Form is invalid. Please try again.")
@@ -381,12 +380,11 @@ def post_update_user_vitals(request):
         form = UpdateUserVital(request.POST)
         if form.is_valid():
             form.save(request)
-            user_cache = cache.get("user_cache", {})
-            user_cache.pop(int(patient_id), None)
-            cache.set("user_cache", user_cache, timeout=(60 * 60 * 2))
+            cache.clear()
         else:
             logger.info("Form is invalid")
             messages.error(request, "Form is invalid. Please try again.")
+        
     return redirect("doctor-view-patient", patient_id)
 
 
