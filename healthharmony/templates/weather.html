@@ -25,10 +25,10 @@
             </div>
         </div>
         <div class="sickness-part">
-            <img src="{% static 'assets/images/landing-page/sick.svg' %}" />
+            <h4>Sickness Prediction</h4>
             <div class="sickness">
                 <ul>
-                    {% for sick in predict %}<li>{{ sick.title }}</li>{% endfor %}
+                    {% for sick in predict %}<li> <img class="sick-icon" src="{% static 'assets/images/landing-page/sick.svg' %}" /> <span> {{ sick.title }}</span></li>{% endfor %}
                 </ul>
             </div>
         </div>

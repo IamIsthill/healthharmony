@@ -17,9 +17,9 @@
                             <span class="sched-span" style="color: rgb(163, 163, 163);">Schedule: </span><div><span class="js_time">{{ doctor.time_avail_start|default_if_none:'' }}</span> - <span class="js_time">{{ doctor.time_avail_end|default_if_none:'' }}</span> </div> 
                             </div>
                             {% if doctor.avail %}
-                                <span class="sched-span">Available</span>
+                                <span class="sched-span complete-span">Available</span>
                             {% else %}
-                                <span class="sched-span">Not Available</span>
+                                <span class="sched-span span-red">Not Available</span>
                             {% endif %}
                         </div>
                     </div>
@@ -27,6 +27,4 @@
             {% endfor %}
         </div>
     </div>
-    <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div>
 </section>

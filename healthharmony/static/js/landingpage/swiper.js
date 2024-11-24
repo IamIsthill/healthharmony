@@ -40,10 +40,9 @@ var swiper = new Swiper('.mySwiper', {
     spaceBetween: 10,  // Space between slides in px
     loop: true,        // Enable looping of slides
     loopFillGroupWithBlank: true,
-    navigation: {
-        nextEl: '.swiper-button-next', // Next button
-        prevEl: '.swiper-button-prev', // Prev button
-    },
+    slidesPerView: 'auto', // Automatically adjust based on content
+    centeredSlides: true, // Enable centering
+    spaceBetween: 20,
     // Enable responsive breakpoints
     breakpoints: {
         // when window width is >= 640px

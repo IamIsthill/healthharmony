@@ -152,8 +152,8 @@ function handle_onclick_show_more_illness() {
             // Navigate to the parent div then select the previous element near the parent divs
             const illness_space_element = btn.parentElement.previousElementSibling
             illness_space_element.innerHTML = `
-                <h4>Diagnosis : ${illness.diagnosis}
-                <h5> Treatments: </h5>
+                <h4 class = "recent-data">Diagnosis : ${illness.diagnosis} </h4>
+                <h5 class = "recent-data">Treatments: </h5>
             `
             illness_space_element.appendChild(treatments_element)
 
@@ -163,7 +163,7 @@ function handle_onclick_show_more_illness() {
                 btn.classList.remove('js_active')
                 illness_space_element.classList.add('hide')
             } else {
-                btn.innerText = 'Close'
+                btn.innerText = 'View Less'
                 btn.classList.add('js_active')
                 illness_space_element.classList.remove('hide')
             }

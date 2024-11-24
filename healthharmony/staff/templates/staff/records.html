@@ -151,7 +151,7 @@
                   <td class="table-data">{{ certificate.purpose|truncatechars:60 }}</td>
                   <td class="table-data js-cert-date">{{ certificate.requested }}</td>
                   {% if not certificate.is_ready and not certificate.released %}
-                    <td class="table-data">Request to be processed</td>
+                    <td class="table-data NA">Request to be processed</td>
                     <td class="table-data">
                       <button class="js_certificate_action" data-certificate-id="{{ certificate.id }}">Mark as Ready</button>
                     </td>
