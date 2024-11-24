@@ -22,6 +22,9 @@ form input{
     border-radius: 4px;
     padding: 4px 8px;
 }
+.blood-input{
+    max-height: 2rem;
+}
 .patient-profile, .profile-main{
     display: flex;
     gap: 0.5rem;

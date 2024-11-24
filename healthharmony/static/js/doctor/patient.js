@@ -715,7 +715,7 @@ function get_form_element_for_patient_vital() {
 
         <input name="csrfmiddlewaretoken" value="${getToken()}" type="hidden" />
         <input name="patient_id" value="${patient_data.id}" type="hidden" />
-        <input name="blood_type" value="${patient_data.blood_type ? patient_data.blood_type : '' }" type="text" placeholder="Patient's blood type..." list="blood_list"/>
+        <input class = "blood-input" name="blood_type" value="${patient_data.blood_type ? patient_data.blood_type : '' }" type="text" placeholder="Patient's blood type..." list="blood_list"/>
         <datalist id="blood_list">
             <option value="A+">
             <option value="A-">
