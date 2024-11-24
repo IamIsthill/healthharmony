@@ -150,8 +150,10 @@ function listenRequestDateBtns() {
         btn.addEventListener('click', () => {
             for (const btn of requestDateBtns) {
                 btn.classList.remove('js-request-date-active')
+                btn.classList.remove('bar-btn-active')
             }
             btn.classList.add('js-request-date-active')
+            btn.classList.add('bar-btn-active')
             createLogicRequestBarChart()
 
         })

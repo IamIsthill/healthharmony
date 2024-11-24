@@ -195,10 +195,10 @@ function handle_onclick_send_notes() {
                         <h3>Symptoms:</h3> <span> ${illness_data.issue}</span>
                     </div>
                     <div class = "case-row">
-                        <h3>Symptom Category:</h3> <span>${illness_data.category_name}</span>
+                        <h3>Symptom Category:</h3> <span>${illness_data.category_name ? illness_data.category_name: ''}</span>
                     </div>
                     <div class = "case-row">
-                        <h3>Diagnosis:</h3> <span> ${illness_data.diagnosis}</span>
+                        <h3>Diagnosis:</h3> <span> ${illness_data.diagnosis ? illness_data.diagnosis : ''}</span>
                     </div>
                 </div>
             `
