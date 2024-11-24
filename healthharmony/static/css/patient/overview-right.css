@@ -36,8 +36,8 @@
     gap: 1.5rem;
 }
 /* WEATHER */
-.weather-header h1{
-    font-size: var(--size-xl);
+.weather-header h1, .med-cert-cont h1, .bed-monitor h1{
+    font-size: var(--size-2xl);
     font-weight: 600;
 }
 .weather-container{ /* WHOLE CONTAINER */
@@ -45,7 +45,6 @@
     flex-direction: column;
     padding: 1rem 3rem;
     width: 400px;
-    height: 350px;
     border-radius: 15px;
     gap: 1rem;
     box-shadow: var(--box-shadow2);
@@ -103,9 +102,37 @@
 }
 .sickness-part{ /* BOTTOM PART */
     display: flex;
+    flex-direction: column;
     align-items: start;
     justify-content: start;
     width: 100%;
+}
+.sickness{
+    margin-right: 8px;
+    margin-bottom: 8px;
+}
+
+.sickness ul{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    list-style-type: none; 
+    padding: 0; 
+    margin: 0;
+}
+.sickness li{
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    gap: 6px;
+}
+.sickness span{
+    margin-top: 2px;
+}
+.sickness-part h4{
+    font-weight: 500;
+    font-size: var(--size-lg);
 }
 .sickness-part img{
     margin-top: 5px;
@@ -191,6 +218,7 @@
     padding: 1rem 1rem;
     border-radius: 1rem;
 }
+
 .med-cert-cont h3{
     font-size: var(--size-lg);
     font-weight: 500;
@@ -219,7 +247,6 @@
 @media (max-width: 1380px) {
     .weather-container{ /* WHOLE CONTAINER */
         width: 95%;
-        height: 350px;
     }
     .beds2{  /* 4 BEDS AT WHOLE */
         width: 350px;
@@ -262,7 +289,6 @@
  @media (max-width: 1149px){
     .weather-container{ /* WHOLE CONTAINER */
         width: 90%;
-        height: 325px;
         padding: 1rem 2rem;
     }
 

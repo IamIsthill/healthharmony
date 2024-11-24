@@ -82,13 +82,18 @@
                             {% for illness in illnesses %}
                                 <li>
                                     <div class="visible">
-                                        <h2>
-                                            {{ illness.issue }} (Added: <span class="js_dates">{{ illness.added }}</span>)
-                                        </h2>
+                                        <div class="recent-top">
+                                            <h2>
+                                                {{ illness.issue }} 
+                                            </h2>
+                                            <span class="js_dates">{{ illness.added }}</span>
+                                        </div>
                                         {% if illness.treatment %}
                                             <div class="hide js_details_space"></div>
                                             <div class="js_illness_buttons" illness-id="{{ illness.id }}">
-                                                <button class="js_show_illness_details" data-illness-id="{{ illness.id }}">Show More</button>
+                                                <button class="js_show_illness_details" data-illness-id="{{ illness.id }}">View More <span class="material-symbols-outlined">
+                                                    keyboard_arrow_down
+                                                    </span></button>
                                             </div>
                                         {% else %}
                                             <div class="js_illness_buttons" illness-id="{{ illness.id }}"></div>
@@ -105,25 +110,25 @@
                     <table>
                         <thead>
                             <tr>
-                                <th colspan="3" class="med-header">Your Medical Certificate History</th>
+                                <th colspan="3" class="med-header">Your Medical Certificate History </th>
                             </tr>
                             <tr>
-                                <th class="table-head">Purpose</th>
-                                <th class="table-head">Date Requested</th>
-                                <th class="table-head">Status</th>
+                                <th class="table-head purp-head">Purpose</th>
+                                <th class="table-head date-head">Date Requested</th>
+                                <th class="table-head status-head">Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for certificate in certificate_data %}
                                 <tr>
-                                    <td class="table-data">{{ certificate.purpose|truncatechars:60 }}</td>
-                                    <td class="table-data js_dates">{{ certificate.requested }}</td>
+                                    <td class="table-data purp-data">{{ certificate.purpose|truncatechars:60 }}</td>
+                                    <td class="table-data js_dates date-data">{{ certificate.requested }}</td>
                                     {% if not certificate.is_ready and not certificate.released %}
-                                        <td class="table-data">Request to be processed</td>
+                                        <td class="table-data NA status-data">Request to be processed</td>
                                     {% elif certificate.is_ready and not certificate.released %}
-                                        <td class="table-data">Ready, waiting to be collected</td>
+                                        <td class="table-data pending-span status-data">Ready, waiting to be collected</td>
                                     {% elif certificate.is_ready and certificate.released %}
-                                        <td class="table-data">Medical certificate was collected</td>
+                                        <td class="table-data complete-span status-data">Medical certificate was collected</td>
                                     {% endif %}
                                 </tr>
                             {% endfor %}
@@ -161,4 +166,26 @@
     {{ illness_category|json_script:'illness_category' }}
     {{ certificate_data|json_script:'certificate_data' }}
     <script type="module" src="{% static 'js/dist/patient_record.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const toggleButton = document.querySelector('.header_hamburger') // Assuming the logo is used as the toggle button
+          const sidebar = document.querySelector('.sidebar-container')
+    
+          // Toggle sidebar visibility when the toggle button is clicked
+          toggleButton.addEventListener('click', function () {
+            if (sidebar.classList.contains('open')) {
+              sidebar.classList.remove('open') // Hide the sidebar
+            } else {
+              sidebar.classList.add('open') // Show the sidebar
+            }
+          })
+    
+          // Optional: Close sidebar when clicking outside
+          document.addEventListener('click', function (event) {
+            if (!sidebar.contains(event.target) && !toggleButton.contains(event.target)) {
+              sidebar.classList.remove('open') // Hide the sidebar if clicked outside
+            }
+          })
+        })
+        </script>
 {% endblock %}
