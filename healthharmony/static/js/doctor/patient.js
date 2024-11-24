@@ -83,17 +83,21 @@ function handle_onclick_view_notes() {
                         .doctor_last_name != '' && notes.doctor_last_name ?
                         `${notes.doctor_first_name} ${notes.doctor_last_name}` : `${notes.doctor_email}`
                     notes_div.innerHTML += `
-                        <div>
-                            <p>Message: ${notes.notes}</p>
+                        <div class = "view-notes-cont"> 
+                            <div class = "msg-div">
+                            <h5>Message</h5>
+                            <p> ${notes.notes} 
+                            </div>
+
                             <p>Sent by: ${sender}</p>
-                            <p>Sent on ${formatDate(notes.timestamp)}</p>
+                            <p>Date: ${formatDate(notes.timestamp)}</p>
                         </div>
                     `
 
                 }
             }
             notes_div.innerHTML += `
-              <button class="js-illness-note-btn" illness-id="${illness_id}"><span class="material-symbols-outlined">edit_note</span>Send a Note</button>
+              <button class="js-illness-note-btn view-send-btn" illness-id="${illness_id}"><span class="material-symbols-outlined">edit_note</span>Send a Note</button>
 
             `
 
@@ -134,34 +138,43 @@ function handle_onclick_view_notes() {
 // Attach view notes button in illnesses
 function attach_btn_if_illness_has_notes() {
     if (illness_notes_data.length == 0) {
-        return
+        return;
     }
 
-    const illness_cases = document.querySelectorAll('.js-illness')
+    const illness_cases = document.querySelectorAll('.js-illness');
 
     if (illness_cases.length == 0) {
-        return
+        return;
     }
 
     for (const illness_case of illness_cases) {
-        const illness_id = parseInt(illness_case.getAttribute('data-illness-id'))
+        const illness_id = parseInt(illness_case.getAttribute('data-illness-id'));
 
         // Check if the illness has notes related to it
         for (const notes of Object.values(illness_notes_data)) {
             if (parseInt(notes.attached_to) == illness_id) {
-                const btn = document.createElement('button')
-                btn.setAttribute('illness-id', illness_id)
-                btn.innerText = 'View Notes'
-                btn.classList.add('js_view_notes')
+                const btn = document.createElement('button');
+                btn.setAttribute('illness-id', illness_id);
+                btn.classList.add('js_view_notes');
+                btn.classList.add('view-btn');
 
-                // Add a button to the illness case
-                illness_case.appendChild(btn)
-                break
+                // Create the icon element
+                const icon = document.createElement('span');
+                icon.classList.add('material-symbols-outlined');
+                icon.innerText = 'visibility';
+
+                // Add the icon and the button text
+                btn.appendChild(icon);
+                btn.appendChild(document.createTextNode(' View Notes'));
+
+                // Add the button to the illness case
+                illness_case.appendChild(btn);
+                break;
             }
         }
     }
-
 }
+
 
 // Handle when user clicks send notes
 function handle_onclick_send_notes() {

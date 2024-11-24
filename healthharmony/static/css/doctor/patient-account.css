@@ -82,7 +82,6 @@ form input{
     flex-direction: column;
     width: 100%;
 }
-
 .visit-row, .case-row {
     display: flex;
     flex-direction: row; 
@@ -204,23 +203,28 @@ form input{
 .js-illness{
     position: relative;
     margin-bottom: 1rem;
-    width: 38rem;   
+    width: 38rem;
     display: flex;
     gap: 1rem;
     flex-direction: column;
-    justify-content: start;
+    justify-content: space-between;
     align-items: start;
     background: white;
     padding: 0.5rem 1rem;
     border-radius: 8px;
     box-shadow: var(--box-shadow2);
 }
+.visit-btn{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
 .js-edit-illness-btn{
-    position: absolute;
-    bottom: 0.5rem;
-    right: 1rem;
     width: 6rem;
 }
+
 .js-illness-note-btn,  .js_add_more_btn{
     display: flex;
     align-items: center;
@@ -233,6 +237,11 @@ form input{
 .js-illness-note-btn:hover, .js_add_more_btn:hover{
     color: white;
     background: black;
+}
+.js-edit-illness-btn{
+    position: absolute;
+    bottom: 0.8rem;
+    right: 1rem;
 }
 .update-case{
     padding: 8px 8px;
@@ -295,8 +304,9 @@ input, select, textarea {
             padding: 1rem 1rem;
     }
     .modal-content h1{
-        font-size: var(--size-lg);
+        font-size: var(--size-2xl);
         align-self: flex-start;
+        font-weight: 600;
     }
     .js-edit-illness-form{
         display: flex;
@@ -343,8 +353,51 @@ input, select, textarea {
         width: 60%;
     }
 /* MODAL */
-
-
+/* modal view notes */
+.js_view_notes{
+    position: absolute;
+    left: 10.5rem;
+    bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    background: black;
+    padding: 8px 8px;
+    color: white;
+    border-radius: 8px;
+    gap: 4px;
+}
+.js_view_notes:hover{
+    background: rgba(0, 0, 0, 0.795);
+}
+.js_notes_body{
+    width: 100%;
+    min-height: 15rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.js_notes_body .view-notes-cont{
+    width: 100%;
+}
+.view-notes-cont{
+    background: white;
+    box-shadow: var(--box-shadow2);
+    margin-bottom: 8px;
+    padding: 8px 8px;
+    border-radius: 1rem;
+}
+.view-send-btn{
+    justify-content: center;
+    background: black;
+    color: white;
+}
+.view-send-btn:hover{
+    background: rgba(0, 0, 0, 0.801);
+}
+.msg-div h5{
+    font-size: var(--size-lg);
+    font-weight: 500;
+}
    /* CONTAINER */
  /* 2xl */
  @media (max-width: 1536px) {
@@ -420,7 +473,9 @@ input, select, textarea {
         font-size: var(--size-sm);
         height: auto;
     }
-
+    .js_view_notes{
+        left: 9.5rem;
+    }
 }
  /* xl */
  @media (max-width: 1280px) {
