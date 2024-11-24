@@ -54,6 +54,10 @@ function handle_onclick_visit_filters(visitData) {
     const visitFilterBtns = document.querySelectorAll(".visit-filter");
     visitFilterBtns.forEach((btn) => {
         btn.addEventListener("click", () => {
+            for (const btn of visitFilterBtns) {
+                btn.classList.remove('active-cat')
+            }
+            btn.classList.add('active-cat')
             const text = btn.getAttribute("data-category").toLowerCase();
             updateVisitCanvas(visitData[text]);
         });
