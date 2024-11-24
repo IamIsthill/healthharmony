@@ -146,7 +146,7 @@
                 <div class="illness_body">
                     {% for illness in illnesses %}
                         <div data-illness-id="{{ illness.id }}" class="js-illness">
-                            {% if request.user.access > 2 %}<button class="js-edit-illness-btn">Edit</button>{% endif %}
+                            
                             <div class="info-cont">
                                 <div class="visit-row">
                                     <span>Date and Time:</span>
@@ -160,7 +160,7 @@
                                     <span>Category of Symptom:</span>
                                     <p>{{ illness.category_name|default_if_none:'' }}</p>
                                 </div>
-                                <div class="visit-row">
+                                <div class="visit-row diag-row">
                                     <span>Diagnosis:</span>
                                     <p>{{ illness.diagnosis|default_if_none:'' }}</p>
                                 </div>
@@ -180,9 +180,13 @@
                                 </div>
                                 <button class="js-expand-illness-btn">Expand</button>
                             {% endif %}
-                            <button class="js-illness-note-btn" illness-id="{{ illness.id }}">
-                                <span class="material-symbols-outlined">edit_note</span>Send a Note
-                            </button>
+                            <div class="visit-btn">
+                                <button class="js-illness-note-btn" illness-id="{{ illness.id }}">
+                                    <span class="material-symbols-outlined">edit_note</span>Send a Note
+                                </button>
+                                
+                            </div>
+                            {% if request.user.access > 2 %}<button class="js-edit-illness-btn">Edit</button>{% endif %}
                         </div>
                     {% empty %}
                         <h5>No visit history</h5>
@@ -230,5 +234,4 @@
     {{ department_data|json_script:'department_data' }}
     {{ illness_notes_data|json_script:'illness_notes_data' }}
     <script src="{% static 'js/dist/doctor_patient.js' %}" type="module"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datalist-css/dist/datalist-css.min.js"></script>
 {% endblock %}
