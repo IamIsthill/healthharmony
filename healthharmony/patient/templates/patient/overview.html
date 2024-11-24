@@ -36,16 +36,18 @@
                 <div class="doc-cont">
                     {% for doc in doctors %}
                         <div class="doc">
+                            <div class="top-doc">
                             <h2>{{ doc.doctor.first_name }} {{ doc.doctor.last_name }}</h2>
                             <h5>
                                 {% with avail='Available' no_avail='Unavailable' %}
                                     {% if doc.avail %}
-                                        {{ avail }}
+                                       <span class="span-green">{{  avail  }}</span>
                                     {% else %}
-                                        {{ no_avail }}
+                                      <span class="span-lightred"> {{  no_avail }}</span>
                                     {% endif %}
                                 {% endwith %}
                             </h5>
+                            </div>
                             {% load tz %}
                             <div class="h4-cont">
                                 <h4 class="avail-h4">Available from:</h4>

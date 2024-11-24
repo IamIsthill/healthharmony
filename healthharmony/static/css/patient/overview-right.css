@@ -48,7 +48,11 @@
     height: 350px;
     border-radius: 15px;
     gap: 1rem;
-    box-shadow: var(--box-shadow2)
+    box-shadow: var(--box-shadow2);
+    transition: all 0.3s ease;
+}
+.weather-container:hover{
+    box-shadow: var(--box-shadowlight);
 }
 .temp-part{     /* TOP PART */
     display: flex;
