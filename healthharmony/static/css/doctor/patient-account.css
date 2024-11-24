@@ -80,6 +80,9 @@ form input{
     gap: 1rem;
     margin-top: 1rem;
 }
+.year-select{
+    width: 4rem;
+}
 .info-cont {
     display: flex;
     flex-direction: column;
