@@ -280,3 +280,45 @@ button{
 
 
 /* LINE CHARRRRRT */
+/* datalist */
+datalist {
+  height: 10px;
+  max-height: 10px; /* Restrict height */
+  overflow-y: auto; /* Add scroll for long lists */
+}
+
+/* option active styles */
+datalist option:hover, datalist option:focus {
+  color: #fff;
+  background-color: #036;
+  outline: 0 none;
+}
+/* select design */
+select {
+  appearance: none; /* Removes default arrow (works on most browsers) */
+  -webkit-appearance: none; /* For Safari */
+  -moz-appearance: none; /* For Firefox */
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+}
+
+select:focus {
+  outline: none;
+  border-color: #c47f00; /* Highlight border on focus */
+  box-shadow: 0 0 5px rgba(255, 174, 0, 0.5); /* Add subtle glow */
+}
+
+select::-ms-expand {
+  display: none; /* Removes default arrow in IE */
+}
+
+/* Add custom arrow */
+select {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" fill="gray"><path d="M0 3l5 5 5-5H0z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px;
+}

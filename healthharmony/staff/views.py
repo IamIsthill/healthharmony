@@ -664,14 +664,15 @@ def patients_and_accounts(request):
                 department.count = 0
                 department.last_department_visit = None
                 for illness in illnesses:
-                    if (
-                        illness.patient.department.id == department.id
-                        and illness.added != None
-                    ):
-                        department.count += 1
+                    if(illness.patient.department):
+                        if (
+                            illness.patient.department.id == department.id
+                            and illness.added != None
+                        ):
+                            department.count += 1
 
-                        if department.count == 1:
-                            department.last_department_visit = illness.added
+                            if department.count == 1:
+                                department.last_department_visit = illness.added
                 department_data.append(
                     {
                         "id": department.id,

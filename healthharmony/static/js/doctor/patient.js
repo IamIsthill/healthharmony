@@ -79,21 +79,25 @@ function handle_onclick_view_notes() {
 
             for (const notes of Object.values(illness_notes_data)) {
                 if (parseInt(notes.attached_to) == illness_id) {
-                    const sender = notes.doctor_first_name != '' || notes.doctor_first_name || notes
-                        .doctor_last_name != '' || notes.doctor_last_name ?
+                    const sender = notes.doctor_first_name != '' && notes.doctor_first_name && notes
+                        .doctor_last_name != '' && notes.doctor_last_name ?
                         `${notes.doctor_first_name} ${notes.doctor_last_name}` : `${notes.doctor_email}`
                     notes_div.innerHTML += `
-                        <div>
-                            <p>Message: ${notes.notes}</p>
+                        <div class = "view-notes-cont"> 
+                            <div class = "msg-div">
+                            <h5>Message</h5>
+                            <p> ${notes.notes} 
+                            </div>
+
                             <p>Sent by: ${sender}</p>
-                            <p>Sent on ${formatDate(notes.timestamp)}</p>
+                            <p>Date: ${formatDate(notes.timestamp)}</p>
                         </div>
                     `
 
                 }
             }
             notes_div.innerHTML += `
-              <button class="js-illness-note-btn" illness-id="${illness_id}"><span class="material-symbols-outlined">edit_note</span>Send a Note</button>
+              <button class="js-illness-note-btn view-send-btn" illness-id="${illness_id}"><span class="material-symbols-outlined">edit_note</span>Send a Note</button>
 
             `
 
@@ -134,34 +138,43 @@ function handle_onclick_view_notes() {
 // Attach view notes button in illnesses
 function attach_btn_if_illness_has_notes() {
     if (illness_notes_data.length == 0) {
-        return
+        return;
     }
 
-    const illness_cases = document.querySelectorAll('.js-illness')
+    const illness_cases = document.querySelectorAll('.js-illness');
 
     if (illness_cases.length == 0) {
-        return
+        return;
     }
 
     for (const illness_case of illness_cases) {
-        const illness_id = parseInt(illness_case.getAttribute('data-illness-id'))
+        const illness_id = parseInt(illness_case.getAttribute('data-illness-id'));
 
         // Check if the illness has notes related to it
         for (const notes of Object.values(illness_notes_data)) {
             if (parseInt(notes.attached_to) == illness_id) {
-                const btn = document.createElement('button')
-                btn.setAttribute('illness-id', illness_id)
-                btn.innerText = 'View Notes'
-                btn.classList.add('js_view_notes')
+                const btn = document.createElement('button');
+                btn.setAttribute('illness-id', illness_id);
+                btn.classList.add('js_view_notes');
+                btn.classList.add('view-btn');
 
-                // Add a button to the illness case
-                illness_case.appendChild(btn)
-                break
+                // Create the icon element
+                const icon = document.createElement('span');
+                icon.classList.add('material-symbols-outlined');
+                icon.innerText = 'visibility';
+
+                // Add the icon and the button text
+                btn.appendChild(icon);
+                btn.appendChild(document.createTextNode(' View Notes'));
+
+                // Add the button to the illness case
+                illness_case.appendChild(btn);
+                break;
             }
         }
     }
-
 }
+
 
 // Handle when user clicks send notes
 function handle_onclick_send_notes() {
@@ -182,10 +195,10 @@ function handle_onclick_send_notes() {
                         <h3>Symptoms:</h3> <span> ${illness_data.issue}</span>
                     </div>
                     <div class = "case-row">
-                        <h3>Symptom Category:</h3> <span>${illness_data.category_name}</span>
+                        <h3>Symptom Category:</h3> <span>${illness_data.category_name ? illness_data.category_name: ''}</span>
                     </div>
                     <div class = "case-row">
-                        <h3>Diagnosis:</h3> <span> ${illness_data.diagnosis}</span>
+                        <h3>Diagnosis:</h3> <span> ${illness_data.diagnosis ? illness_data.diagnosis : ''}</span>
                     </div>
                 </div>
             `
@@ -341,8 +354,7 @@ async function create_illness_edit_form(illness_data, illness_categories) {
     if ((illness_data.diagnosis == '' || !illness_data.diagnosis) && diagnosis) {
         form_body.appendChild(get_diagnosis_element(diagnosis))
         form_body.innerHTML += `
-            <span class="close js-clear-diagnosis-field">&times;</span>
-            <p>This is system generated and may be inaccurate. Please ensure that they are correct.</p>
+            <p class="illness-error-message">This is system generated and may be inaccurate. Please ensure that they are correct.</p>
         `
     } else {
         form_body.appendChild(get_diagnosis_element(illness_data.diagnosis))
@@ -354,6 +366,14 @@ async function create_illness_edit_form(illness_data, illness_categories) {
     form_body.innerHTML += '<button type="submit" class="js_illness_edit_btn update-case">Update Case</button>'
 
     add_more_prescription(inventory_list)
+
+    const diagnosis_field = document.querySelector('.js_illness_diagnosis_field')
+    diagnosis_field.addEventListener('input', () => {
+        const message = document.querySelector('.illness-error-message')
+        if(message)(
+            message.remove()
+        )
+    })
     // send_updated_illness_case()
 }
 
@@ -563,7 +583,7 @@ function handle_onclick_edit_patient() {
               </div>
               <div class="visit-row">
                 <span>Year</span>
-                <select name="year">
+                <select name="year" class = "year-select">
             <option value="1" ${patient_data.year==1 ? 'selected' : ''}>1</option>
             <option value="2" ${patient_data.year==2 ? 'selected' : ''}>2</option>
             <option value="3" ${patient_data.year==3 ? 'selected' : ''}>3</option>
@@ -695,7 +715,7 @@ function get_form_element_for_patient_vital() {
 
         <input name="csrfmiddlewaretoken" value="${getToken()}" type="hidden" />
         <input name="patient_id" value="${patient_data.id}" type="hidden" />
-        <input name="blood_type" value="${patient_data.blood_type ? patient_data.blood_type : '' }" type="text" placeholder="Patient's blood type..." list="blood_list"/>
+        <input class = "blood-input" name="blood_type" value="${patient_data.blood_type ? patient_data.blood_type : '' }" type="text" placeholder="Patient's blood type..." list="blood_list"/>
         <datalist id="blood_list">
             <option value="A+">
             <option value="A-">

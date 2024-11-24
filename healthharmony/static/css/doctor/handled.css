@@ -74,3 +74,22 @@ table tr {
 .pagination-design{
     margin-bottom: 1rem;
 }
+.mod-table{
+    margin-bottom: 1rem;
+}
+
+.name-head, .name-data{
+    width: 18%;
+}
+.issue-head, .issue-data{
+    width: 25%;
+}
+.status-head, .status-data{
+    width:13%
+}
+.action-head{
+    width: 13%;
+}
+.action-data{
+    width: 12%;
+}
