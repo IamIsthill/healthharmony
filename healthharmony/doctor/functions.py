@@ -251,28 +251,25 @@ def preprocess_issue(issue):
 
 
 def predict_diagnosis(issue):
-    try:
+    # try:
         # text = issue.replace("\n", "")
         # doc = t.make_spacy_doc(preproc(text), lang="en_core_web_sm")
         # text = [i.lemma_ for i in doc]
 
-        text = preprocess_issue(issue)
-        if not text:
-            return None
-
-        model = cache.get('diagnosis_model')
-        if not model:
-            saved_model = Models.objects.get(model_name="diagnosis_predictor")
-            model_binary = io.BytesIO(saved_model.model_file)
-            model = joblib.load(model_binary)
-            cache.set("diagnosis_model", model, timeout=(60 * 60 * 4))
-
-        diagnosis = model.predict([string_lemma(text)])
-
-        return diagnosis[0]
-    except Exception as e:
-        logger.info(f"Error in providing diagnosis: {str(e)}")
+    text = preprocess_issue(issue)
+    if not text:
         return None
+
+    model = cache.get('diagnosis_model')
+    if not model:
+        saved_model = Models.objects.get(model_name="diagnosis_predictor")
+        model_binary = io.BytesIO(saved_model.model_file)
+        model = joblib.load(model_binary)
+        cache.set("diagnosis_model", model, timeout=(60 * 60 * 4))
+
+    diagnosis = model.predict([string_lemma(text)])
+
+    return diagnosis[0]
 
 
 if __name__ == "__main__":
