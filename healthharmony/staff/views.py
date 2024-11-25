@@ -519,6 +519,7 @@ def post_add_patient(request):
         else:
             logger.info(f"User {patient.email} already exists.")
             messages.error(request, f"User {patient.email} already exists.")
+        return redirect('doctor-view-patient', patient.id)
     return redirect("staff-overview")
 
 
@@ -578,6 +579,8 @@ def create_patient_add_issue(request):
                 logger.info(f"Logged data change for illness record id [{visit.id}]")
 
                 cache.clear()
+
+                return redirect('doctor-view-patient', patient.id)
 
         except Exception as e:
             messages.error(request, "Unable to add visit record")
