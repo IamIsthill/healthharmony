@@ -36,13 +36,11 @@ def calculate_age(DOB):
     now = timezone.now()
     if DOB:
         age = now.year - DOB.year
-        if now.month == DOB.month:
-            if now.day > DOB.day:
+        if now.year > DOB.year: 
+            if now.month == DOB.month and now.day > DOB.day:
                 age = age - 1
-        elif now.month > DOB.month:
-            age = age - 1
-        else:
-            age = age - 1
+            elif now.month > DOB.month:
+                age = age - 1
 
         return age
     return None
