@@ -583,7 +583,7 @@ function handle_onclick_edit_patient() {
                     <input name="patient_id" value="${patient_data.id}" type="hidden" />
             <div class="visit-row">
                 <span class="js_form_age_label">Date of Birth:</span>
-                 <input name="DOB" value="${patient_data.DOB ? patient_data.DOB : ''}" type="date" required />
+                 <input name="DOB" value="${patient_data.DOB ? patient_data.DOB : ''}" type="date" required class="js-patient-bday" />
               </div>
               <div class="visit-row">
                 <span>Sex</span>
@@ -637,6 +637,20 @@ function handle_onclick_edit_patient() {
             btn.setAttribute('style', '')
         })
         filter_inputs_number_field()
+
+        const bday = document.querySelector('.js-patient-bday')
+        bday.addEventListener('input', () => {
+            let value = new Date(bday.value)
+
+            const current_date = new Date()
+
+            if (value > current_date) {
+                const yyyy = current_date.getFullYear();
+                const mm = String(current_date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+                const dd = String(current_date.getDate()).padStart(2, '0');
+                bday.value = `${yyyy}-${mm}-${dd}`; 
+            }
+        })
     })
 }
 
