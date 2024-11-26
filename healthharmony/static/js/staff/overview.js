@@ -213,6 +213,19 @@ function handle_add_new_patient_btn() {
 
         openModal(modal)
 
+        const patientBday = document.querySelector('.js-patient-bday')
+        patientBday.addEventListener('input', () => {
+            const bday = new Date(patientBday.value)
+            const currentDate = new Date()
+
+            if (bday > currentDate) {
+                const year = currentDate.getFullYear()
+                const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+                const dd = String(currentDate.getDate()).padStart(2, '0');
+                patientBday.value = `${year}-${month}-${dd}`; 
+            }
+        })
+
         for (const btn of close_btns) {
             closeModal(modal, btn)
 
