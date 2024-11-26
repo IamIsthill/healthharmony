@@ -148,7 +148,7 @@ def post_create_illness_note(request, pk):
 
     if form.is_valid():
         form.save(request)
-        cache.delete("note_cache")
+        cache.clear()
     else:
         messages.error(request, "The request is invalid")
         logger.warning("The request is invalid")
