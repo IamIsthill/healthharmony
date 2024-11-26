@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.urls import reverse
+from django.core.cache import cache
 from .forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.backends import ModelBackend
@@ -28,6 +29,7 @@ def user_profile(request):
                 user = form.save(request, request.user.id)
                 messages.success(request, "Profile updated successfully!")
                 context.update({"user": user})
+                cache.clear()
                 return redirect("user_profile")
             except ValueError as e:
                 messages.error(request, str(e))
