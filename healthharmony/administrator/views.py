@@ -103,7 +103,7 @@ def account_view(request):
             form.save(request)
 
             # delete cache
-            cache.delete("user_cache")
+            cache.clear()
 
             return redirect("admin-accounts")
         else:
@@ -192,15 +192,7 @@ def post_update_user_access(request):
         messages.success(request, f"Successfully update the access for {user.email}")
 
         # delete cache
-        cache.delete_many(
-            [
-                "user_cache",
-                "certificate_cache",
-                "inventory_cache",
-                "doctor_cache",
-                "illness_cache",
-            ]
-        )
+        cache.clear()
     return redirect("admin-accounts")
 
 
@@ -230,15 +222,7 @@ def post_delete_user(request):
         messages.success(request, f"Successfully deleted user with email {user.email}")
 
         # delete cache
-        cache.delete_many(
-            [
-                "user_cache",
-                "certificate_cache",
-                "inventory_cache",
-                "doctor_cache",
-                "illness_cache",
-            ]
-        )
+        cache.clear()
 
     return redirect("admin-accounts")
 

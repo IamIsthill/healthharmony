@@ -268,7 +268,7 @@ def add_inventory(request):
         if form.is_valid():
             form.save(request)
             # clear related cache
-            cache.delete("inventory_cache")
+            cache.clear()
     return redirect("staff-inventory")
 
 
@@ -280,7 +280,7 @@ def delete_inventory(request, pk):
         form = DeleteInventoryForm(request.POST)
         if form.is_valid():
             form.save(request, pk)
-            cache.delete("inventory_cache")
+            cache.clear()
         else:
             messages.error(request, "Form is invalid. Please try again")
             logger.error("Delete inventory form is invalid")
@@ -295,7 +295,7 @@ def update_inventory(request, pk):
         form = EditInventoryForm(request.POST)
         if form.is_valid():
             form.save(request, pk)
-            cache.delete("inventory_cache")
+            cache.clear()
         else:
             messages.error(request, "Form is invalid. Please try again.")
             logger.error("Update inventory form is invalid")
@@ -519,6 +519,7 @@ def post_add_patient(request):
         else:
             logger.info(f"User {patient.email} already exists.")
             messages.error(request, f"User {patient.email} already exists.")
+        return redirect('doctor-view-patient', patient.id)
     return redirect("staff-overview")
 
 
@@ -578,6 +579,8 @@ def create_patient_add_issue(request):
                 logger.info(f"Logged data change for illness record id [{visit.id}]")
 
                 cache.clear()
+
+                return redirect('doctor-view-patient', patient.id)
 
         except Exception as e:
             messages.error(request, "Unable to add visit record")
@@ -664,14 +667,15 @@ def patients_and_accounts(request):
                 department.count = 0
                 department.last_department_visit = None
                 for illness in illnesses:
-                    if (
-                        illness.patient.department.id == department.id
-                        and illness.added != None
-                    ):
-                        department.count += 1
+                    if(illness.patient.department):
+                        if (
+                            illness.patient.department.id == department.id
+                            and illness.added != None
+                        ):
+                            department.count += 1
 
-                        if department.count == 1:
-                            department.last_department_visit = illness.added
+                            if department.count == 1:
+                                department.last_department_visit = illness.added
                 department_data.append(
                     {
                         "id": department.id,
@@ -728,7 +732,7 @@ def add_department(request):
                     action=f"New department instance has been created[id:{department.id}]",
                 )
 
-                cache.delete_many(["department_cache", "illness_cache"])
+                cache.clear()
 
             else:
                 messages.error(
@@ -738,6 +742,7 @@ def add_department(request):
                 logger.error(
                     f"Failed to create a new department as it already exists[id: {department.id}]"
                 )
+
 
         except Exception as e:
             messages.error(request, "Failed to create a new department")
@@ -753,7 +758,7 @@ def delete_department(request, pk):
         form = DeleteDepartmentForm(request.POST)
         if form.is_valid():
             form.save(request, pk)
-            cache.delete_many(["department_cache", "illness_cache"])
+            cache.clear()
 
         else:
             messages.error(request, "Form is invalid. Please try again.")
@@ -771,7 +776,7 @@ def edit_department(request, pk):
         form = EditDepartmentForm(request.POST)
         if form.is_valid():
             form.save(request, pk)
-            cache.delete_many(["department_cache", "illness_cache"])
+            cache.clear()
 
         else:
             messages.error(request, "Form is invalid. Please try again.")

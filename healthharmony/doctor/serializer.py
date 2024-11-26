@@ -23,6 +23,7 @@ class IllnessSerializer(serializers.ModelSerializer):
         source="doctor.first_name", read_only=True
     )
     doctor_last_name = serializers.CharField(source="doctor.last_name", read_only=True)
+    doctor_email = serializers.CharField(source="doctor.email", read_only=True)
     category_name = serializers.CharField(
         source="illness_category.category", read_only=True
     )

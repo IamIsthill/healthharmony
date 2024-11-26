@@ -148,7 +148,7 @@ def post_create_illness_note(request, pk):
 
     if form.is_valid():
         form.save(request)
-        cache.delete("note_cache")
+        cache.clear()
     else:
         messages.error(request, "The request is invalid")
         logger.warning("The request is invalid")
@@ -181,25 +181,25 @@ def overview_view(request):
     except EmptyPage:
         illness_page = illness_paginator.page(illness_paginator.num_pages)
 
-    # with ThreadPoolExecutor() as tp:
-    #     futures = {
-    #         tp.submit(
-    #             get_sorted_illness_categories, illness_cases
-    #         ): "illness_categories",
-    #         tp.submit(get_departments, request): "department_names",
-    #         tp.submit(get_sorted_department, request): "department_data",
-    #         tp.submit(get_sorted_category, request): "sorted_illness_category",
-    #         tp.submit(fetch_categories): "categories",
-    #     }
+    with ThreadPoolExecutor() as tp:
+        futures = {
+            tp.submit(
+                get_sorted_illness_categories, illness_cases
+            ): "illness_categories",
+            tp.submit(get_departments, request): "department_names",
+            tp.submit(get_sorted_department, request): "department_data",
+            tp.submit(get_sorted_category, request): "sorted_illness_category",
+            tp.submit(fetch_categories): "categories",
+        }
 
-    #     results = {}
-    #     for future in as_completed(futures):
-    #         key = futures[future]
-    #         try:
-    #             results[key] = future.result()
-    #         except Exception as exc:
-    #             logger.error(f"{key} generated an exception: {exc}")
-    #             results[key] = 0
+        results = {}
+        for future in as_completed(futures):
+            key = futures[future]
+            try:
+                results[key] = future.result()
+            except Exception as exc:
+                logger.error(f"{key} generated an exception: {exc}")
+                results[key] = 0
 
     illness_data = illness_cache.get("illness_data", [])
     if not illness_data:
@@ -209,16 +209,16 @@ def overview_view(request):
         illness_cache["illness_data"] = illness_data
         cache.set("illness_cache", illness_cache, timeout=(120 * 60))
 
-    # illness_categories = results["illness_categories"]
-    # request, department_names = results["department_names"]
-    # request, department_data = results["department_data"]
-    # request, sorted_illness_category = results["sorted_illness_category"]
-    # categories = results["categories"]
-    illness_categories = get_sorted_illness_categories(request)
-    request, department_names = get_departments(request)
-    request, department_data = get_sorted_department(request)
-    request, sorted_illness_category = get_sorted_category(request)
-    categories = fetch_categories()
+    illness_categories = results["illness_categories"]
+    request, department_names = results["department_names"]
+    request, department_data = results["department_data"]
+    request, sorted_illness_category = results["sorted_illness_category"]
+    categories = results["categories"]
+    # illness_categories = get_sorted_illness_categories(request)
+    # request, department_names = get_departments(request)
+    # request, department_data = get_sorted_department(request)
+    # request, sorted_illness_category = get_sorted_category(request)
+    # categories = fetch_categories()
 
     department_names = [
         {"id": department.id, "department": department.department}

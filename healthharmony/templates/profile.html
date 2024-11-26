@@ -2,123 +2,101 @@
 {% load static %}
 {% load tags %}
 {% block header %}
-    <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/user-profile.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp"
-          rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-          rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/modern-normalize.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/clinic/nav.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/user-profile.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/utils.css' %}" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 {% endblock %}
-{% block title %}Profile | HealthHarmony{% endblock %}
-{% block message %}
-    {% if messages|has_error_message %}
-        {% for message in messages %}
-            {% if message.tags == 'error' %}<p>{{ message }}</p>{% endif %}
-        {% endfor %}
-    {% endif %}
-    {% if messages|has_success_message %}
-        {% for message in messages %}
-            {% if message.tags == 'success' %}<p>{{ message }}</p>{% endif %}
-        {% endfor %}
-    {% endif %}
+{% block title %}
+  Profile | HealthHarmony
 {% endblock %}
 {% block main %}
-    {% include 'doctor/nav-top.html' %}
-    <div class="doctor-profile-container">
-        {% if request.user.access == 1 %}
-            {% include 'patient/nav.html' %}
-        {% elif request.user.access == 2 %}
-            {% include 'staff/navbar.html' %}
-        {% elif request.user.access == 3 %}
-            {% include 'doctor/nav.html' %}
-        {% elif request.user.access >= 4 %}
-            {% include 'administrator/nav.html' %}
-        {% endif %}
-        <main>
-            <h2>Account Profile</h2>
-            <div>
-                <div class="patient-profile">
-                    {% if request.user.profile != 'user_profiles/fallback.png' %}
-                        <div class="dp-container">
-                            <img class="dp-pic"
-                                 src="{{ request.user.profile.url }}"
-                                 alt="user_uploaded" />
-                        </div>
-                    {% elif picture.picture is not None %}
-                        <div class="dp-container">
-                            <img class="dp-pic" src="{{ picture.picture }}" alt="google_pic" />
-                        </div>
-                    {% else %}
-                        <div class="dp-container">
-                            <img class="dp-pic" src="{{ request.user.profile.url }}" alt="fallback" />
-                        </div>
-                    {% endif %}
-                    <div class="js_patient_info">
-                        <h3 class="patient-profile-name">{{ user.first_name|default_if_none:'' }} {{ user.last_name|default_if_none:'' }}</h3>
-                        {% if request.user.access == 1 %}
-                            {% with access='Patient' %}<h3 class="patient-profile-data">User Role : {{ access }}</h3>{% endwith %}
-                        {% elif request.user.access == 2 %}
-                            {% with access='Staff' %}<h3 class="patient-profile-data">User Role : {{ access }}</h3>{% endwith %}
-                        {% elif request.user.access == 3 %}
-                            {% with access='Doctor' %}<h3 class="patient-profile-data">User Role : {{ access }}</h3>{% endwith %}
-                        {% elif request.user.access == 4 %}
-                            {% with access='Administrator' %}<h3 class="patient-profile-data">User Role : {{ access }}</h3>{% endwith %}
-                        {% endif %}
-                        <h3 class="patient-profile-data">Email: {{ user.email }}</h3>
-                        <h3 class="patient-profile-data">Contact Number: {{ user.contact|default_if_none:'' }}</h3>
-                    </div>
-                    <div class="js_profile_actions">
-                        <button class="js_edit_profile edit-btn">Edit Profile</button>
-                        <button class="js_reset_password edit-btn">Reset Password</button>
-                    </div>
-                    <form action=""
-                          method="post"
-                          enctype="multipart/form-data"
-                          style="display:none"
-                          class="js_profile_form">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label for="">Profile:</label>
-                            <input type="file"
-                                   name="profile"
-                                   id="profile-picture"
-                                   accept=".png, .jpeg, .jpg" />
-                        </div>
-                        <div class="form-group">
-                            <label for="">First Name:</label>
-                            <input type="text"
-                                   value="{% if user.first_name is not None %}{{ user.first_name }}{% endif %}"
-                                   name="first_name"
-                                   required />
-                        </div>
-                        <div class="form-group">
-                            <label for="">Last Name:</label>
-                            <input type="text"
-                                   value="{% if user.last_name is not None %}{{ user.last_name }}{% endif %}"
-                                   name="last_name"
-                                   required />
-                        </div>
-                        <div class="form-group">
-                            <label for="">Contact Number:</label>
-                            <input type="number"
-                                   value="{{ user.contact|default_if_none:'' }}"
-                                   name="contact"
-                                   max="99999999999"
-                                   required />
-                        </div>
-                        <div class="edit-buttons">
-                            <button type="submit" class="update-btn">Update</button>
-                            <button type="button" class="js_close_profile_form cancel-btn">Cancel</button>
-                        </div>
-                    </form>
-                </div>
+  {% include 'doctor/nav-top.html' %}
+  <div class="doctor-profile-container">
+    {% if request.user.access == 1 %}
+      {% include 'patient/nav.html' %}
+    {% elif request.user.access == 2 %}
+      {% include 'staff/navbar.html' %}
+    {% elif request.user.access == 3 %}
+      {% include 'doctor/nav.html' %}
+    {% elif request.user.access >= 4 %}
+      {% include 'administrator/nav.html' %}
+    {% endif %}
+    <main>
+      {% include 'messages.html' %}
+      <h2>Account Profile</h2>
+      <div>
+        <div class="patient-profile">
+          {% if request.user.profile != 'user_profiles/fallback.png' %}
+            <div class="dp-container">
+              <img class="dp-pic" src="{{ request.user.profile.url }}" alt="user_uploaded" />
             </div>
-        </main>
-    </div>
+          {% elif picture.picture is not None %}
+            <div class="dp-container">
+              <img class="dp-pic" src="{{ picture.picture }}" alt="google_pic" />
+            </div>
+          {% else %}
+            <div class="dp-container">
+              <img class="dp-pic" src="{{ request.user.profile.url }}" alt="fallback" />
+            </div>
+          {% endif %}
+          <div class="js_patient_info">
+            <h3 class="patient-profile-name">{{ user.first_name|default_if_none:'' }} {{ user.last_name|default_if_none:'' }}</h3>
+            {% if request.user.access == 1 %}
+              {% with access='Patient' %}
+                <h3 class="patient-profile-data">User Role : {{ access }}</h3>
+              {% endwith %}
+            {% elif request.user.access == 2 %}
+              {% with access='Staff' %}
+                <h3 class="patient-profile-data">User Role : {{ access }}</h3>
+              {% endwith %}
+            {% elif request.user.access == 3 %}
+              {% with access='Doctor' %}
+                <h3 class="patient-profile-data">User Role : {{ access }}</h3>
+              {% endwith %}
+            {% elif request.user.access == 4 %}
+              {% with access='Administrator' %}
+                <h3 class="patient-profile-data">User Role : {{ access }}</h3>
+              {% endwith %}
+            {% endif %}
+            <h3 class="patient-profile-data">Email: {{ user.email }}</h3>
+            <h3 class="patient-profile-data">Contact Number: {{ user.contact|default_if_none:'' }}</h3>
+          </div>
+          <div class="js_profile_actions">
+            <button class="js_edit_profile edit-btn">Edit Profile</button>
+            <button class="js_reset_password edit-btn">Reset Password</button>
+          </div>
+          <form action="" method="post" enctype="multipart/form-data" style="display:none" class="js_profile_form">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="">Profile:</label>
+              <input type="file" name="profile" id="profile-picture" accept=".png, .jpeg, .jpg" />
+            </div>
+            <div class="form-group">
+              <label for="">First Name:</label>
+              <input type="text" value="{% if user.first_name is not None %}{{ user.first_name }}{% endif %}" name="first_name" required />
+            </div>
+            <div class="form-group">
+              <label for="">Last Name:</label>
+              <input type="text" value="{% if user.last_name is not None %}{{ user.last_name }}{% endif %}" name="last_name" required />
+            </div>
+            <div class="form-group">
+              <label for="">Contact Number:</label>
+              <input type="number" value="{{ user.contact|default_if_none:'' }}" name="contact" max="99999999999" required />
+            </div>
+            <div class="edit-buttons">
+              <button type="submit" class="update-btn">Update</button>
+              <button type="button" class="js_close_profile_form cancel-btn">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
 {% endblock %}
 {% block script %}
-    <script src="{% static 'js/general/profile.js' %}" type="module"></script>
+  <script src="{% static 'js/general/profile.js' %}" type="module"></script>
 {% endblock %}
