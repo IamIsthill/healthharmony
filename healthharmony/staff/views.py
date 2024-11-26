@@ -268,7 +268,7 @@ def add_inventory(request):
         if form.is_valid():
             form.save(request)
             # clear related cache
-            cache.delete("inventory_cache")
+            cache.clear()
     return redirect("staff-inventory")
 
 
@@ -280,7 +280,7 @@ def delete_inventory(request, pk):
         form = DeleteInventoryForm(request.POST)
         if form.is_valid():
             form.save(request, pk)
-            cache.delete("inventory_cache")
+            cache.clear()
         else:
             messages.error(request, "Form is invalid. Please try again")
             logger.error("Delete inventory form is invalid")
@@ -295,7 +295,7 @@ def update_inventory(request, pk):
         form = EditInventoryForm(request.POST)
         if form.is_valid():
             form.save(request, pk)
-            cache.delete("inventory_cache")
+            cache.clear()
         else:
             messages.error(request, "Form is invalid. Please try again.")
             logger.error("Update inventory form is invalid")
@@ -732,7 +732,7 @@ def add_department(request):
                     action=f"New department instance has been created[id:{department.id}]",
                 )
 
-                cache.delete_many(["department_cache", "illness_cache"])
+                cache.clear()
 
             else:
                 messages.error(
@@ -742,6 +742,7 @@ def add_department(request):
                 logger.error(
                     f"Failed to create a new department as it already exists[id: {department.id}]"
                 )
+
 
         except Exception as e:
             messages.error(request, "Failed to create a new department")
@@ -757,7 +758,7 @@ def delete_department(request, pk):
         form = DeleteDepartmentForm(request.POST)
         if form.is_valid():
             form.save(request, pk)
-            cache.delete_many(["department_cache", "illness_cache"])
+            cache.clear()
 
         else:
             messages.error(request, "Form is invalid. Please try again.")
@@ -775,7 +776,7 @@ def edit_department(request, pk):
         form = EditDepartmentForm(request.POST)
         if form.is_valid():
             form.save(request, pk)
-            cache.delete_many(["department_cache", "illness_cache"])
+            cache.clear()
 
         else:
             messages.error(request, "Form is invalid. Please try again.")
