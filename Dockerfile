@@ -7,8 +7,13 @@ FROM python:3.12-slim-bullseye AS python-base
 
 COPY ["pyproject.toml", "poetry.lock", "./"]
 RUN pip install poetry==1.8.3
-RUN poetry install
+RUN poetry config virtualenvs.create false \
+    && poetry install --no-interaction --no-ansi
+
+# Install spaCy language model
 RUN python -m spacy download en_core_web_sm
+# RUN poetry install
+# RUN python -m spacy download en_core_web_sm
 
 WORKDIR /app
 ENV PYTHONNONBUFFERED=1
