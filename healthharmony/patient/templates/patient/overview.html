@@ -37,16 +37,16 @@
                     {% for doc in doctors %}
                         <div class="doc">
                             <div class="top-doc">
-                            <h2>{{ doc.doctor.first_name }} {{ doc.doctor.last_name }}</h2>
-                            <h5>
-                                {% with avail='Available' no_avail='Unavailable' %}
-                                    {% if doc.avail %}
-                                       <span class="span-green">{{  avail  }}</span>
-                                    {% else %}
-                                      <span class="span-lightred"> {{  no_avail }}</span>
-                                    {% endif %}
-                                {% endwith %}
-                            </h5>
+                                <h2>{{ doc.doctor.first_name }} {{ doc.doctor.last_name }}</h2>
+                                <h5>
+                                    {% with avail='Available' no_avail='Unavailable' %}
+                                        {% if doc.avail %}
+                                            <span class="span-green">{{ avail }}</span>
+                                        {% else %}
+                                            <span class="span-lightred">{{ no_avail }}</span>
+                                        {% endif %}
+                                    {% endwith %}
+                                </h5>
                             </div>
                             {% load tz %}
                             <div class="h4-cont">
@@ -69,9 +69,9 @@
                 <div class="top-chart">
                     <h3>Visit Over Time</h3>
                     <div class="date-buttons">
-                    <button class="visit-filter cat-button active-cat" data-category="year">12 Months</button>
-                    <button class="visit-filter cat-button" data-category="month">30 Days</button>
-                    <button class="visit-filter cat-button" data-category="week">7 Days</button>
+                        <button class="visit-filter cat-button active-cat" data-category="year">12 Months</button>
+                        <button class="visit-filter cat-button" data-category="month">30 Days</button>
+                        <button class="visit-filter cat-button" data-category="week">7 Days</button>
                     </div>
                 </div>
                 <div>
@@ -114,7 +114,13 @@
                     <h4>Sickness Prediction</h4>
                     <div class="sickness">
                         <ul>
-                            {% for sick in predict %}<li> <img class="sick-icon" src="{% static 'assets/images/landing-page/sick.svg' %}" /> <span> {{ sick.title }}</span></li>{% endfor %}
+                            {% for sick in predict %}
+                                <li>
+                                    <img class="sick-icon"
+                                         src="{% static 'assets/images/landing-page/sick.svg' %}" />
+                                    <span>{{ sick.title }}</span>
+                                </li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>
@@ -174,8 +180,19 @@
         <form action="{% url 'post_create_certificate_request' %}" method="POST">
             {% csrf_token %}
             <label for="">Why are you requesting a medical certificate?</label>
-            {% comment %} <input type="textarea" placeholder="Type your reason here..." name="purpose" maxlength="500" required /> {% endcomment %}
-            <textarea name="purpose" id="" placeholder="Type your reason here..." required></textarea>
+            <select name="purpose" id="">
+                <option value="Excuse for Absences">Excuse for Absences</option>
+                <option value="Special Considerations for Academic Requirements">
+                    Special Considerations for Academic Requirements
+                </option>
+                <option value="Participation Clearance">Participation Clearance</option>
+                <option value="Enrollment or Graduation Requirements">Enrollment or Graduation Requirements</option>
+                <option value="Medical Documentation for Accommodations">Medical Documentation for Accommodations</option>
+                <option value="Outbreak Protocol Compliance">Outbreak Protocol Compliance</option>
+                <option value="Participation Clearance">Participation Clearance</option>
+                <option value="Other">Other</option>
+            </select>
+            {% comment %} <textarea name="purpose" id="" placeholder="Type your reason here..." required></textarea> {% endcomment %}
             <div class="form-buttons">
                 <button class="form-button" type="submit">Issue a Request</button>
                 <button class="js_close_medcert_modal cancel-button" type="button">Cancel</button>

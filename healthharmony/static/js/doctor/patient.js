@@ -427,25 +427,40 @@ function update_visit_html_after_filter(filtered_illness_data) {
             const info_cont = document.createElement('div')
             info_cont.classList.add('info-cont')
 
-            const visit_left = document.createElement('div')
-            visit_left.classList.add('visit-left')
-            visit_left.innerHTML = `
-                <span>Date and Time:</span>
-                <span>Symptoms:</span>
-                <span>Category of Symptom:</span>
-                <span>Diagnosis:</span>
+            info_cont.innerHTML += `
+                <div class="visit-row">
+                  <span>Date and Time:</span>
+                  <p class="js-dates">${formatDate(illness.added)}</p>
+                </div>
             `
+            if (illness.doctor) {
+                let doctor = illness.doctor_email
+                if (illness.doctor_first_name && illness.doctor_last_name) {
+                    doctor = illness.doctor_first_name + ' ' + illness.doctor_last_name
+                }
+                info_cont.innerHTML += `
+                    <div class="visit-row">
+                        <span>Doctor:</span>
+                        <p>${doctor}</p>
+                    </div>
+                `
+            }
 
-            const visit_right = document.createElement('div')
-            visit_right.classList.add('visit-right')
-            visit_right.innerHTML = `
-            <p>${formatDate(illness.added)}</p>
-            <p>${illness.issue}</p>
-            <p>${illness.category_name ? illness.category_name : ''}</p>
-            <p> ${illness.diagnosis ? illness.diagnosis : ''}</p>
+            info_cont.innerHTML += `
+                <div class="visit-row">
+                  <span>Symptoms:</span>
+                  <p>${illness.issue}</p>
+                </div>
+                <div class="visit-row">
+                  <span>Category of Symptom:</span>
+                  <p>${illness.category_name ? illness.category_name : ''}</p>
+                </div>
+                <div class="visit-row">
+                  <span>Diagnosis:</span>
+                  <p>${illness.diagnosis ? illness.diagnosis : ''}</p>
+                </div>
+            
             `
-            info_cont.appendChild(visit_left)
-            info_cont.appendChild(visit_right)
 
             illness_div.appendChild(info_cont)
 
@@ -568,7 +583,7 @@ function handle_onclick_edit_patient() {
                     <input name="patient_id" value="${patient_data.id}" type="hidden" />
             <div class="visit-row">
                 <span class="js_form_age_label">Date of Birth:</span>
-                 <input name="DOB" value="${patient_data.DOB ? patient_data.DOB : ''}" type="date" required />
+                 <input name="DOB" value="${patient_data.DOB ? patient_data.DOB : ''}" type="date" required class="js-patient-bday" />
               </div>
               <div class="visit-row">
                 <span>Sex</span>
@@ -622,6 +637,20 @@ function handle_onclick_edit_patient() {
             btn.setAttribute('style', '')
         })
         filter_inputs_number_field()
+
+        const bday = document.querySelector('.js-patient-bday')
+        bday.addEventListener('input', () => {
+            let value = new Date(bday.value)
+
+            const current_date = new Date()
+
+            if (value > current_date) {
+                const yyyy = current_date.getFullYear();
+                const mm = String(current_date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+                const dd = String(current_date.getDate()).padStart(2, '0');
+                bday.value = `${yyyy}-${mm}-${dd}`; 
+            }
+        })
     })
 }
 
