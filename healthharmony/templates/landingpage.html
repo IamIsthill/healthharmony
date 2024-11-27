@@ -107,4 +107,24 @@
     });
     });
     </script>
-    {% endblock %}
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const grid = document.querySelector(".horizontal-grid");
+            const prevButton = document.querySelector(".scroll-btn.prev");
+            const nextButton = document.querySelector(".scroll-btn.next");
+            const scrollAmount = 200; // Adjust this value to control scroll distance
+
+            // Scroll left
+            prevButton.addEventListener("click", () => {
+                grid.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+            });
+
+            // Scroll right
+            nextButton.addEventListener("click", () => {
+                grid.scrollBy({ left: scrollAmount, behavior: "smooth" });
+            });
+            });
+
+    </script>
+{% endblock %}

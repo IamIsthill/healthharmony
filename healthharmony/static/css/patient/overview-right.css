@@ -460,6 +460,9 @@
     .beds{  /* 4 BEDS AT WHOLE */
         width: 100%;
     }
+    .modal-content{
+        width: 60%;
+    }
  }
  @media (max-width: 550px){
     .weather-container, .bed2, .med-cert-cont{
