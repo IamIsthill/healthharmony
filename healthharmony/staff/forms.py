@@ -301,35 +301,35 @@ class CreateWheelChairQuantity(forms.Form):
         # Create the wheelchaur
         try:
             logger.warning(f"{avail_wheelchair} {not_avail_wheelchair}")
-            if avail_wheelchair != 0:
-                avail_wheelchair_instance = WheelChair.objects.create(
-                    is_avail=True,
-                    quantity=avail_wheelchair or 0,
-                    created_by=request.user,
-                )
+            # if avail_wheelchair != 0:
+            avail_wheelchair_instance = WheelChair.objects.create(
+                is_avail=True,
+                quantity=avail_wheelchair or 0,
+                created_by=request.user,
+            )
 
-                Log.objects.create(
-                    user=request.user,
-                    action=f"Created available wheelchairs[{str(avail_wheelchair_instance.id)}]",
-                )
-                logger.info(
-                    f"{request.user} created available wheelchairs[{str(avail_wheelchair_instance.id)}]"
-                )
+            Log.objects.create(
+                user=request.user,
+                action=f"Created available wheelchairs[{str(avail_wheelchair_instance.id)}]",
+            )
+            logger.info(
+                f"{request.user} created available wheelchairs[{str(avail_wheelchair_instance.id)}]"
+            )
 
-            if not_avail_wheelchair != 0:
-                not_avail_wheelchair_instance = WheelChair.objects.create(
-                    is_avail=False,
-                    quantity=not_avail_wheelchair or 0,
-                    created_by=request.user,
-                )
+            # if not_avail_wheelchair != 0:
+            not_avail_wheelchair_instance = WheelChair.objects.create(
+                is_avail=False,
+                quantity=not_avail_wheelchair or 0,
+                created_by=request.user,
+            )
 
-                Log.objects.create(
-                    user=request.user,
-                    action=f"Created unavailable wheelchairs[{str(not_avail_wheelchair_instance.id)}]",
-                )
-                logger.info(
-                    f"{request.user} created unavailable wheelchairs[{str(not_avail_wheelchair_instance.id)}]"
-                )
+            Log.objects.create(
+                user=request.user,
+                action=f"Created unavailable wheelchairs[{str(not_avail_wheelchair_instance.id)}]",
+            )
+            logger.info(
+                f"{request.user} created unavailable wheelchairs[{str(not_avail_wheelchair_instance.id)}]"
+            )
 
             messages.success(request, "Successfully updated wheelchair availability!")
 
