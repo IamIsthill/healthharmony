@@ -112,11 +112,14 @@
 .bed-container{     /* SINGLE BEDS */
     display: flex;
     align-items: center;
+    text-align: center;
+    justify-content: center;
     flex-direction: column;
     gap: 1rem;
     width: 170px;
+    height: 170px;
     background: white;
-    padding: 1.2rem 2.5rem;
+    padding: 1.2rem 0;
     border-radius: 10px;
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
 }
@@ -146,7 +149,9 @@
     color: var(--navbuttons);
     text-align: center;
 }
-
+.ambulance{
+    margin-top: 0.8rem;
+}
 /* BED SPACE */
 /* WEATHER */
     .weather{
@@ -298,10 +303,11 @@
     .bed-container{     /* SINGLE BEDS */
         gap: 0.7rem;
         width: 150px;
-        padding: 1.2rem 2.5rem;
+        height: 150px;
+        padding: 1rem 0;
     }
     .bed-container img{
-        max-width: 60px;
+        max-width: 70px;
     }
     .bed-container span{
         font-size: var(--size-sm);
@@ -380,7 +386,7 @@
     .bed-container{     /* SINGLE BEDS */
         gap: 0.7rem;
         width: 130px;
-        padding: 1rem 2.5rem;
+        height: 130px;
     }
     .bed-container img{
         max-width: 55px;
@@ -456,11 +462,6 @@
     }
     .beds2 p{
         font-size: var(--size-xs);
-    }
-    .bed-container{     /* SINGLE BEDS */
-        gap: 0.7rem;
-        width: 130px;
-        padding: 1rem 2.5rem;
     }
     .bed-container img{
         max-width: 55px;
@@ -539,11 +540,6 @@
     .beds2 p{
         font-size: var(--size-xs);
         display: none;
-    }
-    .bed-container{     /* SINGLE BEDS */
-        gap: 0.7rem;
-        width: 130px;
-        padding: 1rem 2.5rem;
     }
     .bed-container img{
         max-width: 55px;
@@ -626,7 +622,7 @@
     .bed-container{     /* SINGLE BEDS */
         gap: 0.3rem;
         width: 90px;
-        padding: 1rem 2.5rem;
+        height: 90px;
     }
     .bed-container img{
         max-width: 40px;
