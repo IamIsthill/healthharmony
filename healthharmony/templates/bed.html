@@ -76,11 +76,17 @@
             <div class="ambulance">
                 <div class="bed-container" data-bed-id="ambulance">
                     {% if wheelchair_quantity == 0 %}
-                        <span class="span-lightred">No available wheelchairs</span>
+                        <span class="span-lightred">No Available</span>
+                        <img src="{% static 'assets/images/svgs/no-wheel.svg' %}" />
+                        <span class="span-lightgray">wheelchair</span>
                     {% elif wheelchair_quantity == 1 %}
-                        <span class="span-green">{{ wheelchair_quantity }} available wheelchair</span>
+                        <span class="span-green">{{ wheelchair_quantity }} Available</span>
+                        <img src="{% static 'assets/images/svgs/avail-wheel.svg' %}" />
+                        <span class="span-lightgray">Wheelchair</span>
                     {% else %}
-                        <span class="span-green">{{ wheelchair_quantity }} available wheelchairs</span>
+                        <span class="span-green">{{ wheelchair_quantity }} Available</span>
+                        <img src="{% static 'assets/images/svgs/avail-wheel.svg' %}" />    
+                        <span class="span-lightgray">Wheelchair</span>
                     {% endif %}
                 </div>
             </div>
